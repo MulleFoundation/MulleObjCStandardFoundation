@@ -14,5 +14,5 @@
 #include "NSString.h"
 
 
-@interface _MulleObjCEmptyString : NSString
+@interface _MulleObjCEmptyString : NSString < MulleObjCSingleton>
 @end

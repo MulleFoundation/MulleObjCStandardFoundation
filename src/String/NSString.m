@@ -14,6 +14,7 @@
 #import "NSString.h"
 
 // other files in this library
+#import "NSString+ClassCluster.h"
 #import "NSString+Search.h"
 
 // other libraries of MulleObjCFoundation
@@ -47,32 +48,27 @@
 }
 
 
-+ (id) stringWithFormat:(NSString *) format
-              arguments:(mulle_vararg_list) arguments
-{
-   return( [[[self alloc] initWithFormat:format
-                               arguments:arguments] autorelease]);
-}
-
-
-+ (id) stringWithFormat:(NSString *) format
-                va_list:(va_list) args
-{
-   return( [[[self alloc] initWithFormat:format
-                                 va_list:args] autorelease]);
-}
-
-+ (id) stringWithUTF8String:(utf8char *) s
++ (id) stringWithUTF8String:(mulle_utf8char_t *) s
 {
    return( [[[self alloc] initWithUTF8String:s] autorelease]);
 }
 
 
-+ (id) stringWithUTF8Characters:(utf8char *) s
++ (id) stringWithUTF8Characters:(mulle_utf8char_t *) s
                          length:(NSUInteger) len
 {
    return( [[[self alloc] initWithUTF8Characters:s
                                           length:len] autorelease]);
+}
+
+
++ (id) stringWithUTF8CharactersNoCopy:(mulle_utf8char_t *) s
+                               length:(NSUInteger) len
+                            allocator:(struct mulle_allocator *) allocator
+{
+   return( [[[self alloc] initWithUTF8CharactersNoCopy:s
+                                                length:len
+                                             allocator:allocator] autorelease]);
 }
 
 
@@ -82,35 +78,23 @@
 }
 
 
-//
-// Generic stuff for both NSString and NSMutableString
-//
-+ (id) stringWithFormat:(NSString *) format, ...
+
+#pragma mark -
+#pragma mark generic init
+
+
+- (id) initWithString:(NSString *) other
 {
-   NSString                  *s;
-   mulle_vararg_list    args;
+   mulle_utf8char_t    *s;
    
-   mulle_vararg_start( args, format);
-   s = [self stringWithFormat:format
-                    arguments:args];
-   mulle_vararg_end( args);
-   return( s);
+   s = [other UTF8String];
+   return( [self initWithUTF8String:s]);
 }
 
 
-- (NSString *) stringByAppendingFormat:(NSString *) format, ...
-{
-   NSString                  *s;
-   mulle_vararg_list    args;
-   
-   mulle_vararg_start( args, format);
-   s = [NSString stringWithFormat:format
-                        arguments:args];
-   mulle_vararg_end( args);
-   
-   return( [self stringByAppendingString:s]);
-}
 
+#pragma mark -
+#pragma mark generic code
 
 //***************************************************
 // LAYER 2 - base code that works generically on all
@@ -138,7 +122,7 @@
 
 
 // string always zero terminates, even at the expense of loss
-- (void) getUTF8String:(utf8char *) buf
+- (void) getUTF8String:(mulle_utf8char_t *) buf
              maxLength:(NSUInteger) maxLength
 {
    NSUInteger   length;
@@ -160,14 +144,14 @@
 }
 
 
-- (void) getUTF8String:(utf8char *) buf
+- (void) getUTF8String:(mulle_utf8char_t *) buf
 {
    [self getUTF8String:buf
              maxLength:ULONG_MAX];
 }
 
 
-- (void) getUTF8Characters:(utf8char *) buf
+- (void) getUTF8Characters:(mulle_utf8char_t *) buf
                  maxLength:(NSUInteger) maxLength
 {
    [self getUTF8Characters:buf
@@ -176,7 +160,7 @@
 }
 
 
-- (void) getUTF8Characters:(utf8char *) buf
+- (void) getUTF8Characters:(mulle_utf8char_t *) buf
 {
    [self getUTF8Characters:buf
                  maxLength:ULONG_MAX
@@ -184,11 +168,16 @@
 }
 
 
-- (utf8char *) _fastUTF8StringContents
+- (mulle_utf8char_t *) _fastUTF8StringContents
 {
    return( NULL);
 }
 
+
+- (mulle_utf8char_t *) UTF8String
+{
+   return( (mulle_utf8char_t *) "");  // subclasses improve this (except empty string)
+}
 
 
 //***************************************************
@@ -214,13 +203,6 @@
 }
 
 
-- (NSString *) debugDescription
-{
-   return( [NSString stringWithFormat:@"<%p %.100s \"%.1024@\">",
-      self, NSStringFromClass( [self class]), self]);
-}
-
-
 // generic implementations
 - (NSString *) substringToIndex:(NSUInteger) idx
 {
@@ -239,9 +221,9 @@
 //           subclasses and is probably not useful to
 //           be  overridden
 //***************************************************
-static utf8char   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
+static mulle_utf8char_t   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
 {
-   utf8char  *s;
+   mulle_utf8char_t  *s;
    
    s = [self UTF8String];
    assert( s);
@@ -332,7 +314,7 @@ static utf8char   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
    NSUInteger  other_len;
    NSUInteger  combined_len;
    NSString    *s;
-   utf8char    *buf;
+   mulle_utf8char_t    *buf;
    
    len = [self _UTF8StringLength];
    if( ! len)
@@ -343,7 +325,7 @@ static utf8char   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
       return( [[self copy] autorelease]);
       
    combined_len = len + other_len;
-   buf          = MulleObjCAllocateNonZeroedMemory( combined_len * sizeof( utf8char));
+   buf          = MulleObjCAllocateNonZeroedMemory( combined_len * sizeof( mulle_utf8char_t));
 
    [self getUTF8Characters:buf
                  maxLength:len

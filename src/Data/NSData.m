@@ -253,9 +253,9 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (NSRange) rangeOfData:(id) arg1 
-                options:(NSUInteger) arg2 
-                  range:(NSRange) arg3;
+- (NSRange) rangeOfData:(id) other
+                options:(NSUInteger) options
+                  range:(NSRange) range
 {
    abort();
 }

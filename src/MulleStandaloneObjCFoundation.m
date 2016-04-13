@@ -14,6 +14,7 @@
 
 // std-c dependencies
 #import <MulleObjC/ns_test_allocation.h>
+#import <mulle_sprintf/mulle_sprintf.h>
 
 
 
@@ -83,6 +84,9 @@ static void  tear_down_and_check()
 {
    tear_down();
 
+   // clear up storage of sprintf library
+   (*mulle_sprintf_free_storage)();
+   
    mulle_test_allocator_objc_reset();
 }
 

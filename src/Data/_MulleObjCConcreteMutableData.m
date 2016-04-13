@@ -14,7 +14,7 @@
 
 - (id) initWithCapacity:(NSUInteger) capacity
 {
-   mulle_buffer_set_allocator( &_storage, MulleObjCAllocator());
+   mulle_buffer_set_allocator( &_storage, MulleObjCObjectGetAllocator( self));
    mulle_buffer_set_initial_capacity( &_storage, capacity);
    return( self);
 }
@@ -30,7 +30,7 @@
               length:(NSUInteger) length
 {  
    mulle_buffer_set_initial_capacity( &_storage, length);
-   mulle_buffer_set_allocator( &_storage, MulleObjCAllocator());
+   mulle_buffer_set_allocator( &_storage, MulleObjCObjectGetAllocator( self));
    
    mulle_buffer_add_bytes( &_storage, buf, length);
    return( self);

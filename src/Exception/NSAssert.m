@@ -94,7 +94,7 @@ void   NSAssertionHandlerHandleMethodFailure( SEL sel,
                              va_list:args];
    va_end( args);
    
-   handleFailureInMethod( sel, obj, [NSString stringWithUTF8String:(utf8char *) filename], line, desc);
+   handleFailureInMethod( sel, obj, [NSString stringWithUTF8String:(mulle_utf8char_t *) filename], line, desc);
 }
 
 
@@ -111,8 +111,8 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
                              va_list:args];
    va_end( args);
    
-   failure( [NSString stringWithUTF8String:(utf8char *) function],
-            [NSString stringWithUTF8String:(utf8char *) filename],
+   failure( [NSString stringWithUTF8String:(mulle_utf8char_t *) function],
+            [NSString stringWithUTF8String:(mulle_utf8char_t *) filename],
             line,
             desc);
 }

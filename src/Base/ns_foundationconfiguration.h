@@ -13,23 +13,13 @@
 #include <MulleObjC/ns_rootconfiguration.h>
 
 
-#define MULLE_OBJC_ALLOC_PLACEHOLDER         0
-#define MULLE_OBJC_INSTANTIATE_PLACEHOLDER   1
-
-
-struct _ns_empty
-{
-   void   *emptyArray;
-   void   *emptyDictionary;
-   void   *emptySet;
-   void   *emptyNull;
-};
-
-
+//
+// used to be used for foundation specific stuff, but currently there is
+// none...
+//
 struct _ns_foundationconfiguration
 {
    struct _ns_rootconfiguration   root;
-   struct _ns_empty               empty;
 };
 
 
@@ -37,7 +27,6 @@ struct _ns_foundation_setupconfig
 {
    struct _ns_root_setupconfig   config;
 };
-
 
 
 void   _ns_foundation_setup( struct _mulle_objc_runtime *runtime,

@@ -14,7 +14,9 @@
 #import "NSMutableString.h"
 
 // other files in this library
+#import "NSString+ClassCluster.h"
 #import "NSString+Search.h"
+#import "NSString+Sprintf.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationBase.h"
@@ -149,10 +151,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, NSUI
 
 - (id) copy
 {
-   utf8char   *s;
+   mulle_utf8char_t   *s;
    
    s = [self UTF8String];
-   return( [[NSString alloc] initWithUTF8String:s]);
+   return( (id) [[NSString alloc] initWithUTF8String:s]);
 }
 
 
@@ -294,7 +296,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, NSUI
 // LAYER 3 - generic CString support
 //***************************************************
 static NSUInteger   _NSStringGrabUTF8StringFromStrings( id *storage, unsigned int n,
-                                                        utf8char *buf, size_t len,
+                                                        mulle_utf8char_t *buf, size_t len,
                                                         NSRange range)
 {
    NSRange        grab_range;
@@ -303,7 +305,7 @@ static NSUInteger   _NSStringGrabUTF8StringFromStrings( id *storage, unsigned in
    NSString       *s;
    NSUInteger     buf_len;
    NSUInteger     vrange_total;
-   utf8char       *p;
+   mulle_utf8char_t       *p;
    id             *sentinel;
    size_t         remaining_buf_len;
 
@@ -383,7 +385,7 @@ static NSUInteger   _NSStringGrabUTF8StringFromStrings( id *storage, unsigned in
    return( 0);
 }
 
-- (utf8char *) UTF8String
+- (mulle_utf8char_t *) UTF8String
 {
    abort();
 }

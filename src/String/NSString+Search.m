@@ -31,11 +31,11 @@ enum
 };
 
 
-struct mulle_utf_enumerator
+struct mulle_unichar_enumerator
 {
-   unichar   (*get_character)( struct mulle_utf_enumerator *self);  // next
-   size_t    (*get_length)( struct mulle_utf_enumerator *self);
-   int       (*unget)( struct mulle_utf_enumerator *self, size_t offset);
+   unichar   (*get_character)( struct mulle_unichar_enumerator *self);  // next
+   size_t    (*get_length)( struct mulle_unichar_enumerator *self);
+   int       (*unget)( struct mulle_unichar_enumerator *self, size_t offset);
 
    unichar   (*tolower)( unichar c);  // used in generic routine for
    unichar   (*toupper)( unichar c);  // character conversion
@@ -43,9 +43,9 @@ struct mulle_utf_enumerator
 
 
 
-struct mulle_objc_utfenumerator
+struct mulle_objc_unichar_enumerator
 {
-   struct mulle_utf_enumerator   utfrover;
+   struct mulle_unichar_enumerator   utfrover;
    
    id            object;
    SEL           selector;
@@ -59,7 +59,7 @@ struct mulle_objc_utfenumerator
 };
 
 
-static unichar   get_literal( struct mulle_objc_utfenumerator *rover)
+static unichar   get_literal( struct mulle_objc_unichar_enumerator *rover)
 {
    if( rover->curr == rover->end)
       return( 0);
@@ -68,7 +68,7 @@ static unichar   get_literal( struct mulle_objc_utfenumerator *rover)
 }
 
 
-static unichar   get_reverse_literal( struct mulle_objc_utfenumerator *rover)
+static unichar   get_reverse_literal( struct mulle_objc_unichar_enumerator *rover)
 {
    if( rover->curr == rover->end)
       return( 0);
@@ -77,37 +77,37 @@ static unichar   get_reverse_literal( struct mulle_objc_utfenumerator *rover)
 }
 
 // if you don't have towlower/towupper, just code it up as tolower/toupper
-static unichar   get_lowercase( struct mulle_objc_utfenumerator *rover)
+static unichar   get_lowercase( struct mulle_objc_unichar_enumerator *rover)
 {
    return( (*rover->utfrover.tolower)( get_literal( rover)));
 }
 
 
-static unichar   get_uppercase( struct mulle_objc_utfenumerator *rover)
+static unichar   get_uppercase( struct mulle_objc_unichar_enumerator *rover)
 {
    return( (*rover->utfrover.toupper)( get_literal( rover)));
 }
 
 
-static unichar   get_reverse_uppercase( struct mulle_objc_utfenumerator *rover)
+static unichar   get_reverse_uppercase( struct mulle_objc_unichar_enumerator *rover)
 {
    return( (*rover->utfrover.toupper)( get_reverse_literal( rover)));
 }
 
 
-static unichar   get_reverse_lowercase( struct mulle_objc_utfenumerator *rover)
+static unichar   get_reverse_lowercase( struct mulle_objc_unichar_enumerator *rover)
 {
    return( (*rover->utfrover.tolower)( get_reverse_literal( rover)));
 }
 
 
-static NSUInteger   get_length( struct mulle_objc_utfenumerator *rover)
+static NSUInteger   get_length( struct mulle_objc_unichar_enumerator *rover)
 {
    return( rover->direction < 0 ? rover->curr - rover->end : rover->end - rover->curr);
 }
 
 
-static int    unget_some( struct mulle_objc_utfenumerator *rover, NSUInteger amount)
+static int    unget_some( struct mulle_objc_unichar_enumerator *rover, NSUInteger amount)
 {
    if( rover->curr == rover->start)
       return( 0);
@@ -120,7 +120,17 @@ static int    unget_some( struct mulle_objc_utfenumerator *rover, NSUInteger amo
 }
 
 
-- (void) _setLiteralCharacterEnumerator:(struct mulle_objc_utfenumerator *) rover
+static void   get_characters( struct mulle_objc_unichar_enumerator *rover, unichar *buf)
+{
+   unichar   c;
+   
+   while( c = (rover->utfrover.get_character)( &rover->utfrover))
+      *buf++ = c;
+}
+
+
+
+- (void) _setLiteralCharacterEnumerator:(struct mulle_objc_unichar_enumerator *) rover
                                 options:(NSStringCompareOptions) options
                                   range:(NSRange) range
 {
@@ -184,7 +194,7 @@ static int    unget_some( struct mulle_objc_utfenumerator *rover, NSUInteger amo
 //
 // needs to be better, but don't have it yet
 //
-- (void) _setNonLiteralCharacterEnumerator:(struct mulle_objc_utfenumerator *) rover
+- (void) _setNonLiteralCharacterEnumerator:(struct mulle_objc_unichar_enumerator *) rover
                                    options:(NSStringCompareOptions) options
                                      range:(NSRange) range
 {
@@ -196,7 +206,7 @@ static int    unget_some( struct mulle_objc_utfenumerator *rover, NSUInteger amo
 
 
 
-- (void) _setCharacterEnumerator:(struct mulle_objc_utfenumerator *) rover
+- (void) _setCharacterEnumerator:(struct mulle_objc_unichar_enumerator *) rover
                          options:(NSStringCompareOptions) options
                            range:(NSRange) range
 {
@@ -211,48 +221,6 @@ static int    unget_some( struct mulle_objc_utfenumerator *rover, NSUInteger amo
    [self _setNonLiteralCharacterEnumerator:rover
                                    options:options
                                      range:range];
-}
-
-
-- (NSRange) rangeOfString:(NSString *) other
-{
-   return( [self rangeOfString:other
-                       options:0 
-                         range:NSMakeRange( 0, [self length])]);
-}
-
-
-- (NSRange) rangeOfString:(NSString *) other
-                  options:(NSStringCompareOptions) mask 
-{
-   return( [self rangeOfString:other
-                       options:mask 
-                         range:NSMakeRange( 0, [self length])]);
-}
-
-
-- (NSComparisonResult) compare:(id) other
-{
-   return( [self compare:other
-                 options:0 
-                   range:NSMakeRange( 0, [self length])]);
-}
-
-
-- (NSComparisonResult) compare:(id) other
-                       options:(NSStringCompareOptions) mask 
-{
-   return( [self compare:other
-                 options:mask 
-                   range:NSMakeRange( 0, [self length])]);
-}
-                         
-
-- (NSComparisonResult) caseInsensitiveCompare:(NSString *) other
-{
-   return( [self compare:other
-                 options:NSCaseInsensitiveSearch
-                   range:NSMakeRange( 0, [self length])]);
 }
 
 
@@ -306,9 +274,11 @@ static int    unget_some( struct mulle_objc_utfenumerator *rover, NSUInteger amo
                    range:NSMakeRange( len - suffix_len, suffix_len)] == NSOrderedSame);      
 }
 
+#pragma mark -
+#pragma mark compare:
 
-static NSComparisonResult   compare_strings( struct mulle_utf_enumerator *self_rover,
-                                             struct mulle_utf_enumerator *other_rover)
+static NSComparisonResult   compare_strings( struct mulle_unichar_enumerator *self_rover,
+                                             struct mulle_unichar_enumerator *other_rover)
 {
    int   c;
    int   d;
@@ -346,7 +316,7 @@ static NSComparisonResult   compare_strings( struct mulle_utf_enumerator *self_r
 //
 // same goes for q with o_buf
 //
-static void   move_to_start_of_digits( struct mulle_utf_enumerator *rover)
+static void   move_to_start_of_digits( struct mulle_unichar_enumerator *rover)
 {  
    uint32_t   c;
 
@@ -369,7 +339,7 @@ static void   move_to_start_of_digits( struct mulle_utf_enumerator *rover)
 }
 
 
-static void   skip_leading_zeroes( struct mulle_utf_enumerator *rover)
+static void   skip_leading_zeroes( struct mulle_unichar_enumerator *rover)
 {
    unichar   c;
    
@@ -381,7 +351,7 @@ static void   skip_leading_zeroes( struct mulle_utf_enumerator *rover)
 }
 
 
-static size_t   skip_remaining_digits( struct mulle_utf_enumerator *rover)
+static size_t   skip_remaining_digits( struct mulle_unichar_enumerator *rover)
 {
    unichar   c;
    size_t    count;
@@ -403,15 +373,15 @@ static size_t   skip_remaining_digits( struct mulle_utf_enumerator *rover)
 }
 
 
-static NSComparisonResult  digits_compare( struct mulle_utf_enumerator *self_rover,
-                                           struct mulle_utf_enumerator *other_rover)
+static NSComparisonResult  digits_compare( struct mulle_unichar_enumerator *self_rover,
+                                           struct mulle_unichar_enumerator *other_rover)
 {
-   int                 c;
-   int                 d;
+   unichar             c;
+   unichar             d;
+   unichar             diff;
    NSComparisonResult  result;
    size_t              self_count;
    size_t              other_count;
-   int                 diff;
    
    move_to_start_of_digits( self_rover);
    move_to_start_of_digits( other_rover);
@@ -478,8 +448,8 @@ static NSComparisonResult  digits_compare( struct mulle_utf_enumerator *self_rov
 }         
 
 
-static NSComparisonResult   numeric_compare( struct mulle_utf_enumerator *self_rover,
-                                             struct mulle_utf_enumerator *other_rover)
+static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *self_rover,
+                                             struct mulle_unichar_enumerator *other_rover)
 {
    unichar               c;
    unichar               d;
@@ -527,13 +497,38 @@ static NSComparisonResult   numeric_compare( struct mulle_utf_enumerator *self_r
 
 
 - (NSComparisonResult) compare:(id) other
+{
+   return( [self compare:other
+                 options:0
+                   range:NSMakeRange( 0, [self length])]);
+}
+
+
+- (NSComparisonResult) compare:(id) other
+                       options:(NSStringCompareOptions) mask
+{
+   return( [self compare:other
+                 options:mask
+                   range:NSMakeRange( 0, [self length])]);
+}
+
+
+- (NSComparisonResult) caseInsensitiveCompare:(NSString *) other
+{
+   return( [self compare:other
+                 options:NSCaseInsensitiveSearch
+                   range:NSMakeRange( 0, [self length])]);
+}
+
+
+- (NSComparisonResult) compare:(id) other
                        options:(NSStringCompareOptions) options 
                          range:(NSRange) aRange
 {
-   NSUInteger                       len_self;
-   NSUInteger                       len_other;
-   struct mulle_objc_utfenumerator  self_rover;
-   struct mulle_objc_utfenumerator  other_rover;
+   NSUInteger                            len_self;
+   NSUInteger                            len_other;
+   struct mulle_objc_unichar_enumerator  self_rover;
+   struct mulle_objc_unichar_enumerator  other_rover;
 
    NSCParameterAssert( [other isKindOfClass:[NSString class]]);
    NSCParameterAssert( (options & (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
@@ -564,6 +559,250 @@ static NSComparisonResult   numeric_compare( struct mulle_utf_enumerator *self_r
       return( numeric_compare( (void *) &self_rover, (void *) &other_rover));
 
    return( compare_strings( (void *) &self_rover, (void *)  &other_rover));
+}
+
+
+#pragma mark -
+#pragma mark rangeOfString:
+
+//
+// boyer moore is not so good for utf32, so i use Knuth Morris Pratt
+// it turns out that the common prefix code is not really _that_ useful
+// when searching for random keys... But that's just like my opinion man!
+//
+
+static void   _kmp_precompute( unichar *search,
+                               size_t search_len,
+                               ssize_t *table)
+{
+   size_t    i;
+   ssize_t   j;
+   unichar   c;
+   unichar   d;
+   
+   j         = -1;
+   table[ 0] = j;
+   
+   for( i = 0; i < search_len;)
+   {
+      if( j >= 0)
+      {
+         c = search[ i];
+         
+         do
+         {
+            d = search[ j];
+            if( c == d)
+               break;
+            
+            j = table[ j];
+         }
+         while( j >= 0);
+      }
+      
+      ++i;
+      ++j;
+      
+      table[ i] = j;
+   }
+}
+
+static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_rover,
+                                    unichar *search, size_t search_len)
+{
+   size_t      i;
+   ssize_t     j;
+   unichar     c;
+   unichar     d;
+   NSInteger   found;
+   size_t      len;
+   
+   found = NSNotFound;
+   len   = get_length( self_rover);
+   
+   for( j = 0, i = 0; i < len;)
+   {
+      c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
+      d = search[ j];
+      if( c != d)
+         j = -1;
+   
+      ++i;
+      ++j;
+      
+      if( j == (ssize_t) search_len)
+      {
+         found = i - search_len;
+         break;
+      }
+   }
+   
+   return( found);
+}
+
+
+static NSInteger   __kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
+                                 unichar *search, size_t search_len,
+                                 ssize_t *table)
+{
+   NSInteger   found;
+   unichar     c;
+   unichar     d;
+   size_t      i;
+   size_t      len;
+   ssize_t     j;
+   
+   found = NSNotFound;
+   len   = get_length( self_rover);
+   
+   for( j = 0, i = 0; i < len;)
+   {
+      if( j >= 0)
+      {
+         c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
+         
+         do
+         {
+            d = search[ j];
+            if( c == d)
+               break;
+            
+            j = table[ j];
+         }
+         while( j >= 0);
+      }
+      
+      ++i;
+      ++j;
+      
+      if( j == (ssize_t) search_len)
+      {
+         found = i - search_len;
+         break;
+      }
+   }
+   
+   return( found);
+}
+
+
+static NSInteger  _kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
+                               unichar *search,
+                               size_t search_len)
+{
+   ssize_t      *table;
+   ssize_t      size;
+   void         *tofree;
+   NSInteger    found;
+   NSUInteger   index;
+   
+   tofree = NULL;
+   
+   size = sizeof( int) * search_len + 1;
+   if( size <= 0x400)
+      table = alloca( size);
+   else
+      table = tofree = malloc( size);
+   
+   /* Preprocessing */
+   _kmp_precompute( search, search_len, table);
+   found = __kmp_search( self_rover, search, search_len, table);
+   
+   free( tofree);
+   
+   return( found);
+}
+
+
+
+static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rover,
+                                  struct mulle_objc_unichar_enumerator *other_rover)
+{
+   NSInteger   index;
+   size_t      len;
+   size_t      search_len;
+   size_t      size;
+   unichar     *search;
+   unichar     *tofree;
+   unichar     c;
+   unichar     d;
+   
+   // must be > 0 and is not > self_len
+
+   // grab search pattten into own unichar buffer
+   search_len = get_length( other_rover);
+   size       = sizeof( unichar) * search_len;
+   tofree     = NULL;
+   
+   if( size <= 0x400)
+      search = alloca( size);
+   else
+      search = tofree = MulleObjCAllocateNonZeroedMemory( size);
+   get_characters( other_rover, search);
+
+   index = _kmp_search( self_rover, search, search_len);
+   
+   MulleObjCDeallocateMemory( tofree);
+   
+   return( index);
+}
+
+
+- (NSRange) rangeOfString:(NSString *) other
+                  options:(NSStringCompareOptions) options
+                    range:(NSRange) aRange
+{
+   NSUInteger                            len_self;
+   NSUInteger                            len_other;
+   struct mulle_objc_unichar_enumerator  self_rover;
+   struct mulle_objc_unichar_enumerator  other_rover;
+   NSInteger                             index;
+   
+   NSCParameterAssert( [other isKindOfClass:[NSString class]]);
+   NSCParameterAssert( (options & (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
+   
+   len_self  = [self length];
+   if( aRange.location + aRange.length > len_self)
+      MulleObjCThrowInvalidRangeException( aRange);
+   
+   len_self  = aRange.length;
+   len_other = [other length];
+   
+   // make sure, both have at least one char
+   // ! len_other == NSNotFound is spec
+   if( ! len_self || ! len_other || len_other > len_self)
+      return( NSMakeRange( NSNotFound, 0));
+   
+   options &= (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
+   
+   [self _setCharacterEnumerator:&self_rover
+                         options:options
+                           range:aRange];
+   [other _setCharacterEnumerator:&other_rover
+                          options:options
+                            range:NSMakeRange( 0, len_other)];
+   
+   index = normal_search( &self_rover, &other_rover);
+   if( index == NSNotFound)
+      return( NSMakeRange( NSNotFound, 0));
+   return( NSMakeRange( index, len_other));
+}
+
+
+- (NSRange) rangeOfString:(NSString *) other
+{
+   return( [self rangeOfString:other
+                       options:0
+                         range:NSMakeRange( 0, [self length])]);
+}
+
+
+- (NSRange) rangeOfString:(NSString *) other
+                  options:(NSStringCompareOptions) mask
+{
+   return( [self rangeOfString:other
+                       options:mask
+                         range:NSMakeRange( 0, [self length])]);
 }
 
 @end
