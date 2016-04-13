@@ -68,31 +68,7 @@
 
 - (NSUInteger) length;
 - (void *) bytes;
+
 @end
 
-
-
-//
-//- (id) initWithContentsOfFile:(id) arg1;
-//- (id) initWithContentsOfFile:(id) arg1 options:(NSUInteger) arg2 error:(id *) arg3;
-//- (id) initWithContentsOfURL:(id) arg1 options:(NSUInteger) arg2 error:(id *) arg3;
-//- (id) initWithContentsOfURL:(id) arg1;
-//- (id) initWithContentsOfMappedFile:(id) arg1;
-//- (id) initWithContentsOfMappedFile:(id) arg1 error:(id *) arg2;
-//- (id) initWithContentsOfFile:(id) arg1 error:(id *) arg2;
-//+ (id) dataWithContentsOfFile:(id) arg1;
-//+ (id) dataWithContentsOfURL:(id) arg1;
-//+ (id) dataWithContentsOfMappedFile:(id) arg1;
-//+ (id) dataWithContentsOfFile:(id) arg1 options:(NSUInteger) arg2 error:(id *) arg3;
-//+ (id) dataWithContentsOfURL:(id) arg1 options:(NSUInteger) arg2 error:(id *) arg3;
-//- (BOOL) writeToFile:(id) arg1 options:(NSUInteger) arg2 error:(id *) arg3;
-//- (BOOL) writeToURL:(id) arg1 options:(NSUInteger) arg2 error:(id *) arg3;
-//- (BOOL) writeToFile:(id) arg1 atomically:(BOOL) arg2 error:(id *) arg3;
-//- (BOOL) writeToFile:(id) arg1 atomically:(BOOL) arg2;
-//- (BOOL) writeToURL:(id) arg1 atomically:(BOOL) arg2;
-//- (id) description;
-//- (void) encodeWithCoder:(id) arg1;
-//- (id) initWithCoder:(id) arg1;
-//- (Class) classForCoder;
-//- (id) description;
 

@@ -13,7 +13,12 @@
  */
 #import "NSArray+NSString.h"
 
-//#import "NSMutableString.h"
+// other files in this library
+
+// other libraries of MulleObjCFoundation
+#import "MulleObjCFoundationString.h"
+
+// std-c and dependencies
 
 
 @implementation NSArray( NSString)

@@ -11,7 +11,7 @@
  *  $Id$
  *
  */
-#import "_NSConstantString.h"
+#import "NSConstantString.h"
 
 // other files in this library
 
@@ -22,13 +22,31 @@
 
 @implementation NSConstantString
 
++ (void) load
+{
+   struct _mulle_objc_runtime   *runtime;
+   struct _mulle_objc_class     *cls;
+   
+   runtime = __get_or_create_objc_runtime();
+   cls     = _mulle_objc_class_get_infraclass( (void *) self);
+   assert( cls);
+   _mulle_objc_runtime_set_staticstringclass( runtime, cls);
+}
+
+
 //
 // weird shit: http://lists.apple.com/archives/objc-language/2006/Jan/msg00013.html
 // 
 
-- (utf8char *) _fastUTF8StringContents
+- (mulle_utf8char_t *) UTF8String
 {
-   return( _storage);
+   return( (mulle_utf8char_t *) _storage);
+}
+
+
+- (mulle_utf8char_t *) _fastUTF8StringContents
+{
+   return( (mulle_utf8char_t *) _storage);
 }
 
 

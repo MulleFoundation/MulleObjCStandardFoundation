@@ -93,7 +93,7 @@ static inline void   *get_bytes( id self)
    
    data->_storage   = MulleObjCAllocateNonZeroedMemory( length);
    data->_length    = length;
-   data->_allocator = MulleObjCAllocator();
+   data->_allocator = MulleObjCClassGetAllocator( self);
 
    memcpy( data->_storage, bytes, length);
 

@@ -283,7 +283,7 @@ static void      *OmniscientObserver;
 {
    struct mulle_allocator   *allocator;
    
-   allocator = MulleObjCAllocator();
+   allocator = MulleObjCObjectGetAllocator( self);
 
    mulle_map_init( &_pairRegistry, 128, &pair_registry_callbacks, allocator);
    mulle_map_init( &_observerRegistry, 64, &observer_registry_callbacks, allocator);
@@ -299,7 +299,7 @@ static void      *OmniscientObserver;
    struct mulle_container_keyvaluecallback    callbacks;
    struct mulle_allocator                     *allocator;
    
-   allocator = MulleObjCAllocator();
+   allocator = MulleObjCObjectGetAllocator( self);
 
    callbacks = sender_registry_callbacks;
    callbacks.valuecallback.release = (void *) free_queue_and_contents;

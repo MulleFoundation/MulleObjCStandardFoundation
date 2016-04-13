@@ -5,6 +5,9 @@
 //  Created by Nat! on 16.03.16.
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
+#import <MulleObjC/MulleObjC.h>
+
+
 #import "_MulleObjCContainerCallback.h"
 
 // other files in this library

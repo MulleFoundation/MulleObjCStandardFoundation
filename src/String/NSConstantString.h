@@ -16,7 +16,7 @@
 // named NSConstantString, because it's compatible...
 @interface NSConstantString : _MulleObjCASCIIString
 {
-   utf8char       *_storage;   // ivar #0:: must be defined EXACTLY like this
+   char           *_storage;   // ivar #0:: must be defined EXACTLY like this
    unsigned int   _length;     // ivar #1:: must be defined EXACTLY like this
 }
 @end

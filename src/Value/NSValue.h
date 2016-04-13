@@ -26,8 +26,8 @@ withObjCType:(char *) type;
 + (id) valueWithPointer:(void *) pointer;
 + (id) valueWithRange:(NSRange) range;
 
-- (BOOL) isEqual:(id) arg1;
-- (BOOL) isEqualToValue:(id) arg1;
+- (BOOL) isEqual:(id) other;
+- (BOOL) isEqualToValue:(id) other;
 
 - (NSRange) rangeValue;
 - (void *) pointerValue;

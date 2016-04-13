@@ -13,23 +13,23 @@
 
 static inline Class   NSClassFromString( NSString *s)
 {
-   return( MulleObjCClassFromString( s));
+   return( MulleObjCLookupClassByName( s));
 }
 
 
 static inline SEL   NSSelectorFromString( NSString *s)
 {
-   return( MulleObjCSelectorFromString( s));
+   return( MulleObjCCreateSelector( s));
 }
 
 
 static inline NSString   *NSStringFromClass( Class cls)
 {
-   return( MulleObjCStringFromClass( cls));
+   return( MulleObjCClassGetName( cls));
 }
 
 
 static inline NSString   *NSStringFromSelector( SEL sel)
 {
-   return( MulleObjCStringFromSelector( sel));
+   return( MulleObjCSelectorGetName( sel));
 }

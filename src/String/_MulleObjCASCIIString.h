@@ -18,7 +18,7 @@
 //
 // subclasses provide length
 // ASCII is something that's provided "hidden". It's the best,
-// because it can provide utf8char and utf32char w/o composition
+// because it can provide mulle_utf8char_t and mulle_utf32char_t w/o composition
 // 
 @interface _MulleObjCASCIIString : NSString
 {
@@ -28,10 +28,10 @@
 
 @interface _MulleObjCASCIIString( _Subclasses)
 
-+ (id) stringWithASCIICharacters:(char *) bytes
-                          length:(NSUInteger) length;
-+ (id) stringWithUTF32Characters:(utf32char *) bytes
-                          length:(NSUInteger) length;
++ (id) newWithASCIICharacters:(char *) chars
+                       length:(NSUInteger) length;
++ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
+                       length:(NSUInteger) length;
 
 @end
 
@@ -55,7 +55,7 @@
 @interface _MulleObjCTinyASCIIString : _MulleObjCASCIIString
 {
    uint8_t   _length;         // 1 - 256
-   utf8char  _storage[ 3];
+   char      _storage[ 3];
 }
 
 @end
@@ -63,21 +63,34 @@
 
 @interface _MulleObjCGenericASCIIString : _MulleObjCASCIIString
 {
-   NSUInteger  _length;         // 257-max
-   utf8char    _storage[ 1];
+   NSUInteger   _length;         // 257-max
+   char         _storage[ 1];
 }
 @end
 
 
+@interface _MulleObjCAllocatorASCIIString  : _MulleObjCASCIIString
+{
+   NSUInteger               _length;
+   char                     *_storage;
+   struct mulle_allocator   *_allocator;
+}
+
++ (id) newWithASCIICharactersNoCopy:(char *) chars
+                             length:(NSUInteger) length
+                          allocator:(struct mulle_allocator *) allocator;
+
+@end
+
 
 @interface _MulleObjCReferencingASCIIString : _MulleObjCASCIIString
 {
-   NSUInteger  _length;         // 257-max
-   utf8char    *_storage;
+   NSUInteger           _length;         // 257-max
+   mulle_utf8char_t    *_storage;
 }
 
-+ (id) stringWithASCIIString:(char *) s
-                      length:(NSUInteger) length;
++ (id) newWithASCIICharacters:(char *) chars
+                       length:(NSUInteger) length;
 
 @end
 

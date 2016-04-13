@@ -19,21 +19,76 @@
 
 @implementation _MulleObjCUTF32String
 
+- (mulle_utf32char_t *) _fastUTF32StringContents;
+{
+   return( NULL);
+}
+
+
+- (mulle_utf8char_t *) _fastUTF8StringContents;
+{
+   return( NULL);
+}
+
+
+- (NSUInteger) length
+{
+   return( _length);
+}
+
+
+- (NSUInteger) _UTF32StringLength
+{
+   return( _length);
+}
+
+
+- (NSUInteger) _UTF8StringLength
+{
+   return( mulle_utf32_length_as_utf8( [self _fastUTF32StringContents], _length));
+}
+
+
+- (mulle_utf8char_t *) UTF8String
+{
+   struct mulle_buffer  buf;
+   
+   if( ! _shadow)
+   {
+      mulle_buffer_init( &buf, MulleObjCObjectGetAllocator( self));
+      _mulle_utf32_convert_to_utf8_bytebuffer( &buf, (void *) mulle_buffer_advance,
+      [self _fastUTF32StringContents],
+      [self _UTF32StringLength]);
+
+      mulle_buffer_add_uint32( &buf, 0);
+      _shadow = mulle_buffer_extract_bytes( &buf);
+      mulle_buffer_done( &buf);
+   }
+   return( _shadow);
+}
+
+
+- (void) dealloc
+{
+   if( _shadow)
+      mulle_allocator_free( MulleObjCObjectGetAllocator( self), _shadow);
+   [super dealloc];
+}
+
 @end
 
 
 @implementation _MulleObjCGenericUTF32String
 
-+ (id) stringWithUTF32Characters:(utf32char *) chars
-                          length:(NSUInteger) length
++ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
+                       length:(NSUInteger) length
 {
    _MulleObjCGenericUTF32String   *obj;
    
    NSParameterAssert( mulle_utf32_strnlen( chars, length) == length);
    
-   obj = NSAllocateObject( self, (length - sizeof( obj->_storage) + 1) * sizeof( utf32char), NULL);
-   memcpy( obj->_storage, chars, length * sizeof( utf32char));
-   obj->_storage[ length] = 0;
+   obj = NSAllocateObject( self, (length - sizeof( obj->_storage)) * sizeof( mulle_utf32char_t), NULL);
+   memcpy( obj->_storage, chars, length * sizeof( mulle_utf32char_t));
    obj->_length = length;
    return( obj);
 }
@@ -47,41 +102,52 @@
 }
 
 
-- (NSUInteger) length
+- (mulle_utf32char_t *) _fastUTF32StringContents
 {
-   return( _length);
+   return( _storage);
 }
 
+@end
 
-- (NSUInteger) _UTF8StringLength
+
+@implementation _MulleObjCAllocatorUTF32String
+
++ (id) newWithUTF32CharactersNoCopy:(mulle_utf32char_t *) chars
+                             length:(NSUInteger) length
+                          allocator:(struct mulle_allocator *) allocator
 {
-   return( mulle_utf32_length_as_utf8( _storage, _length));
-}
-
-
-- (utf8char *) UTF8String
-{
-   struct mulle_buffer  buf;
+   _MulleObjCAllocatorUTF32String   *obj;
    
-   if( ! _shadow)
-   {
-      mulle_buffer_init( &buf, MulleObjCAllocator());
-      _mulle_utf32_convert_to_utf8_bytebuffer( &buf,
-                                               (void *) mulle_buffer_guarantee,
-                                               _storage,
-                                               _length + 1);
-      _shadow = mulle_buffer_extract( &buf);
-      mulle_buffer_done( &buf);
-   }
-   return( _shadow);
+   NSParameterAssert( mulle_utf32_strnlen( chars, length) == length);
+   
+   obj = NSAllocateObject( self, 0, NULL);
+
+   obj->_storage   = chars;
+   obj->_length    = length;
+   obj->_allocator = allocator;
+   
+   return( obj);
 }
 
+- (unichar) characterAtIndex:(NSUInteger)index
+{
+   if( index >= _length)
+      MulleObjCThrowInvalidIndexException( index);
+   return( _storage[ index]);
+}
+
+
+- (mulle_utf32char_t *) _fastUTF32StringContents
+{
+   return( _storage);
+}
 
 - (void) dealloc
 {
-   if( _shadow)
-      mulle_allocator_free( MulleObjCAllocator(), _shadow);
+   if( _allocator)
+      mulle_allocator_free( _allocator, _storage);
    [super dealloc];
 }
 
 @end
+

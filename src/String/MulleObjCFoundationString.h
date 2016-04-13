@@ -11,7 +11,9 @@
 
 #import "NSCharacterSet.h"
 #import "NSString.h"
+#import "NSString+ClassCluster.h"
 #import "NSString+Search.h"
+#import "NSString+Sprintf.h"
 #import "NSMutableString.h"
 
 // export everything with MulleObjC

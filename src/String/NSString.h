@@ -78,27 +78,17 @@ typedef NSUInteger   NSStringEncoding;
 // in all other cases use UTF8String
 //
 
-@interface NSString : NSObject < MulleObjCClassCluster, NSCopying>
+@interface NSString : NSObject < NSCopying>
 {
 }
 
 + (id) string;
-+ (id) stringWithString:(NSString *) arg1;
-+ (id) stringWithFormat:(NSString *) format, ...;
-+ (id) stringWithFormat:(NSString *) format
-              arguments:(mulle_vararg_list) arguments;
-+ (id) stringWithFormat:(NSString *) format
-                va_list:(va_list) arguments;
-
++ (id) stringWithString:(NSString *) other;
 
 - (id) description;
 
-
-- (NSString *) substringWithRange:(NSRange) arg1;
-- (NSString *) substringFromIndex:(NSUInteger) arg1;
-- (NSString *) substringToIndex:(NSUInteger) arg1;
-- (NSString *) stringByAppendingFormat:(NSString *) arg1, ...;
-
+- (NSString *) substringFromIndex:(NSUInteger) index;
+- (NSString *) substringToIndex:(NSUInteger) index;
 
 - (double) doubleValue;
 - (float) floatValue;
@@ -109,57 +99,28 @@ typedef NSUInteger   NSStringEncoding;
 
 
 
-//
-// UTF32
-//
-- (void) getCharacters:(unichar *) buf
-                 range:(NSRange) range;
-
 
 //
 // UTF8
 //
-+ (id) stringWithUTF8String:(utf8char *) s;
-+ (id) stringWithUTF8Characters:(utf8char *) s
++ (id) stringWithUTF8String:(mulle_utf8char_t *) s;
++ (id) stringWithUTF8Characters:(mulle_utf8char_t *) s
                          length:(NSUInteger) len;
-
-+ (id) stringWithUTF8String:(utf8char *) s
-                     length:(NSUInteger) len
-               freeWhenDone:(BOOL) flag;
-
++ (id) stringWithUTF8CharactersNoCopy:(mulle_utf8char_t *) s
+                               length:(NSUInteger) len
+                            allocator:(struct mulle_allocator *) allocator;
 // characters are not zero terminated
-- (void) getUTF8Characters:(utf8char *) buf
+- (void) getUTF8Characters:(mulle_utf8char_t *) buf
                  maxLength:(NSUInteger) maxLength;
-- (void) getUTF8Characters:(utf8char *) buf;
+- (void) getUTF8Characters:(mulle_utf8char_t *) buf;
 
 // strings are zero terminated
-- (void) getUTF8String:(utf8char *) buf
+- (void) getUTF8String:(mulle_utf8char_t *) buf
              maxLength:(NSUInteger) maxLength;
-- (void) getUTF8String:(utf8char *) buf;
+- (void) getUTF8String:(mulle_utf8char_t *) buf;
 
-@end
+- (mulle_utf8char_t *) UTF8String;
 
-
-@interface NSString( ClassCluster)
-
-- (utf8char *) UTF8String;
-
-- (id) initWithString:(NSString *) arg1;
-- (id) initWithFormat:(NSString *) format, ...; 
-- (id) initWithFormat:(NSString *) format 
-            arguments:(mulle_vararg_list) argList;
-- (id) initWithFormat:(NSString *) format
-              va_list:(va_list) arguments;
-
-- (id) initWithUTF8Characters:(utf8char *) s
-                       length:(NSUInteger) len;
-
-- (id) initWithUTF8String:(utf8char *) s;
-- (id) initWithUTF8String:(utf8char *) s
-                   length:(NSUInteger) len;
-- (id) initWithUTF8StringNoCopy:(utf8char *) s
-                         length:(NSUInteger) length
-                   freeWhenDone:(BOOL) flag;
 @end
 
 
@@ -168,38 +129,44 @@ typedef NSUInteger   NSStringEncoding;
 - (unichar) characterAtIndex:(NSUInteger) index;
 - (NSUInteger) length;
 
-- (NSString *) stringByAppendingString:(NSString *) arg1;
+- (NSString *) stringByAppendingString:(NSString *) other;
 
 - (NSUInteger) getCharacters:(unichar *) buffer
                    maxLength:(NSUInteger) maxLength
                        range:(NSRange) aRange;
 
-- (NSUInteger) getUTF8Characters:(utf8char *) buffer
+- (NSUInteger) getUTF8Characters:(mulle_utf8char_t *) buffer
                        maxLength:(NSUInteger) maxLength
                           range:(NSRange) aRange;
+
+- (void) getCharacters:(unichar *) buf
+                 range:(NSRange) range;
+
 
 - (NSString *) uppercaseString;
 - (NSString *) lowercaseString;
 - (NSString *) capitalizedString;
+
+- (NSString *) substringWithRange:(NSRange) range;
 
 @end
 
 
 @interface NSString ( Todo)
 
-- (id) stringByPaddingToLength:(NSUInteger) arg1 
-                    withString:(NSString *) arg2 
-                startingAtIndex:(NSUInteger) arg3;
+- (id) stringByPaddingToLength:(NSUInteger) length
+                    withString:(NSString *) other
+                startingAtIndex:(NSUInteger) index;
                 
-- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) arg1 
-                                         withString:(NSString *) arg2 
-                                            options:(NSUInteger) arg3 
-                                              range:(NSRange) arg4;
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) search
+                                         withString:(NSString *) replacement
+                                            options:(NSUInteger) options
+                                              range:(NSRange) range;
                                     
-- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) arg1 
-                                         withString:(NSString *) arg2;
-- (NSString *) stringByReplacingCharactersInRange:(NSRange) arg1 
-                                       withString:(NSString *) arg2;
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) search
+                                         withString:(NSString *) replacement;
+- (NSString *) stringByReplacingCharactersInRange:(NSRange) range
+                                       withString:(NSString *) replacement;
 
 @end
 
