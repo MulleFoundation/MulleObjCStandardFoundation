@@ -216,7 +216,6 @@ static NSString  *newWithUTF32Characters( mulle_utf32char_t *buf, NSUInteger len
                           allocator:(struct mulle_allocator *) allocator;
 {
    struct mulle_utf8_information  info;
-   id                             obj;
    struct mulle_buffer            buffer;
    void                           *utf;
    

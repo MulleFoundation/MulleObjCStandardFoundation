@@ -47,7 +47,7 @@
  */
 static void   autoreleaseStorageStrings( NSMutableString *self)
 {
-   NSUInteger  i, n;
+   NSUInteger  n;
    
    n = self->_count;
    self->_count = 0;  // do it now, important for autoreleasepool checks

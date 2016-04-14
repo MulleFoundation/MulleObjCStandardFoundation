@@ -224,6 +224,9 @@
 		41F896B61C9C68E400971F63 /* _MulleObjCEmptyString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F896AA1C9C68E400971F63 /* _MulleObjCEmptyString.m */; };
 		41F896B71C9C68E400971F63 /* NSConstantString.h in Headers */ = {isa = PBXBuildFile; fileRef = 41F896AB1C9C68E400971F63 /* NSConstantString.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41F896B81C9C68E400971F63 /* NSConstantString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F896AC1C9C68E400971F63 /* NSConstantString.m */; };
+		41FA09581CBFF90500BD4D6F /* NSNumber+NSString.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FA09561CBFF90500BD4D6F /* NSNumber+NSString.h */; };
+		41FA09591CBFF90500BD4D6F /* NSNumber+NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA09571CBFF90500BD4D6F /* NSNumber+NSString.m */; };
+		41FA095D1CBFFB2100BD4D6F /* _MulleObjCConcreteNumber+NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA095B1CBFFB2100BD4D6F /* _MulleObjCConcreteNumber+NSString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -552,6 +555,9 @@
 		41F896AA1C9C68E400971F63 /* _MulleObjCEmptyString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCEmptyString.m; sourceTree = "<group>"; };
 		41F896AB1C9C68E400971F63 /* NSConstantString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSConstantString.h; sourceTree = "<group>"; };
 		41F896AC1C9C68E400971F63 /* NSConstantString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSConstantString.m; sourceTree = "<group>"; };
+		41FA09561CBFF90500BD4D6F /* NSNumber+NSString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NSString.h"; sourceTree = "<group>"; };
+		41FA09571CBFF90500BD4D6F /* NSNumber+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+NSString.m"; sourceTree = "<group>"; };
+		41FA095B1CBFFB2100BD4D6F /* _MulleObjCConcreteNumber+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "_MulleObjCConcreteNumber+NSString.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -698,6 +704,8 @@
 				41F8968A1C9C5F4A00971F63 /* ClassCluster */,
 				418C9F0D1C9B2A80002B9ACD /* NSNumber.h */,
 				418C9F0E1C9B2A80002B9ACD /* NSNumber.m */,
+				41FA09561CBFF90500BD4D6F /* NSNumber+NSString.h */,
+				41FA09571CBFF90500BD4D6F /* NSNumber+NSString.m */,
 				418C9F111C9B2A80002B9ACD /* NSValue.h */,
 				418C9F121C9B2A80002B9ACD /* NSValue.m */,
 				418C9F131C9B2A80002B9ACD /* NSValue+Private.h */,
@@ -906,6 +914,7 @@
 				41F8968C1C9C5F8500971F63 /* _MulleObjCConcreteValue.m */,
 				4170CDF31C9DD69B009554C6 /* _MulleObjCConcreteNumber.h */,
 				4170CDF41C9DD69B009554C6 /* _MulleObjCConcreteNumber.m */,
+				41FA095B1CBFFB2100BD4D6F /* _MulleObjCConcreteNumber+NSString.m */,
 			);
 			name = ClassCluster;
 			sourceTree = "<group>";
@@ -1007,6 +1016,7 @@
 			files = (
 				41EA8D921C9F6B1E007CEAE8 /* MulleObjCFoundationValue.h in Headers */,
 				418C9F191C9B2A80002B9ACD /* NSNumber.h in Headers */,
+				41FA09581CBFF90500BD4D6F /* NSNumber+NSString.h in Headers */,
 				418C9F171C9B2A80002B9ACD /* NSNull.h in Headers */,
 				418C9F1D1C9B2A80002B9ACD /* NSValue.h in Headers */,
 				418C9F151C9B2A80002B9ACD /* NSDate.h in Headers */,
@@ -1409,6 +1419,8 @@
 				418C9F161C9B2A80002B9ACD /* NSDate.m in Sources */,
 				418C9F1A1C9B2A80002B9ACD /* NSNumber.m in Sources */,
 				418C9F181C9B2A80002B9ACD /* NSNull.m in Sources */,
+				41FA09591CBFF90500BD4D6F /* NSNumber+NSString.m in Sources */,
+				41FA095D1CBFFB2100BD4D6F /* _MulleObjCConcreteNumber+NSString.m in Sources */,
 				418C9F1E1C9B2A80002B9ACD /* NSValue.m in Sources */,
 				415A023C1CB042E7003C4ACF /* NSLock+Date.m in Sources */,
 				41F8968E1C9C5F8500971F63 /* _MulleObjCConcreteValue.m in Sources */,
@@ -1653,7 +1665,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 419FE80F1C9858190094A915 /* StaticLibraryOSX.xcconfig */;
 			buildSettings = {
-				USER_HEADER_SEARCH_PATHS = "src/Base src/Exception src/Value";
+				USER_HEADER_SEARCH_PATHS = "src/Base src/Exception src/Value src/String";
 			};
 			name = Debug;
 		};
@@ -1661,7 +1673,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 419FE80F1C9858190094A915 /* StaticLibraryOSX.xcconfig */;
 			buildSettings = {
-				USER_HEADER_SEARCH_PATHS = "src/Base src/Exception src/Value";
+				USER_HEADER_SEARCH_PATHS = "src/Base src/Exception src/Value src/String";
 			};
 			name = Release;
 		};
