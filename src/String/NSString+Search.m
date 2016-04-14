@@ -607,6 +607,7 @@ static void   _kmp_precompute( unichar *search,
    }
 }
 
+
 static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_rover,
                                     unichar *search, size_t search_len)
 {
@@ -694,7 +695,6 @@ static NSInteger  _kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
    ssize_t      size;
    void         *tofree;
    NSInteger    found;
-   NSUInteger   index;
    
    tofree = NULL;
    
@@ -719,13 +719,10 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
                                   struct mulle_objc_unichar_enumerator *other_rover)
 {
    NSInteger   index;
-   size_t      len;
    size_t      search_len;
    size_t      size;
    unichar     *search;
    unichar     *tofree;
-   unichar     c;
-   unichar     d;
    
    // must be > 0 and is not > self_len
 

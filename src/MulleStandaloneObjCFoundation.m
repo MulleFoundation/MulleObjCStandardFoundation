@@ -12,8 +12,8 @@
 
 // other libraries of MulleObjCFoundation
 
-// std-c dependencies
-#import <MulleObjC/ns_test_allocation.h>
+// std-c and other dependencies
+#import <MulleStandaloneObjC/ns_test_allocation.h>
 #import <mulle_sprintf/mulle_sprintf.h>
 
 

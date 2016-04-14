@@ -22,22 +22,6 @@
 #include <ctype.h>
 
 
-//
-// I don't remember, why I don't use regular strnlen here
-//
-static size_t  _mulle_strnlen( char *s, size_t size)
-{
-   char     *memo;
-   char     *sentinel;
-
-   memo     = s;
-   sentinel = &s[ size];
-   while( s < sentinel && *s)
-      ++s;
-   return( s - memo);
-}
-
-
 @implementation _MulleObjCASCIIString
 
 
