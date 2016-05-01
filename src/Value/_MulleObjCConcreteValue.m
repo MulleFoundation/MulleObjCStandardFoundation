@@ -39,9 +39,11 @@ static void   *_MulleObjCConcreteValueObjCType( _MulleObjCConcreteValue *self)
    NSUInteger                size;
    size_t                    type_size;
    
-   NSParameterAssert( type && *type);
+   NSParameterAssert( type && strlen( type));
    NSParameterAssert( bytes);
-
+   assert( bytes); // for analyzer
+   assert( type && strlen( type)); // for analyzer
+   
    NSGetSizeAndAlignment( type, &size, NULL);
    
    NSParameterAssert( size);

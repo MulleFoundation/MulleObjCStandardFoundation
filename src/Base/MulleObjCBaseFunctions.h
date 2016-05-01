@@ -33,3 +33,6 @@ static inline NSString   *NSStringFromSelector( SEL sel)
 {
    return( MulleObjCSelectorGetName( sel));
 }
+
+
+NSString   *NSStringFromRange( NSRange range);

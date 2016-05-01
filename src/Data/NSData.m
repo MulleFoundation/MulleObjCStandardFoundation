@@ -108,7 +108,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 - (id)  init
 {
-   [self autorelease];
+   [self release];
    return( _newData( 0, 0));
 }
 
@@ -117,7 +117,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (id) initWithBytes:(void *) bytes 
               length:(NSUInteger) length
 {
-   [self autorelease];
+   [self release];
    return( _newData( bytes, length));
 }
 
@@ -125,20 +125,30 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (id) initWithBytesNoCopy:(void *) bytes 
                     length:(NSUInteger) length
 {
-   [self autorelease];
+   [self release];
    return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
                                                 length:length
                                              allocator:&mulle_stdlib_allocator]);
 }
 
+- (id) initWithBytesNoCopy:(void *) bytes
+                    length:(NSUInteger) length
+                 allocator:(struct mulle_allocator *) allocator
+{
+   [self release];
+   return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
+                                                length:length
+                                             allocator:allocator]);
+}
+
 
 - (id) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
-               freeWhenDone:(BOOL) flag;
+               freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
    
-   [self autorelease];
+   [self release];
 
    allocator = flag ? &mulle_stdlib_allocator: NULL;
    return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
@@ -151,7 +161,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
                     length:(NSUInteger) length
                      owner:(id) owner
 {
-   [self autorelease];
+   [self release];
 
    return( [_MulleObjCSharedData newWithBytesNoCopy:bytes
                                              length:length
@@ -161,7 +171,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 - (id) initWithData:(id) other
 {
-   [self autorelease];
+   [self release];
    
    return( _newData( [other bytes], [other length]));
 }

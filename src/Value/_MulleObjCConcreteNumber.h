@@ -30,3 +30,9 @@
 }
 @end
 
+
+@interface _MulleObjCLongDoubleNumber : NSNumber
+{
+   long double   _value;
+}
+@end

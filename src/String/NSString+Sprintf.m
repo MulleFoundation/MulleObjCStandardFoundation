@@ -69,8 +69,8 @@
 - (id) initWithFormat:(NSString *) format
             arguments:(mulle_vararg_list) arguments
 {
-   mulle_utf8char_t         *c_format;
-   mulle_utf8char_t         *result;
+   mulle_utf8_t         *c_format;
+   mulle_utf8_t         *result;
    struct mulle_buffer      buffer;
    struct mulle_allocator   *allocator;
    size_t                   len;
@@ -83,7 +83,7 @@
    if( mulle_mvsprintf( &buffer, (char *) c_format, arguments) < 0)
    {
       mulle_buffer_done( &buffer);
-      [self autorelease];
+      [self release];
       return( nil);
    }
    
@@ -99,7 +99,7 @@
    {
       len    = mulle_buffer_get_length( &buffer);
       result = mulle_buffer_extract_bytes( &buffer);
-      s      = [self initWithUTF8CharactersNoCopy:result
+      s      = [self _initWithUTF8CharactersNoCopy:result
                                            length:len
                                         allocator:allocator];
    }
@@ -111,8 +111,8 @@
 - (id) initWithFormat:(NSString *) format
               va_list:(va_list) va_list
 {
-   mulle_utf8char_t         *c_format;
-   mulle_utf8char_t         *result;
+   mulle_utf8_t         *c_format;
+   mulle_utf8_t         *result;
    struct mulle_buffer      buffer;
    struct mulle_allocator   *allocator;
    size_t                   len;
@@ -124,7 +124,7 @@
    mulle_buffer_init( &buffer, allocator);
    if( mulle_vsprintf( &buffer, (char *) c_format, va_list) < 0)
    {
-      [self autorelease];
+      [self release];
       return( nil);
    }
    
@@ -140,9 +140,9 @@
    {
       len    = mulle_buffer_get_length( &buffer);
       result = mulle_buffer_extract_bytes( &buffer);
-      s      = [self initWithUTF8CharactersNoCopy:result
-                                           length:len
-                                        allocator:allocator];
+      s      = [self _initWithUTF8CharactersNoCopy:result
+                                            length:len
+                                         allocator:allocator];
    }
    mulle_buffer_done( &buffer);
    return( s);

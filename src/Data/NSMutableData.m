@@ -45,86 +45,106 @@
 
 + (id) dataWithLength:(NSUInteger) length
 {
-   NSMutableData   *data;
-   
-   data = [self dataWithCapacity:length];
-   [data setLength:length];
-   return( data);
+   return( [[[self alloc] initWithLength:length] autorelease]);
 }
 
 
-+ (id) dataWithCapacity:(NSUInteger) length
++ (id) dataWithCapacity:(NSUInteger) capacity
 {
-   NSMutableData   *data;
-   
-   data = [[[self alloc] initWithCapacity:length] autorelease];
-   return( data);
+   return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
 
 
 + (id) dataWithBytes:(void *) buf 
               length:(NSUInteger) len
 {
-   NSMutableData   *data;
-   
-   data = [[[self alloc] initWithCapacity:len] autorelease];
-   [data appendBytes:buf
-              length:len];
-   return( data);
+   return( [[[self alloc] initWithBytes:buf
+                                 length:len] autorelease]);
 }
 
 
 + (id) dataWithData:(NSData *) other
 {
-   NSMutableData   *data;
-   
-   data = [[[self alloc] initWithCapacity:[other length]] autorelease];
-   [data appendData:other];
-   return( data);
+   return( [[[self alloc] initWithBytes:[other bytes]
+                                 length:[other length]] autorelease]);
 }
 
 
 # pragma mark -
 # pragma mark classcluster
 
-
 - (id) initWithCapacity:(NSUInteger) capacity
 {
-   [self autorelease];
+   [self release];
 
-   return( [[_MulleObjCConcreteMutableData alloc] initWithCapacity:capacity]);
+   return( [_MulleObjCConcreteMutableData newWithCapacity:capacity]);
 }
 
 
 - (id) initWithLength:(NSUInteger) length
 {
-   [self autorelease];
+   [self release];
 
-   return( [[_MulleObjCConcreteMutableData alloc] initWithLength:length]);
+   return( [_MulleObjCConcreteMutableData newWithLength:length]);
 }
 
 
-
 - (id) initWithBytes:(void *) bytes
-             length:(NSUInteger) length
+              length:(NSUInteger) length
 {
-   [self autorelease];
+   [self release];
 
-   return( [[_MulleObjCConcreteMutableData alloc] initWithBytes:bytes
-                                                         length:length]);
+   return( [_MulleObjCConcreteMutableData newWithBytes:bytes
+                                                length:length]);
+}
+
+
+- (id) initWithBytesNoCopy:(void *) bytes
+                    length:(NSUInteger) length
+               freeWhenDone:(BOOL) flag
+{
+   struct mulle_allocator   *allocator;
+   
+   allocator = &mulle_stdlib_allocator;
+
+   if( flag)
+   {
+      [self release];
+      return( [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
+                                                         length:length
+                                                      allocator:allocator]);
+   }
+   
+   self = [self initWithBytes:bytes
+                       length:length];
+   mulle_allocator_free( allocator, bytes);
+   return( self);
+}
+
+- (id) initWithBytesNoCopy:(void *) bytes
+                    length:(NSUInteger) length
+                 allocator:(struct mulle_allocator *) allocator
+{
+   [self release];
+
+   return( [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
+                                                      length:length
+                                                   allocator:allocator]);
 }
 
 
 - (id) initWithData:(NSData *) data
 {
-   [self autorelease];
+   [self release];
 
-   return( [[_MulleObjCConcreteMutableData alloc] initWithBytes:[data bytes]
-                                                         length:[data length]]);
+   return( [_MulleObjCConcreteMutableData newWithBytes:[data bytes]
+                                                length:[data length]]);
 }
 
 
 
+#pragma mark -
+#pragma mark operations
 
 - (void) setData:(NSData *) aData
 {
@@ -132,33 +152,12 @@
    
    range.location = 0;
    range.length   = [aData length];
+   
    [self setLength:range.length];
    [self replaceBytesInRange:range
                    withBytes:[aData bytes]];
 }
 
-
-+ (id) dataWithBytesNoCopy:(void *) buf 
-                    length:(NSUInteger) length
-{
-   return( [self dataWithBytes:buf
-                        length:length]);
-}
-
-
-+ (id) dataWithBytesNoCopy:(void *) buf 
-                    length:(NSUInteger) length 
-              freeWhenDone:(BOOL) flag
-{
-   NSMutableData   *data;
-   
-   data = [self dataWithBytes:buf
-                       length:length];
-   if( flag)
-      free( buf);
-      
-   return( data);
-}
 
 
 - (void) appendData:(NSData *) otherData
@@ -166,8 +165,6 @@
    [self appendBytes:[otherData bytes]
               length:[otherData length]];
 }
-
-
 
 
 + (id) nonZeroedDataWithLength:(NSUInteger) length
@@ -190,7 +187,7 @@
 
 - (id) copy
 {
-   return( [[NSData alloc] initWithData:self]);
+   return( (id) [[NSData alloc] initWithData:self]);
 }
 
 @end

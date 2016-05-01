@@ -18,7 +18,7 @@
 //
 // subclasses provide length
 // ASCII is something that's provided "hidden". It's the best,
-// because it can provide mulle_utf8char_t and mulle_utf32char_t w/o composition
+// because it can provide mulle_utf8_t and mulle_utf32_t w/o composition
 // 
 @interface _MulleObjCASCIIString : NSString
 {
@@ -30,7 +30,7 @@
 
 + (id) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length;
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length;
 
 @end
@@ -69,10 +69,20 @@
 @end
 
 
-@interface _MulleObjCAllocatorASCIIString  : _MulleObjCASCIIString
+@interface _MulleObjCReferencingASCIIString : _MulleObjCASCIIString
 {
-   NSUInteger               _length;
-   char                     *_storage;
+   NSUInteger   _length;
+   char         *_storage;
+}
+
++ (id) newWithASCIICharacters:(char *) chars
+                       length:(NSUInteger) length;
+
+@end
+
+
+@interface _MulleObjCAllocatorASCIIString  : _MulleObjCReferencingASCIIString
+{
    struct mulle_allocator   *_allocator;
 }
 
@@ -83,15 +93,13 @@
 @end
 
 
-@interface _MulleObjCReferencingASCIIString : _MulleObjCASCIIString
+@interface _MulleObjCSharedASCIIString : _MulleObjCReferencingASCIIString
 {
-   NSUInteger           _length;         // 257-max
-   mulle_utf8char_t    *_storage;
+   id   _sharingObject;
 }
 
-+ (id) newWithASCIICharacters:(char *) chars
-                       length:(NSUInteger) length;
++ (id) newWithASCIICharactersNoCopy:(char *) chars
+                             length:(NSUInteger) length
+                      sharingObject:(id) sharingObject;
 
 @end
-
-

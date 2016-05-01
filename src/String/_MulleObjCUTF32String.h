@@ -10,15 +10,15 @@
 
 @interface _MulleObjCUTF32String : NSString
 {
-   mulle_utf8char_t    *_shadow;
-   NSUInteger          _length;         // 257-max
+   mulle_utf8_t    *_shadow;
+   NSUInteger      _length;         // 257-max
 }
 @end
 
 
 @interface _MulleObjCUTF32String( _Subclasses)
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length;
 
 @end
@@ -26,20 +26,37 @@
 
 @interface _MulleObjCGenericUTF32String : _MulleObjCUTF32String
 {
-   mulle_utf32char_t   _storage[ 1];
+   mulle_utf32_t   _storage[ 1];
 }
 @end
 
 
 @interface _MulleObjCAllocatorUTF32String  : _MulleObjCUTF32String
 {
-   mulle_utf32char_t        *_storage;
+   mulle_utf32_t            *_storage;
    struct mulle_allocator   *_allocator;
 }
 
-+ (id) newWithUTF32CharactersNoCopy:(mulle_utf32char_t *) chars
++ (id) newWithUTF32CharactersNoCopy:(mulle_utf32_t *) chars
                              length:(NSUInteger) length
                           allocator:(struct mulle_allocator *) allocator;
 
 @end
+
+
+@interface _MulleObjCSharedUTF32String  : _MulleObjCUTF32String
+{
+   mulle_utf32_t   *_storage;
+   id               _sharingObject;
+}
+
++ (id) newWithUTF32CharactersNoCopy:(mulle_utf32_t *) chars
+                             length:(NSUInteger) length
+                      sharingObject:(id) sharingObject;
+@end
+
+
+// TODO: need a string that references an immutable owner
+//       that provides the storage (with an offset)
+//
 

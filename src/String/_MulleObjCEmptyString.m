@@ -46,9 +46,9 @@
 }
 
 
-- (mulle_utf8char_t *) _fastUTF8StringContents
+- (mulle_utf8_t *) _fastUTF8StringContents
 {
-   return( (mulle_utf8char_t *) "");
+   return( (mulle_utf8_t *) "");
 }
 
 @end

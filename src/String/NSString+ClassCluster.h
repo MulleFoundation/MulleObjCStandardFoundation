@@ -11,14 +11,38 @@
 
 @interface NSString( ClassCluster)  < MulleObjCClassCluster>
 
-- (id) initWithCharacters:(unichar *) s
+- (instancetype) initWithCharacters:(unichar *) s
                    length:(NSUInteger) len;
+- (instancetype) initWithCharactersNoCopy:(unichar *) chars
+                                   length:(NSUInteger) length
+                             freeWhenDone:(BOOL) flag;
 
-- (id) initWithUTF8Characters:(mulle_utf8char_t *) s
-                       length:(NSUInteger) len;
+- (instancetype) initWithUTF8Characters:(mulle_utf8_t *) s
+                                 length:(NSUInteger) len;
 
-- (id) initWithUTF8String:(mulle_utf8char_t *) s;
-- (id) initWithUTF8CharactersNoCopy:(mulle_utf8char_t *) s
-                             length:(NSUInteger) lengt
-                          allocator:(struct mulle_allocator *) allocator;
+- (instancetype) initWithUTF8String:(mulle_utf8_t *) s;
+- (instancetype) initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                       length:(NSUInteger) length
+                                 freeWhenDone:(BOOL) flag;
+
+
+# pragma mark -
+# pragma mark mulle additions
+
+- (instancetype) _initWithCharactersNoCopy:(unichar *) s
+                                    length:(NSUInteger) length
+                                 allocator:(struct mulle_allocator *) allocator;
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                        length:(NSUInteger) lengt
+                                     allocator:(struct mulle_allocator *) allocator;
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                        length:(NSUInteger) length
+                                 sharingObject:(id) object;
+
+- (instancetype) _initWithCharactersNoCopy:(unichar *) s
+                                    length:(NSUInteger) length
+                             sharingObject:(id) object;
+
 @end

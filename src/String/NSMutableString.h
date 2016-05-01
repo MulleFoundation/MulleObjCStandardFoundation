@@ -13,18 +13,18 @@
  */
 #import "NSString.h"
 
+#import "NSMutableCopying.h"
 
-//
-// if NSMutableString is too slow, add a little cache
-// so that fastWideStringContents and friends are 
-// possible
-//
+
 @interface NSMutableString : NSString
 {
-   NSUInteger   _length;
-   NSUInteger   _count;
-   NSUInteger   _size;
-   NSString     **_storage;
+   unsigned int   _length;
+   unsigned int   _count;
+   unsigned int   _size;
+   NSString       **_storage;
+   
+   mulle_utf8_t   *_shadow;
+   NSUInteger     _shadowLen;
 }
 
 + (id) stringWithCapacity:(NSUInteger) capacity;
@@ -34,7 +34,22 @@
                  count:(NSUInteger) count;
 
 - (void) appendString:(NSString *) s;
+- (void) appendFormat:(NSString *) format, ...;
+
+- (void) replaceCharactersInRange:(NSRange) aRange 
+                       withString:(NSString *) replacement;
+
+- (void) replaceOccurrencesOfString:(NSString *) s
+                         withString:(NSString *) replacement
+                            options:(NSStringCompareOptions) options
+                              range:(NSRange) range;
+
 - (void) deleteCharactersInRange:(NSRange)aRange;
+
+- (void) setString:(NSString *) s;
 
 @end
 
+
+@interface NSString ( NSMutableString) < NSMutableCopying>
+@end

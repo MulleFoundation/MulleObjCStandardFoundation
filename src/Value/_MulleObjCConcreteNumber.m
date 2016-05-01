@@ -36,6 +36,13 @@
 }
 
 
+
+- (long double) longDoubleValue
+{
+   return( (long double) _value);
+}
+
+
 - (long long) longLongValue
 {
    return( (long long) _value);
@@ -84,6 +91,12 @@
 }
 
 
+- (long double) longDoubleValue
+{
+   return( (double) _value);
+}
+
+
 - (void) getValue:(void *) value
 {
    *(long long *) value = _value;
@@ -113,6 +126,12 @@
 }
 
 
+- (long double) longDoubleValue
+{
+   return( _value);
+}
+
+
 - (long long) longLongValue
 {
    return( (long long) _value);
@@ -137,4 +156,52 @@
 }
 
 @end
+
+
+@implementation _MulleObjCLongDoubleNumber : NSNumber
+
+- (id) initWithDouble:(double) value
+{
+   _value = value;
+   return( self);
+}
+
+
+- (double) doubleValue
+{
+   return( (double) _value);
+}
+
+
+- (long double) longDoubleValue
+{
+   return( _value);
+}
+
+
+- (long long) longLongValue
+{
+   return( (long long) _value);
+}
+
+
+- (NSInteger) integerValue
+{
+   return( (NSInteger) _value);
+}
+
+
+- (void) getValue:(void *) value
+{
+   *(long double *) value = _value;
+}
+
+
+- (char *) objCType
+{
+   return( @encode( long double));
+}
+
+@end
+
 

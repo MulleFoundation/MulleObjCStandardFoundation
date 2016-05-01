@@ -15,4 +15,13 @@
 {
    struct mulle_buffer   _storage;
 }
+
++ (instancetype) newWithLength:(NSUInteger) length;
++ (instancetype) newWithCapacity:(NSUInteger) capacity;
++ (instancetype) newWithBytes:(void *) buf
+                       length:(NSUInteger) length;
+
++ (id) newWithBytesNoCopy:(void *) bytes
+                   length:(NSUInteger) length
+                allocator:(struct mulle_allocator *) allocator;
 @end

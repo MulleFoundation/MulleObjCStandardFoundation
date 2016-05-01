@@ -8,10 +8,10 @@
 
 #define MULLE_OBJC_FOUNDATION_VERSION   MULLE_OBJC_VERSION
 
-#import "MulleObjCFoundationBase.h"
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationException.h"
+#import "MulleObjCFoundationCore.h"
+
+#import "MulleObjCFoundationArchiver.h"
+#import "MulleObjCFoundationKVC.h"
+#import "MulleObjCFoundationLocale.h"
 #import "MulleObjCFoundationNotification.h"
-#import "MulleObjCFoundationString.h"
-#import "MulleObjCFoundationValue.h"
+#import "MulleObjCFoundationPropertyList.h"

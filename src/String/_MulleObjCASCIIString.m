@@ -19,64 +19,10 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-#include <ctype.h>
+#include <mulle_utf/mulle_utf.h>
 
 
 @implementation _MulleObjCASCIIString
-
-
-static NSUInteger   grab_utf8( id self,
-                               SEL sel,
-                               mulle_utf8char_t *storage,
-                               NSUInteger len,
-                               mulle_utf8char_t *dst,
-                               NSUInteger dst_len,
-                               NSRange range)
-{
-   NSUInteger   end;
-   
-   // ex.  string    = "VfL Bochum" (10)
-   //      range     = {2,8}
-   //      maxLength = 4
-   
-   end = MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, len);
-   if( end >= dst_len)
-      end = range.location + dst_len - 1;
-   
-   len = end - range.location;
-   memcpy( dst, &storage[ range.location], len);
-   return( len);
-}
-
-
-static NSUInteger   grab_utf32( id self,
-                                SEL sel,
-                                mulle_utf8char_t *storage,
-                                NSUInteger len,
-                                mulle_utf32char_t *dst,
-                                NSUInteger dst_len,
-                                NSRange range)
-{
-   NSUInteger   end;
-   mulle_utf8char_t    *sentinel;
-   
-   // ex.  string    = "VfL Bochum" (10)
-   //      range     = {2,8}
-   //      maxLength = 4
-   
-   end = MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, len);
-   if( end >= dst_len)
-      end = range.location + dst_len - 1;
-   
-   len      = end - range.location;
-   storage  = &storage[ range.location];
-   sentinel = &storage[ len];
-   
-   while( storage < sentinel)
-      *storage++ = *sentinel++;
-   return( len);
-}
-
 
 static inline char  *MulleObjCSmallStringAddress( _MulleObjCASCIIString *self)
 {
@@ -92,165 +38,121 @@ static inline char  *MulleObjCSmallStringAddress( _MulleObjCASCIIString *self)
 }
 
 
-- (NSUInteger) getUTF32Characters:(mulle_utf32char_t *) buffer
-                        maxLength:(NSUInteger) maxLength
-                            range:(NSRange) range
+static void   grab_utf32( id self,
+                          SEL sel,
+                          mulle_utf8_t *storage,
+                          NSUInteger len,
+                          mulle_utf32_t *dst,
+                          NSRange range)
 {
-   return( grab_utf32( self,
-                       _cmd,
-                       [self _fastUTF8StringContents],
-                       [self length],
-                       buffer,
-                       maxLength,
-                       range));
+   mulle_utf8_t    *sentinel;
+   
+   if( range.length + range.location > len)
+      MulleObjCThrowInvalidRangeException( range);
+   
+   storage  = &storage[ range.location];
+   sentinel = &storage[ range.length];
+   
+   while( storage < sentinel)
+      *dst++ = *storage++;
 }
 
 
-- (NSUInteger) getUTF8Characters:(mulle_utf8char_t *) buffer
-                       maxLength:(NSUInteger) maxLength
-                           range:(NSRange) range
+- (void) getCharacters:(unichar *) buf
+                 range:(NSRange) range
 {
-   return( grab_utf8( self,
-                      _cmd,
-                      [self _fastUTF8StringContents],
-                      [self length],
-                      buffer,
-                      maxLength,
-                      range));
+   grab_utf32( self,
+               _cmd,
+               [self _fastUTF8StringContents],
+               [self length],
+               buf,
+               range);
 }
 
 
-- (mulle_utf8char_t *) _fastUTF8StringContents;
+static void   grab_utf8( id self,
+                         SEL sel,
+                         mulle_utf8_t *storage,
+                         NSUInteger len,
+                         mulle_utf8_t *dst,
+                         NSUInteger dst_len)
 {
-   return( (mulle_utf8char_t *) MulleObjCSmallStringAddress( self));
+   if( dst_len < len)
+      MulleObjCThrowInvalidArgumentException( @"destination buffer too small");
+   
+   memcpy( dst, storage, len);
 }
 
 
-- (mulle_utf8char_t *) UTF8String
+- (void) getUTF8Characters:(mulle_utf8_t *) buf
+                 maxLength:(NSUInteger) maxLength
 {
-   return( (mulle_utf8char_t *) MulleObjCSmallStringAddress( self));
+   grab_utf8( self,
+              _cmd,
+              [self _fastUTF8StringContents],
+              [self length],
+              buf,
+              maxLength);
+}
+
+
+- (NSUInteger) hash
+{
+   NSRange   range;
+   
+   range = MulleObjCHashRange( [self _UTF8StringLength]);
+   return( MulleObjCStringHash( [self _fastUTF8StringContents], range.length));
+}
+
+
+- (mulle_utf8_t *) _fastUTF8StringContents;
+{
+   return( (mulle_utf8_t *) MulleObjCSmallStringAddress( self));
+}
+
+
+- (mulle_utf8_t *) UTF8String
+{
+   return( (mulle_utf8_t *) MulleObjCSmallStringAddress( self));
 }
 
 
 - (NSString *) substringWithRange:(NSRange) range
 {
-   mulle_utf8char_t   *s;
+   mulle_utf8_t   *s;
    NSUInteger   length;
    
    length = [self length];
-   if( range.location + range.length >= length)
+   if( range.location + range.length > length)
       MulleObjCThrowInvalidIndexException( range.location + range.length);
    
-   s = [self UTF8String];
+   s = [self _fastUTF8StringContents];
+   assert( s);
+   
    s = &s[ range.location];
    
-   return( [NSString stringWithUTF8Characters:s
-                                       length:range.length]);
-}
-
-
-static mulle_utf8char_t   *ctype_convert( mulle_utf8char_t *src,
-                                          NSUInteger len,
-                                          NSRange range,
-                                          int (*f_conversion)( int),
-                                          struct mulle_allocator *allocator)
-{
-   mulle_utf8char_t     *buf;
-   mulle_utf8char_t     *p;
-   mulle_utf8char_t     *sentinel;
-   size_t       rest;
+   // prefer copy for small strings
+   if( range.length <= 15)
+      return( [NSString stringWithUTF8Characters:s
+                                          length:range.length]);
    
-   buf = mulle_allocator_malloc( allocator, len + 1);
-   
-   p        = &buf[ range.location];
-   sentinel = &p[ range.length];
-   while( p < sentinel)
-      *p++ = (mulle_utf8char_t) (*f_conversion)( (char) *src++);
-
-   rest = &buf[ len] - p;
-   if( rest)
-   {
-      memcpy( p, src, rest);
-      p = &p[ rest];
-   }
-
-   *p = 0;
-   return( buf);
-}
-
-
-- (NSString *) lowercaseString
-{
-   NSUInteger               len;
-   mulle_utf8char_t         *buf;
-   struct mulle_allocator   *allocator;
-   
-   allocator = MulleObjCObjectGetAllocator( self);
-
-   len = [self length];
-   buf = ctype_convert( [self _fastUTF8StringContents],
-                        len,
-                        NSMakeRange( 0, len),
-                        tolower,
-                        allocator);
-   return( [NSString stringWithUTF8CharactersNoCopy:buf
-                                             length:len + 1
-                                          allocator:allocator]);
-}
-
-
-- (NSString *) uppercaseString
-{
-   NSUInteger               len;
-   mulle_utf8char_t         *buf;
-   struct mulle_allocator   *allocator;
-   
-   allocator = MulleObjCObjectGetAllocator( self);
-   
-   len = [self length];
-   buf = ctype_convert( [self _fastUTF8StringContents],
-                         len,
-                         NSMakeRange( 0, len),
-                         toupper,
-                         allocator);
-   return( [NSString stringWithUTF8CharactersNoCopy:buf
-                                             length:len
-                                          allocator:allocator]);
-}
-
-
-- (NSString *) capitalizedString
-{
-   NSUInteger               len;
-   mulle_utf8char_t         *buf;
-   struct mulle_allocator   *allocator;
-   
-   allocator = MulleObjCObjectGetAllocator( self);
-
-   len = [self length];
-   buf = ctype_convert( [self _fastUTF8StringContents],
-                        len,
-                        NSMakeRange( 0, 1),
-                        toupper,
-                        allocator);
-
-   return( [NSString stringWithUTF8CharactersNoCopy:buf
-                                             length:len
-                                          allocator:allocator]);
+   return( [[_MulleObjCSharedASCIIString newWithASCIICharactersNoCopy:(char *) s
+                                                               length:range.length
+                                                        sharingObject:self] autorelease]);
 }
 
 @end
 
 
-static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
+static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 {
    char   *sentinel;
    
    sentinel = &dst[ len];
    while( dst < sentinel)
    {
-      assert( (mulle_utf8char_t) *src == *src);
-      *dst++ = (mulle_utf8char_t) *src++;
+      assert( (mulle_utf8_t) *src == *src);
+      *dst++ = (mulle_utf8_t) *src++;
    }
 }
 
@@ -262,7 +164,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 {
    _MulleObjC03LengthASCIIString   *obj;
    
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) chars, 3) == 3);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) chars, 3) == 3);
    
    // known to be all zeroed out(!) important!
    obj = NSAllocateObject( self, 4, NULL);
@@ -271,7 +173,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC03LengthASCIIString   *obj;
@@ -297,7 +199,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 {
    _MulleObjC07LengthASCIIString   *obj;
    
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) chars, 7) == 7);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) chars, 7) == 7);
    
    // known to be all zeroed out(!) important!
    obj = NSAllocateObject( self, 8, NULL);
@@ -306,7 +208,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC07LengthASCIIString   *obj;
@@ -332,7 +234,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 {
    _MulleObjC11LengthASCIIString   *obj;
    
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) chars, 11) == 11);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) chars, 11) == 11);
    
    // known to be all zeroed out(!) important!
    obj = NSAllocateObject( self, 12, NULL);
@@ -341,7 +243,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC11LengthASCIIString   *obj;
@@ -368,7 +270,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 {
    _MulleObjC15LengthASCIIString   *obj;
    
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) chars, 15) == 15);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) chars, 15) == 15);
    
    // known to be all zeroed out(!) important!
    obj = NSAllocateObject( self, 16, NULL);
@@ -377,7 +279,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC15LengthASCIIString   *obj;
@@ -406,7 +308,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
    NSUInteger                 extra;
    
    NSParameterAssert( length >= 1 && length < 0x100 + 1);
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) chars, length) == length);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) chars, length) == length);
    
    // we have room for 2 + 0
    extra = length > 2 ? length - 2 : 0;
@@ -422,7 +324,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCTinyASCIIString   *obj;
@@ -446,15 +348,15 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 
 
 
-- (mulle_utf8char_t *) UTF8String
+- (mulle_utf8_t *) UTF8String
 {
-   return( (mulle_utf8char_t *) self->_storage);
+   return( (mulle_utf8_t *) self->_storage);
 }
 
 
-- (mulle_utf8char_t *) _fastUTF8StringContents
+- (mulle_utf8_t *) _fastUTF8StringContents
 {
-   return( (mulle_utf8char_t *) self->_storage);
+   return( (mulle_utf8_t *) self->_storage);
 }
 
 
@@ -479,7 +381,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 {
    _MulleObjCGenericASCIIString   *obj;
    
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) chars, length) == length);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) chars, length) == length);
    
    obj = NSAllocateObject( self, length - sizeof( obj->_storage) + 1, NULL);
    memcpy( obj->_storage, chars, length);
@@ -489,7 +391,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32char_t *) chars
++ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCGenericASCIIString   *obj;
@@ -504,14 +406,6 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-- (void) getCharacters:(unichar *) buf
-                 range:(NSRange) range
-{
-   [self getUTF32Characters:buf
-                  maxLength:LONG_MAX
-                      range:range];
-}
-
 - (unichar) characterAtIndex:(NSUInteger)index
 {
    if( index >= _length)
@@ -532,15 +426,15 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-- (mulle_utf8char_t *) UTF8String
+- (mulle_utf8_t *) UTF8String
 {
-   return( (mulle_utf8char_t *) self->_storage);
+   return( (mulle_utf8_t *) self->_storage);
 }
 
 
-- (mulle_utf8char_t *) _fastUTF8StringContents;
+- (mulle_utf8_t *) _fastUTF8StringContents;
 {
-   return( (mulle_utf8char_t *) self->_storage);
+   return( (mulle_utf8_t *) self->_storage);
 }
 
 @end
@@ -553,11 +447,12 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 {
    _MulleObjCReferencingASCIIString   *obj;
    
-   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8char_t *) s, length) == length);
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) s, length) == length);
    
    obj = NSAllocateObject( self, 0, NULL);
-   obj->_storage  = (mulle_utf8char_t *) s;
+   obj->_storage  = s;
    obj->_length   = length;
+   
    return( obj);
 }
 
@@ -568,14 +463,6 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
    [super dealloc];
 }
 
-
-- (void) getCharacters:(unichar *) buf
-                 range:(NSRange) range
-{
-   [self getUTF32Characters:buf
-                  maxLength:LONG_MAX
-                      range:range];
-}
 
 - (unichar) characterAtIndex:(NSUInteger)index
 {
@@ -597,15 +484,15 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 
-- (mulle_utf8char_t *) UTF8String
+- (mulle_utf8_t *) UTF8String
 {
-   return( self->_storage);
+   return( (mulle_utf8_t *) self->_storage);
 }
 
 
-- (mulle_utf8char_t *) _fastUTF8StringContents;
+- (mulle_utf8_t *) _fastUTF8StringContents;
 {
-   return( self->_storage);
+   return( (mulle_utf8_t *) self->_storage);
 }
 
 @end
@@ -613,45 +500,22 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 
 @implementation _MulleObjCAllocatorASCIIString
 
-+ (id) newWithASCIICharactersNoCopy:(char *) chars
++ (id) newWithASCIICharactersNoCopy:(char *) s
                              length:(NSUInteger) length
                           allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCAllocatorASCIIString   *data;
    
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) s, length) == length);
+
    data = NSAllocateObject( self, 0, NULL);
    
-   data->_storage   = chars;
+   data->_storage   = s;
    data->_length    = length;
    data->_allocator = allocator;
    
    return( data);
 }
-
-
-- (mulle_utf8char_t *) UTF8String
-{
-   return( (mulle_utf8char_t *) self->_storage);
-}
-
-
-- (mulle_utf8char_t *) _fastUTF8StringContents
-{
-   return( (mulle_utf8char_t *) _storage);
-}
-
-
-- (NSUInteger) length
-{
-   return( _length);
-}
-
-
-- (NSUInteger) _UTF8StringLength
-{
-   return( _length);
-}
-
 
 - (void) dealloc
 {
@@ -661,5 +525,36 @@ static void   utf32to8cpy( char *dst, mulle_utf32char_t *src, NSUInteger len)
 }
 
 @end
+
+
+@implementation _MulleObjCSharedASCIIString
+
++ (id) newWithASCIICharactersNoCopy:(char *) s
+                             length:(NSUInteger) length
+                      sharingObject:(id) sharingObject
+{
+   _MulleObjCSharedASCIIString  *data;
+   
+   NSParameterAssert( mulle_utf8_strnlen( (mulle_utf8_t *) s, length) == length);
+
+   data = NSAllocateObject( self, 0, NULL);
+   
+   data->_storage       = s;
+   data->_length        = length;
+   data->_sharingObject = [sharingObject retain];
+   
+   return( data);
+}
+
+
+- (void) dealloc
+{
+   [_sharingObject release];
+   
+   NSDeallocateObject( self);
+}
+
+@end
+
 
 
