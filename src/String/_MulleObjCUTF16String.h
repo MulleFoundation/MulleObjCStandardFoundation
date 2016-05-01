@@ -18,21 +18,21 @@
 //
 @interface _MulleObjCUTF16String: NSString
 {
-   mulle_utf8char_t   *_shadow;
-   NSUInteger         _length;
+   mulle_utf8_t   *_shadow;
+   NSUInteger     _length;
 }
 
-- (mulle_utf16char_t *) _fastUTF16StringContents;
-- (mulle_utf8char_t *) _fastUTF8StringContents;
+- (mulle_utf16_t *) _fastUTF16StringContents;
+- (mulle_utf8_t *) _fastUTF8StringContents;
 - (NSUInteger) _UTF16StringLength;
-- (mulle_utf8char_t *) UTF8String;
+- (mulle_utf8_t *) UTF8String;
 
 @end
 
 
 @interface _MulleObjCUTF16String( _Subclasses)
 
-+ (id) newWithUTF16Characters:(mulle_utf16char_t *) bytes
++ (id) newWithUTF16Characters:(mulle_utf16_t *) bytes
                        length:(NSUInteger) length;
 
 @end
@@ -40,14 +40,14 @@
 
 @interface _MulleObjCGenericUTF16String : _MulleObjCUTF16String
 {
-   mulle_utf16char_t    _storage[ 1];
+   mulle_utf16_t    _storage[ 1];
 }
 @end
 
 
 @interface _MulleObjCAllocatorUTF16String  : _MulleObjCUTF16String
 {
-   mulle_utf16char_t        *_storage;
+   mulle_utf16_t            *_storage;
    struct mulle_allocator   *_allocator;
 }
 
@@ -57,3 +57,14 @@
 
 @end
 
+
+@interface _MulleObjCSharedUTF16String  : _MulleObjCUTF16String
+{
+   mulle_utf16_t   *_storage;
+   id               _sharingObject;
+}
+
++ (id) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
+                             length:(NSUInteger) length
+                      sharingObject:(id) sharingObject;
+@end

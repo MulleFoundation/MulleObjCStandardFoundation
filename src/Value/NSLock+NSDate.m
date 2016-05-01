@@ -11,7 +11,7 @@
  *  $Id$
  *
  */
-#import "NSLock+Date.h"
+#import "NSLock+NSDate.h"
 
 // other files in this library
 #import "NSDate.h"

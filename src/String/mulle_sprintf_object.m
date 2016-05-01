@@ -63,7 +63,7 @@ struct mulle_sprintf_function     mulle_string_sprintf_object_function =
 
 void  _mulle_sprintf_register_object_functions( struct mulle_sprintf_conversion *tables)
 {
-   _mulle_sprintf_register_functions( tables, &mulle_string_sprintf_object_function, '@');
+   _mulle_sprintf_register_functions( tables, &mulle_string_sprintf_object_function, _C_ID);
 }
 
 

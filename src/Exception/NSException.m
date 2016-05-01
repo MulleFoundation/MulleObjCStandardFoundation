@@ -14,7 +14,7 @@
 #import "NSException.h"
 
 // other files in this library
-#import "NSAssert.h"
+#import "NSAssertionHandler.h"
 #import "ns_foundationconfiguration.h"
 
 // other libraries of MulleObjCFoundation
@@ -63,21 +63,25 @@ void   NSSetUncaughtExceptionHandler( NSUncaughtExceptionHandler *handler)
 
 // TODO: localization hooks for exceptions ?
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_malloc_exception( size_t bytes)
+static void   throw_malloc_exception( size_t bytes)
 {
    [NSException raise:NSMallocException
                format:@"out of memory, when requesting %ld bytes", bytes];
 }
 
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_errno_exception( char *s)
+static void   throw_errno_exception( id format, va_list args)
 {
+   NSString  *s;
+   
+   s = [NSString stringWithFormat:format
+                          va_list:args];
    [NSException raise:MulleObjCErrnoException
-               format:@"%s: %s", s, strerror( errno)];
+               format:@"%@: %s", s, strerror( errno)];
 }
 
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_generic_exception( NSString *reason, NSString *format, va_list args)
+static void   throw_generic_exception( NSString *reason, NSString *format, va_list args)
 {
    [NSException raise:NSMallocException
                format:format
@@ -86,21 +90,21 @@ static void   mulle_objc_throw_generic_exception( NSString *reason, NSString *fo
 
 
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_inconsistency_exception( id format, va_list args)
+static void   throw_inconsistency_exception( id format, va_list args)
 {
-   mulle_objc_throw_generic_exception( NSInternalInconsistencyException, format, args);
+   throw_generic_exception( NSInternalInconsistencyException, format, args);
 }
 
 
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_argument_exception( id format, va_list args)
+static void   throw_argument_exception( id format, va_list args)
 {
-   mulle_objc_throw_generic_exception( NSInvalidArgumentException, format, args);
+   throw_generic_exception( NSInvalidArgumentException, format, args);
 }
 
 
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_index_exception( NSUInteger index)
+static void   throw_index_exception( NSUInteger index)
 {
    [NSException raise:NSMallocException
                format:@"index %lu is out of range", (long) index];
@@ -108,7 +112,7 @@ static void   mulle_objc_throw_index_exception( NSUInteger index)
 
 
 __attribute__ ((noreturn))
-static void   mulle_objc_throw_range_exception( NSRange arg)
+static void   throw_range_exception( NSRange arg)
 {
    [NSException raise:NSRangeException
                format:@"range %lu.%lu doesn't fit", (long) arg.location, (long) arg.length];
@@ -117,12 +121,12 @@ static void   mulle_objc_throw_range_exception( NSRange arg)
     
 static void  init_exceptionhandlertable ( struct _ns_exceptionhandlertable *table)
 {
-   table->errno_error            = mulle_objc_throw_errno_exception;
-   table->allocation_error       = mulle_objc_throw_malloc_exception;
-   table->invalid_argument       = mulle_objc_throw_argument_exception;
-   table->internal_inconsistency = mulle_objc_throw_inconsistency_exception;
-   table->invalid_index          = mulle_objc_throw_index_exception;
-   table->invalid_range          = mulle_objc_throw_range_exception;
+   table->errno_error            = throw_errno_exception;
+   table->allocation_error       = throw_malloc_exception;
+   table->invalid_argument       = throw_argument_exception;
+   table->internal_inconsistency = throw_inconsistency_exception;
+   table->invalid_index          = throw_index_exception;
+   table->invalid_range          = throw_range_exception;
 }
 
 

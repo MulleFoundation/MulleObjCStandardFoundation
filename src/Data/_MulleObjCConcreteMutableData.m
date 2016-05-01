@@ -12,48 +12,104 @@
 @implementation _MulleObjCConcreteMutableData
 
 
-- (id) initWithCapacity:(NSUInteger) capacity
+static void   append_via_tmp_buffer( _MulleObjCConcreteMutableData *self, void *bytes, NSUInteger length)
 {
-   mulle_buffer_set_allocator( &_storage, MulleObjCObjectGetAllocator( self));
-   mulle_buffer_set_initial_capacity( &_storage, capacity);
-   return( self);
+   struct mulle_allocator  *allocator;
+   void                    *tmp;
+
+   allocator = MulleObjCObjectGetAllocator( self);
+
+   tmp = mulle_allocator_malloc( allocator, length);
+   {
+      memcpy( tmp, bytes, length);
+      mulle_buffer_add_bytes( &self->_storage, tmp, length);
+   }
+   mulle_allocator_free( allocator, tmp);
 }
 
 
-+ (id) dataWithCapacity:(NSUInteger) capacity
+static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NSUInteger length)
 {
-   return( [[[self alloc] initWithCapacity:capacity] autorelease]);
-}
-
-
-- (id) initWithBytes:(void *) buf
-              length:(NSUInteger) length
-{  
-   mulle_buffer_set_initial_capacity( &_storage, length);
-   mulle_buffer_set_allocator( &_storage, MulleObjCObjectGetAllocator( self));
+   if( ! mulle_buffer_intersects_bytes( &self->_storage, bytes, length))
+   {
+      mulle_buffer_add_bytes( &self->_storage, bytes, length);
+      return;
+   }
    
-   mulle_buffer_add_bytes( &_storage, buf, length);
-   return( self);
+   append_via_tmp_buffer( self, bytes, length);
 }
 
-- (void) appendBytes:(void *) buf 
-              length:(NSUInteger) length
+
++ (instancetype) newWithCapacity:(NSUInteger) capacity
 {
-   mulle_buffer_add_bytes( &_storage, buf, length);
+   _MulleObjCConcreteMutableData   *data;
+   struct mulle_allocator          *allocator;
+   
+   allocator = MulleObjCObjectGetAllocator( self);
+
+   data = NSAllocateObject( self, 0, NULL);
+   mulle_buffer_init_with_capacity( &data->_storage, capacity, allocator);
+
+   return( data);
 }
 
 
-- (void) appendData:(NSData *) otherData
++ (instancetype) newWithLength:(NSUInteger) length
 {
-   mulle_buffer_add_bytes( &_storage, [otherData bytes], [otherData length]);
+   _MulleObjCConcreteMutableData   *data;
+   struct mulle_allocator          *allocator;
+   
+   allocator = MulleObjCObjectGetAllocator( self);
+
+   data = NSAllocateObject( self, 0, NULL);
+   
+   mulle_buffer_init_with_capacity( &data->_storage, length, allocator);
+   mulle_buffer_set_length( &data->_storage, length);
+
+   return( data);
 }
 
 
-- (void) increaseLengthBy:(NSUInteger) extraLength
++ (instancetype) newWithBytes:(void *) buf
+                       length:(NSUInteger) length
 {  
-   mulle_buffer_memset( &_storage, 0, extraLength);
+   _MulleObjCConcreteMutableData   *data;
+   struct mulle_allocator          *allocator;
+   
+   allocator = MulleObjCObjectGetAllocator( self);
+   
+   data = NSAllocateObject( self, 0, NULL);
+
+   mulle_buffer_init_with_capacity( &data->_storage, length, allocator);
+   append_bytes( data, buf, length);
+
+   return( data);
 }
 
+
++ (id) newWithBytesNoCopy:(void *) bytes
+                   length:(NSUInteger) length
+                allocator:(struct mulle_allocator *) allocator
+{
+   _MulleObjCConcreteMutableData   *data;
+  
+   data = NSAllocateObject( self, 0, NULL);
+   
+   mulle_buffer_init_with_allocated_bytes( &data->_storage, bytes, length, allocator);
+   mulle_buffer_advance( &data->_storage, length);
+   return( data);
+}
+
+
+- (void) dealloc
+{
+   mulle_buffer_done( &self->_storage);
+   NSDeallocateObject( self);
+}
+
+
+#pragma mark -
+#pragma mark accessors
 
 - (void *) bytes
 {
@@ -64,6 +120,34 @@
 - (void *) mutableBytes
 {
    return( mulle_buffer_get_bytes( &_storage));
+}
+
+
+- (NSUInteger) length
+{
+   return( mulle_buffer_get_length( &_storage));
+}
+
+
+#pragma mark -
+#pragma mark operations
+
+- (void) appendBytes:(void *) bytes
+              length:(NSUInteger) length
+{
+   append_bytes( self, bytes, length);
+}
+
+
+- (void) appendData:(NSData *) otherData
+{
+   append_bytes( self, [otherData bytes], [otherData length]);
+}
+
+
+- (void) increaseLengthBy:(NSUInteger) extraLength
+{  
+   mulle_buffer_memset( &_storage, 0, extraLength);
 }
 
 
@@ -117,18 +201,12 @@ static void   *validated_range_pointer( _MulleObjCConcreteMutableData *self, NSR
 }
 
 
-
 - (void) resetBytesInRange:(NSRange) range
 {
    void  *p;
    
    p = validated_range_pointer( self, range);
    memset( p, 0, range.length);
-}
-
-- (NSUInteger) length
-{
-   return( mulle_buffer_get_length( &_storage));
 }
 
 
@@ -150,7 +228,7 @@ static void   *validated_range_pointer( _MulleObjCConcreteMutableData *self, NSR
 }
 
 
-- (void) setLengthDontZero:(NSUInteger) length
+- (void) _setLengthDontZero:(NSUInteger) length
 {
    NSUInteger   curr_length;
   

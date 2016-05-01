@@ -15,7 +15,7 @@
 
 
 
-@interface NSData : NSObject
+@interface NSData : NSObject < NSCopying>
 {
 }
 
@@ -45,7 +45,7 @@
 
 @end
 
-@interface NSData ( _NSDataPlaceholder)
+@interface NSData ( MulleObjCDataPlaceholder)
 
 - (id) initWithBytes:(void *) bytes
               length:(NSUInteger) length
@@ -58,13 +58,17 @@
                     length:(NSUInteger) length;
 - (id) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
+                 allocator:(struct mulle_allocator *) allocator;
+- (id) initWithBytesNoCopy:(void *) bytes
+                    length:(NSUInteger) length
               freeWhenDone:(BOOL) flag;
+
 - (id) initWithData:(NSData *) other;
 
 @end
 
 
-@interface NSData ( _NSSubclasses)
+@interface NSData ( MulleObjCSubclasses)
 
 - (NSUInteger) length;
 - (void *) bytes;

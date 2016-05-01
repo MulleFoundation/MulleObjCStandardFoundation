@@ -279,7 +279,7 @@ fail_test()
 
    echo "DEBUG: " >&2
    echo "rebuilding with -O0 and debug symbols..." >&2
-   $MULLE_CLANG -O0 -g -o "${a_out}" \
+   $MULLE_CLANG -O0 -g -o "${a_out}.debug" \
       -fobjc-runtime=mulle \
       "-I${MULLE_OBJC_INCLUDE}" \
       "-I${MULLE_OBJC_DEPENDENCIES_INCLUDE}" \
@@ -293,7 +293,7 @@ MallocStackLogging=1 \
 MALLOC_FILL_SPACE=1 \
 DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib \
 DYLD_FALLBACK_LIBRARY_PATH=\"${DYLD_FALLBACK_LIBRARY_PATH}\" \
-LD_LIBRARY_PATH=\"${LD_LIBRARY_PATH}\" lldb ${a_out}" >&2
+LD_LIBRARY_PATH=\"${LD_LIBRARY_PATH}\" lldb ${a_out}.debug" >&2
    if [ "${stdin}" != "/dev/null" ]
    then
       echo "run < ${stdin}" >&2
@@ -387,7 +387,6 @@ run()
 
    MULLE_OBJC_TEST_ALLOCATOR=1 \
 MallocStackLogging=1 \
-MallocStackLoggingNoCompact=1 \
 MallocScribble=1 \
 MallocPreScribble=1 \
 MallocGuardEdges=1 \

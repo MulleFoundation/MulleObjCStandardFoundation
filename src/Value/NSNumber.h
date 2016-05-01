@@ -33,6 +33,7 @@
 + (id) numberWithUnsignedLongLong:(unsigned long long) value;
 + (id) numberWithFloat:(float) value;
 + (id) numberWithDouble:(double) value;
++ (id) numberWithLongDouble:(long double) value;
 + (id) numberWithBool:(BOOL) value;
 
 - (NSComparisonResult) compare:(id) other;
@@ -54,6 +55,7 @@
 - (id) initWithUnsignedLongLong:(unsigned long long) value;
 - (id) initWithFloat:(float) value;
 - (id) initWithDouble:(double) value;
+- (id) initWithLongDouble:(long double) value;
 - (id) initWithBool:(BOOL) value;
 
 - (BOOL) boolValue;
@@ -76,6 +78,7 @@
 
 - (NSInteger) integerValue;
 - (double) doubleValue;
+- (long double) longDoubleValue;
 - (long long) longLongValue;
 
 @end

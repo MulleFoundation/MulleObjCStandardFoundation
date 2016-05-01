@@ -13,21 +13,9 @@
  */
 #import <MulleObjC/MulleObjC.h>
 
+#import "NSCharacterSet.h"
 
-#import <mulle_utf/mulle_utf.h>
 #import <mulle_vararg/mulle_vararg.h>
-
-
-// maybe more later. ensure that the enums have same numeric values as 
-// in AppleFoundation
-//
-
-enum
-{
-   NSASCIIStringEncoding,  // easy
-   NSUTF8StringEncoding,   // default
-   NSUTF32StringEncoding   // easy
-};
 
 
 enum 
@@ -40,7 +28,6 @@ enum
 };
 
 typedef NSUInteger   NSStringCompareOptions;
-typedef NSUInteger   NSStringEncoding;
 
 
 
@@ -98,28 +85,52 @@ typedef NSUInteger   NSStringEncoding;
 - (BOOL) boolValue;
 
 
+//
+// UTF32
+//
++ (id) stringWithCharacters:(unichar *) s
+                     length:(NSUInteger) len;
 
+- (void) getCharacters:(unichar *) buffer;
 
 //
 // UTF8
 //
-+ (id) stringWithUTF8String:(mulle_utf8char_t *) s;
-+ (id) stringWithUTF8Characters:(mulle_utf8char_t *) s
++ (id) stringWithUTF8String:(mulle_utf8_t *) s;
++ (id) stringWithUTF8Characters:(mulle_utf8_t *) s
                          length:(NSUInteger) len;
-+ (id) stringWithUTF8CharactersNoCopy:(mulle_utf8char_t *) s
-                               length:(NSUInteger) len
-                            allocator:(struct mulle_allocator *) allocator;
+
 // characters are not zero terminated
-- (void) getUTF8Characters:(mulle_utf8char_t *) buf
-                 maxLength:(NSUInteger) maxLength;
-- (void) getUTF8Characters:(mulle_utf8char_t *) buf;
+- (void) getUTF8Characters:(mulle_utf8_t *) buf;
+- (void) getUTF8Characters:(mulle_utf8_t *) buffer
+                 maxLength:(NSUInteger) length;
 
-// strings are zero terminated
-- (void) getUTF8String:(mulle_utf8char_t *) buf
+// strings are zero terminated, zero stored in
+// buf[ maxLength]!!
+// assert( sizeof( buf) > maxLength)
+//
+- (void) getUTF8String:(mulle_utf8_t *) buf
              maxLength:(NSUInteger) maxLength;
-- (void) getUTF8String:(mulle_utf8char_t *) buf;
+- (void) getUTF8String:(mulle_utf8_t *) buf;
 
-- (mulle_utf8char_t *) UTF8String;
+- (mulle_utf8_t *) UTF8String;
+
+- (NSString *) uppercaseString;
+- (NSString *) lowercaseString;
+- (NSString *) capitalizedString;
+
+@end
+
+
+@interface NSString( MulleAdditions)
+
+- (NSUInteger) _UTF8StringLength;
++ (id) _stringWithCharactersNoCopy:(unichar *) s
+                            length:(NSUInteger) len
+                         allocator:(struct mulle_allocator *) allocator;
++ (id) _stringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                length:(NSUInteger) len
+                             allocator:(struct mulle_allocator *) allocator;
 
 @end
 
@@ -129,30 +140,18 @@ typedef NSUInteger   NSStringEncoding;
 - (unichar) characterAtIndex:(NSUInteger) index;
 - (NSUInteger) length;
 
-- (NSString *) stringByAppendingString:(NSString *) other;
-
-- (NSUInteger) getCharacters:(unichar *) buffer
-                   maxLength:(NSUInteger) maxLength
-                       range:(NSRange) aRange;
-
-- (NSUInteger) getUTF8Characters:(mulle_utf8char_t *) buffer
-                       maxLength:(NSUInteger) maxLength
-                          range:(NSRange) aRange;
-
-- (void) getCharacters:(unichar *) buf
+- (void) getCharacters:(unichar *) buffer
                  range:(NSRange) range;
 
-
-- (NSString *) uppercaseString;
-- (NSString *) lowercaseString;
-- (NSString *) capitalizedString;
-
 - (NSString *) substringWithRange:(NSRange) range;
+
 
 @end
 
 
 @interface NSString ( Todo)
+
+- (NSString *) stringByAppendingString:(NSString *) other;
 
 - (id) stringByPaddingToLength:(NSUInteger) length
                     withString:(NSString *) other
@@ -165,8 +164,33 @@ typedef NSUInteger   NSStringEncoding;
                                     
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) search
                                          withString:(NSString *) replacement;
+
 - (NSString *) stringByReplacingCharactersInRange:(NSRange) range
                                        withString:(NSString *) replacement;
 
 @end
+
+
+/*
+ * support for subclasses to calculate
+ * hash efficiently. Deals with UTF8 strings!
+ */
+static inline  NSRange   MulleObjCHashRange( NSUInteger length)
+{
+   NSUInteger   offset;
+
+   offset = 0;
+   if( length > 48)
+   {
+      offset = length - 48;
+      length = 48;
+   }
+   return( NSMakeRange( offset, length));
+}
+
+
+static inline NSUInteger   MulleObjCStringHash( mulle_utf8_t *buf, NSUInteger length)
+{
+   return( mulle_hash( buf, length * sizeof( mulle_utf8_t)));
+}
 

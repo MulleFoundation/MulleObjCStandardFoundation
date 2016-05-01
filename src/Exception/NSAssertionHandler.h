@@ -1,21 +1,51 @@
-/*
- *  MulleFoundation - A tiny Foundation replacement
- *
- *  NSAssert.h is a part of MulleFoundation
- *
- *  Copyright (C) 2011 Nat!, Mulle kybernetiK.
- *  All rights reserved.
- *
- *  Coded by Nat!
- *
- *  $Id$
- *
- */
+//
+//  NSAssertionHandler.h
+//  MulleObjCFoundation
+//
+//  Created by Nat! on 23.04.16.
+//  Copyright © 2016 Mulle kybernetiK. All rights reserved.
+//
+
 #import <MulleObjC/MulleObjC.h>
 
 
-@class NSString;
 
+extern NSString  *NSAssertionHandlerKey;
+
+
+@interface NSAssertionHandler : NSObject
+
+
++ (NSAssertionHandler *) currentHandler;
+
+- (void) handleFailureInMethod:(SEL) selector
+                        object:(id)object
+                          file:(NSString *)fileName
+                    lineNumber:(NSInteger)line
+                   description:(NSString *)format, ...;
+
+- (void) handleFailureInFunction:(NSString *) functionname
+                          file:(NSString *)filename
+                    lineNumber:(NSInteger)line
+                   description:(NSString *)format, ...;
+
+@end
+
+
+void   NSAssertionHandlerHandleMethodFailure( SEL sel,
+                                              id obj,
+                                              char *filename,
+                                              int line,
+                                              NSString *format, ...);
+
+void   NSAssertionHandlerHandleFunctionFailure( char *function,
+                                                char *file,
+                                                int line,
+                                                NSString *format, ...);
+
+
+# pragma mark -
+# pragma mark various assert helpers
 
 #ifndef NS_BLOCK_ASSERTIONS
 
@@ -60,10 +90,3 @@
 
 #define NSParameterAssert( a)                   NSAssert1( a, @"Invalid parameter not satisfying: %s", # a)
 #define NSCParameterAssert( a)                  NSCAssert1( a, @"Invalid parameter not satisfying: %s", # a)
-
-
-extern void   NSAssertionHandlerHandleMethodFailure( SEL, id, char *, int, NSString *, ...);
-extern void   NSAssertionHandlerHandleFunctionFailure( char *, char *, int, NSString *, ...);
-
-
-

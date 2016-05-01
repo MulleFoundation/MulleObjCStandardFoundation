@@ -9,7 +9,8 @@
 
 // export everything with NS
 
-#import "NSAssert.h"
+#import "NSAssertionHandler.h"
+#import "NSError.h"
 #import "NSException.h"
 
 // export everything with MulleObjC

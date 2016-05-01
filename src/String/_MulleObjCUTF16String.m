@@ -19,13 +19,13 @@
 
 @implementation _MulleObjCUTF16String
 
-- (mulle_utf16char_t *) _fastUTF16StringContents;
+- (mulle_utf16_t *) _fastUTF16StringContents;
 {
    return( NULL);
 }
 
 
-- (mulle_utf8char_t *) _fastUTF8StringContents;
+- (mulle_utf8_t *) _fastUTF8StringContents;
 {
    return( NULL);
 }
@@ -49,7 +49,7 @@
 }
 
 
-- (mulle_utf8char_t *) UTF8String
+- (mulle_utf8_t *) UTF8String
 {
    struct mulle_buffer  buf;
    
@@ -68,6 +68,41 @@
 }
 
 
+
+
+static void   grab_utf32( id self,
+                          SEL sel,
+                          mulle_utf16_t *storage,
+                          NSUInteger len,
+                          mulle_utf32_t *dst,
+                          NSRange range)
+{
+   mulle_utf16_t    *sentinel;
+   
+   if( range.length + range.location > len)
+      MulleObjCThrowInvalidRangeException( range);
+   
+   storage  = &storage[ range.location];
+   sentinel = &storage[ range.length];
+   
+   while( storage < sentinel)
+      *dst++ = *storage++;
+}
+
+
+
+- (void) getCharacters:(unichar *) buf
+                 range:(NSRange) range
+{
+   grab_utf32( self,
+               _cmd,
+               [self _fastUTF16StringContents],
+               [self length],
+               buf,
+               range);
+}
+
+
 - (void) dealloc
 {
    if( _shadow)
@@ -75,20 +110,43 @@
    [super dealloc];
 }
 
+- (NSString *) substringWithRange:(NSRange) range
+{
+   mulle_utf16_t   *s;
+   NSUInteger      length;
+   
+   length = [self length];
+   if( range.location + range.length > length)
+      MulleObjCThrowInvalidIndexException( range.location + range.length);
+
+   if( range.length == length)
+      return( self);
+   
+   if( ! range.length)
+      return( @"");
+   
+   s = [self _fastUTF16StringContents];
+   assert( s);
+   
+   return( [[_MulleObjCSharedUTF16String newWithUTF16CharactersNoCopy:&s[ range.location]
+                                                               length:range.length
+                                                        sharingObject:self] autorelease]);
+}
+
 @end
 
 
 @implementation _MulleObjCGenericUTF16String
 
-+ (id) newWithUTF16Characters:(mulle_utf16char_t *) chars
++ (id) newWithUTF16Characters:(mulle_utf16_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCGenericUTF16String   *obj;
    
    NSParameterAssert( mulle_utf16_strnlen( chars, length) == length);
    
-   obj = NSAllocateObject( self, (length - sizeof( obj->_storage)) * sizeof( mulle_utf16char_t), NULL);
-   memcpy( obj->_storage, chars, length * sizeof( mulle_utf16char_t));
+   obj = NSAllocateObject( self, (length - sizeof( obj->_storage)) * sizeof( mulle_utf16_t), NULL);
+   memcpy( obj->_storage, chars, length * sizeof( mulle_utf16_t));
    obj->_length = length;
    return( obj);
 }
@@ -102,7 +160,7 @@
 }
 
 
-- (mulle_utf16char_t *) _fastUTF16StringContents
+- (mulle_utf16_t *) _fastUTF16StringContents
 {
    return( _storage);
 }
@@ -137,7 +195,7 @@
 }
 
 
-- (mulle_utf16char_t *) _fastUTF16StringContents
+- (mulle_utf16_t *) _fastUTF16StringContents
 {
    return( _storage);
 }
@@ -148,6 +206,50 @@
    if( _allocator)
       mulle_allocator_free( _allocator, _storage);
    [super dealloc];
+}
+
+@end
+
+
+@implementation _MulleObjCSharedUTF16String
+
++ (id) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
+                             length:(NSUInteger) length
+                      sharingObject:(id) sharingObject
+{
+   _MulleObjCSharedUTF16String  *data;
+   
+   NSParameterAssert( mulle_utf16_strnlen( (mulle_utf16_t *) chars, length) == length);
+
+   data = NSAllocateObject( self, 0, NULL);
+   
+   data->_storage       = chars;
+   data->_length        = length;
+   data->_sharingObject = [sharingObject retain];
+   
+   return( data);
+}
+
+
+- (unichar) characterAtIndex:(NSUInteger)index
+{
+   if( index >= _length)
+      MulleObjCThrowInvalidIndexException( index);
+   return( _storage[ index]);
+}
+
+
+- (mulle_utf16_t *) _fastUTF16StringContents
+{
+   return( _storage);
+}
+
+
+- (void) dealloc
+{
+   [_sharingObject release];
+   
+   NSDeallocateObject( self);
 }
 
 @end

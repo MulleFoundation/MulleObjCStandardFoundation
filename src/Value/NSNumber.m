@@ -50,18 +50,18 @@
    
    switch( type[ 0])
    {
-   case 'c' : i = *(char *) value;           goto handle_i;
-   case 'C' : i = *(unsigned char *) value;  goto handle_i;
-   case 's' : i = *(short *) value;          goto handle_i;
-   case 'S' : i = *(unsigned short *) value; goto handle_i;
-   case 'i' : i = *(int *) value;            goto handle_i;
-   case 'I' : i = *(unsigned int *) value;   goto handle_i;
-   case 'l' : i = *(long *) value;           goto handle_i;
-   case 'L' : i = *(unsigned long *) value;  goto handle_i;
-   case 'q' : q = *(long long *) value;      goto handle_q;
-   case 'Q' : q = *(unsigned long long *) value; goto handle_q;
-   case 'f' : d = *(float *) value;          goto handle_d;
-   case 'd' : d = *(double *) value;         goto handle_d;
+   case _C_CHR : i = *(char *) value;           goto handle_i;
+   case _C_UCHR : i = *(unsigned char *) value;  goto handle_i;
+   case _C_SHT : i = *(short *) value;          goto handle_i;
+   case _C_USHT : i = *(unsigned short *) value; goto handle_i;
+   case _C_INT : i = *(int *) value;            goto handle_i;
+   case _C_UINT : i = *(unsigned int *) value;   goto handle_i;
+   case _C_LNG : i = *(long *) value;           goto handle_i;
+   case _C_ULNG : i = *(unsigned long *) value;  goto handle_i;
+   case _C_LNG_LNG : q = *(long long *) value;      goto handle_q;
+   case _C_ULNG_LNG : q = *(unsigned long long *) value; goto handle_q;
+   case _C_FLT : d = *(float *) value;          goto handle_d;
+   case _C_DBL : d = *(double *) value;         goto handle_d;
    }
    return( nil);
    
@@ -83,6 +83,17 @@ handle_d:
    [self release];
 
    nr = [[_MulleObjCIntegerNumber alloc] initWithInteger:value];
+   return( nr);
+}
+
+
+- (id) initWithLongDouble:(long double) value
+{
+   _MulleObjCLongDoubleNumber  *nr;
+   
+   [self release];
+   
+   nr = [[_MulleObjCLongDoubleNumber alloc] initWithLongDouble:value];
    return( nr);
 }
 
@@ -271,6 +282,12 @@ handle_d:
 }
 
 
++ (id) numberWithLongDouble:(long double) value
+{
+   return( [[[self alloc] initWithLongDouble:value] autorelease]);
+}
+
+
 - (NSComparisonResult) compare:(id) other
 {
    char             *type;
@@ -278,6 +295,7 @@ handle_d:
    NSInteger        ldiff;
    long long        qdiff;
    double           ddiff;
+   long double      lddiff;
    
    type       = [self objCType];
    other_type = [other objCType];
@@ -288,55 +306,58 @@ handle_d:
    switch( *type)
    {
    default  : goto bail;
-   case 'c' : 
-   case 'C' : 
-   case 's' : 
-   case 'S' : 
-   case 'i' : 
-   case 'I' : 
-   case 'l' : 
-   case 'L' : 
+   case _C_CHR : 
+   case _C_UCHR :
+   case _C_SHT : 
+   case _C_USHT : 
+   case _C_INT : 
+   case _C_UINT : 
+   case _C_LNG : 
+   case _C_ULNG : 
          switch( *other_type)
          {
          default  : goto bail;
-         case 'c' :
-         case 'C' :
-         case 's' :
-         case 'S' :
-         case 'i' :
-         case 'I' : 
-         case 'l' : 
-         case 'L' : goto do_integer_diff;
+         case _C_CHR :
+         case _C_UCHR :
+         case _C_SHT :
+         case _C_USHT :
+         case _C_INT :
+         case _C_UINT : 
+         case _C_LNG : 
+         case _C_ULNG : goto do_integer_diff;
             
-         case 'q' : 
-         case 'Q' : goto do_long_long_diff;
+         case _C_LNG_LNG : 
+         case _C_ULNG_LNG : goto do_long_long_diff;
                
-         case 'f' : 
-         case 'd' : goto do_double_diff;
+         case _C_FLT : 
+         case _C_DBL : goto do_double_diff;
+         case 'D' : goto do_long_double_diff;
          }
 
-   case 'q' : 
-   case 'Q' : 
+   case _C_LNG_LNG : 
+   case _C_ULNG_LNG : 
          switch( *other_type)
          {
          default  : goto bail;
-         case 'c' :
-         case 'C' :
-         case 's' :
-         case 'S' :
-         case 'i' :
-         case 'I' : 
-         case 'l' : 
-         case 'L' :
-         case 'q' :
-         case 'Q' : goto do_long_long_diff;
+         case _C_CHR :
+         case _C_UCHR :
+         case _C_SHT :
+         case _C_USHT :
+         case _C_INT :
+         case _C_UINT : 
+         case _C_LNG : 
+         case _C_ULNG :
+         case _C_LNG_LNG :
+         case _C_ULNG_LNG : goto do_long_long_diff;
                
-         case 'f' : 
-         case 'd' : goto do_double_diff;
+         case _C_FLT : 
+         case _C_DBL : goto do_double_diff;
+         case 'D' : goto do_long_double_diff;
          }
    
-   case 'f' : 
-   case 'd' : goto do_double_diff;
+   case _C_FLT : 
+   case _C_DBL : goto do_double_diff;
+   case 'D' : goto do_long_double_diff;
    }
    
    // TODO: check for unsigned comparison
@@ -351,6 +372,10 @@ do_long_long_diff :
 do_double_diff :   
    ddiff = [self doubleValue] - [other doubleValue];
    return( ddiff < 0 ? NSOrderedDescending : (ddiff == 0.0 ? NSOrderedSame : NSOrderedAscending));
+
+do_long_double_diff :
+   lddiff = [self longDoubleValue] - [other longDoubleValue];
+   return( lddiff < 0 ? NSOrderedDescending : (lddiff == 0.0 ? NSOrderedSame : NSOrderedAscending));
    
 bail:
    MulleObjCThrowInternalInconsistencyException( @"unknown objctype");

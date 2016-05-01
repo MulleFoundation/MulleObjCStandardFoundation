@@ -92,12 +92,20 @@ static void  tear_down_and_check()
 
 
 
+__attribute__(( noreturn))
+static void   uncaught_exception( void *exception)
+{
+   NSLog( @"uncaught exception: %@", exception);
+   abort();
+}
+
+
 __attribute__((const))  // always returns same value (in same thread)
 struct _mulle_objc_runtime  *__get_or_create_objc_runtime( void)
 {
-   struct _mulle_objc_runtime           *runtime;
-   extern struct mulle_allocator        mulle_objc_allocator;
-   struct _ns_exceptionhandlertable     vectors;
+   extern struct mulle_allocator              mulle_objc_allocator;
+   struct _mulle_objc_runtime                 *runtime;
+   struct _ns_exceptionhandlertable           vectors;
    static struct _ns_foundation_setupconfig   setup =
    {
       {
@@ -105,7 +113,7 @@ struct _mulle_objc_runtime  *__get_or_create_objc_runtime( void)
             NULL,
             versionassert,
             &NSObject_msgForward_method,
-            NULL,
+            uncaught_exception,
          },
          {
             sizeof( struct _ns_foundationconfiguration),
@@ -151,8 +159,6 @@ struct _mulle_objc_runtime  *__get_or_create_objc_runtime( void)
          _ns_foundation_setup( runtime, &setup);
       }
       setup.config.foundation.exceptiontable = NULL; // pedantic
-   
-      
 
       if( is_pedantic || is_test)
       {
@@ -185,11 +191,26 @@ void __eprintf( const char* format, const char* file,
 
 
 
-void  NSLog( NSString *format, ...)
+
+void   NSLogv( NSString *format, va_list args)
+{
+   NSString  *s;
+   void      *cString;
+
+   s = [NSString stringWithFormat:format
+                          va_list:args];
+   cString = [s UTF8String];
+   fprintf( stderr, "%s\n", cString);
+}
+
+
+void   NSLog( NSString *format, ...)
 {
    va_list   args;
-   
-   va_start( args, format);
-   vfprintf( stderr, (void *) [format UTF8String], args);
+
+   va_start( args, format );
+   NSLogv( format, args);
    va_end( args);
 }
+
+

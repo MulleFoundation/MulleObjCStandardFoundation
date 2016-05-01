@@ -11,3 +11,4 @@
 // the forwarding method in this particular runtime
 void   *_objc_msgForward( void *self, mulle_objc_methodid_t _cmd, void *_param);
 
+void  NSLog( NSString *format, ...);

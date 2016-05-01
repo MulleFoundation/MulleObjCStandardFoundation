@@ -168,11 +168,11 @@ static NSString   *describe_pair( struct mulle_container_keycallback *table,
 }
 
 
-static void    free_queue( struct mulle_container_keycallback *table,
+static void    destroy_queue( struct mulle_container_keycallback *table,
                            struct _mulle_queue *a,
                            struct mulle_allocator *allocator)
 {
-   _mulle_queue_free( a, allocator);
+   _mulle_queue_destroy( a, allocator);
 }
 
 
@@ -196,7 +196,7 @@ static void    free_queue_and_contents( struct mulle_container_keycallback *tabl
       mulle_allocator_free( allocator, value);
    _mulle_queueenumerator_done( &rover);
    
-   _mulle_queue_free( queue, allocator);
+   _mulle_queue_destroy( queue, allocator);
 }
 
 
@@ -221,7 +221,7 @@ static struct mulle_container_keyvaluecallback    pair_registry_callbacks =
    },
    {
       (void *) mulle_container_callback_self,
-      (void *) free_queue,
+      (void *) destroy_queue,
       (void *) describe_queue,
       NULL
    }
@@ -231,7 +231,7 @@ static struct mulle_container_keyvaluecallback    pair_registry_callbacks =
 static struct mulle_container_keyvaluecallback    sender_registry_callbacks =
 {
    {
-      (void *) mulle_container_callback_pointer_hash,
+      (void *) mulle_hash_pointer,
       (void *) mulle_container_callback_pointer_is_equal,
       (void *) mulle_container_callback_self,
       (void *) mulle_container_callback_nop,
@@ -241,7 +241,7 @@ static struct mulle_container_keyvaluecallback    sender_registry_callbacks =
    },
    {
       (void *) mulle_container_callback_self,
-      (void *) free_queue,
+      (void *) destroy_queue,
       (void *) describe_queue,
       NULL
    }
@@ -255,7 +255,7 @@ static struct mulle_container_keyvaluecallback    sender_registry_callbacks =
 static struct mulle_container_keyvaluecallback    observer_no_free_registry_callbacks =
 {
    {  
-      (void *) mulle_container_callback_pointer_hash,
+      (void *) mulle_hash_pointer,
       (void *) mulle_container_callback_pointer_is_equal,
       (void *) mulle_container_callback_self,
       (void *) mulle_container_callback_nop,
@@ -634,7 +634,7 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
    }
    _mulle_queueenumerator_done( &rover);
 
-   _mulle_queue_free( pair_queue, allocator);
+   _mulle_queue_destroy( pair_queue, allocator);
 }
 
 

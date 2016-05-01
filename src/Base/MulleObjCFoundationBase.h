@@ -13,6 +13,9 @@
 // export everything with MulleObjC
 
 #import "MulleObjCBaseFunctions.h"
-#import "ns_foundationconfiguration.h"  // rename
 
 // export nothing with _MulleObjC
+
+// export everything with ns_
+#import "ns_byteorder.h"  
+#import "ns_foundationconfiguration.h"  // rename
