@@ -31,8 +31,8 @@ static void   *_MulleObjCConcreteValueObjCType( _MulleObjCConcreteValue *self)
 }
 
 
-+ (id) valueWithBytes:(void *) bytes
-             objCType:(char *) type
++ (id) newWithBytes:(void *) bytes
+           objCType:(char *) type
 {
    _MulleObjCConcreteValue   *value;
    NSUInteger                extra;
@@ -57,7 +57,19 @@ static void   *_MulleObjCConcreteValueObjCType( _MulleObjCConcreteValue *self)
    memcpy( _MulleObjCConcreteValueBytes( value), bytes, size);
    memcpy( _MulleObjCConcreteValueObjCType( value), type, type_size);
    
-   return( [value autorelease]);
+   return( value);
+}
+
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   char  *type;
+   
+   type = NULL;
+   [coder encodeValueOfObjCType:@encode( char *)
+                             at:&type];
+   [coder encodeValueOfObjCType:type
+                             at:_MulleObjCConcreteValueBytes( self)];
 }
 
 

@@ -27,10 +27,10 @@
 
    originalRange = NSMakeRange( 0, [self length]);
    
-   startRange = [self rangeOfPrefixCharactersFromSet:set
+   startRange = [self _rangeOfCharactersFromSet:set
                                              options:0
                                                range:originalRange];
-   endRange   = [self rangeOfPrefixCharactersFromSet:set
+   endRange   = [self _rangeOfCharactersFromSet:set
                                              options:NSBackwardsSearch
                                                 range:originalRange];
    

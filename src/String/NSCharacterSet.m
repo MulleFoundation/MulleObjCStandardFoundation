@@ -23,183 +23,171 @@
 
 + (NSCharacterSet *) alphanumericCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_alphanumeric
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_alphanumeric
                                                    planeFunction:mulle_utf_is_alphanumericplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) capitalizedLetterCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_capitalized
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_capitalized
                                                    planeFunction:mulle_utf_is_capitalizedplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) controlCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_control
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_control
                                                    planeFunction:mulle_utf_is_controlplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) decimalDigitCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decimaldigit
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decimaldigit
                                                    planeFunction:mulle_utf_is_decimaldigitplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) decomposableCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decomposable
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decomposable
                                                    planeFunction:mulle_utf_is_decomposableplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) letterCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_letter
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_letter
                                                    planeFunction:mulle_utf_is_letterplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) lowercaseLetterCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_lowercase
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_lowercase
                                                    planeFunction:mulle_utf_is_lowercaseplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) nonBaseCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonbase
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonbase
                                                    planeFunction:mulle_utf_is_nonbaseplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) punctuationCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_punctuation
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_punctuation
                                                    planeFunction:mulle_utf_is_punctuationplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) symbolCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_symbol
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_symbol
                                                    planeFunction:mulle_utf_is_symbolplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) uppercaseLetterCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_uppercase
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_uppercase
                                                    planeFunction:mulle_utf_is_uppercaseplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) whitespaceAndNewlineCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespaceornewline
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespaceornewline
                                                    planeFunction:mulle_utf_is_whitespaceornewlineplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) whitespaceCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespace
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespace
                                                    planeFunction:mulle_utf_is_whitespaceplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 
 + (NSCharacterSet *) URLFragmentAllowedCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlfragment
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlfragment
                                                    planeFunction:mulle_utf_is_validurlfragmentplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) URLHostAllowedCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlhost
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlhost
                                                    planeFunction:mulle_utf_is_validurlhostplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) URLPasswordAllowedCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpassword
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpassword
                                                    planeFunction:mulle_utf_is_validurlpasswordplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) URLPathAllowedCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpath
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpath
                                                    planeFunction:mulle_utf_is_validurlpathplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) URLQueryAllowedCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlquery
-                                                   planeFunction:mulle_utf_is_validurlqueryplane
-                                                          invert:NO]);
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlquery
+                                                    planeFunction:mulle_utf_is_validurlqueryplane
+                                                          invert:NO] autorelease]);
+}
+
+
++ (NSCharacterSet *) URLSchemeAllowedCharacterSet
+{
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlscheme
+                                                    planeFunction:mulle_utf_is_validurlschemeplane
+                                                          invert:NO] autorelease]);
 }
 
 
 + (NSCharacterSet *) URLUserAllowedCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurluser
-                                                   planeFunction:mulle_utf_is_validurluserplane
-                                                          invert:NO]);
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurluser
+                                                    planeFunction:mulle_utf_is_validurluserplane
+                                                          invert:NO] autorelease]);
 }
 
 
 
 + (NSCharacterSet *) nonPercentEscapeCharacterSet
 {
-   [self release];
-   return( [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonpercentescape
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonpercentescape
                                                    planeFunction:mulle_utf_is_nonpercentescapeplane
-                                                          invert:NO]);
+                                                          invert:NO] autorelease]);
 }
 
 

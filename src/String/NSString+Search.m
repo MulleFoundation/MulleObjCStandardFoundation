@@ -192,7 +192,7 @@ static void   get_characters( struct mulle_objc_unichar_enumerator *rover, unich
 
 
 //
-// needs to be better, but don't have it yet
+// there is no difference in the MulleFoundation we only serve Literals
 //
 - (void) _setNonLiteralCharacterEnumerator:(struct mulle_objc_unichar_enumerator *) rover
                                    options:(NSStringCompareOptions) options
@@ -523,21 +523,21 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 
 - (NSComparisonResult) compare:(id) other
                        options:(NSStringCompareOptions) options 
-                         range:(NSRange) aRange
+                         range:(NSRange) range
 {
    NSUInteger                            len_self;
    NSUInteger                            len_other;
    struct mulle_objc_unichar_enumerator  self_rover;
    struct mulle_objc_unichar_enumerator  other_rover;
-
+   
    NSCParameterAssert( [other isKindOfClass:[NSString class]]);
    NSCParameterAssert( (options & (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
 
    len_self  = [self length];
-   if( aRange.location + aRange.length > len_self)
-      MulleObjCThrowInvalidRangeException( aRange);
+   if( range.location + range.length > len_self || range.length > len_self)
+      MulleObjCThrowInvalidRangeException( range);
       
-   len_self  = aRange.length;
+   len_self  = range.length;
    len_other = [other length];
    
    // make sure, both have at least one char
@@ -550,7 +550,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
    
    [self _setCharacterEnumerator:&self_rover
                          options:options
-                           range:aRange];
+                           range:range];
    [other _setCharacterEnumerator:&other_rover
                           options:options
                             range:NSMakeRange( 0, len_other)];
@@ -734,12 +734,12 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
    if( size <= 0x400)
       search = alloca( size);
    else
-      search = tofree = MulleObjCAllocateNonZeroedMemory( size);
+      search = tofree = mulle_malloc( size);
    get_characters( other_rover, search);
 
    index = _kmp_search( self_rover, search, search_len);
    
-   MulleObjCDeallocateMemory( tofree);
+   mulle_free( tofree);
    
    return( index);
 }
@@ -750,22 +750,23 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
 
 - (NSRange) rangeOfString:(NSString *) other
                   options:(NSStringCompareOptions) options
-                    range:(NSRange) aRange
+                    range:(NSRange) range
 {
    NSUInteger                            len_self;
    NSUInteger                            len_other;
    struct mulle_objc_unichar_enumerator  self_rover;
    struct mulle_objc_unichar_enumerator  other_rover;
-   NSInteger                             index;
+   NSInteger                             location;
+   NSRange                               result;
    
    NSCParameterAssert( [other isKindOfClass:[NSString class]]);
-   NSCParameterAssert( (options & (NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
+   NSCParameterAssert( (options & (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
    
    len_self  = [self length];
-   if( aRange.location + aRange.length > len_self)
-      MulleObjCThrowInvalidRangeException( aRange);
+   if( range.location + range.length > len_self || range.length > len_self)
+      MulleObjCThrowInvalidRangeException( range);
    
-   len_self  = aRange.length;
+   len_self  = range.length;
    len_other = [other length];
    
    // make sure, both have at least one char
@@ -773,19 +774,29 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
    if( ! len_self || ! len_other || len_other > len_self)
       return( NSMakeRange( NSNotFound, 0));
    
-   options &= (NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
+   options &= (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
    
    [self _setCharacterEnumerator:&self_rover
                          options:options
-                           range:aRange];
+                           range:range];
    [other _setCharacterEnumerator:&other_rover
                           options:options
                             range:NSMakeRange( 0, len_other)];
    
-   index = normal_search( &self_rover, &other_rover);
-   if( index == NSNotFound)
+   location = normal_search( &self_rover, &other_rover);
+   if( location == NSNotFound)
       return( NSMakeRange( NSNotFound, 0));
-   return( NSMakeRange( index, len_other));
+
+   if( location && (options & NSAnchoredSearch))
+      return( NSMakeRange( NSNotFound, 0));
+   
+   if( ! (options & NSBackwardsSearch))
+      result = NSMakeRange( range.location + location, len_other);
+   else
+      result = NSMakeRange( range.location + range.length - location - len_other, len_other);
+   
+   NSParameterAssert( MulleObjCRangeContainsRange( range, result));
+   return( result);
 }
 
 
@@ -808,7 +819,6 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
 
 #pragma mark -
 #pragma mark character search
-
 
 //
 // search until first time a char is matched
@@ -839,36 +849,44 @@ static NSInteger   charset_location_search( struct mulle_objc_unichar_enumerator
 
 - (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set
                             options:(NSStringCompareOptions) options
-                              range:(NSRange) aRange
+                              range:(NSRange) range
 {
    NSUInteger                            len_self;
    struct mulle_objc_unichar_enumerator  self_rover;
    NSInteger                             location;
+   NSRange                               result;
    
    NSCParameterAssert( [set isKindOfClass:[NSCharacterSet class]]);
-   NSCParameterAssert( (options & (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
+   NSCParameterAssert( (options & (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
    
    len_self  = [self length];
-   if( aRange.location + aRange.length > len_self)
-      MulleObjCThrowInvalidRangeException( aRange);
+   if( range.location + range.length > len_self || range.length > len_self)
+      MulleObjCThrowInvalidRangeException( range);
    
-   len_self = aRange.length;
+   len_self = range.length;
    if( ! len_self)
       return( NSMakeRange( NSNotFound, 0));
    
-   options &= (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
+   options &= (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
    
    [self _setCharacterEnumerator:&self_rover
                          options:options
-                           range:aRange];
+                           range:range];
    
    location = charset_location_search( &self_rover, set);
    if( location == NSNotFound)
       return( NSMakeRange( NSNotFound, 0));
    
+   if( location && (options & NSAnchoredSearch))
+      return( NSMakeRange( NSNotFound, 0));
+   
    if( ! (options & NSBackwardsSearch))
-      return( NSMakeRange( aRange.location + location, 1));
-   return( NSMakeRange( aRange.location + aRange.length - location, 1));
+      result = NSMakeRange( range.location + location, 1);
+   else
+      result = NSMakeRange( range.location + range.length - location, 1);
+
+   NSParameterAssert( MulleObjCRangeContainsRange( range, result));
+   return( result);
 }
 
 
@@ -920,38 +938,38 @@ static NSInteger   charset_length_search( struct mulle_objc_unichar_enumerator *
 }
 
 
-- (NSRange) rangeOfPrefixCharactersFromSet:(NSCharacterSet *) set
-                                   options:(NSStringCompareOptions) options
-                                     range:(NSRange) aRange
+- (NSRange) _rangeOfCharactersFromSet:(NSCharacterSet *) set
+                              options:(NSStringCompareOptions) options
+                                range:(NSRange) range
 {
    NSUInteger                            len_self;
    struct mulle_objc_unichar_enumerator  self_rover;
    NSInteger                             length;
    
    NSCParameterAssert( [set isKindOfClass:[NSCharacterSet class]]);
-   NSCParameterAssert( (options & (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
+   NSCParameterAssert( (options & (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
    
    len_self  = [self length];
-   if( aRange.location + aRange.length > len_self)
-      MulleObjCThrowInvalidRangeException( aRange);
+   if( range.location + range.length > len_self || range.length > len_self)
+      MulleObjCThrowInvalidRangeException( range);
    
-   len_self = aRange.length;
+   len_self = range.length;
    if( ! len_self)
       return( NSMakeRange( NSNotFound, 0));
    
-   options &= (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
+   options &= (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
    
    [self _setCharacterEnumerator:&self_rover
                          options:options
-                           range:aRange];
+                           range:range];
    
    length = charset_length_search( &self_rover, set);
    if( ! length)
       return( NSMakeRange( NSNotFound, 0));
-   
+
    if( ! (options & NSBackwardsSearch))
-      return( NSMakeRange( aRange.location, aRange.location + length));
-   return( NSMakeRange( aRange.location + aRange.length - length, length));
+      return( NSMakeRange( range.location, range.location + length));
+   return( NSMakeRange( range.location + range.length - length, length));
 }
 
 @end

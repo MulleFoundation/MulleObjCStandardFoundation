@@ -55,8 +55,8 @@
 
 - (void) setStr:(char *) s
 {
-   MulleObjCDeallocateMemory( _str);
-   _str = s ? MulleObjCDuplicateCString( s) : s;
+   MulleObjCObjectDeallocateMemory( self, _str);
+   _str = s ? MulleObjCObjectDuplicateCString( self, s) : s;
 }
 
 @end

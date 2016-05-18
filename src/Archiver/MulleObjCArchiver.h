@@ -53,6 +53,7 @@ extern NSString  *NSInconsistentArchiveException;
    struct mulle_allocator                   _allocator;
 }
 
+
 + (NSData *) archivedDataWithRootObject:(id) rootObject;
 
 - (void) encodeRootObject:(id) rootObject;

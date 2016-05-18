@@ -21,7 +21,6 @@
 // std-c and dependencies
 
 
-
 NSString   *NSLocaleCollationIdentifier                 = @"collation";
 NSString   *NSLocaleIdentifier                          = @"identifier";
 NSString   *NSLocaleLanguageCode                        = @"languageCode";
@@ -46,6 +45,30 @@ NSString   *NSLocaleQuotationBeginDelimiterKey          = @"quotationBeginDelimi
 NSString   *NSLocaleQuotationEndDelimiterKey            = @"quotationEndDelimiter";
 
 
+// NSCalendarDate stuff
+
+NSString   *NSAMPMDesignation           = @"NSAMPMDesignation";
+NSString   *NSDateFormatString          = @"NSDateFormatString";
+NSString   *NSDateTimeOrdering          = @"NSDateTimeOrdering";
+NSString   *NSEarlierTimeDesignations   = @"NSEarlierTimeDesignations";
+NSString   *NSHourNameDesignations      = @"NSHourNameDesignations";
+NSString   *NSLaterTimeDesignations     = @"NSLaterTimeDesignations";
+NSString   *NSMonthNameArray            = @"NSMonthNameArray";
+NSString   *NSNextDayDesignations       = @"NSNextDayDesignations";
+NSString   *NSNextNextDayDesignations   = @"NSNextNextDayDesignations";
+NSString   *NSPriorDayDesignations      = @"NSPriorDayDesignations";
+NSString   *NSShortDateFormatString     = @"NSShortDateFormatString";
+NSString   *NSShortMonthNameArray       = @"NSShortMonthNameArray";
+NSString   *NSShortTimeDateFormatString = @"NSShortTimeDateFormatString";
+NSString   *NSShortWeekDayNameArray     = @"NSShortWeekDayNameArray";
+NSString   *NSThisDayDesignations       = @"NSThisDayDesignations";
+NSString   *NSTimeDateFormatString      = @"NSTimeDateFormatString";
+NSString   *NSTimeFormatString          = @"NSTimeFormatString";
+NSString   *NSWeekDayNameArray          = @"NSWeekDayNameArray";
+NSString   *NSYearMonthWeekDesignations = @"NSYearMonthWeekDesignations";
+
+
+// most of the code is OS Specific, so not much here
 
 @implementation NSLocale
 
@@ -53,13 +76,24 @@ NSString   *NSLocaleQuotationEndDelimiterKey            = @"quotationEndDelimite
 {
    return( _identifier);
 }
-   
+
+
+- (id) objectForKey:(id) key;
+{
+   return( [_keyValues objectForKey:key]);
+}
+
 
 - (NSString *) displayNameForKey:(id) key 
                            value:(id) value
 {
-   return( key);
-}                           
+   return( [NSString stringWithFormat:@"%@ = %@", key, value]);
+}
+
+- (id) copy
+{
+   return( [self retain]);
+}
 
 @end
 

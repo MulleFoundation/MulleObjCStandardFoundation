@@ -6,17 +6,19 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import "MulleStandaloneObjCFoundation.h"
+#import "MulleObjCFoundation.h"
 
 // other files in this library
 
 // other libraries of MulleObjCFoundation
 
 // std-c and other dependencies
-#import <MulleStandaloneObjC/ns_test_allocation.h>
+#import <MulleObjC/ns_test_allocation.h>
 #import <mulle_sprintf/mulle_sprintf.h>
 
 
+#pragma mark -
+#pragma mark versioning
 
 static void   versionassert( struct _mulle_objc_runtime *runtime,
                             void *friend,
@@ -30,27 +32,55 @@ static void   versionassert( struct _mulle_objc_runtime *runtime,
 }
 
 
-static void  perror_abort( char *s)
+
+#pragma mark -
+#pragma mark logging
+
+//
+// see: https://stackoverflow.com/questions/35998488/where-is-the-eprintf-symbol-defined-in-os-x-10-11/36010972#36010972
+//
+__attribute__((visibility("hidden")))
+void __eprintf( const char* format, const char* file,
+               unsigned line, const char *expr)
 {
-   perror( s);
+   fprintf( stderr, format, file, line, expr);
    abort();
 }
 
 
-static void  init_ns_exceptionhandlertable ( struct _ns_exceptionhandlertable *table)
+void   NSLogv( NSString *format, va_list args)
 {
-   table->errno_error            = (void *) perror_abort;
-   table->allocation_error       = (void *) abort;
-   table->internal_inconsistency = (void *) abort;
-   table->invalid_argument       = (void *) abort;
-   table->invalid_index          = (void *) abort;
-   table->invalid_range          = (void *) abort;
+   NSString  *s;
+   void      *cString;
+
+   s = [NSString stringWithFormat:format
+                          va_list:args];
+   cString = [s UTF8String];
+   fprintf( stderr, "%s\n", cString);
 }
 
+
+void   NSLog( NSString *format, ...)
+{
+   va_list   args;
+
+   va_start( args, format );
+   NSLogv( format, args);
+   va_end( args);
+}
+
+
+
+#pragma mark -
+#pragma mark exception (mishandling)
+
+extern void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table);
 
 /*
  * it's just too convenient, to have this as the old name
  */
+void   *_objc_msgForward( void *self, mulle_objc_methodid_t _cmd, void *_param);
+
 void   *_objc_msgForward( void *self, mulle_objc_methodid_t _cmd, void *_param)
 {
    struct _mulle_objc_class   *cls;
@@ -72,9 +102,12 @@ struct _mulle_objc_method   NSObject_msgForward_method =
 };
 
 
+#pragma mark -
+#pragma mark setup and teardown ObjC
+
 static void  tear_down()
 {
-   NSThreadDeallocateMainThread();
+   _NSThreadResignAsMainThread();
 
    // No Objective-C available anymore
 }
@@ -95,7 +128,10 @@ static void  tear_down_and_check()
 __attribute__(( noreturn))
 static void   uncaught_exception( void *exception)
 {
+   extern void   mulle_objc_runtime_dump_to_tmp( void);
+   
    NSLog( @"uncaught exception: %@", exception);
+   mulle_objc_runtime_dump_to_tmp();
    abort();
 }
 
@@ -153,7 +189,7 @@ struct _mulle_objc_runtime  *__get_or_create_objc_runtime( void)
 #endif
       }
       
-      init_ns_exceptionhandlertable( &vectors);
+      _MulleObjCExceptionInitTable( &vectors);
       setup.config.foundation.exceptiontable = &vectors;
       {
          _ns_foundation_setup( runtime, &setup);
@@ -174,43 +210,6 @@ struct _mulle_objc_runtime  *__get_or_create_objc_runtime( void)
       }
    }
    return( runtime);
-}
-
-
-
-//
-// see: https://stackoverflow.com/questions/35998488/where-is-the-eprintf-symbol-defined-in-os-x-10-11/36010972#36010972
-//
-__attribute__((visibility("hidden")))
-void __eprintf( const char* format, const char* file,
-               unsigned line, const char *expr)
-{
-   fprintf( stderr, format, file, line, expr);
-   abort();
-}
-
-
-
-
-void   NSLogv( NSString *format, va_list args)
-{
-   NSString  *s;
-   void      *cString;
-
-   s = [NSString stringWithFormat:format
-                          va_list:args];
-   cString = [s UTF8String];
-   fprintf( stderr, "%s\n", cString);
-}
-
-
-void   NSLog( NSString *format, ...)
-{
-   va_list   args;
-
-   va_start( args, format );
-   NSLogv( format, args);
-   va_end( args);
 }
 
 

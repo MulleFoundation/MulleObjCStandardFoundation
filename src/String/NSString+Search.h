@@ -56,9 +56,9 @@
 // finds longest ranges from the start,
 // use NSBackwardsSearch to find Suffix
 // cheaper than using an inverted set
-//
-- (NSRange) rangeOfPrefixCharactersFromSet:(NSCharacterSet *) set
-                                   options:(NSStringCompareOptions) options
-                                     range:(NSRange) range;
+// It's always NSAnchoredSearch implicitly!
+- (NSRange) _rangeOfCharactersFromSet:(NSCharacterSet *) set
+                              options:(NSStringCompareOptions) options
+                                range:(NSRange) range;
 
 @end

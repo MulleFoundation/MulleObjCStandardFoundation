@@ -57,7 +57,6 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    // BUG: if off_t is > intptr_t,
    _offsets                = _NSCreateMapTableWithAllocator( NSNonOwnedPointerMapKeyCallBacks,
                                               mulle_container_valuecallback_intptr, 16, &_allocator);
-   
    return( self);
 }
 
@@ -438,7 +437,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    }
    
    [NSException raise:NSInconsistentArchiveException
-               format:@"NSArchiver cannot encode type='%c'", *type];
+               format:@"NSArchiver cannot encode type=\"%s\" (%d) ", type, *type];
    return( NULL);
 }
 
@@ -453,6 +452,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    id             obj;
    unsigned int   i, n;
    off_t          offset;
+   Class          cls;
    
    mulle_buffer_add_bytes( &_buffer, "**obj**", 8);
    
@@ -461,8 +461,10 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    
    for( i = 0; i < n; i++)
    {
-      obj = (Class) mulle_pointerarray_get( &_objects.array, i);
-      [self _appendClass:[obj class]];
+      obj = (id) mulle_pointerarray_get( &_objects.array, i);
+      cls = [obj classForCoder];
+      
+      [self _appendClass:cls];
       
       offset = (off_t) NSMapGet( _offsets, obj);
       mulle_buffer_add_integer( &_buffer, offset);

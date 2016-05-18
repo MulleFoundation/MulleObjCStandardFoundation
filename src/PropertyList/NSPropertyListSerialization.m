@@ -120,7 +120,7 @@
    id                           plist;
    NSPropertyListSerialization  *parser;
    
-   if( ! data)
+   if( ! [data length])
       return( nil);
       
    bom = [data _byteOrderMark];
@@ -143,8 +143,7 @@
       [reader setMutableContainers:opt != NSPropertyListImmutable];
       [reader setMutableLeaves:opt == NSPropertyListMutableContainersAndLeaves];
    
-      plist = _MulleObjCNewFromPropertyListWithStreamReader( reader);
-      NSAutoreleaseObject( plist);
+      plist = [_MulleObjCNewFromPropertyListWithStreamReader( reader) autorelease];
       break;
    
    case NSPropertyListXMLFormat_v1_0 :

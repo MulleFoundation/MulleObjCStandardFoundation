@@ -43,10 +43,7 @@ static inline void   *get_bytes( id self)
 @end
 
 
-@implementation _MulleObjCZeroBytesData
-
-- (NSUInteger) length { return( 0); }
-
+@implementation _MulleObjCZeroBytesData  // same as NSData really 
 @end
 
 
@@ -91,7 +88,7 @@ static inline void   *get_bytes( id self)
    
    data = NSAllocateObject( self, 0, NULL);
    
-   data->_storage   = MulleObjCAllocateNonZeroedMemory( length);
+   data->_storage   = MulleObjCObjectAllocateNonZeroedMemory( self, length);
    data->_length    = length;
    data->_allocator = MulleObjCClassGetAllocator( self);
 

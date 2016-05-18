@@ -13,10 +13,15 @@
  */
 #import "NSMutableData.h"
 
+// other files in this library
 #import "_MulleObjCConcreteMutableData.h"
 
+// other libraries of MulleObjCFoundation
 
-@implementation NSObject( NSMutableData_Private)
+// std-c and dependencies
+
+
+@implementation NSObject( _NSMutableData)
 
 - (BOOL) __isNSMutableData
 {
@@ -142,6 +147,19 @@
 }
 
 
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSMutableData class]);
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
+
 
 #pragma mark -
 #pragma mark operations
@@ -159,7 +177,6 @@
 }
 
 
-
 - (void) appendData:(NSData *) otherData
 {
    [self appendBytes:[otherData bytes]
@@ -167,20 +184,20 @@
 }
 
 
-+ (id) nonZeroedDataWithLength:(NSUInteger) length
++ (id) _nonZeroedDataWithLength:(NSUInteger) length
 {
    NSMutableData   *data;
    
    data = [self dataWithCapacity:length];
-   [data setLengthDontZero:length];
+   [data _setLengthDontZero:length];
    return( data);
 }
 
 
-- (id) initNonZeroedDataWithLength:(NSUInteger) length;
+- (id) _initNonZeroedDataWithLength:(NSUInteger) length;
 {
    [self init];
-   [self setLengthDontZero:length];
+   [self _setLengthDontZero:length];
    return( self);
 }
 
@@ -188,6 +205,52 @@
 - (id) copy
 {
    return( (id) [[NSData alloc] initWithData:self]);
+}
+
+
+- (void) replaceBytesInRange:(NSRange) range
+                   withBytes:(void *) replacementBytes
+                      length:(NSUInteger) replacementLength
+{
+   NSInteger    diff;
+   NSUInteger   length;
+   NSUInteger   remainderLocation;
+   NSUInteger   remainderLength;
+   uint8_t      *bytes;
+   
+   length = [self length];
+   if( range.location + range.length > length || range.length > length)
+      MulleObjCThrowInvalidRangeException( range);
+
+   diff = (NSInteger) replacementLength - (NSInteger) range.length;
+
+   remainderLocation = range.location + range.length;
+   remainderLength   = length - remainderLocation;
+   
+   if( diff > 0) // need to grow
+      [self setLength:length + diff];
+
+   bytes = [self mutableBytes];
+   if( diff > 0) // rescue bytes
+      memmove( &bytes[ remainderLocation + diff], &bytes[ remainderLocation], remainderLength);
+   
+   // replace
+   memcpy( &bytes[ range.location], replacementBytes, replacementLength);
+   
+   // possibly fill up hole and shrink
+   if( diff < 0) // need to grow
+   {
+      memmove( &bytes[ range.location + replacementLength], &bytes[ remainderLocation], remainderLength);
+      [self setLength:length + diff];
+   }
+}
+
+- (void) replaceBytesInRange:(NSRange) range
+                   withBytes:(void *) bytes
+{
+   [self replaceBytesInRange:range
+                   withBytes:bytes
+                      length:range.length];
 }
 
 @end

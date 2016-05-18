@@ -17,7 +17,7 @@
 // std-c and dependencies
 
 
-@implementation NSDictionary ( _PropertyListParsing)
+@implementation NSDictionary ( NSPropertyListParsing)
 
 NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {

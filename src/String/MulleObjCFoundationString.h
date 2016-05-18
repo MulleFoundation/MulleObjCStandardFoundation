@@ -26,3 +26,7 @@
 
 
 // export nothing with _MulleObjC
+
+#if MULLE_UTF_VERSION < ((0 << 20) | (4 << 8) | 0)
+# error "mulle_utf is too old"
+#endif

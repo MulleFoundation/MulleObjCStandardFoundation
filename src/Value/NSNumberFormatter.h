@@ -38,13 +38,14 @@ typedef NSUInteger NSNumberFormatterBehavior;
       unsigned    generatesDecimalNumbers:1;
       unsigned    hasThousandSeparators:1;
       unsigned    localizesFormat:1;
-      unsigned    unused:12;
+      unsigned    isLenient:1;
+      unsigned    unused:11;
    } _flags;
 }
 
 @property( assign) NSNumberFormatterBehavior  formatterBehavior;
 
-@property( copy) NSString     *format;
+@property( copy, nonnull) NSString     *format;
 @property( copy) NSString     *negativeFormat;
 @property( copy) NSString     *positiveFormat;
 @property( copy) NSString     *decimalSeparator;
@@ -59,9 +60,11 @@ typedef NSUInteger NSNumberFormatterBehavior;
 - (BOOL) allowsFloats;
 - (BOOL) generatesDecimalNumbers;
 - (BOOL) hasThousandSeparators;
+- (BOOL) isLenient;
 - (void) setAllowsFloats:(BOOL) flag;
 - (void) setGeneratesDecimalNumbers:(BOOL) flag;
 - (void) setHasThousandSeparators:(BOOL) flag;
+- (void) setLenient:(BOOL) flag;
 
 - (NSNumber *) numberFromString:(NSString *) string;
 - (NSString *) stringFromNumber:(NSNumber *) number;

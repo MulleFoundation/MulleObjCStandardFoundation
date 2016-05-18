@@ -1,6 +1,6 @@
 bool
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -11,7 +11,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -24,7 +24,7 @@ unsignedLongLongValue: YES
 
 char
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -35,7 +35,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -48,7 +48,7 @@ unsignedLongLongValue: YES
 
 short
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -59,7 +59,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -72,7 +72,7 @@ unsignedLongLongValue: YES
 
 int
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -83,7 +83,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -96,7 +96,7 @@ unsignedLongLongValue: YES
 
 long
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -107,7 +107,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -120,7 +120,7 @@ unsignedLongLongValue: YES
 
 long long
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -131,7 +131,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -144,7 +144,7 @@ unsignedLongLongValue: YES
 
 NSInteger
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -155,7 +155,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -168,7 +168,7 @@ unsignedLongLongValue: YES
 
 unsigned char
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -179,7 +179,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -192,7 +192,7 @@ unsignedLongLongValue: YES
 
 unsigned short
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -203,7 +203,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -216,7 +216,7 @@ unsignedLongLongValue: YES
 
 unsigned int
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -227,7 +227,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -240,7 +240,7 @@ unsignedLongLongValue: YES
 
 unsigned long
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -251,7 +251,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -264,7 +264,7 @@ unsignedLongLongValue: YES
 
 unsigned long long
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -275,7 +275,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -288,7 +288,7 @@ unsignedLongLongValue: YES
 
 NSUInteger
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES
@@ -299,7 +299,7 @@ unsignedIntValue: YES
 unsignedLongValue: YES
 unsignedLongLongValue: YES
 boolValue: YES
-boolValue: YES
+charValue: YES
 shortValue: YES
 intValue: YES
 longValue: YES

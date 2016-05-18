@@ -16,7 +16,7 @@
 // std-c and dependencies
 
 
-@implementation NSArray ( _PropertyListParsing)
+@implementation NSArray ( NSPropertyListParsing)
 
 NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {

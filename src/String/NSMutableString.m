@@ -26,7 +26,7 @@
 // std-c and dependencies
 
 
-@implementation NSObject( NSMutableString)
+@implementation NSObject( _NSMutableString)
 
 - (BOOL) __isNSMutableString
 {
@@ -46,7 +46,7 @@
 
 static void  flush_shadow( NSMutableString *self)
 {
-   mulle_allocator_free( MulleObjCObjectGetAllocator( self), self->_shadow);
+   MulleObjCObjectDeallocateMemory( self, self->_shadow);
    self->_shadow = NULL;
 }
 
@@ -69,8 +69,8 @@ static void   sizeStorageWithCount( NSMutableString *self, unsigned int count)
    self->_size = count + count;
    if( self->_size < 4)
       self->_size = 4;
-      
-   self->_storage = MulleObjCReallocateNonZeroedMemory( self->_storage, self->_size * sizeof( NSString *));
+
+   self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self,  self->_storage, self->_size * sizeof( NSString *));
 }
 
 
@@ -107,6 +107,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
+- (id) initWithCapacity:(NSUInteger) n
+{
+   sizeStorageWithCount( self, (unsigned int) (n >> 1));
+   return( self);
+}
+
+
 - (id) initWithString:(NSString *) s
 {
    if( s)
@@ -122,22 +129,215 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       initWithStrings( self, strings, (unsigned int) count);
    return( self);
 }
-                 
+
+
+#pragma mark -
+#pragma mark tedious code for all these NSString init calls
+
 
 // need to implement all MulleObjCCStringPlaceholder does
 - (id) initWithFormat:(NSString *) format
             arguments:(mulle_vararg_list) arguments
 {
    NSString  *s;
-   
    s = [[NSString alloc] initWithFormat:format
                               arguments:arguments];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+
    initWithStrings( self, &s, 1);
    [s release];
-
    return( self);
-}         
+}
 
+
+- (instancetype) initWithBytes:(void *) bytes
+                        length:(NSUInteger) length
+                      encoding:(NSStringEncoding) encoding;
+{
+   NSString  *s;
+   
+   s = nil;
+   if( length)
+   {
+      s = [[NSString alloc] initWithBytes:bytes
+                                   length:length
+                                 encoding:encoding];
+      if( ! s)
+      {
+         [self release];
+         return( nil);
+      }
+   }
+   
+   initWithStrings( self, &s, s ? 1 : 0);
+   [s release];
+   return( self);
+}
+
+
+// this method is a lie, it will copy
+// use initWithCharactersNoCopy:
+// also your bytes will be freed immediately, when freeWhenDone is YES
+- (instancetype) initWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length
+                            encoding:(NSStringEncoding) encoding
+                        freeWhenDone:(BOOL) flag;
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] initWithBytesNoCopy:bytes
+                                      length:length
+                                    encoding:encoding
+                                freeWhenDone:flag];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+- (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) chars
+                                  length:(NSUInteger) length
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] _initWithUTF8Characters:chars
+                                          length:length];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
+                                        length:(NSUInteger) length
+                                  freeWhenDone:(BOOL) flag
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
+                                                length:length
+                                          freeWhenDone:flag];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+- (instancetype) _initWithCharactersNoCopy:(unichar *) chars
+                                    length:(NSUInteger) length
+                                 allocator:(struct mulle_allocator *) allocator
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] _initWithCharactersNoCopy:chars
+                                            length:length
+                                         allocator:allocator];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
+                                        length:(NSUInteger) length
+                                     allocator:(struct mulle_allocator *) allocator
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
+                                                length:length
+                                          allocator:allocator];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
+                                        length:(NSUInteger) length
+                                 sharingObject:(id) object
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
+                                                length:length
+                                         sharingObject:object];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+- (instancetype) _initWithCharactersNoCopy:(unichar *) chars
+                                    length:(NSUInteger) length
+                             sharingObject:(id) object
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] _initWithCharactersNoCopy:chars
+                                            length:length
+                                     sharingObject:object];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
+#pragma mark -
+#pragma mark - additional convenience constructors
 
 + (id) stringWithCapacity:(NSUInteger) capacity
 {
@@ -145,18 +345,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (id) initWithCapacity:(NSUInteger) capacity;
-{
-   return( [self init]);
-}
-
-
 - (void) dealloc
 {
-   autoreleaseStorageStrings( self);
+   MulleObjCMakeObjectsPerformRelease( _storage, _count);
+
    flush_shadow( self);
 
-   MulleObjCDeallocateMemory( self->_storage);
+   MulleObjCObjectDeallocateMemory( self, self->_storage);
    [super dealloc];
 }
 
@@ -168,6 +363,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 - (id) copy
 {
    mulle_utf8_t   *s;
+   
+   // ez and cheap copy, use it
+   if( self->_count == 1)
+      return( (id) [self->_storage[ 0] copy]);
    
    s = [self UTF8String];
    return( (id) [[NSString alloc] initWithUTF8String:s]);
@@ -218,7 +417,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSString     *s;
    NSUInteger   grab_len;
    
-   if( range.location + range.length > _length)
+   if( range.length + range.location > _length || range.length > _length)
       MulleObjCThrowInvalidRangeException( range);
 
    p        = &_storage[ 0];
@@ -239,7 +438,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
          continue;
       }
    
-      grab_len = range.location + range.length;
+      grab_len = range.length;
       if( grab_len > length)
          grab_len = length - range.location;
       
@@ -253,19 +452,6 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    }
 }
 
-
-
-- (NSString *) substringWithRange:(NSRange) range
-{
-   NSMutableData  *data;
-   
-   data = [NSMutableData nonZeroedDataWithLength:range.length * sizeof( unichar)];
-   [self getCharacters:[data mutableBytes]
-                 range:range];
-
-   return( [[[NSString alloc] _initWithDataNoCopy:data
-                                         encoding:NSUnicodeStringEncoding] autorelease]);
-}
 
 #pragma mark -
 #pragma mark Operations
@@ -281,9 +467,6 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    size_t   len;
 
    // more convenient really to allow nil
-   if( ! s)
-      return;
-   
    len = [s length];
    if( ! len)
       return;
@@ -293,7 +476,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       _size += _size;
       if( _size < 8)
          _size = 8;
-      _storage = MulleObjCReallocateNonZeroedMemory( _storage, _size * sizeof( NSString *));
+      _storage = MulleObjCObjectReallocateNonZeroedMemory( self, _storage, _size * sizeof( NSString *));
    }
 
    _storage[ _count++] = [s copy];
@@ -305,7 +488,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 - (void) appendFormat:(NSString *) format, ...
 {
-   NSString                 *s;
+   NSString            *s;
    mulle_vararg_list   args;
    
    mulle_vararg_start( args, format);
@@ -319,7 +502,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 - (void) setString:(NSString *) aString
 {
-   shrinkWithStrings( self, &aString, 1);
+   shrinkWithStrings( self, &aString, aString ? 1 : 0);
 }
 
 
@@ -345,7 +528,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSRange       subRange;
    
   //
-  // figure out range of substrings that covers
+  // figure out range of substrings that fall in the range
   // create two subranges and add them to the array
   // remove the "split" original
   //
@@ -384,27 +567,30 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSUInteger   r_length;
    NSUInteger   end;
 
+   if( range.length + range.location > _length || range.length > _length)
+      MulleObjCThrowInvalidRangeException( range);
+   
    r_length = [replacement length];
-   end      = range.location + range.length;
    options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;
    
    for(;;)
    {
       found = [self rangeOfString:s
                           options:options
-                           range:range];
+                            range:range];
       if( ! found.length)
          return;
       
       [self replaceCharactersInRange:found
                           withString:replacement];
 
-      // dial over to end for next check
+      // mover over to end for next check
+      end             = range.location + range.length;
       range.location  = found.location + found.length;
-      // adjust for change in length
-      range.location += r_length - found.length;
+      range.length    = end - range.location;
 
-      range.length   = end - range.location;
+      // adjust for change in length due to replacement
+      range.location += r_length - found.length;
    }
 }
 
@@ -459,7 +645,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
       s   = *strings++;
       len = [s _UTF8StringLength];
       p   = mulle_buffer_advance( buffer, len);
-      [s getUTF8Characters:p
+      [s _getUTF8Characters:p
                  maxLength:len];
    }
    mulle_buffer_add_byte( buffer, 0);
@@ -485,15 +671,17 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 
    allocator = MulleObjCObjectGetAllocator( self);
 
-   mulle_buffer_init_with_static_bytes( &buffer, tmp, sizeof( tmp), allocator);
-   mulleConvertStringsToUTF8( _storage, _length, &buffer);
-   _shadow = mulle_buffer_extract_bytes( &buffer);
+   mulle_buffer_init_with_capacity( &buffer, 0x400, allocator);
+   mulleConvertStringsToUTF8( _storage, _count, &buffer);
+
+   mulle_buffer_size_to_fit( &buffer);
+   _shadowLen = mulle_buffer_get_length( &buffer) - 1; // no trailin zero
+   _shadow    = mulle_buffer_extract_bytes( &buffer);
    mulle_buffer_done( &buffer);
    
    return( _shadow);
 }
    
-
 
 - (id) mutableCopy
 {
@@ -503,6 +691,10 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 
 @end
 
+
+# pragma mark -
+# pragma mark ### NSString ( NSMutableString) ###
+# pragma mark -
 
 @implementation NSString ( NSMutableString)
 
@@ -538,16 +730,17 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
       return( [[self copy] autorelease]);
       
    combined_len = len + other_len;
-   buf          = MulleObjCAllocateNonZeroedMemory( combined_len * sizeof( mulle_utf8_t));
+   buf          = MulleObjCObjectAllocateNonZeroedMemory( self, combined_len * sizeof( mulle_utf8_t));
 
-   [self getUTF8Characters:buf
+   [self _getUTF8Characters:buf
                  maxLength:len];
    
-   [other getUTF8Characters:&buf[ len]
+   [other _getUTF8Characters:&buf[ len]
                   maxLength:other_len];
 
-   s = [[[NSString alloc] initWithUTF8Characters:buf
-                                          length:combined_len] autorelease];
+   s = [[[NSString alloc] _initWithUTF8CharactersNoCopy:buf
+                                                 length:combined_len
+                                              allocator:MulleObjCObjectGetAllocator( self)] autorelease];
    return( s);
 }
 

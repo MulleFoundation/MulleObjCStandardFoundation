@@ -65,7 +65,7 @@ typedef NSUInteger   NSStringCompareOptions;
 // in all other cases use UTF8String
 //
 
-@interface NSString : NSObject < NSCopying>
+@interface NSString : NSObject < MulleObjCClassCluster, NSCopying, NSCoding>
 {
 }
 
@@ -74,6 +74,7 @@ typedef NSUInteger   NSStringCompareOptions;
 
 - (id) description;
 
+- (NSString *) substringWithRange:(NSRange) range;
 - (NSString *) substringFromIndex:(NSUInteger) index;
 - (NSString *) substringToIndex:(NSUInteger) index;
 
@@ -97,13 +98,16 @@ typedef NSUInteger   NSStringCompareOptions;
 // UTF8
 //
 + (id) stringWithUTF8String:(mulle_utf8_t *) s;
-+ (id) stringWithUTF8Characters:(mulle_utf8_t *) s
++ (id) _stringWithUTF8Characters:(mulle_utf8_t *) s
                          length:(NSUInteger) len;
 
 // characters are not zero terminated
-- (void) getUTF8Characters:(mulle_utf8_t *) buf;
-- (void) getUTF8Characters:(mulle_utf8_t *) buffer
-                 maxLength:(NSUInteger) length;
+- (void) _getUTF8Characters:(mulle_utf8_t *) buf;
+- (void) _getUTF8Characters:(mulle_utf8_t *) buffer
+                  maxLength:(NSUInteger) length;
+
++ (BOOL) _areValidUTF8Characters:(mulle_utf8_t *) buffer
+                          length:(NSUInteger) length;
 
 // strings are zero terminated, zero stored in
 // buf[ maxLength]!!
@@ -142,9 +146,6 @@ typedef NSUInteger   NSStringCompareOptions;
 
 - (void) getCharacters:(unichar *) buffer
                  range:(NSRange) range;
-
-- (NSString *) substringWithRange:(NSRange) range;
-
 
 @end
 

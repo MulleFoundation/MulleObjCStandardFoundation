@@ -22,7 +22,7 @@
 // the URL will "preparse" the urlString. This makes URL objects
 // fairly "fat". To store many URLs just keep them as strings and
 // convert to NSURL as necessary
-//
+// WARNING!! NOT MUCH WORKING YET!
 @interface NSURL : NSObject < NSCopying>
 
 @property( copy) NSString   *scheme;

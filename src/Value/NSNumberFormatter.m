@@ -73,15 +73,22 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 }
 
 
+- (void) dealloc
+{
+   [_format release];  // need to release nonnull manually
+   [super dealloc];
+}
+
 
 - (void) setAllowsFloats:(BOOL) flag            {  _flags.allowsFloats = flag; }
 - (void) setGeneratesDecimalNumbers:(BOOL) flag {  _flags.generatesDecimalNumbers = flag; }
 - (void) setHasThousandSeparators:(BOOL) flag   {  _flags.hasThousandSeparators = flag; }
+- (void) setLenient:(BOOL) flag   {  _flags.isLenient = flag; }
 
 - (BOOL) allowsFloats              { return( _flags.allowsFloats); }
 - (BOOL) generatesDecimalNumbers   { return( _flags.generatesDecimalNumbers); }
 - (BOOL) hasThousandSeparators     { return( _flags.hasThousandSeparators); }
-
+- (BOOL) isLenient                 { return( _flags.isLenient); }
 
 
 - (void) setFormat:(NSString *) s              
@@ -98,10 +105,12 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
             plus  = s;
             minus = s;
             break;
+
    case 2 : plus  = [components objectAtIndex:0];
             minus = [components objectAtIndex:1];
             zero  = @"0";
             break;
+         
    case 3 : plus  = [components objectAtIndex:0];
             zero  = [components objectAtIndex:1];
             minus = [components objectAtIndex:2];
@@ -110,7 +119,7 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
             MulleObjCThrowInvalidArgumentException( @"malformed");
    }
    
-   [self setFormat:zero];
+   _format = [zero copy];
    [self setPositiveFormat:zero];
    [self setNegativeFormat:zero];
 }

@@ -20,6 +20,5 @@
 @interface NSArray( NSString)
 
 - (NSString *) componentsJoinedByString:(NSString *) separator;
-- (id) description;
 
 @end

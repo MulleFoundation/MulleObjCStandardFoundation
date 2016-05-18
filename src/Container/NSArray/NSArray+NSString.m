@@ -14,6 +14,7 @@
 #import "NSArray+NSString.h"
 
 // other files in this library
+#import "NSEnumerator.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationString.h"
@@ -32,7 +33,6 @@
    IMP               impAppend;
    NSMutableString   *buffer;
    NSString          *s;
-   NSUInteger        count;
    
    switch( [self count])
    {
@@ -60,49 +60,80 @@
 }
 
 
-- (id) description
+BOOL   NSArrayCompatibleDescription = YES;
+
+- (NSString *) _descriptionWithSelector:(SEL) sel
 {
    NSMutableString   *s;
    NSEnumerator      *rover;
    BOOL              flag;
    id                p;
+   NSString          *initalSpaceOne;
+   NSString          *initalSpaceMany;
+   NSString          *secondSpace;
+   NSString          *firstNewLine;
+   NSUInteger        count;
    
-   flag = NO;
-   s = [NSMutableString stringWithString:@"("];
+   count = [self count];
+   if( ! count)
+      return( NSArrayCompatibleDescription ? @"(\n)" : @"()");
+
+   if( NSArrayCompatibleDescription)
+   {
+      initalSpaceOne  = @"\n    ";
+      initalSpaceMany = @"\n";
+      secondSpace     = @"    ";
+      firstNewLine    = @"\n";
+   }
+   else
+   {
+      initalSpaceOne  = @" ";
+      initalSpaceMany = @"\n";
+      secondSpace     = @"   ";
+      firstNewLine    = @" ";
+   }
+
+   flag  = NO;
+   s     = [NSMutableString stringWithString:@"("];
+   if( count > 1)
+      [s appendString:initalSpaceMany];
+   else
+      [s appendString:initalSpaceOne];
+
    rover = [self objectEnumerator];
    while( p = [rover nextObject])
    {
       if( flag)
-         [s appendString:@", "];
+         [s appendString:@",\n"];
       flag = YES;
-      
-      [s appendString:[p description]];
+
+      if( count > 1)
+         [s appendString:secondSpace];
+
+      [s appendString:[p performSelector:sel]];
    }
+
+   if( count == 1)
+      [s appendString:firstNewLine];
+   else
+      [s appendString:@"\n"];
+
    [s appendString:@")"];
+
    return( s);
 }
 
 
-- (id) debugDescription
+- (NSString *) description
 {
-   NSMutableString   *s;
-   NSEnumerator      *rover;
-   BOOL              flag;
-   id                p;
-   
-   flag = NO;
-   s = [NSMutableString stringWithString:@"("];
-   rover = [self objectEnumerator];
-   while( p = [rover nextObject])
-   {
-      if( flag)
-         [s appendString:@", "];
-      flag = YES;
-      
-      [s appendString:[p debugDescription]];
-   }
-   [s appendString:@")"];
-   return( s);
+   return( [self _descriptionWithSelector:_cmd]);
 }
+
+
+- (NSString *) _debugContentsDescription
+{
+   return( [self _descriptionWithSelector:_cmd]);
+}
+
 
 @end

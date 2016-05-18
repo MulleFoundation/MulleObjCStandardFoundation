@@ -23,7 +23,7 @@
 #include <string.h>
 
 
-@implementation NSObject( NSNumber)
+@implementation NSObject( _NSNumber)
 
 - (BOOL) __isNSNumber
 {
@@ -44,205 +44,265 @@
 - (id) initWithBytes:(void *) value
             objCType:(char *) type
 {
-   NSInteger  i;
+   long       l;
    long long  q;
    double     d;
+   size_t     size;
+   int        is_unsigned;
    
+   is_unsigned = 0;
    switch( type[ 0])
    {
-   case _C_CHR : i = *(char *) value;           goto handle_i;
-   case _C_UCHR : i = *(unsigned char *) value;  goto handle_i;
-   case _C_SHT : i = *(short *) value;          goto handle_i;
-   case _C_USHT : i = *(unsigned short *) value; goto handle_i;
-   case _C_INT : i = *(int *) value;            goto handle_i;
-   case _C_UINT : i = *(unsigned int *) value;   goto handle_i;
-   case _C_LNG : i = *(long *) value;           goto handle_i;
-   case _C_ULNG : i = *(unsigned long *) value;  goto handle_i;
-   case _C_LNG_LNG : q = *(long long *) value;      goto handle_q;
-   case _C_ULNG_LNG : q = *(unsigned long long *) value; goto handle_q;
-   case _C_FLT : d = *(float *) value;          goto handle_d;
-   case _C_DBL : d = *(double *) value;         goto handle_d;
+   case _C_CHR      : l = *(char *) value;           size = sizeof( char); break;
+   case _C_UCHR     : l = *(unsigned char *) value;  size = sizeof( unsigned char); is_unsigned = 1; break;
+   case _C_SHT      : l = *(short *) value;          size = sizeof( short); break;
+   case _C_USHT     : l = *(unsigned short *) value; size = sizeof( unsigned short); is_unsigned = 1; break;
+   case _C_INT      : l = *(int *) value;            size = sizeof( int); break;
+   case _C_UINT     : l = *(unsigned int *) value;   size = sizeof( unsigned int); is_unsigned = 1; break;
+   case _C_LNG      : l = *(long *) value;           size = sizeof( long); break;
+   case _C_ULNG     : l = *(unsigned long *) value;  size = sizeof( unsigned long); is_unsigned = 1;  break;
+   case _C_LNG_LNG  : q = *(long long *) value;      size = sizeof( long long); break;
+   case _C_ULNG_LNG : q = *(unsigned long long *) value; size = sizeof( unsigned long long); is_unsigned = 1; break;
+         
+   case _C_FLT      : d = *(float *) value;          return( [self initWithDouble:d]);
+   case _C_DBL      : d = *(double *) value;         return( [self initWithDouble:d]);
+   default          : return( nil);
    }
-   return( nil);
-   
-handle_i:
-   return( [self initWithInteger:i]);
-   
-handle_q:
-   return( [self initWithLongLong:q]);
 
-handle_d:
-   return( [self initWithDouble:d]);
-}
-
-
-- (id) initWithInteger:(NSInteger) value
-{
-   _MulleObjCIntegerNumber  *nr;
-   
    [self release];
+   if( size == sizeof( int8_t))
+   {
+      if( is_unsigned)
+         return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) l]);
+      return( [_MulleObjCInt8Number newWithInt8:(int8_t) l]);
+   }
 
-   nr = [[_MulleObjCIntegerNumber alloc] initWithInteger:value];
-   return( nr);
-}
+   if( size == sizeof( int16_t))
+   {
+      if( is_unsigned)
+         return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) l]);
+      return( [_MulleObjCInt16Number newWithInt16:(int16_t) l]);
+   }
 
-
-- (id) initWithLongDouble:(long double) value
-{
-   _MulleObjCLongDoubleNumber  *nr;
-   
-   [self release];
-   
-   nr = [[_MulleObjCLongDoubleNumber alloc] initWithLongDouble:value];
-   return( nr);
-}
-
-
-- (id) initWithDouble:(double) value
-{
-   _MulleObjCDoubleNumber  *nr;
-   
-   [self release];
-
-   nr = [[_MulleObjCDoubleNumber alloc] initWithDouble:value];
-   return( nr);
-}
-
-
-- (id) initWithLongLong:(long long) value
-{
-   _MulleObjCLongLongNumber  *nr;
-   
-   [self release];
-   
-   nr = [[_MulleObjCLongLongNumber alloc] initWithLongLong:value];
-   return( nr);
+   if( size == sizeof( int32_t))
+   {
+      if( is_unsigned)
+         return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) l]);
+      return( [_MulleObjCInt32Number newWithInt32:(int32_t) l]);
+   }
+   assert( sizeof( long long) <= sizeof( int64_t));
+   if( is_unsigned)
+      return( [_MulleObjCUInt64Number newWithUInt64:(uint64_t) q]);
+   return( [_MulleObjCInt64Number newWithInt64:(int64_t) q]);
 }
 
 
 - (id) initWithBool:(BOOL) value
 {
-   return( [self initWithInteger:value ? YES : NO]);
+   [self release];
+
+   return( [_MulleObjCInt8Number newWithInt8:value ? YES : NO]);
 }
 
 
 - (id) initWithChar:(char) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   assert( sizeof( char) == sizeof( int8_t));
+   return( [_MulleObjCInt8Number newWithInt8:value]);
 }
 
 
 - (id) initWithUnsignedChar:(unsigned char) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   return( [_MulleObjCUInt32Number newWithUInt32:value]);
 }
 
 
 - (id) initWithShort:(short) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   assert( sizeof( short) == sizeof( int16_t));
+   return( [_MulleObjCInt16Number newWithInt16:value]);
 }
 
 
 - (id) initWithUnsignedShort:(unsigned short) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   return( [_MulleObjCUInt32Number newWithUInt32:value]);
 }
 
 
 - (id) initWithInt:(int) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   if( sizeof( int) == sizeof( int32_t))
+      return( [_MulleObjCInt32Number newWithInt32:value]);
+   else
+      return( [_MulleObjCInt64Number newWithInt64:value]);
 }
 
 
 - (id) initWithUnsignedInt:(unsigned int) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   if( sizeof( unsigned int) == sizeof( uint32_t))
+      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   else
+      return( [_MulleObjCUInt64Number newWithUInt64:value]);
 }
 
 
 - (id) initWithLong:(long) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   if( sizeof( long) == sizeof( int32_t))
+      return( [_MulleObjCInt32Number newWithInt32:value]);
+   else
+      return( [_MulleObjCInt64Number newWithInt64:value]);
 }
 
 
 - (id) initWithUnsignedLong:(unsigned long) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+
+   if( sizeof( unsigned long) == sizeof( uint32_t))
+      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   else
+      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+}
+
+
+- (id) initWithInteger:(NSInteger) value
+{
+   [self release];
+   
+   if( sizeof( NSInteger) == sizeof( int32_t))
+      return( [_MulleObjCInt32Number newWithInt32:value]);
+   else
+      return( [_MulleObjCInt64Number newWithInt64:value]);
 }
 
 
 - (id) initWithUnsignedInteger:(NSUInteger) value
 {
-   return( [self initWithInteger:value]);
+   [self release];
+   
+   if( sizeof( NSUInteger) == sizeof( uint32_t))
+      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   else
+      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+}
+
+
+- (id) initWithLongLong:(long long) value
+{
+   assert( sizeof( long long) == sizeof( int64_t));
+
+   [self release];
+   return( [_MulleObjCInt64Number newWithInt64:value]);
 }
 
 
 - (id) initWithUnsignedLongLong:(unsigned long long) value
 {
-   return( [self initWithLongLong:value]);
+   assert( sizeof( unsigned long long) == sizeof( uint64_t));
+
+   [self release];
+   return( [_MulleObjCUInt64Number newWithUInt64:value]);
 }
 
 
 - (id) initWithFloat:(float) value
 {
-   return( [self initWithDouble:value]);
+   [self release];
+   
+   return( [_MulleObjCDoubleNumber newWithDouble:value]);
 }
 
 
+- (id) initWithDouble:(double) value
+{
+   [self release];
+   
+   return( [_MulleObjCDoubleNumber newWithDouble:value]);
+}
+
+
+- (id) initWithLongDouble:(long double) value
+{
+   [self release];
+   
+   return( [_MulleObjCLongDoubleNumber newWithLongDouble:value]);
+}
+
+
+#pragma mark -
+#pragma mark convenience constructors 
+
+// don't short-circuit for subclasses
+
 + (id) numberWithBool:(BOOL) value
 {
-   return( [[[self alloc] initWithInteger:value ? YES : NO] autorelease]);
+   return( [[[self alloc] initWithBool:value] autorelease]);
 }
 
 
 + (id) numberWithChar:(char) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithChar:value] autorelease]);
 }
 
 
 + (id) numberWithUnsignedChar:(unsigned char) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithUnsignedChar:value] autorelease]);
 }
 
 
 + (id) numberWithShort:(short) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithShort:value] autorelease]);
 }
 
 
 + (id) numberWithUnsignedShort:(unsigned short) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithUnsignedShort:value] autorelease]);
 }
 
 
 + (id) numberWithInt:(int) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithInt:value] autorelease]);
 }
 
 
 + (id) numberWithUnsignedInt:(unsigned int) value;
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithUnsignedInt:value] autorelease]);
 }
 
 
 + (id) numberWithLong:(long) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithLong:value] autorelease]);
 }
 
 
 + (id) numberWithUnsignedLong:(unsigned long) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithUnsignedLong:value] autorelease]);
 }
 
 
@@ -254,7 +314,7 @@ handle_d:
 
 + (id) numberWithUnsignedInteger:(NSUInteger) value
 {
-   return( [[[self alloc] initWithInteger:value] autorelease]);
+   return( [[[self alloc] initWithUnsignedInteger:value] autorelease]);
 }
 
 
@@ -266,13 +326,13 @@ handle_d:
 
 + (id) numberWithUnsignedLongLong:(unsigned long long) value
 {
-   return( [[[self alloc] initWithLongLong:value] autorelease]);
+   return( [[[self alloc] initWithUnsignedLongLong:value] autorelease]);
 }
 
 
 + (id) numberWithFloat:(float) value
 {
-   return( [[[self alloc] initWithDouble:value] autorelease]);
+   return( [[[self alloc] initWithFloat:value] autorelease]);
 }
 
 
@@ -288,94 +348,185 @@ handle_d:
 }
 
 
-- (NSComparisonResult) compare:(id) other
+#pragma mark -
+#pragma mark operations
+
+/*
+ * this compare: "properly" promotes all comparisons to unsigned
+ * if one ot the two numbers is unsigned (and not FP)
+ * this is is believe different from Apple 
+ */
+#define _C_SUPERQUAD  1848
+
+// returns
+//  _C_INT          // 32 bit
+//  _C_LNG_LNG      // 64 bit
+//  _C_SUPERQUAD    // 128 bit
+//  _C_DBL          // double
+//  _C_LNG_DBL      // double
+
+static int  simplify_type_for_comparison( int type)
 {
-   char             *type;
-   char             *other_type;
-   NSInteger        ldiff;
-   long long        qdiff;
-   double           ddiff;
-   long double      lddiff;
+   switch( type)
+   {
+   case _C_CHR :
+   case _C_SHT :
+   case _C_INT :
+   case _C_UCHR :
+   case _C_USHT :
+      return( _C_INT);
+         
+   case _C_UINT :
+       if( sizeof( unsigned int) == sizeof( int32_t))
+          return( _C_LNG_LNG);
+       return( _C_SUPERQUAD);
+
+   case _C_LNG :
+      if( sizeof( long) == sizeof( int32_t))
+         return( _C_INT);
+      return( _C_LNG_LNG);
+         
+   case _C_ULNG :
+      if( sizeof( unsigned long) == sizeof( int32_t))
+         return( _C_LNG_LNG);
+      return( _C_SUPERQUAD);
+
+   case _C_LNG_LNG :
+       return( _C_LNG_LNG);
+         
+   case _C_ULNG_LNG :
+      return( _C_SUPERQUAD);
+         
+   case _C_FLT     :
+      return( _C_DBL);
+   }
+   return( type);
+}
+
+
+//
+// generic routines for all
+//
+- (mulle_objc_superquad) _superquadValue
+{
+   mulle_objc_superquad  value;
+   long long             x;
    
-   type       = [self objCType];
-   other_type = [other objCType];
+   x        = [self longLongValue];
+   value.lo = x;
+   value.hi = (x < 0) ? ~0 : 0;
+   return( value);
+}
+
+
+- (int32_t) _int32Value
+{
+   return( (int32_t) [self integerValue]);
+}
+
+
+- (int64_t) _int64Value
+{
+   return( (int64_t) [self longLongValue]);
+}
+
+
+- (NSComparisonResult) compare:(NSNumber *) other
+{
+   char                   *p_type;
+   char                   *p_other_type;
+   int32_t                a32, b32;
+   int64_t                a64, b64;
+   mulle_objc_superquad   a128, b128;
+   double                 da, db;
+   long double            lda, ldb;
+   int                    type;
+   int                    other_type;
    
-   NSCParameterAssert( type && strlen( type) == 1);
-   NSCParameterAssert( other_type && strlen( other_type) == 1);
+   p_type       = [self objCType];
+   p_other_type = other ? [other objCType] : @encode( int);
    
-   switch( *type)
+   NSCParameterAssert( p_type && strlen( p_type) == 1);
+   NSCParameterAssert( p_other_type && strlen( p_other_type) == 1);
+   
+   type       = simplify_type_for_comparison( *p_type);
+   other_type = simplify_type_for_comparison( *p_other_type);
+   
+   switch( type)
    {
    default  : goto bail;
-   case _C_CHR : 
-   case _C_UCHR :
-   case _C_SHT : 
-   case _C_USHT : 
-   case _C_INT : 
-   case _C_UINT : 
-   case _C_LNG : 
-   case _C_ULNG : 
-         switch( *other_type)
-         {
-         default  : goto bail;
-         case _C_CHR :
-         case _C_UCHR :
-         case _C_SHT :
-         case _C_USHT :
-         case _C_INT :
-         case _C_UINT : 
-         case _C_LNG : 
-         case _C_ULNG : goto do_integer_diff;
-            
-         case _C_LNG_LNG : 
-         case _C_ULNG_LNG : goto do_long_long_diff;
-               
-         case _C_FLT : 
-         case _C_DBL : goto do_double_diff;
-         case 'D' : goto do_long_double_diff;
-         }
-
+   case _C_INT :
+      switch( other_type)
+      {
+      default           : goto bail;
+      case _C_INT       : goto do_32_32_diff;
+      case _C_LNG_LNG   : goto do_64_64_diff;
+      case _C_SUPERQUAD : goto do_128_128_diff;
+      case _C_DBL       : goto do_d_d_diff;
+      case _C_LNG_DBL   : goto do_ld_ld_diff;
+      }
+         
    case _C_LNG_LNG : 
-   case _C_ULNG_LNG : 
-         switch( *other_type)
-         {
-         default  : goto bail;
-         case _C_CHR :
-         case _C_UCHR :
-         case _C_SHT :
-         case _C_USHT :
-         case _C_INT :
-         case _C_UINT : 
-         case _C_LNG : 
-         case _C_ULNG :
-         case _C_LNG_LNG :
-         case _C_ULNG_LNG : goto do_long_long_diff;
-               
-         case _C_FLT : 
-         case _C_DBL : goto do_double_diff;
-         case 'D' : goto do_long_double_diff;
-         }
-   
-   case _C_FLT : 
-   case _C_DBL : goto do_double_diff;
-   case 'D' : goto do_long_double_diff;
+      switch( other_type)
+      {
+      default           : goto bail;
+      case _C_INT       :
+      case _C_LNG_LNG   : goto do_64_64_diff;
+      case _C_SUPERQUAD : goto do_128_128_diff;
+      case _C_DBL       : goto do_d_d_diff;
+      case _C_LNG_DBL   : goto do_ld_ld_diff;
+      }
+         
+         
+   case _C_SUPERQUAD :
+      switch( other_type)
+      {
+      default           : goto bail;
+      case _C_INT       :
+      case _C_LNG_LNG   :
+      case _C_SUPERQUAD : goto do_128_128_diff;
+      case _C_DBL       : goto do_d_d_diff;
+      case _C_LNG_DBL   : goto do_ld_ld_diff;
+      }
+         
+   case _C_DBL          : goto do_d_d_diff;
+   case _C_LNG_DBL      : goto do_ld_ld_diff;
    }
    
    // TODO: check for unsigned comparison
-do_integer_diff:
-   ldiff = [self integerValue] - [other integerValue];
-   return( ldiff < 0 ? NSOrderedDescending : (! ldiff ? NSOrderedSame : NSOrderedAscending));
+   // hint: don't do subtraction
+do_32_32_diff:
+   a32 = [self _int32Value];
+   b32 = [other _int32Value];
+   if( a32 == b32)
+      return( NSOrderedSame);
+   return( a32 < b32 ? NSOrderedAscending : NSOrderedDescending);
 
-do_long_long_diff :   
-   qdiff = [self longLongValue] - [other longLongValue];
-   return( qdiff < 0 ? NSOrderedDescending : (! qdiff ? NSOrderedSame : NSOrderedAscending));
+do_64_64_diff :
+   a64 = [self _int64Value];
+   b64 = [other _int64Value];
+   if( a64 == b64)
+      return( NSOrderedSame);
+   return( a64 < b64 ? NSOrderedAscending : NSOrderedDescending);
 
-do_double_diff :   
-   ddiff = [self doubleValue] - [other doubleValue];
-   return( ddiff < 0 ? NSOrderedDescending : (ddiff == 0.0 ? NSOrderedSame : NSOrderedAscending));
-
-do_long_double_diff :
-   lddiff = [self longDoubleValue] - [other longDoubleValue];
-   return( lddiff < 0 ? NSOrderedDescending : (lddiff == 0.0 ? NSOrderedSame : NSOrderedAscending));
+do_128_128_diff :
+   a128 = [self _superquadValue];
+   b128 = [other _superquadValue];
+   return( mulle_objc_superquad_compare( a128, b128));
+   
+do_d_d_diff :
+   da = [self doubleValue];
+   db = [other doubleValue];
+   if( da == db)
+      return( NSOrderedSame);
+   return( da < db ? NSOrderedAscending : NSOrderedDescending);
+   
+do_ld_ld_diff :
+   lda = [self longDoubleValue];
+   ldb = [other longDoubleValue];
+   if( lda == ldb)
+      return( NSOrderedSame);
+   return( lda < ldb ? NSOrderedAscending : NSOrderedDescending);
    
 bail:
    MulleObjCThrowInternalInconsistencyException( @"unknown objctype");
@@ -399,15 +550,35 @@ bail:
 {
    if( self == other)
       return( YES);
-   return( [self compare:other] == NSOrderedSame);
+   return( [other compare:self] == NSOrderedSame);
 }
 
 
 - (BOOL) isEqual:(id) other
 {
-   if( ! [other isKindOfClass:[NSNumber class]])
+   if( ! [other __isNSNumber])
       return( NO);
    return( [self isEqualToNumber:other]);
+}
+
+
+- (id) copy
+{
+   return( [self retain]);
+}
+
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSNumber class]);
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
 }
 
 

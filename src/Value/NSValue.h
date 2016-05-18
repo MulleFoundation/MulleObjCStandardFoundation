@@ -15,7 +15,7 @@
 
 
 
-@interface NSValue : NSObject < MulleObjCClassCluster, NSCopying>
+@interface NSValue : NSObject < MulleObjCClassCluster, NSCoding>
 {
 }
 
@@ -25,6 +25,9 @@ withObjCType:(char *) type;
              objCType:(char *) type;
 + (id) valueWithPointer:(void *) pointer;
 + (id) valueWithRange:(NSRange) range;
+
+- (id) initWithBytes:(void *) value
+            objCType:(char *) type;
 
 - (BOOL) isEqual:(id) other;
 - (BOOL) isEqualToValue:(id) other;

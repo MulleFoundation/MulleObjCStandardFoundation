@@ -13,4 +13,7 @@
 
 - (void) decodeValueOfObjCType:(char *) type
                             at:(void *) p;
+
+- (void *) decodeBytesWithReturnedLength:(NSUInteger *) len_p;
+
 @end

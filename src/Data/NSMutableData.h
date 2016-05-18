@@ -57,19 +57,11 @@
 @end
 
 
-
-@interface NSObject( NSMutableData_Private)
-
-- (BOOL) __isNSMutableData;
-
-@end
-
-
 @interface NSMutableData( _Private)
 
-+ (id) nonZeroedDataWithLength:(NSUInteger) length;
-- (id) initNonZeroedDataWithLength:(NSUInteger) length;
-- (void) setLengthDontZero:(NSUInteger) length;
++ (id) _nonZeroedDataWithLength:(NSUInteger) length;
+- (id) _initNonZeroedDataWithLength:(NSUInteger) length;
+- (void) _setLengthDontZero:(NSUInteger) length;
 
 @end
 

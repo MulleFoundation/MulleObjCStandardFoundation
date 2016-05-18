@@ -17,8 +17,7 @@ static void print_bool( char *title, BOOL flag)
 void   check_long_long( NSNumber *value, long long expect)
 {
    print_bool( "boolValue", [value boolValue] == (expect ? YES : NO));
-
-   print_bool( "boolValue", [value charValue] == (char) expect);
+   print_bool( "charValue", [value charValue] == (char) expect);
    print_bool( "shortValue", [value shortValue] == (short) expect);
    print_bool( "intValue", [value intValue] == (int) expect);
    print_bool( "longValue", [value longValue] == (long) expect);
@@ -121,10 +120,10 @@ main()
    check_long_long( value, (unsigned long long) LONG_LONG_MIN);
 
    printf( "\nNSUInteger\n");
-   value = [NSNumber numberWithUnsignedInteger:NSUIntegerMax];
-   check_long_long( value, NSUIntegerMax);
-   value = [NSNumber numberWithUnsignedInteger:NSUIntegerMin];
-   check_long_long( value, NSUIntegerMin);
+   value = [NSNumber numberWithUnsignedInteger:NSIntegerMax];
+   check_long_long( value, NSIntegerMax);
+   value = [NSNumber numberWithUnsignedInteger:NSIntegerMin];
+   check_long_long( value, NSIntegerMin);
 
 
    printf( "\nfloat\n");

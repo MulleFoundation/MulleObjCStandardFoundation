@@ -46,6 +46,7 @@
 
 - (void) deleteCharactersInRange:(NSRange)aRange;
 
+// here nil is allowed and clears the NSMutableString(!)
 - (void) setString:(NSString *) s;
 
 @end

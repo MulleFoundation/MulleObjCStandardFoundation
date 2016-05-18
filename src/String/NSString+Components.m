@@ -37,7 +37,7 @@ static NSString   *makeUTF8String( mulle_utf8_t *s, NSUInteger len)
 {
    if( ! len)
       return( @"");
-   return( [[NSString alloc] initWithUTF8Characters:s
+   return( [[NSString alloc] _initWithUTF8Characters:s
                                              length:len]);
 }
 
@@ -118,7 +118,7 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    // batching algorithm. But for EOF, strings are mostly small
    //
    buf = (mulle_utf8_t *) mulle_safer_alloca( n * sizeof( mulle_utf8_t));
-   [self getUTF8Characters:buf];
+   [self _getUTF8Characters:buf];
    sentinel = &buf[ n];
 
    // Degenerate case @"." -> ( @"", @"")
@@ -142,7 +142,7 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    else
    {
       sep = (mulle_utf8_t *) mulle_safer_alloca( m * sizeof( mulle_utf8_t));
-      [separator getUTF8Characters:sep];
+      [separator _getUTF8Characters:sep];
 
       remain = m;
       p      = buf;

@@ -114,7 +114,7 @@ static inline void  mulle_buffer_add_integer_28( struct mulle_buffer *buffer, ui
 }
 
 #define shift64( x)    ((x) - 7)
-#define mask64( x)     (0x1ULL << (((x) - 7) - 1))
+#define mask64( x)     ((0x1ULL << ((x) - 7)) - 1)
 
 static inline void  mulle_buffer_add_integer_35( struct mulle_buffer *buffer, uint64_t v)
 {
@@ -154,11 +154,14 @@ static inline void  mulle_buffer_add_integer_63( struct mulle_buffer *buffer, ui
 static inline void  mulle_buffer_add_integer_64( struct mulle_buffer *buffer, uint64_t v)
 {
    mulle_buffer_add_byte( buffer, 0x81);
-   mulle_buffer_add_integer_63( buffer, v & mask64( 63));
+   mulle_buffer_add_integer_63( buffer, v << 1 >> 1);  // clear top bit
 }
 
 
 // this must be easier
+//
+// not efficient for negative numbers
+//
 static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint64_t v)
 {
    uint32_t       v32;
@@ -202,17 +205,17 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
    
    switch( bytes)
    {
-      case 10 : mulle_buffer_add_integer_64( buffer, v); return;
-      case  9 : mulle_buffer_add_integer_63( buffer, v); return;
-      case  8 : mulle_buffer_add_integer_56( buffer, v); return;
-      case  7 : mulle_buffer_add_integer_49( buffer, v); return;
-      case  6 : mulle_buffer_add_integer_42( buffer, v); return;
-      case  5 : mulle_buffer_add_integer_35( buffer, v); return;
-         
-      case  4 : mulle_buffer_add_integer_28( buffer, (uint32_t) v); return;
-      case  3 : mulle_buffer_add_integer_21( buffer, (uint32_t) v); return;
-      case  2 : mulle_buffer_add_integer_14( buffer, (uint16_t) v); return;
-      case  1 : mulle_buffer_add_integer_7( buffer,  (uint8_t) v); return;
+   case 10 : mulle_buffer_add_integer_64( buffer, v); return;
+   case  9 : mulle_buffer_add_integer_63( buffer, v); return;
+   case  8 : mulle_buffer_add_integer_56( buffer, v); return;
+   case  7 : mulle_buffer_add_integer_49( buffer, v); return;
+   case  6 : mulle_buffer_add_integer_42( buffer, v); return;
+   case  5 : mulle_buffer_add_integer_35( buffer, v); return;
+      
+   case  4 : mulle_buffer_add_integer_28( buffer, (uint32_t) v); return;
+   case  3 : mulle_buffer_add_integer_21( buffer, (uint32_t) v); return;
+   case  2 : mulle_buffer_add_integer_14( buffer, (uint16_t) v); return;
+   case  1 : mulle_buffer_add_integer_7( buffer,  (uint8_t) v); return;
    }
 }
 

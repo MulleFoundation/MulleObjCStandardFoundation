@@ -1,0 +1,113 @@
+bool
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+char
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+short
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+int
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+long
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+long long
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+NSInteger
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+unsigned char
+NSOrderedSame
+NSOrderedAscending
+NSOrderedDescending
+NSOrderedSame
+
+unsigned short
+NSOrderedSame
+NSOrderedAscending
+NSOrderedDescending
+NSOrderedSame
+
+unsigned int
+NSOrderedSame
+NSOrderedAscending
+NSOrderedDescending
+NSOrderedSame
+
+unsigned long
+NSOrderedSame
+NSOrderedAscending
+NSOrderedDescending
+NSOrderedSame
+
+unsigned long long
+NSOrderedSame
+NSOrderedAscending
+NSOrderedDescending
+NSOrderedSame
+
+NSUInteger
+NSOrderedSame
+NSOrderedAscending
+NSOrderedDescending
+NSOrderedSame
+
+float
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+double
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+unsigned char, char
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+unsigned short, short
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+unsigned int, int
+NSOrderedSame
+NSOrderedDescending
+NSOrderedAscending
+NSOrderedSame
+
+double, int
+NSOrderedSame
+NSOrderedSame
+NSOrderedSame
+NSOrderedSame

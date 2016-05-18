@@ -26,7 +26,7 @@
 #define NSDistantPast    -63114076800.0
 
 
-@implementation NSObject( NSDate)
+@implementation NSObject( _NSDate)
 
 - (BOOL) __isNSDate
 {
@@ -52,11 +52,34 @@
 }
 
 
+# pragma mark -
+# pragma mark NSCoding
+
+- (id) initWithCoder:(NSCoder *) coder
+{
+   NSTimeInterval   value;
+   
+   [coder decodeValueOfObjCType:@encode( NSTimeInterval)
+                             at:&value];
+   return( [self initWithTimeIntervalSinceReferenceDate:value]);
+}
+
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   [coder encodeValueOfObjCType:@encode( NSTimeInterval)
+                             at:&_interval];
+}
+
+
+# pragma mark -
+# pragma mark convenience constructors
+
 + (id) date
 {  
    NSTimeInterval   seconds;
    
-   seconds = time( NULL);
+   seconds = time( NULL) + NSTimeIntervalSince1970;
    return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:seconds] autorelease]);
 }
 
@@ -77,7 +100,7 @@
 // make these class clusters
 + (id) distantFuture
 {
-   return( [[[self alloc]  initWithTimeIntervalSinceReferenceDate:NSDistantFuture] autorelease]);
+   return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:NSDistantFuture] autorelease]);
 }
 
 
@@ -87,6 +110,9 @@
 }
 
 
+
+# pragma mark -
+# pragma mark Various inits
 
 - (id) initWithTimeInterval:(NSTimeInterval) seconds 
                   sinceDate:(NSDate *) refDate
@@ -101,6 +127,29 @@
 }
 
 
+
+# pragma mark -
+# pragma mark Operations
+
+- (BOOL) isEqualToDate:(NSDate *) other
+{
+   if( ! other)
+      return( NO);
+   
+   return( [self timeIntervalSinceReferenceDate] == [other timeIntervalSinceReferenceDate]);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSDate])
+      return( NO);
+
+   // dunno yet
+   //   if( ! [other __isNSCalendarDate])
+   //      return( NO);
+   return( [self isEqualToDate:other]);
+}
 
 
 - (NSComparisonResult) compare:(id) other

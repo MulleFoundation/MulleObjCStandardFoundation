@@ -69,17 +69,21 @@
 - (id) initWithFormat:(NSString *) format
             arguments:(mulle_vararg_list) arguments
 {
-   mulle_utf8_t         *c_format;
-   mulle_utf8_t         *result;
-   struct mulle_buffer      buffer;
-   struct mulle_allocator   *allocator;
-   size_t                   len;
    NSString                 *s;
-
+   mulle_utf8_t             *c_format;
+   mulle_utf8_t             *result;
+   size_t                   len;
+   struct mulle_allocator   *allocator;
+   struct mulle_buffer      buffer;
+   auto char                space[ 512];
+   
+   if( ! format)
+      MulleObjCThrowInvalidArgumentException( @"format is nil");
+   
    c_format  = [format UTF8String];
    allocator = MulleObjCObjectGetAllocator( self);
    
-   mulle_buffer_init( &buffer, allocator);
+   mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), allocator);
    if( mulle_mvsprintf( &buffer, (char *) c_format, arguments) < 0)
    {
       mulle_buffer_done( &buffer);
@@ -92,7 +96,7 @@
    if( len)
    {
       result = mulle_buffer_get_bytes( &buffer);
-      s      = [self initWithUTF8Characters:result
+      s      = [self _initWithUTF8Characters:result
                                      length:len];
    }
    else
@@ -133,8 +137,8 @@
    if( len)
    {
       result = mulle_buffer_get_bytes( &buffer);
-      s      = [self initWithUTF8Characters:result
-                                     length:len];
+      s      = [self _initWithUTF8Characters:result
+                                      length:len];
    }
    else
    {
@@ -146,13 +150,6 @@
    }
    mulle_buffer_done( &buffer);
    return( s);
-}
-
-
-- (NSString *) debugDescription
-{
-   return( [NSString stringWithFormat:@"<%p %.100s \"%.1024@\">",
-      self, NSStringFromClass( [self class]), self]);
 }
 
 @end

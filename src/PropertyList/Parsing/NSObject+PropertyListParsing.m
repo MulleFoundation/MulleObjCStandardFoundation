@@ -19,7 +19,7 @@
 // std-c and dependencies
 
 
-@implementation NSObject( _PropertyListParsing)
+@implementation NSObject( NSPropertyListParsing)
 
 
 static char  end_char_lut[ 128];
@@ -206,7 +206,7 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
          return( [[NSNumber alloc] initWithLongLong:atoll( buf)]);
       return( [[NSNumber alloc] initWithDouble:atof( buf)]);
    }
-   return( [[reader->nsStringClass alloc] initWithUTF8Characters:region.bytes
+   return( [[reader->nsStringClass alloc] _initWithUTF8Characters:region.bytes
                                                           length:region.length]);
 }
 

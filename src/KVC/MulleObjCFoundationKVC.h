@@ -8,8 +8,10 @@
 
 
 // export everything with NS
+#import "NSSortDescriptor.h"
 
 #import "NSObject+KeyValueCoding.h"
+#import "NSArray+NSSortDescriptor.h"
 
 // export everything with MulleObjC
 

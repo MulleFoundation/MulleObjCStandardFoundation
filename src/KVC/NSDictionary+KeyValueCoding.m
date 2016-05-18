@@ -32,8 +32,7 @@
    length = [key length];
    if( ! length)
       return( nil);  // strange but compatible!
-   if( [key characterAtIndex:0] == _C_ID)
-      return( [super valueForKey:key]);
+
    return( [self objectForKey:key]);
 }
 

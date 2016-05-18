@@ -50,9 +50,12 @@ static BOOL  isSupportedObjCType( char c)
    case _C_ULNG_LNG : 
       
    case _C_FLT : 
-   case _C_DBL : 
+   case _C_DBL :
    case _C_LNG_DBL :
-   case _C_ID  :
+   
+   case _C_CLASS :
+   case _C_SEL :
+   case _C_ID :
    case _C_ASSIGN_ID :
    case _C_COPY_ID   :
       return( YES);
@@ -64,7 +67,8 @@ static BOOL  isSupportedObjCType( char c)
 
 static NSString  *_stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
                                                              NSString *key,
-                                                             BOOL     tailColon)
+                                                             BOOL     tailColon,
+                                                             struct mulle_allocator *allocator)
 {
    NSUInteger               prefix_len;
    NSUInteger               key_len;
@@ -72,9 +76,6 @@ static NSString  *_stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
    uint8_t                  *buf;
    uint8_t                  c;
    NSString                 *s;
-   struct mulle_allocator   *allocator;
-   
-   allocator  = MulleObjCAllocator();
    
    prefix_len = [prefix _UTF8StringLength];
    key_len    = [key _UTF8StringLength];
@@ -87,8 +88,8 @@ static NSString  *_stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
    
    buf = (uint8_t *) mulle_allocator_malloc( allocator, len);
 
-   [prefix getUTF8Characters:buf];
-   [key getUTF8Characters:&buf[ prefix_len]];
+   [prefix _getUTF8Characters:buf];
+   [key _getUTF8Characters:&buf[ prefix_len]];
    
    c = buf[ prefix_len];
    if( c >= 'a' && c <= 'z')
@@ -109,9 +110,10 @@ static NSString  *_stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
 
 static NSString  *stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
                                                             NSString *key,
-                                                            BOOL     tailingColon)
+                                                            BOOL     tailingColon,
+                                                            struct mulle_allocator *allocator)
 {
-   return( [_stringByCombiningPrefixAndCapitalizedKey( prefix, key, tailingColon) autorelease]);
+   return( [_stringByCombiningPrefixAndCapitalizedKey( prefix, key, tailingColon, allocator) autorelease]);
 }
 
 
@@ -122,7 +124,7 @@ static NSString  *stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
 
 static void   handle_ivar( struct _MulleObjCKVCInformation *p, char *cString, struct _mulle_objc_ivar *ivar)
 {
-   p->cKey      = MulleObjCDuplicateCString( cString);
+   p->cKey      = mulle_strdup( cString);
    p->offset    = _mulle_objc_ivar_get_offset( ivar);
    p->valueType = _mulle_objc_ivar_get_signature( ivar)[ 0];
    
@@ -133,7 +135,7 @@ static void   handle_ivar( struct _MulleObjCKVCInformation *p, char *cString, st
 void   _MulleObjCClearKVCInformation( struct _MulleObjCKVCInformation *p)
 {
    [p->key release];
-   MulleObjCDeallocateMemory( p->cKey);
+   mulle_free( p->cKey);
    
    p->key  = nil;
    p->cKey = NULL;
@@ -217,13 +219,15 @@ static BOOL   useInstanceVariable( struct _MulleObjCKVCInformation *p, Class aCl
 
 void   __MulleObjCDivineTakeStoredValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key, unsigned int mask)
 {
-   NSString   *methodName;
-   NSString   *underscoreMethodName;
-   NSString   *underscoreName;
+   NSString                 *methodName;
+   NSString                 *underscoreMethodName;
+   NSString                 *underscoreName;
+   struct mulle_allocator   *allocator;
    
    _MulleObjCKVCInformationSetDefaultValues( p, key);
    
-   methodName = stringByCombiningPrefixAndCapitalizedKey( @"set", key, YES);
+   allocator            = MulleObjCClassGetAllocator( aClass);
+   methodName           = stringByCombiningPrefixAndCapitalizedKey( @"set", key, YES, allocator);
    underscoreMethodName = [@"_" stringByAppendingString:methodName];
    
    // check for _setKey
@@ -259,7 +263,7 @@ void   __MulleObjCDivineTakeValueForKeyKVCInformation( struct _MulleObjCKVCInfor
    
    _MulleObjCKVCInformationSetDefaultValues( p, key);
    
-   methodName = stringByCombiningPrefixAndCapitalizedKey( @"set", key, YES);
+   methodName = stringByCombiningPrefixAndCapitalizedKey( @"set", key, YES, MulleObjCClassGetAllocator( aClass));
    
    // check for _set<Key>:
    if( mask & _MulleObjCKVCMethodBit)  // sic!
@@ -300,7 +304,7 @@ void   __MulleObjCDivineStoredValueForKeyKVCInformation( struct _MulleObjCKVCInf
    
    _MulleObjCKVCInformationSetDefaultValues( p, key);
    
-   getMethodName = stringByCombiningPrefixAndCapitalizedKey( @"get", key, NO);
+   getMethodName = stringByCombiningPrefixAndCapitalizedKey( @"get", key, NO, MulleObjCClassGetAllocator( aClass));
    
    underscoreGetMethodName = [@"_" stringByAppendingString:getMethodName];
    if( mask & _MulleObjCKVCUnderscoreGetMethodBit)
@@ -355,7 +359,7 @@ void   __MulleObjCDivineValueForKeyKVCInformation( struct _MulleObjCKVCInformati
    _MulleObjCKVCInformationSetDefaultValues( p, key);
    
    //   if( _MulleObjCKVCIsUsingDefaultMethodOfType( aClass, _MulleObjCKVCValueForKeyIndex))
-   getMethodName = stringByCombiningPrefixAndCapitalizedKey( @"get", key, NO);
+   getMethodName = stringByCombiningPrefixAndCapitalizedKey( @"get", key, NO, MulleObjCClassGetAllocator( aClass));
 
    if( mask & _MulleObjCKVCGetMethodBit)
       if( useInstanceMethod( p, aClass, getMethodName, NO))
@@ -482,6 +486,7 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
       case _C_ULNG     :
       case _C_LNG_LNG  :
       case _C_ULNG_LNG :
+      case _C_SEL      :
             if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
             {
                param.q = 0;
@@ -513,6 +518,7 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
    case _C_INT  : parameter = (void *) [value intValue]; break;
    case _C_UINT : parameter = (void *) [value unsignedIntValue]; break;
    case _C_LNG  :
+   case _C_SEL  :
       if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
       {
          param.q   = [value longValue];
@@ -603,29 +609,31 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
    case _C_INT  : return( [NSNumber numberWithInt:(* (int (*)()) imp)( obj, sel)]);
    case _C_UINT : return( [NSNumber numberWithUnsignedInt:(* (unsigned int (*)()) imp)( obj, sel)]);
          
+   case _C_SEL  :
+      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+         return( [NSNumber numberWithLong:(* (union rval_t *(*)()) imp)( obj, sel)->l]);
+      return( [NSNumber numberWithLong:(* (long (*)()) *imp)( obj, sel)]);
+
    case _C_LNG  :
       if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
          return( [NSNumber numberWithLong:(* (union rval_t *(*)()) imp)( obj, sel)->l]);
-      [NSNumber numberWithLong:(* (long (*)()) *imp)( obj, sel)];
-      break;
+      return( [NSNumber numberWithLong:(* (long (*)()) *imp)( obj, sel)]);
+
          
    case _C_ULNG  :
       if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
          return( [NSNumber numberWithUnsignedLong:(* (union rval_t *(*)()) imp)( obj, sel)->L]);
-      [NSNumber numberWithUnsignedLong:(* (unsigned long (*)()) imp)( obj, sel)];
-      break;
+      return( [NSNumber numberWithUnsignedLong:(* (unsigned long (*)()) imp)( obj, sel)]);
 
    case _C_LNG_LNG  :
       if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
          return( [NSNumber numberWithLongLong:(* (union rval_t *(*)()) imp)( obj, sel)->q]);
-      [NSNumber numberWithLongLong:(* (long long (*)()) imp)( obj, sel)];
-      break;
+      return( [NSNumber numberWithLongLong:(* (long long (*)()) imp)( obj, sel)]);
       
    case _C_ULNG_LNG  :
       if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
          return( [NSNumber numberWithUnsignedLongLong:(* (union rval_t *(*)()) imp)( obj, sel)->Q]);
-      [NSNumber numberWithUnsignedLongLong:(* (unsigned long long (*)()) imp)( obj, sel)];
-      break;
+      return( [NSNumber numberWithUnsignedLongLong:(* (unsigned long long (*)()) imp)( obj, sel)]);
       
    case _C_FLT     : return( [NSNumber numberWithFloat:(* (union rval_t *(*)()) imp)( obj, sel)->f]);
    case _C_DBL     : return( [NSNumber numberWithDouble:(* (union rval_t *(*)()) imp)( obj, sel)->d]);
@@ -633,7 +641,7 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
    default         :
       [NSException raise:NSInvalidArgumentException
                   format:@"%s failed to handle \"%c\" for -[%@ %@]. I don't know what to do with it",
-          __PRETTY_FUNCTION__, valueType, obj, NSStringFromSelector( sel)];
+          __PRETTY_FUNCTION__, valueType, [obj class], NSStringFromSelector( sel)];
    }
    return( nil);
 }

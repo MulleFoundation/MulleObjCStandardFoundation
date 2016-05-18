@@ -27,15 +27,14 @@
    struct _mulle_objc_runtime   *runtime;
    struct _mulle_objc_class     *cls;
    
-   runtime = __get_or_create_objc_runtime();
-   cls     = _mulle_objc_class_get_infraclass( (void *) self);
-   assert( cls);
+   cls     = self;
+   runtime = _mulle_objc_class_get_runtime( cls);
    _mulle_objc_runtime_set_staticstringclass( runtime, cls);
 }
 
 
 //
-// weird shit: http://lists.apple.com/archives/objc-language/2006/Jan/msg00013.html
+//  http://lists.apple.com/archives/objc-language/2006/Jan/msg00013.html
 // 
 
 - (mulle_utf8_t *) UTF8String
@@ -44,7 +43,7 @@
 }
 
 
-- (mulle_utf8_t *) _fastUTF8StringContents
+- (mulle_utf8_t *) _fastUTF8Characters
 {
    return( (mulle_utf8_t *) _storage);
 }
@@ -56,7 +55,7 @@
 }
 
 
-- (unichar) characterAtIndex:(NSUInteger)index
+- (unichar) characterAtIndex:(NSUInteger) index
 {
    if( index >= _length)
       MulleObjCThrowInvalidIndexException( index);
@@ -69,6 +68,14 @@
    return( _length);
 }
 
+
+- (id) retain       {  return( self); }
+- (void) release    { }
+- (id) autorelease  { return( self); }
+- (void) dealloc
+{
+   assert( 0 && "deallocing a NSConstantString ???");
+}
 @end
 
 

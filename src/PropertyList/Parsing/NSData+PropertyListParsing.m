@@ -17,7 +17,7 @@
 // std-c and dependencies
 
 
-@implementation NSData ( _PropertyListParsing)
+@implementation NSData ( NSPropertyListParsing)
 
 
 static inline int   hex( _MulleObjCPropertyListReader *reader, char c)

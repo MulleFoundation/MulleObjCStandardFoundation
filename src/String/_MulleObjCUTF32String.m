@@ -17,15 +17,19 @@
 #include <mulle_container/mulle_container.h>
 
 
+@interface _MulleObjCUTF32String ( Future)
+
+// these are **not** zero terminated
+- (mulle_utf32_t *) _fastUTF32Characters;
+
+@end
+
+
 @implementation _MulleObjCUTF32String
 
-- (mulle_utf32_t *) _fastUTF32StringContents;
-{
-   return( NULL);
-}
 
-
-- (mulle_utf8_t *) _fastUTF8StringContents;
+// these are zero terminated
+- (mulle_utf8_t *) _fastUTF8Characters;
 {
    return( NULL);
 }
@@ -45,7 +49,7 @@
 
 - (NSUInteger) _UTF8StringLength
 {
-   return( mulle_utf32_length_as_utf8( [self _fastUTF32StringContents], _length));
+   return( mulle_utf32_length_as_utf8( [self _fastUTF32Characters], _length));
 }
 
 
@@ -56,11 +60,11 @@
    if( ! _shadow)
    {
       mulle_buffer_init( &buf, MulleObjCObjectGetAllocator( self));
-      _mulle_utf32_convert_to_utf8_bytebuffer( &buf, (void *) mulle_buffer_advance,
-      [self _fastUTF32StringContents],
+      mulle_utf32_convert_to_utf8_bytebuffer( &buf, (void *) mulle_buffer_add_bytes,
+      [self _fastUTF32Characters],
       [self _UTF32StringLength]);
 
-      mulle_buffer_add_uint32( &buf, 0);
+      mulle_buffer_add_byte( &buf, 0);
       _shadow = mulle_buffer_extract_bytes( &buf);
       mulle_buffer_done( &buf);
    }
@@ -75,7 +79,8 @@ static void   grab_utf32( id self,
                           mulle_utf32_t *dst,
                           NSRange range)
 {
-   if( range.length + range.location > len)
+   // check both because of overflow range.length == (unsigned) -1 f.e.
+   if( range.length + range.location > len || range.length > len)
       MulleObjCThrowInvalidRangeException( range);
    
    memcpy( dst, &storage[ range.location], range.length * sizeof( mulle_utf32_t));
@@ -88,7 +93,7 @@ static void   grab_utf32( id self,
 {
    grab_utf32( self,
                _cmd,
-               [self _fastUTF32StringContents],
+               [self _fastUTF32Characters],
                [self length],
                buf,
                range);
@@ -98,7 +103,7 @@ static void   grab_utf32( id self,
 - (void) dealloc
 {
    if( _shadow)
-      mulle_allocator_free( MulleObjCObjectGetAllocator( self), _shadow);
+      MulleObjCObjectDeallocateMemory( self, _shadow);
    [super dealloc];
 }
 
@@ -109,10 +114,10 @@ static void   grab_utf32( id self,
    NSUInteger      length;
    
    length = [self length];
-   if( range.location + range.length > length)
-      MulleObjCThrowInvalidIndexException( range.location + range.length);
+   if( range.length + range.location > length || range.length > length)
+      MulleObjCThrowInvalidRangeException( range);
    
-   s = [self _fastUTF32StringContents];
+   s = [self _fastUTF32Characters];
    assert( s);
    
    s = &s[ range.location];
@@ -134,7 +139,7 @@ static void   grab_utf32( id self,
    
    NSParameterAssert( mulle_utf32_strnlen( chars, length) == length);
    
-   obj = NSAllocateObject( self, (length - sizeof( obj->_storage)) * sizeof( mulle_utf32_t), NULL);
+   obj = NSAllocateObject( self, (length * sizeof( mulle_utf32_t)) - sizeof( obj->_storage), NULL);
    memcpy( obj->_storage, chars, length * sizeof( mulle_utf32_t));
    obj->_length = length;
    return( obj);
@@ -149,7 +154,7 @@ static void   grab_utf32( id self,
 }
 
 
-- (mulle_utf32_t *) _fastUTF32StringContents
+- (mulle_utf32_t *) _fastUTF32Characters
 {
    return( _storage);
 }
@@ -184,10 +189,11 @@ static void   grab_utf32( id self,
 }
 
 
-- (mulle_utf32_t *) _fastUTF32StringContents
+- (mulle_utf32_t *) _fastUTF32Characters
 {
    return( _storage);
 }
+
 
 - (void) dealloc
 {
@@ -228,7 +234,7 @@ static void   grab_utf32( id self,
 }
 
 
-- (mulle_utf32_t *) _fastUTF32StringContents
+- (mulle_utf32_t *) _fastUTF32Characters
 {
    return( _storage);
 }

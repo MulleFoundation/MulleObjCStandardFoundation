@@ -19,7 +19,7 @@ typedef double    NSTimeInterval;
 #define NSTimeIntervalSince1970  978307200.0
 
 
-@interface NSDate : NSObject
+@interface NSDate : NSObject < NSCoding>
 {
    NSTimeInterval   _interval;
 }

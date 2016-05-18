@@ -59,9 +59,13 @@ typedef NSUInteger   NSStringEncodingConversionOptions;
 
 @interface NSString (NSData)
 
+- (NSStringEncoding) fastestEncoding;
+- (NSStringEncoding) smallestEncoding;
+
 - (BOOL) canBeConvertedToEncoding:(NSStringEncoding) encoding;
 
 - (NSData *) dataUsingEncoding:(NSStringEncoding) encoding;
+
 - (id) initWithData:(NSData *) data
            encoding:(NSUInteger) encoding;
 

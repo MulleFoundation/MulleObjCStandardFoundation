@@ -40,15 +40,17 @@
 }
 
 
-- (char *) _fastASCIIStringContents
+- (mulle_utf8_t *) _fastUTF8Characters
 {
-   return( "");
+   return( (mulle_utf8_t *) "");
 }
 
 
-- (mulle_utf8_t *) _fastUTF8StringContents
+- (void) getCharacters:(unichar *) buf
+                 range:(NSRange) range
 {
-   return( (mulle_utf8_t *) "");
+   if( range.location || range.length)
+      MulleObjCThrowInvalidRangeException( range);
 }
 
 @end

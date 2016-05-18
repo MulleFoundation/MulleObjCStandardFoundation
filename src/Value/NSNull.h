@@ -14,7 +14,7 @@
 #import <MulleObjC/MulleObjC.h>
 
 
-@interface NSNull : NSObject < MulleObjCSingleton>
+@interface NSNull : NSObject < MulleObjCSingleton, NSCopying, NSCoding>
 {
 }
 

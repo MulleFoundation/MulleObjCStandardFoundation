@@ -37,12 +37,9 @@
    
    NSCParameterAssert( [key isKindOfClass:[NSString class]]);
    
-   if( [key hasPrefix:@"@"])
-      return( [super valueForKey:key]);
-   
    n = [self count];
    if( ! n)
-      return( self);  // i am empty
+      return( nil);  // i am empty
    
    array  = [NSMutableArray arrayWithCapacity:n];
    

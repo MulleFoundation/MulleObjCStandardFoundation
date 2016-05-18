@@ -150,7 +150,7 @@ void   NSAssertionHandlerHandleMethodFailure( SEL sel,
    va_start( args, format);
    
    desc = [NSString stringWithFormat:format
-                            va_list:args];
+                             va_list:args];
    va_end( args);
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];
