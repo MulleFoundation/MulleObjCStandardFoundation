@@ -28,6 +28,11 @@
 - (void) takeValue:(id) value
             forKey:(NSString *) key
 {
+   if( ! value)
+   {
+      [self removeObjectForKey:key];
+      return;
+   }
    [self setObject:value
             forKey:key];
 }

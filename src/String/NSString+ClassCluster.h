@@ -9,25 +9,26 @@
 #import "NSString.h"
 
 
-@interface NSString( ClassCluster)  < MulleObjCClassCluster>
+@interface NSString( ClassCluster)
 
 - (instancetype) initWithCharacters:(unichar *) s
-                   length:(NSUInteger) len;
+                             length:(NSUInteger) len;
 - (instancetype) initWithCharactersNoCopy:(unichar *) chars
                                    length:(NSUInteger) length
                              freeWhenDone:(BOOL) flag;
 
-- (instancetype) initWithUTF8Characters:(mulle_utf8_t *) s
-                                 length:(NSUInteger) len;
-
 - (instancetype) initWithUTF8String:(mulle_utf8_t *) s;
-- (instancetype) initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                       length:(NSUInteger) length
-                                 freeWhenDone:(BOOL) flag;
 
 
 # pragma mark -
 # pragma mark mulle additions
+
+- (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) s
+                                  length:(NSUInteger) len;
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                        length:(NSUInteger) length
+                                  freeWhenDone:(BOOL) flag;
 
 - (instancetype) _initWithCharactersNoCopy:(unichar *) s
                                     length:(NSUInteger) length

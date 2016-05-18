@@ -29,13 +29,14 @@ extern NSString  *NSInconsistentArchiveException;
    
    NSMapTable            *_classNameSubstitutions;
    NSMapTable            *_objectSubstitutions;
+
+   struct mulle_pointerarray  _classcluster;
    
    NSData                *_data;
    NSUInteger            _decoded;
-
+   BOOL                  _initClassCluster;
    BOOL                  _inited;
 }
-
 
 - (instancetype) initForReadingWithData:(NSData *)data;
 
@@ -51,5 +52,8 @@ extern NSString  *NSInconsistentArchiveException;
 
 - (void) replaceObject:(id) object
             withObject:(id) newObject;
+
+// override some NSCoder stuff
+- (void *) _decodeBytesWithReturnedLength:(NSUInteger *) len_p;
 
 @end

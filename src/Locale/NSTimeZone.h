@@ -61,12 +61,18 @@
 @end
 
 
+@class NSDate;
+
+
 @interface NSTimeZone( _Abstract)
 
 - (id) initWithName:(NSString *) name;
 + (NSTimeZone  *) _uncachedSystemTimeZone;
 + (NSArray *) knownTimeZoneNames;
 + (NSDictionary *) abbreviationDictionary;
+
+- (NSInteger) secondsFromGMT;
+- (NSInteger) secondsFromGMTForDate:(NSDate *) date;
 
 @end
 

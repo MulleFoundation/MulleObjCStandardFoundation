@@ -25,7 +25,7 @@
 
 
 
-@implementation NSObject ( NSData)
+@implementation NSObject ( _NSData)
 
 - (BOOL) __isNSData
 {
@@ -81,7 +81,6 @@
 }
 
 
-
 static NSData  *_newData( void *buf, NSUInteger length)
 {
    switch( length)
@@ -93,13 +92,13 @@ static NSData  *_newData( void *buf, NSUInteger length)
    
    if( length < 0x100 + 1)
       return( [_MulleObjCTinyData newWithBytes:buf
-                                            length:length]);
+                                        length:length]);
    if( length < 0x10000 + 0x100 + 1)
       return( [_MulleObjCMediumData newWithBytes:buf
-                                                length:length]);
+                                          length:length]);
    
    return( [_MulleObjCAllocatorData newWithBytes:buf
-                                              length:length]);
+                                          length:length]);
 }
 
 
@@ -113,7 +112,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-// since "self" is the placeholder, we don't need to release it
+// since "self" is the placeholder, we don't really need to release it
 - (id) initWithBytes:(void *) bytes 
               length:(NSUInteger) length
 {
@@ -177,6 +176,46 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
+- (id) copy
+{
+   return( [self retain]);
+}
+
+
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSData class]);
+}
+
+
+- (id) initWithCoder:(NSCoder *) coder
+{
+   void         *bytes;
+   NSUInteger   length;
+
+   bytes = [coder decodeBytesWithReturnedLength:&length];
+   return( [self initWithBytes:bytes
+                        length:length]);
+}
+
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   [coder encodeBytes:[self bytes]
+               length:[self length]];
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
+
+
+
 #pragma mark -
 #pragma mark common code
 
@@ -224,7 +263,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (void) getBytes:(void *) buf 
+- (void) getBytes:(void *) buf
            length:(NSUInteger) length
 {
    MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSMakeRange( 0, length), [self length]);
@@ -243,7 +282,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (BOOL) isEqualToData:(id) other
+- (BOOL) isEqualToData:(NSData *) other
 {
    NSUInteger   length;
    
@@ -263,16 +302,97 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
+// layme brute forcer
+static void   *mulle_memrmem( unsigned char *a, size_t a_len,
+                              unsigned char *b, size_t b_len)
+{
+   unsigned char   *a_curr;
+   unsigned char   first_b;
+   
+   a_curr  = &a[ a_len - b_len];
+   first_b = *b;
+
+   for( a_curr  = &a[ a_len - b_len]; a_curr >= a; --a_curr)
+      if( *a_curr == first_b)
+         if( ! memcmp( a_curr, b, b_len))
+            return( a_curr);
+   
+   return( NULL);
+}
+
+
 - (NSRange) rangeOfData:(id) other
                 options:(NSUInteger) options
                   range:(NSRange) range
 {
-   abort();
+   NSUInteger      length;
+   NSUInteger      location;
+   NSUInteger      other_length;
+   unsigned char   *bytes;
+   unsigned char   *found;
+   unsigned char   *other_bytes;
+   unsigned char   *start;
+   
+   length = [self length];
+   if( range.location + range.length > length || range.length > length)
+      MulleObjCThrowInvalidRangeException( range);
+
+   other_length = [other length];
+   length       = range.length;
+   if( ! length || ! other_length || other_length > length)
+      return( NSMakeRange( NSNotFound, 0));
+   
+   start       = [self bytes];
+   bytes       = &start[ range.location];
+   other_bytes = [other bytes];
+   
+   // easy
+   if( options & NSDataSearchAnchored)
+   {
+      if( options & NSDataSearchBackwards)
+      {
+         location = length - other_length;
+         if( ! memcmp( &bytes[ location], other_bytes, other_length))
+            return( NSMakeRange( range.location + location, other_length));
+      }
+      else
+      {
+         if( ! memcmp( bytes, other_bytes, other_length))
+            return( NSMakeRange( range.location, other_length));
+      }
+   }
+   else
+   {
+      if( options & NSDataSearchBackwards)
+      {
+         found = mulle_memrmem( bytes, length, other_bytes, other_length);
+         if( found)
+            return( NSMakeRange( found - start, other_length));
+      }
+      else
+      {
+         found = memmem( bytes, length, other_bytes, other_length);
+         if( found)
+            return( NSMakeRange( found - start, other_length));
+      }
+   }
+   
+   return( NSMakeRange( NSNotFound, 0));
+}
+
+
+#pragma mark -
+#pragma mark placeholder only
+
+// for debug description
+- (void *) bytes
+{
+   return( NULL);
+}
+
+- (NSUInteger) length
+{
+   return( 0);
 }
 
 @end
-
-
-
-
-

@@ -53,8 +53,8 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
 
 - (void) dealloc
 {
-   NSAutoreleaseObject( _stream);
-   NSAutoreleaseObject( _data);
+   [_stream autorelease];
+   [_data autorelease];
 
    [super dealloc];
 }

@@ -40,6 +40,7 @@ typedef mulle_utf32_t  unichar;
 + (NSCharacterSet *) URLPasswordAllowedCharacterSet;
 + (NSCharacterSet *) URLPathAllowedCharacterSet;
 + (NSCharacterSet *) URLQueryAllowedCharacterSet;
++ (NSCharacterSet *) URLSchemeAllowedCharacterSet;
 + (NSCharacterSet *) URLUserAllowedCharacterSet;
 
 // mulle addition

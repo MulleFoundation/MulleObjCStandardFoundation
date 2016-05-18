@@ -7,8 +7,6 @@
 //
 #import <MulleObjC/MulleObjC.h>
 
-
-
 // other files in this library
 #import "MulleObjCContainerCallback.h"
 
@@ -146,25 +144,25 @@ static int   mulle_container_keycallback_object_is_equal( struct mulle_container
 }
 
 
-static void   *mulle_container_keycallback_object_retain( struct mulle_container_keycallback *callback, id obj)
+static void   *mulle_container_keycallback_object_retain( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
 {
    return( [obj retain]);
 }
 
 
-static void   *mulle_container_keycallback_object_copy( struct mulle_container_keycallback *callback, id obj)
+static void   *mulle_container_keycallback_object_copy( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
 {
    return( [obj copy]);
 }
 
 
-static void   mulle_container_keycallback_object_autorelease( struct mulle_container_keycallback *callback, id obj)
+static void   mulle_container_keycallback_object_autorelease( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
 {
    [obj autorelease];
 }
 
 
-static void   *mulle_container_keycallback_object_describe( struct mulle_container_keycallback *callback, id obj)
+static void   *mulle_container_keycallback_object_describe( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
 {
    return( [obj description]);
 }

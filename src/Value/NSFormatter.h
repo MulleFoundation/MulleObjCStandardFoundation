@@ -18,8 +18,6 @@
 
 
 @interface NSFormatter : NSObject
-{
-}
 
 - (NSString *) editingStringForObjectValue:(id) obj;
 

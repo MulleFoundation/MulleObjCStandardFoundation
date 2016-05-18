@@ -118,8 +118,12 @@ static inline void   _MulleObjCSetObjectValueWithKVCInformation( id obj, id valu
       return;
    }
    
-   if( _C_ID == info->valueType)
+   switch( info->valueType)
    {
+   case _C_CLASS     :
+   case _C_COPY_ID   :
+   case _C_ASSIGN_ID :
+   case _C_RETAIN_ID :
       param.value = value;
       param.key   = info->key;
       (*info->implementation)( obj, info->selector, &param);
@@ -134,8 +138,12 @@ static inline id   _MulleObjCGetObjectValueWithKVCInformation( id obj, struct _M
    if( ! info->implementation)
       return( _MulleObjCGetInstanceVariableForType( obj, info->offset, info->valueType));
    
-   if( _C_ID == info->valueType)
+   switch( info->valueType)
    {
+   case _C_CLASS   :
+   case _C_COPY_ID :
+   case _C_ASSIGN_ID :
+   case _C_RETAIN_ID :
       return( (*info->implementation)( obj, info->selector, info->key));
    }
    return( __MulleObjCGetObjectValueWithAccessorForType( obj, info->selector, info->implementation, info->valueType));

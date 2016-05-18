@@ -14,6 +14,7 @@
    NSUInteger  _size;
 }
 
-+ (id) valueWithBytes:(void *) bytes
-             objCType:(char *) type;
++ (id) newWithBytes:(void *) bytes
+           objCType:(char *) type;
+           
 @end

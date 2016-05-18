@@ -35,18 +35,21 @@ extern NSString   *NSRangeException;
 + (NSException *) exceptionWithName:(NSString *) name
                              reason:(NSString *) reason
                            userInfo:(id) userInfo;
-                           
+
+//
+// MEMO: don't marker raise as __attribute__(( noreturn)) because
+//       when self is nil, it does return.
+//
++ (void) raise:(NSString *) name
+        format:(NSString *) format
+     arguments:(mulle_vararg_list) args;
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-     arguments:(mulle_vararg_list) args  __attribute__(( noreturn));
+       va_list:(va_list) va;
 
 + (void) raise:(NSString *) name
-        format:(NSString *) format
-       va_list:(va_list) va                   __attribute__(( noreturn));
-
-+ (void) raise:(NSString *) name
-        format:(NSString *) format, ...       __attribute__(( noreturn));
+        format:(NSString *) format, ...;
 
 
 - (id) initWithName:(NSString *) name

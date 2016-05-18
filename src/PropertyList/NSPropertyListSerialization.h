@@ -36,9 +36,9 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 @interface NSPropertyListSerialization : NSObject
 {
 @private
-   struct mulle_pointerarray    _objStack;     // useful for XML (autoreleased)
-   struct mulle_pointerarray    _keyStack;     // useful for XML (autoreleased)
-   id                           _textStorage;  // useful for XML
+   struct mulle_pointerpairarray   _stack;          // useful for XML 
+   id                              _textStorage;    // useful for XML
+   id                              _dateFormatter;  // ephemeral usage in XML
 }
 
 + (NSData *) dataFromPropertyList:(id) plist 
@@ -53,7 +53,13 @@ typedef NSUInteger   NSPropertyListWriteOptions;
                      format:(NSPropertyListFormat *) format 
            errorDescription:(NSString **) errorString;
 
-// supplied by expat...
+@end
+
+
+// supplied by expat.. (check OS specific Foundation)
+
+@interface NSPropertyListSerialization (Future)
+
 - (id) _parseXMLData:(NSData *) data;
 
 @end

@@ -14,6 +14,30 @@
 #import "NSValue.h"
 
 
+typedef struct
+{
+#ifdef __LITTLE_ENDIAN__
+   uint64_t   lo;
+   int64_t    hi;
+#else
+   int64_t    hi;
+   uint64_t   lo;
+#endif
+} mulle_objc_superquad;
+
+
+static inline int   mulle_objc_superquad_compare( mulle_objc_superquad a, mulle_objc_superquad b)
+{
+   if( a.hi != b.hi)
+      return( a.hi < b.hi ? NSOrderedAscending : NSOrderedDescending);
+
+   if( a.lo == b.lo)
+      return( NSOrderedSame);
+
+    return( a.lo < b.lo ? NSOrderedAscending : NSOrderedDescending);
+}
+
+
 @interface NSNumber : NSValue < NSCopying, MulleObjCClassCluster>
 {
 }
@@ -70,6 +94,10 @@
 - (unsigned long) unsignedLongValue;
 - (float) floatValue;
 - (unsigned long long) unsignedLongLongValue;
+
+
+// need this for comparison until I get smarter
+- (mulle_objc_superquad) _superquadValue;
 
 @end
 

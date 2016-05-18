@@ -85,38 +85,6 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 }
 
 
-- (BOOL) _nextObjectTable
-{
-   Class          cls;
-   id             obj;
-   off_t          offset;
-   unsigned int   cls_index;
-   unsigned int   i, n;
-   
-   if( ! check_header_8( &_buffer, "**obj**"))
-      return( NO);
-   
-   n = (unsigned int) mulle_buffer_next_integer( &_buffer);
-   for( i = 0; i < n; i++)
-   {
-      cls_index = (unsigned int) mulle_buffer_next_integer( &_buffer);
-      offset    = (off_t) mulle_buffer_next_integer( &_buffer);
-      
-      // write down class name
-      cls = NSMapGet( _classes, (void *) cls_index);
-      if( ! cls)
-         return( NO);
-      
-      obj = [cls alloc];  // don't replace yet
-      NSMapInsert( _objects, (void *) (i + 1), (void *) obj);
-      [obj release];
-      
-      NSMapInsert( _offsets, (void *) (i + 1), (void *) offset);
-   }
-   return( YES);
-}
-
-
 - (BOOL) _nextClassTable
 {
    Class                   cls;
@@ -165,6 +133,39 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 }
 
 
+//
+// objects are kept in _objects retained, until the archiver deallocs
+//
+- (BOOL) _nextObjectTable
+{
+   Class          cls;
+   id             obj;
+   off_t          offset;
+   unsigned int   cls_index;
+   unsigned int   i, n;
+   
+   if( ! check_header_8( &_buffer, "**obj**"))
+      return( NO);
+   
+   n = (unsigned int) mulle_buffer_next_integer( &_buffer);
+   for( i = 0; i < n; i++)
+   {
+      cls_index = (unsigned int) mulle_buffer_next_integer( &_buffer);
+      offset    = (off_t) mulle_buffer_next_integer( &_buffer);
+      
+      // write down class name
+      cls = NSMapGet( _classes, (void *) cls_index);
+      if( ! cls)
+         return( NO);
+      
+      obj = [cls alloc];  // don't replace yet
+      NSMapInsert( _objects, (void *) (i + 1), (void *) obj);
+      NSMapInsert( _offsets, (void *) (i + 1), (void *) offset);
+   }
+   return( YES);
+}
+
+
 - (void) _initObjects
 {
    NSMapEnumerator                        rover;
@@ -172,20 +173,21 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    id                                     obj;
    off_t                                  memo;
    off_t                                  offset;
-   struct mulle_pointerarray              classcluster;
    struct mulle_pointerarray              regular;
    struct mulle_pointerarray_enumerator   enumerator;
    void                                   *obj_index;
+   struct mulle_allocator                 *allocator;
    
-   mulle_pointerarray_init( &classcluster, 1024, NULL, MulleObjCAllocator());
-   mulle_pointerarray_init( &regular, 1024, NULL, MulleObjCAllocator());
+   allocator = MulleObjCObjectGetAllocator( self);
+   mulle_pointerarray_init( &_classcluster, 1024, NULL, allocator);
+   mulle_pointerarray_init( &regular, 1024, NULL, allocator);
    
    rover = NSEnumerateMapTable( _objects);
    while( NSNextMapEnumeratorPair( &rover, &obj_index, (void **) &obj))
    {
       assert( obj_index);
       if( [obj respondsToSelector:@selector( decodeWithCoder:)])
-         mulle_pointerarray_add( &classcluster, (void *) obj_index);
+         mulle_pointerarray_add( &_classcluster, (void *) obj_index);
       else
          mulle_pointerarray_add( &regular, (void *) obj_index);
    }
@@ -195,8 +197,12 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    memo  = mulle_buffer_get_seek( &_buffer);
 
    /* do class cluster objects, that may change self */
+   
+   assert( ! _initClassCluster);
 
-   enumerator = mulle_pointerarray_enumerate( &classcluster);
+   _initClassCluster = YES;
+   
+   enumerator = mulle_pointerarray_enumerate( &_classcluster);
    while( obj_index =  mulle_pointerarray_enumerator_next( &enumerator))
    {
       offset = (off_t) NSMapGet( _offsets, obj_index);
@@ -207,16 +213,20 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
       
       obj    = (id) NSMapGet( _objects, obj_index);
       inited = [self _initObject:obj];
-      
+      // obj may very well be dead here
       if( ! inited)
          [NSException raise:NSInconsistentArchiveException
                      format:@"%@ returned nil from initWithCoder:", [obj class]];
 
       if( inited != obj)
+      {
+         NSMapRemove( _objects, obj_index);
          NSMapInsert( _objects, (void *) obj_index, inited);
+      }
    }
    mulle_pointerarray_enumerator_done( &enumerator);
-   mulle_pointerarray_done( &classcluster);
+
+   _initClassCluster = 0;
 
    /* do regular objects, that must not change self */
    enumerator = mulle_pointerarray_enumerate( &regular);
@@ -238,6 +248,25 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    mulle_pointerarray_enumerator_done( &enumerator);
    mulle_pointerarray_done( &regular);
 
+   /* now call decodeWithCoder: on classclusters */
+
+   enumerator = mulle_pointerarray_enumerate( &_classcluster);
+   while( obj_index =  mulle_pointerarray_enumerator_next( &enumerator))
+   {
+      offset = (off_t) NSMapGet( _offsets, obj_index);
+      
+      if( ! offset || mulle_buffer_set_seek( &_buffer, SEEK_SET, offset))
+         [NSException raise:NSInconsistentArchiveException
+                     format:@"archive damaged"];
+      
+      obj = (id) NSMapGet( _objects, obj_index);
+      [obj decodeWithCoder:self];
+   }
+   mulle_pointerarray_enumerator_done( &enumerator);
+
+   mulle_pointerarray_done( &_classcluster);
+   
+   
    mulle_buffer_set_seek( &_buffer, SEEK_SET, memo);
 }
 
@@ -284,7 +313,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    if( ! check_header_8( &_buffer, "**blb**"))
       return( NO);
    
-   allocator = MulleObjCAllocator();
+   allocator = MulleObjCObjectGetAllocator( self);
    
    n = (unsigned int) mulle_buffer_next_integer( &_buffer);
    for( i = 0; i < n; i++)
@@ -382,7 +411,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    [super init];
    
    allocator = MulleObjCObjectGetAllocator( self);
-   _objects   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, NSObjectMapValueCallBacks, 16, allocator);
+   _objects   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 16, allocator);
    _offsets   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, mulle_container_valuecallback_intptr, 16, allocator);
    
    _classes   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 16, allocator);
@@ -408,8 +437,16 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
 - (void) dealloc
 {
-   [_data release];
+   NSMapEnumerator   rover;
+   id                obj;
    
+   [_data release];
+ 
+   rover = NSEnumerateMapTable( _objects);
+   while( NSNextMapEnumeratorPair( &rover, NULL, (void **) &obj))
+      [obj autorelease];
+   NSEndMapTableEnumeration( &rover);
+
    NSFreeMapTable( _objectSubstitutions);
    NSFreeMapTable( _classNameSubstitutions);
    
@@ -481,7 +518,9 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    obj = NSMapGet( _objects, (void *) obj_index);
    if( ! obj)
       [NSException raise:NSInconsistentArchiveException
-                  format:@"archive damaged"];
+                  format:@"archive damaged at object #%ld", (long) obj_index];
+
+   assert( (! _initClassCluster || ! mulle_pointerarray_contains( &_classcluster, obj)) && "classcluster is deserializing objects in initWithCoder: instead of decodeWithCoder:");
 
    // now substitute here (I guess)
    replacement = NSMapGet( _objectSubstitutions, obj);
@@ -523,8 +562,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 }
 
 
-- (void *) _decodeBytesForKey:(NSString *) key
-               returnedLength:(NSUInteger *) len_p
+- (void *) _decodeBytesWithReturnedLength:(NSUInteger *) len_p
 {
    struct blob          *blob;
    static struct blob   empty_blob;
@@ -539,6 +577,9 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    return( blob->_storage);
 }
 
+
+// TODO: check that the integer we decode doesn't overflow
+//       when deserializing 64 bit archives on 32 bit
 
 - (void *) _decodeValueOfObjCType:(char *) type
                                at:(void *) p
@@ -587,12 +628,12 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    case _C_LNG_DBL  : *(long double *) p = (long double) mulle_buffer_next_long_double( &_buffer);
                       return( (long double *) p + 1);
       
-   case _C_CHARPTR  : assert( ! *(char **) p);  // leak protection
-                      *(char **) p = MulleObjCDuplicateCString( [self _nextCString]);
+   case _C_CHARPTR  : //assert( ! *(char **) p);  // leak protection
+                      *(char **) p = MulleObjCObjectDuplicateCString( self, [self _nextCString]); /* BUG! #1# */
                       return( (char *) p + 1);
          
    case _C_COPY_ID  :
-   case _C_ID       : assert( ! *(id *) p);  // leak protection
+   case _C_ID       : //assert( ! *(id *) p);  // leak protection
                       *(id *) p = [[self _nextObject] retain];
                       return( (id *) p + 1);
          
@@ -688,9 +729,16 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
          
    default :
       [NSException raise:NSInconsistentArchiveException
-                  format:@"NSArchiver cannot encode type=\"%s\"", type];
+                  format:@"NSArchiver cannot encode type=\"%s\" (%d)", type, *type];
    }
    return( p);
 }
 
 @end
+
+
+/* BUG #1#
+   It's assumeed that the allocator for the archiver and the object are the same.
+   It's not really a bug, because there are no "zones" here and we don't want
+   them.
+*/

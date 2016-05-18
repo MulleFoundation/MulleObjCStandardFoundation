@@ -33,15 +33,31 @@ static inline id   _MulleObjCCheatingASCIIStringStorageGetObject( struct _MulleO
 }
 
 
-static inline id   _MulleObjCCheatingASCIIStringStorageInit( struct _MulleObjCCheatingASCIIStringStorage *p,
+static inline char  *_MulleObjCCheatingASCIIStringStorageGetStorage( struct _MulleObjCCheatingASCIIStringStorage *p)
+{
+   return( p->_storage);
+}
+
+
+static inline size_t  _MulleObjCCheatingASCIIStringStorageGetLength( struct _MulleObjCCheatingASCIIStringStorage *p)
+{
+   return( p->_length);
+}
+
+
+static inline id   _MulleObjCCheatingASCIIStringStorageInit( struct _MulleObjCCheatingASCIIStringStorage *storage,
                                                              char *buf,
                                                              NSUInteger length)
 {
+   _MulleObjCCheatingASCIIString   *p;
+   
+   p = _MulleObjCCheatingASCIIStringStorageGetObject( storage);
+   
    _mulle_objc_object_infinite_retain( p);
    _mulle_objc_object_set_isa( p, [_MulleObjCCheatingASCIIString class]);
    
-   p->_storage = buf;
-   p->_length  = -length;
+   storage->_storage = buf;
+   storage->_length  = length;
 
-   return( (id) _mulle_objc_objectheader_get_object( &p->_header));
+   return( p);
 }

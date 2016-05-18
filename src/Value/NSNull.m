@@ -21,7 +21,7 @@
 
 
 
-@implementation NSObject( NSNull)
+@implementation NSObject( _NSNull)
 
 - (BOOL) __isNSNull
 {
@@ -39,6 +39,17 @@
 }
 
 
+- (id) initWithCoder:(NSCoder *) coder
+{
+   return( [self init]);
+}
+
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+}
+
+
 + (NSNull *) null
 {
    return( MulleObjCSingletonCreate( self));
@@ -48,6 +59,16 @@
 - (id) copy
 {
    return( self);
+}
+
+
+- (NSComparisonResult) compare:(id) other
+{
+   if( other == self)
+      return( NSOrderedSame);
+   if( ! other)
+      return( NSOrderedSame);
+   return( NSOrderedAscending);
 }
 
 @end

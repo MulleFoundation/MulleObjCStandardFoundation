@@ -16,7 +16,7 @@
 
 
 
-@implementation NSString ( _PropertyListParsing)
+@implementation NSString ( NSPropertyListParsing)
 
 
 NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
@@ -83,7 +83,7 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
    
    if( ! escaped)
    {
-      s = [[reader->nsStringClass alloc] initWithUTF8Characters:region.bytes
+      s = [[reader->nsStringClass alloc] _initWithUTF8Characters:region.bytes
                                                          length:region.length];
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '"'
       return( s);

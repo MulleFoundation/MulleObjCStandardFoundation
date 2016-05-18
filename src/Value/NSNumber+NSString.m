@@ -18,9 +18,15 @@
 
 @implementation NSNumber (NSString)
 
-- (NSString *) description
+- (id) description
 {
    return( [NSString stringWithFormat:@"%lld", [self longLongValue]]);
+}
+
+
+- (NSString *) _debugContentsDescription
+{
+   return( [self description]);
 }
 
 @end

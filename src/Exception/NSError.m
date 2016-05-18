@@ -152,6 +152,9 @@ void   MulleObjCErrorClearCurrentError( void)
 }
 
 
-
+- (id) copy
+{
+   return( [self retain]);
+}
 
 @end

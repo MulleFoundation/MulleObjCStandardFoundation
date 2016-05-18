@@ -21,10 +21,11 @@
 //
 // the only way to keep a cheating string
 //
-- (id) copyWithZone:(NSZone *) zone
+NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s, NSUInteger length);
+
+- (id) copy
 {
-   return( [_MulleObjCASCIIString newWithASCIICharacters:_storage
-                                                  length:_length]);
+   return( MulleObjCNewASCIIStringWithASCIICharacters( _storage, _length));
 }
 
 @end

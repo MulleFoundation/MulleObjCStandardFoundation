@@ -14,7 +14,7 @@
 #import "NSValue.h"
 
 // other files in this library
-#import "NSValue+Private.h"
+#import "_MulleObjCConcreteValue.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationException.h"
@@ -30,7 +30,7 @@
 
 
 
-@implementation NSObject( NSValue)
+@implementation NSObject( _NSValue)
 
 - (BOOL) __isNSValue
 {
@@ -60,6 +60,70 @@
 }
 
 
+#pragma mark -
+#pragma mark classcluster ?
+
+- (id) initWithBytes:(void *) value
+            objCType:(char *) type
+{
+   [self release];
+   return( [_MulleObjCConcreteValue newWithBytes:value
+                                        objCType:type]);
+}
+
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSValue class]);
+}
+
+
+// it is assumed, that NSValue and subclasses store their
+// "value" at the first instance variable of type
+// [self objCType]. If not override in your subclass
+//
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   char  *type;
+   
+   type = [self objCType];
+   [coder encodeBytes:type
+               length:strlen( type) + 1];
+   [coder encodeValueOfObjCType:type
+                             at:self];
+}
+
+
+// if this is a bottleneck, improve in subclasses
+- (id) initWithCoder:(NSCoder *) coder
+{
+   char         *type;
+   void         *buf;
+   NSUInteger   size;
+   
+   type = [coder decodeBytesWithReturnedLength:NULL];
+
+   NSGetSizeAndAlignment( type, &size, NULL);
+   buf  = alloca( size);
+   [coder decodeValueOfObjCType:type
+                             at:buf];
+
+   return( [self initWithBytes:buf
+                      objCType:type]);
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
+
+
+#pragma mark -
+#pragma mark convenience constructors
+
 // compiler: need an @alias( alloc, whatever), so that implementations
 //           can  be shared
 
@@ -67,30 +131,30 @@
 + (id) value:(void *) bytes 
 withObjCType:(char *) type
 {
-   return( [_MulleObjCConcreteValue valueWithBytes:bytes
-                                          objCType:type]);
+   return( [[[self alloc] initWithBytes:bytes
+                              objCType:type] autorelease]);
 }
 
 
 + (id) valueWithBytes:(void *) bytes 
              objCType:(char *) type
 {
-   return( [_MulleObjCConcreteValue valueWithBytes:bytes
-                                          objCType:type]);
+   return( [[[self alloc] initWithBytes:bytes
+                              objCType:type] autorelease]);
 }
 
 
 + (id) valueWithPointer:(void *) pointer
 {
-   return( [_MulleObjCConcreteValue valueWithBytes:&pointer
-                                          objCType:@encode( void *)]);
+   return( [[[self alloc] initWithBytes:&pointer
+                               objCType:@encode( void *)] autorelease]);
 }
 
 
 + (id) valueWithRange:(NSRange) range
 {
-   return( [_MulleObjCConcreteValue valueWithBytes:&range
-                                          objCType:@encode( NSRange)]);
+   return( [[[self alloc] initWithBytes:&range
+                               objCType:@encode( NSRange)] autorelease]);
 }
 
 
@@ -112,14 +176,14 @@ withObjCType:(char *) type
    if( size == otherSize)
       return( NO);
    
-   buf = MulleObjCAllocateNonZeroedMemory( size * 2);
+   buf  = mulle_malloc( size * 2);
    buf2 = &buf[ size];
 
    [self getValue:&buf];
    [other getValue:&buf2];
 
    flag = ! memcmp( buf, buf2, size);
-   MulleObjCDeallocateMemory( buf);
+   mulle_free( buf);
    
    return( flag);
 }
@@ -127,7 +191,7 @@ withObjCType:(char *) type
 
 - (BOOL) isEqual:(id) other
 {
-   if( ! [other isKindOfClass:[NSValue class]])
+   if( ! [other __isNSValue])
       return( NO);
    return( [self isEqualToValue:other]);
 }
@@ -178,6 +242,11 @@ withObjCType:(char *) type
    [self getValue:&range
              size:sizeof( NSRange)];
    return( range);
+}
+
+- (id) copy
+{
+   return( [self retain]);
 }
 
 @end

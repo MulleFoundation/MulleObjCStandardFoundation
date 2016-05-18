@@ -17,4 +17,7 @@
 - (NSString *) stringByAddingPercentEscapesUsingEncoding:(NSStringEncoding) encoding;
 - (NSString *) stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet *) allowedCharacters;
 
+- (NSString *) stringByReplacingPercentEscapesUsingEncoding:(NSStringEncoding) encoding;
+- (NSString *) stringByRemovingPercentEncoding;
+
 @end

@@ -15,6 +15,9 @@
 
 #include <mulle_utf/mulle_utf.h>
 
+// ASCIICharacters are just the chars without trailing zero
+// ASCIIString always has a trailing zero
+
 //
 // subclasses provide length
 // ASCII is something that's provided "hidden". It's the best,
@@ -69,33 +72,36 @@
 @end
 
 
+// does not have a trailing zero
 @interface _MulleObjCReferencingASCIIString : _MulleObjCASCIIString
 {
    NSUInteger   _length;
    char         *_storage;
 }
 
-+ (id) newWithASCIICharacters:(char *) chars
-                       length:(NSUInteger) length;
++ (id) newWithASCIIStringNoCopy:(char *) chars
+                             length:(NSUInteger) length;
 
 @end
 
 
+// does not have a trailing zero
 @interface _MulleObjCAllocatorASCIIString  : _MulleObjCReferencingASCIIString
 {
    struct mulle_allocator   *_allocator;
 }
 
-+ (id) newWithASCIICharactersNoCopy:(char *) chars
-                             length:(NSUInteger) length
-                          allocator:(struct mulle_allocator *) allocator;
++ (id) newWithASCIIStringNoCopy:(char *) chars
+                         length:(NSUInteger) length
+                      allocator:(struct mulle_allocator *) allocator;
 
 @end
 
 
 @interface _MulleObjCSharedASCIIString : _MulleObjCReferencingASCIIString
 {
-   id   _sharingObject;
+   id             _sharingObject;
+   mulle_utf8_t   *_shadow;
 }
 
 + (id) newWithASCIICharactersNoCopy:(char *) chars

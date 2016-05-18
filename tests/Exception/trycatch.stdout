@@ -1,0 +1,5 @@
+start
+before exception==nil
+@try
+after exception==nil
+done

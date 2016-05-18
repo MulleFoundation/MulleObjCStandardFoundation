@@ -17,11 +17,42 @@
 // std-c dependencies
 
 
+
+@implementation _MulleObjCUInt32Number (NSString)
+
+- (id) description
+{
+   return( [NSString stringWithFormat:@"%lu", [self unsignedLongValue]]);
+}
+
+@end
+
+
+@implementation _MulleObjCUInt64Number (NSString)
+
+- (id) description
+{
+   return( [NSString stringWithFormat:@"%llu", [self unsignedLongLongValue]]);
+}
+
+@end
+
+
 @implementation _MulleObjCDoubleNumber (NSString)
 
-- (NSString *) description
+- (id) description
 {
    return( [NSString stringWithFormat:@"%f", [self doubleValue]]);
+}
+
+@end
+
+
+@implementation _MulleObjCLongDoubleNumber (NSString)
+
+- (id) description
+{
+   return( [NSString stringWithFormat:@"%lf", [self longDoubleValue]]);
 }
 
 @end

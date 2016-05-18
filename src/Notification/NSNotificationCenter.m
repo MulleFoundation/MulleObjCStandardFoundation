@@ -353,14 +353,14 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
    if( n < 64)
       buf = alloca( size);
    else
-     tofree = buf = MulleObjCAllocateNonZeroedMemory( size);
+     tofree = buf = mulle_malloc( size);
 
    i = 0;
    rover = _mulle_queue_enumerate( queue);
    while( p = _mulle_queueenumerator_next( queue, &rover))
    {
       buf[ i] = *p;
-      NSAutoreleaseObject( [buf[ i].observer retain]);
+      [[buf[ i].observer retain] autorelease];
       ++i;
    }
    _mulle_queueenumerator_done( &rover);
@@ -379,7 +379,7 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
       ++p;
    }
    
-   MulleObjCDeallocateMemory( tofree);
+   mulle_free( tofree);
 }
 
 

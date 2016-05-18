@@ -42,11 +42,9 @@
 }
 
 
-- (void *) decodeBytesForKey:(NSString *) key
-              returnedLength:(NSUInteger *) len_p
+- (void *) decodeBytesWithReturnedLength:(NSUInteger *) len_p
 {
-   return( [self _decodeBytesForKey:key
-                     returnedLength:len_p]);
+   return( [self _decodeBytesWithReturnedLength:len_p]);
 }
 
 @end

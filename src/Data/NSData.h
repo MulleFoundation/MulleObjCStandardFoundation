@@ -15,7 +15,13 @@
 
 
 
-@interface NSData : NSObject < NSCopying>
+enum {
+   NSDataSearchBackwards = 1UL << 0,
+   NSDataSearchAnchored = 1UL << 1
+};
+
+
+@interface NSData : NSObject < MulleObjCClassCluster, NSCopying, NSCoding>
 {
 }
 
@@ -37,7 +43,7 @@
            length:(NSUInteger) length;
 - (void) getBytes:(void *) bytes
             range:(NSRange) range;
-- (BOOL) isEqualToData:(id) other;
+- (BOOL) isEqualToData:(NSData *) other;
 - (id) subdataWithRange:(NSRange) range;
 - (NSRange) rangeOfData:(id) other
                 options:(NSUInteger) options

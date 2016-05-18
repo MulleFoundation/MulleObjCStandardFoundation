@@ -23,7 +23,7 @@
 static char   separator[] = { ',', ' ' };
 static char   opener[]    = { '(', ' ' };
 static char   closer[]    = { ' ', ')' };
-static char   empty[]     = { '(', ')' };
+//static char   empty[]     = { '(', ')' };
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle

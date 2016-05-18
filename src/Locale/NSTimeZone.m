@@ -84,6 +84,15 @@
 }
    
 
+- (id) copy
+{
+   return( [self retain]);
+}
+
+#pragma mark -
+#pragma mark convenience constructors
+
+
 + (id) timeZoneWithAbbreviation:(NSString *) key
 {
    NSString  *name;

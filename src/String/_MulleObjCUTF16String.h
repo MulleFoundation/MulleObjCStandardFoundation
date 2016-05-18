@@ -22,8 +22,8 @@
    NSUInteger     _length;
 }
 
-- (mulle_utf16_t *) _fastUTF16StringContents;
-- (mulle_utf8_t *) _fastUTF8StringContents;
+- (mulle_utf16_t *) _fastUTF16Characters;
+- (mulle_utf8_t *) _fastUTF8Characters;
 - (NSUInteger) _UTF16StringLength;
 - (mulle_utf8_t *) UTF8String;
 

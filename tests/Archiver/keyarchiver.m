@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h> 
+#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
 
 
 @interface Foo : NSObject <NSCoding>
@@ -40,7 +40,7 @@
    buf = [aDecoder decodeBytesForKey:@"str"
                       returnedLength:&len];
    if( buf)
-      _str = MulleObjCDuplicateCString( buf);
+      _str = MulleObjCObjectDuplicateCString( self, buf);
    else
       _str = NULL;
 
@@ -62,8 +62,8 @@
 
 - (void) setStr:(char *) s
 {
-   MulleObjCDeallocateMemory( _str);
-   _str = s ? MulleObjCDuplicateCString( s) : s;
+   MulleObjCObjectDeallocateMemory( self, _str);
+   _str = s ? MulleObjCObjectDuplicateCString( self, s) : s;
 }
 
 @end

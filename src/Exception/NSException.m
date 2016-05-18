@@ -27,6 +27,7 @@ NSString  *NSInternalInconsistencyException = @"NSInternalInconsistencyException
 NSString  *NSGenericException               = @"NSGenericException";
 NSString  *NSInvalidArgumentException       = @"NSInvalidArgumentException";
 NSString  *NSMallocException                = @"NSMallocException";
+NSString  *NSIndexException                 = @"NSIndexException";
 NSString  *NSRangeException                 = @"NSRangeException";
 NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
@@ -81,9 +82,9 @@ static void   throw_errno_exception( id format, va_list args)
 }
 
 __attribute__ ((noreturn))
-static void   throw_generic_exception( NSString *reason, NSString *format, va_list args)
+static void   throw_generic_exception( NSString *format, va_list args)
 {
-   [NSException raise:NSMallocException
+   [NSException raise:NSGenericException
                format:format
                va_list:args];
 }
@@ -92,21 +93,25 @@ static void   throw_generic_exception( NSString *reason, NSString *format, va_li
 __attribute__ ((noreturn))
 static void   throw_inconsistency_exception( id format, va_list args)
 {
-   throw_generic_exception( NSInternalInconsistencyException, format, args);
+   [NSException raise:NSInternalInconsistencyException
+               format:format
+               va_list:args];
 }
 
 
 __attribute__ ((noreturn))
 static void   throw_argument_exception( id format, va_list args)
 {
-   throw_generic_exception( NSInvalidArgumentException, format, args);
+   [NSException raise:NSInvalidArgumentException
+               format:format
+               va_list:args];
 }
 
 
 __attribute__ ((noreturn))
 static void   throw_index_exception( NSUInteger index)
 {
-   [NSException raise:NSMallocException
+   [NSException raise:NSIndexException
                format:@"index %lu is out of range", (long) index];
 }
 
@@ -118,8 +123,10 @@ static void   throw_range_exception( NSRange arg)
                format:@"range %lu.%lu doesn't fit", (long) arg.location, (long) arg.length];
 }
 
-    
-static void  init_exceptionhandlertable ( struct _ns_exceptionhandlertable *table)
+
+void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table);
+
+void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 {
    table->errno_error            = throw_errno_exception;
    table->allocation_error       = throw_malloc_exception;
@@ -130,33 +137,30 @@ static void  init_exceptionhandlertable ( struct _ns_exceptionhandlertable *tabl
 }
 
 
+// maybe too late here... the foundation intializer should do this
 + (void) initialize
 {
    struct _ns_foundationconfiguration   *config;
    
    config = _ns_get_foundationconfiguration();
-   init_exceptionhandlertable( &config->root.exception.vectors);
+   _MulleObjCExceptionInitTable( &config->root.exception.vectors);
 }
 
-+ (NSException *) exceptionWithName:(NSString *) name
-                             reason:(NSString *) reason
-                           userInfo:(NSDictionary *) userInfo
-{
-   return( [[[self alloc] initWithName:name
-                                reason:reason
-                              userInfo:userInfo] autorelease]);
-}
 
+
+# pragma mark -
+# pragma mark conveniences
 
 + (void) raise:(NSString *) name
         format:(NSString *) format, ...
  {
    mulle_vararg_list   args;
 
-   mulle_vararg_start( args, format );
+   mulle_vararg_start( args, format);
    [self raise:name 
         format:format 
      arguments:args];
+   mulle_vararg_end( args);
 }
 
 
@@ -179,18 +183,30 @@ static void  init_exceptionhandlertable ( struct _ns_exceptionhandlertable *tabl
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-     arguments:(mulle_vararg_list) va
+     arguments:(mulle_vararg_list) arguments
 {
    NSException   *exception;
    NSString      *reason;
    
    reason     = [NSString stringWithFormat:format
-                                 arguments:va];
+                                 arguments:arguments];
    exception  = [self exceptionWithName:name
                                  reason:reason
                                userInfo:nil];
    
    [exception raise];
+}
+
+# pragma mark -
+# pragma mark init/dealloc
+
++ (NSException *) exceptionWithName:(NSString *) name
+                             reason:(NSString *) reason
+                           userInfo:(NSDictionary *) userInfo
+{
+   return( [[[self alloc] initWithName:name
+                                reason:reason
+                              userInfo:userInfo] autorelease]);
 }
 
 
@@ -218,6 +234,8 @@ static void  init_exceptionhandlertable ( struct _ns_exceptionhandlertable *tabl
    [super dealloc];
 }
 
+# pragma mark -
+# pragma mark petty accessors
 
 - (NSString *) name
 {
