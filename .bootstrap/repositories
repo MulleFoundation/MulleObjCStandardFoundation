@@ -2,4 +2,4 @@
 
 https://www.mulle-kybernetik.com/repositories/mulle-utf
 https://www.mulle-kybernetik.com/repositories/mulle-sprintf
-gitolite.mulle-kybernetik.com:MulleObjC
+ssh://git@mulle-kybernetik.com:23/MulleObjC
