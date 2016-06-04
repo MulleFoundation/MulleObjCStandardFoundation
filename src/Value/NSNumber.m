@@ -1,5 +1,5 @@
 /*
- *  NSTinyFoundation - A tiny Foundation replacement
+ *  NSTinyFoundation - the mulle-objc class library
  *
  *  NSNumber.m is a part of NSTinyFoundation
  *

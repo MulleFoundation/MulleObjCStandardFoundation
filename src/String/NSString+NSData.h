@@ -34,16 +34,18 @@ enum
    NSWindowsCP1250StringEncoding     = 15,    // no support
    NSISO2022JPStringEncoding         = 21,    // no support
    NSMacOSRomanStringEncoding        = 30,    // no support
-   
-   NSUTF16BigEndianStringEncoding    = 0x90000100,
-   NSUTF16LittleEndianStringEncoding = 0x94000100,
-   
-   NSUTF32StringEncoding             = 0x8c000100,
-   NSUTF32BigEndianStringEncoding    = 0x98000100,
-   NSUTF32LittleEndianStringEncoding = 0x9c000100,
-
-   NSUnicodeStringEncoding           = NSUTF32StringEncoding  // different(!)
 };
+
+// too big for enums
+#define NSUTF16BigEndianStringEncoding       0x90000100
+#define NSUTF16LittleEndianStringEncoding    0x94000100
+
+#define NSUTF32StringEncoding                0x8c000100
+#define NSUTF32BigEndianStringEncoding       0x98000100
+#define NSUTF32LittleEndianStringEncoding    0x9c000100
+
+#define NSUnicodeStringEncoding              NSUTF32StringEncoding // different(!)
+
 
 typedef NSUInteger   NSStringEncoding;
 

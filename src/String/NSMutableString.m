@@ -1,5 +1,5 @@
 /*
- *  MulleFoundation - A tiny Foundation replacement
+ *  MulleFoundation - the mulle-objc class library
  *
  *  NSMutableString.m is a part of MulleFoundation
  *
@@ -671,7 +671,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 
    allocator = MulleObjCObjectGetAllocator( self);
 
-   mulle_buffer_init_with_capacity( &buffer, 0x400, allocator);
+   mulle_buffer_init_with_static_bytes( &buffer, tmp, sizeof( tmp), allocator);
    mulleConvertStringsToUTF8( _storage, _count, &buffer);
 
    mulle_buffer_size_to_fit( &buffer);

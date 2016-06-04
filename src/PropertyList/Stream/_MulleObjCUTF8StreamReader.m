@@ -1,5 +1,5 @@
 /*
- *  MulleFoundation - A tiny Foundation replacement
+ *  MulleFoundation - the mulle-objc class library
  *
  *  _MulleObjCUTF8StreamReader.m is a part of MulleFoundation
  *

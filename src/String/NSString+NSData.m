@@ -176,10 +176,10 @@ enum
       bom = mulle_utf16_get_bom_char();
       mulle_buffer_add_bytes( &buffer, &bom, sizeof( bom));
    }
-   mulle_utf32_convert_to_utf16_bytebuffer( &buffer,
-                                            (void *) mulle_buffer_add_bytes,
-                                            info.start,
-                                            info.utf32len);
+   mulle_utf32_convert_to_utf16_bytebuffer( info.start,
+                                            info.utf32len,
+                                            &buffer,
+                                            (void *) mulle_buffer_add_bytes);
    assert( mulle_buffer_get_length( &buffer) == size);
    assert( ! mulle_buffer_has_overflown( &buffer));
    mulle_buffer_done( &buffer);
@@ -329,10 +329,10 @@ enum
       /* convert to utf8 */
       mulle_buffer_init_with_capacity( &buffer, info.utf8len, allocator);
    
-      mulle_utf16_convert_to_utf8_bytebuffer( &buffer,
-                                              (void *) mulle_buffer_add_bytes,
-                                              info.start,
-                                              info.utf16len);
+      mulle_utf16_convert_to_utf8_bytebuffer( info.start,
+                                              info.utf16len,
+                                              &buffer,
+                                              (void *) mulle_buffer_add_bytes);
    
       assert( mulle_buffer_get_length( &buffer) == info.utf8len);
 
@@ -355,10 +355,10 @@ enum
    /* convert to utf32 */
    mulle_buffer_init_with_capacity( &buffer, info.utf32len * sizeof( mulle_utf32_t), allocator);
    
-   mulle_utf16_convert_to_utf32_bytebuffer( &buffer,
-                                            (void *) mulle_buffer_add_bytes,
-                                            info.start,
-                                            info.utf16len);
+   mulle_utf16_convert_to_utf32_bytebuffer( info.start,
+                                            info.utf16len,
+                                            &buffer,
+                                            (void *) mulle_buffer_add_bytes);
    
    assert( mulle_buffer_get_length( &buffer) == info.utf32len * sizeof( mulle_utf32_t));
 

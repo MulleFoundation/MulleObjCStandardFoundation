@@ -1,5 +1,5 @@
 /*
- *  MulleFoundation - A tiny Foundation replacement
+ *  MulleFoundation - the mulle-objc class library
  *
  *  NSString.m is a part of MulleFoundation
  *
@@ -407,7 +407,9 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    allocator = MulleObjCObjectGetAllocator( self);
 
    len = [self _UTF8StringLength];
-   s   = [self _fastUTF8Characters] ? : [self UTF8String];
+   s   = [self _fastUTF8Characters];
+   if( ! s)
+      s = [self UTF8String];
    buf = ctype_convert( s,
                         len,
                         NSMakeRange( 0, len),
@@ -429,7 +431,9 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    allocator = MulleObjCObjectGetAllocator( self);
    
    len = [self _UTF8StringLength];
-   s   = [self _fastUTF8Characters] ? : [self UTF8String];
+   s   = [self _fastUTF8Characters];
+   if( ! s)
+      s = [self UTF8String];
    buf = ctype_convert( s,
                         len,
                         NSMakeRange( 0, len),
@@ -451,7 +455,9 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    allocator = MulleObjCObjectGetAllocator( self);
 
    len = [self _UTF8StringLength];
-   s   = [self _fastUTF8Characters] ? : [self UTF8String];
+   s   = [self _fastUTF8Characters];
+   if( ! s)
+      s = [self UTF8String];
    buf = ctype_convert( s,
                        len,
                        NSMakeRange( 0, 1),
