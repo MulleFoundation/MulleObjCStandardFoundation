@@ -1,5 +1,5 @@
 /*
- *  MulleFoundation - A tiny Foundation replacement
+ *  MulleFoundation - the mulle-objc class library
  *
  *  NSURL.m is a part of MulleFoundation
  *
@@ -335,7 +335,7 @@ static BOOL  append( NSMutableString *s, NSString *value)
 
 static void   _appendResourceSpecifierToMutableString( NSURL *self, NSMutableString *s)
 {
-   if( self->_host);
+   if( self->_host)
    {
       append( s, @"/");
       if( self->_user)

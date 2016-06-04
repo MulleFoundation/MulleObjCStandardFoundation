@@ -1,5 +1,5 @@
 /*
- *  MulleFoundation - A tiny Foundation replacement
+ *  MulleFoundation - the mulle-objc class library
  *
  *  MulleObjCEmptyString+NSUTF8String.h is a part of MulleFoundation
  *
