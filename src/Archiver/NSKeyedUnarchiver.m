@@ -56,15 +56,15 @@
 }
 
 
-- (off_t) _offsetForKey:(NSString *) key
+- (size_t) _offsetForKey:(NSString *) key
 {
-   off_t         offset;
+   size_t         offset;
    struct blob   blob;
    
    blob._storage = [key UTF8String];
    blob._length  = [key _UTF8StringLength] + 1;
    
-   offset = (off_t) NSMapGet( _scope, &blob);
+   offset = (size_t) NSMapGet( _scope, &blob);
    return( offset);
 }
 
@@ -91,8 +91,8 @@
 
 - (id) _initObject:(id) obj
 {
-   off_t          offset;
-   off_t          skip;
+   size_t         offset;
+   size_t         skip;
    struct blob    *blob;
    
    NSResetMapTable( _scope);
@@ -105,7 +105,7 @@
       offset = mulle_buffer_get_seek( &_buffer);
       NSMapInsert( _scope, blob, (void *) offset);
 
-      mulle_buffer_set_seek( &_buffer, SEEK_CUR, skip);
+      mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_CUR, skip);
    }
    
    //   NSLog( @"%@", NSStringFromMapTable( _scope));
@@ -119,8 +119,8 @@
                                at:(void *) p
                               key:(NSString *) key
 {
-   off_t   memo;
-   off_t   offset;
+   size_t   memo;
+   size_t   offset;
 
    offset = [self _offsetForKey:key];
    if( ! offset)
@@ -128,11 +128,11 @@
                   format:@"unknown key \"%@\"", key];
    
    memo = mulle_buffer_get_seek( &_buffer);
-   mulle_buffer_set_seek( &_buffer, SEEK_SET, offset);
+   mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, offset);
    
    p = [self _decodeValueOfObjCType:type
                              at:p];
-   mulle_buffer_set_seek( &_buffer, SEEK_SET, memo);
+   mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, memo);
    return( p);
 }
 
@@ -230,9 +230,9 @@
 - (void *) decodeBytesForKey:(NSString *) key
               returnedLength:(NSUInteger *) len_p
 {
-   off_t         memo;
-   off_t         offset;
-   struct blob   *blob;
+   size_t               memo;
+   size_t               offset;
+   struct blob          *blob;
    static struct blob   empty_blob;
    
    offset = [self _offsetForKey:key];
@@ -241,11 +241,11 @@
                   format:@"unknown key \"%@\"", key];
    
    memo = mulle_buffer_get_seek( &_buffer);
-   mulle_buffer_set_seek( &_buffer, SEEK_SET, offset);
+   mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, offset);
    
    blob = [self _nextBlob];
    
-   mulle_buffer_set_seek( &_buffer, SEEK_SET, memo);
+   mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, memo);
 
    // memory is owned by NSKeyedUnarchiver its OK
    if( ! blob)
