@@ -2451,6 +2451,8 @@
 					"$(DEPENDENCIES_DIR)/Frameworks",
 					"$(inherited)",
 				);
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/include",
 					/usr/local/include,
@@ -2483,6 +2485,8 @@
 					"$(DEPENDENCIES_DIR)/Frameworks",
 					"$(inherited)",
 				);
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/include",
 					/usr/local/include,

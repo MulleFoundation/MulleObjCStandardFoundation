@@ -54,7 +54,6 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
                                               mulle_container_valuecallback_copied_cstring, 16, &_allocator);
    _objectSubstitutions    = _NSCreateMapTableWithAllocator( NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 16, &_allocator);
    
-   // BUG: if off_t is > intptr_t,
    _offsets                = _NSCreateMapTableWithAllocator( NSNonOwnedPointerMapKeyCallBacks,
                                               mulle_container_valuecallback_intptr, 16, &_allocator);
    return( self);
@@ -89,11 +88,11 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 - (void) encodeRootObject:(id) rootObject
 {
    id             obj;
-   off_t          startBlob;
-   off_t          startClass;
-   off_t          startData;
-   off_t          startObject;
-   off_t          startSelector;
+   size_t         startBlob;
+   size_t         startClass;
+   size_t         startData;
+   size_t         startObject;
+   size_t         startSelector;
    unsigned int   i, curr;
    unsigned int   start;
    
@@ -451,7 +450,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 {
    id             obj;
    unsigned int   i, n;
-   off_t          offset;
+   size_t         offset;
    Class          cls;
    
    mulle_buffer_add_bytes( &_buffer, "**obj**", 8);
@@ -466,7 +465,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       
       [self _appendClass:cls];
       
-      offset = (off_t) NSMapGet( _offsets, obj);
+      offset = (size_t) NSMapGet( _offsets, obj);
       mulle_buffer_add_integer( &_buffer, offset);
    }
 }
