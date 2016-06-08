@@ -612,7 +612,7 @@ static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_r
                                     unichar *search, size_t search_len)
 {
    size_t      i;
-   ssize_t     j;
+   ptrdiff_t   j;
    unichar     c;
    unichar     d;
    NSInteger   found;
