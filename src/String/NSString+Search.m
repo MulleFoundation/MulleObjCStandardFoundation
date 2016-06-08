@@ -573,12 +573,12 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 
 static void   _kmp_precompute( unichar *search,
                                size_t search_len,
-                               ssize_t *table)
+                               ptrdiff_t *table)
 {
-   size_t    i;
-   ssize_t   j;
-   unichar   c;
-   unichar   d;
+   size_t      i;
+   ptrdiff_t   j;
+   unichar     c;
+   unichar     d;
    
    j         = -1;
    table[ 0] = j;
@@ -631,7 +631,7 @@ static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_r
       ++i;
       ++j;
       
-      if( j == (ssize_t) search_len)
+      if( j == (ptrdiff_t) search_len)
       {
          found = i - search_len;
          break;
@@ -644,14 +644,14 @@ static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_r
 
 static NSInteger   __kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
                                  unichar *search, size_t search_len,
-                                 ssize_t *table)
+                                 ptrdiff_t *table)
 {
    NSInteger   found;
    unichar     c;
    unichar     d;
    size_t      i;
    size_t      len;
-   ssize_t     j;
+   ptrdiff_t   j;
    
    found = NSNotFound;
    len   = get_length( self_rover);
@@ -676,7 +676,7 @@ static NSInteger   __kmp_search( struct mulle_objc_unichar_enumerator *self_rove
       ++i;
       ++j;
       
-      if( j == (ssize_t) search_len)
+      if( j == (ptrdiff_t) search_len)
       {
          found = i - search_len;
          break;
@@ -691,8 +691,8 @@ static NSInteger  _kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
                                unichar *search,
                                size_t search_len)
 {
-   ssize_t      *table;
-   ssize_t      size;
+   ptrdiff_t    *table;
+   ptrdiff_t    size;
    void         *tofree;
    NSInteger    found;
    
