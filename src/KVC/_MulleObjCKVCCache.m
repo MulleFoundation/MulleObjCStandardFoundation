@@ -22,7 +22,7 @@
 #import "MulleObjCFoundationString.h"
 
 // std-c and other dependencies
-
+#include <alloca.h>
 
 
 #if DEBUG  // coz the stupid debugger trips up on alloca stack frames

@@ -21,6 +21,7 @@
 
 // std-c and dependencies
 #include <string.h>
+#include <stdint.h>
 #include <mulle_container/mulle_container.h>
 
 
@@ -101,18 +102,20 @@
 - (id) initWithCoder:(NSCoder *) coder
 {
    char         *type;
-   void         *buf;
    NSUInteger   size;
    
    type = [coder decodeBytesWithReturnedLength:NULL];
 
    NSGetSizeAndAlignment( type, &size, NULL);
-   buf  = alloca( size);
-   [coder decodeValueOfObjCType:type
-                             at:buf];
+   {
+      uint8_t   buf[ size];
+      
+      [coder decodeValueOfObjCType:type
+                              at:buf];
 
-   return( [self initWithBytes:buf
-                      objCType:type]);
+      return( [self initWithBytes:buf
+                        objCType:type]);
+   }
 }
 
 

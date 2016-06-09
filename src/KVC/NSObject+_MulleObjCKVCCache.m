@@ -20,6 +20,8 @@
 #import "MulleObjCFoundationData.h"
 
 // std-c and other dependencies
+#include <alloca.h>
+
 
 #if DEBUG  // coz the stupid debugger trips up on alloca stack frames
 # define mulle_safer_alloca( size)  ((void *) [[NSMutableData dataWithLength:size] mutableBytes])

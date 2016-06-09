@@ -20,6 +20,7 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and other dependencies
+#include <alloca.h>
 
 
 #if DEBUG  // coz the stupid debugger trips up on alloca stack frames
@@ -48,12 +49,12 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
                                                                    NSUInteger nOffsets,
                                                                    NSUInteger sepLen)
 {
-   NSArray            *array;
-   NSString           **strings;
-   NSUInteger         i;
+   NSArray        *array;
+   NSString       **strings;
+   NSUInteger     i;
    mulle_utf8_t   *p;
    mulle_utf8_t   *q;
-   NSUInteger         len;
+   NSUInteger     len;
    
    NSCParameterAssert( bufLen >= 1);
    NSCParameterAssert( sepLen >= 1);

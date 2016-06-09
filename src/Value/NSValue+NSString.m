@@ -14,6 +14,7 @@
 #import "MulleObjCFoundationString.h"
 
 // std-c dependencies
+#include <stdint.h>
 
 
 @implementation NSValue (NSString)
@@ -22,8 +23,8 @@
 {
    struct mulle_buffer   buffer;
    char                  tmp[ 512];
+   uint8_t               value[ 256];
    NSUInteger            size;
-   void                  *value;
    NSString              *s;
    char                  *type;
    
@@ -34,7 +35,7 @@
       s = [NSString stringWithFormat:@"\"%s\" %ld bytes", type, size];
       return( s);
    }
-   value = alloca( size);
+   
    [self getValue:value];
    
    mulle_buffer_init_with_static_bytes( &buffer, tmp, sizeof( tmp), NULL);
@@ -42,6 +43,7 @@
    mulle_buffer_add_byte( &buffer, 0);
    s = [NSString stringWithFormat:@"\"%s\" %s", type, mulle_buffer_get_bytes( &buffer)];
    mulle_buffer_done( &buffer);
+
    return( s);
 }
 
