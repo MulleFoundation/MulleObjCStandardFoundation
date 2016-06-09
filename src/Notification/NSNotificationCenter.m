@@ -21,6 +21,7 @@
 
 // std-c and dependencies
 #import <mulle_container/mulle_container.h>
+#include <alloca.h>
 
 
 // notes an observer can be registered for the same method twice

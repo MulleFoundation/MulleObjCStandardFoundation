@@ -25,6 +25,7 @@
 #import "_MulleObjCCheatingASCIIString.h"
 
 // std-c and other dependencies
+#include <alloca.h>
 
 
 NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";

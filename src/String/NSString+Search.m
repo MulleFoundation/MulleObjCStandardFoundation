@@ -15,6 +15,7 @@
 
 // std-c and dependencies
 #include <mulle_utf/mulle_utf.h>
+#include <alloca.h>
 
 
 @implementation NSString (NSSearch)
