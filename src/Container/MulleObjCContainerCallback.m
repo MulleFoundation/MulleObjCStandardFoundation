@@ -283,7 +283,6 @@ extern struct mulle_container_valuecallback   *MulleObjCContainerObjectValueCopy
 
 struct mulle_container_keycallback     *MulleObjCContainerObjectKeyRetainCallback    = (void *) &_MulleObjCContainerObjectKeyRetainValueRetainCallback.keycallback;
 struct mulle_container_valuecallback   *MulleObjCContainerObjectValueRetainCallback  = (void *) &_MulleObjCContainerObjectKeyRetainValueRetainCallback.valuecallback;
-;
 
 struct mulle_container_keycallback     *MulleObjCContainerObjectKeyCopyCallback    = (void *) &_MulleObjCContainerObjectKeyCopyValueCopyCallback.keycallback;
 struct mulle_container_valuecallback   *MulleObjCContainerObjectValueCopyCallback  = (void *) &_MulleObjCContainerObjectKeyCopyValueCopyCallback.valuecallback;

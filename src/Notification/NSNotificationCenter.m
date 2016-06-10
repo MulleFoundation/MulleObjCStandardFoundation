@@ -21,7 +21,6 @@
 
 // std-c and dependencies
 #import <mulle_container/mulle_container.h>
-#include <alloca.h>
 
 
 // notes an observer can be registered for the same method twice
@@ -342,45 +341,47 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
    observer_sel_imp_triplet        *buf;
    observer_sel_imp_triplet        *tofree;
    NSUInteger                      i, n;
-   size_t                          size;
    
    tofree = NULL;
 
    //
    // need to copy, to allow modifications
    //
-   n    = _mulle_queue_get_count( queue);
-   size = n * sizeof( observer_sel_imp_triplet);
-   if( n < 64)
-      buf = alloca( size);
-   else
-     tofree = buf = mulle_malloc( size);
-
-   i = 0;
-   rover = _mulle_queue_enumerate( queue);
-   while( p = _mulle_queueenumerator_next( queue, &rover))
+   n = _mulle_queue_get_count( queue);
    {
-      buf[ i] = *p;
-      [[buf[ i].observer retain] autorelease];
-      ++i;
-   }
-   _mulle_queueenumerator_done( &rover);
+      observer_sel_imp_triplet  tmp[ 64];
+      
+      buf    = tmp;
+      tofree = NULL;
+      if( n > 64)
+         tofree = buf = mulle_malloc( n * sizeof( observer_sel_imp_triplet));
 
-   //
-   // if it's really a problem, that messages are sent after a receiver
-   // has removed himself (within the same posting cycle) put a 
-   // log on the center to track removals and check with that in this loop
-   // preference: document and keep it like this
-   //
-   p        = buf;
-   sentinel = &p[ n];
-   while( p < sentinel)
-   {
-      (*p->imp)( p->observer, p->sel, notification);
-      ++p;
+      i = 0;
+      rover = _mulle_queue_enumerate( queue);
+      while( p = _mulle_queueenumerator_next( queue, &rover))
+      {
+         buf[ i] = *p;
+         [[buf[ i].observer retain] autorelease];
+         ++i;
+      }
+      _mulle_queueenumerator_done( &rover);
+      
+      //
+      // if it's really a problem, that messages are sent after a receiver
+      // has removed himself (within the same posting cycle) put a
+      // log on the center to track removals and check with that in this loop
+      // preference: document and keep it like this
+      //
+      p        = buf;
+      sentinel = &p[ n];
+      while( p < sentinel)
+      {
+         (*p->imp)( p->observer, p->sel, notification);
+         ++p;
+      }
+      
+      mulle_free( tofree);
    }
-   
-   mulle_free( tofree);
 }
 
 

@@ -22,15 +22,7 @@
 #import "MulleObjCFoundationString.h"
 
 // std-c and other dependencies
-#include <alloca.h>
 
-
-#if DEBUG  // coz the stupid debugger trips up on alloca stack frames
-# define mulle_safer_alloca( size)  ((void *) [[NSMutableData dataWithLength:size] mutableBytes])
-#else
-# define mulle_safer_alloca( size)  \
-(size <= 0x400 ? alloca( size): (void *) [[NSMutableData dataWithLength:size] mutableBytes])
-#endif
 
 
 @implementation _MulleObjCKVCCache
@@ -91,6 +83,7 @@ id   _MulleObjCKVCCacheValueForObjectAndKeyPath( _MulleObjCKVCCache *self, id ob
    NSUInteger     i, n;
    id             value;
    id             *buf;
+   id             *tofree;
    
    components = [path componentsSeparatedByString:@"."];
    if( ! components)
@@ -100,11 +93,18 @@ id   _MulleObjCKVCCacheValueForObjectAndKeyPath( _MulleObjCKVCCache *self, id ob
    n    = [components count];
    if( n > 2)  // assumption...
    {
-      buf = (id *) mulle_safer_alloca( sizeof( id) * n);
-      [components getObjects:buf];
+      id   tmp[ 0x100];
    
+      tofree = NULL;
+      buf    = tmp;
+      if( n > 0x100)
+         tofree = buf = mulle_malloc( n * sizeof( id));
+      
+      [components getObjects:buf];
       for( i = 0; i < n; i++)
          value = _MulleObjCKVCCacheValueForObjectAndKey( self, value, buf[ i]);
+      
+      mulle_free( tofree);
    }
    else
       for( i = 0; i < n; i++)

@@ -25,7 +25,6 @@
 #import "_MulleObjCCheatingASCIIString.h"
 
 // std-c and other dependencies
-#include <alloca.h>
 
 
 NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
@@ -243,6 +242,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
 {
    NSUInteger                                    len;
    char                                          *buf;
+   char                                          *tofree;
    char                                          *memo;
    char                                          *s;
    char                                          *sentinel;
@@ -250,45 +250,57 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    id                                            key;
    id                                            obj;
    size_t                                        substring_len;
-   struct _MulleObjCCheatingASCIIStringStorage   tmp;
+   struct _MulleObjCCheatingASCIIStringStorage   storage;
    
    s   = (char *) [keyPath UTF8String];
    len = [keyPath _UTF8StringLength];
    
-   buf = alloca( len + 1);
-   memcpy( buf, s, len);
+   {
+      char   tmp[ 0x400];
+      
+      tofree = NULL;
+      buf    = tmp;
+      if( len >= 0x400 - 1)
+         tofree = buf = mulle_malloc( len + 1);
+
+      memcpy( buf, s, len);
 
    // this travese_key_path handles operators
-   {
-      sentinel = &buf[ len];
-      memo     = buf;
-      obj      = self;
-      
-      for( s = buf; s < sentinel; s++)
       {
-         if( *s != '.')
-            continue;
+         sentinel = &buf[ len];
+         memo     = buf;
+         obj      = self;
          
-         *s            = 0;
-         substring     = memo;
-         substring_len = s - memo;
-         memo          = s + 1;
-         
-         key  = _MulleObjCCheatingASCIIStringStorageInit( &tmp, substring, substring_len);
-         if( handle_operator( key, substring, substring_len, memo, &buf[ len] - memo, &obj))
-            return( obj);
-         
-         obj = [obj valueForKey:key];
+         for( s = buf; s < sentinel; s++)
+         {
+            if( *s != '.')
+               continue;
+            
+            *s            = 0;
+            substring     = memo;
+            substring_len = s - memo;
+            memo          = s + 1;
+            
+            key  = _MulleObjCCheatingASCIIStringStorageInit( &storage, substring, substring_len);
+            if( handle_operator( key, substring, substring_len, memo, &buf[ len] - memo, &obj))
+            {
+               mulle_free( tofree);
+               return( obj);
+            }
+            
+            obj = [obj valueForKey:key];
+         }
+         mulle_free( tofree);
       }
       
       *s            = 0;
       substring     = memo;
       substring_len = s - memo;
       
-      key = _MulleObjCCheatingASCIIStringStorageInit( &tmp, substring, substring_len);
+      key = _MulleObjCCheatingASCIIStringStorageInit( &storage, substring, substring_len);
       if( handle_operator( key,
-                          _MulleObjCCheatingASCIIStringStorageGetStorage( &tmp),
-                          _MulleObjCCheatingASCIIStringStorageGetLength( &tmp),
+                          _MulleObjCCheatingASCIIStringStorageGetStorage( &storage),
+                          _MulleObjCCheatingASCIIStringStorageGetLength( &storage),
                           NULL,
                           0,
                           &obj))
@@ -346,18 +358,28 @@ static id   traverse_key_path( id obj,
    NSUInteger                                    len;
    char                                          *s;
    char                                          *buf;
+   char                                          *tofree;
    id                                            key;
    id                                            obj;
-   struct _MulleObjCCheatingASCIIStringStorage   tmp;
+   struct _MulleObjCCheatingASCIIStringStorage   storage;
    
    s   = (char *) [keyPath UTF8String];
    len = [keyPath _UTF8StringLength];
    
-   buf = alloca( len + 1);
-   memcpy( buf, s, len);
+   {
+      char    tmp[ 0x400];
+      
+      tofree = NULL;
+      buf    = tmp;
+      if( len >= 0x400 - 1)
+         tofree = buf = mulle_malloc( len + 1);
+      memcpy( buf, s, len + 1);
 
-   obj  = traverse_key_path( self, buf, len, &tmp);
-   key  = _MulleObjCCheatingASCIIStringStorageGetObject( &tmp);
+      obj  = traverse_key_path( self, buf, len, &storage);
+
+      mulle_free( tofree);
+   }
+   key  = _MulleObjCCheatingASCIIStringStorageGetObject( &storage);
 
    [obj takeValue:value
            forKey:key];

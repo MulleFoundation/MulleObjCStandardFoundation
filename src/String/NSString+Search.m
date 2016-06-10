@@ -15,7 +15,6 @@
 
 // std-c and dependencies
 #include <mulle_utf/mulle_utf.h>
-#include <alloca.h>
 
 
 @implementation NSString (NSSearch)
@@ -693,23 +692,20 @@ static NSInteger  _kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
                                size_t search_len)
 {
    ptrdiff_t    *table;
-   ptrdiff_t    size;
    void         *tofree;
    NSInteger    found;
+   ptrdiff_t    tmp[ 0x100];
    
    tofree = NULL;
-   
-   size = sizeof( int) * search_len + 1;
-   if( size <= 0x400)
-      table = alloca( size);
-   else
-      table = tofree = malloc( size);
+   table  = tmp;
+   if( search_len > 0x100 - 1)
+      table = tofree = mulle_malloc( sizeof( ptrdiff_t) * search_len + 1);
    
    /* Preprocessing */
    _kmp_precompute( search, search_len, table);
    found = __kmp_search( self_rover, search, search_len, table);
    
-   free( tofree);
+   mulle_free( tofree);
    
    return( found);
 }
@@ -724,6 +720,7 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
    size_t      size;
    unichar     *search;
    unichar     *tofree;
+   unichar     tmp[ 0x100];
    
    // must be > 0 and is not > self_len
 
@@ -731,11 +728,11 @@ static NSInteger   normal_search( struct mulle_objc_unichar_enumerator *self_rov
    search_len = get_length( other_rover);
    size       = sizeof( unichar) * search_len;
    tofree     = NULL;
+   search     = tmp;
    
-   if( size <= 0x400)
-      search = alloca( size);
-   else
+   if( search_len > 0x100)
       search = tofree = mulle_malloc( size);
+   
    get_characters( other_rover, search);
 
    index = _kmp_search( self_rover, search, search_len);
