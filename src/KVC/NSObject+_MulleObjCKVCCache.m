@@ -20,16 +20,6 @@
 #import "MulleObjCFoundationData.h"
 
 // std-c and other dependencies
-#include <alloca.h>
-
-
-#if DEBUG  // coz the stupid debugger trips up on alloca stack frames
-# define mulle_safer_alloca( size)  ((void *) [[NSMutableData dataWithLength:size] mutableBytes])
-#else
-# define mulle_safer_alloca( size)  \
-(size <= 0x400 ? alloca( size): (void *) [[NSMutableData dataWithLength:size] mutableBytes])
-#endif
-
 
 
 @implementation NSObject ( _MulleObjCKVCCache)
@@ -62,21 +52,34 @@
    NSUInteger   i, n;
    id           value;
    id           *buf;
+   id           *tofree;
    
    components = [path componentsSeparatedByString:@"."];
    
    n = [components count];
+   if( ! n)
+      return( nil);
+   
 #ifndef DEBUG   // go through the pain to find bugs 
    if( n == 1)
       return( _MulleObjCKVCCacheValueForObjectAndKey( cache, self, path));
 #endif   
-   buf = (id *) mulle_safer_alloca( sizeof( id) * n);
-   [components getObjects:buf];
+   {
+      id   tmp[ 0x100];
+      
+      tofree = NULL;
+      buf    = tmp;
+      if( n > 0x100)
+         tofree = buf = (id *) mulle_malloc( sizeof( id) * n);
+      
+      [components getObjects:buf];
+      value = self;
+      for( i = 0; i < n; i++)
+         value = _MulleObjCKVCCacheValueForObjectAndKey( cache, value, buf[ i]);
+      
+      mulle_free( tofree);
+   }
    
-   value = self;
-   for( i = 0; i < n; i++)
-      value = _MulleObjCKVCCacheValueForObjectAndKey( cache, value, buf[ i]);
-
    return( value);
 }
 

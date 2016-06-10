@@ -20,15 +20,6 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and other dependencies
-#include <alloca.h>
-
-
-#if DEBUG  // coz the stupid debugger trips up on alloca stack frames
-# define mulle_safer_alloca( size)  ((void *) [[NSMutableData dataWithLength:size] mutableBytes])
-#else
-# define mulle_safer_alloca( size)  \
-(size <= 0x400 ? alloca( size): (void *) [[NSMutableData dataWithLength:size] mutableBytes])
-#endif
 
 
 @implementation NSString ( Components)
@@ -51,15 +42,20 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
 {
    NSArray        *array;
    NSString       **strings;
+   NSString       **tofree;
    NSUInteger     i;
    mulle_utf8_t   *p;
    mulle_utf8_t   *q;
    NSUInteger     len;
+   NSString       *tmp[ 0x100];
    
    NSCParameterAssert( bufLen >= 1);
    NSCParameterAssert( sepLen >= 1);
    
-   strings = (NSString **) mulle_safer_alloca( (nOffsets + 1) * sizeof( NSString *));
+   strings = tmp;
+   tofree  = NULL;
+   if( nOffsets > 0x100 - 1)
+      tofree = strings = (NSString **) mulle_malloc( (nOffsets + 1) * sizeof( NSString *));
    
    /* create strings for offsets make a little string of it and place it in 
       strings array 
@@ -82,25 +78,29 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
    array = [[NSArray alloc] _initWithRetainedObjects:strings
                                                count:i];
    
+   mulle_free( tofree);
+   
    return( array);
 }
 
 
 NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator)
 {
-   NSUInteger           i, n;
-   NSUInteger           m;
-   NSUInteger           max;
-   NSUInteger           remain;
-   NSArray              *array;
+   NSUInteger        i, n;
+   NSUInteger        m;
+   NSUInteger        max;
+   NSUInteger        remain;
+   NSArray           *array;
    mulle_utf8_t      *buf;
    mulle_utf8_t      *sep;
    mulle_utf8_t      sepChar;
    mulle_utf8_t      *sentinel;
    mulle_utf8_t      *p;
    mulle_utf8_t      *q;
-   NSUInteger   *offsets;
-   int          diff;
+   NSUInteger        *offsets;
+   NSUInteger        *tofree;
+   int               diff;
+   size_t            size;
    
    n = [self _UTF8StringLength];
    if( ! n)
@@ -118,70 +118,78 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    // for really huge strings, we might want to choose a different
    // batching algorithm. But for EOF, strings are mostly small
    //
-   buf = (mulle_utf8_t *) mulle_safer_alloca( n * sizeof( mulle_utf8_t));
-   [self _getUTF8Characters:buf];
-   sentinel = &buf[ n];
-
-   // Degenerate case @"." -> ( @"", @"")
-   max     = (n + (m - 1)) / m + 2;
-   offsets = (NSUInteger *) mulle_safer_alloca( max * sizeof( NSUInteger));
-   
-   i = 0;
-            // simpler algorithm, if m is just a character
-   if( m == 1)
+   max  = (n + (m - 1)) / m + 2;
+   size = (n + m) * sizeof( mulle_utf8_t) + max * sizeof( NSUInteger);
    {
-      sepChar = (mulle_utf8_t) [separator characterAtIndex:0];
-
-      for( p = buf; p < sentinel;)
-      {
-         if( *p++ != sepChar)
-            continue;
-
-         offsets[ i++] = p - buf;
-      }
-   }
-   else
-   {
-      sep = (mulle_utf8_t *) mulle_safer_alloca( m * sizeof( mulle_utf8_t));
-      [separator _getUTF8Characters:sep];
-
-      remain = m;
-      p      = buf;
-      q      = sep;
+      NSUInteger   tmp[ 0x100];
       
-      while( p < sentinel)
-      {
-         if( *p++ == *q)
-         {
-            ++q;
-            if( --remain)
-               continue;
-         
-            // matched whole string
-            // memorize that
-            offsets[ i++] = p - buf;
+      tofree  = NULL;
+      offsets = tmp;
+      if( size > sizeof( NSUInteger) * 0x100)
+         tofree = offsets = mulle_malloc( size);
+      buf = (mulle_utf8_t *) &offsets[ max];
+      sep = (mulle_utf8_t *) &buf[ n];
 
-            remain = m;
-            q      = sep;
-            continue;
-         }
+      [self _getUTF8Characters:buf];
+      sentinel = &buf[ n];
+      
+      // Degenerate case @"." -> ( @"", @"")
+      
+      i = 0;
+      // simpler algorithm, if m is just a character
+      if( m == 1)
+      {
+         sepChar = (mulle_utf8_t) [separator characterAtIndex:0];
          
-         diff = (int) remain - (int) m;
-         if( ! diff)
-            continue;
+         for( p = buf; p < sentinel;)
+         {
+            if( *p++ != sepChar)
+               continue;
             
-         p      = &p[ diff];
-         q      = sep;
-         remain = m;
+            offsets[ i++] = p - buf;
+         }
       }
+      else
+      {
+         [separator _getUTF8Characters:sep];
+         
+         remain = m;
+         p      = buf;
+         q      = sep;
+         
+         while( p < sentinel)
+         {
+            if( *p++ == *q)
+            {
+               ++q;
+               if( --remain)
+                  continue;
+               
+               // matched whole string
+               // memorize that
+               offsets[ i++] = p - buf;
+               
+               remain = m;
+               q      = sep;
+               continue;
+            }
+            
+            diff = (int) remain - (int) m;
+            if( ! diff)
+               continue;
+            
+            p      = &p[ diff];
+            q      = sep;
+            remain = m;
+         }
+      }
+      
+      // 95% of all cases, there is no separator in self
+      array = nil;
+      if( i)
+         array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( buf, n, offsets, i, m);
+      mulle_free( tofree);
    }
-   
-   // 95% of all cases, there is no separator in self
-   if( ! i)
-      return( nil);
-   
-   array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( buf, n, offsets, i, m);
-   
    return( [array autorelease]);
 }
 
