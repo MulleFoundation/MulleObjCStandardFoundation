@@ -39,16 +39,16 @@ int  mulle_string_sprintf_object_conversion( struct mulle_buffer *buffer,
                                              struct mulle_sprintf_argumentarray *arguments,
                                              int argc)
 {
-   extern int   mulle_sprintf_cstring_conversion( struct mulle_buffer *buffer,
-                                                  struct mulle_sprintf_formatconversioninfo *info,
-                                                  char *s);
+   extern int   mulle_sprintf_charstring_conversion( struct mulle_buffer *buffer,
+                                                     struct mulle_sprintf_formatconversioninfo *info,
+                                                     char *s);
    union mulle_sprintf_argumentvalue  v;
    char                               *s;
 
    v = arguments->values[ argc];
    s = v.obj ? (char *) [[(id) v.obj description] UTF8String] : "(nil)";
    
-   return( mulle_sprintf_cstring_conversion( buffer, info, s));
+   return( mulle_sprintf_charstring_conversion( buffer, info, s));
 }                   
 
 
