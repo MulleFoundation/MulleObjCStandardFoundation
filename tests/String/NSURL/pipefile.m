@@ -10,22 +10,36 @@
 #import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
 //#import "MulleStandaloneObjCFoundation.h"
 
+char  *safe_string( char *s)
+{
+   return( s ? s : "*null*");
+}
+
 
 int main( int argc, const char * argv[])
 {
-   NSURL *url;
+   NSURL   *url;
+   char    *a, *b;
 
    url = [NSURL URLWithString:@"/|.scion"];
-   if( ! url)
-      printf( "invalid #1\n");
+   if( url)
+   {
+      a = safe_string( [[url host] UTF8String]);
+      b = safe_string( [[url path] UTF8String]);
+      printf( "%s %s\n", a, b);
+   }
    else
-      printf( "%s %s\n", [[url host] UTF8String], [[url path] UTF8String]);
+      printf( "invalid #1\n");
 
    url = [NSURL URLWithString:@"|.scion"];
-   if( ! url)
-      printf( "invalid #2\n");
+   if( url)
+   {
+      a = safe_string( [[url host] UTF8String]);
+      b = safe_string( [[url path] UTF8String]);
+      printf( "%s %s\n", a, b);
+   }
    else
-      printf( "%s %s\n", [[url host] UTF8String], [[url path] UTF8String]);
+      printf( "invalid #1\n");
 
    return( 0);
 }

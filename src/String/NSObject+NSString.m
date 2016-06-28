@@ -31,7 +31,7 @@
 }
 
 
-- (id) debugDescription
+- (NSString *) debugDescription
 {
    NSString     *contents;
    NSUInteger   length;
