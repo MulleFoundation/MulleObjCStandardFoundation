@@ -12,6 +12,11 @@
 
 #include <limits.h>
 
+#ifndef LONG_LONG_MAX
+# define LONG_LONG_MAX   ((long long) (~0ULL >> 1))
+# define LONG_LONG_MIN   ((long long) (~0ULL ^ (~0ULL >> 1)))
+#endif
+
 
 static void   test_uinteger( uint64_t value)
 {
@@ -58,11 +63,11 @@ int   main( int argc, const char * argv[])
   test_integer( ~0LL);
   test_uinteger( ~0LL);
 
-  test_integer((int64_t) LONG_MAX);
-  test_uinteger((uint64_t) LONG_MAX);
-
   test_integer((int64_t) LONG_MIN);
   test_uinteger((uint64_t) LONG_MIN);
+
+  test_integer((int64_t) LONG_MAX);
+  test_uinteger((uint64_t) LONG_MAX);
 
   test_integer((int64_t) LONG_LONG_MIN);
   test_uinteger((uint64_t) LONG_LONG_MIN);
