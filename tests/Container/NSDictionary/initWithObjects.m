@@ -13,10 +13,9 @@
 static void    test_dictionary( int n)
 {
    NSData         *data;
-   id             *objects;
+   id             *objects[ n];
    unsigned int   i;
 
-   objects = alloca( n * sizeof( id));
    for( i = 0; i < n; ++i)
       objects[ i] = [NSNumber numberWithInt:i];
 
