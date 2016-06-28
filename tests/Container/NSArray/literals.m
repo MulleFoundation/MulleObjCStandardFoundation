@@ -13,14 +13,10 @@
 #endif
 
 
-static void  test( NSArray *array)
+static void  test_count( NSArray *array, NSUInteger count)
 {
-   NSString  *s;
-   char      *c_s;
-
-   s   = [array description];
-   c_s = [s UTF8String];
-   printf( "%s\n", c_s);   
+   if( ! [array isKindOfClass:[NSArray class]] || [array count] != count)
+      printf( "Failed\n");
 }
 
 
@@ -28,9 +24,9 @@ int main(int argc, const char * argv[])
 {
    NSArray  *a;
 
-   test( @[]);
-   test( @[ @"a"]);
-   test( @[ @"a", @"b", @"c"]);
+   test_count( @[], 0);
+   test_count( @[ @"a"], 1);
+   test_count( @[ @"a", @"b", @"c"], 3);
 
    return( 0);
 }
