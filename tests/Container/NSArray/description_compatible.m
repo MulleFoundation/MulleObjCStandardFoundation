@@ -13,11 +13,24 @@
 #endif
 
 
+static void  test( NSArray *array)
+{
+   NSString  *s;
+   char      *c_s;
+
+   s   = [array description];
+   c_s = [s UTF8String];
+   printf( "%s\n", c_s);   
+}
+
+
 int main(int argc, const char * argv[])
 {
-   printf( "%s\n", [[@[] description] UTF8String]);
-   printf( "%s\n", [[@[ @"a" ] description] UTF8String]);
-   printf( "%s\n", [[@[ @"a", @"b", @"c"] description] UTF8String]);
+   NSArray  *a;
+
+   test( @[]);
+   test( @[ @"a"]);
+   test( @[ @"a", @"b", @"c"]);
 
    return( 0);
 }
