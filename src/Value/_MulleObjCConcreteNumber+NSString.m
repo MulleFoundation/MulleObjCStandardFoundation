@@ -52,7 +52,7 @@
 
 - (id) description
 {
-   return( [NSString stringWithFormat:@"%lf", [self longDoubleValue]]);
+   return( [NSString stringWithFormat:@"%Lf", [self longDoubleValue]]);
 }
 
 @end
