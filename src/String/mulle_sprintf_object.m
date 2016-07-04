@@ -22,7 +22,7 @@
 // std-c and dependencies
 
 
-#if MULLE_SPRINTF_VERSION < ((0 << 20) | (3 << 8) | 0)
+#if MULLE_SPRINTF_VERSION < ((0 << 20) | (6 << 8) | 0)
 # error "mulle_sprintf is too old"
 #endif
 

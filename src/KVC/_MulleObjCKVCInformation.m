@@ -458,12 +458,13 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
    void   *parameter;
    union
    {
-      float                f;
-      double               d;
-      long                 l;
-      long long            q;
-      long double          D;
-      unsigned long long   Q;
+      mulle_objc_metaabi_param_block( float, void *)               f;
+      mulle_objc_metaabi_param_block( double, void *)              d;
+      mulle_objc_metaabi_param_block( long, void *)                l;
+      mulle_objc_metaabi_param_block( unsigned long, void *)       L;
+      mulle_objc_metaabi_param_block( long long, void *)           q;
+      mulle_objc_metaabi_param_block( unsigned long long, void *)  Q;
+      mulle_objc_metaabi_param_block( long double, void *)         D;
    } param;
    
    // so far we just do numbers
@@ -480,25 +481,25 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
       case _C_USHT : 
          
       case _C_INT  :
-      case _C_UINT : (*imp)( obj, sel, 0); return;
+      case _C_UINT :
+      case _C_SEL  : (*imp)( obj, sel, 0); return;
             
       case _C_LNG      :
       case _C_ULNG     :
       case _C_LNG_LNG  :
       case _C_ULNG_LNG :
-      case _C_SEL      :
-            if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
+            if( _mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
             {
-               param.q = 0;
+               param.Q.p = 0;
                (*imp)( obj, sel, &param);
             }
             else
                (*imp)( obj, sel, 0);
             return;
             
-      case _C_FLT     : param.f = 0.0; (*imp)( obj, sel, &param); return;
-      case _C_DBL     : param.d = 0.0; (*imp)( obj, sel, &param); return;
-      case _C_LNG_DBL : param.D = 0.0; (*imp)( obj, sel, &param); return;
+      case _C_FLT     : param.f.p = 0.0; (*imp)( obj, sel, &param); return;
+      case _C_DBL     : param.d.p = 0.0; (*imp)( obj, sel, &param); return;
+      case _C_LNG_DBL : param.D.p = 0.0; (*imp)( obj, sel, &param); return;
       default         :
          [NSException raise:NSInvalidArgumentException
                      format:@"%s failed to handle \"%c\" for -[%@ %@ %@]. I don't know what to do with it",
@@ -517,21 +518,22 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
       
    case _C_INT  : parameter = (void *) [value intValue]; break;
    case _C_UINT : parameter = (void *) [value unsignedIntValue]; break;
+   
    case _C_LNG  :
-   case _C_SEL  :
-      if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
+      if( _mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
       {
-         param.q   = [value longValue];
-         parameter = &param;
+         param.l.p  = [value longValue];
+         parameter  = &param;
          break;
       }
       parameter = (void *) [value longValue];
       break;
       
+   case _C_SEL  :
    case _C_ULNG :
-      if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
+      if( _mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
       {
-         param.Q   = [value unsignedLongValue];
+         param.L.p = [value unsignedLongValue];
          parameter = &param;
          break;
       }
@@ -539,9 +541,9 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
       break;
       
    case _C_LNG_LNG  :
-      if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
+      if( _mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
       {
-         param.q   = [value longLongValue];
+         param.q.p = [value longLongValue];
          parameter = &param;
          break;
       }
@@ -549,9 +551,9 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
       break;
 
    case _C_ULNG_LNG  :
-      if( mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
+      if( _mulle_objc_signature_get_metaabiparamtype( &valueType) == 2)
       {
-         param.Q   = [value unsignedLongLongValue];
+         param.Q.p = [value unsignedLongLongValue];
          parameter = &param;
          break;
       }
@@ -559,27 +561,27 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
       break;
          
    case _C_FLT  :
-         param.f   = [value floatValue];
-         parameter = &param;
-         break;
+      param.f.p = [value floatValue];
+      parameter = &param;
+      break;
          
    case _C_DBL  :
-         param.d   = [value doubleValue];
-         parameter = &param;
-         break;
+      param.d.p = [value doubleValue];
+      parameter = &param;
+      break;
          
    case _C_LNG_DBL :
-         param.D   = [value longDoubleValue];
-         parameter = &param;
-         break;
+      param.D.p = [value longDoubleValue];
+      parameter = &param;
+      break;
          
    default      :
-         [NSException raise:NSInvalidArgumentException
-                     format:@"%s failed to handle \"%c\" for -[%@ %@ %@]. I don't know what to do with it",
+      [NSException raise:NSInvalidArgumentException
+                  format:@"%s failed to handle \"%c\" for -[%@ %@ %@]. I don't know what to do with it",
           __PRETTY_FUNCTION__, valueType, obj, NSStringFromSelector( sel), value];
    }
 
-   (*imp)( obj, sel, &parameter);
+   (*imp)( obj, sel, parameter);
    return;
 }
 
@@ -588,56 +590,70 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
 {
    union rval_t
    {
-      float                f;
-      double               d;
-      long double          D;
-      long                 l;
-      unsigned long        L;
-      long long            q;
-      unsigned long long   Q;
-   };
+      mulle_objc_metaabi_param_block( void *, float)               f;
+      mulle_objc_metaabi_param_block( void *, double)              d;
+      mulle_objc_metaabi_param_block( void *, long)                l;
+      mulle_objc_metaabi_param_block( void *, unsigned long)       L;
+      mulle_objc_metaabi_param_block( void *, long long)           q;
+      mulle_objc_metaabi_param_block( void *, unsigned long long)  Q;
+      mulle_objc_metaabi_param_block( void *, long double)         D;
+   } param;
    
 
    // so far we just do numbers
    switch( valueType)
    {
-   case _C_CHR  : return( [NSNumber numberWithChar:(* (char (*)()) imp)( obj, sel)]);
-   case _C_UCHR : return( [NSNumber numberWithUnsignedChar:(* (unsigned char (*)()) imp)( obj, sel)]);
-   case _C_SHT  : return( [NSNumber numberWithShort:(* (short (*)()) imp)( obj, sel)]);
-   case _C_USHT : return( [NSNumber numberWithUnsignedShort:(* (unsigned short (*)()) imp)( obj, sel)]);
+   case _C_CHR  : return( [NSNumber numberWithChar:(char) (intptr_t) (*imp)( obj, sel, NULL)]);
+   case _C_UCHR : return( [NSNumber numberWithUnsignedChar:(unsigned char) (uintptr_t) (*imp)( obj, sel, NULL)]);
+   case _C_SHT  : return( [NSNumber numberWithShort:(short) (intptr_t) (*imp)( obj, sel, NULL)]);
+   case _C_USHT : return( [NSNumber numberWithUnsignedShort:(unsigned short) (uintptr_t) (*imp)( obj, sel, NULL)]);
 
-   case _C_INT  : return( [NSNumber numberWithInt:(* (int (*)()) imp)( obj, sel)]);
-   case _C_UINT : return( [NSNumber numberWithUnsignedInt:(* (unsigned int (*)()) imp)( obj, sel)]);
-         
-   case _C_SEL  :
-      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
-         return( [NSNumber numberWithLong:(* (union rval_t *(*)()) imp)( obj, sel)->l]);
-      return( [NSNumber numberWithLong:(* (long (*)()) *imp)( obj, sel)]);
+   case _C_INT  : return( [NSNumber numberWithInt:(int) (intptr_t) (*imp)( obj, sel, NULL)]);
+   case _C_UINT : return( [NSNumber numberWithUnsignedInt:(unsigned int) (uintptr_t) (*imp)( obj, sel, NULL)]);
 
    case _C_LNG  :
-      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
-         return( [NSNumber numberWithLong:(* (union rval_t *(*)()) imp)( obj, sel)->l]);
-      return( [NSNumber numberWithLong:(* (long (*)()) *imp)( obj, sel)]);
-
-         
+      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      {
+         (*imp)( obj, sel, &param);
+         return( [NSNumber numberWithLong:param.l.r]);
+      }
+      return( [NSNumber numberWithLong:(long) (intptr_t) (*imp)( obj, sel, NULL)]);
+      
+   case _C_SEL   :
    case _C_ULNG  :
-      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
-         return( [NSNumber numberWithUnsignedLong:(* (union rval_t *(*)()) imp)( obj, sel)->L]);
-      return( [NSNumber numberWithUnsignedLong:(* (unsigned long (*)()) imp)( obj, sel)]);
+      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      {
+         (*imp)( obj, sel, &param);
+         return( [NSNumber numberWithUnsignedLong:param.L.r]);
+      }
+      return( [NSNumber numberWithUnsignedLong:(unsigned long) (uintptr_t) (*imp)( obj, sel, NULL)]);
 
    case _C_LNG_LNG  :
-      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
-         return( [NSNumber numberWithLongLong:(* (union rval_t *(*)()) imp)( obj, sel)->q]);
-      return( [NSNumber numberWithLongLong:(* (long long (*)()) imp)( obj, sel)]);
+      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      {
+         (*imp)( obj, sel, &param);
+         return( [NSNumber numberWithLongLong:param.q.r]);
+      }
+      return( [NSNumber numberWithLongLong:(long long) (intptr_t) (*imp)( obj, sel, NULL)]);
       
    case _C_ULNG_LNG  :
-      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
-         return( [NSNumber numberWithUnsignedLongLong:(* (union rval_t *(*)()) imp)( obj, sel)->Q]);
-      return( [NSNumber numberWithUnsignedLongLong:(* (unsigned long long (*)()) imp)( obj, sel)]);
+      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      {
+         (*imp)( obj, sel, &param);
+         return( [NSNumber numberWithUnsignedLongLong:param.Q.r]);
+      }
+      return( [NSNumber numberWithUnsignedLongLong:(unsigned long long) (uintptr_t) (*imp)( obj, sel, NULL)]);
       
-   case _C_FLT     : return( [NSNumber numberWithFloat:(* (union rval_t *(*)()) imp)( obj, sel)->f]);
-   case _C_DBL     : return( [NSNumber numberWithDouble:(* (union rval_t *(*)()) imp)( obj, sel)->d]);
-   case _C_LNG_DBL : return( [NSNumber numberWithLongDouble:(* (union rval_t *(*)()) imp)( obj, sel)->D]);
+   case _C_FLT     :
+      (*imp)( obj, sel, &param);
+      return( [NSNumber numberWithFloat:param.f.r]);
+   case _C_DBL     :
+      (*imp)( obj, sel, &param);
+      return( [NSNumber numberWithDouble:param.d.r]);
+   case _C_LNG_DBL :
+      (*imp)( obj, sel, &param);
+      return( [NSNumber numberWithLongDouble:param.D.r]);
+
    default         :
       [NSException raise:NSInvalidArgumentException
                   format:@"%s failed to handle \"%c\" for -[%@ %@]. I don't know what to do with it",

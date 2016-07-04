@@ -3,7 +3,7 @@
 set -e
 
 cd ..
-   mulle-bootstrap build  -c Debug "$@"
+   mulle-bootstrap build  -c Debug -k "$@"
    mulle-bootstrap install "`pwd`"
 
 cd build
