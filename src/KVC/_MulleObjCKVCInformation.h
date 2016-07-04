@@ -106,12 +106,6 @@ id     __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, c
 
 static inline void   _MulleObjCSetObjectValueWithKVCInformation( id obj, id value, struct _MulleObjCKVCInformation *info)
 {
-   struct
-   {
-      void       *value;
-      NSString   *key;
-   } param;
-   
    if( ! info->implementation)
    {
       _MulleObjCSetInstanceVariableForType( obj, info->offset, value, info->valueType);
@@ -124,9 +118,7 @@ static inline void   _MulleObjCSetObjectValueWithKVCInformation( id obj, id valu
    case _C_COPY_ID   :
    case _C_ASSIGN_ID :
    case _C_RETAIN_ID :
-      param.value = value;
-      param.key   = info->key;
-      (*info->implementation)( obj, info->selector, &param);
+      (*info->implementation)( obj, info->selector, value);
       return;
    }
    __MulleObjCSetObjectValueWithAccessorForType( obj, info->selector, value, info->implementation, info->valueType);
@@ -144,7 +136,7 @@ static inline id   _MulleObjCGetObjectValueWithKVCInformation( id obj, struct _M
    case _C_COPY_ID :
    case _C_ASSIGN_ID :
    case _C_RETAIN_ID :
-      return( (*info->implementation)( obj, info->selector, info->key));
+      return( (*info->implementation)( obj, info->selector, NULL));
    }
    return( __MulleObjCGetObjectValueWithAccessorForType( obj, info->selector, info->implementation, info->valueType));
 }
