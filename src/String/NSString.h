@@ -103,8 +103,6 @@ typedef NSUInteger   NSStringCompareOptions;
 
 // characters are not zero terminated
 - (void) _getUTF8Characters:(mulle_utf8_t *) buf;
-- (void) _getUTF8Characters:(mulle_utf8_t *) buffer
-                  maxLength:(NSUInteger) length;
 
 + (BOOL) _areValidUTF8Characters:(mulle_utf8_t *) buffer
                           length:(NSUInteger) length;
@@ -146,7 +144,8 @@ typedef NSUInteger   NSStringCompareOptions;
 
 - (void) getCharacters:(unichar *) buffer
                  range:(NSRange) range;
-
+- (void) _getUTF8Characters:(mulle_utf8_t *) buffer
+                  maxLength:(NSUInteger) length;
 @end
 
 

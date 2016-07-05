@@ -652,6 +652,35 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 }
 
 
+- (void) _getUTF8Characters:(mulle_utf8_t *) buf
+                  maxLength:(NSUInteger) maxLength
+{
+   NSString       *s;
+   id             *sentinel;
+   NSUInteger     len;
+   NSString       **strings;
+   
+   strings  = _storage;
+   sentinel = &strings[ _count];
+   
+   while( strings < sentinel)
+   {
+      s   = *strings++;
+      len = [s _UTF8StringLength];
+      if( len > maxLength)
+         len = maxLength;
+      
+      [s _getUTF8Characters:buf
+                  maxLength:len];
+
+      buf        = &buf[ len];
+      maxLength -= len;
+      if( ! maxLength)
+         break;
+   }
+}
+
+
 - (NSUInteger) _UTF8StringLength
 {
    if( ! _shadow)
