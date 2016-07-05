@@ -81,17 +81,17 @@ static int  simplify_type_for_arithmetic( int type)
 do_64_64_add :
    a64 = [self longLongValue];
    b64 = [other longLongValue];
-   return( [NSNumber numberWithLongLong:a64+b64]);
+   return( [NSNumber numberWithLongLong:a64 + b64]);
    
 do_d_d_add :
    da = [self doubleValue];
    db = [other doubleValue];
-   return( [NSNumber numberWithDouble:da+db]);
+   return( [NSNumber numberWithDouble:da + db]);
    
 do_ld_ld_add :
    lda = [self longDoubleValue];
    ldb = [other longDoubleValue];
-   return( [NSNumber numberWithLongDouble:lda+ldb]);
+   return( [NSNumber numberWithLongDouble:lda + ldb]);
    
 bail:
    MulleObjCThrowInternalInconsistencyException( @"unknown objc-type");

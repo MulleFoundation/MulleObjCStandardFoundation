@@ -166,6 +166,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    case count_opcode :
       *obj = [NSNumber numberWithUnsignedInteger:[*obj count]];
       return( 1);
+   
    default :
       break;
    }
@@ -174,10 +175,10 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    if( rest && rest_len)
       restPath = [NSString _stringWithUTF8Characters:(void *) rest
                                               length:rest_len];
-   rover    = [*obj objectEnumerator];
-
    value    = nil;
    previous = nil;
+   rover    = [*obj objectEnumerator];
+   
    switch( opcode)
    {
    case min_opcode :
@@ -210,7 +211,9 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
             break;
          }
       }
+      
       *obj = previous;
+      
       return( 1);
          
       // specification says to add "doubles" but this is
@@ -220,6 +223,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    case sum_opcode :
       count = 0;
       total = nil;
+      
       while( element = [rover nextObject])
       {
          value = element;
@@ -229,10 +233,11 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
          total = [value _add:total];
          count++;
       }
-      if( opcode == avg_opcode && count)
+      
+      if( opcode == avg_opcode && count > 1)
          *obj = [total _divideByInteger:count];
       else
-         *obj = total;
+         *obj = total ? total : [NSNumber numberWithInt:0];
    }
    return( 1);
 }
