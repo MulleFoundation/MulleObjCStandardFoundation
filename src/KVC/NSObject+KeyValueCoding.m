@@ -222,8 +222,8 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    case avg_opcode :
    case sum_opcode :
       count = 0;
-      total = nil;
-      
+      total = [NSNumber numberWithInt:0];
+         
       while( element = [rover nextObject])
       {
          value = element;
@@ -233,11 +233,11 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
          total = [value _add:total];
          count++;
       }
-      
+
       if( opcode == avg_opcode && count > 1)
          *obj = [total _divideByInteger:count];
-      else
-         *obj = total ? total : [NSNumber numberWithInt:0];
+      else  
+         *obj = total;
    }
    return( 1);
 }
