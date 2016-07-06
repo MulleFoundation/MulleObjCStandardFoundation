@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#
 #  run-test.sh
 #  MulleObjC
 #
@@ -8,18 +7,6 @@
 #  (was run-mulle-scion-test)
 
 set -m
-
-if [ -z "${DEBUGGER}" ]
-then
-   DEBUGGER=lldb
-fi
-
-DEBUGGER="`which "${DEBUGGER}"`"
-
-if [ -z "${DEBUGGER_LIBRARY_PATH}" ]
-then
-   DEBUGGER_LIBRARY_PATH="`dirname "${DEBUGGER}"`/../lib"
-fi
 
 
 SOURCE_EXTENSION=".m"
@@ -37,8 +24,21 @@ case `uname` in
      LDFLAGS="-ldl -lpthread"
 esac
 
-
 LIBRARY_FILENAME="${SHLIB_PREFIX}MulleStandalone${LIBRARY_SHORTNAME}${SHLIB_EXTENSION}"
+
+
+if [ -z "${DEBUGGER}" ]
+then
+   DEBUGGER=lldb
+fi
+
+DEBUGGER="`which "${DEBUGGER}"`"
+
+if [ -z "${DEBUGGER_LIBRARY_PATH}" ]
+then
+   DEBUGGER_LIBRARY_PATH="`dirname "${DEBUGGER}"`/../lib"
+fi
+
 
 # check if running a single test or all
 DEFAULTCFLAGS="-w -O0 -g"
@@ -129,13 +129,14 @@ fi
 #        ./mulle-objc-runtime
 #
 
+# cmake
 lib="`ls -1 "../lib/${LIBRARY_FILENAME}" 2> /dev/null | tail -1`"
-DEPENDENCIES_INCLUDE="../include"
+DEPENDENCIES_INCLUDE="../dependencies/include"
 
 if [ ! -f "${lib}" ]
 then
+   # xcode
    lib="`ls -1 "../build/Products/Debug/${LIBRARY_FILENAME}" | tail -1 2> /dev/null`"
-   DEPENDENCIES_INCLUDE="../dependencies/include"
 fi
 
 LIBRARY="${1:-${lib}}"
@@ -147,15 +148,22 @@ then
    exit 1
 fi
 
-LIBRARY_INCLUDE="`dirname "${LIBRARY}"`"
 
+LIBRARY_INCLUDE="`dirname "${LIBRARY}"`"
 if [ -d "${LIBRARY_INCLUDE}/usr/local/include" ]
 then
+   # xcode
    LIBRARY_INCLUDE="${LIBRARY_INCLUDE}/usr/local/include"
 else
-   LIBRARY_INCLUDE="${LIBRARY_INCLUDE}/include"
+   if [ -d "${LIBRARY_INCLUDE}/include" ]
+   then
+      # xcode2
+      LIBRARY_INCLUDE="${LIBRARY_INCLUDE}/include"
+   else
+      # cmake
+      LIBRARY_INCLUDE="`dirname "${LIBRARY_INCLUDE}"`/include"
+   fi
 fi
-
 
 
 DIR=${1:-`pwd`}
