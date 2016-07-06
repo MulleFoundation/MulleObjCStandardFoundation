@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 
 
 static void   key_value_path_dictionary_test()

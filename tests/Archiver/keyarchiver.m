@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 
 
 @interface Foo : NSObject <NSCoding>

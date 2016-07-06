@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 
 
 static void    clone_dictionary( int n)

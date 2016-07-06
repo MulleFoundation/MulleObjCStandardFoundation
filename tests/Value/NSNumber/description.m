@@ -1,7 +1,7 @@
 #ifndef __MULLE_OBJC_RUNTIME__
 # import <Foundation/Foundation.h>
 #else
-# import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+# import <MulleObjCFoundation/MulleObjCFoundation.h>
 #endif
 
 

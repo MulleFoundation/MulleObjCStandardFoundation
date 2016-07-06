@@ -1,4 +1,4 @@
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 
 #include <stdio.h>
 #include <stdlib.h>
