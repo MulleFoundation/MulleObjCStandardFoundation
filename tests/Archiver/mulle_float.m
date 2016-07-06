@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 #import <MulleObjCFoundation/mulle_buffer_archiver.h>
 
 #include <limits.h>

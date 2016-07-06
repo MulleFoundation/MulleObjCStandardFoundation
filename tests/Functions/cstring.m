@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 
 
 @interface Foo : NSObject <NSCoding>

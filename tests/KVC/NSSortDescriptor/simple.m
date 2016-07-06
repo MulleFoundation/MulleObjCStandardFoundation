@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleStandaloneObjCFoundation/MulleStandaloneObjCFoundation.h>
+#import <MulleObjCFoundation/MulleObjCFoundation.h>
 
 
 int main(int argc, const char * argv[])
