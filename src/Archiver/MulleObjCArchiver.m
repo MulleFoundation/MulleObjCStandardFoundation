@@ -45,8 +45,8 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    self->_blob_callback.keycallback   =  mulle_container_keycallback_owned_pointer;
    self->_blob_callback.valuecallback =  mulle_container_valuecallback_intptr;
    
-   self->_blob_callback.keycallback.hash     = (void *) blob_hash;
-   self->_blob_callback.keycallback.is_equal = (void *) blob_is_equal;
+   self->_blob_callback.keycallback.hash     = (uintptr_t (*)()) blob_hash;
+   self->_blob_callback.keycallback.is_equal = (int (*)()) blob_is_equal;
    
    MulleObjCPointerHandleMapInit( &_blobs, 0x100, &_blob_callback, &_allocator);
    

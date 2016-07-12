@@ -27,14 +27,6 @@
 
 @implementation _MulleObjCUTF32String
 
-
-// these are zero terminated
-- (mulle_utf8_t *) _fastUTF8Characters;
-{
-   return( NULL);
-}
-
-
 - (NSUInteger) length
 {
    return( _length);
@@ -63,7 +55,7 @@
       mulle_utf32_convert_to_utf8_bytebuffer( [self _fastUTF32Characters],
                                               [self _UTF32StringLength],
                                               &buf,
-                                              (void *) mulle_buffer_add_bytes);
+                                              (void (*)()) mulle_buffer_add_bytes);
 
       mulle_buffer_add_byte( &buf, 0);
       _shadow = mulle_buffer_extract_bytes( &buf);

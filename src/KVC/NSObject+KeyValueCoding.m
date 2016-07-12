@@ -179,7 +179,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    previous = nil;
    rover    = [*obj objectEnumerator];
    
-   switch( opcode)
+   switch( (int) opcode)
    {
    case min_opcode :
    case max_opcode :

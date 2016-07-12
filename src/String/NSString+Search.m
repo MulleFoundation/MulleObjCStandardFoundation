@@ -101,7 +101,7 @@ static unichar   get_reverse_lowercase( struct mulle_objc_unichar_enumerator *ro
 }
 
 
-static NSUInteger   get_length( struct mulle_objc_unichar_enumerator *rover)
+static size_t   get_length( struct mulle_objc_unichar_enumerator *rover)
 {
    return( rover->direction < 0 ? rover->curr - rover->end : rover->end - rover->curr);
 }
@@ -146,30 +146,30 @@ static void   get_characters( struct mulle_objc_unichar_enumerator *rover, unich
    rover->object    = self;
    rover->direction = options & NSBackwardsSearch ? -1 : 1;
    
-   rover->utfrover.get_length = (void *) get_length;
-   rover->utfrover.unget      = (void *) unget_some;
-   rover->utfrover.tolower    = (void *) mulle_utf32_tolower;
-   rover->utfrover.toupper    = (void *) mulle_utf32_toupper;
+   rover->utfrover.get_length = (size_t (*)()) get_length;
+   rover->utfrover.unget      = (int (*)()) unget_some;
+   rover->utfrover.tolower    = mulle_utf32_tolower;
+   rover->utfrover.toupper    = mulle_utf32_toupper;
    
    if( rover->direction >= 0)
    {
       if( options & (NSCaseInsensitiveSearch|_MulleObjCLowercaseConversion))
-         rover->utfrover.get_character = (void *) get_lowercase;
+         rover->utfrover.get_character = (unichar (*)()) get_lowercase;
       else
          if( options & _MulleObjCUppercaseConversion)
-            rover->utfrover.get_character = (void *) get_uppercase;
+            rover->utfrover.get_character = (unichar (*)()) get_uppercase;
          else
-            rover->utfrover.get_character = (void *) get_literal;
+            rover->utfrover.get_character = (unichar (*)()) get_literal;
    }
    else
    {
       if( options & (NSCaseInsensitiveSearch|_MulleObjCLowercaseConversion))
-         rover->utfrover.get_character = (void *) get_reverse_lowercase;
+         rover->utfrover.get_character = (unichar (*)()) get_reverse_lowercase;
       else
          if( options & _MulleObjCUppercaseConversion)
-            rover->utfrover.get_character = (void *) get_reverse_uppercase;
+            rover->utfrover.get_character = (unichar (*)()) get_reverse_uppercase;
          else
-            rover->utfrover.get_character = (void *) get_reverse_literal;
+            rover->utfrover.get_character = (unichar (*)()) get_reverse_literal;
    }
 
    if( rover->direction >= 0)
@@ -185,7 +185,7 @@ static void   get_characters( struct mulle_objc_unichar_enumerator *rover, unich
 
    rover->curr     = rover->start;
    rover->selector = @selector( characterAtIndex:);
-   rover->imp      = (void *) [self methodForSelector:rover->selector];
+   rover->imp      = (unichar (*)()) [self methodForSelector:rover->selector];
    
    NSParameterAssert( rover->imp);
 }

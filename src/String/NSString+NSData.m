@@ -179,7 +179,7 @@ enum
    mulle_utf32_convert_to_utf16_bytebuffer( info.start,
                                             info.utf32len,
                                             &buffer,
-                                            (void *) mulle_buffer_add_bytes);
+                                            (void (*)()) mulle_buffer_add_bytes);
    assert( mulle_buffer_get_length( &buffer) == size);
    assert( ! mulle_buffer_has_overflown( &buffer));
    mulle_buffer_done( &buffer);
@@ -332,7 +332,7 @@ enum
       mulle_utf16_convert_to_utf8_bytebuffer( info.start,
                                               info.utf16len,
                                               &buffer,
-                                              (void *) mulle_buffer_add_bytes);
+                                              (void (*)()) mulle_buffer_add_bytes);
    
       assert( mulle_buffer_get_length( &buffer) == info.utf8len);
 
@@ -358,7 +358,7 @@ enum
    mulle_utf16_convert_to_utf32_bytebuffer( info.start,
                                             info.utf16len,
                                             &buffer,
-                                            (void *) mulle_buffer_add_bytes);
+                                            (void (*)()) mulle_buffer_add_bytes);
    
    assert( mulle_buffer_get_length( &buffer) == info.utf32len * sizeof( mulle_utf32_t));
 

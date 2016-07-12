@@ -23,7 +23,7 @@
 
 - (NSArray *) sortedArrayUsingDescriptors:(NSArray *) orderings
 {
-   return( [self sortedArrayUsingFunction:(void *) MulleObjCSortDescriptorArrayCompare
+   return( [self sortedArrayUsingFunction:(NSInteger (*)()) MulleObjCSortDescriptorArrayCompare
                                   context:orderings]);
 }
 
@@ -34,7 +34,7 @@
 
 - (void) sortUsingDescriptors:(NSArray *) orderings
 {
-   [self sortUsingFunction:(void *) MulleObjCSortDescriptorArrayCompare
+   [self sortUsingFunction:(NSInteger (*)()) MulleObjCSortDescriptorArrayCompare
                    context:orderings];
 }
 

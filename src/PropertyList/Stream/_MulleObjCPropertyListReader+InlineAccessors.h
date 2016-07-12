@@ -48,7 +48,7 @@ static inline long   _MulleObjCPropertyListReaderNextUTF32Character( _MulleObjCP
 
 static inline void   _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( _MulleObjCPropertyListReader *self)
 {
-   return( _MulleObjCUTF8StreamReaderConsumeCurrentUTF32Character( (_MulleObjCUTF8StreamReader *) self));
+   _MulleObjCUTF8StreamReaderConsumeCurrentUTF32Character( (_MulleObjCUTF8StreamReader *) self);
 }
 
 
