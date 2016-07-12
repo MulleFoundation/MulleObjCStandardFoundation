@@ -11,6 +11,8 @@
  *  $Id$
  *
  */
+#define _GNUSOURCE   // UGLINESS for memmem and memrmem
+ 
 #import "NSData.h"
 
 // other files in this library
