@@ -130,11 +130,11 @@ static _MulleObjCKVCCache   *__MulleObjCKVCCreateCache( Class aClass)
 #if DEBUG_VERBOSE
    fprintf( stderr, ">>>>>>>> 0x%llX lives\n", (long long) cache);
 #endif   
-   callbacks         = NSOwnedPointerHashCallBacks;
-   callbacks.is_equal = (void *) _MulleObjCKVCCachelineIsEqual;
-   callbacks.release = (void *) _MulleObjCKVCCachelineFree;
+   callbacks          = NSOwnedPointerHashCallBacks;
+   callbacks.is_equal = (int (*)()) _MulleObjCKVCCachelineIsEqual;
+   callbacks.release  = (void (*)()) _MulleObjCKVCCachelineFree;
 
-   cache->_table     = NSCreateHashTable( callbacks, 63);
+   cache->_table      = NSCreateHashTable( callbacks, 63);
 
    return( cache);
 }

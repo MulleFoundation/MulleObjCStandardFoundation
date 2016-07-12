@@ -21,8 +21,8 @@ struct blob
 };
 
 
-static inline  unsigned long   blob_hash( struct mulle_container_keycallback *ignore,
-                                          struct blob *blob)
+static inline  uintptr_t   blob_hash( struct mulle_container_keycallback *ignore,
+                                      struct blob *blob)
 {
    NSUInteger   len;
    

@@ -41,7 +41,6 @@ extern NSString  *NSInconsistentArchiveException;
 - (instancetype) initForReadingWithData:(NSData *)data;
 
 - (BOOL) atEnd;
-- (NSInteger) systemVersion;
 
 + (id) unarchiveObjectWithData:(NSData *) data;
 

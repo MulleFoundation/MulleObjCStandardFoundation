@@ -29,6 +29,7 @@
 @end
 
 
+
 @interface _MulleObjCASCIIString( _Subclasses)
 
 + (id) newWithASCIICharacters:(char *) chars

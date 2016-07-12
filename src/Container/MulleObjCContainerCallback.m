@@ -34,22 +34,22 @@ static void   *mulle_container_callback_intptr_describe( struct mulle_container_
 
 struct mulle_container_keycallback      NSIntMapKeyCallBacks =
 {
-   (void *) mulle_hash_pointer,
-   (void *) mulle_container_callback_pointer_is_equal,
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_callback_int_describe,
+   mulle_container_keycallback_pointer_hash,
+   mulle_container_keycallback_pointer_is_equal,
+   mulle_container_keycallback_self,
+   mulle_container_keycallback_nop,
+   (void *(*)()) mulle_container_callback_int_describe,
    mulle_container_not_an_int_key,
    NULL
 };
 
 struct mulle_container_keycallback      NSIntegerMapKeyCallBacks =
 {
-   (void *) mulle_hash_pointer,
-   (void *) mulle_container_callback_pointer_is_equal,
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_callback_intptr_describe,
+   mulle_container_keycallback_pointer_hash,
+   mulle_container_keycallback_pointer_is_equal,
+   mulle_container_keycallback_self,
+   mulle_container_keycallback_nop,
+   (void *(*)())  mulle_container_callback_intptr_describe,
    mulle_container_not_an_intptr_key,
    NULL
 };
@@ -57,9 +57,9 @@ struct mulle_container_keycallback      NSIntegerMapKeyCallBacks =
 
 struct mulle_container_valuecallback    NSIntMapValueCallBacks =
 {
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_callback_int_describe,
+   mulle_container_valuecallback_self,
+   mulle_container_valuecallback_nop,
+   (void *(*)()) mulle_container_callback_int_describe,
    NULL
 };
 
@@ -67,9 +67,9 @@ struct mulle_container_valuecallback    NSIntMapValueCallBacks =
 
 struct mulle_container_valuecallback    NSIntegerMapValueCallBacks =
 {
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_callback_intptr_describe,
+   mulle_container_valuecallback_self,
+   mulle_container_valuecallback_nop,
+   (void *(*)()) mulle_container_callback_intptr_describe,
    NULL
 };
 
@@ -86,11 +86,11 @@ static void   *mulle_container_callback_pointer_describe( struct mulle_container
 
 struct mulle_container_keycallback   NSNonOwnedPointerMapKeyCallBacks =
 {
-   (void *) mulle_hash_pointer,
-   (void *) mulle_container_callback_pointer_is_equal,
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_callback_pointer_describe,
+   mulle_container_keycallback_pointer_hash,
+   mulle_container_keycallback_pointer_is_equal,
+   mulle_container_keycallback_self,
+   mulle_container_keycallback_nop,
+   (void *(*)()) mulle_container_callback_pointer_describe,
    NULL,
    NULL
 };
@@ -99,11 +99,11 @@ struct mulle_container_keycallback   NSNonOwnedPointerMapKeyCallBacks =
 
 struct mulle_container_keycallback   NSOwnedPointerMapKeyCallBacks =
 {
-   (void *) mulle_hash_pointer,
-   (void *) mulle_container_callback_pointer_is_equal,
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_keycallback_pointer_free,
-   (void *) mulle_container_callback_pointer_describe,
+   mulle_container_keycallback_pointer_hash,
+   mulle_container_keycallback_pointer_is_equal,
+   mulle_container_keycallback_self,
+   mulle_container_keycallback_pointer_free,
+   (void *(*)()) mulle_container_callback_pointer_describe,
    NULL,
    NULL
 };
@@ -111,9 +111,9 @@ struct mulle_container_keycallback   NSOwnedPointerMapKeyCallBacks =
 
 struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks =
 {
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_callback_pointer_describe,
+   mulle_container_valuecallback_self,
+   mulle_container_valuecallback_nop,
+   (void *(*)()) mulle_container_callback_pointer_describe,
    NULL
 };
 
@@ -121,9 +121,9 @@ struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks =
 
 struct mulle_container_valuecallback   NSOwnedPointerMapValueCallBacks =
 {
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_valuecallback_pointer_free,
-   (void *) mulle_container_callback_pointer_describe,
+   mulle_container_valuecallback_self,
+   mulle_container_valuecallback_pointer_free,
+   (void *(*)()) mulle_container_callback_pointer_describe,
    NULL
 };
 
@@ -144,25 +144,25 @@ static int   mulle_container_keycallback_object_is_equal( struct mulle_container
 }
 
 
-static void   *mulle_container_keycallback_object_retain( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
+static void   *mulle_container_callback_object_retain( void *callback, id obj, struct mulle_allocator *allocator)
 {
    return( [obj retain]);
 }
 
 
-static void   *mulle_container_keycallback_object_copy( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
+static void   *mulle_container_callback_object_copy( void *callback, id obj, struct mulle_allocator *allocator)
 {
    return( [obj copy]);
 }
 
 
-static void   mulle_container_keycallback_object_autorelease( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
+static void   mulle_container_callback_object_autorelease( void *callback, id obj, struct mulle_allocator *allocator)
 {
    [obj autorelease];
 }
 
 
-static void   *mulle_container_keycallback_object_describe( struct mulle_container_keycallback *callback, id obj, struct mulle_allocator *allocator)
+static void   *mulle_container_callback_object_describe( void *callback, id obj, struct mulle_allocator *allocator)
 {
    return( [obj description]);
 }
@@ -170,11 +170,11 @@ static void   *mulle_container_keycallback_object_describe( struct mulle_contain
 
 const struct mulle_container_keycallback   _MulleObjCContainerObjectKeyAssignCallback =
 {
-   (void *) mulle_container_keycallback_object_hash,
-   (void *) mulle_container_keycallback_object_is_equal,
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_keycallback_object_describe,
+   (uintptr_t (*)()) mulle_container_keycallback_object_hash,
+   (int (*)()) mulle_container_keycallback_object_is_equal,
+   mulle_container_keycallback_self,
+   mulle_container_keycallback_nop,
+   (void *(*)()) mulle_container_callback_object_describe,
    
    nil,
    NULL
@@ -183,9 +183,9 @@ const struct mulle_container_keycallback   _MulleObjCContainerObjectKeyAssignCal
 
 const struct mulle_container_valuecallback   _MulleObjCContainerObjectValueAssignCallback =
 {
-   (void *) mulle_container_callback_self,
-   (void *) mulle_container_callback_nop,
-   (void *) mulle_container_keycallback_object_describe,
+   mulle_container_valuecallback_self,
+   mulle_container_valuecallback_nop,
+   (void *(*)()) mulle_container_callback_object_describe,
    NULL
 };
 
@@ -193,19 +193,19 @@ const struct mulle_container_valuecallback   _MulleObjCContainerObjectValueAssig
 const struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyRetainValueRetainCallback =
 {
    {
-      (void *) mulle_container_keycallback_object_hash,
-      (void *) mulle_container_keycallback_object_is_equal,
-      (void *) mulle_container_keycallback_object_retain,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (uintptr_t (*)()) mulle_container_keycallback_object_hash,
+      (int (*)())   mulle_container_keycallback_object_is_equal,
+      (void *(*)()) mulle_container_callback_object_retain,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       
       nil,
       NULL
    },
    {
-      (void *) mulle_container_keycallback_object_retain,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (void *(*)()) mulle_container_callback_object_retain,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       NULL
    }
 };
@@ -214,19 +214,19 @@ const struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyReta
 const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyCopyValueRetainCallback =
 {
    {
-      (void *) mulle_container_keycallback_object_hash,
-      (void *) mulle_container_keycallback_object_is_equal,
-      (void *) mulle_container_keycallback_object_copy,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (uintptr_t (*)()) mulle_container_keycallback_object_hash,
+      (int (*)())   mulle_container_keycallback_object_is_equal,
+      (void *(*)()) mulle_container_callback_object_copy,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       
       nil,
       NULL
    },
    {
-      (void *) mulle_container_keycallback_object_retain,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (void *(*)()) mulle_container_callback_object_retain,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       NULL
    }
 };
@@ -234,19 +234,19 @@ const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyCop
 const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyRetainValueCopyCallback =
 {
    {
-      (void *) mulle_container_keycallback_object_hash,
-      (void *) mulle_container_keycallback_object_is_equal,
-      (void *) mulle_container_keycallback_object_retain,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (uintptr_t (*)()) mulle_container_keycallback_object_hash,
+      (int (*)())   mulle_container_keycallback_object_is_equal,
+      (void *(*)()) mulle_container_callback_object_retain,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       
       nil,
       NULL
    },
    {
-      (void *) mulle_container_keycallback_object_copy,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (void *(*)()) mulle_container_callback_object_copy,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       NULL
    }
 };
@@ -254,19 +254,19 @@ const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyRet
 const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyCopyValueCopyCallback =
 {
    {
-      (void *) mulle_container_keycallback_object_hash,
-      (void *) mulle_container_keycallback_object_is_equal,
-      (void *) mulle_container_keycallback_object_copy,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (uintptr_t (*)()) mulle_container_keycallback_object_hash,
+      (int (*)())   mulle_container_keycallback_object_is_equal,
+      (void *(*)()) mulle_container_callback_object_copy,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       
       nil,
       NULL
    },
    {
-      (void *) mulle_container_keycallback_object_copy,
-      (void *) mulle_container_keycallback_object_autorelease,
-      (void *) mulle_container_keycallback_object_describe,
+      (void *(*)()) mulle_container_callback_object_copy,
+      (void (*)())  mulle_container_callback_object_autorelease,
+      (void *(*)()) mulle_container_callback_object_describe,
       NULL
    }
 };

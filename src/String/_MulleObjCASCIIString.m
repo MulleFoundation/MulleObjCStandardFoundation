@@ -104,7 +104,7 @@ static void   grab_utf8( id self,
    
    range = MulleObjCHashRange( [self _UTF8StringLength]);
    s     = [self _fastUTF8Characters];
-   return( MulleObjCStringHash( s, range.length));
+   return( MulleObjCStringHash( &s[ range.location], range.length));
 }
 
 

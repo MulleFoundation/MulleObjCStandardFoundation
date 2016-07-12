@@ -59,7 +59,7 @@
       mulle_utf16_convert_to_utf8_bytebuffer( [self _fastUTF16Characters],
                                               [self _UTF16StringLength],
                                               &buf,
-                                              (void *) mulle_buffer_add_bytes);
+                                              (void (*)()) mulle_buffer_add_bytes);
 
       mulle_buffer_add_byte( &buf, 0);
       _shadow = mulle_buffer_extract_bytes( &buf);

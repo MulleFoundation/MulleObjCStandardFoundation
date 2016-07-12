@@ -55,8 +55,8 @@ static NSString   *UTF8ToString( mulle_utf8_t *s)
    struct _ns_rootconfiguration   *config;
  
    config = _ns_get_rootconfiguration();
-   config->string.charsfromobject = (void *) stringToUTF8;
-   config->string.objectfromchars = (void *) UTF8ToString;
+   config->string.charsfromobject = (char *(*)()) stringToUTF8;
+   config->string.objectfromchars = (void *(*)()) UTF8ToString;
 }
 
 

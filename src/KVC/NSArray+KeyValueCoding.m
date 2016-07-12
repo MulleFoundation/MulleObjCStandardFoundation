@@ -43,8 +43,8 @@
    
    array  = [NSMutableArray arrayWithCapacity:n];
    
-   get    = (void *) [self methodForSelector:@selector( objectAtIndex:)];
-   append = (void *) [array methodForSelector:@selector( addObject:)];
+   get    = (void *(*)()) [self methodForSelector:@selector( objectAtIndex:)];
+   append = (void (*)()) [array methodForSelector:@selector( addObject:)];
    
    for( i = 0; i < n; i++)
    {

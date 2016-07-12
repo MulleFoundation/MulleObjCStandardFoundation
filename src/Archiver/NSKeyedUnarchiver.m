@@ -38,9 +38,9 @@
    struct mulle_container_keycallback   callback;
    
    callback          = NSNonOwnedPointerMapKeyCallBacks;
-   callback.hash     = (void *) blob_hash;
-   callback.is_equal = (void *) blob_is_equal;
-   callback.describe = (void *) blob_describe;
+   callback.hash     = (uintptr_t (*)()) blob_hash;
+   callback.is_equal = (int (*)()) blob_is_equal;
+   callback.describe = (void *(*)()) blob_describe;
 
    _scope = _NSCreateMapTableWithAllocator( callback,
                               NSIntegerMapValueCallBacks,

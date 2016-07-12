@@ -22,6 +22,8 @@
 // std-c and dependencies
 #import <mulle_container/mulle_container.h>
 
+#include <stddef.h>
+
 
 // notes an observer can be registered for the same method twice
 // with same selector and everything
@@ -140,7 +142,7 @@ static inline observer_sel_imp_triplet   *triplet_copy( observer_sel_imp_triplet
      
 */
 
-static NSUInteger   pair_hash( struct mulle_container_keycallback *table,
+static uintptr_t   pair_hash( struct mulle_container_keycallback *table,
                                name_sender_pair *pair)
 {
    NSUInteger  hash;
@@ -151,7 +153,7 @@ static NSUInteger   pair_hash( struct mulle_container_keycallback *table,
 }
 
 
-static BOOL   pair_is_equal( struct mulle_container_keycallback *table,
+static int   pair_is_equal( struct mulle_container_keycallback *table,
                              name_sender_pair *a, name_sender_pair *b)
 {
    if( a->sender != b->sender)      
@@ -211,18 +213,18 @@ static void    free_queue_and_contents( struct mulle_container_keycallback *tabl
 static struct mulle_container_keyvaluecallback    pair_registry_callbacks =
 {
    {
-      (void *) pair_hash,
-      (void *) pair_is_equal,
-      (void *) mulle_container_callback_self,
-      (void *) mulle_container_callback_nop,
-      (void *) describe_pair,
+      (uintptr_t (*)()) pair_hash,
+      (int (*)()) pair_is_equal,
+      mulle_container_keycallback_self,
+      mulle_container_keycallback_nop,
+      (void *(*)()) describe_pair,
       NULL,
       NULL
    },
    {
-      (void *) mulle_container_callback_self,
-      (void *) destroy_queue,
-      (void *) describe_queue,
+      mulle_container_valuecallback_self,
+      (void (*)()) destroy_queue,
+      (void *(*)()) describe_queue,
       NULL
    }
 };
@@ -231,18 +233,18 @@ static struct mulle_container_keyvaluecallback    pair_registry_callbacks =
 static struct mulle_container_keyvaluecallback    sender_registry_callbacks =
 {
    {
-      (void *) mulle_hash_pointer,
-      (void *) mulle_container_callback_pointer_is_equal,
-      (void *) mulle_container_callback_self,
-      (void *) mulle_container_callback_nop,
-      (void *) mulle_container_callback_no_value,
+      mulle_container_keycallback_pointer_hash,
+      mulle_container_keycallback_pointer_is_equal,
+      mulle_container_keycallback_self,
+      mulle_container_keycallback_nop,
+      mulle_container_keycallback_no_value,
       NULL,
       NULL
    },
    {
-      (void *) mulle_container_callback_self,
-      (void *) destroy_queue,
-      (void *) describe_queue,
+      mulle_container_valuecallback_self,
+      (void (*)()) destroy_queue,
+      (void *(*)()) describe_queue,
       NULL
    }
 };
@@ -255,18 +257,18 @@ static struct mulle_container_keyvaluecallback    sender_registry_callbacks =
 static struct mulle_container_keyvaluecallback    observer_no_free_registry_callbacks =
 {
    {  
-      (void *) mulle_hash_pointer,
-      (void *) mulle_container_callback_pointer_is_equal,
-      (void *) mulle_container_callback_self,
-      (void *) mulle_container_callback_nop,
-      (void *) mulle_container_callback_no_value,
+      mulle_container_keycallback_pointer_hash,
+      mulle_container_keycallback_pointer_is_equal,
+      mulle_container_keycallback_self,
+      mulle_container_keycallback_nop,
+      mulle_container_keycallback_no_value,
       NULL,
       NULL
    },
    {  
-      (void *) mulle_container_callback_self,
-      (void *) mulle_container_callback_nop,
-      (void *) describe_queue,
+      mulle_container_valuecallback_self,
+      mulle_container_valuecallback_nop,
+      (void *(*)()) describe_queue,
       NULL
    }
 };
@@ -277,7 +279,7 @@ static struct mulle_container_keyvaluecallback    observer_no_free_registry_call
 
 // the address of this variable (is the stand in for the n=0 s=0 observer)
 // stored in the sender registry 
-static void      *OmniscientObserver;
+static void   *OmniscientObserver;
 
 - (id) init
 {
@@ -296,26 +298,26 @@ static void      *OmniscientObserver;
 
 - (void) dealloc
 {
-   struct mulle_container_keyvaluecallback    callbacks;
-   struct mulle_allocator                     *allocator;
+   struct mulle_container_keyvaluecallback   callbacks;
+   struct mulle_allocator                    *allocator;
    
    allocator = MulleObjCObjectGetAllocator( self);
 
    callbacks = sender_registry_callbacks;
-   callbacks.valuecallback.release = (void *) free_queue_and_contents;
+   callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
    _mulle_map_done( (struct _mulle_map *) &_senderRegistry, &callbacks, allocator);
 
    callbacks = name_registry_callbacks;
-   callbacks.valuecallback.release = (void *) free_queue_and_contents;
+   callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
    _mulle_map_done( (struct _mulle_map *) &_nameRegistry, &callbacks, allocator);
 
    callbacks = pair_registry_callbacks;
-   callbacks.valuecallback.release = (void *) free_queue_and_contents;
+   callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
    _mulle_map_done( (struct _mulle_map *) &_pairRegistry, &callbacks, allocator);
 
    // this one last
    callbacks = observer_registry_callbacks;
-   callbacks.valuecallback.release = (void *) free_queue_and_contents;
+   callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
    _mulle_map_done( (struct _mulle_map *) &_observerRegistry, &callbacks, allocator);
    
    [super dealloc];

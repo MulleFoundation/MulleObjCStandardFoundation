@@ -496,7 +496,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                         arguments:args];
    mulle_vararg_end( args);
    
-   return( [self appendString:s]);
+   [self appendString:s];
 }
 
 

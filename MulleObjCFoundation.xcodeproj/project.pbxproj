@@ -116,6 +116,9 @@
 		4174E7281CDCADE300506320 /* MulleStandaloneObjCFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4174E7271CDCADE300506320 /* MulleStandaloneObjCFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		417515AF1CEBA1AE00B52F56 /* _MulleObjCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 417515AD1CEBA1AE00B52F56 /* _MulleObjCSet.h */; };
 		417515B01CEBA1AE00B52F56 /* _MulleObjCSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 417515AE1CEBA1AE00B52F56 /* _MulleObjCSet.m */; };
+		4177A9721D32ACFF007DC3D8 /* _MulleObjCChar5String.h in Headers */ = {isa = PBXBuildFile; fileRef = 4177A9701D32ACFF007DC3D8 /* _MulleObjCChar5String.h */; };
+		4177A9731D32ACFF007DC3D8 /* _MulleObjCChar5String.m in Sources */ = {isa = PBXBuildFile; fileRef = 4177A9711D32ACFF007DC3D8 /* _MulleObjCChar5String.m */; };
+		41791B6D1D33A1C300D4D502 /* libmulle_objc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41791B6C1D33A1C300D4D502 /* libmulle_objc.a */; };
 		417E958B1C9DA41300DA9C90 /* MulleObjCBaseFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 417E95891C9DA41300DA9C90 /* MulleObjCBaseFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		418638C41CCCE96500A1784E /* NSThread+NSMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 418638C21CCCE7F900A1784E /* NSThread+NSMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		418638DC1CCD00AE00A1784E /* _MulleObjCCheatingASCIIString.h in Headers */ = {isa = PBXBuildFile; fileRef = 412ED7FB1CC4002C00E64506 /* _MulleObjCCheatingASCIIString.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -377,7 +380,6 @@
 		41EA8D731C9F31D8007CEAE8 /* libMulleObjC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB2FE1C985AB900D486A9 /* libMulleObjC.a */; };
 		41EA8D741C9F31D8007CEAE8 /* libmulle_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB2FF1C985AB900D486A9 /* libmulle_thread.a */; };
 		41EA8D751C9F31D8007CEAE8 /* libmulle_test_allocator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB3001C985AB900D486A9 /* libmulle_test_allocator.a */; };
-		41EA8D761C9F31D8007CEAE8 /* libmulle_objc_runtime.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB3011C985AB900D486A9 /* libmulle_objc_runtime.a */; };
 		41EA8D771C9F31D8007CEAE8 /* libmulle_container.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB3021C985AB900D486A9 /* libmulle_container.a */; };
 		41EA8D781C9F31D8007CEAE8 /* libmulle_concurrent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB3031C985AB900D486A9 /* libmulle_concurrent.a */; };
 		41EA8D791C9F31D8007CEAE8 /* libmulle_allocator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410CB3041C985AB900D486A9 /* libmulle_allocator.a */; };
@@ -563,14 +565,14 @@
 		410592261CC5719A00C6BF2E /* NSArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArchiver.h; sourceTree = "<group>"; };
 		410592511CC5725000C6BF2E /* libMulleObjCArchiver.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMulleObjCArchiver.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		410592581CC572C200C6BF2E /* MulleObjCFoundationArchiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulleObjCFoundationArchiver.h; sourceTree = "<group>"; };
-		410CB2FE1C985AB900D486A9 /* libMulleObjC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMulleObjC.a; path = dependencies/lib/Debug/libMulleObjC.a; sourceTree = "<group>"; };
-		410CB2FF1C985AB900D486A9 /* libmulle_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_thread.a; path = dependencies/lib/Debug/libmulle_thread.a; sourceTree = "<group>"; };
-		410CB3001C985AB900D486A9 /* libmulle_test_allocator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_test_allocator.a; path = dependencies/lib/Debug/libmulle_test_allocator.a; sourceTree = "<group>"; };
-		410CB3011C985AB900D486A9 /* libmulle_objc_runtime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_objc_runtime.a; path = dependencies/lib/Debug/libmulle_objc_runtime.a; sourceTree = "<group>"; };
-		410CB3021C985AB900D486A9 /* libmulle_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_container.a; path = dependencies/lib/Debug/libmulle_container.a; sourceTree = "<group>"; };
-		410CB3031C985AB900D486A9 /* libmulle_concurrent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_concurrent.a; path = dependencies/lib/Debug/libmulle_concurrent.a; sourceTree = "<group>"; };
-		410CB3041C985AB900D486A9 /* libmulle_allocator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_allocator.a; path = dependencies/lib/Debug/libmulle_allocator.a; sourceTree = "<group>"; };
-		410CB3051C985AB900D486A9 /* libmulle_aba.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_aba.a; path = dependencies/lib/Debug/libmulle_aba.a; sourceTree = "<group>"; };
+		410CB2FE1C985AB900D486A9 /* libMulleObjC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMulleObjC.a; path = dependencies/lib/libMulleObjC.a; sourceTree = "<group>"; };
+		410CB2FF1C985AB900D486A9 /* libmulle_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_thread.a; path = dependencies/lib/libmulle_thread.a; sourceTree = "<group>"; };
+		410CB3001C985AB900D486A9 /* libmulle_test_allocator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_test_allocator.a; path = dependencies/lib/libmulle_test_allocator.a; sourceTree = "<group>"; };
+		410CB3011C985AB900D486A9 /* libmulle_objc_runtime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_objc_runtime.a; path = dependencies/lib/libmulle_objc_runtime.a; sourceTree = "<group>"; };
+		410CB3021C985AB900D486A9 /* libmulle_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_container.a; path = dependencies/lib/libmulle_container.a; sourceTree = "<group>"; };
+		410CB3031C985AB900D486A9 /* libmulle_concurrent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_concurrent.a; path = dependencies/lib/libmulle_concurrent.a; sourceTree = "<group>"; };
+		410CB3041C985AB900D486A9 /* libmulle_allocator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_allocator.a; path = dependencies/lib/libmulle_allocator.a; sourceTree = "<group>"; };
+		410CB3051C985AB900D486A9 /* libmulle_aba.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_aba.a; path = dependencies/lib/libmulle_aba.a; sourceTree = "<group>"; };
 		410CB3121C985AEA00D486A9 /* NSSet+NSArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+NSArray.m"; sourceTree = "<group>"; };
 		410CB3131C985AEA00D486A9 /* NSSet+NSArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+NSArray.h"; sourceTree = "<group>"; };
 		410CB3141C985AEA00D486A9 /* NSSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSet.m; sourceTree = "<group>"; };
@@ -654,6 +656,9 @@
 		4174E7271CDCADE300506320 /* MulleStandaloneObjCFoundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulleStandaloneObjCFoundation.h; sourceTree = "<group>"; };
 		417515AD1CEBA1AE00B52F56 /* _MulleObjCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCSet.h; sourceTree = "<group>"; };
 		417515AE1CEBA1AE00B52F56 /* _MulleObjCSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCSet.m; sourceTree = "<group>"; };
+		4177A9701D32ACFF007DC3D8 /* _MulleObjCChar5String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCChar5String.h; sourceTree = "<group>"; };
+		4177A9711D32ACFF007DC3D8 /* _MulleObjCChar5String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCChar5String.m; sourceTree = "<group>"; };
+		41791B6C1D33A1C300D4D502 /* libmulle_objc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_objc.a; path = dependencies/lib/libmulle_objc.a; sourceTree = "<group>"; };
 		417E95881C9DA21500DA9C90 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		417E95891C9DA41300DA9C90 /* MulleObjCBaseFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulleObjCBaseFunctions.h; sourceTree = "<group>"; };
 		417E958D1C9DB4D000DA9C90 /* NSString+Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Search.h"; sourceTree = "<group>"; };
@@ -693,7 +698,7 @@
 		418C9F131C9B2A80002B9ACD /* NSValue+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+Private.h"; path = "src/Value/NSValue+Private.h"; sourceTree = SOURCE_ROOT; };
 		41937E311CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+MulleObjCArithmetic.h"; sourceTree = "<group>"; };
 		41937E321CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+MulleObjCArithmetic.m"; sourceTree = "<group>"; };
-		41998A511CB67EDC00D18DD8 /* libmulle_sprintf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_sprintf.a; path = dependencies/lib/Debug/libmulle_sprintf.a; sourceTree = "<group>"; };
+		41998A511CB67EDC00D18DD8 /* libmulle_sprintf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_sprintf.a; path = dependencies/lib/libmulle_sprintf.a; sourceTree = "<group>"; };
 		419FE8041C9858190094A915 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		419FE8051C9858190094A915 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		419FE8061C9858190094A915 /* DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DynamicLibrary.xcconfig; sourceTree = "<group>"; };
@@ -829,7 +834,7 @@
 		41E8B0691CC659EC00D1F169 /* archiver-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "archiver-test"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41EA015F1C9721F800C8ACD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		41EA8D601C9F31B2007CEAE8 /* libMulleStandaloneObjCFoundation.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMulleStandaloneObjCFoundation.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		41EA8D801C9F3C11007CEAE8 /* libmulle_utf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_utf.a; path = dependencies/lib/Debug/libmulle_utf.a; sourceTree = "<group>"; };
+		41EA8D801C9F3C11007CEAE8 /* libmulle_utf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_utf.a; path = dependencies/lib/libmulle_utf.a; sourceTree = "<group>"; };
 		41EA8D911C9F6B1E007CEAE8 /* MulleObjCFoundationValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulleObjCFoundationValue.h; sourceTree = "<group>"; };
 		41F614561CEA6AE700EDDA9A /* NSValue+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+NSString.m"; sourceTree = "<group>"; };
 		41F6145A1CEA731F00EDDA9A /* NSMethodSignature+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMethodSignature+NSString.m"; sourceTree = "<group>"; };
@@ -930,12 +935,12 @@
 			files = (
 				41512F3C1CE0DCB8008D1D4F /* libMulleObjCFoundation.a in Frameworks */,
 				41EA8D731C9F31D8007CEAE8 /* libMulleObjC.a in Frameworks */,
+				41791B6D1D33A1C300D4D502 /* libmulle_objc.a in Frameworks */,
 				41EA8D811C9F3C11007CEAE8 /* libmulle_utf.a in Frameworks */,
 				41998A521CB67EDC00D18DD8 /* libmulle_sprintf.a in Frameworks */,
 				41EA8D741C9F31D8007CEAE8 /* libmulle_thread.a in Frameworks */,
 				41EA8D791C9F31D8007CEAE8 /* libmulle_allocator.a in Frameworks */,
 				41EA8D751C9F31D8007CEAE8 /* libmulle_test_allocator.a in Frameworks */,
-				41EA8D761C9F31D8007CEAE8 /* libmulle_objc_runtime.a in Frameworks */,
 				41EA8D771C9F31D8007CEAE8 /* libmulle_container.a in Frameworks */,
 				41EA8D781C9F31D8007CEAE8 /* libmulle_concurrent.a in Frameworks */,
 				41EA8D7A1C9F31D8007CEAE8 /* libmulle_aba.a in Frameworks */,
@@ -977,6 +982,7 @@
 		410CB3791C985F8E00D486A9 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				41791B6C1D33A1C300D4D502 /* libmulle_objc.a */,
 				410CB2FE1C985AB900D486A9 /* libMulleObjC.a */,
 				410CB2FF1C985AB900D486A9 /* libmulle_thread.a */,
 				410CB3001C985AB900D486A9 /* libmulle_test_allocator.a */,
@@ -1494,6 +1500,8 @@
 			children = (
 				41F896A71C9C68E400971F63 /* _MulleObjCASCIIString.h */,
 				41F896A81C9C68E400971F63 /* _MulleObjCASCIIString.m */,
+				4177A9701D32ACFF007DC3D8 /* _MulleObjCChar5String.h */,
+				4177A9711D32ACFF007DC3D8 /* _MulleObjCChar5String.m */,
 				412ED7FB1CC4002C00E64506 /* _MulleObjCCheatingASCIIString.h */,
 				412ED7FC1CC4002C00E64506 /* _MulleObjCCheatingASCIIString.m */,
 				41C128A91CC16EA2008FDD08 /* _MulleObjCConcreteBitmapCharacterSet.h */,
@@ -1734,6 +1742,7 @@
 				41B753F31CCE216200E7845D /* NSDictionary.h in Headers */,
 				41B753F41CCE216200E7845D /* NSDictionary+NSArray.h in Headers */,
 				41B753F51CCE216200E7845D /* NSMutableDictionary.h in Headers */,
+				4177A9721D32ACFF007DC3D8 /* _MulleObjCChar5String.h in Headers */,
 				41B753F61CCE216200E7845D /* NSMutableDictionary+NSArray.h in Headers */,
 				41B753F71CCE216200E7845D /* NSThread+NSMutableDictionary.h in Headers */,
 				41B754421CCE21FE00E7845D /* MulleObjCFoundationValue.h in Headers */,
@@ -2130,6 +2139,7 @@
 				41B7542A1CCE21AC00E7845D /* NSString+Components.m in Sources */,
 				41E13DA81CD29B3200CE0304 /* NSString+Escaping.m in Sources */,
 				410261D01CD7FA2F00F581F3 /* _MulleObjCConcreteMutableDictionary.m in Sources */,
+				4177A9731D32ACFF007DC3D8 /* _MulleObjCChar5String.m in Sources */,
 				41E13D781CD2281D00CE0304 /* NSString+NSCharacterSet.m in Sources */,
 				4100F24E1CCE590A00F56684 /* NSString+NSData.m in Sources */,
 				41B754281CCE21AC00E7845D /* NSString+Sprintf.m in Sources */,
@@ -2428,7 +2438,7 @@
 			buildSettings = {
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/dependencies/lib/Debug",
+					"$(PROJECT_DIR)/dependencies/lib",
 				);
 				USER_HEADER_SEARCH_PATHS = "src/Base src/Container src/Container/NSArray src/Container/NSDictionary src/Container/NSSet src/Data src/String src/Exception src/Value src/Archiver src/KVC src/Locale src/Notification src/PropertyList src";
 			};
@@ -2440,7 +2450,7 @@
 			buildSettings = {
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/dependencies/lib/Debug",
+					"$(PROJECT_DIR)/dependencies/lib",
 				);
 				USER_HEADER_SEARCH_PATHS = "src/Base src/Container src/Container/NSArray src/Container/NSDictionary src/Container/NSSet src/Data src/String src/Exception src/Value src/Archiver src/KVC src/Locale src/Notification src/PropertyList src";
 			};
@@ -2518,6 +2528,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 419FE8071C9858190094A915 /* DynamicLibraryOSX.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/dependencies/lib",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				USER_HEADER_SEARCH_PATHS = "src/Base src/Container src/Container/NSArray src/Container/NSDictionary src/Container/NSSet src/Data src/String src/Exception src/Value src/Archiver src/KVC src/Locale src/Notification src/PropertyList src";
 			};
@@ -2527,6 +2541,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 419FE8071C9858190094A915 /* DynamicLibraryOSX.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/dependencies/lib",
+				);
 				OTHER_LDFLAGS = "-all_load";
 				USER_HEADER_SEARCH_PATHS = "src/Base src/Container src/Container/NSArray src/Container/NSDictionary src/Container/NSSet src/Data src/String src/Exception src/Value src/Archiver src/KVC src/Locale src/Notification src/PropertyList src";
 			};
