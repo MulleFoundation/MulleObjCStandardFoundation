@@ -31,11 +31,11 @@ NSString  *MulleObjCChar5StringWithChar5Characters( char *s, NSUInteger length);
 
 static inline NSString   *_MulleObjCChar5StringFromValue( uintptr_t value)
 {
-   return( (NSString *) MulleObjCCreateTaggedPointerWithValueAndIndex( value, 0x1));
+   return( (NSString *) MulleObjCCreateTaggedPointerWithUnsignedIntegerValueAndIndex( value, 0x1));
 }
 
 
 static inline uintptr_t  _MulleObjCChar5ValueFromString( NSString *obj)
 {
-   return( MulleObjCTaggedPointerGetValue( obj));
+   return( MulleObjCTaggedPointerGetUnsignedIntegerValue( obj));
 }
