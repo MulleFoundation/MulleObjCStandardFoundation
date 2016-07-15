@@ -560,5 +560,37 @@ enum
 }
 
 
+#pragma mark -
+#pragma mark lldb support
+
+// the actual function is:
+// CFStringRef CFStringCreateWithBytes (
+//   CFAllocatorRef alloc,
+//   const UInt8 *bytes,
+//   CFIndex numBytes,
+//   CFStringEncoding encoding,
+//   Boolean isExternalRepresentation
+// );
+// rename it in the debugger and use this
+
+NSString   *_NSStringCreateWithBytes( void *allocator,
+                                     mulle_utf8_t *bytes,
+                                     NSUInteger length,
+                                     NSStringEncoding encoding,
+                                     char isExternal);
+
+NSString   *_NSStringCreateWithBytes( void *allocator,
+                                     mulle_utf8_t *bytes,
+                                     NSUInteger length,
+                                     NSStringEncoding encoding,
+                                     char isExternal)
+{
+   return( [[[NSString alloc] initWithBytes:bytes
+                                     length:length
+                                   encoding:encoding] autorelease]);
+}
+
+
+
 
 @end

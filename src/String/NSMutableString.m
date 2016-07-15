@@ -15,13 +15,11 @@
 
 // other files in this library
 #import "NSString+ClassCluster.h"
-#import "NSString+NSData.h"
 #import "NSString+Search.h"
 #import "NSString+Sprintf.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationBase.h"
-#import "MulleObjCFoundationData.h"
 
 // std-c and dependencies
 
@@ -150,58 +148,6 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
    initWithStrings( self, &s, 1);
    [s release];
-   return( self);
-}
-
-
-- (instancetype) initWithBytes:(void *) bytes
-                        length:(NSUInteger) length
-                      encoding:(NSStringEncoding) encoding;
-{
-   NSString  *s;
-   
-   s = nil;
-   if( length)
-   {
-      s = [[NSString alloc] initWithBytes:bytes
-                                   length:length
-                                 encoding:encoding];
-      if( ! s)
-      {
-         [self release];
-         return( nil);
-      }
-   }
-   
-   initWithStrings( self, &s, s ? 1 : 0);
-   [s release];
-   return( self);
-}
-
-
-// this method is a lie, it will copy
-// use initWithCharactersNoCopy:
-// also your bytes will be freed immediately, when freeWhenDone is YES
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-                            encoding:(NSStringEncoding) encoding
-                        freeWhenDone:(BOOL) flag;
-{
-   NSString  *s;
-   
-   s = [[NSString alloc] initWithBytesNoCopy:bytes
-                                      length:length
-                                    encoding:encoding
-                                freeWhenDone:flag];
-   if( ! s)
-   {
-      [self release];
-      return( nil);
-   }
-   
-   initWithStrings( self, &s, 1);
-   [s release];
-   
    return( self);
 }
 
