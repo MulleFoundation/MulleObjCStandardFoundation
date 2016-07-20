@@ -31,12 +31,11 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 
 
 
-@interface NSString( Private)
+@interface NSString( Private) < NSStringFuture>
 
 - (NSUInteger) _UTF8StringLength;
 
 @end
-
 
 
 @implementation NSObject( _KeyValueCoding)
@@ -52,10 +51,10 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
    struct _MulleObjCKVCInformation   kvc;
    id                                value;
    
-   [[self class] _divineValueForKeyKVCInformation:&kvc
-                                              key:key];
+   [self _getKVCInformation:&kvc
+                     forKey:key
+                       methodType:_MulleObjCKVCValueForKeyIndex];
    value = _MulleObjCGetObjectValueWithKVCInformation( self, &kvc);
-   _MulleObjCClearKVCInformation( &kvc);
    return( value);
 }
 
@@ -65,10 +64,10 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
    struct _MulleObjCKVCInformation   kvc;
    id                                value;
    
-   [[self class] _divineStoredValueForKeyKVCInformation:&kvc
-                                                    key:key];
+   [self _getKVCInformation:&kvc
+                     forKey:key
+                       methodType:_MulleObjCKVCStoredValueForKeyIndex];
    value = _MulleObjCGetObjectValueWithKVCInformation( self, &kvc);
-   _MulleObjCClearKVCInformation( &kvc);
    return( value);
 }
 
@@ -78,10 +77,10 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 {
    struct _MulleObjCKVCInformation   kvc;
    
-   [[self class] _divineTakeValueForKeyKVCInformation:&kvc
-                                                  key:key];
+   [self _getKVCInformation:&kvc
+                     forKey:key
+                       methodType:_MulleObjCKVCTakeValueForKeyIndex];
    _MulleObjCSetObjectValueWithKVCInformation( self, value, &kvc);
-   _MulleObjCClearKVCInformation( &kvc);
 }
 
 
@@ -90,11 +89,11 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 {
    struct _MulleObjCKVCInformation   kvc;
    
-   [[self class] _divineTakeStoredValueForKeyKVCInformation:&kvc
-                                                        key:key];
+   [self _getKVCInformation:&kvc
+                     forKey:key
+                       methodType:_MulleObjCKVCTakeStoredValueForKeyIndex];
    _MulleObjCSetObjectValueWithKVCInformation( self, value, &kvc);
-   _MulleObjCClearKVCInformation( &kvc);
-}                  
+}
 
 
 // TODO: make this a plugin format, so that one can specify

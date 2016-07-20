@@ -228,11 +228,11 @@ static void   grab_utf8( id self,
 
 
 // string always zero terminates
-// buffer must be large enough to contain maxLength chars plus a
+// buffer must be large enough to contain maxLength - 1 chars plus a
 // terminating zero char (which this method adds).
 
 - (void) getUTF8String:(mulle_utf8_t *) buf
-             maxLength:(NSUInteger) maxLength
+            bufferSize:(NSUInteger) size
 {
    NSUInteger   length;
    
@@ -240,9 +240,9 @@ static void   grab_utf8( id self,
    
    length = [self _UTF8StringLength];
    [self _getUTF8Characters:buf
-                 maxLength:maxLength];
-   if( length > maxLength)
-      length = maxLength;
+                  maxLength:size];
+   if( length >= size)
+      length = size - 1;
 
    buf[ length] = 0;
 }
@@ -251,14 +251,14 @@ static void   grab_utf8( id self,
 - (void) getUTF8String:(mulle_utf8_t *) buf
 {
    [self getUTF8String:buf
-             maxLength:ULONG_MAX];
+            bufferSize:ULONG_MAX];
 }
 
 
 - (void) _getUTF8Characters:(mulle_utf8_t *) buf
 {
    [self _getUTF8Characters:buf
-                 maxLength:LONG_MAX];
+                  maxLength:LONG_MAX];
 }
 
 

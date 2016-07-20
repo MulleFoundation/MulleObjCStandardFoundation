@@ -16,6 +16,7 @@
 // other libraries of MulleObjCFoundation
 
 // std-c and other dependencies
+#import <MulleObjC/NSObject+KVCSupport.h>
 
 
 
@@ -50,75 +51,51 @@
 }
 
 
-static inline unsigned int   kvcMaskForMethodOfType( NSObject *self, _MulleObjCKVCMethodType type)
+static inline unsigned int   kvcMaskForMethodOfType( Class cls, enum _MulleObjCKVCMethodType type)
 {
    unsigned int   mask;
    
    mask = _MulleObjCKVCGenericMethodOnly;
-   if( _MulleObjCKVCIsUsingDefaultMethodOfType( [self class], type))
+   if( _MulleObjCKVCIsUsingDefaultMethodOfType( cls, type))
       mask = _MulleObjCKVCStandardMask;
 
    return( mask);
 }
 
 
-+ (unsigned int) _kvcMaskForMethodOfType:(_MulleObjCKVCMethodType) type
-{
-   return( kvcMaskForMethodOfType( (id) self, type));
-}
-
-
-+ (void) _divineTakeStoredValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                               key:(NSString *) key
+- (void) _divineKVCInformation:(struct _MulleObjCKVCInformation *) info
+                        forKey:(NSString *) key
+                    methodType:(enum _MulleObjCKVCMethodType) type
 {
    unsigned int   mask;
+   Class          cls;
    
-   if( ! [self useStoredAccessor])
+   cls = isa;
+   if( ! [cls useStoredAccessor])
+      type &= (_MulleObjCKVCValueForKeyIndex|_MulleObjCKVCTakeValueForKeyIndex);
+
+   switch( type)
    {
-      [self _divineTakeValueForKeyKVCInformation:info
-                                            key:key];
-      return;
+   case _MulleObjCKVCValueForKeyIndex :
+      mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCValueForKeyIndex);
+      __MulleObjCDivineValueForKeyKVCInformation( info, cls, key, mask);
+      break;
+      
+   case _MulleObjCKVCTakeValueForKeyIndex :
+      mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCTakeValueForKeyIndex);
+      __MulleObjCDivineTakeValueForKeyKVCInformation( info, cls, key, mask);
+      break;
+      
+   case _MulleObjCKVCStoredValueForKeyIndex :
+      mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCStoredValueForKeyIndex);
+      __MulleObjCDivineStoredValueForKeyKVCInformation( info, cls, key, mask);
+      break;
+      
+   case _MulleObjCKVCTakeStoredValueForKeyIndex :
+      mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCTakeStoredValueForKeyIndex);
+      __MulleObjCDivineTakeStoredValueForKeyKVCInformation( info, cls, key, mask);
+      break;
    }
-   
-   mask = kvcMaskForMethodOfType( (id) self, _MulleObjCKVCTakeStoredValueForKeyIndex);
-   __MulleObjCDivineTakeStoredValueForKeyKVCInformation( info, self, key, mask);
-}
-
-
-+ (void) _divineTakeValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                         key:(NSString *) key
-{
-   unsigned int   mask;
-
-   mask = kvcMaskForMethodOfType( (id) self, _MulleObjCKVCTakeValueForKeyIndex);
-   __MulleObjCDivineTakeValueForKeyKVCInformation( info, self, key, mask);
-}
-
-
-+ (void) _divineStoredValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                           key:(NSString *) key
-{
-   unsigned int   mask;
-   
-   if( ! [self useStoredAccessor])
-   {
-      [self _divineValueForKeyKVCInformation:info
-                                        key:key];
-      return;
-   }
-   
-   mask = kvcMaskForMethodOfType( (id) self, _MulleObjCKVCStoredValueForKeyIndex);
-   __MulleObjCDivineStoredValueForKeyKVCInformation( info, self, key, mask);
-}
-
-
-+ (void) _divineValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                     key:(NSString *) key
-{
-   unsigned int   mask;
-   
-   mask = kvcMaskForMethodOfType( (id) self, _MulleObjCKVCValueForKeyIndex);
-   __MulleObjCDivineValueForKeyKVCInformation( info, self, key, mask);
 }
 
 @end

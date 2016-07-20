@@ -108,11 +108,10 @@ typedef NSUInteger   NSStringCompareOptions;
                           length:(NSUInteger) length;
 
 // strings are zero terminated, zero stored in
-// buf[ maxLength]!!
-// assert( sizeof( buf) > maxLength)
+// buf[ size - 1]
 //
 - (void) getUTF8String:(mulle_utf8_t *) buf
-             maxLength:(NSUInteger) maxLength;
+            bufferSize:(NSUInteger) size;
 - (void) getUTF8String:(mulle_utf8_t *) buf;
 
 - (mulle_utf8_t *) UTF8String;
@@ -191,6 +190,6 @@ static inline  NSRange   MulleObjCHashRange( NSUInteger length)
 
 static inline NSUInteger   MulleObjCStringHash( mulle_utf8_t *buf, NSUInteger length)
 {
-   return( mulle_hash( buf, length * sizeof( mulle_utf8_t)));
+   return( mulle_objc_fnv1( buf, length * sizeof( mulle_utf8_t)));
 }
 

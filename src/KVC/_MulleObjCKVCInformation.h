@@ -11,31 +11,11 @@
  */
 #import "_MulleObjCInstanceVariableAccess.h"
 
+#import <MulleObjC/NSObject+KVCSupport.h>
+
 
 @class NSString;
 
-//
-// we use one struct instance for get and another for set
-// (turns out this is fairly similiar to EOKeyBinding...)
-//
-struct _MulleObjCKVCInformation
-{
-   NSString   *key;              
-   IMP        implementation;
-   SEL        selector;
-   char       *cKey;             // if we need to set the instance variable
-   int        offset;
-   char       valueType;
-};
-
-
-typedef enum
-{
-   _MulleObjCKVCValueForKeyIndex           = 0,
-   _MulleObjCKVCTakeValueForKeyIndex       = 1,
-   _MulleObjCKVCStoredValueForKeyIndex     = 2,
-   _MulleObjCKVCTakeStoredValueForKeyIndex = 3,
-} _MulleObjCKVCMethodType;   
 
 
 typedef enum
@@ -50,24 +30,12 @@ typedef enum
    _MulleObjCKVCStandardMask           = 0x7FFF
 } _MulleObjCKVCMethodMask;   
 
-#define _MulleObjCKVCNumberOfMethodIndexes  (_MulleObjCKVCTakeStoredValueForKeyIndex + 1)
-
-// it's a class, because we want "dealloc"
-@interface _MulleObjCCompleteKVCInformation : NSObject
-{
-@public   
-   struct _MulleObjCKVCInformation   infos_[ _MulleObjCKVCNumberOfMethodIndexes];   // indexed by type
-} 
-
-- (id) initWithClass:(Class) aClass  
-              forKey:(NSString *) key;
-
-@end
 
 void   __MulleObjCDivineValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key, unsigned int mask);
 void   __MulleObjCDivineStoredValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key, unsigned int mask);
 void   __MulleObjCDivineTakeValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key, unsigned int mask);
 void   __MulleObjCDivineTakeStoredValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key, unsigned int mask);
+
 
 static inline void   _MulleObjCDivineValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key)
 {
@@ -93,11 +61,8 @@ static inline void   _MulleObjCDivineTakeStoredValueForKeyKVCInformation( struct
 }
 
 
-void   _MulleObjCKVCInformationSetDefaultValues( struct _MulleObjCKVCInformation *p, NSString *key);
-void   _MulleObjCClearKVCInformation( struct _MulleObjCKVCInformation *p);
-
-BOOL   _MulleObjCKVCIsUsingDefaultMethodOfType( Class aClass, _MulleObjCKVCMethodType type);
-BOOL   _MulleObjCKVCIsUsingSameMethodOfTypeAsClass( Class aClass, _MulleObjCKVCMethodType type, Class referenceClass);
+BOOL   _MulleObjCKVCIsUsingDefaultMethodOfType( Class aClass, enum _MulleObjCKVCMethodType type);
+BOOL   _MulleObjCKVCIsUsingSameMethodOfTypeAsClass( Class aClass, enum _MulleObjCKVCMethodType type, Class referenceClass);
 void   _MulleObjCKVCInformationUseUnboundKeyMethod( struct _MulleObjCKVCInformation *p, Class aClass, BOOL isSetter);
 
 void   __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, IMP imp, char valueType);
