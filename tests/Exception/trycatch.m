@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#ifdef __MULLE_OBJC_RUNTIME__
+#ifdef __MULLE_OBJC__
 # import <MulleObjCFoundation/MulleObjCFoundation.h>
 #else
 # import <Foundation/Foundation.h>
