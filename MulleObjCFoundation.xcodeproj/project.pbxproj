@@ -72,7 +72,7 @@
 		4133F6A91CCE796A0089D9F0 /* NSTimeZone+NSDate.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B754EB1CCE315C00E7845D /* NSTimeZone+NSDate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4133F6AA1CCE796A0089D9F0 /* NSString+Localization.h in Headers */ = {isa = PBXBuildFile; fileRef = 41B754561CCE223D00E7845D /* NSString+Localization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4136460C1D38E7D400BE0BAD /* NSMutableString+NSData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4136460A1D38E7D400BE0BAD /* NSMutableString+NSData.m */; };
-		4138D0FE1CC6831300940B7B /* libMulleStandaloneObjCFoundation.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41EA8D601C9F31B2007CEAE8 /* libMulleStandaloneObjCFoundation.dylib */; };
+		4138D0FE1CC6831300940B7B /* libMulleObjCFoundationStandalone.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41EA8D601C9F31B2007CEAE8 /* libMulleObjCFoundationStandalone.dylib */; };
 		413C52141CC294C200F62468 /* NSProxy+_MulleObjCKVCInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C51FA1CC294C200F62468 /* NSProxy+_MulleObjCKVCInformation.m */; };
 		413C52161CC294C200F62468 /* NSObject+_MulleObjCKVCInformation.m in Sources */ = {isa = PBXBuildFile; fileRef = 413C51FC1CC294C200F62468 /* NSObject+_MulleObjCKVCInformation.m */; };
 		413C52171CC294C200F62468 /* NSObject+_MulleObjCKVCInformation.h in Headers */ = {isa = PBXBuildFile; fileRef = 413C51FD1CC294C200F62468 /* NSObject+_MulleObjCKVCInformation.h */; };
@@ -562,7 +562,6 @@
 		410CB2FE1C985AB900D486A9 /* libMulleObjC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMulleObjC.a; path = dependencies/lib/libMulleObjC.a; sourceTree = "<group>"; };
 		410CB2FF1C985AB900D486A9 /* libmulle_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_thread.a; path = dependencies/lib/libmulle_thread.a; sourceTree = "<group>"; };
 		410CB3001C985AB900D486A9 /* libmulle_test_allocator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_test_allocator.a; path = dependencies/lib/libmulle_test_allocator.a; sourceTree = "<group>"; };
-		410CB3011C985AB900D486A9 /* libmulle_objc_runtime.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_objc_runtime.a; path = dependencies/lib/libmulle_objc_runtime.a; sourceTree = "<group>"; };
 		410CB3021C985AB900D486A9 /* libmulle_container.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_container.a; path = dependencies/lib/libmulle_container.a; sourceTree = "<group>"; };
 		410CB3031C985AB900D486A9 /* libmulle_concurrent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_concurrent.a; path = dependencies/lib/libmulle_concurrent.a; sourceTree = "<group>"; };
 		410CB3041C985AB900D486A9 /* libmulle_allocator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_allocator.a; path = dependencies/lib/libmulle_allocator.a; sourceTree = "<group>"; };
@@ -821,7 +820,7 @@
 		41E85B4F1C9D7BC400C81E18 /* _MulleObjCUTF32String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCUTF32String.m; sourceTree = "<group>"; };
 		41E8B0691CC659EC00D1F169 /* archiver-test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "archiver-test"; sourceTree = BUILT_PRODUCTS_DIR; };
 		41EA015F1C9721F800C8ACD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		41EA8D601C9F31B2007CEAE8 /* libMulleStandaloneObjCFoundation.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMulleStandaloneObjCFoundation.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		41EA8D601C9F31B2007CEAE8 /* libMulleObjCFoundationStandalone.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libMulleObjCFoundationStandalone.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		41EA8D801C9F3C11007CEAE8 /* libmulle_utf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_utf.a; path = dependencies/lib/libmulle_utf.a; sourceTree = "<group>"; };
 		41EA8D911C9F6B1E007CEAE8 /* MulleObjCFoundationValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulleObjCFoundationValue.h; sourceTree = "<group>"; };
 		41F614561CEA6AE700EDDA9A /* NSValue+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+NSString.m"; sourceTree = "<group>"; };
@@ -913,7 +912,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4138D0FE1CC6831300940B7B /* libMulleStandaloneObjCFoundation.dylib in Frameworks */,
+				4138D0FE1CC6831300940B7B /* libMulleObjCFoundationStandalone.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -974,7 +973,6 @@
 				410CB2FE1C985AB900D486A9 /* libMulleObjC.a */,
 				410CB2FF1C985AB900D486A9 /* libmulle_thread.a */,
 				410CB3001C985AB900D486A9 /* libmulle_test_allocator.a */,
-				410CB3011C985AB900D486A9 /* libmulle_objc_runtime.a */,
 				410CB3021C985AB900D486A9 /* libmulle_container.a */,
 				410CB3031C985AB900D486A9 /* libmulle_concurrent.a */,
 				410CB3041C985AB900D486A9 /* libmulle_allocator.a */,
@@ -1315,7 +1313,7 @@
 			isa = PBXGroup;
 			children = (
 				41F896291C9C13F800971F63 /* libMulleObjCCore.a */,
-				41EA8D601C9F31B2007CEAE8 /* libMulleStandaloneObjCFoundation.dylib */,
+				41EA8D601C9F31B2007CEAE8 /* libMulleObjCFoundationStandalone.dylib */,
 				41BEC5791CB12DA5006531B6 /* libMulleObjCNotification.a */,
 				418B053C1CB293CF0033DFCB /* libMulleObjCFoundation.a */,
 				413C51F31CC2948900F62468 /* libMulleObjCKVC.a */,
@@ -1903,9 +1901,9 @@
 			productReference = 41E8B0691CC659EC00D1F169 /* archiver-test */;
 			productType = "com.apple.product-type.tool";
 		};
-		41EA8D5F1C9F31B2007CEAE8 /* MulleStandaloneObjCFoundation */ = {
+		41EA8D5F1C9F31B2007CEAE8 /* MulleObjCFoundationStandalone */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 41EA8D611C9F31B2007CEAE8 /* Build configuration list for PBXNativeTarget "MulleStandaloneObjCFoundation" */;
+			buildConfigurationList = 41EA8D611C9F31B2007CEAE8 /* Build configuration list for PBXNativeTarget "MulleObjCFoundationStandalone" */;
 			buildPhases = (
 				41EA8D5C1C9F31B2007CEAE8 /* Sources */,
 				41EA8D5D1C9F31B2007CEAE8 /* Frameworks */,
@@ -1916,9 +1914,9 @@
 			dependencies = (
 				41B754831CCE22E900E7845D /* PBXTargetDependency */,
 			);
-			name = MulleStandaloneObjCFoundation;
+			name = MulleObjCFoundationStandalone;
 			productName = MulleStandaloneObjCFoundation;
-			productReference = 41EA8D601C9F31B2007CEAE8 /* libMulleStandaloneObjCFoundation.dylib */;
+			productReference = 41EA8D601C9F31B2007CEAE8 /* libMulleObjCFoundationStandalone.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		41F896281C9C13F800971F63 /* MulleObjCCore */ = {
@@ -1980,7 +1978,7 @@
 			projectRoot = "";
 			targets = (
 				41972F521CA4249700B301DE /* Libraries */,
-				41EA8D5F1C9F31B2007CEAE8 /* MulleStandaloneObjCFoundation */,
+				41EA8D5F1C9F31B2007CEAE8 /* MulleObjCFoundationStandalone */,
 				418B053B1CB293CF0033DFCB /* MulleObjCFoundation */,
 				41F896281C9C13F800971F63 /* MulleObjCCore */,
 				4105922E1CC5725000C6BF2E /* MulleObjCArchiver */,
@@ -2215,7 +2213,7 @@
 		};
 		4138D0FD1CC6830900940B7B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 41EA8D5F1C9F31B2007CEAE8 /* MulleStandaloneObjCFoundation */;
+			target = 41EA8D5F1C9F31B2007CEAE8 /* MulleObjCFoundationStandalone */;
 			targetProxy = 4138D0FC1CC6830900940B7B /* PBXContainerItemProxy */;
 		};
 		418B05411CB293DE0033DFCB /* PBXTargetDependency */ = {
@@ -2235,7 +2233,7 @@
 		};
 		41972F571CA424A800B301DE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 41EA8D5F1C9F31B2007CEAE8 /* MulleStandaloneObjCFoundation */;
+			target = 41EA8D5F1C9F31B2007CEAE8 /* MulleObjCFoundationStandalone */;
 			targetProxy = 41972F561CA424A800B301DE /* PBXContainerItemProxy */;
 		};
 		41B754791CCE22BE00E7845D /* PBXTargetDependency */ = {
@@ -2624,7 +2622,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		41EA8D611C9F31B2007CEAE8 /* Build configuration list for PBXNativeTarget "MulleStandaloneObjCFoundation" */ = {
+		41EA8D611C9F31B2007CEAE8 /* Build configuration list for PBXNativeTarget "MulleObjCFoundationStandalone" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				41EA8D621C9F31B2007CEAE8 /* Debug */,
