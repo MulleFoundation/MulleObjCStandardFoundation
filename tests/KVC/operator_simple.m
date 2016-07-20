@@ -16,7 +16,7 @@ static void   avg_test( NSArray *array, NSString  *keypath, long long  expect)
 
    result = [array valueForKeyPath:keypath];
    if( result) // i386 has problems with [nil longLongValue]
-   { 
+   {
       if( [result longLongValue] != expect)
       {
          printf( "failed: %lld vs. %lld (%p)\n", [result longLongValue], expect, result);
@@ -28,7 +28,7 @@ static void   avg_test( NSArray *array, NSString  *keypath, long long  expect)
       {
          printf( "failed: %lld vs. %lld (%p)\n", [result longLongValue], expect, result);
          return;
-      } 
+      }
    printf( "passed\n");
 }
 
