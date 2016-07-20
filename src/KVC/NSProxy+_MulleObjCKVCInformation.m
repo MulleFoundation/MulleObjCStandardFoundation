@@ -22,31 +22,31 @@
 
 @implementation NSProxy ( _MulleObjCKVCInformation)
 
-+ (void) _divineTakeStoredValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                               key:(NSString *) key
+- (void) _divineKVCInformation:(struct _MulleObjCKVCInformation *) info
+                        forKey:(NSString *) key
+                    methodType:(enum _MulleObjCKVCMethodType) type
 {
-   __MulleObjCDivineTakeStoredValueForKeyKVCInformation( info, self, key, _MulleObjCKVCGenericMethodOnly);
-}
+   Class   cls;
 
-
-+ (void) _divineTakeValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                          key:(NSString *) key
-{
-   __MulleObjCDivineTakeValueForKeyKVCInformation( info, self, key, _MulleObjCKVCGenericMethodOnly);
-}
-
-
-+ (void) _divineStoredValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                            key:(NSString *) key
-{
-   __MulleObjCDivineStoredValueForKeyKVCInformation( info, self, key, _MulleObjCKVCGenericMethodOnly);
-}
-
-
-+ (void) _divineValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                      key:(NSString *) key
-{
-   __MulleObjCDivineValueForKeyKVCInformation( info, self, key, _MulleObjCKVCGenericMethodOnly);
+   cls = isa;
+   switch( type)
+   {
+   case _MulleObjCKVCValueForKeyIndex :
+      __MulleObjCDivineValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
+      break;
+      
+   case _MulleObjCKVCStoredValueForKeyIndex :
+      __MulleObjCDivineStoredValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
+      break;
+      
+   case _MulleObjCKVCTakeValueForKeyIndex :
+      __MulleObjCDivineTakeValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
+      break;
+      
+   case _MulleObjCKVCTakeStoredValueForKeyIndex :
+      __MulleObjCDivineTakeStoredValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
+      break;
+   }
 }
 
 @end

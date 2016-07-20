@@ -17,18 +17,4 @@
 + (BOOL) accessInstanceVariablesDirectly;
 + (BOOL) useStoredAccessor;
 
-+ (void) _divineTakeStoredValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                                key:(NSString *) key;
-
-+ (void) _divineTakeValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                          key:(NSString *) key;
-
-+ (void) _divineStoredValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                            key:(NSString *) key;
-
-+ (void) _divineValueForKeyKVCInformation:(struct _MulleObjCKVCInformation *) info
-                                      key:(NSString *) key;
-
-+ (unsigned int) _kvcMaskForMethodOfType:(_MulleObjCKVCMethodType) type;
-
 @end

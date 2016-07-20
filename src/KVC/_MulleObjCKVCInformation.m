@@ -24,10 +24,7 @@
 #include <ctype.h>
 
 
-@interface NSString( Private)
-
-- (NSUInteger) _UTF8StringLength;
-
+@interface NSString( Private) < NSStringFuture>
 @end
 
 
@@ -70,12 +67,12 @@ static NSString  *_stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
                                                              BOOL     tailColon,
                                                              struct mulle_allocator *allocator)
 {
-   NSUInteger               prefix_len;
-   NSUInteger               key_len;
-   NSUInteger               len;
-   uint8_t                  *buf;
-   uint8_t                  c;
-   NSString                 *s;
+   NSUInteger   prefix_len;
+   NSUInteger   key_len;
+   NSUInteger   len;
+   uint8_t      *buf;
+   uint8_t      c;
+   NSString     *s;
    
    prefix_len = [prefix _UTF8StringLength];
    key_len    = [key _UTF8StringLength];
@@ -122,34 +119,12 @@ static NSString  *stringByCombiningPrefixAndCapitalizedKey( NSString *prefix,
 //       slide for release. Need to know caller for that, so here just get 
 //       information and store it somewhere
 
-static void   handle_ivar( struct _MulleObjCKVCInformation *p, char *cString, struct _mulle_objc_ivar *ivar)
+static void   handle_ivar( struct _MulleObjCKVCInformation *p, struct _mulle_objc_ivar *ivar)
 {
-   p->cKey      = mulle_strdup( cString);
    p->offset    = _mulle_objc_ivar_get_offset( ivar);
    p->valueType = _mulle_objc_ivar_get_signature( ivar)[ 0];
    
    NSCParameterAssert( isSupportedObjCType( p->valueType));
-}
-
-
-void   _MulleObjCClearKVCInformation( struct _MulleObjCKVCInformation *p)
-{
-   [p->key release];
-   mulle_free( p->cKey);
-   
-   p->key  = nil;
-   p->cKey = NULL;
-}
-
-
-void   _MulleObjCKVCInformationSetDefaultValues( struct _MulleObjCKVCInformation *p, NSString *key)
-{
-   p->implementation = 0;
-   p->selector       = 0;
-   p->key            = [key copy];
-   p->cKey           = 0;
-   p->valueType      = _C_ID;
-   p->offset         = 0;
 }
 
 
@@ -201,9 +176,9 @@ static BOOL   useInstanceMethod( struct _MulleObjCKVCInformation *p, Class aClas
 
 static BOOL   useInstanceVariable( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key)
 {
-   char                     *cString;
-   struct _mulle_objc_ivar  *ivar;
-   mulle_objc_ivarid_t      ivarid;
+   char                      *cString;
+   struct _mulle_objc_ivar   *ivar;
+   mulle_objc_ivarid_t       ivarid;
    
    // check for instance variable
    cString = (void *) [key UTF8String];
@@ -212,7 +187,7 @@ static BOOL   useInstanceVariable( struct _MulleObjCKVCInformation *p, Class aCl
    if( ! ivar)
       return( NO);
 
-   handle_ivar( p, cString, ivar);
+   handle_ivar( p, ivar);
    return( YES);
 }
 
@@ -224,7 +199,7 @@ void   __MulleObjCDivineTakeStoredValueForKeyKVCInformation( struct _MulleObjCKV
    NSString                 *underscoreName;
    struct mulle_allocator   *allocator;
    
-   _MulleObjCKVCInformationSetDefaultValues( p, key);
+   _MulleObjCKVCInformationInitWithKey( p, key);
    
    allocator            = MulleObjCClassGetAllocator( aClass);
    methodName           = stringByCombiningPrefixAndCapitalizedKey( @"set", key, YES, allocator);
@@ -261,7 +236,7 @@ void   __MulleObjCDivineTakeValueForKeyKVCInformation( struct _MulleObjCKVCInfor
    NSString   *underscoreMethodName;
    NSString   *underscoreName;
    
-   _MulleObjCKVCInformationSetDefaultValues( p, key);
+   _MulleObjCKVCInformationInitWithKey( p, key);
    
    methodName = stringByCombiningPrefixAndCapitalizedKey( @"set", key, YES, MulleObjCClassGetAllocator( aClass));
    
@@ -302,7 +277,7 @@ void   __MulleObjCDivineStoredValueForKeyKVCInformation( struct _MulleObjCKVCInf
    NSString   *underscoreGetMethodName;
    NSString   *underscoreName;
    
-   _MulleObjCKVCInformationSetDefaultValues( p, key);
+   _MulleObjCKVCInformationInitWithKey( p, key);
    
    getMethodName = stringByCombiningPrefixAndCapitalizedKey( @"get", key, NO, MulleObjCClassGetAllocator( aClass));
    
@@ -356,7 +331,7 @@ void   __MulleObjCDivineValueForKeyKVCInformation( struct _MulleObjCKVCInformati
    NSString   *underscoreGetMethodName;
    NSString   *underscoreName;
    
-   _MulleObjCKVCInformationSetDefaultValues( p, key);
+   _MulleObjCKVCInformationInitWithKey( p, key);
    
    //   if( _MulleObjCKVCIsUsingDefaultMethodOfType( aClass, _MulleObjCKVCValueForKeyIndex))
    getMethodName = stringByCombiningPrefixAndCapitalizedKey( @"get", key, NO, MulleObjCClassGetAllocator( aClass));
@@ -399,7 +374,7 @@ void   __MulleObjCDivineValueForKeyKVCInformation( struct _MulleObjCKVCInformati
 
 
 
-static inline SEL   _MulleObjCKVCSelectorForMethodType( _MulleObjCKVCMethodType  type)
+static inline SEL   _MulleObjCKVCSelectorForMethodType( enum _MulleObjCKVCMethodType  type)
 {
    switch( type)
    {
@@ -412,7 +387,7 @@ static inline SEL   _MulleObjCKVCSelectorForMethodType( _MulleObjCKVCMethodType 
 }
 
 
-static inline _MulleObjCKVCMethodType   _MulleObjCKVCMethodTypeForSelector( SEL sel)
+static inline enum _MulleObjCKVCMethodType   _MulleObjCKVCMethodTypeForSelector( SEL sel)
 {
    if( sel == @selector( takeStoredValue:forKey:))
        return( _MulleObjCKVCTakeStoredValueForKeyIndex);
@@ -427,11 +402,11 @@ static inline _MulleObjCKVCMethodType   _MulleObjCKVCMethodTypeForSelector( SEL 
 }
 
 
-BOOL  _MulleObjCKVCIsUsingSameMethodOfTypeAsClass( Class aClass, _MulleObjCKVCMethodType type, Class referenceClass)
+BOOL  _MulleObjCKVCIsUsingSameMethodOfTypeAsClass( Class aClass, enum _MulleObjCKVCMethodType type, Class referenceClass)
 {
-   struct _mulle_objc_method  *methodClass;
-   struct _mulle_objc_method  *methodNSObject;
-   mulle_objc_methodid_t      sel;
+   struct _mulle_objc_method   *methodClass;
+   struct _mulle_objc_method   *methodNSObject;
+   mulle_objc_methodid_t       sel;
    
    sel            = (mulle_objc_methodid_t) _MulleObjCKVCSelectorForMethodType( type);
    methodClass    = mulle_objc_class_search_method( aClass, sel);  // EOFault returns nil f.e.
@@ -447,7 +422,7 @@ BOOL  _MulleObjCKVCIsUsingSameMethodOfTypeAsClass( Class aClass, _MulleObjCKVCMe
 }
 
 
-BOOL  _MulleObjCKVCIsUsingDefaultMethodOfType( Class aClass, _MulleObjCKVCMethodType type)
+BOOL  _MulleObjCKVCIsUsingDefaultMethodOfType( Class aClass, enum _MulleObjCKVCMethodType type)
 {
    return( _MulleObjCKVCIsUsingSameMethodOfTypeAsClass( aClass, type, [NSObject class]));
 }
@@ -661,35 +636,3 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
    }
    return( nil);
 }
-
-
-@implementation _MulleObjCCompleteKVCInformation
-
-- (id) initWithClass:(Class) aClass  
-              forKey:(NSString *) key
-{
-   [super init];
-   
-   [aClass _divineValueForKeyKVCInformation:&self->infos_[ _MulleObjCKVCValueForKeyIndex]
-                                       key:key];
-   [aClass _divineTakeValueForKeyKVCInformation:&self->infos_[ _MulleObjCKVCTakeValueForKeyIndex]
-                                           key:key];
-   [aClass _divineStoredValueForKeyKVCInformation:&self->infos_[ _MulleObjCKVCStoredValueForKeyIndex]
-                                             key:key];
-   [aClass _divineTakeStoredValueForKeyKVCInformation:&self->infos_[ _MulleObjCKVCTakeStoredValueForKeyIndex]
-                                           key:key];
-   
-   return( self);
-}
-
-
-- (void) dealloc
-{
-   unsigned int   i;
-   
-   for( i = 0; i < _MulleObjCKVCNumberOfMethodIndexes; i++)
-      _MulleObjCClearKVCInformation( &self->infos_[ i]);
-   [super dealloc];
-}
-
-@end

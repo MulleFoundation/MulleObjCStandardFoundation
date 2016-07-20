@@ -128,10 +128,15 @@ static void   grab_utf32( id self,
 - (void) _getUTF8Characters:(mulle_utf8_t *) buf
                   maxLength:(NSUInteger) maxLength
 {
+   NSUInteger   length;
+   
+   length = [self length];
+   if( length > maxLength)
+      length = maxLength;
    grab_utf8( self,
-              [self length],
+              length,
               buf,
-              NSMakeRange( 0, maxLength));
+              NSMakeRange( 0, length));
 }
 
 

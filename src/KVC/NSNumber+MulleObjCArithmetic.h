@@ -10,7 +10,7 @@
 
 //
 // some small routines used for arithmetic in collection operators
-// in general though, aritmetic on NSNumber is a bad idea
+// in general though, arithmetic on NSNumber is a bad idea
 //
 @interface NSNumber (MulleObjCArithmetic)
 
