@@ -152,6 +152,24 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
+- (id) initWithUTF8String:(mulle_utf8_t *) cStr
+{
+   NSString  *s;
+   
+   s = [[NSString alloc] initWithUTF8String:cStr];
+   if( ! s)
+   {
+      [self release];
+      return( nil);
+   }
+   
+   initWithStrings( self, &s, 1);
+   [s release];
+   
+   return( self);
+}
+
+
 - (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) chars
                                   length:(NSUInteger) length
 {
@@ -283,7 +301,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 #pragma mark -
-#pragma mark - additional convenience constructors
+#pragma mark additional convenience constructors
 
 + (id) stringWithCapacity:(NSUInteger) capacity
 {

@@ -15,6 +15,7 @@
 
 // other files in this library
 #import "_MulleObjCConcreteNumber.h"
+#import "_MulleObjCTaggedPointerIntegerNumber.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationException.h"
@@ -41,67 +42,206 @@
 }
 
 
-- (id) initWithBytes:(void *) value
-            objCType:(char *) type
+#pragma mark -
+#pragma mark unsigned init
+
+static inline id   newNumberWithBOOL(BOOL value)
 {
-   long       l;
-   long long  q;
-   double     d;
-   size_t     size;
-   int        is_unsigned;
-   
-   is_unsigned = 0;
-   switch( type[ 0])
-   {
-   case _C_CHR      : l = *(char *) value;           size = sizeof( char); break;
-   case _C_UCHR     : l = *(unsigned char *) value;  size = sizeof( unsigned char); is_unsigned = 1; break;
-   case _C_SHT      : l = *(short *) value;          size = sizeof( short); break;
-   case _C_USHT     : l = *(unsigned short *) value; size = sizeof( unsigned short); is_unsigned = 1; break;
-   case _C_INT      : l = *(int *) value;            size = sizeof( int); break;
-   case _C_UINT     : l = *(unsigned int *) value;   size = sizeof( unsigned int); is_unsigned = 1; break;
-   case _C_LNG      : l = *(long *) value;           size = sizeof( long); break;
-   case _C_ULNG     : l = *(unsigned long *) value;  size = sizeof( unsigned long); is_unsigned = 1;  break;
-   case _C_LNG_LNG  : q = *(long long *) value;      size = sizeof( long long); break;
-   case _C_ULNG_LNG : q = *(unsigned long long *) value; size = sizeof( unsigned long long); is_unsigned = 1; break;
-         
-   case _C_FLT      : d = *(float *) value;          return( [self initWithDouble:d]);
-   case _C_DBL      : d = *(double *) value;         return( [self initWithDouble:d]);
-   default          : return( nil);
-   }
-
-   [self release];
-   if( size == sizeof( int8_t))
-   {
-      if( is_unsigned)
-         return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) l]);
-      return( [_MulleObjCInt8Number newWithInt8:(int8_t) l]);
-   }
-
-   if( size == sizeof( int16_t))
-   {
-      if( is_unsigned)
-         return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) l]);
-      return( [_MulleObjCInt16Number newWithInt16:(int16_t) l]);
-   }
-
-   if( size == sizeof( int32_t))
-   {
-      if( is_unsigned)
-         return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) l]);
-      return( [_MulleObjCInt32Number newWithInt32:(int32_t) l]);
-   }
-   assert( sizeof( long long) <= sizeof( int64_t));
-   if( is_unsigned)
-      return( [_MulleObjCUInt64Number newWithUInt64:(uint64_t) q]);
-   return( [_MulleObjCInt64Number newWithInt64:(int64_t) q]);
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value ? YES : NO));
+#else
+   return( [_MulleObjCInt8Number newWithInt8:value ? YES : NO]);
+#endif
 }
 
 
+static inline id   newNumberWithUnsignedChar(unsigned char   value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#else
+   return( [_MulleObjCUInt32Number newWithUInt32:value]);
+#endif
+}
+
+
+static inline id   newNumberWithUnsignedShort(unsigned short value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#else
+   return( [_MulleObjCUInt32Number newWithUInt32:value]);
+#endif
+}
+
+static inline id   newNumberWithUnsignedInt( unsigned int value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( MulleObjCTaggedPointerIsIntegerValue( value))
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#endif
+   if( sizeof( unsigned int) == sizeof( uint32_t))
+      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   else
+      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+}
+
+
+static inline id   newNumberWithUnsignedInteger(NSUInteger value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( MulleObjCTaggedPointerIsIntegerValue( value))
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#endif
+   if( sizeof( NSUInteger) == sizeof( uint32_t))
+      return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) value]);
+   else
+      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+}
+
+
+static inline id   newNumberWithUnsignedLong(unsigned long   value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( MulleObjCTaggedPointerIsIntegerValue( value))
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#endif
+   if( sizeof( unsigned long) == sizeof( uint32_t))
+      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   else
+      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+}
+
+
+static inline id   newNumberWithUnsignedLongLong(unsigned long long  value)
+{
+   assert( sizeof( unsigned long long) == sizeof( uint64_t));
+   
+   if( value <= ULONG_MAX)
+      return( newNumberWithUnsignedLong(value));
+   return( [_MulleObjCUInt64Number newWithUInt64:value]);
+}
+
+             
 - (id) initWithBool:(BOOL) value
 {
    [self release];
+   return( newNumberWithBOOL(value));
+}
 
-   return( [_MulleObjCInt8Number newWithInt8:value ? YES : NO]);
+
+- (id) initWithUnsignedChar:(unsigned char) value
+{
+   [self release];
+   return( newNumberWithUnsignedChar(value));
+}
+
+
+- (id) initWithUnsignedShort:(unsigned short) value
+{
+   [self release];
+   return( newNumberWithUnsignedShort(value));
+}
+
+
+- (id) initWithUnsignedInt:(unsigned int) value
+{
+   [self release];
+   return( newNumberWithUnsignedInt(value));
+}
+
+
+- (id) initWithUnsignedLong:(unsigned long) value
+{
+   [self release];
+   return( newNumberWithUnsignedLong(value));
+}
+
+
+- (id) initWithUnsignedInteger:(NSUInteger) value
+{
+   [self release];
+   
+   return( newNumberWithUnsignedInteger(value));
+}
+
+
+- (id) initWithUnsignedLongLong:(unsigned long long) value
+{
+   [self release];
+   return( newNumberWithUnsignedLongLong(value));
+}
+
+
+#pragma mark -
+#pragma mark signed init
+
+static inline id   newNumberWithChar( char value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#else
+   return( [_MulleObjCInt8Number newWithInt8:value]);
+#endif
+}
+
+
+static inline id   newNumberWithShort( short value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#else
+   return( [_MulleObjCInt32Number newWithUInt32:value]);
+#endif
+}
+
+
+static inline id   newNumberWithInt( int value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( MulleObjCTaggedPointerIsIntegerValue(value))
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#endif
+   if( sizeof( int) == sizeof( int32_t))
+      return( [_MulleObjCInt32Number newWithInt32:value]);
+   else
+      return( [_MulleObjCInt64Number newWithInt64:value]);
+}
+
+
+static inline id   newNumberWithInteger( NSInteger value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( MulleObjCTaggedPointerIsIntegerValue(value))
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#endif
+   if( sizeof( NSInteger) == sizeof( int32_t))
+      return( [_MulleObjCInt32Number newWithInt32:(int32_t) value]);
+   else
+      return( [_MulleObjCInt64Number newWithInt64:value]);
+}
+
+
+static inline id   newNumberWithLong( long value)
+{
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( MulleObjCTaggedPointerIsIntegerValue(value))
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+#endif
+   if( sizeof( long) == sizeof( int32_t))
+      return( [_MulleObjCInt32Number newWithInt32:value]);
+   else
+      return( [_MulleObjCInt64Number newWithInt64:value]);
+}
+
+
+static inline id   newNumberWithLongLong( long long  value)
+{
+   assert( sizeof( long long) == sizeof( int64_t));
+   
+   if( value <= LONG_MAX && value >= LONG_MIN)
+      return( newNumberWithLong( value));
+   return( [_MulleObjCInt64Number newWithInt64:value]);
 }
 
 
@@ -110,15 +250,7 @@
    [self release];
    
    assert( sizeof( char) == sizeof( int8_t));
-   return( [_MulleObjCInt8Number newWithInt8:value]);
-}
-
-
-- (id) initWithUnsignedChar:(unsigned char) value
-{
-   [self release];
-   
-   return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   return( newNumberWithChar( value));
 }
 
 
@@ -126,101 +258,40 @@
 {
    [self release];
    
-   assert( sizeof( short) == sizeof( int16_t));
-   return( [_MulleObjCInt16Number newWithInt16:value]);
-}
-
-
-- (id) initWithUnsignedShort:(unsigned short) value
-{
-   [self release];
-   
-   return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   return( newNumberWithShort( value));
 }
 
 
 - (id) initWithInt:(int) value
 {
    [self release];
-   
-   if( sizeof( int) == sizeof( int32_t))
-      return( [_MulleObjCInt32Number newWithInt32:value]);
-   else
-      return( [_MulleObjCInt64Number newWithInt64:value]);
-}
-
-
-- (id) initWithUnsignedInt:(unsigned int) value
-{
-   [self release];
-   
-   if( sizeof( unsigned int) == sizeof( uint32_t))
-      return( [_MulleObjCUInt32Number newWithUInt32:value]);
-   else
-      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+   return( newNumberWithInt( value));
 }
 
 
 - (id) initWithLong:(long) value
 {
    [self release];
-   
-   if( sizeof( long) == sizeof( int32_t))
-      return( [_MulleObjCInt32Number newWithInt32:value]);
-   else
-      return( [_MulleObjCInt64Number newWithInt64:value]);
-}
-
-
-- (id) initWithUnsignedLong:(unsigned long) value
-{
-   [self release];
-
-   if( sizeof( unsigned long) == sizeof( uint32_t))
-      return( [_MulleObjCUInt32Number newWithUInt32:value]);
-   else
-      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+   return( newNumberWithLong( value));
 }
 
 
 - (id) initWithInteger:(NSInteger) value
 {
    [self release];
-   
-   if( sizeof( NSInteger) == sizeof( int32_t))
-      return( [_MulleObjCInt32Number newWithInt32:value]);
-   else
-      return( [_MulleObjCInt64Number newWithInt64:value]);
-}
-
-
-- (id) initWithUnsignedInteger:(NSUInteger) value
-{
-   [self release];
-   
-   if( sizeof( NSUInteger) == sizeof( uint32_t))
-      return( [_MulleObjCUInt32Number newWithUInt32:value]);
-   else
-      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+   return( newNumberWithInteger( value));
 }
 
 
 - (id) initWithLongLong:(long long) value
 {
-   assert( sizeof( long long) == sizeof( int64_t));
-
    [self release];
-   return( [_MulleObjCInt64Number newWithInt64:value]);
+   return( newNumberWithLongLong( value));
 }
 
 
-- (id) initWithUnsignedLongLong:(unsigned long long) value
-{
-   assert( sizeof( unsigned long long) == sizeof( uint64_t));
-
-   [self release];
-   return( [_MulleObjCUInt64Number newWithUInt64:value]);
-}
+#pragma mark -
+#pragma marl FP inits
 
 
 - (id) initWithFloat:(float) value
@@ -244,6 +315,34 @@
    [self release];
    
    return( [_MulleObjCLongDoubleNumber newWithLongDouble:value]);
+}
+
+
+#pragma mark -
+#pragma mark NSValue init
+
+
+- (id) initWithBytes:(void *) value
+            objCType:(char *) type
+{
+   switch( type[ 0])
+   {
+   case _C_CHR      : [self release]; return( newNumberWithChar( *(char *) value));
+   case _C_UCHR     : [self release]; return( newNumberWithUnsignedChar( *(unsigned char *) value));
+   case _C_SHT      : [self release]; return( newNumberWithShort( *(short *) value));
+   case _C_USHT     : [self release]; return( newNumberWithUnsignedShort( *(unsigned short *) value));
+   case _C_INT      : [self release]; return( newNumberWithInt( *(int *) value));
+   case _C_UINT     : [self release]; return( newNumberWithUnsignedInt( *(unsigned int *) value));
+   case _C_LNG      : [self release]; return( newNumberWithLong( *(long *) value));
+   case _C_ULNG     : [self release]; return( newNumberWithUnsignedLong( *(unsigned long *) value));
+   case _C_LNG_LNG  : [self release]; return( newNumberWithLongLong( *(long long *) value));
+   case _C_ULNG_LNG : [self release]; return( newNumberWithUnsignedLongLong( *(unsigned long long *) value));
+      
+   case _C_FLT      : return( [self initWithFloat:*(float *) value]);
+   case _C_DBL      : return( [self initWithDouble:*(double *) value]);
+   case _C_LNG_DBL  : return( [self initWithLongDouble:*(double *) value]);
+   default          : return( nil);
+   }
 }
 
 

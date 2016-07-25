@@ -24,10 +24,7 @@
 // because it can provide mulle_utf8_t and mulle_utf32_t w/o composition
 // 
 @interface _MulleObjCASCIIString : NSString
-{
-}
 @end
-
 
 
 @interface _MulleObjCASCIIString( _Subclasses)
@@ -36,7 +33,6 @@
                        length:(NSUInteger) length;
 + (id) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length;
-
 @end
 
 
@@ -61,7 +57,6 @@
    uint8_t   _length;         // 1 - 256
    char      _storage[ 3];
 }
-
 @end
 
 

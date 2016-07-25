@@ -11,25 +11,6 @@
 //#import "MulleStandaloneObjCFoundation.h"
 
 
-void  memset_char5( char *s, size_t len)
-{
-   static char  table[] =
-   {
-      '.', '0', '1', '2', 'A', 'C', 'E', 'I',
-      'L', 'M', 'P', 'R', 'S', 'T', '_', 'a',
-      'b', 'c', 'd', 'e', 'g', 'i', 'l', 'm',
-      'n', 'o', 'p', 'r', 's', 't', 'u'
-   };
-
-   char           *sentinel;
-   unsigned int  i;
-
-   i        = 30;
-   sentinel = &s[ len];
-   while( s < sentinel)
-      *s++ = table[ i++ % sizeof( table)];
-}
-
 
 static void  check( NSString *s, char *buf, size_t len)
 {
@@ -56,10 +37,14 @@ int main( int argc, const char * argv[])
    NSString    *s;
    int         i;
 
-   for( i = 0; i < 1023; i++)
+
+   memset( buf, 0, sizeof( buf));
+   s = [NSString stringWithUTF8String:buf];
+   check( s, buf, 0);
+
+   for( i = 1; i < 1023; i++)
    {
-      memset_char5( buf, i);
-      buf[ i] = 0;
+      buf[ i - 1] = ' ' + (i & 0x5F);
 
       @autoreleasepool
       {

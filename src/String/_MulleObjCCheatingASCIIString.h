@@ -10,8 +10,6 @@
 
 
 @interface _MulleObjCCheatingASCIIString : _MulleObjCReferencingASCIIString
-{
-}
 @end
 
 
