@@ -13,7 +13,7 @@
 #include <float.h>
 
 
-static void    clone_bool( BOOL value)
+static void   clone_bool( BOOL value)
 {
    NSData   *data;
    id       copy;
@@ -26,7 +26,8 @@ static void    clone_bool( BOOL value)
    if( [obj isEqual:copy])
       printf( "passed\n");
    else
-      printf( "failed: %s != %s\n",
+      printf( "%s failed: %s != %s\n",
+          __PRETTY_FUNCTION__,
           [[obj description] UTF8String],
           [[copy description] UTF8String]);
 }
@@ -45,7 +46,8 @@ static void    clone_integer( NSInteger value)
    if( [obj isEqual:copy])
       printf( "passed\n");
    else
-      printf( "failed: %s != %s\n",
+      printf( "%s %ld failed: %s != %s\n",
+          __PRETTY_FUNCTION__,
           [[obj description] UTF8String],
           [[copy description] UTF8String]);
 }
@@ -62,9 +64,10 @@ static void    clone_unsigned_integer( NSUInteger value)
    data = [NSArchiver archivedDataWithRootObject:obj];
    copy = [NSUnarchiver unarchiveObjectWithData:data];
    if( [obj isEqual:copy])
-      printf( "passed\n");
+      printf( "passed\n", __PRETTY_FUNCTION__);
    else
-      printf( "failed: %s != %s\n",
+      printf( "%s failed: %s != %s\n",
+          __PRETTY_FUNCTION__,
           [[obj description] UTF8String],
           [[copy description] UTF8String]);
 }
@@ -82,7 +85,8 @@ static void    clone_double( double value)
    if( [obj isEqual:copy])
       printf( "passed\n");
    else
-      printf( "failed: %s != %s\n",
+      printf( "%s failed: %s != %s\n",
+          __PRETTY_FUNCTION__,
           [[obj description] UTF8String],
           [[copy description] UTF8String]);
 }
@@ -103,7 +107,6 @@ int main(int argc, const char * argv[])
   clone_integer( ~0LL);
   clone_integer( NSIntegerMin);
   clone_integer( NSIntegerMax);
-
 
   clone_double( 0);
   clone_double( DBL_MIN);

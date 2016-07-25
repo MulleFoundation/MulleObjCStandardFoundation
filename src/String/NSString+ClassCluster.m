@@ -9,7 +9,8 @@
 #import "NSString+ClassCluster.h"
 
 // other files in this library
-#import "_MulleObjCChar5String.h"
+#import "_MulleObjCTaggedPointerChar5String.h"
+#import "_MulleObjCTaggedPointerChar7String.h"
 #import "_MulleObjCASCIIString.h"
 #import "_MulleObjCUTF16String.h"
 #import "_MulleObjCUTF32String.h"
@@ -173,8 +174,10 @@ static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf, NSUInteger len
       MulleObjCThrowInvalidArgumentException( @"invalid UTF8");
 
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   if( info.is_ascii && info.utf8len <= mulle_char7_uintptr_max_length())
+      return( MulleObjCTaggedPointerChar7StringWithASCIICharacters( (char *) info.start, info.utf8len));
    if( info.is_char5 && info.utf8len <= mulle_char5_uintptr_max_length())
-      return( MulleObjCChar5StringWithChar5Characters( (char *) info.start, info.utf8len));
+      return( MulleObjCTaggedPointerChar5StringWithASCIICharacters( (char *) info.start, info.utf8len));
 #endif
    
    if( info.is_ascii)
