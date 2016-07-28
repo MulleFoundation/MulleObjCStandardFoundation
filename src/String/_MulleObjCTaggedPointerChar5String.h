@@ -23,19 +23,20 @@
 // the 'self' contains the actual string and the isa only exists in
 // the runtime
 //
-@interface _MulleObjCChar5String : NSString < MulleObjCTaggedPointer>
+@interface _MulleObjCTaggedPointerChar5String : NSString < MulleObjCTaggedPointer>
 @end
 
 
-NSString  *MulleObjCChar5StringWithChar5Characters( char *s, NSUInteger length);
+NSString  *MulleObjCTaggedPointerChar5StringWithASCIICharacters( char *s, NSUInteger length);
 
-static inline NSString   *_MulleObjCChar5StringFromValue( uintptr_t value)
+
+static inline NSString   *_MulleObjCTaggedPointerChar5StringFromValue( NSUInteger value)
 {
    return( (NSString *) MulleObjCCreateTaggedPointerWithUnsignedIntegerValueAndIndex( value, 0x1));
 }
 
 
-static inline uintptr_t  _MulleObjCChar5ValueFromString( NSString *obj)
+static inline NSUInteger  _MulleObjCTaggedPointerChar5ValueFromString( NSString *obj)
 {
    return( MulleObjCTaggedPointerGetUnsignedIntegerValue( obj));
 }

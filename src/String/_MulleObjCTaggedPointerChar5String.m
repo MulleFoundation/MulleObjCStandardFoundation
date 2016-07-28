@@ -6,38 +6,44 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import "_MulleObjCChar5String.h"
+#import "_MulleObjCTaggedPointerChar5String.h"
 
 #import "MulleObjCFoundationData.h"
 
 
-@implementation _MulleObjCChar5String
+@implementation _MulleObjCTaggedPointerChar5String
 
 + (void) load
 {
-   MulleObjCTaggedPointerRegisterClassAtIndex( self, 1);
+   MulleObjCTaggedPointerRegisterClassAtIndex( self, 0x1);
 }
 
 
-NSString  *MulleObjCChar5StringWithChar5Characters( char *s, NSUInteger length)
+NSString  *MulleObjCTaggedPointerChar5StringWithASCIICharacters( char *s, NSUInteger length)
 {
    uintptr_t   value;
    
-   assert( [_MulleObjCChar5String isTaggedPointerEnabled]);
+   assert( [_MulleObjCTaggedPointerChar5String isTaggedPointerEnabled]);
    
    value = mulle_char5_encode_ascii( s, (size_t) length);
-   return( _MulleObjCChar5StringFromValue( value));
+   return( _MulleObjCTaggedPointerChar5StringFromValue( value));
+}
+
+
+static inline NSUInteger  MulleObjCTaggedPointerChar5StringGetLength( _MulleObjCTaggedPointerChar5String *self)
+{
+   uintptr_t    value;
+   NSUInteger   length;
+   
+   value  = _MulleObjCTaggedPointerChar5ValueFromString( self);
+   length = (NSUInteger) mulle_char5_strlen_uintptr( value);
+   return( length);
 }
 
 
 - (NSUInteger) length
 {
-   uintptr_t    value;
-   NSUInteger   length;
-   
-   value  = _MulleObjCChar5ValueFromString( self);
-   length = (NSUInteger) mulle_char5_strlen_uintptr( value);
-   return( length);
+   return( MulleObjCTaggedPointerChar5StringGetLength( self));
 }
 
 
@@ -46,7 +52,7 @@ NSString  *MulleObjCChar5StringWithChar5Characters( char *s, NSUInteger length)
    uintptr_t    value;
    NSUInteger   length;
    
-   value  = _MulleObjCChar5ValueFromString( self);
+   value  = _MulleObjCTaggedPointerChar5ValueFromString( self);
    length = (NSUInteger) mulle_char5_strlen_uintptr( value);
 
    if( index >= length)
@@ -84,7 +90,7 @@ static void   grab_utf8( id self,
    if( range.length + range.location > len || range.length > len)
       MulleObjCThrowInvalidRangeException( range);
    
-   value = _MulleObjCChar5ValueFromString( self);
+   value = _MulleObjCTaggedPointerChar5ValueFromString( self);
    if( range.location)
    {
       mulle_utf8_t   buf[ len];
@@ -119,7 +125,7 @@ static void   grab_utf32( id self,
                  range:(NSRange) range
 {
    grab_utf32( self,
-               [self length],
+               MulleObjCTaggedPointerChar5StringGetLength( self),
                buf,
                range);
 }
@@ -130,7 +136,7 @@ static void   grab_utf32( id self,
 {
    NSUInteger   length;
    
-   length = [self length];
+   length = MulleObjCTaggedPointerChar5StringGetLength( self);
    if( length > maxLength)
       length = maxLength;
    grab_utf8( self,
@@ -140,13 +146,12 @@ static void   grab_utf32( id self,
 }
 
 
-
 - (NSUInteger) hash
 {
    NSRange       range;
    NSUInteger    len;
    
-   len = [self length];
+   len = MulleObjCTaggedPointerChar5StringGetLength( self);
    {
       mulle_utf8_t   buf[ len];
 
@@ -161,13 +166,19 @@ static void   grab_utf32( id self,
 }
 
 
+- (NSUInteger) _UTF8StringLength
+{
+   return( MulleObjCTaggedPointerChar5StringGetLength( self));
+}
+
+
 - (mulle_utf8_t *) UTF8String
 {
    NSUInteger      len;
    NSMutableData   *data;
    mulle_utf8_t    *s;
    
-   len  = [self length];
+   len  = MulleObjCTaggedPointerChar5StringGetLength( self);
    data = [NSMutableData dataWithLength:len + 1];
    s    = [data mutableBytes];
    
@@ -183,23 +194,19 @@ static void   grab_utf32( id self,
 - (NSString *) substringWithRange:(NSRange) range
 {
    NSUInteger   length;
+   uintptr_t    value;
    
-   length = [self length];
+   length = MulleObjCTaggedPointerChar5StringGetLength( self);
    
    // check both because of overflow range.length == (unsigned) -1 f.e.
    if( range.length + range.location > length || range.length > length)
       MulleObjCThrowInvalidRangeException( range);
    
-   {
-      mulle_utf8_t   buf[ range.length];
-         
-      grab_utf8( self,
-                 length,
-                 buf,
-                 range);
-      
-      return( MulleObjCChar5StringWithChar5Characters( (char *) buf, range.length));
-   }
+   value = _MulleObjCTaggedPointerChar5ValueFromString( self);
+   value = mulle_char5_uintptr_substring( value,
+                                 (unsigned int) range.location,
+                                 (unsigned int) range.length);
+   return( _MulleObjCTaggedPointerChar5StringFromValue( value));
 }
 
 @end
