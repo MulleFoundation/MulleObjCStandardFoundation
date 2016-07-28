@@ -1,5 +1,5 @@
 //
-//  _MulleObjCConcreteIntegerNumber.h
+//  _MulleObjCTaggedPointerIntegerNumber.h
 //  MulleObjCFoundation
 //
 //  Created by Nat! on 23.07.16.
@@ -7,6 +7,8 @@
 //
 
 #import "NSNumber.h"
+
+
 //
 // this has limited value range
 //
@@ -14,25 +16,13 @@
 @end
 
 
-static inline NSNumber   *_MulleObjCConcreteIntegerNumberFromInteger( NSInteger value)
+static inline NSNumber   *_MulleObjCTaggedPointerIntegerNumberWithInteger( NSInteger value)
 {
    return( (NSNumber *) MulleObjCCreateTaggedPointerWithIntegerValueAndIndex( value, 0x2));
 }
 
 
-static inline NSInteger  _MulleObjCConcreteIntegerValueFromNumber( NSNumber *obj)
+static inline NSInteger  _MulleObjCTaggedPointerIntegerNumberGetIntegerValue( _MulleObjCTaggedPointerIntegerNumber *obj)
 {
    return( MulleObjCTaggedPointerGetIntegerValue( obj));
-}
-
-
-static inline NSNumber   *_MulleObjCConcreteUnsignedIntegerNumberFromUnsignedInteger( NSUInteger value)
-{
-   return( (NSNumber *) MulleObjCCreateTaggedPointerWithUnsignedIntegerValueAndIndex( value, 0x2));
-}
-
-
-static inline NSUInteger  _MulleObjCConcreteUnsignedIntegerValueFromNumber( NSNumber *obj)
-{
-   return( MulleObjCTaggedPointerGetUnsignedIntegerValue( obj));
 }

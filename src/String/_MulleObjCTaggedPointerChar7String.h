@@ -19,13 +19,13 @@
 NSString  *MulleObjCTaggedPointerChar7StringWithASCIICharacters( char *s, NSUInteger length);
 
 
-static inline NSString   *_MulleObjCTaggedPointerChar7StringFromValue( uintptr_t value)
+static inline NSString   *_MulleObjCTaggedPointerChar7StringFromValue( NSUInteger value)
 {
    return( (NSString *) MulleObjCCreateTaggedPointerWithUnsignedIntegerValueAndIndex( value, 0x3));
 }
 
 
-static inline uintptr_t  _MulleObjCTaggedPointerChar7ValueFromString( NSString *obj)
+static inline NSUInteger  _MulleObjCTaggedPointerChar7ValueFromString( NSString *obj)
 {
    return( MulleObjCTaggedPointerGetUnsignedIntegerValue( obj));
 }

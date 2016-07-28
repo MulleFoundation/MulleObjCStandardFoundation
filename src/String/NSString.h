@@ -110,9 +110,9 @@ typedef NSUInteger   NSStringCompareOptions;
 // strings are zero terminated, zero stored in
 // buf[ size - 1]
 //
-- (void) getUTF8String:(mulle_utf8_t *) buf
-            bufferSize:(NSUInteger) size;
-- (void) getUTF8String:(mulle_utf8_t *) buf;
+- (NSUInteger) _getUTF8String:(mulle_utf8_t *) buf
+                  bufferSize:(NSUInteger) size;
+- (void) _getUTF8String:(mulle_utf8_t *) buf;
 
 - (mulle_utf8_t *) UTF8String;
 
