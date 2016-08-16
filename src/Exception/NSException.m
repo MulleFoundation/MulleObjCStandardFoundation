@@ -32,33 +32,6 @@ NSString  *NSRangeException                 = @"NSRangeException";
 NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
 
-static void   MulleObjCDefaultUncaughtExceptionHandler( NSException *exception);
-static NSUncaughtExceptionHandler   *defaultUncaughtHandler = MulleObjCDefaultUncaughtExceptionHandler;
-
-
-static void   MulleObjCDefaultUncaughtExceptionHandler( NSException *exception)
-{
-   extern void  NSLog( NSString *, ...);
-   
-   NSLog( @"uncaught exception %@ %@", [exception name], [exception reason]);
-   abort();
-}
-
-
-NSUncaughtExceptionHandler * NSGetUncaughtExceptionHandler( void)
-{
-   return( defaultUncaughtHandler);
-}
-
-
-void   NSSetUncaughtExceptionHandler( NSUncaughtExceptionHandler *handler)
-{
-   if( ! handler)
-      handler = MulleObjCDefaultUncaughtExceptionHandler;
-   defaultUncaughtHandler = handler;
-}
-
-
 
 @implementation NSException
 
@@ -79,14 +52,6 @@ static void   throw_errno_exception( id format, va_list args)
                           va_list:args];
    [NSException raise:MulleObjCErrnoException
                format:@"%@: %s", s, strerror( errno)];
-}
-
-__attribute__ ((noreturn))
-static void   throw_generic_exception( NSString *format, va_list args)
-{
-   [NSException raise:NSGenericException
-               format:format
-               va_list:args];
 }
 
 

@@ -164,7 +164,7 @@ static void   grab_utf32( id self,
                  NSMakeRange( 0, len));
    
       range = MulleObjCHashRange( len);
-      return( MulleObjCStringHash( &buf[ range.location], range.length));
+      return( MulleObjCStringHash( (char *) &buf[ range.location], range.length));
    }
 }
 
@@ -175,7 +175,7 @@ static void   grab_utf32( id self,
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
    NSUInteger      len;
    NSMutableData   *data;
@@ -190,7 +190,7 @@ static void   grab_utf32( id self,
               s,
               NSMakeRange( 0, len));
    s[ len] = 0;
-   return( s);
+   return( (char *) s);
 }
 
 

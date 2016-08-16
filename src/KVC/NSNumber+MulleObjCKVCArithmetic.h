@@ -1,5 +1,5 @@
 //
-//  NSNumber+MulleObjCArithmetic.h
+//  NSNumber+MulleObjCKVCArithmetic.h
 //  MulleObjCFoundation
 //
 //  Created by Nat! on 17.05.16.
@@ -12,7 +12,7 @@
 // some small routines used for arithmetic in collection operators
 // in general though, arithmetic on NSNumber is a bad idea
 //
-@interface NSNumber (MulleObjCArithmetic)
+@interface NSNumber (MulleObjCKVCArithmetic)
 
 - (NSNumber *) _add:(NSNumber *) other;
 - (NSNumber *) _divideByInteger:(NSUInteger) divisor;

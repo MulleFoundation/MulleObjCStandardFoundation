@@ -41,6 +41,9 @@ void   _MulleObjCSetInstanceVariableForType( id p, unsigned int offset, id value
    if( ! value)
       switch( valueType)
       {
+#ifdef _C_BOOL
+      case _C_BOOL : *(_Bool *)          dst = 0; return;
+#endif 
       case _C_CHR  : *(char *)           dst = 0; return;
       case _C_UCHR : *(unsigned char *)  dst = 0; return;
       case _C_SHT  : *(short *)          dst = 0; return;
@@ -84,6 +87,9 @@ void   _MulleObjCSetInstanceVariableForType( id p, unsigned int offset, id value
    
    switch( valueType)
    {
+#ifdef _C_BOOL
+   case _C_BOOL : *(_Bool *)          dst = [value boolValue]; return;
+#endif 
    case _C_CHR  : *(char *)           dst = [value charValue]; return;
    case _C_UCHR : *(unsigned char *)  dst = [value unsignedCharValue]; return;
    case _C_SHT  : *(short *)          dst = [value shortValue]; return;
@@ -137,6 +143,9 @@ id   _MulleObjCGetInstanceVariableForType( id p, unsigned int offset, char value
    
    switch( valueType)
    {
+#ifdef _C_BOOL
+   case _C_BOOL : return( [NSNumber numberWithBool:*(_Bool *) dst]);
+#endif 
    case _C_CHR  : return( [NSNumber numberWithChar:*(char *) dst]);
    case _C_UCHR : return( [NSNumber numberWithUnsignedChar:*(unsigned char *) dst]);
    case _C_SHT  : return( [NSNumber numberWithShort:*(short *) dst]);

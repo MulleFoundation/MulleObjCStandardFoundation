@@ -311,6 +311,10 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    
    switch( *type)
    {
+#ifdef _C_BOOL
+   case _C_BOOL     : mulle_buffer_add_byte( &_buffer, *(_Bool *) p);
+                      return( (_Bool *) p + 1);
+#endif
    case _C_CHR      : mulle_buffer_add_byte( &_buffer, *(char *) p);
                       return( (char *) p + 1);
    case _C_UCHR     : mulle_buffer_add_byte( &_buffer, *(unsigned char *) p);
@@ -551,7 +555,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 
 - (NSString *) classNameEncodedForTrueClassName:(NSString *) trueName
 {
-   mulle_utf8_t   *s;
+   char   *s;
    
    s = NSMapGet( _classNameSubstitutions, [trueName UTF8String]);
    if( ! s)

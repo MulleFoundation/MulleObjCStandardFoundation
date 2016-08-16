@@ -41,8 +41,8 @@
 
 - (void) _appendKey:(NSString *) key
 {
-   NSUInteger     length;
-   mulle_utf8_t   *s;
+   NSUInteger   length;
+   char         *s;
 
    if( ! key)
       [NSException raise:NSInconsistentArchiveException

@@ -16,7 +16,7 @@
 // other files in this library
 #import "_MulleObjCKVCInformation.h"
 #import "NSObject+_MulleObjCKVCInformation.h"
-#import "NSNumber+MulleObjCArithmetic.h"
+#import "NSNumber+MulleObjCKVCArithmetic.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationContainer.h"

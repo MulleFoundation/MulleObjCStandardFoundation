@@ -115,6 +115,7 @@
 		4177A9721D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.h in Headers */ = {isa = PBXBuildFile; fileRef = 4177A9701D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.h */; };
 		4177A9731D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.m in Sources */ = {isa = PBXBuildFile; fileRef = 4177A9711D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.m */; };
 		41791B6D1D33A1C300D4D502 /* libmulle_objc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41791B6C1D33A1C300D4D502 /* libmulle_objc.a */; };
+		417949871D533A30002EC3AB /* NSArray+MulleObjCKVCArithmetic.m in Sources */ = {isa = PBXBuildFile; fileRef = 417949851D533A30002EC3AB /* NSArray+MulleObjCKVCArithmetic.m */; };
 		417E958B1C9DA41300DA9C90 /* MulleObjCBaseFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 417E95891C9DA41300DA9C90 /* MulleObjCBaseFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		418638C41CCCE96500A1784E /* NSThread+NSMutableDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 418638C21CCCE7F900A1784E /* NSThread+NSMutableDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		418638DC1CCD00AE00A1784E /* _MulleObjCCheatingASCIIString.h in Headers */ = {isa = PBXBuildFile; fileRef = 412ED7FB1CC4002C00E64506 /* _MulleObjCCheatingASCIIString.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -171,9 +172,10 @@
 		418B057D1CB298660033DFCB /* MulleObjCFoundation.c in Sources */ = {isa = PBXBuildFile; fileRef = 418B057B1CB298660033DFCB /* MulleObjCFoundation.c */; };
 		418BCC321D23E86300447F73 /* mulle_qsort_pointers.c in Sources */ = {isa = PBXBuildFile; fileRef = 418BCC301D23E86300447F73 /* mulle_qsort_pointers.c */; };
 		418BCC331D23E86300447F73 /* mulle_qsort_pointers.h in Headers */ = {isa = PBXBuildFile; fileRef = 418BCC311D23E86300447F73 /* mulle_qsort_pointers.h */; };
-		41937E331CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.h in Headers */ = {isa = PBXBuildFile; fileRef = 41937E311CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.h */; };
-		41937E341CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.m in Sources */ = {isa = PBXBuildFile; fileRef = 41937E321CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.m */; };
+		41937E331CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.h in Headers */ = {isa = PBXBuildFile; fileRef = 41937E311CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.h */; };
+		41937E341CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.m in Sources */ = {isa = PBXBuildFile; fileRef = 41937E321CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.m */; };
 		41998A521CB67EDC00D18DD8 /* libmulle_sprintf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41998A511CB67EDC00D18DD8 /* libmulle_sprintf.a */; };
+		41A514491D631DAA005C22E9 /* MulleObjCFoundationSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A514481D631DAA005C22E9 /* MulleObjCFoundationSetup.m */; };
 		41A864881CB979ED008D799E /* NSString+Sprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 4117E09B1CB96B2D00060D31 /* NSString+Sprintf.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41AF86A71CCFCAC500B22AB0 /* NSNumber+NSLocale.h in Headers */ = {isa = PBXBuildFile; fileRef = 41AF86A41CCFCAC500B22AB0 /* NSNumber+NSLocale.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41AF86A81CCFCAC500B22AB0 /* NSNumber+NSLocale.h in Headers */ = {isa = PBXBuildFile; fileRef = 41AF86A41CCFCAC500B22AB0 /* NSNumber+NSLocale.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -652,6 +654,7 @@
 		4177A9701D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCTaggedPointerChar5String.h; sourceTree = "<group>"; };
 		4177A9711D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCTaggedPointerChar5String.m; sourceTree = "<group>"; };
 		41791B6C1D33A1C300D4D502 /* libmulle_objc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_objc.a; path = dependencies/lib/libmulle_objc.a; sourceTree = "<group>"; };
+		417949851D533A30002EC3AB /* NSArray+MulleObjCKVCArithmetic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MulleObjCKVCArithmetic.m"; sourceTree = "<group>"; };
 		417E95881C9DA21500DA9C90 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		417E95891C9DA41300DA9C90 /* MulleObjCBaseFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MulleObjCBaseFunctions.h; sourceTree = "<group>"; };
 		417E958D1C9DB4D000DA9C90 /* NSString+Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Search.h"; sourceTree = "<group>"; };
@@ -689,8 +692,8 @@
 		418C9F111C9B2A80002B9ACD /* NSValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSValue.h; path = src/Value/NSValue.h; sourceTree = SOURCE_ROOT; };
 		418C9F121C9B2A80002B9ACD /* NSValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSValue.m; path = src/Value/NSValue.m; sourceTree = SOURCE_ROOT; };
 		418C9F131C9B2A80002B9ACD /* NSValue+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSValue+Private.h"; path = "src/Value/NSValue+Private.h"; sourceTree = SOURCE_ROOT; };
-		41937E311CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+MulleObjCArithmetic.h"; sourceTree = "<group>"; };
-		41937E321CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+MulleObjCArithmetic.m"; sourceTree = "<group>"; };
+		41937E311CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+MulleObjCKVCArithmetic.h"; sourceTree = "<group>"; };
+		41937E321CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+MulleObjCKVCArithmetic.m"; sourceTree = "<group>"; };
 		41998A511CB67EDC00D18DD8 /* libmulle_sprintf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_sprintf.a; path = dependencies/lib/libmulle_sprintf.a; sourceTree = "<group>"; };
 		419FE8041C9858190094A915 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		419FE8051C9858190094A915 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -705,6 +708,8 @@
 		419FE80F1C9858190094A915 /* StaticLibraryOSX.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibraryOSX.xcconfig; sourceTree = "<group>"; };
 		419FE8101C9858190094A915 /* ToolOSX.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ToolOSX.xcconfig; sourceTree = "<group>"; };
 		419FE8111C9858190094A915 /* _Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = _Common.xcconfig; sourceTree = "<group>"; };
+		41A514481D631DAA005C22E9 /* MulleObjCFoundationSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MulleObjCFoundationSetup.m; sourceTree = "<group>"; };
+		41A5144A1D631DBC005C22E9 /* MulleObjCFoundationSetup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MulleObjCFoundationSetup.h; sourceTree = "<group>"; };
 		41AF86A41CCFCAC500B22AB0 /* NSNumber+NSLocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+NSLocale.h"; sourceTree = "<group>"; };
 		41AF86A51CCFCAC500B22AB0 /* NSNumber+NSLocale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+NSLocale.m"; sourceTree = "<group>"; };
 		41B24F921CBAA44700B95C66 /* NSString+ClassCluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ClassCluster.h"; sourceTree = "<group>"; };
@@ -1023,8 +1028,9 @@
 				413C51FC1CC294C200F62468 /* NSObject+_MulleObjCKVCInformation.m */,
 				413C52011CC294C200F62468 /* NSObject+KeyValueCoding.h */,
 				413C52001CC294C200F62468 /* NSObject+KeyValueCoding.m */,
-				41937E311CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.h */,
-				41937E321CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.m */,
+				417949851D533A30002EC3AB /* NSArray+MulleObjCKVCArithmetic.m */,
+				41937E311CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.h */,
+				41937E321CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.m */,
 				413C51FA1CC294C200F62468 /* NSProxy+_MulleObjCKVCInformation.m */,
 				413C520D1CC294C200F62468 /* _MulleObjCKVCInformation.h */,
 				413C520C1CC294C200F62468 /* _MulleObjCKVCInformation.m */,
@@ -1339,6 +1345,8 @@
 				418B05781CB295220033DFCB /* MulleObjCFoundation.h */,
 				418B057B1CB298660033DFCB /* MulleObjCFoundation.c */,
 				410CB3CF1C98772500D486A9 /* MulleObjCFoundationStandalone.m */,
+				41A5144A1D631DBC005C22E9 /* MulleObjCFoundationSetup.h */,
+				41A514481D631DAA005C22E9 /* MulleObjCFoundationSetup.m */,
 				41B753B31CCE1F9E00E7845D /* Core */,
 				4105922D1CC571C600C6BF2E /* Archiver */,
 				413C51861CC293BD00F62468 /* KVC */,
@@ -1748,7 +1756,7 @@
 				41B7544A1CCE21FE00E7845D /* NSDateFormatter.h in Headers */,
 				41B7544B1CCE21FE00E7845D /* NSFormatter.h in Headers */,
 				41B7544C1CCE21FF00E7845D /* NSNumberFormatter.h in Headers */,
-				41937E331CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.h in Headers */,
+				41937E331CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.h in Headers */,
 				41B754151CCE219900E7845D /* MulleObjCFoundationException.h in Headers */,
 				41B754161CCE219900E7845D /* NSAssertionHandler.h in Headers */,
 				41CBD8CF1D45297600CC286C /* _MulleObjCTaggedPointerChar7String.h in Headers */,
@@ -2038,6 +2046,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41A514491D631DAA005C22E9 /* MulleObjCFoundationSetup.m in Sources */,
 				418B057D1CB298660033DFCB /* MulleObjCFoundation.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2124,6 +2133,7 @@
 				41E13DA61CD2738300CE0304 /* NSString.m in Sources */,
 				41B754271CCE21AC00E7845D /* NSString+ClassCluster.m in Sources */,
 				41B7542A1CCE21AC00E7845D /* NSString+Components.m in Sources */,
+				417949871D533A30002EC3AB /* NSArray+MulleObjCKVCArithmetic.m in Sources */,
 				41E13DA81CD29B3200CE0304 /* NSString+Escaping.m in Sources */,
 				410261D01CD7FA2F00F581F3 /* _MulleObjCConcreteMutableDictionary.m in Sources */,
 				4177A9731D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.m in Sources */,
@@ -2147,7 +2157,7 @@
 				41B7543E1CCE21EC00E7845D /* NSNumber.m in Sources */,
 				41B7543F1CCE21EC00E7845D /* NSNumber+NSString.m in Sources */,
 				41B754401CCE21EC00E7845D /* NSValue.m in Sources */,
-				41937E341CEB575D007B2240 /* NSNumber+MulleObjCArithmetic.m in Sources */,
+				41937E341CEB575D007B2240 /* NSNumber+MulleObjCKVCArithmetic.m in Sources */,
 				417515B01CEBA1AE00B52F56 /* _MulleObjCSet.m in Sources */,
 				41412F3A1CD519B3003A94C9 /* NSDate.m in Sources */,
 				41412F3B1CD519B3003A94C9 /* NSNull.m in Sources */,

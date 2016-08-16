@@ -176,6 +176,7 @@ static inline id   newNumberWithUnsignedLongLong(unsigned long long  value)
 #pragma mark -
 #pragma mark signed init
 
+
 static inline id   newNumberWithChar( char value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
@@ -184,6 +185,14 @@ static inline id   newNumberWithChar( char value)
    return( [_MulleObjCInt8Number newWithInt8:value]);
 #endif
 }
+
+
+#ifdef _C_BOOL
+static inline id   newNumberWithBool( _Bool value)
+{
+   return( newNumberWithChar( (char) value));
+}
+#endif
 
 
 static inline id   newNumberWithShort( short value)
@@ -327,6 +336,9 @@ static inline id   newNumberWithLongLong( long long  value)
 {
    switch( type[ 0])
    {
+#ifdef _C_BOOL
+   case _C_BOOL     : [self release]; return( newNumberWithBool( *(_Bool *) value));
+#endif
    case _C_CHR      : [self release]; return( newNumberWithChar( *(char *) value));
    case _C_UCHR     : [self release]; return( newNumberWithUnsignedChar( *(unsigned char *) value));
    case _C_SHT      : [self release]; return( newNumberWithShort( *(short *) value));
@@ -468,9 +480,12 @@ static int  simplify_type_for_comparison( int type)
 {
    switch( type)
    {
-   case _C_CHR :
-   case _C_SHT :
-   case _C_INT :
+#ifdef _C_BOOL
+   case _C_BOOL :
+#endif
+   case _C_CHR  :
+   case _C_SHT  :
+   case _C_INT  :
    case _C_UCHR :
    case _C_USHT :
       return( _C_INT);

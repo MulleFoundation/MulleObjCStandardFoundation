@@ -40,7 +40,7 @@
 
 - (NSString *) classNameDecodedForArchiveClassName:(NSString *) archiveName
 {
-   mulle_utf8_t   *s;
+   char   *s;
    
    s = NSMapGet( _classNameSubstitutions, [archiveName UTF8String]);
    if( ! s)
@@ -589,6 +589,10 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    
    switch( *type)
    {
+#ifdef _C_BOOL
+   case _C_BOOL     : *(_Bool *) p = (_Bool) mulle_buffer_next_byte( &_buffer);
+                      return( (_Bool *) p + 1);
+#endif
    case _C_CHR      : *(char *) p = (char) mulle_buffer_next_byte( &_buffer);
                       return( (char *) p + 1);
          
