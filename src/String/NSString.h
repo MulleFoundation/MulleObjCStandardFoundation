@@ -96,8 +96,8 @@ typedef NSUInteger   NSStringCompareOptions;
 
 //
 // UTF8
-//
-+ (id) stringWithUTF8String:(mulle_utf8_t *) s;
+// keep "old" UTF8Strings methods using char *
++ (id) stringWithUTF8String:(char *) s;
 + (id) _stringWithUTF8Characters:(mulle_utf8_t *) s
                          length:(NSUInteger) len;
 
@@ -114,7 +114,7 @@ typedef NSUInteger   NSStringCompareOptions;
                   bufferSize:(NSUInteger) size;
 - (void) _getUTF8String:(mulle_utf8_t *) buf;
 
-- (mulle_utf8_t *) UTF8String;
+- (char *) UTF8String;
 
 - (NSString *) uppercaseString;
 - (NSString *) lowercaseString;
@@ -188,7 +188,7 @@ static inline  NSRange   MulleObjCHashRange( NSUInteger length)
 }
 
 
-static inline NSUInteger   MulleObjCStringHash( mulle_utf8_t *buf, NSUInteger length)
+static inline NSUInteger   MulleObjCStringHash( char *buf, NSUInteger length)
 {
    return( mulle_objc_fnv1( buf, length * sizeof( mulle_utf8_t)));
 }

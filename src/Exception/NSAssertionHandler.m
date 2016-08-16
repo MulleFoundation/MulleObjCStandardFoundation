@@ -51,8 +51,6 @@ static void   failure( NSString *name,
                        NSInteger line, 
                        NSString *desc)
 {
-   extern void  NSLog( NSString *format, ...);
-   
    NSString   *s;
    
    s = [NSString stringWithFormat:@"*** Assertion failure in %@, %@:%ld",
@@ -61,7 +59,7 @@ static void   failure( NSString *name,
    if( [desc length])
       s = [NSString stringWithFormat:@"%@ %@", s, desc];
    
-   NSLog( @"%@", s);
+   fprintf( stderr, "%s\n", [s UTF8String]);
    abort();
 }
 
@@ -155,7 +153,7 @@ void   NSAssertionHandlerHandleMethodFailure( SEL sel,
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];
    
-   filename = [NSString stringWithUTF8String:(mulle_utf8_t *) file];
+   filename = [NSString stringWithUTF8String:file];
    [[NSAssertionHandler currentHandler] handleFailureInMethod:sel
                                                        object:obj
                                                          file:filename
@@ -181,8 +179,8 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];
    
-   functionname = [NSString stringWithUTF8String:(mulle_utf8_t *) function];
-   filename     = [NSString stringWithUTF8String:(mulle_utf8_t *) file];
+   functionname = [NSString stringWithUTF8String:function];
+   filename     = [NSString stringWithUTF8String:file];
    
    [[NSAssertionHandler currentHandler] handleFailureInFunction:functionname
                                                             file:filename

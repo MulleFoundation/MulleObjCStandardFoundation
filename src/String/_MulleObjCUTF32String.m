@@ -45,7 +45,7 @@
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
    struct mulle_buffer  buf;
    
@@ -61,7 +61,7 @@
       _shadow = mulle_buffer_extract_bytes( &buf);
       mulle_buffer_done( &buf);
    }
-   return( _shadow);
+   return( (char *) _shadow);
 }
 
 

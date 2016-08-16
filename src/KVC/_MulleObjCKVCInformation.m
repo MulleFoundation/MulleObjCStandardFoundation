@@ -33,14 +33,17 @@ static BOOL  isSupportedObjCType( char c)
 {
    switch( c)
    {
-   case _C_CHR : 
+#ifdef _C_BOOL
+   case _C_BOOL :
+#endif
+   case _C_CHR  :
    case _C_UCHR :
-   case _C_SHT : 
+   case _C_SHT  :
    case _C_USHT : 
       
-   case _C_INT : 
+   case _C_INT  :
    case _C_UINT : 
-   case _C_LNG : 
+   case _C_LNG  :
    case _C_ULNG : 
       
    case _C_LNG_LNG : 
@@ -450,7 +453,10 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
    {
       switch( valueType)
       {
-      case _C_CHR  : 
+#ifdef _C_BOOL
+      case _C_BOOL :
+#endif
+      case _C_CHR  :
       case _C_UCHR : 
       case _C_SHT  : 
       case _C_USHT : 
@@ -486,6 +492,9 @@ void  __MulleObjCSetObjectValueWithAccessorForType( id obj, SEL sel, id value, I
 
    switch( valueType)
    {
+#ifdef _C_BOOL
+   case _C_BOOL : parameter = (void *) [value boolValue]; break;
+#endif
    case _C_CHR  : parameter = (void *) [value charValue]; break;
    case _C_UCHR : parameter = (void *) [value unsignedCharValue]; break;
    case _C_SHT  : parameter = (void *) [value shortValue]; break;
@@ -578,6 +587,9 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
    // so far we just do numbers
    switch( valueType)
    {
+#ifdef _C_BOOL
+   case _C_BOOL : return( [NSNumber numberWithBool:(_Bool) (intptr_t) (*imp)( obj, sel, NULL)]);
+#endif   
    case _C_CHR  : return( [NSNumber numberWithChar:(char) (intptr_t) (*imp)( obj, sel, NULL)]);
    case _C_UCHR : return( [NSNumber numberWithUnsignedChar:(unsigned char) (uintptr_t) (*imp)( obj, sel, NULL)]);
    case _C_SHT  : return( [NSNumber numberWithShort:(short) (intptr_t) (*imp)( obj, sel, NULL)]);

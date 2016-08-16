@@ -1,12 +1,12 @@
 //
-//  NSNumber+MulleObjCArithmetic.m
+//  NSNumber+MulleObjCKVCArithmetic.m
 //  MulleObjCFoundation
 //
 //  Created by Nat! on 17.05.16.
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import "NSNumber+MulleObjCArithmetic.h"
+#import "NSNumber+MulleObjCKVCArithmetic.h"
 
 // other files in this library
 
@@ -16,22 +16,25 @@
 // std-c and other dependencies
 
 
-@implementation NSNumber (MulleObjCArithmetic)
+@implementation NSNumber (MulleObjCKVCArithmetic)
 
 
 static int  simplify_type_for_arithmetic( int type)
 {
    switch( type)
    {
-   case _C_CHR :
-   case _C_SHT :
-   case _C_INT :
+#ifdef _C_BOOL
+   case _C_BOOL :
+#endif
+   case _C_CHR  :
+   case _C_SHT  :
+   case _C_INT  :
    case _C_UCHR :
    case _C_USHT :
    case _C_UINT :
-   case _C_LNG :
+   case _C_LNG  :
    case _C_ULNG :
-   case _C_LNG_LNG :
+   case _C_LNG_LNG  :
    case _C_ULNG_LNG :
       return( _C_LNG_LNG);
       

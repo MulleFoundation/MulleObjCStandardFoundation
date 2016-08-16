@@ -69,13 +69,6 @@ extern NSString   *NSRangeException;
 #define NS_VALUERETURN( v,t)	return (v)
 #define NS_VOIDRETURN		return
 
-
-typedef void    NSUncaughtExceptionHandler( NSException *exception);
-
-NSUncaughtExceptionHandler   *NSGetUncaughtExceptionHandler( void);
-
-void   NSSetUncaughtExceptionHandler (NSUncaughtExceptionHandler *handler);
-
 NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
                                                               NSUInteger length);
 

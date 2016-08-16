@@ -37,9 +37,9 @@
 //  http://lists.apple.com/archives/objc-language/2006/Jan/msg00013.html
 // 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
-   return( (mulle_utf8_t *) _storage);
+   return( _storage);
 }
 
 

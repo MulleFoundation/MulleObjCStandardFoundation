@@ -152,7 +152,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (id) initWithUTF8String:(mulle_utf8_t *) cStr
+- (id) initWithUTF8String:(char *) cStr
 {
    NSString  *s;
    
@@ -326,7 +326,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 - (id) copy
 {
-   mulle_utf8_t   *s;
+   char   *s;
    
    // ez and cheap copy, use it
    if( self->_count == 1)
@@ -653,14 +653,14 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
    char                     tmp[ 0x400];
    struct mulle_allocator   *allocator;
    struct mulle_buffer      buffer;
    
    if( _shadow)
-      return( _shadow);
+      return( (char *) _shadow);
 
    allocator = MulleObjCObjectGetAllocator( self);
 
@@ -672,7 +672,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    _shadow    = mulle_buffer_extract_bytes( &buffer);
    mulle_buffer_done( &buffer);
    
-   return( _shadow);
+   return( (char *) _shadow);
 }
    
 

@@ -108,8 +108,6 @@
       mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_CUR, skip);
    }
    
-   //   NSLog( @"%@", NSStringFromMapTable( _scope));
-   
    return( [obj initWithCoder:self]);
 }
 

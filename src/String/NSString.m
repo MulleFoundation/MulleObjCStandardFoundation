@@ -38,13 +38,13 @@
 @implementation NSString
 
 
-static mulle_utf8_t   *stringToUTF8( NSString *s)
+static char   *stringToUTF8( NSString *s)
 {
    return( [s UTF8String]);
 }
 
 
-static NSString   *UTF8ToString( mulle_utf8_t *s)
+static NSString   *UTF8ToString( char *s)
 {
    return( [NSString stringWithUTF8String:s]);
 }
@@ -90,7 +90,7 @@ static NSString   *UTF8ToString( mulle_utf8_t *s)
 }
 
 
-+ (id) stringWithUTF8String:(mulle_utf8_t *) s
++ (id) stringWithUTF8String:(char *) s
 {
    return( [[[self alloc] initWithUTF8String:s] autorelease]);
 }
@@ -130,7 +130,7 @@ static NSString   *UTF8ToString( mulle_utf8_t *s)
 
 - (id) initWithString:(NSString *) other
 {
-   mulle_utf8_t    *s;
+   char   *s;
    
    s = [other UTF8String];
    return( [self initWithUTF8String:s]);
@@ -159,8 +159,8 @@ static NSString   *UTF8ToString( mulle_utf8_t *s)
 
 - (void) encodeWithCoder:(NSCoder *) coder
 {
-   mulle_utf8_t   *bytes;
-   NSUInteger     length;
+   char         *bytes;
+   NSUInteger   length;
    
    bytes  = [self UTF8String];
    length = [self _UTF8StringLength];
@@ -191,8 +191,8 @@ static NSString   *UTF8ToString( mulle_utf8_t *s)
 
 - (NSUInteger) hash
 {
-   NSRange        range;
-   mulle_utf8_t   *s;
+   NSRange   range;
+   char      *s;
    
    range = MulleObjCHashRange( [self _UTF8StringLength]);
    s     = [self UTF8String];
@@ -220,7 +220,7 @@ static void   grab_utf8( id self,
 {
    grab_utf8( self,
               _cmd,
-              [self UTF8String],
+              (mulle_utf8_t *) [self UTF8String],
               [self _UTF8StringLength],
               buf,
               maxLength);
@@ -282,15 +282,15 @@ static void   grab_utf8( id self,
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
-   return( (mulle_utf8_t *) "");  // subclasses improve this (except empty string)
+   return( "");  // subclasses improve this (except empty string)
 }
 
 
 - (NSUInteger) _UTF8StringLength
 {
-   return( mulle_utf8_strlen( [self UTF8String]));
+   return( mulle_utf8_strlen( (mulle_utf8_t *) [self UTF8String]));
 }
 
 
@@ -413,7 +413,7 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    len = [self _UTF8StringLength];
    s   = [self _fastUTF8Characters];
    if( ! s)
-      s = [self UTF8String];
+      s = (mulle_utf8_t *) [self UTF8String];
    buf = ctype_convert( s,
                         len,
                         NSMakeRange( 0, len),
@@ -437,7 +437,7 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    len = [self _UTF8StringLength];
    s   = [self _fastUTF8Characters];
    if( ! s)
-      s = [self UTF8String];
+      s = (mulle_utf8_t *) [self UTF8String];
    buf = ctype_convert( s,
                         len,
                         NSMakeRange( 0, len),
@@ -461,7 +461,7 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    len = [self _UTF8StringLength];
    s   = [self _fastUTF8Characters];
    if( ! s)
-      s = [self UTF8String];
+      s = (mulle_utf8_t *) [self UTF8String];
    buf = ctype_convert( s,
                        len,
                        NSMakeRange( 0, 1),
@@ -483,7 +483,7 @@ static mulle_utf8_t   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
    mulle_utf8_t   *old;
    unichar        c;
    
-   s = [self UTF8String];
+   s = (mulle_utf8_t *) [self UTF8String];
    assert( s);
    
    while( *s)

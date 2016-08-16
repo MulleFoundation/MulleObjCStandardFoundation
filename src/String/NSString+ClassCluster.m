@@ -211,7 +211,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 #pragma mark class cluster init
 
 
-- (id) initWithUTF8String:(mulle_utf8_t *) s
+- (id) initWithUTF8String:(char *) s
 {
    struct mulle_allocator  *allocator;
 
@@ -220,7 +220,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    
    allocator = MulleObjCObjectGetAllocator( self);
    [self release];
-   return( (id) newStringWithUTF8Characters( s, mulle_utf8_strlen( s), allocator));
+   return( (id) newStringWithUTF8Characters( (mulle_utf8_t *) s, mulle_utf8_strlen( (mulle_utf8_t *) s), allocator));
 }
 
 

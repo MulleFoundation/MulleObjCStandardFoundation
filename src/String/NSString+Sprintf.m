@@ -70,7 +70,7 @@
             arguments:(mulle_vararg_list) arguments
 {
    NSString                 *s;
-   mulle_utf8_t             *c_format;
+   char                     *c_format;
    mulle_utf8_t             *result;
    size_t                   len;
    struct mulle_allocator   *allocator;
@@ -115,8 +115,8 @@
 - (id) initWithFormat:(NSString *) format
               va_list:(va_list) va_list
 {
-   mulle_utf8_t         *c_format;
-   mulle_utf8_t         *result;
+   char                     *c_format;
+   mulle_utf8_t             *result;
    struct mulle_buffer      buffer;
    struct mulle_allocator   *allocator;
    size_t                   len;

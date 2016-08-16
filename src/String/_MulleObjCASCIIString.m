@@ -104,7 +104,7 @@ static void   grab_utf8( id self,
    
    range = MulleObjCHashRange( [self _UTF8StringLength]);
    s     = [self _fastUTF8Characters];
-   return( MulleObjCStringHash( &s[ range.location], range.length));
+   return( MulleObjCStringHash( (char *) &s[ range.location], range.length));
 }
 
 
@@ -114,9 +114,9 @@ static void   grab_utf8( id self,
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
-   return( (mulle_utf8_t *) MulleObjCSmallStringAddress( self));
+   return( MulleObjCSmallStringAddress( self));
 }
 
 
@@ -361,9 +361,9 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
-   return( (mulle_utf8_t *) _storage);
+   return( _storage);
 }
 
 
@@ -453,9 +453,9 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
-   return( (mulle_utf8_t *) self->_storage);
+   return( self->_storage);
 }
 
 
@@ -514,9 +514,9 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
-   return( (mulle_utf8_t *) _storage);
+   return( _storage);
 }
 
 
@@ -582,7 +582,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-- (mulle_utf8_t *) UTF8String
+- (char *) UTF8String
 {
    struct mulle_buffer  buffer;
    
@@ -594,7 +594,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
       _shadow = mulle_buffer_extract_bytes( &buffer);
       mulle_buffer_done( &buffer);
    }
-   return( _shadow);
+   return( (char *) _shadow);
 }
 
 

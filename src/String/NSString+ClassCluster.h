@@ -17,7 +17,7 @@
                                    length:(NSUInteger) length
                              freeWhenDone:(BOOL) flag;
 
-- (instancetype) initWithUTF8String:(mulle_utf8_t *) s;
+- (instancetype) initWithUTF8String:(char *) s;
 
 
 # pragma mark -
