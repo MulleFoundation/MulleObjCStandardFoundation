@@ -8,5 +8,6 @@
 
 LIBRARY_SHORTNAME="MulleObjCFoundation"
 
-. "../mulle-tests/run-test-m-common.sh"
+. "../mulle-tests/test-m-common.sh"
+. "../mulle-tests/test-tools-common.sh"
 . "../mulle-tests/run-test-common.sh"
