@@ -19,7 +19,7 @@
 
 // std-c and dependencies
 #include <mulle_utf/mulle_utf.h>
-#include <mulle_container/mulle_container.h>
+#include <mulle_buffer/mulle_buffer.h>
 
 enum
 {
@@ -336,7 +336,7 @@ enum
    
       assert( mulle_buffer_get_length( &buffer) == info.utf8len);
 
-      p = mulle_buffer_extract_bytes( &buffer);
+      p = mulle_buffer_extract_all( &buffer);
       mulle_buffer_done( &buffer);
    
       return( [self _initWithUTF8CharactersNoCopy:p
@@ -362,7 +362,7 @@ enum
    
    assert( mulle_buffer_get_length( &buffer) == info.utf32len * sizeof( mulle_utf32_t));
 
-   p = mulle_buffer_extract_bytes( &buffer);
+   p = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
 
    return( [self _initWithCharactersNoCopy:p

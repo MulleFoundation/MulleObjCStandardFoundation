@@ -22,6 +22,7 @@
 #import "MulleObjCFoundationBase.h"
 
 // std-c and dependencies
+#include <mulle_buffer/mulle_buffer.h>
 
 
 @implementation NSObject( _NSMutableString)
@@ -669,7 +670,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 
    mulle_buffer_size_to_fit( &buffer);
    _shadowLen = mulle_buffer_get_length( &buffer) - 1; // no trailin zero
-   _shadow    = mulle_buffer_extract_bytes( &buffer);
+   _shadow    = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
    
    return( (char *) _shadow);

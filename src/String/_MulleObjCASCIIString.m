@@ -19,6 +19,7 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
+#include <mulle_buffer/mulle_buffer.h>
 #include <mulle_utf/mulle_utf.h>
 
 
@@ -591,7 +592,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
       mulle_buffer_init( &buffer, MulleObjCObjectGetAllocator( self));
       mulle_buffer_add_bytes( &buffer, _storage, _length);
       mulle_buffer_add_byte( &buffer, 0);
-      _shadow = mulle_buffer_extract_bytes( &buffer);
+      _shadow = mulle_buffer_extract_all( &buffer);
       mulle_buffer_done( &buffer);
    }
    return( (char *) _shadow);

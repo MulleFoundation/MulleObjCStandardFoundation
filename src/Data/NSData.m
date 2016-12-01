@@ -12,7 +12,7 @@
  *
  */
 #define _GNUSOURCE   // UGLINESS for memmem and memrmem
- 
+
 #import "NSData.h"
 
 // other files in this library
@@ -22,7 +22,7 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-#import <mulle_container/mulle_container.h>
+#import <mulle_buffer/mulle_buffer.h>
 
 
 
@@ -51,7 +51,7 @@
 }
 
 
-+ (id) dataWithBytes:(void *) buf 
++ (id) dataWithBytes:(void *) buf
               length:(NSUInteger) length
 {
    return( [[[self alloc] initWithBytes:buf
@@ -68,7 +68,7 @@
 
 
 + (id) dataWithBytesNoCopy:(void *) buf
-                    length:(NSUInteger) length 
+                    length:(NSUInteger) length
               freeWhenDone:(BOOL) flag
 {
    return( [[[self alloc] initWithBytesNoCopy:buf
@@ -91,14 +91,14 @@ static NSData  *_newData( void *buf, NSUInteger length)
    case 8  : return( [_MulleObjCEightBytesData newWithBytes:buf]);
    case 16 : return( [_MulleObjCSixteenBytesData newWithBytes:buf]);
    }
-   
+
    if( length < 0x100 + 1)
       return( [_MulleObjCTinyData newWithBytes:buf
                                         length:length]);
    if( length < 0x10000 + 0x100 + 1)
       return( [_MulleObjCMediumData newWithBytes:buf
                                           length:length]);
-   
+
    return( [_MulleObjCAllocatorData newWithBytes:buf
                                           length:length]);
 }
@@ -115,7 +115,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 
 // since "self" is the placeholder, we don't really need to release it
-- (id) initWithBytes:(void *) bytes 
+- (id) initWithBytes:(void *) bytes
               length:(NSUInteger) length
 {
    [self release];
@@ -123,7 +123,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (id) initWithBytesNoCopy:(void *) bytes 
+- (id) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
 {
    [self release];
@@ -148,7 +148,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
                freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
-   
+
    [self release];
 
    allocator = flag ? &mulle_stdlib_allocator: NULL;
@@ -173,7 +173,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (id) initWithData:(id) other
 {
    [self release];
-   
+
    return( _newData( [other bytes], [other length]));
 }
 
@@ -227,11 +227,11 @@ static NSData  *_newData( void *buf, NSUInteger length)
    char        *buf;
    char        *sentinel;
    uintptr_t   hash;
-   
+
    length   = [self length];
    buf      = (char *) [self bytes];
    sentinel = &buf[ length > 0x400 ? 0x400 : length]; // touch at most a page
-   
+
    // this hashes 4*32 bytes max
    hash = 0x1848;
    while( length > 32)
@@ -240,10 +240,10 @@ static NSData  *_newData( void *buf, NSUInteger length)
       buf  = &buf[ 0x100];
       if( buf >= sentinel)
          return( (NSUInteger) hash);
-      
+
       length -= 0x100;
    }
-   
+
    // small and large data goes here
    hash = mulle_chained_hash( buf, length, hash);
    return( (NSUInteger) hash);
@@ -271,14 +271,14 @@ static NSData  *_newData( void *buf, NSUInteger length)
    MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSMakeRange( 0, length), [self length]);
    // need assert
    memcpy( buf, [self bytes], length);
-}           
+}
 
-           
-- (void) getBytes:(void *) buf 
+
+- (void) getBytes:(void *) buf
             range:(NSRange) range
 {
    MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, [self length]);
-   
+
    // need assert
    memcpy( buf, &((char *)[self bytes])[ range.location], range.length);
 }
@@ -287,7 +287,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (BOOL) isEqualToData:(NSData *) other
 {
    NSUInteger   length;
-   
+
    length = [other length];
    if( length != [self length])
       return( NO);
@@ -310,7 +310,7 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
 {
    unsigned char   *a_curr;
    unsigned char   first_b;
-   
+
    a_curr  = &a[ a_len - b_len];
    first_b = *b;
 
@@ -318,7 +318,7 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
       if( *a_curr == first_b)
          if( ! memcmp( a_curr, b, b_len))
             return( a_curr);
-   
+
    return( NULL);
 }
 
@@ -334,7 +334,7 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
    unsigned char   *found;
    unsigned char   *other_bytes;
    unsigned char   *start;
-   
+
    length = [self length];
    if( range.location + range.length > length || range.length > length)
       MulleObjCThrowInvalidRangeException( range);
@@ -343,11 +343,11 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
    length       = range.length;
    if( ! length || ! other_length || other_length > length)
       return( NSMakeRange( NSNotFound, 0));
-   
+
    start       = [self bytes];
    bytes       = &start[ range.location];
    other_bytes = [other bytes];
-   
+
    // easy
    if( options & NSDataSearchAnchored)
    {
@@ -378,7 +378,7 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
             return( NSMakeRange( found - start, other_length));
       }
    }
-   
+
    return( NSMakeRange( NSNotFound, 0));
 }
 

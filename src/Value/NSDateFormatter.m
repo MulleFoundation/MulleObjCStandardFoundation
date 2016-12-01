@@ -63,11 +63,11 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
 }
 
 
-static void   validate_behavior( NSDateFormatterBehavior behavior)
-{
-   if( behavior != NSDateFormatterBehaviorDefault && behavior != NSDateFormatterBehavior10_0)
-      MulleObjCThrowInvalidArgumentException( @"unsupported behavior");
-}
+//static void   validate_behavior( NSDateFormatterBehavior behavior)
+//{
+//   if( behavior != NSDateFormatterBehaviorDefault && behavior != NSDateFormatterBehavior10_0)
+//      MulleObjCThrowInvalidArgumentException( @"unsupported behavior");
+//}
 
 
 + (void) setDefaultFormatterBehavior:(NSDateFormatterBehavior) behavior

@@ -106,6 +106,8 @@
 		41512F3D1CE0E1D2008D1D4F /* NSEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 410CB3171C985AEA00D486A9 /* NSEnumerator.m */; };
 		41512F3E1CE0E23F008D1D4F /* NSEnumerator+NSArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F896681C9C1FBA00971F63 /* NSEnumerator+NSArray.m */; };
 		41512F3F1CE0E242008D1D4F /* NSArray+NSString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F896651C9C1FBA00971F63 /* NSArray+NSString.m */; };
+		415E74AC1DF099CD00F142A2 /* libmulle_buffer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 415E74AA1DF0972900F142A2 /* libmulle_buffer.a */; };
+		415E74AD1DF099CD00F142A2 /* libmulle_vararg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 415E74AB1DF0972900F142A2 /* libmulle_vararg.a */; };
 		417260981CB2DDCB00B8D3E7 /* NSEnumerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 410CB3181C985AEA00D486A9 /* NSEnumerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		417260A21CB2DFA100B8D3E7 /* NSCharacterSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4172609E1CB2DF6600B8D3E7 /* NSCharacterSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		417346731CCB8C79009450F7 /* NSScanner.h in Headers */ = {isa = PBXBuildFile; fileRef = 4173466F1CCB89E4009450F7 /* NSScanner.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -638,6 +640,8 @@
 		414C33591CC7BB3800292564 /* mulle_buffer_archiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mulle_buffer_archiver.h; sourceTree = "<group>"; };
 		415A01FA1CB0396C003C4ACF /* NSLock+NSDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLock+NSDate.h"; sourceTree = "<group>"; };
 		415A01FB1CB0396C003C4ACF /* NSLock+NSDate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLock+NSDate.m"; sourceTree = "<group>"; };
+		415E74AA1DF0972900F142A2 /* libmulle_buffer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_buffer.a; path = dependencies/lib/libmulle_buffer.a; sourceTree = "<group>"; };
+		415E74AB1DF0972900F142A2 /* libmulle_vararg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_vararg.a; path = dependencies/lib/libmulle_vararg.a; sourceTree = "<group>"; };
 		416225CC1C989E190012C70B /* _MulleObjCConcreteSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCConcreteSet.h; sourceTree = "<group>"; };
 		416225CD1C989E190012C70B /* _MulleObjCConcreteSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCConcreteSet.m; sourceTree = "<group>"; };
 		4170CDF31C9DD69B009554C6 /* _MulleObjCConcreteNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCConcreteNumber.h; sourceTree = "<group>"; };
@@ -933,6 +937,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				415E74AC1DF099CD00F142A2 /* libmulle_buffer.a in Frameworks */,
+				415E74AD1DF099CD00F142A2 /* libmulle_vararg.a in Frameworks */,
 				41512F3C1CE0DCB8008D1D4F /* libMulleObjCFoundation.a in Frameworks */,
 				41EA8D731C9F31D8007CEAE8 /* libMulleObjC.a in Frameworks */,
 				41791B6D1D33A1C300D4D502 /* libmulle_objc.a in Frameworks */,
@@ -982,6 +988,8 @@
 		410CB3791C985F8E00D486A9 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				415E74AA1DF0972900F142A2 /* libmulle_buffer.a */,
+				415E74AB1DF0972900F142A2 /* libmulle_vararg.a */,
 				41791B6C1D33A1C300D4D502 /* libmulle_objc.a */,
 				410CB2FE1C985AB900D486A9 /* libMulleObjC.a */,
 				410CB2FF1C985AB900D486A9 /* libmulle_thread.a */,
@@ -2470,6 +2478,7 @@
 					"$(inherited)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_VERSION = "de.codeon.compilers.mulle-clang";
 				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/include",
@@ -2504,6 +2513,7 @@
 					"$(inherited)",
 				);
 				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_VERSION = "de.codeon.compilers.mulle-clang";
 				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/include",

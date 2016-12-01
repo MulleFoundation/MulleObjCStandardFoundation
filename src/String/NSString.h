@@ -190,6 +190,8 @@ static inline  NSRange   MulleObjCHashRange( NSUInteger length)
 
 static inline NSUInteger   MulleObjCStringHash( char *buf, NSUInteger length)
 {
-   return( mulle_objc_fnv1( buf, length * sizeof( mulle_utf8_t)));
+   if( ! buf)
+      return( -1);
+   return( _mulle_objc_fnv1( buf, length));
 }
 

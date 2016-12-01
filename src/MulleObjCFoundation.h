@@ -19,6 +19,6 @@
 #import "MulleObjCFoundationPropertyList.h"
 
 
-#if MULLE_OBJC_VERSION < ((0 << 20) | (4 << 8) | 0)
+#if MULLE_OBJC_VERSION < ((0 << 20) | (1 << 8) | 0)
 # error "MulleObjC is too old"
 #endif

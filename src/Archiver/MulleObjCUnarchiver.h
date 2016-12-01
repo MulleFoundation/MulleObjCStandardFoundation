@@ -8,7 +8,7 @@
 
 #import <MulleObjC/MulleObjC.h>
 
-#import <mulle_container/mulle_container.h>
+#include <mulle_buffer/mulle_buffer.h>
 #import "ns_map_table.h"
 #import "ns_hash_table.h"
 

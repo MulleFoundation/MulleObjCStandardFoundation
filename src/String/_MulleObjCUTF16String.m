@@ -14,7 +14,7 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-#include <mulle_container/mulle_container.h>
+#import <mulle_buffer/mulle_buffer.h>
 
 
 @implementation _MulleObjCUTF16String
@@ -62,7 +62,7 @@
                                               (void (*)()) mulle_buffer_add_bytes);
 
       mulle_buffer_add_byte( &buf, 0);
-      _shadow = mulle_buffer_extract_bytes( &buf);
+      _shadow = mulle_buffer_extract_all( &buf);
       mulle_buffer_done( &buf);
    }
    return( _shadow);

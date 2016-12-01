@@ -14,6 +14,7 @@
 #import "MulleObjCFoundationString.h"
 
 // std-c and dependencies
+#include <mulle_buffer/mulle_buffer.h>
 #include <ctype.h>
 
 
@@ -87,7 +88,7 @@ static inline unsigned int   hex( unsigned int c)
    mulle_buffer_add_byte( &buffer, 0);
    
    length = mulle_buffer_get_length( &buffer);
-   s      = mulle_buffer_extract_bytes( &buffer);
+   s      = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
    
    return( [NSString _stringWithUTF8CharactersNoCopy:s
@@ -117,7 +118,7 @@ static inline unsigned int   hex( unsigned int c)
    mulle_buffer_add_byte( &buffer, 0);
 
    length = mulle_buffer_get_length( &buffer);
-   s      = mulle_buffer_extract_bytes( &buffer);
+   s      = mulle_buffer_extract_all( &buffer);
 
    mulle_buffer_done( &buffer);
    

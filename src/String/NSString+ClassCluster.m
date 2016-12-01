@@ -95,7 +95,7 @@ static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, NS
                                            (void (*)()) mulle_buffer_add_bytes);
 
    utf16len = mulle_buffer_get_length( &buffer) / 2;
-   utf16    = mulle_buffer_extract_bytes( &buffer);
+   utf16    = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
    
    return( [_MulleObjCAllocatorUTF16String newWithUTF16CharactersNoCopy:utf16
@@ -121,7 +121,7 @@ static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s, 
                                             (void (*)()) mulle_buffer_add_bytes);
    
    utf16len = mulle_buffer_get_length( &buffer) / sizeof( mulle_utf16_t);
-   utf16    = mulle_buffer_extract_bytes( &buffer);
+   utf16    = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
    
    return( [_MulleObjCAllocatorUTF16String newWithUTF16CharactersNoCopy:utf16
@@ -149,7 +149,7 @@ static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s, NS
                                            (void (*)()) mulle_buffer_add_bytes);
    
    utf32len = mulle_buffer_get_length( &buffer) / sizeof( unichar);
-   utf32    = mulle_buffer_extract_bytes( &buffer);
+   utf32    = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
    
    return( [_MulleObjCAllocatorUTF32String newWithUTF32CharactersNoCopy:utf32
@@ -174,9 +174,9 @@ static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf, NSUInteger len
       MulleObjCThrowInvalidArgumentException( @"invalid UTF8");
 
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
-   if( info.is_ascii && info.utf8len <= mulle_char7_uintptr_max_length())
+   if( info.is_ascii && info.utf8len <= mulle_char7_get_maxlength())
       return( MulleObjCTaggedPointerChar7StringWithASCIICharacters( (char *) info.start, info.utf8len));
-   if( info.is_char5 && info.utf8len <= mulle_char5_uintptr_max_length())
+   if( info.is_char5 && info.utf8len <= mulle_char5_get_maxlength())
       return( MulleObjCTaggedPointerChar5StringWithASCIICharacters( (char *) info.start, info.utf8len));
 #endif
    
@@ -327,7 +327,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
                                               &buffer,
                                               (void (*)()) mulle_buffer_add_bytes);
       assert( info->utf16len == mulle_buffer_get_length( &buffer) / sizeof( mulle_utf16_t));
-      utf = mulle_buffer_extract_bytes( &buffer);
+      utf = mulle_buffer_extract_all( &buffer);
 
       self = [_MulleObjCAllocatorUTF16String newWithUTF16CharactersNoCopy:utf
                                                                    length:info->utf16len
@@ -340,7 +340,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
                                               &buffer,
                                               (void (*)()) mulle_buffer_add_bytes);
       assert( info->utf32len == mulle_buffer_get_length( &buffer) / sizeof( mulle_utf32_t));
-      utf = mulle_buffer_extract_bytes( &buffer);
+      utf = mulle_buffer_extract_all( &buffer);
    
       self = [_MulleObjCAllocatorUTF32String newWithUTF32CharactersNoCopy:utf
                                                                    length:info->utf32len

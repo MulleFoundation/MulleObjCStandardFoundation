@@ -1,5 +1,6 @@
 # MulleObjCFoundation
 
-https://www.mulle-kybernetik.com/repositories/mulle-utf
-https://www.mulle-kybernetik.com/repositories/mulle-sprintf
-ssh://git@mulle-kybernetik.com:23/MulleObjC
+${MULLE_REPOSITORIES}/mulle-buffer;;${MULLE_BUFFER_BRANCH:-release}
+${MULLE_REPOSITORIES}/mulle-utf;;${MULLE_UTF_BRANCH:-release}
+${MULLE_REPOSITORIES}/mulle-sprintf;;${MULLE_SPRINTF_BRANCH:-release}
+${MULLE_PRIVATE_REPOSITORIES}/MulleObjC;;${MULLE_OBJC_BRANCH:-release}
