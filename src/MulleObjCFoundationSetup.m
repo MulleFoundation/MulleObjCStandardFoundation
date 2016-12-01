@@ -33,7 +33,6 @@ static void   versionassert( struct _mulle_objc_runtime *runtime,
 }
 
 
-
 #pragma mark -
 #pragma mark exception (mishandling)
 
@@ -81,8 +80,7 @@ void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfi
    setup->config.foundation.configurationsize  = sizeof( struct _ns_foundationconfiguration);
    setup->config.callbacks.setup               = (void (*)()) _ns_foundation_setup;
    setup->config.callbacks.tear_down_and_check = tear_down_and_check;
-   setup->config.callbacks.tear_down          = tear_down;
+   setup->config.callbacks.tear_down           = tear_down;
    
    _MulleObjCExceptionInitTable( &setup->config.foundation.exceptiontable);
 }
-

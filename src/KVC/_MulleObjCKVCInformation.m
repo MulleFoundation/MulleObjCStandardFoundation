@@ -599,7 +599,7 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
    case _C_UINT : return( [NSNumber numberWithUnsignedInt:(unsigned int) (uintptr_t) (*imp)( obj, sel, NULL)]);
 
    case _C_LNG  :
-      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
       {
          (*imp)( obj, sel, &param);
          return( [NSNumber numberWithLong:param.l.r]);
@@ -608,7 +608,7 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
       
    case _C_SEL   :
    case _C_ULNG  :
-      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
       {
          (*imp)( obj, sel, &param);
          return( [NSNumber numberWithUnsignedLong:param.L.r]);
@@ -616,7 +616,7 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
       return( [NSNumber numberWithUnsignedLong:(unsigned long) (uintptr_t) (*imp)( obj, sel, NULL)]);
 
    case _C_LNG_LNG  :
-      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
       {
          (*imp)( obj, sel, &param);
          return( [NSNumber numberWithLongLong:param.q.r]);
@@ -624,7 +624,7 @@ id   __MulleObjCGetObjectValueWithAccessorForType( id obj, SEL sel, IMP imp, cha
       return( [NSNumber numberWithLongLong:(long long) (intptr_t) (*imp)( obj, sel, NULL)]);
       
    case _C_ULNG_LNG  :
-      if( _mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
+      if( mulle_objc_signature_get_metaabireturntype( &valueType) == 2)
       {
          (*imp)( obj, sel, &param);
          return( [NSNumber numberWithUnsignedLongLong:param.Q.r]);

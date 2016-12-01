@@ -15,7 +15,11 @@
 
 + (void) load
 {
-   MulleObjCTaggedPointerRegisterClassAtIndex( self, 0x3);
+   if( MulleObjCTaggedPointerRegisterClassAtIndex( self, 0x3))
+   {
+      perror( "Need tag pointer aware runtime for _MulleObjCTaggedPointerChar7String with empty slot #3\n");
+      abort();
+   }
 }
 
 
@@ -25,7 +29,7 @@ NSString  *MulleObjCTaggedPointerChar7StringWithASCIICharacters( char *s, NSUInt
    
    assert( [_MulleObjCTaggedPointerChar7String isTaggedPointerEnabled]);
    
-   value = mulle_char7_encode_ascii( s, (size_t) length);
+   value = mulle_char7_encode( s, (size_t) length);
    return( _MulleObjCTaggedPointerChar7StringFromValue( value));
 }
 
@@ -36,7 +40,7 @@ static inline NSUInteger  MulleObjCTaggedPointerChar7StringGetLength( _MulleObjC
    NSUInteger   length;
    
    value  = _MulleObjCTaggedPointerChar7ValueFromString( self);
-   length = (NSUInteger) mulle_char7_strlen_uintptr( value);
+   length = (NSUInteger) mulle_char7_strlen( value);
    return( length);
 }
 
@@ -55,12 +59,12 @@ static inline NSUInteger  MulleObjCTaggedPointerChar7StringGetLength( _MulleObjC
    NSUInteger   length;
    
    value  = _MulleObjCTaggedPointerChar7ValueFromString( self);
-   length = (NSUInteger) mulle_char7_strlen_uintptr( value);
+   length = (NSUInteger) mulle_char7_strlen( value);
 
    if( index >= length)
       MulleObjCThrowInvalidIndexException( index);
    
-   return( (unichar) mulle_char7_at_uintptr( value, (unsigned int) index));
+   return( (unichar) mulle_char7_get( value, (unsigned int) index));
 }
 
 
@@ -97,12 +101,12 @@ static void   grab_utf8( id self,
    {
       mulle_utf8_t   buf[ len];
       
-      mulle_char7_decode_ascii( value, (char *) buf, len);
+      mulle_char7_decode( value, (char *) buf, len);
       memcpy( dst, &buf[ range.location], range.length);
       return;
    }
 
-   mulle_char7_decode_ascii( value, (char *) dst, range.length);
+   mulle_char7_decode( value, (char *) dst, range.length);
 }
 
 
@@ -207,9 +211,9 @@ static void   grab_utf32( id self,
       MulleObjCThrowInvalidRangeException( range);
    
    value = _MulleObjCTaggedPointerChar7ValueFromString( self);
-   value = mulle_char7_uintptr_substring( value,
-                                         (unsigned int) range.location,
-                                         (unsigned int) range.length);
+   value = mulle_char7_substring( value,
+                                  (unsigned int) range.location,
+                                  (unsigned int) range.length);
    return( _MulleObjCTaggedPointerChar7StringFromValue( value));
 }
 

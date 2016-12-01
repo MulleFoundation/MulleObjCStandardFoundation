@@ -520,7 +520,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
       [NSException raise:NSInconsistentArchiveException
                   format:@"archive damaged at object #%ld", (long) obj_index];
 
-   assert( (! _initClassCluster || ! mulle_pointerarray_contains( &_classcluster, obj)) && "classcluster is deserializing objects in initWithCoder: instead of decodeWithCoder:");
+   assert( (! _initClassCluster || ! mulle_pointerarray_member( &_classcluster, obj)) && "classcluster is deserializing objects in initWithCoder: instead of decodeWithCoder:");
 
    // now substitute here (I guess)
    replacement = NSMapGet( _objectSubstitutions, obj);

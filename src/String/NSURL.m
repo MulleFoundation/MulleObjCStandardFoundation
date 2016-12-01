@@ -243,9 +243,11 @@ static void  copy( NSString **dst, NSURL *src, SEL sel)
 }
 
 
-- (id) initWithString:(NSString *) URLString 
+- (id) initWithString:(NSString *) string
         relativeToURL:(NSURL *) baseURL
 {
+   NSString   *s;
+   
    [self init];
    
    copy( &_scheme, baseURL, @selector( scheme));
@@ -256,7 +258,12 @@ static void  copy( NSString **dst, NSURL *src, SEL sel)
    copy( &_query, baseURL, @selector( query));
    copy( &_parameterString, baseURL, @selector( parameterString));
    
-   _path = [[[baseURL path] stringByAppendingPathComponent:URLString] retain];
+   s = [baseURL path];
+   if( ! [string hasPrefix:@"/"] && ! [s hasSuffix:@"/"])
+      s = [s stringByAppendingString:@"/"];
+   s = [s stringByAppendingString:string];
+   
+   _path = [s copy];
    _port = [[baseURL port] copy];
    
    return( self);

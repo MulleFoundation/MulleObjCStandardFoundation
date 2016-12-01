@@ -235,7 +235,6 @@ static void   grab_utf8( id self,
                    bufferSize:(NSUInteger) size
 {
    NSUInteger   length;
-   NSUInteger   needed;
    
    assert( buf);
    
@@ -243,7 +242,6 @@ static void   grab_utf8( id self,
    [self _getUTF8Characters:buf
                   maxLength:size];
    
-   needed = length;
    if( length >= size)
       length = size - 1;
    buf[ length] = 0;
@@ -489,7 +487,7 @@ static mulle_utf8_t   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
    while( *s)
    {
       old = s;
-      c   = _mulle_utf8_next_utf32_char( &s);
+      c   = _mulle_utf8_next_utf32character( &s);
       
       if( ! mulle_utf32_is_whitespace( c))
          return( old);

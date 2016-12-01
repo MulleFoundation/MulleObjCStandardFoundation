@@ -91,18 +91,18 @@
       return( nil);
    }
    
-   // check if buffer need't malloc
-   len = mulle_buffer_get_static_bytes_length( &buffer);
+   // check if buffer needed to malloc (len == 0)
+   len = mulle_buffer_get_staticlength( &buffer);
    if( len)
    {
       result = mulle_buffer_get_bytes( &buffer);
       s      = [self _initWithUTF8Characters:result
-                                     length:len];
+                                      length:len];
    }
    else
    {
       len    = mulle_buffer_get_length( &buffer);
-      result = mulle_buffer_extract_bytes( &buffer);
+      result = mulle_buffer_extract_all( &buffer);
       s      = [self _initWithUTF8CharactersNoCopy:result
                                            length:len
                                         allocator:allocator];
@@ -133,7 +133,7 @@
    }
    
    // check if buffer need't malloc
-   len = mulle_buffer_get_static_bytes_length( &buffer);
+   len = mulle_buffer_get_staticlength( &buffer);
    if( len)
    {
       result = mulle_buffer_get_bytes( &buffer);
@@ -143,7 +143,7 @@
    else
    {
       len    = mulle_buffer_get_length( &buffer);
-      result = mulle_buffer_extract_bytes( &buffer);
+      result = mulle_buffer_extract_all( &buffer);
       s      = [self _initWithUTF8CharactersNoCopy:result
                                             length:len
                                          allocator:allocator];

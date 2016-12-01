@@ -34,47 +34,48 @@
 @end
 
 
-int  mulle_string_sprintf_object_conversion( struct mulle_buffer *buffer,
-                                             struct mulle_sprintf_formatconversioninfo *info,
-                                             struct mulle_sprintf_argumentarray *arguments,
-                                             int argc)
+static int  _sprintf_object_conversion( struct mulle_buffer *buffer,
+                                        struct mulle_sprintf_formatconversioninfo *info,
+                                        struct mulle_sprintf_argumentarray *arguments,
+                                        int argc)
 {
-   extern int   mulle_sprintf_charstring_conversion( struct mulle_buffer *buffer,
-                                                     struct mulle_sprintf_formatconversioninfo *info,
-                                                     char *s);
    union mulle_sprintf_argumentvalue  v;
    char                               *s;
 
+   assert( buffer);
+   assert( info);
+   assert( arguments);
+   
    v = arguments->values[ argc];
    s = v.obj ? (char *) [[(id) v.obj description] UTF8String] : "(nil)";
    
-   return( mulle_sprintf_charstring_conversion( buffer, info, s));
+   return( _mulle_sprintf_charstring_conversion( buffer, info, s));
 }                   
 
 
 
-mulle_sprintf_argumenttype_t  mulle_string_sprintf_get_object_argumenttype( struct mulle_sprintf_formatconversioninfo *info)
+static mulle_sprintf_argumenttype_t  sprintf_get_object_argumenttype( struct mulle_sprintf_formatconversioninfo *info)
 {
    return( mulle_sprintf_object_argumenttype);
 }
 
 
-struct mulle_sprintf_function     mulle_string_sprintf_object_function =
+static struct mulle_sprintf_function   sprintf_object_function =
 {
-   mulle_string_sprintf_get_object_argumenttype,
-   mulle_string_sprintf_object_conversion
+   sprintf_get_object_argumenttype,
+   _sprintf_object_conversion
 };
 
 
-void  _mulle_sprintf_register_object_functions( struct mulle_sprintf_conversion *tables)
+void   mulle_sprintf_register_object_functions( struct mulle_sprintf_conversion *tables)
 {
-   _mulle_sprintf_register_functions( tables, &mulle_string_sprintf_object_function, _C_ID);
+   mulle_sprintf_register_functions( tables, &sprintf_object_function, _C_ID);
 }
 
 
 __attribute__((constructor))
 static void  mulle_sprintf_register_default_object_functions()
 {
-  _mulle_sprintf_register_object_functions( &mulle_sprintf_defaultconversion);
+   mulle_sprintf_register_object_functions( mulle_sprintf_get_defaultconversion());
 }
    

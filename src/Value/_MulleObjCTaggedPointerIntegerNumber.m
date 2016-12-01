@@ -13,7 +13,11 @@
 
 + (void) load
 {
-   MulleObjCTaggedPointerRegisterClassAtIndex( self, 0x2);
+   if( MulleObjCTaggedPointerRegisterClassAtIndex( self, 0x2))
+   {
+      perror( "Need tag pointer aware runtime for _MulleObjCTaggedPointerIntegerNumber with empty slot #2\n");
+      abort();
+   }
 }
 
 

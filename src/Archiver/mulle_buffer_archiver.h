@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#include <mulle_container/mulle_container.h>
+#import <mulle_buffer/mulle_buffer.h>
 
 #include "ns_byteorder.h"
 

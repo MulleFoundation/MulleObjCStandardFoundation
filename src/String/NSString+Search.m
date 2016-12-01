@@ -608,38 +608,38 @@ static void   _kmp_precompute( unichar *search,
 }
 
 
-static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_rover,
-                                    unichar *search, size_t search_len)
-{
-   size_t      i;
-   ptrdiff_t   j;
-   unichar     c;
-   unichar     d;
-   NSInteger   found;
-   size_t      len;
-   
-   found = NSNotFound;
-   len   = get_length( self_rover);
-   
-   for( j = 0, i = 0; i < len;)
-   {
-      c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
-      d = search[ j];
-      if( c != d)
-         j = -1;
-   
-      ++i;
-      ++j;
-      
-      if( j == (ptrdiff_t) search_len)
-      {
-         found = i - search_len;
-         break;
-      }
-   }
-   
-   return( found);
-}
+//static NSInteger   __simple_search( struct mulle_objc_unichar_enumerator *self_rover,
+//                                    unichar *search, size_t search_len)
+//{
+//   size_t      i;
+//   ptrdiff_t   j;
+//   unichar     c;
+//   unichar     d;
+//   NSInteger   found;
+//   size_t      len;
+//   
+//   found = NSNotFound;
+//   len   = get_length( self_rover);
+//   
+//   for( j = 0, i = 0; i < len;)
+//   {
+//      c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
+//      d = search[ j];
+//      if( c != d)
+//         j = -1;
+//   
+//      ++i;
+//      ++j;
+//      
+//      if( j == (ptrdiff_t) search_len)
+//      {
+//         found = i - search_len;
+//         break;
+//      }
+//   }
+//   
+//   return( found);
+//}
 
 
 static NSInteger   __kmp_search( struct mulle_objc_unichar_enumerator *self_rover,
