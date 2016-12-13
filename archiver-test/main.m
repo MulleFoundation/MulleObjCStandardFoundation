@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import <MulleObjCFoundation/MulleObjCFoundation.h>
+#import "MulleStandaloneObjCFoundation.h"
 
 
 @interface Foo : NSObject <NSCoding>
@@ -31,20 +31,22 @@
 {
    NSUInteger   len;
    void         *buf;
-
+   
    [self init];
-
+   
    _d = [aDecoder decodeDoubleForKey:@"d"];
    _i = [aDecoder decodeIntForKey:@"i"];
 
    buf = [aDecoder decodeBytesForKey:@"str"
                       returnedLength:&len];
    if( buf)
-      _str = MulleObjCObjectDuplicateCString( self, buf);
+   {
+      _str = malloc( len);
+      memcpy( _str, buf, len);
+   }
    else
       _str = NULL;
-   fprintf( stderr, "_str=%p\n", _str);
-
+   
    return( self);
 }
 
@@ -60,14 +62,6 @@
                forKey:@"str"];
 }
 
-
-- (void) setStr:(char *) s
-{
-   MulleObjCObjectDeallocateMemory( self, _str);
-   _str = s ? MulleObjCObjectDuplicateCString( self, s) : s;
-   fprintf( stderr, "_str=%p\n", _str);
-}
-
 @end
 
 
@@ -76,17 +70,15 @@
 - (id) initWithCoder:(NSCoder *) decoder
 {
    [self init];
-
+   
    _foo = [[decoder decodeObjectForKey:@"foo"] retain];
-   fprintf( stderr, "_foo=%p\n", _foo);
-
+   
    return( self);
 }
 
 
 - (void) encodeWithCoder:(NSCoder *) coder
 {
-   fprintf( stderr, "_foo=%p\n", _foo);
    [coder encodeObject:_foo
                 forKey:@"foo"];
 }
@@ -101,45 +93,37 @@ int   main( int argc, const char * argv[])
    Bar      *bar;
    Bar      *bar2;
    NSData   *data;
+   
+   foo = [[Foo new] autorelease];
 
-   @autoreleasepool
+   [foo setStr:"VfL Bochum 1848"];
+   [foo setD:18.48];
+   [foo setI:1848];
+
+   bar = [[Bar new] autorelease];
+   [bar setFoo:foo];
+   
+   @try
    {
-      foo = [[Foo new] autorelease];
-      [foo hash];
-
-      fprintf( stderr, "foo=%p\n", foo);
-
-      [foo setStr:"VfL Bochum 1848"];
-      [foo setD:18.48];
-      [foo setI:1848];
-
-      bar = [[Bar new] autorelease];
-      [bar setFoo:foo];
-
-      fprintf( stderr, "bar=%p\n", foo);
-
-      bar2 = nil;
-      @try
-      {
-         data = [NSKeyedArchiver archivedDataWithRootObject:bar];
-         bar2 = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-      }
-      @catch( NSException *localException)
-      {
-         NSLog( @"Exception: %@", localException);
-         return( 1);
-      }
-
-      if( ! bar2)
-      {
-         printf( "Failed\n");
-         return( 1);
-      }
-
-      foo2 = [bar2 foo];
-      printf( "%s\n", [foo2 str]);
-      printf( "%f\n", [foo2 d]);
-      printf( "%d\n", [foo2 i]);
+      data = [NSKeyedArchiver archivedDataWithRootObject:bar];
+      bar2 = [NSKeyedUnarchiver unarchiveObjectWithData:data];
    }
+   @catch( NSException *localException)
+   {
+      NSLog( @"Exception: %@", localException);
+      return( 1);
+   }
+
+   if( ! bar2)
+   {
+      printf( "Failed\n");
+      return( 1);
+   }
+
+   foo2 = [bar2 foo];
+   printf( "%s\n", [foo2 str]);
+   printf( "%f\n", [foo2 d]);
+   printf( "%d\n", [foo2 i]);
+   
    return( 0);
 }

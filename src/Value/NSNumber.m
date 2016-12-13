@@ -249,7 +249,7 @@ static inline id   newNumberWithLongLong( long long  value)
    assert( sizeof( long long) == sizeof( int64_t));
    
    if( value <= LONG_MAX && value >= LONG_MIN)
-      return( newNumberWithLong( value));
+      return( newNumberWithLong( (long) value));
    return( [_MulleObjCInt64Number newWithInt64:value]);
 }
 

@@ -9,6 +9,8 @@
 #import "_MulleObjCTaggedPointerIntegerNumber.h"
 
 
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+
 @implementation _MulleObjCTaggedPointerIntegerNumber
 
 + (void) load
@@ -85,3 +87,5 @@
 }
 
 @end
+
+#endif

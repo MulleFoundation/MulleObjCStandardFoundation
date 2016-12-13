@@ -13,13 +13,6 @@
 			buildPhases = (
 			);
 			dependencies = (
-				41E13D9A1CD272BB00CE0304 /* PBXTargetDependency */,
-				41E13D9C1CD272BB00CE0304 /* PBXTargetDependency */,
-				41E13D9E1CD272BB00CE0304 /* PBXTargetDependency */,
-				41E13DA01CD272BB00CE0304 /* PBXTargetDependency */,
-				41E13DA21CD272BB00CE0304 /* PBXTargetDependency */,
-				41E13DA41CD272BB00CE0304 /* PBXTargetDependency */,
-				418B05771CB2950B0033DFCB /* PBXTargetDependency */,
 				41972F571CA424A800B301DE /* PBXTargetDependency */,
 			);
 			name = Libraries;
@@ -445,13 +438,6 @@
 			remoteGlobalIDString = 41BEC5781CB12DA5006531B6;
 			remoteInfo = MulleObjCNotification;
 		};
-		418B05761CB2950B0033DFCB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 418B053B1CB293CF0033DFCB;
-			remoteInfo = MulleObjCFoundation;
-		};
 		41972F561CA424A800B301DE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
@@ -507,48 +493,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 41F896281C9C13F800971F63;
 			remoteInfo = MulleObjCBase;
-		};
-		41E13D991CD272BB00CE0304 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 41F896281C9C13F800971F63;
-			remoteInfo = MulleObjCCore;
-		};
-		41E13D9B1CD272BB00CE0304 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4105922E1CC5725000C6BF2E;
-			remoteInfo = MulleObjCArchiver;
-		};
-		41E13D9D1CD272BB00CE0304 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 413C51E71CC2948900F62468;
-			remoteInfo = MulleObjCKVC;
-		};
-		41E13D9F1CD272BB00CE0304 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 41B753B61CCE206E00E7845D;
-			remoteInfo = MulleObjCLocale;
-		};
-		41E13DA11CD272BB00CE0304 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 41BEC5781CB12DA5006531B6;
-			remoteInfo = MulleObjCNotification;
-		};
-		41E13DA31CD272BB00CE0304 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41EA01511C9721F800C8ACD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 41B754631CCE229D00E7845D;
-			remoteInfo = MulleObjCPropertyList;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -937,18 +881,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				415E74AC1DF099CD00F142A2 /* libmulle_buffer.a in Frameworks */,
-				415E74AD1DF099CD00F142A2 /* libmulle_vararg.a in Frameworks */,
 				41512F3C1CE0DCB8008D1D4F /* libMulleObjCFoundation.a in Frameworks */,
 				41EA8D731C9F31D8007CEAE8 /* libMulleObjC.a in Frameworks */,
-				41791B6D1D33A1C300D4D502 /* libmulle_objc.a in Frameworks */,
+				415E74AD1DF099CD00F142A2 /* libmulle_vararg.a in Frameworks */,
 				41EA8D811C9F3C11007CEAE8 /* libmulle_utf.a in Frameworks */,
-				41998A521CB67EDC00D18DD8 /* libmulle_sprintf.a in Frameworks */,
-				41EA8D741C9F31D8007CEAE8 /* libmulle_thread.a in Frameworks */,
-				41EA8D791C9F31D8007CEAE8 /* libmulle_allocator.a in Frameworks */,
 				41EA8D751C9F31D8007CEAE8 /* libmulle_test_allocator.a in Frameworks */,
+				41EA8D741C9F31D8007CEAE8 /* libmulle_thread.a in Frameworks */,
+				41998A521CB67EDC00D18DD8 /* libmulle_sprintf.a in Frameworks */,
+				41791B6D1D33A1C300D4D502 /* libmulle_objc.a in Frameworks */,
 				41EA8D771C9F31D8007CEAE8 /* libmulle_container.a in Frameworks */,
 				41EA8D781C9F31D8007CEAE8 /* libmulle_concurrent.a in Frameworks */,
+				415E74AC1DF099CD00F142A2 /* libmulle_buffer.a in Frameworks */,
+				41EA8D791C9F31D8007CEAE8 /* libmulle_allocator.a in Frameworks */,
 				41EA8D7A1C9F31D8007CEAE8 /* libmulle_aba.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2260,11 +2204,6 @@
 			target = 41BEC5781CB12DA5006531B6 /* MulleObjCNotification */;
 			targetProxy = 418B05481CB293DE0033DFCB /* PBXContainerItemProxy */;
 		};
-		418B05771CB2950B0033DFCB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 418B053B1CB293CF0033DFCB /* MulleObjCFoundation */;
-			targetProxy = 418B05761CB2950B0033DFCB /* PBXContainerItemProxy */;
-		};
 		41972F571CA424A800B301DE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 41EA8D5F1C9F31B2007CEAE8 /* MulleObjCFoundationStandalone */;
@@ -2304,36 +2243,6 @@
 			isa = PBXTargetDependency;
 			target = 41F896281C9C13F800971F63 /* MulleObjCCore */;
 			targetProxy = 41BEC5A61CB1635D006531B6 /* PBXContainerItemProxy */;
-		};
-		41E13D9A1CD272BB00CE0304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 41F896281C9C13F800971F63 /* MulleObjCCore */;
-			targetProxy = 41E13D991CD272BB00CE0304 /* PBXContainerItemProxy */;
-		};
-		41E13D9C1CD272BB00CE0304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4105922E1CC5725000C6BF2E /* MulleObjCArchiver */;
-			targetProxy = 41E13D9B1CD272BB00CE0304 /* PBXContainerItemProxy */;
-		};
-		41E13D9E1CD272BB00CE0304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 413C51E71CC2948900F62468 /* MulleObjCKVC */;
-			targetProxy = 41E13D9D1CD272BB00CE0304 /* PBXContainerItemProxy */;
-		};
-		41E13DA01CD272BB00CE0304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 41B753B61CCE206E00E7845D /* MulleObjCLocale */;
-			targetProxy = 41E13D9F1CD272BB00CE0304 /* PBXContainerItemProxy */;
-		};
-		41E13DA21CD272BB00CE0304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 41BEC5781CB12DA5006531B6 /* MulleObjCNotification */;
-			targetProxy = 41E13DA11CD272BB00CE0304 /* PBXContainerItemProxy */;
-		};
-		41E13DA41CD272BB00CE0304 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 41B754631CCE229D00E7845D /* MulleObjCPropertyList */;
-			targetProxy = 41E13DA31CD272BB00CE0304 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -45,7 +45,7 @@
 
 - (NSUInteger) _UTF8StringLength
 {
-   return( mulle_utf16_length_as_utf8( [self _fastUTF16Characters], _length));
+   return( mulle_utf16_utf8length( [self _fastUTF16Characters], _length));
 }
 
 
@@ -56,7 +56,7 @@
    if( ! _shadow)
    {
       mulle_buffer_init( &buf, MulleObjCObjectGetAllocator( self));
-      mulle_utf16_convert_to_utf8_bytebuffer( [self _fastUTF16Characters],
+      mulle_utf16_bufferconvert_to_utf8( [self _fastUTF16Characters],
                                               [self _UTF16StringLength],
                                               &buf,
                                               (void (*)()) mulle_buffer_add_bytes);

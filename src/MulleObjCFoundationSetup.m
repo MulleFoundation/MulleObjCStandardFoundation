@@ -22,8 +22,8 @@
 #pragma mark versioning
 
 static void   versionassert( struct _mulle_objc_runtime *runtime,
-                            void *friend,
-                            struct mulle_objc_loadversion *version)
+                             void *friend,
+                             struct mulle_objc_loadversion *version)
 {
    if( (version->foundation & ~0xFF) != (MULLE_OBJC_FOUNDATION_VERSION & ~0xFF))
       _mulle_objc_runtime_raise_inconsistency_exception( runtime, "mulle_objc_runtime %p: foundation version set to %x but runtime foundation is %x",

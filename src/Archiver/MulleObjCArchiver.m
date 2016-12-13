@@ -253,13 +253,19 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       return;
    }
    
+   fprintf( stderr, "check _objectSubstitutions for %p\n", obj);
    other = NSMapGet( _objectSubstitutions, obj);
    if( other)
+   {
+      fprintf( stderr, "substituted %p with %p\n", obj, other);
       obj = other;
+   }
    
+   fprintf( stderr, "check _objects.map for %p\n", obj);
    handle = (intptr_t) mulle_map_get( &_objects.map, obj);
    if( ! handle)
    {
+      fprintf( stderr, "check _conditionalObjects.map for %p\n", obj);
       handle = (intptr_t) mulle_map_get( &_conditionalObjects.map, obj);
       if( ! handle)
          handle = ++_objectHandle;

@@ -89,6 +89,8 @@
    struct mulle_buffer   memo;
    unsigned char         tmp[ 0x400];
    
+   fprintf( stderr, "key=%p\n", key);
+   
    [self _appendKey:key];
    
    memo = _buffer;
@@ -121,6 +123,10 @@
 - (void) encodeObject:(id) obj
                forKey:(NSString *) key
 {
+   fprintf( stderr, "key=%p\n", key);
+   fprintf( stderr, "obj=%p\n", obj);
+   fprintf( stderr, "obj=%p\n", &obj);
+
    [self encodeValueOfObjCType:@encode( id)
                             at:&obj
                            key:key];
