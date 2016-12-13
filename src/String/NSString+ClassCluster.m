@@ -89,7 +89,7 @@ static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, NS
 
    // make intital alloc large enough for optimal case
    mulle_buffer_guarantee( &buffer, length * sizeof( mulle_utf16_t));
-   mulle_utf8_convert_to_utf16_bytebuffer( s,
+   mulle_utf8_bufferconvert_to_utf16( s,
                                            length,
                                            &buffer,
                                            (void (*)()) mulle_buffer_add_bytes);
@@ -115,10 +115,10 @@ static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s, 
    
    // make intital alloc large enough for optimal case
    mulle_buffer_guarantee( &buffer, length * sizeof( mulle_utf16_t));
-   mulle_utf32_convert_to_utf16_bytebuffer( s,
-                                            length,
-                                            &buffer,
-                                            (void (*)()) mulle_buffer_add_bytes);
+   mulle_utf32_bufferconvert_to_utf16( s,
+                                       length,
+                                       &buffer,
+                                       (void (*)()) mulle_buffer_add_bytes);
    
    utf16len = mulle_buffer_get_length( &buffer) / sizeof( mulle_utf16_t);
    utf16    = mulle_buffer_extract_all( &buffer);
@@ -143,7 +143,7 @@ static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s, NS
    
    // make intital alloc large enough for optimal case
    mulle_buffer_guarantee( &buffer, length * sizeof( mulle_utf32_t));
-   mulle_utf8_convert_to_utf32_bytebuffer( s,
+   mulle_utf8_bufferconvert_to_utf32( s,
                                            length,
                                            &buffer,
                                            (void (*)()) mulle_buffer_add_bytes);
@@ -322,7 +322,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    // make it a regular string
    if( info->is_utf15)
    {
-      mulle_utf8_convert_to_utf16_bytebuffer( info->start,
+      mulle_utf8_bufferconvert_to_utf16( info->start,
                                               info->utf8len,
                                               &buffer,
                                               (void (*)()) mulle_buffer_add_bytes);
@@ -335,7 +335,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    }
    else
    {
-      mulle_utf8_convert_to_utf32_bytebuffer( info->start,
+      mulle_utf8_bufferconvert_to_utf32( info->start,
                                               info->utf8len,
                                               &buffer,
                                               (void (*)()) mulle_buffer_add_bytes);

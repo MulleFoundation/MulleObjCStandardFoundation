@@ -30,7 +30,7 @@ static void   test( mulle_utf32_t text[ 4])
    NSString        *s8;
 
    memset( &buffer8, 0, sizeof( buffer8));
-   mulle_utf32_convert_to_utf8_bytebuffer( text, 4, &buffer8, (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf8( text, 4, &buffer8, (void *) buffer_add);
 
    s8 = [NSString _stringWithUTF8Characters:buffer8.text._8
                                      length:buffer8.n];

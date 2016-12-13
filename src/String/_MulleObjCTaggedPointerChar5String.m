@@ -11,6 +11,8 @@
 #import "MulleObjCFoundationData.h"
 
 
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+
 @implementation _MulleObjCTaggedPointerChar5String
 
 + (void) load
@@ -121,7 +123,7 @@ static void   grab_utf32( id self,
    ctxt.s = (char *) dst;
    ctxt.n = 0;
    
-   mulle_utf8_convert_to_utf32_bytebuffer( buf, range.length, &ctxt, (void (*)()) buffer_add);
+   mulle_utf8_bufferconvert_to_utf32( buf, range.length, &ctxt, (void (*)()) buffer_add);
 }
 
 
@@ -214,3 +216,5 @@ static void   grab_utf32( id self,
 }
 
 @end
+
+#endif

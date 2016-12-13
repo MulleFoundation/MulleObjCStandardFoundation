@@ -43,6 +43,7 @@
       _str = MulleObjCObjectDuplicateCString( self, buf);
    else
       _str = NULL;
+   fprintf( stderr, "_str=%p\n", _str);
 
    return( self);
 }
@@ -64,6 +65,7 @@
 {
    MulleObjCObjectDeallocateMemory( self, _str);
    _str = s ? MulleObjCObjectDuplicateCString( self, s) : s;
+   fprintf( stderr, "_str=%p\n", _str);
 }
 
 @end
@@ -76,6 +78,7 @@
    [self init];
 
    _foo = [[decoder decodeObjectForKey:@"foo"] retain];
+   fprintf( stderr, "_foo=%p\n", _foo);
 
    return( self);
 }
@@ -83,6 +86,7 @@
 
 - (void) encodeWithCoder:(NSCoder *) coder
 {
+   fprintf( stderr, "_foo=%p\n", _foo);
    [coder encodeObject:_foo
                 forKey:@"foo"];
 }
@@ -101,6 +105,9 @@ int   main( int argc, const char * argv[])
    @autoreleasepool
    {
       foo = [[Foo new] autorelease];
+      [foo hash];
+
+      fprintf( stderr, "foo=%p\n", foo);
 
       [foo setStr:"VfL Bochum 1848"];
       [foo setD:18.48];
@@ -108,6 +115,8 @@ int   main( int argc, const char * argv[])
 
       bar = [[Bar new] autorelease];
       [bar setFoo:foo];
+
+      fprintf( stderr, "bar=%p\n", foo);
 
       bar2 = nil;
       @try

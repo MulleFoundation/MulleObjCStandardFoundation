@@ -1,0 +1,44 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "44D612CEFA19270A25B9F3139B736594CADF353F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "0A543FB830634CB9277CDC83657DF0BFEBA5A630" : 0,
+    "702112EDA76C85EBB39E5D86253CD1197F147C29" : 0,
+    "44D612CEFA19270A25B9F3139B736594CADF353F" : 0,
+    "90C3FD88F8002F902A5FDF9D64063244571F233C" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9DE96302-FE5E-4700-A376-52180006FAD0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "0A543FB830634CB9277CDC83657DF0BFEBA5A630" : "MulleObjC\/",
+    "702112EDA76C85EBB39E5D86253CD1197F147C29" : "MulleObjCFoundation\/mulle-configuration\/",
+    "44D612CEFA19270A25B9F3139B736594CADF353F" : "MulleObjCFoundation\/",
+    "90C3FD88F8002F902A5FDF9D64063244571F233C" : "..\/src\/unix\/http-parser"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MulleObjCFoundation",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MulleObjCFoundation.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gitolite.mulle-kybernetik.com:MulleObjC",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0A543FB830634CB9277CDC83657DF0BFEBA5A630"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gitolite.mulle-kybernetik.com:MulleObjCFoundation",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "44D612CEFA19270A25B9F3139B736594CADF353F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "\/Volumes\/Source\/srcM\/MulleObjCFoundation\/..\/mulle-configuration",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "702112EDA76C85EBB39E5D86253CD1197F147C29"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nodejs\/http-parser.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "90C3FD88F8002F902A5FDF9D64063244571F233C"
+    }
+  ]
+}

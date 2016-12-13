@@ -30,10 +30,10 @@ static void   test( mulle_utf32_t text[ 4], size_t expect)
    NSString        *s;
 
    memset( &buffer16, 0, sizeof( buffer16));
-   mulle_utf32_convert_to_utf16_bytebuffer( text,
-                                            4,
-                                            &buffer16,
-                                            (void *) buffer_add);
+   mulle_utf32_bufferconvert_to_utf16( text,
+                                       4,
+                                       &buffer16,
+                                       (void *) buffer_add);
 
    s = [[[NSString  alloc] initWithBytes:buffer16.text._16
                                   length:0

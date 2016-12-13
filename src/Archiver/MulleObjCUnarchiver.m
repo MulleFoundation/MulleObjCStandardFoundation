@@ -424,7 +424,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    
    _data = [data retain];
    
-   mulle_buffer_init_inflexable_with_static_bytes( &_buffer, [data bytes], [data length]);
+   mulle_buffer_init_inflexible_with_static_bytes( &_buffer, [data bytes], [data length]);
    
    if( ! [self _startDecode])
    {

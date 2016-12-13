@@ -169,17 +169,17 @@ enum
    data = [NSMutableData _nonZeroedDataWithLength:size];
    buf  = [data mutableBytes];
    
-   mulle_buffer_init_inflexable_with_static_bytes( &buffer, buf, size);
+   mulle_buffer_init_inflexible_with_static_bytes( &buffer, buf, size);
 
    if( prefixWithBOM)
    {
-      bom = mulle_utf16_get_bom_char();
+      bom = (mulle_utf16_t) mulle_utf32_get_bomcharacter();
       mulle_buffer_add_bytes( &buffer, &bom, sizeof( bom));
    }
-   mulle_utf32_convert_to_utf16_bytebuffer( info.start,
-                                            info.utf32len,
-                                            &buffer,
-                                            (void (*)()) mulle_buffer_add_bytes);
+   mulle_utf32_bufferconvert_to_utf16( info.start,
+                                       info.utf32len,
+                                       &buffer,
+                                       (void (*)()) mulle_buffer_add_bytes);
    assert( mulle_buffer_get_length( &buffer) == size);
    assert( ! mulle_buffer_has_overflown( &buffer));
    mulle_buffer_done( &buffer);
@@ -226,7 +226,7 @@ enum
    p = buf = [data mutableBytes];
 
    if( prefixWithBOM)
-      *p++ = mulle_utf32_get_bom_char();
+      *p++ = mulle_utf32_get_bomcharacter();
 
    [self getCharacters:p
                  range:NSMakeRange( 0, length)];
@@ -329,7 +329,7 @@ enum
       /* convert to utf8 */
       mulle_buffer_init_with_capacity( &buffer, info.utf8len, allocator);
    
-      mulle_utf16_convert_to_utf8_bytebuffer( info.start,
+      mulle_utf16_bufferconvert_to_utf8( info.start,
                                               info.utf16len,
                                               &buffer,
                                               (void (*)()) mulle_buffer_add_bytes);
@@ -355,7 +355,7 @@ enum
    /* convert to utf32 */
    mulle_buffer_init_with_capacity( &buffer, info.utf32len * sizeof( mulle_utf32_t), allocator);
    
-   mulle_utf16_convert_to_utf32_bytebuffer( info.start,
+   mulle_utf16_bufferconvert_to_utf32( info.start,
                                             info.utf16len,
                                             &buffer,
                                             (void (*)()) mulle_buffer_add_bytes);
