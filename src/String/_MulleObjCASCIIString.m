@@ -1,5 +1,5 @@
 //
-//  MulleObjCASCIIString.h
+//  _MulleObjCASCIIString.m
 //  MulleObjCFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
@@ -632,6 +632,3 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 @end
-
-
-
