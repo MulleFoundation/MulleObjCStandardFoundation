@@ -599,6 +599,8 @@
 		417346761CCB8F16009450F7 /* NSAssertionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAssertionHandler.m; sourceTree = "<group>"; };
 		417515AD1CEBA1AE00B52F56 /* _MulleObjCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCSet.h; sourceTree = "<group>"; };
 		417515AE1CEBA1AE00B52F56 /* _MulleObjCSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCSet.m; sourceTree = "<group>"; };
+		417681291E009477004A837B /* HOWTO_CODE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = HOWTO_CODE.md; path = dox/HOWTO_CODE.md; sourceTree = "<group>"; };
+		4176812A1E0094E4004A837B /* HOWTO_DEPENDENCIES.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = HOWTO_DEPENDENCIES.md; path = dox/HOWTO_DEPENDENCIES.md; sourceTree = "<group>"; };
 		4177A9701D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCTaggedPointerChar5String.h; sourceTree = "<group>"; };
 		4177A9711D32ACFF007DC3D8 /* _MulleObjCTaggedPointerChar5String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCTaggedPointerChar5String.m; sourceTree = "<group>"; };
 		41791B6C1D33A1C300D4D502 /* libmulle_objc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmulle_objc.a; path = dependencies/lib/libmulle_objc.a; sourceTree = "<group>"; };
@@ -1266,6 +1268,8 @@
 			children = (
 				413677891CBDAA2D00A944A9 /* CMakeLists.txt */,
 				417E95881C9DA21500DA9C90 /* README.md */,
+				417681291E009477004A837B /* HOWTO_CODE.md */,
+				4176812A1E0094E4004A837B /* HOWTO_DEPENDENCIES.md */,
 				41D115241CED0AF100264476 /* RELEASENOTES.md */,
 				419FE8031C9858190094A915 /* mulle-configuration */,
 				41EA015C1C9721F800C8ACD3 /* src */,
