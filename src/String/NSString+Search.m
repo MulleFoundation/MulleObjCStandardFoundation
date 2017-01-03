@@ -16,6 +16,9 @@
 // std-c and dependencies
 #include <mulle_utf/mulle_utf.h>
 
+// what's the point of this warning, anyway ?
+#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
+
 
 @implementation NSString (NSSearch)
 

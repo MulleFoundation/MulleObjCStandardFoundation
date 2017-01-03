@@ -39,10 +39,9 @@
 // other files in this library
 
 // other libraries of MulleObjCFoundation
+#import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-
-#import "MulleObjCFoundationException.h"
 
 
 @implementation _MulleObjCMemoryDataInputStream : NSObject

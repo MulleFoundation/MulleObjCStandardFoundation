@@ -44,6 +44,8 @@
 #include <mulle_buffer/mulle_buffer.h>
 #include <mulle_utf/mulle_utf.h>
 
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+
 
 @implementation _MulleObjCASCIIString
 

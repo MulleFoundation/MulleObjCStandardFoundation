@@ -45,6 +45,9 @@
 #import <mulle_buffer/mulle_buffer.h>
 
 
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+
+
 @interface _MulleObjCUTF32String ( Future)
 
 // these are **not** zero terminated

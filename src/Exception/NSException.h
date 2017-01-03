@@ -76,7 +76,7 @@ extern NSString   *NSRangeException;
 
 - (id) initWithName:(NSString *) name
              reason:(NSString *) reason
-           userInfo:(NSDictionary *) userInfo  ;
+           userInfo:(NSDictionary *) userInfo;
 
 - (NSString *) name;
 - (NSString *) reason;

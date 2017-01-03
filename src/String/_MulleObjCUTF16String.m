@@ -45,6 +45,9 @@
 #import <mulle_buffer/mulle_buffer.h>
 
 
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+
+
 @implementation _MulleObjCUTF16String
 
 - (mulle_utf16_t *) _fastUTF16Characters;
