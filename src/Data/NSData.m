@@ -47,6 +47,9 @@
 #import <mulle_buffer/mulle_buffer.h>
 
 
+#if MULLE_BUFFER_VERSION < ((0 << 20) | (4 << 8) | 1)
+# error "mulle_buffer is too old"
+#endif
 
 
 @implementation NSObject ( _NSData)

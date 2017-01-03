@@ -46,6 +46,10 @@
 #include <mulle_utf/mulle_utf.h>
 #include <ctype.h>
 
+#if MULLE_UTF_VERSION < ((1 << 20) | (0 << 8) | 0)
+# error "mulle_utf is too old"
+#endif
+
 
 @implementation NSObject( _NSString)
 
