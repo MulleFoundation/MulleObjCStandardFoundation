@@ -2392,7 +2392,6 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_VERSION = "de.codeon.compilers.mulle-clang";
-				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/include",
 					/usr/local/include,
@@ -2409,6 +2408,7 @@
 				);
 				USER_HEADER_SEARCH_PATHS = "src/Base src/Container src/Container/NSArray src/Container/NSDictionary src/Container/NSSet src/Data src/String src/Exception src/Value";
 				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = "";
 			};
 			name = Debug;
 		};
@@ -2427,7 +2427,6 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_VERSION = "de.codeon.compilers.mulle-clang";
-				GCC_WARN_PEDANTIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/include",
 					/usr/local/include,
@@ -2444,6 +2443,7 @@
 				);
 				USER_HEADER_SEARCH_PATHS = "src/Base src/Container src/Container/NSArray src/Container/NSDictionary src/Container/NSSet src/Data src/String src/Exception src/Value";
 				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = "";
 			};
 			name = Release;
 		};
