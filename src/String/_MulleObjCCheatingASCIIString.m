@@ -37,6 +37,9 @@
 #import "_MulleObjCCheatingASCIIString.h"
 
 
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+
+
 @implementation _MulleObjCCheatingASCIIString
 
 

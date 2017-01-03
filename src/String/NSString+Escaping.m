@@ -46,6 +46,9 @@
 
 // std-c and dependencies
 
+// what's the point of this warning, anyway ?
+#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
+
 
 @implementation NSString (Escaping)
 

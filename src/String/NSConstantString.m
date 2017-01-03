@@ -41,6 +41,8 @@
 
 // std-c and dependencies
 
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+
 
 @implementation NSConstantString
 

@@ -35,6 +35,14 @@
 //
 #import "_MulleObjCDataSubclasses.h"
 
+// other files in this library
+
+// other libraries of MulleObjCFoundation
+
+// std-c and dependencies
+
+
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
 
 @implementation _MulleObjCConcreteData

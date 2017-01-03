@@ -97,23 +97,28 @@
 }
 
 
-- (void) writeData:(NSData *) data
+- (void) writeBytes:(void *) bytes
+             length:(NSUInteger) len
 {
-   size_t   len;
-   
-   len = [data length];
    if( _data && len < MaxToBuffer)
    {
       if( &self->_current[ len] >= self->_sentinel)
          [self flush];
-         
-      memcpy( self->_current, [data bytes], len);
+      
+      memcpy( self->_current, bytes, len);
       self->_current += len;
       return;
    }
-   [_stream writeData:data];
+   [_stream writeBytes:bytes
+                length:len];
 }
 
+
+- (void) writeData:(NSData *) data
+{
+   [self writeBytes:[data bytes]
+             length:[data length]];
+}
 
 
 void   _MulleObjCBufferedDataOutputStreamExtendBuffer( _MulleObjCBufferedDataOutputStream *self)

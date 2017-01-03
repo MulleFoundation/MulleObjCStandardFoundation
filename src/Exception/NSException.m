@@ -44,6 +44,7 @@
 
 // std-c and dependencies
 
+#pragma clang diagnostic ignored "-Winvalid-noreturn"
 
 NSString  *NSInternalInconsistencyException = @"NSInternalInconsistencyException";
 NSString  *NSGenericException               = @"NSGenericException";
