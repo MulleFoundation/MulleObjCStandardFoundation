@@ -33,20 +33,20 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 #import "NSCharacterSet.h"
 
 #import <mulle_vararg/mulle_vararg.h>
 
 
-enum 
+enum
 {
    NSCaseInsensitiveSearch = 0x001,
-   NSLiteralSearch         = 0x002,  
+   NSLiteralSearch         = 0x002,
    NSBackwardsSearch       = 0x004,
    NSAnchoredSearch        = 0x008,
-   NSNumericSearch         = 0x040 
+   NSNumericSearch         = 0x040
 };
 
 typedef NSUInteger   NSStringCompareOptions;
@@ -87,7 +87,7 @@ typedef NSUInteger   NSStringCompareOptions;
 // in all other cases use UTF8String
 //
 
-@interface NSString : NSObject < MulleObjCClassCluster, NSCopying, NSCoding>
+@interface NSString : NSObject < MulleObjCClassCluster, NSCopying>
 {
 }
 
@@ -177,12 +177,12 @@ typedef NSUInteger   NSStringCompareOptions;
 - (id) stringByPaddingToLength:(NSUInteger) length
                     withString:(NSString *) other
                 startingAtIndex:(NSUInteger) index;
-                
+
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) search
                                          withString:(NSString *) replacement
                                             options:(NSUInteger) options
                                               range:(NSRange) range;
-                                    
+
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) search
                                          withString:(NSString *) replacement;
 

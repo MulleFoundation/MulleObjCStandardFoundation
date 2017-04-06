@@ -55,12 +55,12 @@ typedef struct
 _MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY      // allow public access for internal use
 #endif
    id <_MulleObjCInputDataStream >  _stream;
-   
-   NSData          *_data;   
+
+   NSData          *_data;
    unsigned char   *_current;
-   unsigned char   *_sentinel; 
-   
-   unsigned char   *_bookmark; 
+   unsigned char   *_sentinel;
+
+   unsigned char   *_bookmark;
    NSMutableData   *_bookmarkData;
 }
 

@@ -72,13 +72,19 @@ extern struct mulle_container_valuecallback   *MulleObjCContainerObjectValueCopy
 
 
 extern struct mulle_container_keycallback     NSIntMapKeyCallBacks;
-extern struct mulle_container_keycallback     NSIntegerMapKeyCallBacks;
 extern struct mulle_container_valuecallback   NSIntMapValueCallBacks;
+extern struct mulle_container_keycallback     NSIntegerMapKeyCallBacks;
 extern struct mulle_container_valuecallback   NSIntegerMapValueCallBacks;
 extern struct mulle_container_keycallback     NSNonOwnedPointerMapKeyCallBacks;
-extern struct mulle_container_keycallback     NSOwnedPointerMapKeyCallBacks;
 extern struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks;
+extern struct mulle_container_keycallback     NSOwnedPointerMapKeyCallBacks;
 extern struct mulle_container_valuecallback   NSOwnedPointerMapValueCallBacks;
+
+
+
+//extern NSHashTableCallBacks   MulleObjCNonRetainedObjectHashCallBacks;
+//extern NSHashTableCallBacks   MulleObjCObjectHashCallBacks;
+//extern NSHashTableCallBacks   MulleObjCOwnedObjectIdentityHashCallBacks;
 
 
 #endif

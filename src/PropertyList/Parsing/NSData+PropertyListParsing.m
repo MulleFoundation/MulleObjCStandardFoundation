@@ -50,35 +50,35 @@
 
 static inline int   hex( _MulleObjCPropertyListReader *reader, char c)
 {
-    switch( c) 
+    switch( c)
     {
-    case '0': 
-    case '1': 
-    case '2': 
-    case '3': 
+    case '0':
+    case '1':
+    case '2':
+    case '3':
     case '4':
-    case '5': 
-    case '6': 
-    case '7': 
-    case '8': 
+    case '5':
+    case '6':
+    case '7':
+    case '8':
     case '9':
-        return( c - '0'); 
-    
-    case 'A': 
-    case 'B': 
+        return( c - '0');
+
+    case 'A':
+    case 'B':
     case 'C':
-    case 'D': 
+    case 'D':
     case 'E':
     case 'F':
-        return( c - 'A' + 10); 
-    
-    case 'a': 
-    case 'b': 
+        return( c - 'A' + 10);
+
+    case 'a':
+    case 'b':
     case 'c':
-    case 'd': 
-    case 'e': 
+    case 'd':
+    case 'e':
     case 'f':
-        return( c - 'a' + 10); 
+        return( c - 'a' + 10);
 
     default:
         _MulleObjCPropertyListReaderFail( reader, @"invalid hex nybble '%c' ($%X)", c, c);
@@ -98,11 +98,11 @@ NSData   *_MulleObjCNewDataFromPropertyListWithReader( _MulleObjCPropertyListRea
    unsigned char   *srcSentinel;
    //unsigned char   *dstSentinel;
    size_t          len;
-   
+
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // skip '<'
    if( x != '<')
       return( nil);
-      
+
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '<'
    x = _MulleObjCPropertyListReaderSkipWhite( reader);
    if( x == '>')
@@ -110,29 +110,29 @@ NSData   *_MulleObjCNewDataFromPropertyListWithReader( _MulleObjCPropertyListRea
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '<'
       return( [reader->nsDataClass new]);
    }
-   
+
    [reader bookmark];
-   
+
    _MulleObjCPropertyListReaderSkipUntil( reader, '>');
-   
+
    region = _MulleObjCPropertyListReaderBookmarkedRegion( reader);
-   
+
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
    if( x != '>')
       return( (id) _MulleObjCPropertyListReaderFail( reader, @"unexpected garbage at end of NSData"));
-      
+
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '>'
-   
+
    len         = region.length;
    buffer      = [[NSMutableData alloc] initWithLength:len / 2];
-   
+
    src         = region.bytes;
-   srcSentinel = &src[ len];   
+   srcSentinel = &src[ len];
 
    dst         = (unsigned char *) [buffer mutableBytes];
-   //dstSentinel = &dst[ len / 2];   
+   //dstSentinel = &dst[ len / 2];
    start       = dst;
-   
+
    while( src < srcSentinel)
    {
       if( *src == ' ')
@@ -140,13 +140,13 @@ NSData   *_MulleObjCNewDataFromPropertyListWithReader( _MulleObjCPropertyListRea
          ++src;
          continue;
       }
-         
+
       *dst++ = (unsigned char) ((hex( reader,  src[ 0]) << 4) | hex( reader, src[ 1]));
       src   += 2;
    }
-   
+
    [buffer setLength:dst-start];
-   
+
    return( buffer);
 }
 

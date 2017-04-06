@@ -55,7 +55,7 @@ NSString  *NSAssertionHandlerKey = @"NSAssertionHandler";
 {
    NSMutableDictionary   *dictionary;
    NSAssertionHandler    *handler;
-   
+
    dictionary = [[NSThread currentThread] threadDictionary];
    handler = [dictionary objectForKey:NSAssertionHandlerKey];
    if( ! handler)
@@ -75,18 +75,18 @@ NSString  *NSAssertionHandlerKey = @"NSAssertionHandler";
 // it's not very telling... is it ?
 //
 static void   failure( NSString *name,
-                       NSString *fileName, 
-                       NSInteger line, 
+                       NSString *fileName,
+                       NSInteger line,
                        NSString *desc)
 {
    NSString   *s;
-   
+
    s = [NSString stringWithFormat:@"*** Assertion failure in %@, %@:%ld",
          name, fileName, (long) line];
-   
+
    if( [desc length])
       s = [NSString stringWithFormat:@"%@ %@", s, desc];
-   
+
    fprintf( stderr, "%s\n", [s UTF8String]);
    abort();
 }
@@ -110,16 +110,16 @@ static void  handleFailureInMethod( SEL selector,
    NSString   *s;
    NSString   *selName;
    BOOL       flag;
-   
+
    // test to see if object is a class
    flag    = [object respondsToSelector:@selector( instancesRespondToSelector:)];
    selName = NSStringFromSelector( selector);
-   
+
    if( flag)
       s = [NSString stringWithFormat:@"+[%@ %@]", NSStringFromClass( object), selName];
    else
       s = [NSString stringWithFormat:@"-[%@ %@]", [object class], selName];
-   
+
    failure( s, fileName, line, desc);
 }
 
@@ -133,13 +133,13 @@ static void  handleFailureInMethod( SEL selector,
 {
    mulle_vararg_list    args;
    NSString             *desc;
-   
+
    mulle_vararg_start( args, format);
-   
+
    desc = [NSString stringWithFormat:format
                            arguments:args];
    mulle_vararg_end( args);
-   
+
    handleFailureInMethod( sel, obj, filename, line, desc);
 }
 
@@ -151,13 +151,13 @@ static void  handleFailureInMethod( SEL selector,
 {
    mulle_vararg_list    args;
    NSString             *desc;
-   
+
    mulle_vararg_start( args, format);
-   
+
    desc = [NSString stringWithFormat:format
                             arguments:args];
    mulle_vararg_end( args);
-   
+
    handleFailureInFunction( functionname, filename, line, desc);
 }
 
@@ -172,15 +172,15 @@ void   NSAssertionHandlerHandleMethodFailure( SEL sel,
    va_list    args;
    NSString   *desc;
    NSString   *filename;
-   
+
    va_start( args, format);
-   
+
    desc = [NSString stringWithFormat:format
                              va_list:args];
    va_end( args);
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];
-   
+
    filename = [NSString stringWithUTF8String:file];
    [[NSAssertionHandler currentHandler] handleFailureInMethod:sel
                                                        object:obj
@@ -199,17 +199,17 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
    NSString   *desc;
    NSString   *filename;
    NSString   *functionname;
-   
+
    va_start( args, format);
    desc = [NSString stringWithFormat:format
                              va_list:args];
    va_end( args);
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];
-   
+
    functionname = [NSString stringWithUTF8String:function];
    filename     = [NSString stringWithUTF8String:file];
-   
+
    [[NSAssertionHandler currentHandler] handleFailureInFunction:functionname
                                                             file:filename
                                                       lineNumber:line

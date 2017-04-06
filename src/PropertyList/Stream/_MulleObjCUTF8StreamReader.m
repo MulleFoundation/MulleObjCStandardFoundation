@@ -51,16 +51,16 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 - (id) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
 {
    NSCParameterAssert( [stream isKindOfClass:[_MulleObjCBufferedDataInputStream class]]);
-   
+
    [self init];
-   
+
    _stream = [stream retain];
-   
+
    // get first character loaded in
    __NSUTF8StreamReaderFirstUTF32Character( self);
    // set first lineNr
    self->_lineNr = 1;
-   
+
    return( self);
 }
 
@@ -69,7 +69,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 {
    _MulleObjCBufferedDataInputStream  *stream;
    NSData                            *data;
-   
+
    [self init];
 
    data   = [s dataUsingEncoding:NSUTF8StringEncoding];
@@ -80,9 +80,9 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 
 - (void) dealloc
-{  
+{
    [_stream release];
-   
+
    [super dealloc];
 }
 
@@ -102,7 +102,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 - (NSData *) bookmarkedData
 {
    // our stop and quote characters are ASCII...
-   
+
    return( [_stream bookmarkedData]);
 }
 
@@ -117,7 +117,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
             va_list:(va_list) args
 {
    NSString   *s;
-   
+
    s = [NSString stringWithFormat:format
                           va_list:args];
    fprintf( stderr, "%s\n", [s UTF8String]);
@@ -141,23 +141,23 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 // sigh... bits are not very cleverly ordered in UTF8...
 // what happened before this call, someone peaked at the current character
 // and saw that top bit was set
-// 
+//
 long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *self, unsigned char x)
 {
    int    i;
    long   value;
    int    c;
-   
+
    if( x < 0xC2) // invalid at start
       return( x);
 
    i     = 0;
    value = x & ((x < 0xE0) ? 0x1E : (x < 0xF0) ? 0xF : 0x3);
-   
+
    do
    {
       c = _MulleObjCBufferedDataInputStreamNextCharacter( self->_stream);
-      
+
       if( c < 0)
          return( 0xFFFD);  // replacement character for corrupted stuff at end of file
       x = (unsigned char) c;
@@ -166,8 +166,8 @@ long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *
       value <<= 6;
       value  |= x & 0x3F;
    }
-   while( ++i < 4); 
-   
+   while( ++i < 4);
+
    return( value);
 }
 

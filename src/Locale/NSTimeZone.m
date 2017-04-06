@@ -70,29 +70,28 @@
 
 @implementation NSTimeZone
 
-
 + (id) timeZoneWithName:(NSString *) name
 {
    return( [[[self alloc] initWithName:name] autorelease]);
 }
-   
-   
-+ (id) timeZoneWithName:(NSString *) name 
+
+
++ (id) timeZoneWithName:(NSString *) name
                    data:(NSData *) data
 {
    return( [[[self alloc] initWithName:name
                                   data:data] autorelease]);
-}                   
+}
 
 
-- (id) initWithName:(NSString *) name 
+- (id) initWithName:(NSString *) name
                data:(NSData *) data;
 {
    [self init];
-   
+
    _name = [name copy];
    _data = [_data copy];
-   
+
    return( self);
 }
 
@@ -104,7 +103,7 @@
 
    [super dealloc];
 }
-   
+
 
 - (id) copy
 {
@@ -118,11 +117,11 @@
 + (id) timeZoneWithAbbreviation:(NSString *) key
 {
    NSString  *name;
-   
+
    name = [[self abbreviationDictionary] objectForKey:key];
    if( ! name)
       return( nil);
-      
+
    return( [self timeZoneWithName:name]);
 }
 
@@ -145,7 +144,7 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
 + (NSTimeZone *) systemTimeZone
 {
    NSTimeZone   *timeZone;
-   
+
    timeZone = [self classValueForKey:NSSystemTimeZoneKey];
    if( ! timeZone)
    {
@@ -160,7 +159,7 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
 + (void) resetSystemTimeZone
 {
    NSTimeZone   *timeZone;
-   
+
    timeZone   = [self _uncachedSystemTimeZone];
    [self setClassValue:timeZone
                 forKey:NSSystemTimeZoneKey];
@@ -170,7 +169,7 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
 + (NSTimeZone *) defaultTimeZone
 {
    NSTimeZone   *timeZone;
-   
+
    timeZone = [self classValueForKey:NSDefaultTimeZoneKey];
    if( ! timeZone)
       timeZone = [self systemTimeZone];
@@ -197,6 +196,34 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
    if( ! tz)
       return( NO);
    return( [_data isEqualToData:[tz data]]);
+}
+
+
+- (NSInteger) secondsFromGMT
+{
+   return( [self secondsFromGMTForDate:[NSDate date]]);
+}
+
+
+- (NSString *) abbreviation
+{
+   return( [self abbreviationForDate:[NSDate date]]);
+}
+
+
+- (BOOL) isDaylightSavingTime
+{
+   return( [self isDaylightSavingTimeForDate:[NSDate date]]);
+}
+
+
+- (NSString *) description
+{
+   return( [NSString stringWithFormat:@"%@ (%@) offset %ld%s",
+                                 _name,
+                                 [self abbreviation],
+                                 [self secondsFromGMT],
+                                 [self isDaylightSavingTime] ? " (Daylight)" : ""]);
 }
 
 @end

@@ -70,8 +70,8 @@
 
 - (void) replaceBytesInRange:(NSRange) range
                     withBytes:(void *) bytes;
-- (void) replaceBytesInRange:(NSRange) range 
-                    withBytes:(void *) replacementBytes 
+- (void) replaceBytesInRange:(NSRange) range
+                    withBytes:(void *) replacementBytes
                        length:(NSUInteger) replacementLength;
 
 - (void) setLength:(NSUInteger) length;

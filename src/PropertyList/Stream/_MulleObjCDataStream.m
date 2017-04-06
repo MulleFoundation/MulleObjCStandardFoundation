@@ -49,7 +49,7 @@
 - (id) initWithData:(NSData *) data
 {
    _data = [data retain];
-   
+
    return( self);
 }
 
@@ -57,7 +57,7 @@
 - (void) dealloc
 {
    [_data release];
-   
+
    [super dealloc];
 }
 
@@ -66,13 +66,13 @@
 {
    unsigned char   *dst;
    NSData          *data;
-   
+
    if( ! _current)
    {
       _current  = (unsigned char *) [_data bytes];
       _sentinel = &_current[ [_data length]];
    }
-   
+
    //
    // if isa is NSMutableData and you changed something, then reading will
    // fail miserably. Could reimplement this in NSMutableData or so, to
@@ -80,17 +80,17 @@
    //
    NSParameterAssert( _current >= (unsigned char *) [_data bytes]);
    NSParameterAssert( _current <= &((unsigned char *)[_data bytes])[ [_data length]]);
-   
+
    dst = &_current[ length];
    if( dst > _sentinel)
    {
       length -= (dst - _sentinel);
       dst     = _sentinel;
    }
-   
+
    if( ! length)
       return( nil);
-      
+
    data = [NSData dataWithBytes:_current
                          length:length];
    _current = dst;

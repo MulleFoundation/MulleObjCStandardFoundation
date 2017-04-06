@@ -55,7 +55,7 @@ NSTimeZone    *_MulleObjCPropertyListCanonicalPrintingTimeZone;
 - (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent
 {
    NSString   *s;
-   
+
    s = [self descriptionWithCalendarFormat:_MulleObjCPropertyListCanonicalPrintingCalendarFormat
                                   timeZone:_MulleObjCPropertyListCanonicalPrintingTimeZone
                                     locale:_MulleObjCPropertyListCanonicalPrintingLocale];

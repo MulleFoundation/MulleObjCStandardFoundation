@@ -34,8 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <MulleObjC/MulleObjC.h>
-
+#import "NSCoder.h"
 
 #include <mulle_buffer/mulle_buffer.h>
 #include "ns_map_table.h"
@@ -52,7 +51,7 @@ struct MulleObjCPointerHandleMap
 @class NSMutableData;
 
 extern NSString  *NSInconsistentArchiveException;
-
+extern NSString  *NSInvalidArchiveOperationException;
 
 //
 // the MulleObjCArchiver supplies the mechanics but actually does not
@@ -61,23 +60,23 @@ extern NSString  *NSInconsistentArchiveException;
 @interface MulleObjCArchiver : NSCoder
 {
    struct mulle_buffer                      _buffer;
-   
+
    struct MulleObjCPointerHandleMap         _objects;
    struct MulleObjCPointerHandleMap         _conditionalObjects;
    struct MulleObjCPointerHandleMap         _classes;
    struct MulleObjCPointerHandleMap         _selectors;
-   
+
    struct mulle_container_keyvaluecallback  _callback;
-   
+
    struct MulleObjCPointerHandleMap         _blobs;
    struct mulle_container_keyvaluecallback  _blob_callback;
-   
+
    NSMapTable                               *_classNameSubstitutions;
    NSMapTable                               *_objectSubstitutions;
    NSMapTable                               *_offsets;
-   
+
    intptr_t                                 _objectHandle;
-   
+
    struct mulle_allocator                   _allocator;
 }
 

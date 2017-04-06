@@ -74,7 +74,7 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
    _domain = [domain copy];
    _code   = code;
    _userInfo = [userInfo copy];
-   
+
    return( self);
 }
 
@@ -130,7 +130,7 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 {
    if( ! error)
       MulleObjCThrowInvalidArgumentException( @"error must not be nil");
-   
+
    [[[NSThread currentThread] threadDictionary] setObject:error
                                                    forKey:NSErrorKey];
 }

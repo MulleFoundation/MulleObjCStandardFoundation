@@ -50,9 +50,9 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
    NSMutableArray      *array;
    NSHashEnumerator    rover;
    void                *item;
-   
+
    array = nil;
-   
+
    rover = NSEnumerateHashTable( table);
    while( item = NSNextHashEnumeratorItem( &rover))
    {
@@ -63,7 +63,7 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
    NSEndHashTableEnumeration( &rover);
 
    return( array);
-   
+
 }
 
 NSString   *NSStringFromHashTable( NSHashTable *table)
@@ -73,10 +73,10 @@ NSString   *NSStringFromHashTable( NSHashTable *table)
    NSHashEnumerator    rover;
    void                *item;
    NSString            *separator;
-   
+
    s         = [NSMutableString stringWithString:@"<[\n"];
    separator = nil;
- 
+
    rover = NSEnumerateHashTable( table);
    while( item = NSNextHashEnumeratorItem( &rover))
    {

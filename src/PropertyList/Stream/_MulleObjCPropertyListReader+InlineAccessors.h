@@ -41,31 +41,31 @@
 static inline void   _MulleObjCPropertyListReaderBookmark( _MulleObjCPropertyListReader *self)
 {
    _MulleObjCUTF8StreamReaderBookmark( (_MulleObjCUTF8StreamReader *) self);
-}    
+}
 
 
 static inline MulleObjCMemoryRegion   _MulleObjCPropertyListReaderBookmarkedRegion( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderBookmarkedRegion( (_MulleObjCUTF8StreamReader *) self));
-}    
+}
 
 
 static inline long   _MulleObjCPropertyListReaderCurrentUTF32Character( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderCurrentUTF32Character( (_MulleObjCUTF8StreamReader *) self));
-}      
+}
 
 
 static inline long   __NSPropertyListReaderNextUTF32Character( _MulleObjCPropertyListReader *self)
 {
    return( __NSUTF8StreamReaderNextUTF32Character( (_MulleObjCUTF8StreamReader *) self));
-}     
+}
 
 
 static inline long   _MulleObjCPropertyListReaderNextUTF32Character( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderNextUTF32Character( (_MulleObjCUTF8StreamReader *) self));
-}      
+}
 
 
 static inline void   _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( _MulleObjCPropertyListReader *self)
@@ -107,11 +107,11 @@ static inline long   _MulleObjCPropertyListReaderSkipUntilTrue( _MulleObjCProper
 static inline void   *_MulleObjCPropertyListReaderFail( _MulleObjCPropertyListReader *self, NSString *format, ...)
 {
    va_list   args;
-   
+
    va_start( args, format);
-   
+
    _MulleObjCUTF8StreamReaderFailV( (_MulleObjCUTF8StreamReader *) self, format, args);
-    
+
    va_end( args);
 
    return( NULL);

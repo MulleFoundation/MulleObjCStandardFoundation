@@ -60,7 +60,7 @@
    return( YES);
 }
 
-// 
+//
 // still defined by Mac OS X
 //
 + (BOOL) useStoredAccessor
@@ -78,7 +78,7 @@
 static inline unsigned int   kvcMaskForMethodOfType( Class cls, enum _MulleObjCKVCMethodType type)
 {
    unsigned int   mask;
-   
+
    mask = _MulleObjCKVCGenericMethodOnly;
    if( _MulleObjCKVCIsUsingDefaultMethodOfType( cls, type))
       mask = _MulleObjCKVCStandardMask;
@@ -93,8 +93,8 @@ static inline unsigned int   kvcMaskForMethodOfType( Class cls, enum _MulleObjCK
 {
    unsigned int   mask;
    Class          cls;
-   
-   cls = isa;
+
+   cls = [self class];
    if( ! [cls useStoredAccessor])
       type &= (_MulleObjCKVCValueForKeyIndex|_MulleObjCKVCTakeValueForKeyIndex);
 
@@ -104,17 +104,17 @@ static inline unsigned int   kvcMaskForMethodOfType( Class cls, enum _MulleObjCK
       mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCValueForKeyIndex);
       __MulleObjCDivineValueForKeyKVCInformation( info, cls, key, mask);
       break;
-      
+
    case _MulleObjCKVCTakeValueForKeyIndex :
       mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCTakeValueForKeyIndex);
       __MulleObjCDivineTakeValueForKeyKVCInformation( info, cls, key, mask);
       break;
-      
+
    case _MulleObjCKVCStoredValueForKeyIndex :
       mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCStoredValueForKeyIndex);
       __MulleObjCDivineStoredValueForKeyKVCInformation( info, cls, key, mask);
       break;
-      
+
    case _MulleObjCKVCTakeStoredValueForKeyIndex :
       mask = kvcMaskForMethodOfType( cls, _MulleObjCKVCTakeStoredValueForKeyIndex);
       __MulleObjCDivineTakeStoredValueForKeyKVCInformation( info, cls, key, mask);

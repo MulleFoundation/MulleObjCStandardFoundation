@@ -79,11 +79,11 @@
 }
 
 
-- (mulle_objc_superquad) _superquadValue
+- (_ns_superquad) _superquadValue
 {
-   mulle_objc_superquad  value;
+   _ns_superquad  value;
    NSInteger             v;
-   
+
    v        = _MulleObjCTaggedPointerIntegerNumberGetIntegerValue( self);
    value.lo = v;
    value.hi = (v < 0) ? -1 : 0;
@@ -96,23 +96,6 @@
    return( @encode( NSInteger));
 }
 
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   char        *type;
-   NSInteger   value;
-   
-   value = _MulleObjCTaggedPointerIntegerNumberGetIntegerValue( self);
-   
-   type = @encode( NSInteger);
-   [coder encodeBytes:type
-               length:sizeof( @encode( NSInteger))];
-   [coder encodeValueOfObjCType:type
-                             at:&value];
-}
 
 @end
 

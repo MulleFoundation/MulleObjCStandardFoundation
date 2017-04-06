@@ -46,14 +46,15 @@
 
 #pragma clang diagnostic ignored "-Winvalid-noreturn"
 
-NSString  *NSInternalInconsistencyException = @"NSInternalInconsistencyException";
 NSString  *NSGenericException               = @"NSGenericException";
+NSString  *NSIndexException                 = @"NSIndexException";
+NSString  *NSInternalInconsistencyException = @"NSInternalInconsistencyException";
 NSString  *NSInvalidArgumentException       = @"NSInvalidArgumentException";
 NSString  *NSMallocException                = @"NSMallocException";
-NSString  *NSIndexException                 = @"NSIndexException";
+NSString  *NSParseErrorException            = @"NSParseErrorException";
 NSString  *NSRangeException                 = @"NSRangeException";
-NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
+NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
 
 @implementation NSException
@@ -70,7 +71,7 @@ __attribute__ ((noreturn))
 static void   throw_errno_exception( id format, va_list args)
 {
    NSString  *s;
-   
+
    s = [NSString stringWithFormat:format
                           va_list:args];
    [NSException raise:MulleObjCErrnoException
@@ -129,7 +130,7 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 + (void) initialize
 {
    struct _ns_foundationconfiguration   *config;
-   
+
    config = _ns_get_foundationconfiguration();
    _MulleObjCExceptionInitTable( &config->root.exception.vectors);
 }
@@ -145,8 +146,8 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
    mulle_vararg_list   args;
 
    mulle_vararg_start( args, format);
-   [self raise:name 
-        format:format 
+   [self raise:name
+        format:format
      arguments:args];
    mulle_vararg_end( args);
 }
@@ -158,13 +159,13 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 {
    NSException   *exception;
    NSString      *reason;
-   
+
    reason     = [NSString stringWithFormat:format
                                    va_list:args];
    exception  = [self exceptionWithName:name
                                  reason:reason
                                userInfo:nil];
-   
+
    [exception raise];
 }
 
@@ -175,13 +176,13 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 {
    NSException   *exception;
    NSString      *reason;
-   
+
    reason     = [NSString stringWithFormat:format
                                  arguments:arguments];
    exception  = [self exceptionWithName:name
                                  reason:reason
                                userInfo:nil];
-   
+
    [exception raise];
 }
 
@@ -204,7 +205,7 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 {
    NSParameterAssert( [name isKindOfClass:[NSString class]]);
    NSParameterAssert( ! reason || [reason isKindOfClass:[NSString class]]);
-   
+
    _name     = [name copy];
    _reason   = [reason copy];
    _userInfo = [userInfo retain];
@@ -244,7 +245,6 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 
 @end
 
-
 //
 // maybe a bit too lazy...
 //
@@ -252,7 +252,7 @@ NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
                                                               NSUInteger length)
 {
    NSUInteger max;
-   
+
    if( range.length == ULONG_MAX)
       range.length = length;
    max = range.location + range.length;
@@ -260,3 +260,4 @@ NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
       MulleObjCThrowInvalidRangeException( range);
    return( max);
 }
+

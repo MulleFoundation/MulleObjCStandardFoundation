@@ -57,7 +57,7 @@ static char   closer[]    = { ' ', ')' };
    NSUInteger   i, n;
    id           value;
    unsigned     indent1;
-   
+
    n = [self count];
    if( ! n)
    {
@@ -65,12 +65,12 @@ static char   closer[]    = { ' ', ')' };
                   length:sizeof( separator)];
       return;
    }
-   
+
    [handle writeBytes:opener
                length:sizeof( opener)];
-   
+
    indent1 = indent + 1;
-  
+
    for( i = 0; i < n; i++)
    {
       if( i)

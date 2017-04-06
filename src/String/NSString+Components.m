@@ -71,17 +71,17 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
    mulle_utf8_t   *q;
    NSUInteger     len;
    NSString       *tmp[ 0x100];
-   
+
    NSCParameterAssert( bufLen >= 1);
    NSCParameterAssert( sepLen >= 1);
-   
+
    strings = tmp;
    tofree  = NULL;
    if( nOffsets > 0x100 - 1)
       tofree = strings = (NSString **) mulle_malloc( (nOffsets + 1) * sizeof( NSString *));
-   
-   /* create strings for offsets make a little string of it and place it in 
-      strings array 
+
+   /* create strings for offsets make a little string of it and place it in
+      strings array
      */
    p = buf;
    for( i = 0; i < nOffsets; i++)
@@ -92,17 +92,17 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
       strings[ i] = makeUTF8String( p, len);
       p = q;
    }
-   
+
    q   = &buf[ bufLen];
    len = q - p;
    strings[ i++] = makeUTF8String( p, len);
-   
+
    // would be nice if we could add them retained already...
    array = [[NSArray alloc] _initWithRetainedObjects:strings
                                                count:i];
-   
+
    mulle_free( tofree);
-   
+
    return( array);
 }
 
@@ -124,19 +124,19 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    NSUInteger        *tofree;
    int               diff;
    size_t            size;
-   
+
    n = [self _UTF8StringLength];
    if( ! n)
       return( nil);   // not the same as Objective-C (!) see below
-   
+
    // stay compatible to foundation
    m = [separator _UTF8StringLength];
    if( ! m)
       return( nil);
-   
+
 #if DEBUG_VERBOSE
    fprintf( stderr, "string=\"%s\" separator=\"%s\"\n", [self cString], [separator cString]);
-#endif   
+#endif
    //
    // for really huge strings, we might want to choose a different
    // batching algorithm. But for EOF, strings are mostly small
@@ -145,7 +145,7 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    size = (n + m) * sizeof( mulle_utf8_t) + max * sizeof( NSUInteger);
    {
       NSUInteger   tmp[ 0x100];
-      
+
       tofree  = NULL;
       offsets = tmp;
       if( size > sizeof( NSUInteger) * 0x100)
@@ -155,31 +155,31 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
 
       [self _getUTF8Characters:buf];
       sentinel = &buf[ n];
-      
+
       // Degenerate case @"." -> ( @"", @"")
-      
+
       i = 0;
       // simpler algorithm, if m is just a character
       if( m == 1)
       {
          sepChar = (mulle_utf8_t) [separator characterAtIndex:0];
-         
+
          for( p = buf; p < sentinel;)
          {
             if( *p++ != sepChar)
                continue;
-            
+
             offsets[ i++] = p - buf;
          }
       }
       else
       {
          [separator _getUTF8Characters:sep];
-         
+
          remain = m;
          p      = buf;
          q      = sep;
-         
+
          while( p < sentinel)
          {
             if( *p++ == *q)
@@ -187,26 +187,26 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
                ++q;
                if( --remain)
                   continue;
-               
+
                // matched whole string
                // memorize that
                offsets[ i++] = p - buf;
-               
+
                remain = m;
                q      = sep;
                continue;
             }
-            
+
             diff = (int) remain - (int) m;
             if( ! diff)
                continue;
-            
+
             p      = &p[ diff];
             q      = sep;
             remain = m;
          }
       }
-      
+
       // 95% of all cases, there is no separator in self
       array = nil;
       if( i)
@@ -220,7 +220,7 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
 - (NSArray *) componentsSeparatedByString:(NSString *) separator
 {
    NSArray  *components;
-   
+
    components = MulleObjCComponentsSeparatedByString( self, separator);
    if( ! components)
       components = [NSArray arrayWithObject:self];

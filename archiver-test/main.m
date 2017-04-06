@@ -31,9 +31,9 @@
 {
    NSUInteger   len;
    void         *buf;
-   
+
    [self init];
-   
+
    _d = [aDecoder decodeDoubleForKey:@"d"];
    _i = [aDecoder decodeIntForKey:@"i"];
 
@@ -46,7 +46,7 @@
    }
    else
       _str = NULL;
-   
+
    return( self);
 }
 
@@ -70,9 +70,9 @@
 - (id) initWithCoder:(NSCoder *) decoder
 {
    [self init];
-   
+
    _foo = [[decoder decodeObjectForKey:@"foo"] retain];
-   
+
    return( self);
 }
 
@@ -93,7 +93,7 @@ int   main( int argc, const char * argv[])
    Bar      *bar;
    Bar      *bar2;
    NSData   *data;
-   
+
    foo = [[Foo new] autorelease];
 
    [foo setStr:"VfL Bochum 1848"];
@@ -102,7 +102,7 @@ int   main( int argc, const char * argv[])
 
    bar = [[Bar new] autorelease];
    [bar setFoo:foo];
-   
+
    @try
    {
       data = [NSKeyedArchiver archivedDataWithRootObject:bar];
@@ -124,6 +124,6 @@ int   main( int argc, const char * argv[])
    printf( "%s\n", [foo2 str]);
    printf( "%f\n", [foo2 d]);
    printf( "%d\n", [foo2 i]);
-   
+
    return( 0);
 }

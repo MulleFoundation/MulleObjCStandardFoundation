@@ -33,11 +33,12 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSArray;
 @class NSData;
+@class NSDate;
 @class NSString;
 @class NSDictionary;
 
@@ -45,8 +46,8 @@
 // this class is not functional on its own. Categories must implement
 // all methods defined in NSTimeZone+_Abstract
 // and all methods declared in NSTimeZone+_Abstract_NSDate
-// 
-@interface NSTimeZone : NSObject <NSCopying> 
+//
+@interface NSTimeZone : NSObject <NSCopying>
 {
    NSString   *_name;
    NSData     *_data;
@@ -56,10 +57,10 @@
 // data-taking variants should rarely be used directly
 
 + (id) timeZoneWithName:(NSString *) name;
-+ (id) timeZoneWithName:(NSString *) name 
++ (id) timeZoneWithName:(NSString *) name
                    data:(NSData *) data;
 
-- (id) initWithName:(NSString *) name 
+- (id) initWithName:(NSString *) name
                data:(NSData *) data;
 
 // Time zones created with this never have daylight savings and the
@@ -80,13 +81,18 @@
 
 - (BOOL) isEqualToTimeZone:(NSTimeZone *) tz;
 
+- (NSInteger) secondsFromGMT;
+- (NSString *) abbreviation;
+- (BOOL) isDaylightSavingTime;
+- (NSString *) description;
+
+
 @end
 
 
-@class NSDate;
 
 
-@interface NSTimeZone( _Abstract)
+@interface NSTimeZone( Future)
 
 - (id) initWithName:(NSString *) name;
 + (NSTimeZone  *) _uncachedSystemTimeZone;
@@ -95,5 +101,10 @@
 
 - (NSInteger) secondsFromGMT;
 - (NSInteger) secondsFromGMTForDate:(NSDate *) date;
+
++ (id) timeZoneForSecondsFromGMT:(NSInteger) seconds;
+- (NSInteger) secondsFromGMTForDate:(NSDate *) aDate;
+- (NSString *) abbreviationForDate:(NSDate *) aDate;
+- (BOOL) isDaylightSavingTimeForDate:(NSDate *) aDate;
 
 @end

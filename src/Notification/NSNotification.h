@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSString;
@@ -46,11 +46,11 @@
 @property(retain) id            object;
 @property(retain) NSDictionary  *userInfo;
 
-+ (id) notificationWithName:(NSString *) aName 
++ (id) notificationWithName:(NSString *) aName
                      object:(id) anObject;
-                     
-+ (id) notificationWithName:(NSString *) aName 
-                     object:(id) anObject 
+
++ (id) notificationWithName:(NSString *) aName
+                     object:(id) anObject
                    userInfo:(NSDictionary *) userInfo;
 
 @end

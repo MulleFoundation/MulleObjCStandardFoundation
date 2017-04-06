@@ -75,18 +75,18 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    mulle_utf8_t   *s;
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   c;
-   
+
    length = [self _UTF8StringLength];
    if( ! length)
       return( self);
-   
+
    buf = (mulle_utf8_t *) [[NSMutableData dataWithLength:length] mutableBytes];
    [self _getUTF8Characters:buf
                  maxLength:length];
-   
+
    characterIsMemberSEL = @selector( characterIsMember:);
    characterIsMemberIMP = [allowedCharacters methodForSelector:characterIsMemberSEL];;
-   
+
    dst_buf  = NULL;
    p        = dst_buf;
    s        = buf;
@@ -109,7 +109,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
          memcpy( dst_buf, buf, dst_length);
          p          = &dst_buf[ dst_length];
       }
-      
+
       *p++ = '%';
       *p++ = hex( c >> 4);
       *p++ = hex( c & 0xF);
@@ -117,7 +117,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 
    if( ! dst_buf)
       return( self);
-   
+
    return( [NSString _stringWithUTF8Characters:dst_buf
                                         length:p - dst_buf]);
 }
@@ -126,7 +126,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 - (NSString *) stringByAddingPercentEscapesUsingEncoding:(NSStringEncoding) encoding
 {
    NSCharacterSet   *characterSet;
-   
+
    NSAssert( encoding == NSUTF8StringEncoding, @"only suppports NSUTF8StringEncoding");
    characterSet = [NSCharacterSet nonPercentEscapeCharacterSet];
    return( [self stringByAddingPercentEncodingWithAllowedCharacters:characterSet]);
@@ -153,7 +153,7 @@ static inline int   dehex( mulle_utf8_t c)
 
    if( c >= 'a' && c <= 'z')
       return( c - 'a' + 10);
-   
+
    return( -1);  // two wrongs will make a "right"
 }
 
@@ -171,21 +171,21 @@ static inline int   dehex( mulle_utf8_t c)
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   c;
    int            hi, lo;
-   
+
    length = [self _UTF8StringLength];
    if( ! length)
       return( self);
-   
+
    buf = (mulle_utf8_t *) [[NSMutableData dataWithLength:length] mutableBytes];
    [self _getUTF8Characters:buf
                  maxLength:length];
-   
+
    characterIsMemberSEL = @selector( characterIsMember:);
    if( disallowedCharacters)
       characterIsMemberIMP = [disallowedCharacters methodForSelector:characterIsMemberSEL];
    else
       characterIsMemberIMP = (IMP) always_no;
-   
+
    dst_buf  = NULL;
    p        = dst_buf;
    s        = buf;
@@ -200,10 +200,10 @@ static inline int   dehex( mulle_utf8_t c)
             *p++ = c;
          continue;
       }
-      
+
       if( &s[ 2] >= sentinel)
          return( nil);
-      
+
       hi = dehex( s[ 0]);
       lo = dehex( s[ 1]);
 
@@ -212,7 +212,7 @@ static inline int   dehex( mulle_utf8_t c)
       c = (mulle_utf8_t) (hi << 4 | lo);
       if( ! c)
          return( nil);
-      
+
       if( (*characterIsMemberIMP)( disallowedCharacters, characterIsMemberSEL, (void *) c))
          return( nil);
 
@@ -223,14 +223,14 @@ static inline int   dehex( mulle_utf8_t c)
          memcpy( dst_buf, buf, dst_length);
          p          = &dst_buf[ dst_length];
       }
-      
+
       *p++ = c;
       s   += 2;
    }
 
    if( ! dst_buf)
       return( self);
-   
+
    return( [NSString _stringWithUTF8Characters:dst_buf
                                         length:p - dst_buf]);
 }
@@ -239,7 +239,7 @@ static inline int   dehex( mulle_utf8_t c)
 - (NSString *) stringByReplacingPercentEscapesUsingEncoding:(NSStringEncoding) encoding
 {
    NSCharacterSet   *characterSet;
-   
+
    NSAssert( encoding == NSUTF8StringEncoding, @"only suppports NSUTF8StringEncoding");
    characterSet = [NSCharacterSet nonPercentEscapeCharacterSet];
    return( [self stringByReplacingPercentEscapesWithDisallowedCharacters:characterSet]);

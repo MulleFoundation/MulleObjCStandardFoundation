@@ -59,7 +59,7 @@ NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
                                indent:(unsigned int) indent;
 {
    NSData   *data;
-   
+
    data = [self propertyListUTF8DataWithIndent:indent];
    [handle writeData:data];
 }
@@ -75,11 +75,11 @@ NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
 {
    NSMutableData   *data;
    unsigned int    n;
-   
+
    n = level * _MulleObjCPropertyListUTF8DataIndentationPerLevel;
    data = [NSMutableData dataWithLength:n];
-   memset( [data mutableBytes], 
-            _MulleObjCPropertyListUTF8DataIndentationCharacter, 
+   memset( [data mutableBytes],
+            _MulleObjCPropertyListUTF8DataIndentationCharacter,
             n);
    return( data);
 }

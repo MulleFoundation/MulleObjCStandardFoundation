@@ -51,7 +51,7 @@
                       encoding:(NSStringEncoding) encoding;
 {
    NSString  *s;
-   
+
    s = nil;
    if( length)
    {
@@ -64,7 +64,7 @@
          return( nil);
       }
    }
-   
+
    self = [self initWithStrings:&s
                           count:s? 1 : 0];
    [s release];
@@ -82,7 +82,7 @@
                         freeWhenDone:(BOOL) flag;
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] initWithBytesNoCopy:bytes
                                       length:length
                                     encoding:encoding
@@ -92,11 +92,11 @@
       [self release];
       return( nil);
    }
-   
+
    self = [self initWithStrings:&s
                           count:1];
    [s release];
-   
+
    return( self);
 }
 

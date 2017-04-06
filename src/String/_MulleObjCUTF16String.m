@@ -83,7 +83,7 @@
 - (mulle_utf8_t *) UTF8String
 {
    struct mulle_buffer  buf;
-   
+
    if( ! _shadow)
    {
       mulle_buffer_init( &buf, MulleObjCObjectGetAllocator( self));
@@ -108,14 +108,14 @@ static void   grab_utf32( id self,
                           NSRange range)
 {
    mulle_utf16_t    *sentinel;
-   
+
    // check both because of overflow range.length == (unsigned) -1 f.e.
    if( range.length + range.location > len || range.length > len)
       MulleObjCThrowInvalidRangeException( range);
-   
+
    storage  = &storage[ range.location];
    sentinel = &storage[ range.length];
-   
+
    while( storage < sentinel)
       *dst++ = *storage++;
 }
@@ -145,7 +145,7 @@ static void   grab_utf32( id self,
 {
    mulle_utf16_t   *s;
    NSUInteger      length;
-   
+
    length = [self length];
    // check both because of overflow range.length == (unsigned) -1 f.e.
    if( range.length + range.location > length || range.length > length)
@@ -153,13 +153,13 @@ static void   grab_utf32( id self,
 
    if( range.length == length)
       return( self);
-   
+
    if( ! range.length)
       return( @"");
-   
+
    s = [self _fastUTF16Characters];
    assert( s);
-   
+
    return( [[_MulleObjCSharedUTF16String newWithUTF16CharactersNoCopy:&s[ range.location]
                                                                length:range.length
                                                         sharingObject:self] autorelease]);
@@ -174,9 +174,9 @@ static void   grab_utf32( id self,
                        length:(NSUInteger) length
 {
    _MulleObjCGenericUTF16String   *obj;
-   
+
    NSParameterAssert( mulle_utf16_strnlen( chars, length) == length);
-   
+
    obj = NSAllocateObject( self, (length * sizeof( mulle_utf16_t)) - sizeof( obj->_storage), NULL);
    memcpy( obj->_storage, chars, length * sizeof( mulle_utf16_t));
    obj->_length = length;
@@ -207,15 +207,15 @@ static void   grab_utf32( id self,
                           allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCAllocatorUTF16String   *obj;
-   
+
    NSParameterAssert( mulle_utf16_strnlen( chars, length) == length);
-   
+
    obj = NSAllocateObject( self, 0, NULL);
 
    obj->_storage   = chars;
    obj->_length    = length;
    obj->_allocator = allocator;
-   
+
    return( obj);
 }
 
@@ -250,15 +250,15 @@ static void   grab_utf32( id self,
                       sharingObject:(id) sharingObject
 {
    _MulleObjCSharedUTF16String  *data;
-   
+
    NSParameterAssert( mulle_utf16_strnlen( (mulle_utf16_t *) chars, length) == length);
 
    data = NSAllocateObject( self, 0, NULL);
-   
+
    data->_storage       = chars;
    data->_length        = length;
    data->_sharingObject = [sharingObject retain];
-   
+
    return( data);
 }
 
@@ -280,7 +280,7 @@ static void   grab_utf32( id self,
 - (void) dealloc
 {
    [_sharingObject release];
-   
+
    NSDeallocateObject( self);
 }
 

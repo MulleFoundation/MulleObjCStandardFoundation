@@ -46,11 +46,26 @@
 
 @implementation NSConstantString
 
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
++ (SEL *) classDependencies
+{
+   static SEL   dependencies[] =
+   {
+      @selector( _MulleObjCTaggedPointerChar7String),
+      @selector( _MulleObjCTaggedPointerChar5String),
+      @selector( NSThread),
+      0
+   };
+   return( dependencies);
+}
+#endif
+
+
 + (void) load
 {
    struct _mulle_objc_runtime   *runtime;
    struct _mulle_objc_class     *cls;
-   
+
    cls     = self;
    runtime = _mulle_objc_class_get_runtime( cls);
    _mulle_objc_runtime_set_staticstringclass( runtime, cls);
@@ -59,7 +74,7 @@
 
 //
 //  http://lists.apple.com/archives/objc-language/2006/Jan/msg00013.html
-// 
+//
 
 - (char *) UTF8String
 {

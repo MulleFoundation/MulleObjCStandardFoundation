@@ -33,11 +33,12 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 // other files in this library
 #import "NSString.h"
 #import "NSString+Sprintf.h"
+#import "NSStringObjCFunctions.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationBase.h"
@@ -63,15 +64,15 @@
 {
    NSString     *contents;
    NSUInteger   length;
-   
+
    contents = [self _debugContentsDescription];
    length   = [contents length];
    if( ! length)
       return( [NSString stringWithFormat:@"<%@ %p>", [self class], self]);
-   
+
    if( length >= 8192)
       return( [NSString stringWithFormat:@"<%@ %p %.8192@...", [self class], self, contents]);
-   
+
    return( [NSString stringWithFormat:@"<%@ %p %@>", [self class], self, contents]);
 }
 

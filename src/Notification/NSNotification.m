@@ -49,32 +49,32 @@ static void   init( NSNotification *self,
 }
 
 
-+ (id) notificationWithName:(NSString *) name 
++ (id) notificationWithName:(NSString *) name
                      object:(id) obj;
 {
    NSNotification   *notification;
-   
+
    if( ! name)
       MulleObjCThrowInvalidArgumentException( @"name is nil");
 
    notification = [NSAllocateObject( self, 0, NULL) autorelease];
    init( notification, name, obj, NULL);
    return( notification);
-}                     
+}
 
 
-+ (id) notificationWithName:(NSString *) name 
-                     object:(id) obj 
++ (id) notificationWithName:(NSString *) name
+                     object:(id) obj
                    userInfo:(NSDictionary *) userInfo
 {
    NSNotification   *notification;
-   
+
    if( ! name)
       MulleObjCThrowInvalidArgumentException( @"name is nil");
 
    notification = [NSAllocateObject( self, 0, NULL) autorelease];
    init( notification, name, obj, userInfo);
-   
+
    return( notification);
 }
 

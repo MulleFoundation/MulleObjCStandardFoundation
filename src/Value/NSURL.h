@@ -57,10 +57,10 @@
 }
 
 - (id) initWithScheme:(NSString *) scheme
-                 host:(NSString *) host 
+                 host:(NSString *) host
                  path:(NSString *) path;
 - (id) initWithString:(NSString *) URLString;
-- (id) initWithString:(NSString *) URLString 
+- (id) initWithString:(NSString *) URLString
         relativeToURL:(NSURL *) baseURL;
 
 - (NSNumber *) port;

@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 // other files in this library
 #import "NSObject+KeyValueCoding.h"
@@ -52,21 +52,21 @@
 {
    Class   cls;
 
-   cls = isa;
+   cls = [self class];
    switch( type)
    {
    case _MulleObjCKVCValueForKeyIndex :
       __MulleObjCDivineValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
       break;
-      
+
    case _MulleObjCKVCStoredValueForKeyIndex :
       __MulleObjCDivineStoredValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
       break;
-      
+
    case _MulleObjCKVCTakeValueForKeyIndex :
       __MulleObjCDivineTakeValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
       break;
-      
+
    case _MulleObjCKVCTakeStoredValueForKeyIndex :
       __MulleObjCDivineTakeStoredValueForKeyKVCInformation( info, cls, key, _MulleObjCKVCGenericMethodOnly);
       break;

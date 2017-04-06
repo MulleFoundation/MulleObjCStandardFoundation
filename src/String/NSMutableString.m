@@ -77,14 +77,14 @@ static void  flush_shadow( NSMutableString *self)
 static void   autoreleaseStorageStrings( NSMutableString *self)
 {
    NSUInteger  n;
-   
+
    n = self->_count;
    self->_count = 0;  // do it now, important for autoreleasepool checks
 
    _MulleObjCAutoreleaseObjects( self->_storage, n);
 }
 
- 
+
 static void   sizeStorageWithCount( NSMutableString *self, unsigned int count)
 {
    self->_size = count + count;
@@ -98,7 +98,7 @@ static void   sizeStorageWithCount( NSMutableString *self, unsigned int count)
 static void   copyStringsAndComputeLength( NSMutableString *self, NSString **strings, unsigned int count)
 {
    NSUInteger  i;
-   
+
    self->_length = 0;
    for( i = 0; i < count; i++)
    {
@@ -108,7 +108,7 @@ static void   copyStringsAndComputeLength( NSMutableString *self, NSString **str
    self->_count = count;
 }
 
- 
+
 static void   initWithStrings( NSMutableString *self, NSString **strings, unsigned int count)
 {
    sizeStorageWithCount( self, count);
@@ -123,7 +123,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
    if( count > self->_size || count < self->_size / 4)
       sizeStorageWithCount( self, count);
-   
+
    copyStringsAndComputeLength( self, strings, count);
 }
 
@@ -178,17 +178,17 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 - (id) initWithUTF8String:(char *) cStr
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] initWithUTF8String:cStr];
    if( ! s)
    {
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -197,7 +197,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                                   length:(NSUInteger) length
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] _initWithUTF8Characters:chars
                                           length:length];
    if( ! s)
@@ -205,10 +205,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -218,7 +218,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                                   freeWhenDone:(BOOL) flag
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
                                                 length:length
                                           freeWhenDone:flag];
@@ -227,10 +227,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -240,7 +240,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                                  allocator:(struct mulle_allocator *) allocator
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] _initWithCharactersNoCopy:chars
                                             length:length
                                          allocator:allocator];
@@ -249,10 +249,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -262,7 +262,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                                      allocator:(struct mulle_allocator *) allocator
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
                                                 length:length
                                           allocator:allocator];
@@ -271,10 +271,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -284,7 +284,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                                  sharingObject:(id) object
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
                                                 length:length
                                          sharingObject:object];
@@ -293,10 +293,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -306,7 +306,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                              sharingObject:(id) object
 {
    NSString  *s;
-   
+
    s = [[NSString alloc] _initWithCharactersNoCopy:chars
                                             length:length
                                      sharingObject:object];
@@ -315,10 +315,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       [self release];
       return( nil);
    }
-   
+
    initWithStrings( self, &s, 1);
    [s release];
-   
+
    return( self);
 }
 
@@ -350,11 +350,11 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 - (id) copy
 {
    char   *s;
-   
+
    // ez and cheap copy, use it
    if( self->_count == 1)
       return( (id) [self->_storage[ 0] copy]);
-   
+
    s = [self UTF8String];
    return( (id) [[NSString alloc] initWithUTF8String:s]);
 }
@@ -375,20 +375,22 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSString     **sentinel;
    NSUInteger   length;
    NSString     *s;
-   
+
    if( index >= _length)
       MulleObjCThrowInvalidIndexException( index);
-   
+
    p        = &_storage[ 0];
    sentinel = &p[ _count];
-   
+
+   s = nil;
+   // find string containing character
    while( p < sentinel)
    {
       s      = *p++;
       length = [s length];
       if( index < length)
          break;
-      
+
       index -= length;
    }
    return( [s characterAtIndex:index]);
@@ -403,17 +405,17 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSUInteger   length;
    NSString     *s;
    NSUInteger   grab_len;
-   
+
    if( range.length + range.location > _length || range.length > _length)
       MulleObjCThrowInvalidRangeException( range);
 
    p        = &_storage[ 0];
    sentinel = &p[ _count];
-   
-   
+
+
    // `s` is first string with `length`
    // range is offset into s + remaining length
-   
+
    while( range.length)
    {
       s      = *p++;
@@ -424,16 +426,16 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
          range.location -= length;
          continue;
       }
-   
+
       grab_len = range.length;
       if( grab_len > length)
          grab_len = length - range.location;
-      
+
       [s getCharacters:buf
                  range:NSMakeRange( range.location, grab_len)];
 
       buf            = &buf[ grab_len];
-      
+
       range.location = 0;
       range.length  -= grab_len;
    }
@@ -457,7 +459,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    len = [s length];
    if( ! len)
       return;
-      
+
    if( _count >= _size)
    {
       _size += _size;
@@ -477,12 +479,12 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 {
    NSString            *s;
    mulle_vararg_list   args;
-   
+
    mulle_vararg_start( args, format);
    s = [NSString stringWithFormat:format
                         arguments:args];
    mulle_vararg_end( args);
-   
+
    [self appendString:s];
 }
 
@@ -505,7 +507,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 // maybe overcomplicated: could be better to just make a new coherent
 // buffer ?
 //
-- (void) replaceCharactersInRange:(NSRange) aRange 
+- (void) replaceCharactersInRange:(NSRange) aRange
                        withString:(NSString *) replacement
 {
    int           fromStart;
@@ -513,7 +515,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSString      *s[ 3];
    unsigned int  i;
    NSRange       subRange;
-   
+
   //
   // figure out range of substrings that fall in the range
   // create two subranges and add them to the array
@@ -539,7 +541,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
       subRange.length   = [self length] - subRange.location;
       s[ i++]           = [self substringWithRange:subRange];
    }
-   
+
    shrinkWithStrings( self, s, i);
 }
 
@@ -556,10 +558,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
    if( range.length + range.location > _length || range.length > _length)
       MulleObjCThrowInvalidRangeException( range);
-   
+
    r_length = [replacement length];
    options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;
-   
+
    for(;;)
    {
       found = [self rangeOfString:s
@@ -567,7 +569,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                             range:range];
       if( ! found.length)
          return;
-      
+
       [self replaceCharactersInRange:found
                           withString:replacement];
 
@@ -586,7 +588,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 - (BOOL) hasPrefix:(NSString *) prefix
 {
    NSUInteger   len_first;
-   NSUInteger   len_prefix;   
+   NSUInteger   len_prefix;
 
    if( _count == 0)
       return( NO);
@@ -604,7 +606,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 {
    NSUInteger   len_last;
    NSUInteger   len_suffix;
-   
+
    if( _count == 0)
       return( NO);
 
@@ -612,7 +614,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    len_last   = [_storage[ _count - 1] length];
    if( len_suffix <= len_last)
       return( [_storage[ _count - 1] hasSuffix:suffix]);
-   
+
    return( [super hasSuffix:suffix]);
 }
 
@@ -625,7 +627,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    mulle_utf8_t   *p;
    id             *sentinel;
    NSUInteger     len;
-   
+
    sentinel = &strings[ n];
    while( strings < sentinel)
    {
@@ -646,17 +648,17 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    id             *sentinel;
    NSUInteger     len;
    NSString       **strings;
-   
+
    strings  = _storage;
    sentinel = &strings[ _count];
-   
+
    while( strings < sentinel)
    {
       s   = *strings++;
       len = [s _UTF8StringLength];
       if( len > maxLength)
          len = maxLength;
-      
+
       [s _getUTF8Characters:buf
                   maxLength:len];
 
@@ -681,7 +683,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    char                     tmp[ 0x400];
    struct mulle_allocator   *allocator;
    struct mulle_buffer      buffer;
-   
+
    if( _shadow)
       return( (char *) _shadow);
 
@@ -694,10 +696,10 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    _shadowLen = mulle_buffer_get_length( &buffer) - 1; // no trailin zero
    _shadow    = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
-   
+
    return( (char *) _shadow);
 }
-   
+
 
 - (id) mutableCopy
 {
@@ -736,21 +738,21 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    NSUInteger  combined_len;
    NSString    *s;
    mulle_utf8_t    *buf;
-   
+
    len = [self _UTF8StringLength];
    if( ! len)
       return( [[other copy] autorelease]);
-      
+
    other_len = [other _UTF8StringLength];
    if( ! other_len)
       return( [[self copy] autorelease]);
-      
+
    combined_len = len + other_len;
    buf          = MulleObjCObjectAllocateNonZeroedMemory( self, combined_len * sizeof( mulle_utf8_t));
 
    [self _getUTF8Characters:buf
                  maxLength:len];
-   
+
    [other _getUTF8Characters:&buf[ len]
                   maxLength:other_len];
 
@@ -767,11 +769,11 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 {
    NSMutableString   *copy;
    NSRange           found;
-   
+
    found = [self rangeOfString:s];
    if( ! found.length)
       return( self);
-   
+
    copy = [NSMutableString stringWithString:self];
    [copy replaceOccurrencesOfString:s
                          withString:replacement
@@ -788,13 +790,13 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 {
    NSMutableString   *copy;
    NSRange           found;
-   
+
    found = [self rangeOfString:s
                        options:options
                          range:range];
    if( ! found.length)
       return( self);
-   
+
    copy = [NSMutableString stringWithString:self];
    [copy replaceOccurrencesOfString:s
                          withString:replacement
@@ -802,7 +804,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
                               range:range];
    return( copy);
 }
-                                    
+
 
 - (NSString *) stringByReplacingCharactersInRange:(NSRange) range
                                        withString:(NSString *) replacement

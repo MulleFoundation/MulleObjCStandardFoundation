@@ -33,17 +33,18 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 
-enum {
+enum
+{
    NSDataSearchBackwards = 1UL << 0,
-   NSDataSearchAnchored = 1UL << 1
+   NSDataSearchAnchored  = 1UL << 1
 };
 
 
-@interface NSData : NSObject < MulleObjCClassCluster, NSCopying, NSCoding>
+@interface NSData : NSObject < MulleObjCClassCluster, NSCopying>
 {
 }
 

@@ -64,7 +64,7 @@
 - (instancetype) initForReadingWithData:(NSData *)data
 {
    struct mulle_container_keycallback   callback;
-   
+
    callback          = NSNonOwnedPointerMapKeyCallBacks;
    callback.hash     = (uintptr_t (*)()) blob_hash;
    callback.is_equal = (int (*)()) blob_is_equal;
@@ -88,10 +88,10 @@
 {
    size_t         offset;
    struct blob   blob;
-   
+
    blob._storage = [key UTF8String];
    blob._length  = [key _UTF8StringLength] + 1;
-   
+
    offset = (size_t) NSMapGet( _scope, &blob);
    return( offset);
 }
@@ -108,7 +108,7 @@
    if( _inited)
       [NSException raise:NSInconsistentArchiveException
                   format:@"don't use decodeObject with NSKeyedUnarchiver"];
-   
+
    return( [self _nextObject]);
 }
 
@@ -122,20 +122,20 @@
    size_t         offset;
    size_t         skip;
    struct blob    *blob;
-   
+
    NSResetMapTable( _scope);
-   
+
    // read in all keys now
    while( blob = (struct blob *) [self _nextBlob])
    {
       skip   = mulle_buffer_next_integer( &_buffer);
-      
+
       offset = mulle_buffer_get_seek( &_buffer);
       NSMapInsert( _scope, blob, (void *) offset);
 
       mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_CUR, skip);
    }
-   
+
    return( [obj initWithCoder:self]);
 }
 
@@ -152,10 +152,10 @@
    if( ! offset)
       [NSException raise:NSInconsistentArchiveException
                   format:@"unknown key \"%@\"", key];
-   
+
    memo = mulle_buffer_get_seek( &_buffer);
    mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, offset);
-   
+
    p = [self _decodeValueOfObjCType:type
                              at:p];
    mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, memo);
@@ -176,7 +176,7 @@
 - (id) decodeObjectForKey:(NSString *) key
 {
    id  obj;
-   
+
    obj = nil;
    [self _decodeValueOfObjCType:@encode( id)
                              at:&obj
@@ -189,7 +189,7 @@
 - (BOOL) decodeBoolForKey:(NSString *) key
 {
    BOOL   value;
-   
+
    [self _decodeValueOfObjCType:@encode( BOOL)
                              at:&value
                             key:key];
@@ -200,7 +200,7 @@
 - (int) decodeIntForKey:(NSString *) key
 {
    int   value;
-   
+
    [self _decodeValueOfObjCType:@encode( int)
                              at:&value
                             key:key];
@@ -211,7 +211,7 @@
 - (int32_t) decodeInt32ForKey:(NSString *) key
 {
    int32_t   value;
-   
+
    [self _decodeValueOfObjCType:@encode( int32_t)
                              at:&value
                             key:key];
@@ -222,7 +222,7 @@
 - (int64_t) decodeInt64ForKey:(NSString *) key
 {
    int64_t   value;
-   
+
    [self _decodeValueOfObjCType:@encode( int64_t)
                              at:&value
                             key:key];
@@ -233,7 +233,7 @@
 - (float) decodeFloatForKey:(NSString *) key
 {
    float   value;
-   
+
    [self _decodeValueOfObjCType:@encode( float)
                              at:&value
                             key:key];
@@ -244,7 +244,7 @@
 - (double) decodeDoubleForKey:(NSString *) key
 {
    double   value;
-   
+
    [self _decodeValueOfObjCType:@encode( double)
                              at:&value
                             key:key];
@@ -260,17 +260,17 @@
    size_t               offset;
    struct blob          *blob;
    static struct blob   empty_blob;
-   
+
    offset = [self _offsetForKey:key];
    if( ! offset)
       [NSException raise:NSInconsistentArchiveException
                   format:@"unknown key \"%@\"", key];
-   
+
    memo = mulle_buffer_get_seek( &_buffer);
    mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, offset);
-   
+
    blob = [self _nextBlob];
-   
+
    mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, memo);
 
    // memory is owned by NSKeyedUnarchiver its OK
@@ -278,7 +278,7 @@
       blob = &empty_blob;
    if( len_p)
       *len_p = blob->_length;
-   
+
    return( blob->_storage);
 }
 

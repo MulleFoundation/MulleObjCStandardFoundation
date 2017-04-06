@@ -49,7 +49,7 @@ NSArray   *NSAllMapTableKeys( NSMapTable *table)
    void              *key;
 
    array = nil;
-   
+
    rover = NSEnumerateMapTable( table);
    while( NSNextMapEnumeratorPair( &rover, &key, NULL))
    {
@@ -70,7 +70,7 @@ NSArray   *NSAllMapTableValues( NSMapTable *table)
    void              *value;
 
    array = nil;
-   
+
    rover = NSEnumerateMapTable( table);
    while( NSNextMapEnumeratorPair( &rover, NULL, &value))
    {
@@ -92,13 +92,13 @@ NSString   *NSStringFromMapTable( NSMapTable *table)
    void                *key;
    void                *value;
    NSString            *separator;
-   
+
    if( NSCountMapTable( table) == 0)
       return( @"{}");
-   
+
    s         = [NSMutableString stringWithString:@"{\n   "];
    separator = nil;
-   
+
    rover = NSEnumerateMapTable( table);
    while( NSNextMapEnumeratorPair( &rover, &key, &value))
    {

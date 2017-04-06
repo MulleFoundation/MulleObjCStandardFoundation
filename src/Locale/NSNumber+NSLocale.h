@@ -42,6 +42,6 @@
 
 @interface NSNumber (NSLocale)
 
-- (NSString *) descriptionWithLocale:(NSLocale *) locale;
+- (NSString *) descriptionWithLocale:(id) locale;
 
 @end

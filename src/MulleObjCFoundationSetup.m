@@ -73,7 +73,7 @@ extern void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *ta
 static void  tear_down()
 {
    _NSThreadResignAsMainThread();
-   
+
    // No Objective-C available anymore
 }
 
@@ -81,10 +81,10 @@ static void  tear_down()
 static void  tear_down_and_check()
 {
    tear_down();
-   
+
    // clear up storage of sprintf library
    (*mulle_sprintf_free_storage)();
-   
+
    mulle_test_allocator_objc_reset();
 }
 
@@ -93,7 +93,7 @@ __attribute__(( noreturn))
 static void   uncaught_exception( void *exception)
 {
    extern void   mulle_objc_runtime_dump_to_tmp( void);
-   
+
    fprintf( stderr, "uncaught exception: %s", [[(id) exception description] UTF8String]);
    mulle_objc_runtime_dump_to_tmp();
    abort();
@@ -109,6 +109,5 @@ void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfi
    setup->config.callbacks.setup               = (void (*)()) _ns_foundation_setup;
    setup->config.callbacks.tear_down_and_check = tear_down_and_check;
    setup->config.callbacks.tear_down           = tear_down;
-   
    _MulleObjCExceptionInitTable( &setup->config.foundation.exceptiontable);
 }

@@ -48,7 +48,7 @@
 + (id) newWithInt8:(int8_t) value
 {
    _MulleObjCInt8Number  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -95,7 +95,7 @@
 + (id) newWithInt16:(int16_t) value
 {
    _MulleObjCInt16Number  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -144,7 +144,7 @@
 + (id) newWithInt32:(int32_t) value
 {
    _MulleObjCInt32Number  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -193,7 +193,7 @@
 + (id) newWithInt64:(int64_t) value
 {
    _MulleObjCInt64Number  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -208,9 +208,9 @@
 - (char) charValue          { return( (char) _value); }
 - (short) shortValue        { return( (short) _value); }
 - (int) intValue            { return( (int) _value); }
-- (long) longValue          { return( _value); }
-- (NSInteger) integerValue  { return( _value); }
-- (long long) longLongValue { return( _value); }
+- (long) longValue          { return( (long) _value); }
+- (NSInteger) integerValue  { return( (NSInteger) _value); }
+- (long long) longLongValue { return( (long long) _value); }
 
 - (unsigned char) unsignedCharValue   { return( (unsigned char) _value); }
 - (unsigned short) unsignedShortValue { return( (unsigned short) _value); }
@@ -242,7 +242,7 @@
 + (id) newWithUInt32:(uint32_t) value
 {
    _MulleObjCUInt32Number  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -277,10 +277,10 @@
 }
 
 
-- (mulle_objc_superquad) _superquadValue
+- (_ns_superquad) _superquadValue
 {
-   mulle_objc_superquad  value;
-   
+   _ns_superquad  value;
+
    value.lo = _value;
    value.hi = 0;
    return( value);
@@ -300,7 +300,7 @@
 + (id) newWithUInt64:(uint64_t) value
 {
    _MulleObjCUInt64Number  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -333,10 +333,10 @@
 }
 
 
-- (mulle_objc_superquad) _superquadValue
+- (_ns_superquad) _superquadValue
 {
-   mulle_objc_superquad  value;
-   
+   _ns_superquad  value;
+
    value.lo = _value;
    value.hi = 0;
    return( value);
@@ -357,7 +357,7 @@
 + (id) newWithDouble:(double) value
 {
    _MulleObjCDoubleNumber  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);
@@ -420,7 +420,7 @@
 + (id) newWithLongDouble:(long double) value
 {
    _MulleObjCLongDoubleNumber  *obj;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
    obj->_value = value;
    return( obj);

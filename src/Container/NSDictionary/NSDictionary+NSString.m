@@ -60,7 +60,7 @@ BOOL NSDictionaryCompatibleDescription = YES;
 static BOOL   allKeysRespondToCompare( NSArray *keys)
 {
    id   key;
-   
+
    for( key in keys)
       if( ! [key respondsToSelector:@selector( compare:)])
          return( NO);
@@ -80,7 +80,7 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
    NSString          *secondSpace;
    NSString          *firstNewLine;
    NSString          *secondNewLine;
-   
+
    count = [self count];
    if( ! count)
       return( NSDictionaryCompatibleDescription ? @"{\n}" : @"{}");
@@ -101,7 +101,7 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
       firstNewLine    = @" ";
       secondNewLine   = @"\n";
    }
-   
+
    s = [NSMutableString stringWithString:@"{"];
    if( count > 1)
       [s appendString:initalSpaceMany];

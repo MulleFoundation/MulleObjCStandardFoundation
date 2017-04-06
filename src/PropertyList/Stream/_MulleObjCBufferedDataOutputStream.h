@@ -43,11 +43,11 @@
 _MULLE_OBJC_BUFFERED_DATA_OUTPUT_STREAM_IVAR_VISIBILITY      // allow public access for internal use
 #endif
    id <_MulleObjCOutputDataStream >  _stream;
-   
-   NSMutableData   *_data;   
+
+   NSMutableData   *_data;
    unsigned char   *_start;
    unsigned char   *_current;
-   unsigned char   *_sentinel; 
+   unsigned char   *_sentinel;
 }
 
 //

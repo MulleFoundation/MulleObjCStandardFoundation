@@ -62,26 +62,26 @@
 //- (id) init
 //{
 //   [super init];
-//   
+//
 //   [self setMutableContainers:NO];
 //   [self setMutableLeaves:NO];
-//   
+//
 //   return( self);
 //}
-   
+
 - (void) setMutableContainers:(BOOL) flag
 {
    if( flag)
    {
       nsArrayClass      = [NSMutableArray class];
       nsSetClass        = [NSMutableSet class];
-      nsDictionaryClass = [NSMutableDictionary class];   
+      nsDictionaryClass = [NSMutableDictionary class];
       return;
    }
 
    nsArrayClass      = [NSArray class];
    nsSetClass        = [NSSet class];
-   nsDictionaryClass = [NSDictionary class];   
+   nsDictionaryClass = [NSDictionary class];
 }
 
 

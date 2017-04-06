@@ -41,7 +41,7 @@
 
 + (id) stringWithFormat:(NSString *) format
               arguments:(mulle_vararg_list) arguments;
-              
+
 + (id) stringWithFormat:(NSString *) format
                 va_list:(va_list) args;
 

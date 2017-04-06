@@ -40,12 +40,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -copy {
    NSScanner *copy=[[NSScanner alloc] initWithString:[self string]];
-   
+
    [copy setCharactersToBeSkipped:[self charactersToBeSkipped]];
    [copy setCaseSensitive:[self caseSensitive]];
    [copy setLocale:[self locale]];
    [copy setScanLocation:[self scanLocation]];
-   
+
    return copy;
 }
 
@@ -170,7 +170,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
      if(!hasOverflow){
       int c=unicode-'0';
 
-      // Inspired by http://www.math.utoledo.edu/~dbastos/overflow.html 
+      // Inspired by http://www.math.utoledo.edu/~dbastos/overflow.html
       if ((long_long_MAX-c)/10<value)
        hasOverflow=YES;
       else
@@ -218,7 +218,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       seperatorString = [[NSLocale systemLocale] objectForKey:NSLocaleDecimalSeparator];
 */
    seperatorString = @".";
-   
+
    decimalSeperator = ([seperatorString length] > 0 ) ? [seperatorString characterAtIndex:0] : '.';
 
    NSInteger     i;
@@ -228,7 +228,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
    for (i = 0; i < len; i++)
    {
-      c  = [_string characterAtIndex:i + _location];    
+      c  = [_string characterAtIndex:i + _location];
       if (c == decimalSeperator) c = '.';
       p[i] = (char)c;
    }
@@ -335,12 +335,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    unsigned value=0;
    BOOL     hasValue=NO;
    BOOL     overflow=NO;
-   
+
    for(;_location<[_string length];_location++){
     unichar unicode=[_string characterAtIndex:_location];
 
     switch(state){
-    
+
      case STATE_SPACE:
       if([_skipSet characterIsMember:unicode])
        state=STATE_SPACE;
@@ -366,7 +366,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       else
        return NO;
       break;
-      
+
      case STATE_ZERO:
       state=STATE_HEX;
       if(unicode=='x' || unicode=='X')
@@ -398,7 +398,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       else if(unicode>='A' && unicode<='F'){
        if(!overflow){
         unsigned check=value*16+(unicode-'A')+10;
-        
+
         if(check>=value)
          value=check;
         else {
@@ -410,20 +410,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       else {
        if(valuep!=NULL)
         *valuep=value;
-        
+
        return YES;
       }
       break;
     }
    }
-   
+
    if(hasValue){
     if(valuep!=NULL)
      *valuep=value;
-     
+
     return YES;
    }
-    
+
    return NO;
 }
 

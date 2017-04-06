@@ -50,7 +50,7 @@
                       invert:(BOOL) invert
 {
    _MulleObjCConcreteCharacterSet   *obj;
-   
+
    // known to be all zeroed out(!) important!
    obj           = NSAllocateObject( self, 0, NULL);
    obj->_f       = f;
@@ -91,7 +91,7 @@
 {
    mulle_utf32_t   c;
    mulle_utf32_t   end;
-   
+
    c   = plane * 0x10000;
    end = c + 0x10000;
    for( ; c < end; c += 8)

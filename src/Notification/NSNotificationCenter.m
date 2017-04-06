@@ -49,7 +49,7 @@
 
 // notes an observer can be registered for the same method twice
 // with same selector and everything
-   
+
 /*
 digraph maptables
 {
@@ -89,8 +89,8 @@ digraph maptables
 */
 typedef struct
 {
-   NSString   *name;           
-   id         sender;    
+   NSString   *name;
+   id         sender;
 } name_sender_pair;
 
 
@@ -106,7 +106,7 @@ static inline name_sender_pair   *pair_copy( name_sender_pair *pair,
                                              struct mulle_allocator *allocator)
 {
    name_sender_pair  *duplicate;
-   
+
    duplicate  = mulle_allocator_malloc( allocator, sizeof( name_sender_pair));
    *duplicate = *pair;
    return( duplicate);
@@ -117,7 +117,7 @@ static inline observer_sel_imp_triplet   *triplet_copy( observer_sel_imp_triplet
                                                         struct mulle_allocator *allocator)
 {
    observer_sel_imp_triplet  *duplicate;
-   
+
    duplicate  = mulle_allocator_malloc( allocator, sizeof( observer_sel_imp_triplet));
    *duplicate = *triplet;
    return( duplicate);
@@ -125,7 +125,7 @@ static inline observer_sel_imp_triplet   *triplet_copy( observer_sel_imp_triplet
 
 
 
-/* 
+/*
    An observer (a) is registered for a 'name and sender' (pair), either
    of which can be nil. Sender and object is the same here...
 
@@ -137,22 +137,22 @@ static inline observer_sel_imp_triplet   *triplet_copy( observer_sel_imp_triplet
       1   0    // match all notifications with that name
       1   1    // match all notifications of object with that name
 
-   A notification (b) always has a name, but may not have an 
+   A notification (b) always has a name, but may not have an
    object
 
-        b   
+        b
       n   s
    -----+-----
-      1   0    // name, no object 
+      1   0    // name, no object
       1   1    // name and object
-      
+
    so there are eight possibilities
-   
-   
+
+
     notif.   observ.
        b   |   a
-     n   s | n   s      
-   ----+---+---+---    
+     n   s | n   s
+   ----+---+---+---
      1   0   0   0     a) true
      1   1   0   0     b) true
      1   0   0   1     c) false
@@ -161,14 +161,14 @@ static inline observer_sel_imp_triplet   *triplet_copy( observer_sel_imp_triplet
      1   1   1   0     f) b.n == a.n
      1   0   1   1     g) false
      1   1   1   1     h) b.n == a.n && b.s == b.s
-     
+
 */
 
 static uintptr_t   pair_hash( struct mulle_container_keycallback *table,
                                name_sender_pair *pair)
 {
    NSUInteger  hash;
-   
+
    hash = (intptr_t) pair->sender << 10;
    hash += [pair->name hash];
    return( hash);
@@ -178,9 +178,9 @@ static uintptr_t   pair_hash( struct mulle_container_keycallback *table,
 static int   pair_is_equal( struct mulle_container_keycallback *table,
                              name_sender_pair *a, name_sender_pair *b)
 {
-   if( a->sender != b->sender)      
+   if( a->sender != b->sender)
       return( NO);
-   return( a->name == b->name || [b->name isEqualToString:a->name]); 
+   return( a->name == b->name || [b->name isEqualToString:a->name]);
 }
 
 
@@ -219,7 +219,7 @@ static void    free_queue_and_contents( struct mulle_container_keycallback *tabl
    while( value = _mulle_queueenumerator_next( queue, &rover))
       mulle_allocator_free( allocator, value);
    _mulle_queueenumerator_done( &rover);
-   
+
    _mulle_queue_destroy( queue, allocator);
 }
 
@@ -278,7 +278,7 @@ static struct mulle_container_keyvaluecallback    sender_registry_callbacks =
 
 static struct mulle_container_keyvaluecallback    observer_no_free_registry_callbacks =
 {
-   {  
+   {
       mulle_container_keycallback_pointer_hash,
       mulle_container_keycallback_pointer_is_equal,
       mulle_container_keycallback_self,
@@ -287,7 +287,7 @@ static struct mulle_container_keyvaluecallback    observer_no_free_registry_call
       NULL,
       NULL
    },
-   {  
+   {
       mulle_container_valuecallback_self,
       mulle_container_valuecallback_nop,
       (void *(*)()) describe_queue,
@@ -300,20 +300,20 @@ static struct mulle_container_keyvaluecallback    observer_no_free_registry_call
 @implementation NSNotificationCenter
 
 // the address of this variable (is the stand in for the n=0 s=0 observer)
-// stored in the sender registry 
+// stored in the sender registry
 static void   *OmniscientObserver;
 
 - (id) init
 {
    struct mulle_allocator   *allocator;
-   
+
    allocator = MulleObjCObjectGetAllocator( self);
 
    mulle_map_init( &_pairRegistry, 128, &pair_registry_callbacks, allocator);
    mulle_map_init( &_observerRegistry, 64, &observer_registry_callbacks, allocator);
    mulle_map_init( &_nameRegistry, 5, &name_registry_callbacks, allocator);
    mulle_map_init( &_senderRegistry,5, &sender_registry_callbacks, allocator);
-      
+
    return( self);
 }
 
@@ -322,7 +322,7 @@ static void   *OmniscientObserver;
 {
    struct mulle_container_keyvaluecallback   callbacks;
    struct mulle_allocator                    *allocator;
-   
+
    allocator = MulleObjCObjectGetAllocator( self);
 
    callbacks = sender_registry_callbacks;
@@ -341,7 +341,7 @@ static void   *OmniscientObserver;
    callbacks = observer_registry_callbacks;
    callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
    _mulle_map_done( (struct _mulle_map *) &_observerRegistry, &callbacks, allocator);
-   
+
    [super dealloc];
 }
 
@@ -349,7 +349,7 @@ static void   *OmniscientObserver;
 + (id) defaultCenter
 {
    static NSNotificationCenter  *defaultCenter;
-   
+
    if( ! defaultCenter)
       defaultCenter = [self new];
    return( defaultCenter);
@@ -365,7 +365,7 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
    observer_sel_imp_triplet        *buf;
    observer_sel_imp_triplet        *tofree;
    NSUInteger                      i, n;
-   
+
    tofree = NULL;
 
    //
@@ -374,7 +374,7 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
    n = _mulle_queue_get_count( queue);
    {
       observer_sel_imp_triplet  tmp[ 64];
-      
+
       buf    = tmp;
       tofree = NULL;
       if( n > 64)
@@ -389,7 +389,7 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
          ++i;
       }
       _mulle_queueenumerator_done( &rover);
-      
+
       //
       // if it's really a problem, that messages are sent after a receiver
       // has removed himself (within the same posting cycle) put a
@@ -403,7 +403,7 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
          (*p->imp)( p->observer, p->sel, notification);
          ++p;
       }
-      
+
       mulle_free( tofree);
    }
 }
@@ -412,7 +412,7 @@ static void   NSNotificationCenterPostNotificationNotifyReceivers( struct _mulle
 static void   post_pair( NSNotificationCenter *self, name_sender_pair *pair, NSNotification *notification)
 {
    struct _mulle_queue   *queue;
-   
+
    queue = mulle_map_get( &self->_pairRegistry, pair);
    if( queue)
       NSNotificationCenterPostNotificationNotifyReceivers( queue, notification);
@@ -422,7 +422,7 @@ static void   post_pair( NSNotificationCenter *self, name_sender_pair *pair, NSN
 static void   post_name( NSNotificationCenter *self, NSString *name, NSNotification *notification)
 {
    struct _mulle_queue   *queue;
-   
+
    queue = mulle_map_get( &self->_nameRegistry, name);
    if( queue)
       NSNotificationCenterPostNotificationNotifyReceivers( queue, notification);
@@ -432,28 +432,28 @@ static void   post_name( NSNotificationCenter *self, NSString *name, NSNotificat
 static void   post_sender( NSNotificationCenter *self, id sender, NSNotification *notification)
 {
    struct _mulle_queue   *queue;
-   
+
    queue = mulle_map_get( &self->_senderRegistry, sender);
    if( queue)
       NSNotificationCenterPostNotificationNotifyReceivers( queue, notification);
 }
 
 
-  
-static void   NSNotificationCenterPostNotification( NSNotificationCenter  *self, 
+
+static void   NSNotificationCenterPostNotification( NSNotificationCenter  *self,
                                                     NSNotification *notification)
 {
    name_sender_pair   pair;
 
    pair.name   = [notification name];
    pair.sender = [notification object];
-   
+
    if( pair.sender)
    {
       post_pair( self, &pair, notification);
       post_sender( self, pair.sender, notification);
    }
-   
+
    post_name( self, pair.name, notification);
    post_sender( self, (void *) &OmniscientObserver, notification);
 }
@@ -465,52 +465,52 @@ static void   NSNotificationCenterPostNotification( NSNotificationCenter  *self,
 }
 
 
-- (void) postNotificationName:(NSString *) name 
+- (void) postNotificationName:(NSString *) name
                        object:(id) sender
 {
    NSNotification  *notification;
-   
+
    notification = [NSNotification notificationWithName:name
                                                 object:sender];
    NSNotificationCenterPostNotification( self, notification);
-}                     
+}
 
 
-- (void) postNotificationName:(NSString *) name 
-                       object:(id) sender 
+- (void) postNotificationName:(NSString *) name
+                       object:(id) sender
                      userInfo:(NSDictionary *) userInfo
 {
    NSNotification  *notification;
-   
+
    notification = [NSNotification notificationWithName:name
                                                 object:sender
                                               userInfo:userInfo];
    NSNotificationCenterPostNotification( self, notification);
-}                     
+}
 
 
-static void  add_triplet_for_key( struct mulle_map *table, 
+static void  add_triplet_for_key( struct mulle_map *table,
                                   void *key,
                                   observer_sel_imp_triplet *triplet)
 {
    struct _mulle_queue       *triplet_queue;
    struct mulle_allocator   *allocator;
-   
+
    triplet_queue = mulle_map_get( table, key);
    allocator     = mulle_map_get_allocator( table);
-   
+
    if( ! triplet_queue)
-   {      
+   {
       triplet_queue = _mulle_queue_create( 2, 0, allocator);  // spare allowance MUST be zero
       mulle_map_insert( table, key, triplet_queue);
    }
    _mulle_queue_push( triplet_queue, triplet, &mulle_container_keycallback_nonowned_pointer, allocator);
 }
-   
-                       
-- (void) addObserver:(id) observer 
-            selector:(SEL) sel 
-                name:(NSString *) name 
+
+
+- (void) addObserver:(id) observer
+            selector:(SEL) sel
+                name:(NSString *) name
               object:(id) sender
 {
    name_sender_pair          *pair;
@@ -519,9 +519,9 @@ static void  add_triplet_for_key( struct mulle_map *table,
    observer_sel_imp_triplet  value;
    struct _mulle_queue        *pair_queue;
    struct mulle_allocator   *allocator;
-   
+
    allocator      = mulle_map_get_allocator( &self->_nameRegistry);
-   
+
    value.observer = observer;
    value.sel      = sel;
    value.imp      = [observer methodForSelector:sel];
@@ -548,7 +548,7 @@ static void  add_triplet_for_key( struct mulle_map *table,
    /* this owns the pair */
    pair_queue = mulle_map_get( &_observerRegistry, observer);
    if( ! pair_queue)
-   {      
+   {
       pair_queue = _mulle_queue_create( 2, 0, allocator);  // spare allowance MUST be zero
       mulle_map_insert( &_observerRegistry, observer, pair_queue);
    }
@@ -567,7 +567,7 @@ static struct _mulle_queue   *tripletQueueByRemovingObserver( struct _mulle_queu
 
    hit     = NO;
    cleaned = NULL;
-   
+
    rover = _mulle_queue_enumerate( triplet_queue);
    while( triplet = _mulle_queueenumerator_next( triplet_queue, &rover))
    {
@@ -577,7 +577,7 @@ static struct _mulle_queue   *tripletQueueByRemovingObserver( struct _mulle_queu
          mulle_allocator_free( allocator, triplet);
          continue;
       }
-      
+
       if( ! cleaned)
          cleaned = _mulle_queue_create( _mulle_queue_get_bucketsize( triplet_queue), 0, allocator);
       _mulle_queue_push( cleaned, triplet, &mulle_container_keycallback_nonowned_pointer, allocator);
@@ -588,10 +588,10 @@ static struct _mulle_queue   *tripletQueueByRemovingObserver( struct _mulle_queu
    {
 #if DEBUG
       abort();
-#endif      
+#endif
       return( triplet_queue); // does this ever happen ?
    }
-   
+
    return( cleaned);
 }
 
@@ -623,7 +623,7 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
 {
    if( ! pair->name)
    {
-      dequeueObserverForKey( &self->_senderRegistry, 
+      dequeueObserverForKey( &self->_senderRegistry,
                              pair->sender ? pair->sender : (void *) &OmniscientObserver,
                              observer,
                              allocator);
@@ -633,7 +633,7 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
          dequeueObserverForKey( &self->_nameRegistry, pair->name, observer, allocator);
       else
          dequeueObserverForKey( &self->_pairRegistry, pair, observer, allocator);
-   
+
    mulle_allocator_free( allocator, pair);
 }
 
@@ -644,15 +644,15 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
    struct _mulle_queue             *pair_queue;
    struct mulle_allocator          *allocator;
    name_sender_pair                *pair;
-   
+
    pair_queue = mulle_map_get( &_observerRegistry, observer);
    if( ! pair_queue)
       return;
-   
+
    allocator = mulle_map_get_allocator( &_observerRegistry);
-   
+
    _mulle_map_remove( (struct _mulle_map *) &_observerRegistry, observer, &observer_no_free_registry_callbacks, allocator);
-   
+
    rover = _mulle_queue_enumerate( pair_queue);
    while( pair = _mulle_queueenumerator_next( pair_queue, &rover))
    {
@@ -664,8 +664,8 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
 }
 
 
-- (void) removeObserver:(id) observer 
-                   name:(NSString *) name 
+- (void) removeObserver:(id) observer
+                   name:(NSString *) name
                  object:(id) sender
 {
    struct _mulle_queueenumerator   rover;
@@ -673,14 +673,14 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
    struct _mulle_queue             *new_queue;
    struct mulle_allocator          *allocator;
    name_sender_pair                *pair;
-   
+
    pair_queue = mulle_map_get( &_observerRegistry, observer);
    if( ! pair_queue)
       return;
-   
+
    allocator = mulle_map_get_allocator( &self->_observerRegistry);
    new_queue = _mulle_queue_create( _mulle_queue_get_bucketsize( pair_queue), 0, allocator);
-   
+
    rover = _mulle_queue_enumerate( pair_queue);
    while( pair = _mulle_queueenumerator_next( pair_queue, &rover))
    {
@@ -690,7 +690,7 @@ static void   removeObserverForPairAndDeallocate( NSNotificationCenter *self, na
          _mulle_queue_push( new_queue, pair, &mulle_container_keycallback_nonowned_pointer, allocator);
          continue;
       }
-      
+
       removeObserverForPairAndDeallocate( self, pair, observer, allocator);
    }
    _mulle_queueenumerator_done( &rover);

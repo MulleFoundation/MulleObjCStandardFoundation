@@ -209,40 +209,6 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSData class]);
-}
-
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   void         *bytes;
-   NSUInteger   length;
-
-   bytes = [coder decodeBytesWithReturnedLength:&length];
-   return( [self initWithBytes:bytes
-                        length:length]);
-}
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   [coder encodeBytes:[self bytes]
-               length:[self length]];
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
-
-
 #pragma mark -
 #pragma mark common code
 

@@ -37,7 +37,7 @@
 
 
 // only can deal with UTF8 but returns UTF32
-@interface _MulleObjCUTF8StreamReader : NSObject 
+@interface _MulleObjCUTF8StreamReader : NSObject
 {
 #ifdef MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
 MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY

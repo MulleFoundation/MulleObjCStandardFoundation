@@ -44,7 +44,7 @@
 {
    NSNumber   *nr;
    id         element;
-   
+
    nr = [NSNumber numberWithInt:0];
    for( element in self)
       nr = [element _add:nr];
@@ -62,7 +62,7 @@
 - (NSNumber *) _divideByInteger:(NSUInteger) divisor
 {
    NSNumber   *nr;
-   
+
    nr = [NSNumber numberWithInt:0];
    nr = [self _add:nr];
    return( [nr _divideByInteger:divisor]);

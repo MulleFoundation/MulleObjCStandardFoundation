@@ -40,19 +40,20 @@
 
 // other libraries of MulleObjCFoundation
 #import "NSLocale.h"
-#import "NSFormatter+NSLocale.h"
+#import "NSNumberFormatter.h"
+
 
 // std-c and dependencies
 
 
 @implementation NSNumber (NSLocale)
 
-- (NSString *) descriptionWithLocale:(NSLocale *) locale
+- (NSString *) descriptionWithLocale:(id) locale
 {
    NSNumberFormatter    *formatter;
 
-   // if this is too slow, but a default formatter into class vars
-   
+   // if this is too slow, put a default formatter into class vars
+
    formatter = [[NSNumberFormatter new] autorelease];
    [formatter setLocale:locale];
    return( [formatter stringFromNumber:self]);

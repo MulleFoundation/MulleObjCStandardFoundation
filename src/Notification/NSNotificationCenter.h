@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 #import <mulle_container/mulle_container.h>
 
@@ -56,16 +56,16 @@
 
 + (id) defaultCenter;
 
-- (void) addObserver:(id) observer 
-            selector:(SEL) sel 
-                name:(NSString *) name 
+- (void) addObserver:(id) observer
+            selector:(SEL) sel
+                name:(NSString *) name
               object:(id) sender;
 
 - (void) postNotification:(NSNotification *) notification;
-- (void) postNotificationName:(NSString *) name 
+- (void) postNotificationName:(NSString *) name
                        object:(id) sender;
-- (void) postNotificationName:(NSString *) name 
-                       object:(id) sender 
+- (void) postNotificationName:(NSString *) name
+                       object:(id) sender
                      userInfo:(NSDictionary *) userInfo;
 
 - (void) removeObserver:(id) observer;

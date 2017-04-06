@@ -224,21 +224,21 @@
 {
    unsigned int   i;
    long           c;
-   
+
    // trivial check
    if( self == set)
       return( YES);
 
    if( ! set)
       return( YES);  // i guess
-   
+
    // simplistic easy check
    for( i = 0; i <= 0x10; i++)
       if( [set hasMemberInPlane:i] && ! [self hasMemberInPlane:i])
          return( NO);
-   
+
    // ultra layme
-   
+
    for( c = 0; c <= mulle_utf32_max; c++)
       if( [self longCharacterIsMember:c] != [set longCharacterIsMember:c])
          return( NO);
@@ -258,7 +258,7 @@
 {
    long   c;
    long   end;
-   
+
    c   = plane * 0x10000;
    end = c + 0x10000;
    for( ; c < end; c += 8)
@@ -281,17 +281,17 @@
    NSUInteger   size;
    NSUInteger   n_planes;
    void         *bytes;
-   
+
    [self release];
 
    size     = [data length];
    n_planes = 1 + (size - 8192) / 8193;
    if( 8192 + (n_planes - 1) * 8193 != size)
       return( nil);
-   
+
    data  = [[data copy] autorelease];
    bytes = [data bytes];
-   
+
    return( [_MulleObjCConcreteBitmapCharacterSet newWithBitmapPlanes:bytes
                     invert:NO
                  allocator:NULL
@@ -306,7 +306,7 @@
    unsigned int    extra;
    NSMutableData   *data;
    unsigned char   *p;
-   
+
    extra = 0;
    for( i = 1; i <= 0x10; i++)
       if( planes[ i] = [self hasMemberInPlane:i])
@@ -314,11 +314,11 @@
 
    data  = [NSMutableData dataWithLength:8192 + extra * 8193];
    p     = [data mutableBytes];
-   
+
    [self getBitmapBytes:p
                   plane:0];
    p = &p[ 8192];
-   
+
    for( i = 1; i <= 0x10; i++)
    {
       if( ! planes[ i])
@@ -330,7 +330,7 @@
                      plane:i];
       p = &p[ 8192];
    }
-   
+
    return( data);
 }
 

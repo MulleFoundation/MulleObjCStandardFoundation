@@ -35,7 +35,7 @@
 //
 
 #define _MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY  @public
- 
+
 #import "_MulleObjCBufferedDataInputStream.h"
 
 
@@ -47,7 +47,7 @@ MulleObjCMemoryRegion   _MulleObjCBufferedDataInputStreamBookmarkedRegion( _Mull
 static inline int  _MulleObjCBufferedDataInputStreamCurrentCharacter( _MulleObjCBufferedDataInputStream *_self)
 {
    struct { @defs( _MulleObjCBufferedDataInputStream); }  *self = (void *) _self;
-   
+
    if( ! self->_current)
       return( -1);
    return( *self->_current);
@@ -57,7 +57,7 @@ static inline int  _MulleObjCBufferedDataInputStreamCurrentCharacter( _MulleObjC
 static inline int   _MulleObjCBufferedDataInputStreamNextCharacter( _MulleObjCBufferedDataInputStream *_self)
 {
    struct { @defs( _MulleObjCBufferedDataInputStream); }  *self = (void *) _self;
-   
+
    assert( self->_current);
 
    if( ++self->_current == self->_sentinel)
@@ -76,7 +76,7 @@ static inline int   _MulleObjCBufferedDataInputStreamConsumeCurrentCharacter( _M
    if( ! self->_current)
       return( -1);
    c = *self->_current;
-   
+
    _MulleObjCBufferedDataInputStreamNextCharacter( _self);
    return( c);
 }
@@ -85,7 +85,7 @@ static inline int   _MulleObjCBufferedDataInputStreamConsumeCurrentCharacter( _M
 static inline size_t  _MulleObjCBufferedDataInputStreamBytesAvailable( _MulleObjCBufferedDataInputStream *_self)
 {
    struct { @defs( _MulleObjCBufferedDataInputStream); }  *self = (void *) _self;
-   
+
    return( self->_sentinel - self->_current);
 }
 
@@ -93,7 +93,7 @@ static inline size_t  _MulleObjCBufferedDataInputStreamBytesAvailable( _MulleObj
 static inline void  _MulleObjCBufferedDataInputStreamBookmark( _MulleObjCBufferedDataInputStream *_self)
 {
    struct { @defs( _MulleObjCBufferedDataInputStream); }  *self = (void *) _self;
-   
+
    if( self->_bookmarkData)
    {
       [self->_bookmarkData release];

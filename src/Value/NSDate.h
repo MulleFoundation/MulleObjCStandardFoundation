@@ -33,27 +33,39 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
+#import "NSDateFactory.h"
 
 typedef double    NSTimeInterval;
 
 #define NSTimeIntervalSince1970  978307200.0
 
+// compatible values
+#define NSDistantFuture   63113904000.0
+#define NSDistantPast    -63114076800.0
 
-@interface NSDate : NSObject < NSCoding>
+
+//
+// _interval is always GMT, this means if NSDate had
+// a timeZone property, it would return GMT!
+//
+// The time interval is not "physical" seconds but
+// calendar seconds (sometime seconds appear or disappear
+// due to leap years).
+//
+@interface NSDate : NSObject < NSDateFactory>
 {
    NSTimeInterval   _interval;
 }
 
-+ (id) date;
 
 + (id) dateWithTimeIntervalSince1970:(NSTimeInterval) seconds;
 + (id) dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
 + (id) distantFuture;
 + (id) distantPast;
 
-- (id) initWithTimeInterval:(NSTimeInterval) seconds 
+- (id) initWithTimeInterval:(NSTimeInterval) seconds
                   sinceDate:(NSDate *) refDate;
 - (id) initWithTimeIntervalSince1970:(NSTimeInterval) seconds;
 - (id) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
@@ -64,6 +76,13 @@ typedef double    NSTimeInterval;
 - (NSTimeInterval) timeIntervalSince1970;
 - (NSTimeInterval) timeIntervalSinceDate:(NSDate *) other;
 - (NSTimeInterval) timeIntervalSinceReferenceDate;
+
+@end
+
+
+@interface NSDate ( Future)
+
++ (id) date;
 + (NSTimeInterval) timeIntervalSinceReferenceDate;
 
 @end

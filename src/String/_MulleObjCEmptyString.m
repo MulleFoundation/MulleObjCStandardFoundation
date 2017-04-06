@@ -51,8 +51,8 @@
 
 
 - (NSUInteger) _UTF8StringLength
-{ 
-   return( 0); 
+{
+   return( 0);
 }
 
 

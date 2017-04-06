@@ -54,12 +54,12 @@
    unsigned char   *q, *sentinel;
    size_t          len;
    NSMutableData   *target;
-   
+
    // don't do this for larger strings
    data = [self dataUsingEncoding:NSUTF8StringEncoding];
    if( ! [data propertyListUTF8DataNeedsQuoting])
       return( data);
-      
+
    // do proper quoting and escaping
    len    = [data length];
    target = [NSMutableData dataWithLength:len * 2 + 2];
@@ -84,15 +84,15 @@
       case '\v' : *s++ = '\\'; *s++ = 'v'; break;
       case '\\' : *s++ = '\\'; *s++ = '\\'; break;
       case '\"' : *s++ = '\\'; *s++ = '\"'; break;
-#if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING   
-      case 0    : *s++ = '\\'; *s++ = '0'; break; 
-#endif   
+#if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
+      case 0    : *s++ = '\\'; *s++ = '0'; break;
+#endif
       }
    }
    while( ++q < sentinel);
 
    *s++   = '\"';
-      
+
    [target setLength:s - start];
    return( target);
 }

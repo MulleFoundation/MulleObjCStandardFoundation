@@ -55,13 +55,13 @@
    IMP               impAppend;
    NSMutableString   *buffer;
    NSString          *s;
-   
+
    switch( [self count])
    {
    case 0 : return( @"");
    case 1 : return( [self lastObject]);
    }
-   
+
    buffer    = [NSMutableString string];
    selAppend = @selector( appendString:);
    impAppend = [buffer methodForSelector:selAppend];
@@ -72,7 +72,7 @@
 
    s = (*impNext)( rover, selNext, NULL);
    (*impAppend)( buffer, selAppend, s);
-   
+
    while( s = (*impNext)( rover, selNext, NULL))
    {
       (*impAppend)( buffer, selAppend, separator);
@@ -95,7 +95,7 @@ BOOL   NSArrayCompatibleDescription = YES;
    NSString          *secondSpace;
    NSString          *firstNewLine;
    NSUInteger        count;
-   
+
    count = [self count];
    if( ! count)
       return( NSArrayCompatibleDescription ? @"(\n)" : @"()");
