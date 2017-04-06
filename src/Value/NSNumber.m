@@ -135,16 +135,17 @@ static inline id   newNumberWithUnsignedLong(unsigned long   value)
 }
 
 
-static inline id   newNumberWithUnsignedLongLong(unsigned long long  value)
+static inline id   newNumberWithUnsignedLongLong( unsigned long long  value)
 {
    assert( sizeof( unsigned long long) == sizeof( uint64_t));
-   
+
+   // does this really pay off, I doubt it
    if( value <= ULONG_MAX)
-      return( newNumberWithUnsignedLong(value));
+      return( newNumberWithUnsignedLong( (unsigned long) value));
    return( [_MulleObjCUInt64Number newWithUInt64:value]);
 }
 
-             
+
 - (id) initWithBool:(BOOL) value
 {
    [self release];
@@ -183,7 +184,7 @@ static inline id   newNumberWithUnsignedLongLong(unsigned long long  value)
 - (id) initWithUnsignedInteger:(NSUInteger) value
 {
    [self release];
-   
+
    return( newNumberWithUnsignedInteger(value));
 }
 
@@ -269,7 +270,7 @@ static inline id   newNumberWithLong( long value)
 static inline id   newNumberWithLongLong( long long  value)
 {
    assert( sizeof( long long) == sizeof( int64_t));
-   
+
    if( value <= LONG_MAX && value >= LONG_MIN)
       return( newNumberWithLong( (long) value));
    return( [_MulleObjCInt64Number newWithInt64:value]);
@@ -279,7 +280,7 @@ static inline id   newNumberWithLongLong( long long  value)
 - (id) initWithChar:(char) value
 {
    [self release];
-   
+
    assert( sizeof( char) == sizeof( int8_t));
    return( newNumberWithChar( value));
 }
@@ -288,7 +289,7 @@ static inline id   newNumberWithLongLong( long long  value)
 - (id) initWithShort:(short) value
 {
    [self release];
-   
+
    return( newNumberWithShort( value));
 }
 
@@ -328,7 +329,7 @@ static inline id   newNumberWithLongLong( long long  value)
 - (id) initWithFloat:(float) value
 {
    [self release];
-   
+
    return( [_MulleObjCDoubleNumber newWithDouble:value]);
 }
 
@@ -336,7 +337,7 @@ static inline id   newNumberWithLongLong( long long  value)
 - (id) initWithDouble:(double) value
 {
    [self release];
-   
+
    return( [_MulleObjCDoubleNumber newWithDouble:value]);
 }
 
@@ -344,7 +345,7 @@ static inline id   newNumberWithLongLong( long long  value)
 - (id) initWithLongDouble:(long double) value
 {
    [self release];
-   
+
    return( [_MulleObjCLongDoubleNumber newWithLongDouble:value]);
 }
 
@@ -371,7 +372,7 @@ static inline id   newNumberWithLongLong( long long  value)
    case _C_ULNG     : [self release]; return( newNumberWithUnsignedLong( *(unsigned long *) value));
    case _C_LNG_LNG  : [self release]; return( newNumberWithLongLong( *(long long *) value));
    case _C_ULNG_LNG : [self release]; return( newNumberWithUnsignedLongLong( *(unsigned long long *) value));
-      
+
    case _C_FLT      : return( [self initWithFloat:*(float *) value]);
    case _C_DBL      : return( [self initWithDouble:*(double *) value]);
    case _C_LNG_DBL  : return( [self initWithLongDouble:*(double *) value]);
@@ -381,7 +382,7 @@ static inline id   newNumberWithLongLong( long long  value)
 
 
 #pragma mark -
-#pragma mark convenience constructors 
+#pragma mark convenience constructors
 
 // don't short-circuit for subclasses
 
@@ -487,7 +488,7 @@ static inline id   newNumberWithLongLong( long long  value)
 /*
  * this compare: "properly" promotes all comparisons to unsigned
  * if one ot the two numbers is unsigned (and not FP)
- * this is is believe different from Apple 
+ * this is is believe different from Apple
  */
 #define _C_SUPERQUAD  1848
 
@@ -511,7 +512,7 @@ static int  simplify_type_for_comparison( int type)
    case _C_UCHR :
    case _C_USHT :
       return( _C_INT);
-         
+
    case _C_UINT :
        if( sizeof( unsigned int) == sizeof( int32_t))
           return( _C_LNG_LNG);
@@ -521,7 +522,7 @@ static int  simplify_type_for_comparison( int type)
       if( sizeof( long) == sizeof( int32_t))
          return( _C_INT);
       return( _C_LNG_LNG);
-         
+
    case _C_ULNG :
       if( sizeof( unsigned long) == sizeof( int32_t))
          return( _C_LNG_LNG);
@@ -529,10 +530,10 @@ static int  simplify_type_for_comparison( int type)
 
    case _C_LNG_LNG :
        return( _C_LNG_LNG);
-         
+
    case _C_ULNG_LNG :
       return( _C_SUPERQUAD);
-         
+
    case _C_FLT     :
       return( _C_DBL);
    }
@@ -543,11 +544,11 @@ static int  simplify_type_for_comparison( int type)
 //
 // generic routines for all
 //
-- (mulle_objc_superquad) _superquadValue
+- (_ns_superquad) _superquadValue
 {
-   mulle_objc_superquad  value;
+   _ns_superquad  value;
    long long             x;
-   
+
    x        = [self longLongValue];
    value.lo = x;
    value.hi = (x < 0) ? ~0 : 0;
@@ -573,21 +574,21 @@ static int  simplify_type_for_comparison( int type)
    char                   *p_other_type;
    int32_t                a32, b32;
    int64_t                a64, b64;
-   mulle_objc_superquad   a128, b128;
+   _ns_superquad   a128, b128;
    double                 da, db;
    long double            lda, ldb;
    int                    type;
    int                    other_type;
-   
+
    p_type       = [self objCType];
    p_other_type = other ? [other objCType] : @encode( int);
-   
+
    NSCParameterAssert( p_type && strlen( p_type) == 1);
    NSCParameterAssert( p_other_type && strlen( p_other_type) == 1);
-   
+
    type       = simplify_type_for_comparison( *p_type);
    other_type = simplify_type_for_comparison( *p_other_type);
-   
+
    switch( type)
    {
    default  : goto bail;
@@ -601,8 +602,8 @@ static int  simplify_type_for_comparison( int type)
       case _C_DBL       : goto do_d_d_diff;
       case _C_LNG_DBL   : goto do_ld_ld_diff;
       }
-         
-   case _C_LNG_LNG : 
+
+   case _C_LNG_LNG :
       switch( other_type)
       {
       default           : goto bail;
@@ -612,8 +613,8 @@ static int  simplify_type_for_comparison( int type)
       case _C_DBL       : goto do_d_d_diff;
       case _C_LNG_DBL   : goto do_ld_ld_diff;
       }
-         
-         
+
+
    case _C_SUPERQUAD :
       switch( other_type)
       {
@@ -624,11 +625,11 @@ static int  simplify_type_for_comparison( int type)
       case _C_DBL       : goto do_d_d_diff;
       case _C_LNG_DBL   : goto do_ld_ld_diff;
       }
-         
+
    case _C_DBL          : goto do_d_d_diff;
    case _C_LNG_DBL      : goto do_ld_ld_diff;
    }
-   
+
    // TODO: check for unsigned comparison
    // hint: don't do subtraction
 do_32_32_diff:
@@ -648,25 +649,24 @@ do_64_64_diff :
 do_128_128_diff :
    a128 = [self _superquadValue];
    b128 = [other _superquadValue];
-   return( mulle_objc_superquad_compare( a128, b128));
-   
+   return( _ns_superquad_compare( a128, b128));
+
 do_d_d_diff :
    da = [self doubleValue];
    db = [other doubleValue];
    if( da == db)
       return( NSOrderedSame);
    return( da < db ? NSOrderedAscending : NSOrderedDescending);
-   
+
 do_ld_ld_diff :
    lda = [self longDoubleValue];
    ldb = [other longDoubleValue];
    if( lda == ldb)
       return( NSOrderedSame);
    return( lda < ldb ? NSOrderedAscending : NSOrderedDescending);
-   
+
 bail:
    MulleObjCThrowInternalInconsistencyException( @"unknown objctype");
-   return( 0);
 }
 
 
@@ -674,10 +674,10 @@ bail:
 {
    NSUInteger  value;
    uintptr_t   hash;
-   
+
    value = [self unsignedIntegerValue];
    hash  = mulle_hash( &value, sizeof( NSUInteger)); // stay compatible to NSValue
-   
+
    return( hash);
 }
 

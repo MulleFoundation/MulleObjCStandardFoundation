@@ -53,19 +53,19 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
    long                  x;
    NSString              *key;
    id                    value;
-   
+
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
-   if (x != '{') 
+   if (x != '{')
       return( (id) _MulleObjCPropertyListReaderFail( reader, @"did not find dictionary (expected '{')"));
-    
+
 
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '{'
    x = _MulleObjCPropertyListReaderSkipWhite( reader);
-   
+
    if( x == '}')
    { // an empty dictionary
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '}'
-      return( [reader->nsDictionaryClass new]); // 
+      return( [reader->nsDictionaryClass new]); //
    }
 
    result = [NSMutableDictionary new];
@@ -77,7 +77,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          [result release];  // NSParse already complained
          return( nil);
       }
-      
+
       _MulleObjCPropertyListReaderSkipWhite( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 '='
       if( x != '=')
@@ -96,14 +96,14 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          [result release];  // NSParse already complained
          return( nil);
       }
-      
+
       NSCParameterAssert( ! [result objectForKey:key]);
-      
+
       [result setObject:value
                  forKey:key];
       [value release];
       [key release];
-                 
+
       _MulleObjCPropertyListReaderSkipWhite( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 ';}'
       if( x != ';')
@@ -111,7 +111,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          [result release];
          return( (id) _MulleObjCPropertyListReaderFail( reader, @"expected ';' after value in dictionary"));
       }
-      
+
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
       x = _MulleObjCPropertyListReaderSkipWhite( reader);
       if( x == '}')
@@ -126,7 +126,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          return( (id) _MulleObjCPropertyListReaderFail( reader, @"dictionary was not closed (expected '}')"));
       }
    }
-	
+
    return( result);
 }
 

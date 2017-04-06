@@ -75,10 +75,10 @@
    if( ! key)
       [NSException raise:NSInconsistentArchiveException
                   format:@"nil key is not acceptable"];
-   
+
    s      = [key UTF8String];
    length = [key _UTF8StringLength] + 1;
-   
+
    [self _appendBytes:s
                length:length];
 }
@@ -90,21 +90,21 @@
 {
    struct mulle_buffer   memo;
    unsigned char         tmp[ 0x400];
-   
+
    [self _appendKey:key];
-   
+
    memo = _buffer;
-   
+
    mulle_buffer_init_with_static_bytes( &_buffer,
                                        tmp, sizeof( tmp),
                                        mulle_buffer_get_allocator( &memo));
    [self _appendBytes:bytes
                length:len];
-   
+
    mulle_buffer_add_integer( &memo, mulle_buffer_get_length( &_buffer));
    mulle_buffer_add_buffer( &memo, &_buffer);
    mulle_buffer_done( &_buffer);
-   
+
    _buffer = memo;
 }
 
@@ -116,19 +116,19 @@
 {
    struct mulle_buffer   memo;
    unsigned char         tmp[ 0x400];
-   
+
    fprintf( stderr, "key=%p\n", key);
-   
+
    [self _appendKey:key];
-   
+
    memo = _buffer;
-   
+
    mulle_buffer_init_with_static_bytes( &_buffer,
                                         tmp, sizeof( tmp),
                                         mulle_buffer_get_allocator( &memo));
    [self _encodeValueOfObjCType:type
                              at:p];
-   
+
    mulle_buffer_add_integer( &memo, mulle_buffer_get_length( &_buffer));
    mulle_buffer_add_buffer( &memo, &_buffer);
    mulle_buffer_done( &_buffer);
@@ -165,7 +165,7 @@
                           forKey:(NSString *) key
 {
    static char  type[] = { _C_ASSIGN_ID };
-      
+
    [self encodeValueOfObjCType:type
                             at:&obj
                            key:key];

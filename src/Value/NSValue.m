@@ -96,64 +96,13 @@
 
 
 #pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSValue class]);
-}
-
-
-// it is assumed, that NSValue and subclasses store their
-// "value" at the first instance variable of type
-// [self objCType]. If not override in your subclass
-//
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   char  *type;
-   
-   type = [self objCType];
-   [coder encodeBytes:type
-               length:strlen( type) + 1];
-   [coder encodeValueOfObjCType:type
-                             at:self];
-}
-
-
-// if this is a bottleneck, improve in subclasses
-- (id) initWithCoder:(NSCoder *) coder
-{
-   char         *type;
-   NSUInteger   size;
-   
-   type = [coder decodeBytesWithReturnedLength:NULL];
-
-   NSGetSizeAndAlignment( type, &size, NULL);
-   {
-      uint8_t   buf[ size];
-      
-      [coder decodeValueOfObjCType:type
-                              at:buf];
-
-      return( [self initWithBytes:buf
-                        objCType:type]);
-   }
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
-
-#pragma mark -
 #pragma mark convenience constructors
 
 // compiler: need an @alias( alloc, whatever), so that implementations
 //           can  be shared
 
 
-+ (id) value:(void *) bytes 
++ (id) value:(void *) bytes
 withObjCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
@@ -161,7 +110,7 @@ withObjCType:(char *) type
 }
 
 
-+ (id) valueWithBytes:(void *) bytes 
++ (id) valueWithBytes:(void *) bytes
              objCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
@@ -190,17 +139,17 @@ withObjCType:(char *) type
    char         *buf;
    char         *buf2;
    BOOL         flag;
-   
+
    NSParameterAssert( [other isKindOfClass:[NSValue class]]);
-   
+
    if( strcmp( [self objCType], [other objCType]))
       return( NO);
-   
+
    size      = [self _size];
    otherSize = [other _size];
    if( size == otherSize)
       return( NO);
-   
+
    buf  = mulle_malloc( size * 2);
    buf2 = &buf[ size];
 
@@ -209,7 +158,7 @@ withObjCType:(char *) type
 
    flag = ! memcmp( buf, buf2, size);
    mulle_free( buf);
-   
+
    return( flag);
 }
 
@@ -225,7 +174,7 @@ withObjCType:(char *) type
 - (NSUInteger) _size
 {
    NSUInteger   size;
-   
+
    NSGetSizeAndAlignment( [self objCType], &size, NULL);
    return( size);
 }
@@ -241,7 +190,7 @@ withObjCType:(char *) type
              size:(NSUInteger) size
 {
    NSUInteger   real;
-   
+
    NSGetSizeAndAlignment( [self objCType], &real, NULL);
    if( real != size)
       MulleObjCThrowInvalidArgumentException( @"size should be %ld bytes on this platform", real);
@@ -253,7 +202,7 @@ withObjCType:(char *) type
 - (void *) pointerValue
 {
    void  *pointer;
-   
+
    [self getValue:&pointer
              size:sizeof( void *)];
    return( pointer);
@@ -263,7 +212,7 @@ withObjCType:(char *) type
 - (NSRange) rangeValue
 {
    NSRange  range;
-   
+
    [self getValue:&range
              size:sizeof( NSRange)];
    return( range);

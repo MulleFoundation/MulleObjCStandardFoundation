@@ -52,10 +52,10 @@
 {
    _stream = [stream retain];
    _data   = [[NSMutableData alloc] initWithLength:Buffersize];
-   
+
    self->_start    = (unsigned char *) [_data bytes];
    self->_current  = self->_start;
-   self->_sentinel = &self->_current[ Buffersize]; 
+   self->_sentinel = &self->_current[ Buffersize];
 
    return( self);
 }
@@ -72,7 +72,7 @@
 - (void) flush
 {
    NSData   *data;
-   
+
    if( _data)
    {
       data = [[NSData alloc] initWithBytesNoCopy:self->_start
@@ -81,7 +81,7 @@
       [_stream writeData:data];
       [data release];
    }
-   
+
    self->_current = self->_start;
 }
 
@@ -104,7 +104,7 @@
    {
       if( &self->_current[ len] >= self->_sentinel)
          [self flush];
-      
+
       memcpy( self->_current, bytes, len);
       self->_current += len;
       return;

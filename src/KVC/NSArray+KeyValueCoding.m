@@ -56,27 +56,27 @@
    NSUInteger       i, n;
    id               p;
    id               value;
-   
+
    NSCParameterAssert( [key isKindOfClass:[NSString class]]);
-   
+
    n = [self count];
    if( ! n)
       return( nil);  // i am empty
-   
+
    array  = [NSMutableArray arrayWithCapacity:n];
-   
+
    get    = (void *(*)()) [self methodForSelector:@selector( objectAtIndex:)];
    append = (void (*)()) [array methodForSelector:@selector( addObject:)];
-   
+
    for( i = 0; i < n; i++)
    {
       p     = (id) (*get)( self, @selector( objectAtIndex:), i);
-      value = [p valueForKeyPath:key]; 
+      value = [p valueForKeyPath:key];
       if( ! value)
          value = [NSNull null];
       (*append)( array, @selector( addObject:), value);
    }
-   
+
    return( array);
 }
 

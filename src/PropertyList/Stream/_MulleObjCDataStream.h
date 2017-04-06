@@ -33,13 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
- 
+
 #import "MulleObjCFoundationCore.h"
 
 
 //
 // A _MulleObjCInputDataStream is basically an NSData
-// and a _MulleObjCOutputDataStream is basically (and maybe actually) an 
+// and a _MulleObjCOutputDataStream is basically (and maybe actually) an
 // NSMutableData
 //
 @protocol _MulleObjCInputDataStream < NSObject>

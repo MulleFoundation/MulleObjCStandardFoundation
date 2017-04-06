@@ -50,7 +50,7 @@
 - (id) valueForKey:(NSString *) key
 {
    NSUInteger   length;
-   
+
    length = [key length];
    if( ! length)
       return( nil);  // strange but compatible!

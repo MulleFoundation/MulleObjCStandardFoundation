@@ -106,7 +106,7 @@ NSString   *NSYearMonthWeekDesignations = @"NSYearMonthWeekDesignations";
 }
 
 
-- (NSString *) displayNameForKey:(id) key 
+- (NSString *) displayNameForKey:(id) key
                            value:(id) value
 {
    return( [NSString stringWithFormat:@"%@ = %@", key, value]);

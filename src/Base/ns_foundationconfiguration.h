@@ -37,7 +37,8 @@
 #ifndef ns_foundationconfiguration_h__
 #define ns_foundationconfiguration_h__
 
-#include <MulleObjC/ns_type.h>
+#include <MulleObjC/ns_objc_type.h>
+#include <MulleObjC/ns_int_type.h>
 #include <MulleObjC/ns_rootconfiguration.h>
 
 

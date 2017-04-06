@@ -72,7 +72,7 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 {
    struct _MulleObjCKVCInformation   kvc;
    id                                value;
-   
+
    [self _getKVCInformation:&kvc
                      forKey:key
                        methodType:_MulleObjCKVCValueForKeyIndex];
@@ -85,7 +85,7 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 {
    struct _MulleObjCKVCInformation   kvc;
    id                                value;
-   
+
    [self _getKVCInformation:&kvc
                      forKey:key
                        methodType:_MulleObjCKVCStoredValueForKeyIndex];
@@ -94,11 +94,11 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 }
 
 
-- (void) takeValue:(id) value 
+- (void) takeValue:(id) value
             forKey:(NSString *) key
 {
    struct _MulleObjCKVCInformation   kvc;
-   
+
    [self _getKVCInformation:&kvc
                      forKey:key
                        methodType:_MulleObjCKVCTakeValueForKeyIndex];
@@ -106,11 +106,11 @@ NSString   *NSUndefinedKeyException = @"NSUndefinedKeyException";
 }
 
 
-- (void) takeStoredValue:(id) value 
+- (void) takeStoredValue:(id) value
                   forKey:(NSString *) key
 {
    struct _MulleObjCKVCInformation   kvc;
-   
+
    [self _getKVCInformation:&kvc
                      forKey:key
                        methodType:_MulleObjCKVCTakeStoredValueForKeyIndex];
@@ -130,7 +130,7 @@ enum collection_operator
    max_opcode,
    sum_opcode
 };
-   
+
 static enum collection_operator  operator_opcode( char *s, size_t len)
 {
    if( len < 2 || *s != '@')
@@ -147,14 +147,14 @@ static enum collection_operator  operator_opcode( char *s, size_t len)
       if( ! strncmp( s, "@count", len))
          return( count_opcode);
       break;
-         
+
    case 'm' :
       if( ! strncmp( s, "@min", len))
          return( min_opcode);
       if( ! strncmp( s, "@max", len))
          return( max_opcode);
       break;
-         
+
    case 's' :
       if( ! strncmp( s, "@sum", len))
          return( sum_opcode);
@@ -174,7 +174,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    id                         value;
    id                         total;
    NSUInteger                 count;
-   
+
    opcode = operator_opcode( (char *) s, len);
    switch( opcode)
    {
@@ -183,11 +183,11 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
                   format:@"%@ doesn't know what to do with %@", *obj, key];
    case no_opcode :
       return( 0);
-      
+
    case count_opcode :
       *obj = [NSNumber numberWithUnsignedInteger:[*obj count]];
       return( 1);
-   
+
    default :
       break;
    }
@@ -199,7 +199,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    value    = nil;
    previous = nil;
    rover    = [*obj objectEnumerator];
-   
+
    switch( (int) opcode)
    {
    case min_opcode :
@@ -209,7 +209,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
          value = element;
          if( restPath)
             value = [element valueForKeyPath:restPath];
-         
+
          if( ! previous)
          {
             previous = value;
@@ -217,7 +217,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
          }
          if( ! value)
             continue;
-         
+
          switch( [previous compare:value])
          {
          case NSOrderedSame :
@@ -232,19 +232,19 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
             break;
          }
       }
-      
+
       *obj = previous;
-      
+
       return( 1);
-         
+
       // specification says to add "doubles" but this is
       // wrong when dealing with money (NSDecimalNumber)
-         
+
    case avg_opcode :
    case sum_opcode :
       count = 0;
       total = [NSNumber numberWithInt:0];
-         
+
       while( element = [rover nextObject])
       {
          value = element;
@@ -257,7 +257,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
 
       if( opcode == avg_opcode && count > 1)
          *obj = [total _divideByInteger:count];
-      else  
+      else
          *obj = total;
    }
    return( 1);
@@ -277,13 +277,13 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    id                                            obj;
    size_t                                        substring_len;
    struct _MulleObjCCheatingASCIIStringStorage   storage;
-   
+
    s   = (char *) [keyPath UTF8String];
    len = [keyPath _UTF8StringLength];
-   
+
    {
       char   tmp[ 0x400];
-      
+
       tofree = NULL;
       buf    = tmp;
       if( len >= 0x400 - 1)
@@ -296,33 +296,33 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
          sentinel = &buf[ len];
          memo     = buf;
          obj      = self;
-         
+
          for( s = buf; s < sentinel; s++)
          {
             if( *s != '.')
                continue;
-            
+
             *s            = 0;
             substring     = memo;
             substring_len = s - memo;
             memo          = s + 1;
-            
+
             key  = _MulleObjCCheatingASCIIStringStorageInit( &storage, substring, substring_len);
             if( handle_operator( key, substring, substring_len, memo, &buf[ len] - memo, &obj))
             {
                mulle_free( tofree);
                return( obj);
             }
-            
+
             obj = [obj valueForKey:key];
          }
          mulle_free( tofree);
       }
-      
+
       *s            = 0;
       substring     = memo;
       substring_len = s - memo;
-      
+
       key = _MulleObjCCheatingASCIIStringStorageInit( &storage, substring, substring_len);
       if( handle_operator( key,
                           _MulleObjCCheatingASCIIStringStorageGetStorage( &storage),
@@ -336,7 +336,7 @@ static int  handle_operator( NSString *key, char *s, size_t len, char *rest, siz
    }
 
    return( [obj valueForKey:key]);
-}        
+}
 
 
 static id   traverse_key_path( id obj,
@@ -350,35 +350,35 @@ static id   traverse_key_path( id obj,
    char     *substring;
    id       key;
    size_t   substring_len;
-   
+
    sentinel = &buf[ len];
    memo     = buf;
-   
+
    for( s = buf; s < sentinel; s++)
    {
       if( *s != '.')
          continue;
-      
+
       *s            = 0;
       substring     = memo;
       substring_len = s - memo;
       memo          = s + 1;
-      
+
       key  = _MulleObjCCheatingASCIIStringStorageInit( tmp, substring, substring_len);
       obj = [obj valueForKey:key];
    }
-   
+
    *s            = 0;
    substring     = memo;
    substring_len = s - memo;
-   
+
    key = _MulleObjCCheatingASCIIStringStorageInit( tmp, substring, substring_len);
    return( obj);
 }
 
 
 
-- (void) takeValue:(id) value 
+- (void) takeValue:(id) value
         forKeyPath:(NSString *) keyPath
 {
    NSUInteger                                    len;
@@ -388,13 +388,13 @@ static id   traverse_key_path( id obj,
    id                                            key;
    id                                            obj;
    struct _MulleObjCCheatingASCIIStringStorage   storage;
-   
+
    s   = (char *) [keyPath UTF8String];
    len = [keyPath _UTF8StringLength];
-   
+
    {
       char    tmp[ 0x400];
-      
+
       tofree = NULL;
       buf    = tmp;
       if( len >= 0x400 - 1)
@@ -409,7 +409,7 @@ static id   traverse_key_path( id obj,
 
    [obj takeValue:value
            forKey:key];
-}        
+}
 
 
 void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
@@ -427,22 +427,22 @@ void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
 
 
 - (id) valueForUndefinedKey:(NSString *) key
-{  
+{
    MulleObjCThrowUndefinedKeyException( self, key);
    return( nil);
 }
 
 
-- (void) handleTakeValue:(id) value 
+- (void) handleTakeValue:(id) value
            forUnboundKey:(NSString *) key
 {
-   MulleObjCThrowInvalidArgumentException( self, [key UTF8String]);
-}           
-       
-               
+   MulleObjCThrowInvalidArgumentException( @"unbound key %@ on %@", key, self);
+}
+
+
 - (void) unableToSetNilForKey:(NSString *)key
 {
-   MulleObjCThrowInvalidArgumentException( self, [key UTF8String]);
+   MulleObjCThrowInvalidArgumentException( @"unable to set nil on %@ for key %@ on %@", self,  key);
 }
 
 
@@ -452,7 +452,7 @@ void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
    NSEnumerator          *rover;
    NSString              *key;
    id                    value;
-   
+
    dictionary = [NSMutableDictionary dictionary];
    rover = [keys objectEnumerator];
    while( key = [rover nextObject])
@@ -470,8 +470,8 @@ void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
 {
    NSEnumerator   *rover;
    NSString       *key;
-   id             value;   
-   
+   id             value;
+
    rover = [properties objectEnumerator];
    while( key = [rover nextObject])
    {
@@ -487,7 +487,7 @@ void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
 @implementation NSObject( _KeyValueCodingCompatibility)
 
 // "modern" KVC interface
-- (void) setValue:(id)value 
+- (void) setValue:(id)value
            forKey:(NSString *) key
 {
    [self takeValue:value
@@ -495,7 +495,7 @@ void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
 }
 
 
-- (void) setValue:(id)value 
+- (void) setValue:(id)value
            forKeyPath:(NSString *) key
 {
    [self takeValue:value
@@ -503,7 +503,7 @@ void    MulleObjCThrowUndefinedKeyException( id self, NSString *key)
 }
 
 
-- (void) setValue:(id) value 
+- (void) setValue:(id) value
    forUndefinedKey:(NSString *) key
 {
    [self handleTakeValue:value

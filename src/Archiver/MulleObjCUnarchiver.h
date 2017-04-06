@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <MulleObjC/MulleObjC.h>
+#import "NSCoder.h"
 
 #include <mulle_buffer/mulle_buffer.h>
 #import "ns_map_table.h"
@@ -48,18 +48,18 @@ extern NSString  *NSInconsistentArchiveException;
 @interface MulleObjCUnarchiver : NSCoder
 {
    struct mulle_buffer   _buffer;
-   
+
    NSMapTable            *_objects;
    NSMapTable            *_offsets;
    NSMapTable            *_classes;
    NSMapTable            *_selectors;
    NSMapTable            *_blobs;
-   
+
    NSMapTable            *_classNameSubstitutions;
    NSMapTable            *_objectSubstitutions;
 
    struct mulle_pointerarray  _classcluster;
-   
+
    NSData                *_data;
    NSUInteger            _decoded;
    BOOL                  _initClassCluster;

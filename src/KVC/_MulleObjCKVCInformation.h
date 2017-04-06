@@ -41,7 +41,9 @@
 @class NSString;
 
 
-
+//
+// this old code should be moved somewhere else
+//
 typedef enum
 {
    _MulleObjCKVCGenericMethodOnly      = 0x0,
@@ -52,7 +54,7 @@ typedef enum
    _MulleObjCKVCUnderscoreGetMethodBit = 0x10,
    _MulleObjCKVCGetMethodBit           = 0x20,
    _MulleObjCKVCStandardMask           = 0x7FFF
-} _MulleObjCKVCMethodMask;   
+} _MulleObjCKVCMethodMask;
 
 
 void   __MulleObjCDivineValueForKeyKVCInformation( struct _MulleObjCKVCInformation *p, Class aClass, NSString *key, unsigned int mask);
@@ -100,7 +102,7 @@ static inline void   _MulleObjCSetObjectValueWithKVCInformation( id obj, id valu
       _MulleObjCSetInstanceVariableForType( obj, info->offset, value, info->valueType);
       return;
    }
-   
+
    switch( info->valueType)
    {
    case _C_CLASS     :
@@ -118,7 +120,7 @@ static inline id   _MulleObjCGetObjectValueWithKVCInformation( id obj, struct _M
 {
    if( ! info->implementation)
       return( _MulleObjCGetInstanceVariableForType( obj, info->offset, info->valueType));
-   
+
    switch( info->valueType)
    {
    case _C_CLASS   :

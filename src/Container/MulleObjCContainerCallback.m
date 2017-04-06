@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 // other files in this library
 #import "MulleObjCContainerCallback.h"
@@ -203,7 +203,7 @@ const struct mulle_container_keycallback   _MulleObjCContainerObjectKeyAssignCal
    mulle_container_keycallback_self,
    mulle_container_keycallback_nop,
    (void *(*)()) mulle_container_callback_object_describe,
-   
+
    nil,
    NULL
 };
@@ -226,7 +226,7 @@ const struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyReta
       (void *(*)()) mulle_container_callback_object_retain,
       (void (*)())  mulle_container_callback_object_autorelease,
       (void *(*)()) mulle_container_callback_object_describe,
-      
+
       nil,
       NULL
    },
@@ -247,7 +247,7 @@ const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyCop
       (void *(*)()) mulle_container_callback_object_copy,
       (void (*)())  mulle_container_callback_object_autorelease,
       (void *(*)()) mulle_container_callback_object_describe,
-      
+
       nil,
       NULL
    },
@@ -267,7 +267,7 @@ const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyRet
       (void *(*)()) mulle_container_callback_object_retain,
       (void (*)())  mulle_container_callback_object_autorelease,
       (void *(*)()) mulle_container_callback_object_describe,
-      
+
       nil,
       NULL
    },
@@ -287,7 +287,7 @@ const  struct mulle_container_keyvaluecallback   _MulleObjCContainerObjectKeyCop
       (void *(*)()) mulle_container_callback_object_copy,
       (void (*)())  mulle_container_callback_object_autorelease,
       (void *(*)()) mulle_container_callback_object_describe,
-      
+
       nil,
       NULL
    },

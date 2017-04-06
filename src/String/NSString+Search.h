@@ -49,10 +49,10 @@
 - (NSComparisonResult) compare:(NSString *) other;
 - (NSComparisonResult) caseInsensitiveCompare:(NSString *) other;
 
-- (NSRange) rangeOfString:(NSString *) other 
+- (NSRange) rangeOfString:(NSString *) other
                   options:(NSStringCompareOptions) options;
 
-- (NSRange) rangeOfString:(NSString *) other 
+- (NSRange) rangeOfString:(NSString *) other
                   options:(NSStringCompareOptions) options
                     range:(NSRange) range;
 
@@ -62,7 +62,7 @@
 - (BOOL) hasSuffix:(NSString *) suffix;
 
 - (NSComparisonResult) compare:(id) other
-                       options:(NSStringCompareOptions) options 
+                       options:(NSStringCompareOptions) options
                          range:(NSRange) range;
 
 

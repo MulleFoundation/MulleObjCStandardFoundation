@@ -73,7 +73,7 @@ static inline void   *get_bytes( id self)
 @end
 
 
-@implementation _MulleObjCZeroBytesData  // same as NSData really 
+@implementation _MulleObjCZeroBytesData  // same as NSData really
 @end
 
 
@@ -82,7 +82,7 @@ static inline void   *get_bytes( id self)
 + (id) newWithBytes:(void *) bytes
 {
    _MulleObjCEightBytesData   *data;
-   
+
    data = NSAllocateObject( self, 8, NULL);
    memcpy( get_bytes( data), bytes, 8);
    return( data);
@@ -98,7 +98,7 @@ static inline void   *get_bytes( id self)
 + (id) newWithBytes:(void *) bytes
 {
    _MulleObjCSixteenBytesData   *data;
-   
+
    data = NSAllocateObject( self, 16, NULL);
    memcpy( get_bytes( data), bytes, 16);
    return( data);
@@ -115,9 +115,9 @@ static inline void   *get_bytes( id self)
              length:(NSUInteger) length
 {
    _MulleObjCAllocatorData   *data;
-   
+
    data = NSAllocateObject( self, 0, NULL);
-   
+
    data->_storage   = MulleObjCObjectAllocateNonZeroedMemory( self, length);
    data->_length    = length;
    data->_allocator = MulleObjCClassGetAllocator( self);
@@ -133,13 +133,13 @@ static inline void   *get_bytes( id self)
                 allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCAllocatorData   *data;
-   
+
    data = NSAllocateObject( self, 0, NULL);
-   
+
    data->_storage   = bytes;
    data->_length    = length;
    data->_allocator = allocator;
-   
+
    return( data);
 }
 
@@ -174,7 +174,7 @@ static inline void   *get_bytes( id self)
                         owner:(id) owner
 {
    _MulleObjCSharedData   *data;
-   
+
    data = [self newWithBytesNoCopy:bytes
                                 length:length
                              allocator:NULL];
@@ -200,9 +200,9 @@ static inline void   *get_bytes( id self)
 {
    _MulleObjCTinyData   *data;
    NSUInteger            extra;
-   
+
    assert( length >= 1 && length <= 256);
-   
+
    extra = length > 3 ? length - 3 : 0;
 
    data = NSAllocateObject( self, extra, NULL);
@@ -233,14 +233,14 @@ static inline void   *get_bytes( id self)
              length:(NSUInteger) length
 {
    _MulleObjCMediumData   *data;
-   
+
    assert( length >= 0x101 && length <= 0x10100);
-   
+
    data = NSAllocateObject( self, length - 2, NULL);
 
    memcpy( data->_storage, bytes, length);
    data->_length = (uint16_t) (length - 0x100 - 1);
-   
+
    return( data);
 }
 

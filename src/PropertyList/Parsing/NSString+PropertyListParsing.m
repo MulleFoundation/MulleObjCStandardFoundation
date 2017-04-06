@@ -57,37 +57,37 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
    unsigned char  *src;
    unsigned char  *dst;
    NSString       *s;
-   
+
    // grab '"' off
    x = _MulleObjCPropertyListReaderNextUTF32Character( reader);
-   
+
    _MulleObjCPropertyListReaderBookmark(reader);
    escaped = 0;
-   
+
    //
    // consume string... figure out how long it is
    // first slurp in the string unescaped and check boundaries
    //
    while( x != '"')
    {
-      if( x == '\\') 
+      if( x == '\\')
       {
          x = _MulleObjCPropertyListReaderNextUTF32Character( reader);
          switch( x)
          {
          case -1   : return( (id) _MulleObjCPropertyListReaderFail( reader, @"escape in quoted string not finished !"));
-         case 'a'  : 
-         case 'b'  : 
-         case 'f'  : 
-         case 'n'  : 
-         case 'r'  : 
-         case 't'  : 
-         case 'v'  : 
-         case '\\' : 
-         case '\"' : 
-#if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING   
-         case '0' : 
-#endif   
+         case 'a'  :
+         case 'b'  :
+         case 'f'  :
+         case 'n'  :
+         case 'r'  :
+         case 't'  :
+         case 'v'  :
+         case '\\' :
+         case '\"' :
+#if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
+         case '0' :
+#endif
                break;
          }
          escaped++;
@@ -96,33 +96,33 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
       if( x < 0)
          return( (id) _MulleObjCPropertyListReaderFail( reader, @"quoted string not closed (expected '\"')"));
    }
-   
-  
+
+
    // get region without the trailing quote
    region = _MulleObjCPropertyListReaderBookmarkedRegion( reader);
    // now we can't read the stream anymore, until we are done with the region
    // it's fragile but faster
-   
+
    if( ! region.length)
    {
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '"'
       return( [[reader->nsStringClass alloc] initWithString:@""]);
    }
-   
+
    if( ! escaped)
    {
       s = [[reader->nsStringClass alloc] _initWithUTF8Characters:region.bytes
                                                          length:region.length];
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '"'
       return( s);
-   }                               
-   
+   }
+
    len  = region.length - escaped;
    data = [[NSMutableData alloc] initWithLength:len];
-   
+
    src = (unsigned char *) region.bytes;
    dst = (unsigned char *) [data bytes];
-   
+
    while( len)
    {
       --len;
@@ -138,9 +138,9 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
          case 'v'  : dst[ -1] = '\v'; break;
          case '\\' : dst[ -1] = '\\'; break;
          case '\"' : dst[ -1] = '\"'; break;
-#if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING   
-         case '0' : 
-#endif   
+#if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
+         case '0' :
+#endif
             break;
          }
    }
@@ -155,7 +155,7 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
 NSString   *_MulleObjCNewStringFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
    long  x;
-   
+
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
    if( x == '"')
       return( _MulleObjCNewStringParsedQuotedFromPropertyListWithReader( reader));

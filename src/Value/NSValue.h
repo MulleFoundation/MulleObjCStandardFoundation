@@ -33,17 +33,16 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
-
-@interface NSValue : NSObject < MulleObjCClassCluster, NSCoding>
+@interface NSValue : NSObject < MulleObjCClassCluster>
 {
 }
 
 + (id) value:(void *) bytes
 withObjCType:(char *) type;
-+ (id) valueWithBytes:(void *) bytes 
++ (id) valueWithBytes:(void *) bytes
              objCType:(char *) type;
 + (id) valueWithPointer:(void *) pointer;
 + (id) valueWithRange:(NSRange) range;

@@ -106,14 +106,14 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
    char   *sentinel;
    int    state;
    int    c;
-   
+
    state = has_nothing;
 
    sentinel = &buffer[ len];
    do
    {
       c = *buffer++;
-      
+
       switch( state)
       {
       case has_nothing :
@@ -125,7 +125,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
          }
          return( is_string);
 
-      case has_sign : 
+      case has_sign :
          switch( c)
          {
          case '0' : state = has_leading_zero; continue;
@@ -133,29 +133,29 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
          }
          return( is_string);
 
-      case has_leading_zero : 
+      case has_leading_zero :
          switch( c)
          {
          case 'e' :
          case 'E' : state = has_exp; continue;
-         case ',' : 
+         case ',' :
          case '.' : state = has_dot; continue;
          default  : ;
          }
          return( is_string);
 
-      case has_integer : 
+      case has_integer :
          switch( c)
          {
          case 'e' :
          case 'E' : state = has_exp; continue;
-         case ',' : 
+         case ',' :
          case '.' : state = has_dot; continue;
          default  : if( isdigit( c)) { continue; }
          }
          return( is_string);
 
-      case has_dot : 
+      case has_dot :
          switch( c)
          {
          case 'e' :
@@ -164,7 +164,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
          }
          return( is_string);
 
-      case has_fractional : 
+      case has_fractional :
          switch( c)
          {
          case 'e' :
@@ -173,7 +173,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
          }
          return( is_string);
 
-      case has_exp : 
+      case has_exp :
          switch( c)
          {
          case '+' :
@@ -182,7 +182,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
          }
          return( is_string);
 
-      case has_exp_sign : 
+      case has_exp_sign :
          if( isdigit( c)) { state = has_exponent; continue; }
          return( is_string);
 
@@ -192,7 +192,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
       }
    }
    while( buffer < sentinel);
-   
+
    switch( state)
    {
    case has_leading_zero :
@@ -204,7 +204,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
 }
 
 
-static BOOL _isUnquotedStringEndChar(long _c) 
+static BOOL _isUnquotedStringEndChar(long _c)
 {
    return( (unsigned long) _c >= 128 ? NO : end_char_lut[ _c]);
 }
@@ -218,15 +218,15 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
    MulleObjCMemoryRegion  region;
    char             buf[ 32];
    int              type;
-   
+
    _MulleObjCPropertyListReaderBookmark( reader);
    _MulleObjCPropertyListReaderSkipUntilTrue( reader, _isUnquotedStringEndChar);
    region = _MulleObjCPropertyListReaderBookmarkedRegion( reader);
    // empty string not possible
-   
+
    switch( type = _dude_looks_like_a_number( (char *) region.bytes, region.length))
    {
-   case is_integer : 
+   case is_integer :
    case is_double  :
       memcpy( buf, region.bytes, region.length);
       buf[ region.length] = 0;
@@ -242,11 +242,11 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
 id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader *reader)
 {
     unsigned long   x;
-    
+
     x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
-    
-retry:    
-    switch( x) 
+
+retry:
+    switch( x)
     {
     case ' ':
     case '\t':
@@ -257,7 +257,7 @@ retry:
     case '\b':
         x = _MulleObjCPropertyListReaderNextUTF32Character( reader);
         goto retry;
-        
+
     default: // an unquoted string
         return( _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( reader));
     case '"': // quoted string
@@ -273,7 +273,7 @@ retry:
     case ')' :  // can happen in  (  v, y, c, ) situations
       ;
     }
-    
+
     return( nil);
 }
 

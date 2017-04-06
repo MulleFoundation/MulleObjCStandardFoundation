@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSArray;
@@ -55,7 +55,7 @@ extern NSString   *NSUndefinedKeyException;
 
 - (id) storedValueForKey:(NSString *) key;
 
-- (void) takeStoredValue:(id) value 
+- (void) takeStoredValue:(id) value
                   forKey:(NSString *) key;
 
 - (id) valueForKeyPath:(NSString *)keyPath;
@@ -63,8 +63,8 @@ extern NSString   *NSUndefinedKeyException;
         forKeyPath:(NSString *)keyPath;
 
 - (id) handleQueryWithUnboundKey:(NSString *) key;
-- (id) valueForUndefinedKey:(NSString *) key;   
-- (void) handleTakeValue:(id) value 
+- (id) valueForUndefinedKey:(NSString *) key;
+- (void) handleTakeValue:(id) value
            forUnboundKey:(NSString *) key;
 
 - (void) unableToSetNilForKey:(NSString *)key ;
@@ -77,19 +77,19 @@ extern NSString   *NSUndefinedKeyException;
 @interface NSObject( _KeyValueCodingCompatibility)
 
 // "modern" KVC interface
-- (void) setValue:(id)value 
+- (void) setValue:(id)value
            forKey:(NSString *) key;
 
-- (void) setValue:(id)value 
+- (void) setValue:(id)value
        forKeyPath:(NSString *) key;
 
-- (void) setValue:(id) value 
+- (void) setValue:(id) value
    forUndefinedKey:(NSString *) key;
 
 - (void) setNilValueForKey:(NSString *)key;
 
 - (NSDictionary *) dictionaryWithValuesForKeys:(NSArray *) keys;
-           
+
 @end
 
 

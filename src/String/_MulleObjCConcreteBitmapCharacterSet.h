@@ -41,7 +41,7 @@
 {
    uint32_t                 *_planes[ 0x11];
    int                      _rval;
-   
+
    struct mulle_allocator   *_allocator;
    id                       _owner;
 }

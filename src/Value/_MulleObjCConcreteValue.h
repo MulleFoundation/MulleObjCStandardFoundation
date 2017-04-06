@@ -44,5 +44,5 @@
 
 + (id) newWithBytes:(void *) bytes
            objCType:(char *) type;
-           
+
 @end

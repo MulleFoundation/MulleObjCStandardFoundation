@@ -53,7 +53,7 @@ static inline  uintptr_t   blob_hash( struct mulle_container_keycallback *ignore
                                       struct blob *blob)
 {
    NSUInteger   len;
-   
+
    len = blob->_length;
    if( len > 256)
       len = 256;
@@ -109,14 +109,14 @@ static inline intptr_t  MulleObjCPointerHandleMapGet( struct MulleObjCPointerHan
                                                       void *p)
 {
    intptr_t   handle;
-   
+
    handle = (intptr_t) mulle_map_get( &map->map, p);
    if( handle)
       return( handle);
-   
+
    handle      = mulle_map_get_count( &map->map) + 1;
    mulle_map_set( &map->map, p, (void *) handle);
    mulle_pointerarray_add( &map->array,p);
-   
+
    return( handle);
 }

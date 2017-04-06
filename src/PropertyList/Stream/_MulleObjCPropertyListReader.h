@@ -39,11 +39,11 @@
 @interface _MulleObjCPropertyListReader : _MulleObjCUTF8StreamReader
 {
 @public
-   Class   nsArrayClass;   
+   Class   nsArrayClass;
    Class   nsSetClass;
-   Class   nsDictionaryClass;   
-   Class   nsStringClass;      
-   Class   nsDataClass;   
+   Class   nsDictionaryClass;
+   Class   nsStringClass;
+   Class   nsDataClass;
 }
 
 - (void) setMutableContainers:(BOOL) flag;

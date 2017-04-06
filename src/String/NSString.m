@@ -79,7 +79,7 @@ static NSString   *UTF8ToString( char *s)
 + (void) load
 {
    struct _ns_rootconfiguration   *config;
- 
+
    config = _ns_get_rootconfiguration();
    config->string.charsfromobject = (char *(*)()) stringToUTF8;
    config->string.objectfromchars = (void *(*)()) UTF8ToString;
@@ -136,7 +136,7 @@ static NSString   *UTF8ToString( char *s)
 {
    assert( s);
    assert( len);
-   
+
    return( [[[self alloc] _initWithUTF8CharactersNoCopy:s
                                                 length:len
                                              allocator:allocator] autorelease]);
@@ -157,46 +157,9 @@ static NSString   *UTF8ToString( char *s)
 - (id) initWithString:(NSString *) other
 {
    char   *s;
-   
+
    s = [other UTF8String];
    return( [self initWithUTF8String:s]);
-}
-
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSString class]);
-}
-
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   void         *bytes;
-   NSUInteger   length;
-   
-   bytes = [coder decodeBytesWithReturnedLength:&length];
-   return( [self _initWithUTF8Characters:bytes
-                                  length:length]);
-}
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   char         *bytes;
-   NSUInteger   length;
-   
-   bytes  = [self UTF8String];
-   length = [self _UTF8StringLength];
-   [coder encodeBytes:bytes
-               length:length + 1];
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
 }
 
 
@@ -219,7 +182,7 @@ static NSString   *UTF8ToString( char *s)
 {
    NSRange   range;
    char      *s;
-   
+
    range = MulleObjCHashRange( [self _UTF8StringLength]);
    s     = [self UTF8String];
    return( MulleObjCStringHash( &s[ range.location], range.length));
@@ -235,7 +198,7 @@ static void   grab_utf8( id self,
 {
    if( dst_len < len)
       MulleObjCThrowInvalidArgumentException( @"destination buffer too small");
-   
+
    memcpy( dst, storage, len);
    assert( ! memchr( storage, 0, len));
 }
@@ -261,13 +224,13 @@ static void   grab_utf8( id self,
                    bufferSize:(NSUInteger) size
 {
    NSUInteger   length;
-   
+
    assert( buf);
-   
+
    length = [self _UTF8StringLength];
    [self _getUTF8Characters:buf
                   maxLength:size];
-   
+
    if( length >= size)
       length = size - 1;
    buf[ length] = 0;
@@ -293,7 +256,7 @@ static void   grab_utf8( id self,
 - (void) getCharacters:(unichar *) buf;
 {
    NSUInteger   length;
-   
+
    length = [self length];
    [self getCharacters:buf
                  range:NSMakeRange( 0, length)];
@@ -322,16 +285,16 @@ static void   grab_utf8( id self,
                           length:(NSUInteger) len
 {
    struct mulle_utf_information  info;
-   	   
+
    if( mulle_utf8_information( buf, len, &info))
       return( NO);
-   
+
    return( YES);
 }
 
 
 #pragma mark -
-#pragma mark substringing 
+#pragma mark substringing
 
 - (NSString *) substringFromIndex:(NSUInteger) index
 {
@@ -350,11 +313,11 @@ static void   grab_utf8( id self,
    struct mulle_allocator   *allocator;
    void                     *bytes;
    NSUInteger               length;
-   
+
    length = [self length];
    if( range.location + range.length > length || range.length > length)
       MulleObjCThrowInvalidRangeException( range);
-   
+
    allocator = MulleObjCObjectGetAllocator( self);
    bytes     = mulle_allocator_malloc( allocator, range.length * sizeof( unichar));
 
@@ -370,7 +333,7 @@ static void   grab_utf8( id self,
 
 //***************************************************
 // LAYER 4 - code that works "optimally" on all
-//           subclasses and probably need not be 
+//           subclasses and probably need not be
 //           overridden
 //***************************************************
 /*
@@ -390,7 +353,7 @@ static void   grab_utf8( id self,
    return( [self retain]);
 }
 
- 
+
 #pragma mark -
 #pragma mark case conversion
 
@@ -405,9 +368,9 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    mulle_utf8_t   *p;
    mulle_utf8_t   *sentinel;
    size_t         rest;
-   
+
    buf      = mulle_allocator_malloc( allocator, len + 1);
-   
+
    p        = &buf[ range.location];
    sentinel = &p[ range.length];
    while( p < sentinel)
@@ -431,7 +394,7 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    mulle_utf8_t             *buf;
    mulle_utf8_t             *s;
    struct mulle_allocator   *allocator;
-   
+
    allocator = MulleObjCObjectGetAllocator( self);
 
    len = [self _UTF8StringLength];
@@ -455,9 +418,9 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    mulle_utf8_t             *buf;
    mulle_utf8_t             *s;
    struct mulle_allocator   *allocator;
-   
+
    allocator = MulleObjCObjectGetAllocator( self);
-   
+
    len = [self _UTF8StringLength];
    s   = [self _fastUTF8Characters];
    if( ! s)
@@ -479,7 +442,7 @@ static mulle_utf8_t   *ctype_convert( mulle_utf8_t *src,
    mulle_utf8_t             *buf;
    mulle_utf8_t             *s;
    struct mulle_allocator   *allocator;
-   
+
    allocator = MulleObjCObjectGetAllocator( self);
 
    len = [self _UTF8StringLength];
@@ -506,21 +469,20 @@ static mulle_utf8_t   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
    mulle_utf8_t   *s;
    mulle_utf8_t   *old;
    unichar        c;
-   
+
    s = (mulle_utf8_t *) [self UTF8String];
    assert( s);
-   
+
    while( *s)
    {
       old = s;
       c   = _mulle_utf8_next_utf32character( &s);
-      
+
       if( ! mulle_utf32_is_whitespace( c))
          return( old);
    }
    return( s);
 }
-
 
 
 - (double) doubleValue
@@ -556,14 +518,14 @@ static mulle_utf8_t   *UTF8StringWithLeadingSpacesRemoved( NSString *self)
 - (BOOL) boolValue
 {
    char  *s;
-   
+
    s = (char *) UTF8StringWithLeadingSpacesRemoved( self);
-   
+
    if( *s == '+' || *s == '-')
       ++s;
    while( *s == '0')
       ++s;
-      
+
    switch( *s)
    {
    case '1' :

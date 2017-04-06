@@ -34,16 +34,18 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "MulleObjCFoundationParent.h"
+
 // export everything with NS
 
 #import "NSMutableCopying.h"
 
 // export everything with MulleObjC
 
-#import "MulleObjCBaseFunctions.h"
+#import "MulleObjCCExceptionFunctions.h"
+#import "MulleObjCExceptionFunctions.h"
 
 // export nothing with _MulleObjC
 
 // export everything with ns_
-#import "ns_byteorder.h"  
 #import "ns_foundationconfiguration.h"  // rename

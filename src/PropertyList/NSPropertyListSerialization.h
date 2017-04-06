@@ -33,10 +33,14 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationCore.h"
+#import "MulleObjCFoundationParent.h"
 
 
-typedef enum 
+@class NSData;
+@class NSString;
+
+
+typedef enum
 {
     NSPropertyListImmutable,
     NSPropertyListMutableContainers,
@@ -44,12 +48,13 @@ typedef enum
 } NSPropertyListMutabilityOptions;
 
 
-typedef enum 
+typedef enum
 {
     NSPropertyListOpenStepFormat    = 1, //,
     NSPropertyListXMLFormat_v1_0    = 100  // read, support with expat
 //    NSPropertyListBinaryFormat_v1_0 = 200   // no support
 } NSPropertyListFormat;
+
 
 typedef NSUInteger   NSPropertyListReadOptions;
 typedef NSUInteger   NSPropertyListWriteOptions;
@@ -58,21 +63,21 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 @interface NSPropertyListSerialization : NSObject
 {
 @private
-   struct mulle_pointerpairarray   _stack;          // useful for XML 
+   struct mulle_pointerpairarray   _stack;          // useful for XML
    id                              _textStorage;    // useful for XML
    id                              _dateFormatter;  // ephemeral usage in XML
 }
 
-+ (NSData *) dataFromPropertyList:(id) plist 
-                           format:(NSPropertyListFormat) format 
++ (NSData *) dataFromPropertyList:(id) plist
+                           format:(NSPropertyListFormat) format
                  errorDescription:(NSString **)errorString;
 
-+ (BOOL) propertyList:(id) plist 
++ (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format;
-     
-+ (id) propertyListFromData:(NSData *) data 
-           mutabilityOption:(NSPropertyListMutabilityOptions) opt 
-                     format:(NSPropertyListFormat *) format 
+
++ (id) propertyListFromData:(NSData *) data
+           mutabilityOption:(NSPropertyListMutabilityOptions) opt
+                     format:(NSPropertyListFormat *) format
            errorDescription:(NSString **) errorString;
 
 @end

@@ -67,12 +67,12 @@ static int  _sprintf_object_conversion( struct mulle_buffer *buffer,
    assert( buffer);
    assert( info);
    assert( arguments);
-   
+
    v = arguments->values[ argc];
    s = v.obj ? (char *) [[(id) v.obj description] UTF8String] : "(nil)";
-   
+
    return( _mulle_sprintf_charstring_conversion( buffer, info, s));
-}                   
+}
 
 
 
@@ -100,4 +100,4 @@ static void  mulle_sprintf_register_default_object_functions()
 {
    mulle_sprintf_register_object_functions( mulle_sprintf_get_defaultconversion());
 }
-   
+

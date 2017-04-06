@@ -51,15 +51,15 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
    NSMutableArray   *result;
    id               element;
    long             x;
-   
+
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
-   if (x != '(') 
+   if (x != '(')
       return( _MulleObjCPropertyListReaderFail( reader, @"did not find array (expected '(')"));
-    
+
 
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '('
    x = _MulleObjCPropertyListReaderSkipWhite( reader);
-   
+
    if( x == ')')
    { // an empty array
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip ')'
@@ -70,14 +70,14 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
    for(;;)
    {
       element = _MulleObjCNewFromPropertyListWithStreamReader( reader);
-      if( ! element) 
+      if( ! element)
       {
          [result release];  // NSParse already complained
          return( nil);
       }
       [result addObject:element];
-      [element release]; 
-      
+      [element release];
+
       _MulleObjCPropertyListReaderSkipWhite( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 ')'
       if( x == ',')
@@ -86,13 +86,13 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
          _MulleObjCPropertyListReaderSkipWhite( reader);
          continue;
       }
-      
+
       if( x == ')')
       {
          _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
          break;
       }
-   
+
       [result release];
       return( _MulleObjCPropertyListReaderFail( reader, x < 0
                                        ? @"array was not closed (expected ')')"

@@ -45,10 +45,10 @@ typedef struct
    int64_t    hi;
    uint64_t   lo;
 #endif
-} mulle_objc_superquad;
+} _ns_superquad;
 
 
-static inline int   mulle_objc_superquad_compare( mulle_objc_superquad a, mulle_objc_superquad b)
+static inline int   _ns_superquad_compare( _ns_superquad a, _ns_superquad b)
 {
    if( a.hi != b.hi)
       return( a.hi < b.hi ? NSOrderedAscending : NSOrderedDescending);
@@ -119,7 +119,7 @@ static inline int   mulle_objc_superquad_compare( mulle_objc_superquad a, mulle_
 
 
 // need this for comparison until I get smarter
-- (mulle_objc_superquad) _superquadValue;
+- (_ns_superquad) _superquadValue;
 
 @end
 

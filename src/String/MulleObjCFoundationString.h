@@ -34,12 +34,13 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-
 // export everything with NS
 
 #import "NSCharacterSet.h"
 #import "NSScanner.h"
 #import "NSString.h"
+#import "NSFormatter.h"
+
 #import "NSString+Components.h"
 #import "NSString+ClassCluster.h"
 #import "NSString+Escaping.h"
@@ -48,7 +49,8 @@
 #import "NSString+Search.h"
 #import "NSString+Sprintf.h"
 #import "NSMutableString.h"
-#import "NSURL.h"
+
+#import "NSStringObjCFunctions.h"
 
 // export everything with MulleObjC
 

@@ -56,7 +56,7 @@
    NSUInteger            size;
    NSString              *s;
    char                  *type;
-   
+
    type = [self objCType];
    NSGetSizeAndAlignment( type, &size, NULL);
    if( size >= 256)
@@ -64,9 +64,9 @@
       s = [NSString stringWithFormat:@"\"%s\" %ld bytes", type, size];
       return( s);
    }
-   
+
    [self getValue:value];
-   
+
    mulle_buffer_init_with_static_bytes( &buffer, tmp, sizeof( tmp), NULL);
    mulle_buffer_dump_hex( &buffer, value, size, 0, 0x5); // no counter. no ASCII
    mulle_buffer_add_byte( &buffer, 0);

@@ -56,8 +56,8 @@
 
 @implementation NSPropertyListSerialization
 
-+ (NSData *) dataFromPropertyList:(id) plist 
-                           format:(NSPropertyListFormat) format 
++ (NSData *) dataFromPropertyList:(id) plist
+                           format:(NSPropertyListFormat) format
                  errorDescription:(NSString **) errorString;
 {
    abort();
@@ -65,14 +65,14 @@
 }
 
 
-+ (BOOL) propertyList:(id) plist 
++ (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format
 {
    if( ! [plist respondsToSelector:@selector( _propertyListIsValidForFormat:)])
       return( NO);
-      
+
    return( [plist _propertyListIsValidForFormat:format]);
-}     
+}
 
 
 // a heuristic
@@ -82,10 +82,10 @@
    char         *sentinel;
    int          c;
    NSUInteger   len;
-   
+
    s   = [data bytes];
    len = [data length];
-   
+
    sentinel = &s[ len];
    while( s < sentinel)
    {
@@ -105,22 +105,22 @@
 
       switch( toupper( c))
       {
-      case '0' : 
-      case '1' : 
-      case '2' : 
-      case '3' : 
-      case '4' : 
-      case '5' : 
-      case '6' : 
-      case '7' : 
-      case '8' : 
-      case '9' : 
-      case 'A' : 
-      case 'B' : 
-      case 'C' : 
-      case 'D' : 
-      case 'E' : 
-      case 'F' : 
+      case '0' :
+      case '1' :
+      case '2' :
+      case '3' :
+      case '4' :
+      case '5' :
+      case '6' :
+      case '7' :
+      case '8' :
+      case '9' :
+      case 'A' :
+      case 'B' :
+      case 'C' :
+      case 'D' :
+      case 'E' :
+      case 'F' :
       case '>' : return( NSPropertyListOpenStepFormat);
       }
       break;
@@ -131,9 +131,9 @@
    return( NSPropertyListXMLFormat_v1_0);
 }
 
-+ (id) propertyListFromData:(NSData *) data 
-           mutabilityOption:(NSPropertyListMutabilityOptions) opt 
-                     format:(NSPropertyListFormat *) format 
++ (id) propertyListFromData:(NSData *) data
+           mutabilityOption:(NSPropertyListMutabilityOptions) opt
+                     format:(NSPropertyListFormat *) format
            errorDescription:(NSString **) errorString
 {
    _MulleObjCByteOrderMark             bom;
@@ -141,39 +141,39 @@
    _MulleObjCBufferedDataInputStream   *stream;
    id                           plist;
    NSPropertyListSerialization  *parser;
-   
+
    if( ! [data length])
       return( nil);
-      
+
    bom = [data _byteOrderMark];
    switch( bom)
    {
    case _MulleObjCNoByteOrderMark   :
    case _MulleObjCUTF8ByteOrderMark :
       break;
-      
+
    default                   :
       abort();
    }
-   
+
    switch( [self _detectPropertyListFormat:data])
    {
    case NSPropertyListOpenStepFormat :
       stream = [[[_MulleObjCBufferedDataInputStream alloc] initWithData:data] autorelease];
       reader = [[[_MulleObjCPropertyListReader alloc] initWithBufferedInputStream:stream] autorelease];
-      
+
       [reader setMutableContainers:opt != NSPropertyListImmutable];
       [reader setMutableLeaves:opt == NSPropertyListMutableContainersAndLeaves];
-   
+
       plist = [_MulleObjCNewFromPropertyListWithStreamReader( reader) autorelease];
       break;
-   
+
    case NSPropertyListXMLFormat_v1_0 :
       parser  = [[NSPropertyListSerialization new] autorelease];
       plist   = [parser _parseXMLData:data];
    }
-   
+
    return( plist);
-}   
-        
+}
+
 @end

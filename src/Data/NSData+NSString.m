@@ -69,34 +69,34 @@ static inline unsigned int   hex( unsigned int c)
    struct mulle_buffer      buffer;
    unsigned char            *bytes;
    unsigned int             value;
-   
+
    length = [self length];
    if( ! length)
       return( @"<>");
-   
+
    bytes     = [self bytes];
    allocator = MulleObjCObjectGetAllocator( self);
-   
+
    mulle_buffer_init( &buffer, allocator);
-   
+
    mulle_buffer_add_string( &buffer, "<");
-   
+
    lines      = (length + WORD_SIZE - 1) / WORD_SIZE;
    full_lines = length / WORD_SIZE;
-   
+
    for( i = 0; i < full_lines; i++)
    {
       s = mulle_buffer_advance( &buffer, 2 * WORD_SIZE);
       for( j = 0;  j < WORD_SIZE; j++)
       {
          value = *bytes++;
-         
+
          *s++ = (mulle_utf8_t) hex( value >> 4);
          *s++ = (mulle_utf8_t) hex( value & 0xF);
       }
       mulle_buffer_add_byte( &buffer, ' ');
    }
-   
+
    if( i < lines)
    {
       remainder = length - (full_lines * WORD_SIZE);
@@ -104,7 +104,7 @@ static inline unsigned int   hex( unsigned int c)
       for( j = 0;  j < remainder; j++)
       {
          value = *bytes++;
-         
+
          *s++ = (mulle_utf8_t) hex( value >> 4);
          *s++ = (mulle_utf8_t) hex( value & 0xF);
       }
@@ -114,11 +114,11 @@ static inline unsigned int   hex( unsigned int c)
 
    mulle_buffer_add_byte( &buffer, '>');
    mulle_buffer_add_byte( &buffer, 0);
-   
+
    length = mulle_buffer_get_length( &buffer);
    s      = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
-   
+
    return( [NSString _stringWithUTF8CharactersNoCopy:s
                                               length:length
                                            allocator:allocator]);
@@ -136,12 +136,12 @@ static inline unsigned int   hex( unsigned int c)
    length = [self length];
    if( ! length)
       return( @"<>");
-   
+
    bytes     = [self bytes];
    allocator = MulleObjCObjectGetAllocator( self);
-   
+
    mulle_buffer_init( &buffer, allocator);
-   
+
    mulle_buffer_dump_hex( &buffer, bytes, length, 0, 0);
    mulle_buffer_add_byte( &buffer, 0);
 
@@ -149,7 +149,7 @@ static inline unsigned int   hex( unsigned int c)
    s      = mulle_buffer_extract_all( &buffer);
 
    mulle_buffer_done( &buffer);
-   
+
    return( [NSString _stringWithUTF8CharactersNoCopy:s
                                               length:length
                                            allocator:allocator]);

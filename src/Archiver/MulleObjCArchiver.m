@@ -49,7 +49,8 @@
 // std-c and dependencies
 
 
-NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
+NSString  *NSInconsistentArchiveException     = @"NSInconsistentArchiveException";
+NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationException";
 
 
 #pragma mark -
@@ -59,29 +60,29 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 - (id) init
 {
    _allocator = *MulleObjCObjectGetAllocator( self);
-   
+
    mulle_buffer_init( &_buffer, &_allocator);
-   
+
    self->_callback.keycallback   =  mulle_container_keycallback_nonowned_pointer;
    self->_callback.valuecallback =  mulle_container_valuecallback_intptr;
-   
+
    MulleObjCPointerHandleMapInit( &_objects, 0x10000, &_callback, &_allocator);
    MulleObjCPointerHandleMapInit( &_conditionalObjects, 0x10000, &_callback, &_allocator);
    MulleObjCPointerHandleMapInit( &_classes, 0x100, &_callback, &_allocator);
    MulleObjCPointerHandleMapInit( &_selectors, 0x100, &_callback, &_allocator);
-   
+
    self->_blob_callback.keycallback   =  mulle_container_keycallback_owned_pointer;
    self->_blob_callback.valuecallback =  mulle_container_valuecallback_intptr;
-   
+
    self->_blob_callback.keycallback.hash     = (uintptr_t (*)()) blob_hash;
    self->_blob_callback.keycallback.is_equal = (int (*)()) blob_is_equal;
-   
+
    MulleObjCPointerHandleMapInit( &_blobs, 0x100, &_blob_callback, &_allocator);
-   
+
    _classNameSubstitutions = _NSCreateMapTableWithAllocator( mulle_container_keycallback_copied_cstring,
                                               mulle_container_valuecallback_copied_cstring, 16, &_allocator);
    _objectSubstitutions    = _NSCreateMapTableWithAllocator( NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 16, &_allocator);
-   
+
    _offsets                = _NSCreateMapTableWithAllocator( NSNonOwnedPointerMapKeyCallBacks,
                                               mulle_container_valuecallback_intptr, 16, &_allocator);
    return( self);
@@ -95,13 +96,13 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    MulleObjCPointerHandleMapDone( &_classes);
    MulleObjCPointerHandleMapDone( &_selectors);
    MulleObjCPointerHandleMapDone( &_blobs);
-   
+
    NSFreeMapTable( _offsets);
    NSFreeMapTable( _classNameSubstitutions);
    NSFreeMapTable( _objectSubstitutions);
-   
+
    mulle_buffer_done( &_buffer);
-   
+
    [super dealloc];
 }
 
@@ -123,18 +124,18 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    size_t         startSelector;
    unsigned int   i, curr;
    unsigned int   start;
-   
+
    mulle_buffer_reset( &_buffer);
-   
+
    [self _writeHeader];
-   
+
    startData = mulle_buffer_get_seek( &_buffer);
    mulle_buffer_add_bytes( &_buffer, "**dta**", 8);
-   
+
    curr = 0;
-   
+
    [self _appendObject:rootObject];
-   
+
    // now just continue encoding objects until done
    for(;;)
    {
@@ -142,30 +143,30 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       curr  = mulle_pointerarray_get_count( &_objects.array);
       if( curr == start)
          break;
-      
+
       for( i = start; i < curr; i++)
       {
          obj = (id) mulle_pointerarray_get( &_objects.array, i);
          NSMapInsertKnownAbsent( _offsets, obj, (void *) mulle_buffer_get_seek( &_buffer));
-         
+
          [obj encodeWithCoder:self];
          mulle_buffer_add_byte( &_buffer, 0);  // terminate with a zero
                                                // useful for key coder
       }
    }
-   
+
    startObject = mulle_buffer_get_seek( &_buffer);
    [self _appendObjectTable];
-   
+
    startClass = mulle_buffer_get_seek( &_buffer);
    [self _appendClassTable];
-   
+
    startSelector = mulle_buffer_get_seek( &_buffer);
    [self _appendSelectorTable];
-   
+
    startBlob = mulle_buffer_get_seek( &_buffer);
    [self _appendBlobTable];
-   
+
    // dump table offsets at end
    mulle_buffer_add_bytes( &_buffer, "**off**", 8);
    mulle_buffer_add_long_long( &_buffer, startData);
@@ -173,7 +174,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    mulle_buffer_add_long_long( &_buffer, startClass);
    mulle_buffer_add_long_long( &_buffer, startSelector);
    mulle_buffer_add_long_long( &_buffer, startBlob);
-   
+
    if( mulle_buffer_has_overflown( &_buffer))
       [NSException raise:NSInconsistentArchiveException
                   format:@"could not archive object %p", rootObject];
@@ -186,7 +187,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 + (NSData *) archivedDataWithRootObject:(id) rootObject
 {
    NSArchiver *archiver;
-   
+
    archiver = [[self new] autorelease];
    [archiver encodeRootObject:rootObject];
    return( [archiver archiverData]);
@@ -199,11 +200,11 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 - (NSMutableData *) archiverData
 {
    size_t   len;
-   
+
    len = mulle_buffer_get_length( &_buffer);
    if( ! len)
       return( nil);
-   
+
    return( [NSMutableData dataWithBytes:mulle_buffer_get_bytes( &_buffer)
                                  length:len]);
 }
@@ -218,16 +219,16 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    intptr_t       handle;
    struct blob    search;
    struct blob    *blob;
-   
+
    if( ! len)
    {
       mulle_buffer_add_integer( &_buffer, 0);
       return;
    }
-   
+
    search._length  = len;
    search._storage = bytes;
-   
+
    handle = (intptr_t) mulle_map_get( &_blobs.map, &search);
    if( ! handle)
    {
@@ -236,11 +237,11 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       blob->_storage = blob + 1;
       blob->_length  = len;
       memcpy( blob->_storage, bytes, len);
-      
+
       mulle_map_set( &_blobs.map, blob, (void *) handle);
       mulle_pointerarray_add( &_blobs.array, blob);
    }
-   
+
    mulle_buffer_add_integer( &_buffer, handle);
 }
 
@@ -255,7 +256,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 - (void) _appendClass:(Class) class
 {
    intptr_t   handle;
-   
+
    handle = class ? MulleObjCPointerHandleMapGet( &_classes, class) : 0;
    mulle_buffer_add_integer( &_buffer, handle);
 }
@@ -264,8 +265,8 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 - (void) _appendSelector:(SEL) sel
 {
    intptr_t   handle;
-   
-   handle = sel ? MulleObjCPointerHandleMapGet( &_selectors, (void *) sel) : 0;
+
+   handle = sel ? MulleObjCPointerHandleMapGet( &_selectors, (void *) (uintptr_t) sel) : 0;
    mulle_buffer_add_integer( &_buffer, handle);
 }
 
@@ -274,13 +275,13 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 {
    intptr_t   handle;
    id         other;
-   
+
    if( ! obj)
    {
       mulle_buffer_add_integer( &_buffer, 0);
       return;
    }
-   
+
    fprintf( stderr, "check _objectSubstitutions for %p\n", obj);
    other = NSMapGet( _objectSubstitutions, obj);
    if( other)
@@ -288,7 +289,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       fprintf( stderr, "substituted %p with %p\n", obj, other);
       obj = other;
    }
-   
+
    fprintf( stderr, "check _objects.map for %p\n", obj);
    handle = (intptr_t) mulle_map_get( &_objects.map, obj);
    if( ! handle)
@@ -299,11 +300,11 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
          handle = ++_objectHandle;
       else
          mulle_map_remove( &_conditionalObjects.map, obj);
-      
+
       mulle_map_set( &_objects.map, obj, (void *) handle);
       mulle_pointerarray_add( &_objects.array, obj);
    }
-   
+
    mulle_buffer_add_integer( &_buffer, handle);
 }
 
@@ -312,27 +313,27 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 {
    intptr_t   handle;
    id         other;
-   
+
    if( ! obj)
    {
       mulle_buffer_add_integer( &_buffer, 0);
       return;
    }
-   
+
    other = NSMapGet( _objectSubstitutions, obj);
    if( other)
       obj = other;
-   
+
    handle = (intptr_t) mulle_map_get( &_objects.map, obj);
    if( ! handle)
    {
       handle = (intptr_t) mulle_map_get( &_conditionalObjects.map, obj);
       if( ! handle)
          handle = ++_objectHandle;
-      
+
       mulle_map_set( &_conditionalObjects.map, obj, (void *) handle);
    }
-   
+
    mulle_buffer_add_integer( &_buffer, handle);
 }
 
@@ -342,7 +343,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 {
    assert( type);
    assert( p);
-   
+
    switch( *type)
    {
 #ifdef _C_BOOL
@@ -369,14 +370,14 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
                       return( (long long *) p + 1);
    case _C_ULNG_LNG : mulle_buffer_add_integer( &_buffer, *(unsigned long long *) p);
                       return( (unsigned long long *) p + 1);
-      
+
    case _C_FLT      : mulle_buffer_add_float( &_buffer, *(float *) p);
                       return( (float *) p + 1);
    case _C_DBL      : mulle_buffer_add_double( &_buffer, *(double *) p);
                       return( (double *) p + 1);
    case _C_LNG_DBL  : mulle_buffer_add_long_double( &_buffer, *(long double *) p);
                       return( (long double *) p + 1);
-      
+
    case _C_CHARPTR  : [self _appendCString:*(char **) p];
                       return( (char *) p + 1);
    case _C_COPY_ID  :
@@ -393,28 +394,28 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       char     *s;
       char     c;
       size_t   i, n;
-      
+
       n = 0;
       s = type + 1;
-      
+
       //
       // we are dealing with something that looks like this
       // [2{test={MulleObjCRange=QQ}{?=b1}*[16c]}]
       // we parse the integer behind the '['
       //
       assert( *s >= '0' && *s <= '9');
-      
+
       for(;;)
       {
          c = *s;
          if( c < '0' || c > '9')
             break;
-         
+
          n  = n * 10;
          n += c - '0';
          ++s;
       }
-      
+
       assert( *s != _C_ARY_E);
       mulle_buffer_add_integer( &_buffer, n);
       for( i = 0; i < n; i++)
@@ -422,7 +423,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
                                        at:p];
       return( p);
    }
-      
+
    case _C_STRUCT_B :
    {
       //
@@ -430,10 +431,10 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       // {test={MulleObjCRange=QQ}{?=b1}*[16c]}]
       // we parse behind the '='
       char     *s;
-      
+
       s = type + 1;
       while( *s++ != '='); // we assume the encoding is friendly
-      
+
       while( *s != _C_STRUCT_E)
       {
          p = [self _encodeValueOfObjCType:s
@@ -442,7 +443,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
       }
       return( p);
    }
-      
+
       // the smart thing would be to find the big
    case _C_UNION_B :
       {
@@ -451,10 +452,10 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
          char         *max_type;
          NSUInteger   max_size;
          NSUInteger   size;
-         
+
          s = type + 1;
          while( *s++ != '='); // we assume the encoding is friendly
-         
+
          next     = s;
          max_size = 0;
          while( *next != _C_UNION_E)
@@ -472,7 +473,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
          return( p);
       }
    }
-   
+
    [NSException raise:NSInconsistentArchiveException
                format:@"NSArchiver cannot encode type=\"%s\" (%d) ", type, *type];
    return( NULL);
@@ -490,19 +491,19 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    unsigned int   i, n;
    size_t         offset;
    Class          cls;
-   
+
    mulle_buffer_add_bytes( &_buffer, "**obj**", 8);
-   
+
    n = mulle_pointerarray_get_count( &_objects.array);
    mulle_buffer_add_integer( &_buffer, n);
-   
+
    for( i = 0; i < n; i++)
    {
       obj = (id) mulle_pointerarray_get( &_objects.array, i);
       cls = [obj classForCoder];
-      
+
       [self _appendClass:cls];
-      
+
       offset = (size_t) NSMapGet( _offsets, obj);
       mulle_buffer_add_integer( &_buffer, offset);
    }
@@ -515,22 +516,22 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    char           *name;
    char           *substitute;
    unsigned int   i, n;
-   
+
    mulle_buffer_add_bytes( &_buffer, "**cls**", 8);
-   
+
    n = mulle_pointerarray_get_count( &_classes.array);
    mulle_buffer_add_integer( &_buffer, n);
-   
+
    for( i = 0; i < n; i++)
    {
       cls = (Class) mulle_pointerarray_get( &_classes.array, i);
-      
+
       // write down version
       mulle_buffer_add_integer( &_buffer, [cls version]);
-      
+
       // write down ivar hash for pedantic checks
       mulle_buffer_add_integer( &_buffer, _mulle_objc_class_get_ivarhash( cls));
-      
+
       // write down class name
       name = _mulle_objc_class_get_name( cls);
       substitute = NSMapGet( _classNameSubstitutions, name);
@@ -546,15 +547,15 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
    SEL            sel;
    unsigned int   i, n;
    char           *name;
-   
+
    mulle_buffer_add_bytes( &_buffer, "**sel**", 8);
-   
+
    n = mulle_pointerarray_get_count( &_selectors.array);
    mulle_buffer_add_integer( &_buffer, n);
    for( i = 0; i < n; i++)
    {
       sel = (SEL) mulle_pointerarray_get( &_selectors.array, i);
-      
+
       // get name for selector
       name = mulle_objc_lookup_methodname( (mulle_objc_methodid_t) sel);
       if( ! name)
@@ -569,9 +570,9 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 {
    struct blob    *str;
    unsigned int   i, n;
-   
+
    mulle_buffer_add_bytes( &_buffer, "**blb**", 8);
-   
+
    n = mulle_pointerarray_get_count( &_blobs.array);
    mulle_buffer_add_integer( &_buffer, n);
    for( i = 0; i < n; i++)
@@ -590,11 +591,11 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 - (NSString *) classNameEncodedForTrueClassName:(NSString *) trueName
 {
    char   *s;
-   
+
    s = NSMapGet( _classNameSubstitutions, [trueName UTF8String]);
    if( ! s)
       return( nil);
-   
+
    return( [NSString stringWithUTF8String:s]);
 }
 
@@ -604,7 +605,7 @@ NSString  *NSInconsistentArchiveException = @"NSInconsistentArchiveException";
 {
    NSParameterAssert( [runtime length]);
    NSParameterAssert( [archive length]);
-   
+
    NSMapInsert( _classNameSubstitutions,
                [runtime UTF8String],
                [archive UTF8String]);

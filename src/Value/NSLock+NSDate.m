@@ -51,16 +51,18 @@
 {
    time_t   wait_time;
 
-   wait_time = (time_t) [limit timeIntervalSinceReferenceDate];  
+   wait_time = (time_t) [limit timeIntervalSinceReferenceDate];
 
    for(;;)
    {
       if( [NSDate timeIntervalSinceReferenceDate] >= wait_time)
          return( NO);
-      
+
       if( [self tryLock])
          return( YES);
 
+      // TODO: why not use nanosleep or select and move this
+      //       to OS ?
       mulle_thread_yield();
    }
 }

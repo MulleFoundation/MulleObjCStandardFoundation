@@ -35,6 +35,8 @@
 //
 #import "NSThread+NSDate.h"
 
+#import "NSDate.h"
+
 
 @implementation NSThread( NSDate)
 
@@ -45,7 +47,11 @@
    // should probably use select here
    interval = [date timeIntervalSinceReferenceDate];
    while( [NSDate timeIntervalSinceReferenceDate] < interval)
+   {
+      // TODO: why not use nanosleep or select and move this
+      //       to OS ?
       mulle_thread_yield();
+   }
 }
 
 @end

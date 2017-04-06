@@ -55,9 +55,9 @@
 NSString  *MulleObjCTaggedPointerChar7StringWithASCIICharacters( char *s, NSUInteger length)
 {
    uintptr_t   value;
-   
+
    assert( [_MulleObjCTaggedPointerChar7String isTaggedPointerEnabled]);
-   
+
    value = mulle_char7_encode( s, (size_t) length);
    return( _MulleObjCTaggedPointerChar7StringFromValue( value));
 }
@@ -67,7 +67,7 @@ static inline NSUInteger  MulleObjCTaggedPointerChar7StringGetLength( _MulleObjC
 {
    uintptr_t    value;
    NSUInteger   length;
-   
+
    value  = _MulleObjCTaggedPointerChar7ValueFromString( self);
    length = (NSUInteger) mulle_char7_strlen( value);
    return( length);
@@ -86,13 +86,13 @@ static inline NSUInteger  MulleObjCTaggedPointerChar7StringGetLength( _MulleObjC
 {
    uintptr_t    value;
    NSUInteger   length;
-   
+
    value  = _MulleObjCTaggedPointerChar7ValueFromString( self);
    length = (NSUInteger) mulle_char7_strlen( value);
 
    if( index >= length)
       MulleObjCThrowInvalidIndexException( index);
-   
+
    return( (unichar) mulle_char7_get( value, (unsigned int) index));
 }
 
@@ -120,16 +120,16 @@ static void   grab_utf8( id self,
                          NSRange range)
 {
    uintptr_t   value;
-   
+
    // check both because of overflow range.length == (unsigned) -1 f.e.
    if( range.length + range.location > len || range.length > len)
       MulleObjCThrowInvalidRangeException( range);
-   
+
    value = _MulleObjCTaggedPointerChar7ValueFromString( self);
    if( range.location)
    {
       mulle_utf8_t   buf[ len];
-      
+
       mulle_char7_decode( value, (char *) buf, len);
       memcpy( dst, &buf[ range.location], range.length);
       return;
@@ -148,10 +148,10 @@ static void   grab_utf32( id self,
    struct buffer   ctxt;
 
    grab_utf8( self, len, buf, range);
-   
+
    ctxt.s = (char *) dst;
    ctxt.n = 0;
-   
+
    mulle_utf8_bufferconvert_to_utf32( buf, range.length, &ctxt, (void (*)()) buffer_add);
 }
 
@@ -170,7 +170,7 @@ static void   grab_utf32( id self,
                   maxLength:(NSUInteger) maxLength
 {
    NSUInteger   length;
-   
+
    length = MulleObjCTaggedPointerChar7StringGetLength( self);
    if( length > maxLength)
       length = maxLength;
@@ -186,7 +186,7 @@ static void   grab_utf32( id self,
 {
    NSRange       range;
    NSUInteger    len;
-   
+
    len = MulleObjCTaggedPointerChar7StringGetLength( self);
    {
       mulle_utf8_t   buf[ len];
@@ -195,7 +195,7 @@ static void   grab_utf32( id self,
                  len,
                  buf,
                  NSMakeRange( 0, len));
-   
+
       range = MulleObjCHashRange( len);
       return( MulleObjCStringHash( (char *) &buf[ range.location], range.length));
    }
@@ -213,11 +213,11 @@ static void   grab_utf32( id self,
    NSUInteger      len;
    NSMutableData   *data;
    mulle_utf8_t    *s;
-   
+
    len  = MulleObjCTaggedPointerChar7StringGetLength( self);
    data = [NSMutableData dataWithLength:len + 1];
    s    = [data mutableBytes];
-   
+
    grab_utf8( self,
               len,
               s,
@@ -232,13 +232,13 @@ static void   grab_utf32( id self,
 {
    NSUInteger   length;
    NSUInteger   value;
-   
+
    length = MulleObjCTaggedPointerChar7StringGetLength( self);
-   
+
    // check both because of overflow range.length == (unsigned) -1 f.e.
    if( range.length + range.location > length || range.length > length)
       MulleObjCThrowInvalidRangeException( range);
-   
+
    value = _MulleObjCTaggedPointerChar7ValueFromString( self);
    value = mulle_char7_substring( value,
                                   (unsigned int) range.location,

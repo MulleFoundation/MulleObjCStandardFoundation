@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSString;
@@ -45,6 +45,7 @@ extern NSString   *NSGenericException;
 extern NSString   *NSInvalidArgumentException;
 extern NSString   *NSMallocException;
 extern NSString   *NSRangeException;
+extern NSString   *NSParseErrorException;
 
 
 @interface NSException : NSObject < MulleObjCException>
@@ -93,3 +94,25 @@ extern NSString   *NSRangeException;
 
 NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
                                                               NSUInteger length);
+
+
+// some conveniences (see MulleObjC/ns_exception.h>
+
+__attribute__ ((noreturn))
+void   MulleObjCThrowAllocationException( size_t bytes);
+
+__attribute__ ((noreturn))
+void   MulleObjCThrowInvalidArgumentException( NSString *format, ...);
+
+__attribute__ ((noreturn))
+void   MulleObjCThrowInvalidIndexException( NSUInteger index);
+
+__attribute__ ((noreturn))
+void   MulleObjCThrowInternalInconsistencyException( NSString *format, ...);
+
+__attribute__ ((noreturn))
+void   MulleObjCThrowInvalidRangeException( NSRange range);
+
+__attribute__ ((noreturn))
+void   MulleObjCThrowErrnoException( NSString *format, ...);
+

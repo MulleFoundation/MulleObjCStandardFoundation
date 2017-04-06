@@ -67,7 +67,7 @@
 + (id) data
 {
    return( [self dataWithCapacity:0]);
-}   
+}
 
 
 + (id) dataWithLength:(NSUInteger) length
@@ -82,7 +82,7 @@
 }
 
 
-+ (id) dataWithBytes:(void *) buf 
++ (id) dataWithBytes:(void *) buf
               length:(NSUInteger) len
 {
    return( [[[self alloc] initWithBytes:buf
@@ -131,7 +131,7 @@
                freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
-   
+
    allocator = &mulle_stdlib_allocator;
 
    if( flag)
@@ -141,7 +141,7 @@
                                                          length:length
                                                       allocator:allocator]);
    }
-   
+
    self = [self initWithBytes:bytes
                        length:length];
    mulle_allocator_free( allocator, bytes);
@@ -170,29 +170,15 @@
 
 
 #pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSMutableData class]);
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
-
-#pragma mark -
 #pragma mark operations
 
 - (void) setData:(NSData *) aData
 {
    NSRange   range;
-   
+
    range.location = 0;
    range.length   = [aData length];
-   
+
    [self setLength:range.length];
    [self replaceBytesInRange:range
                    withBytes:[aData bytes]];
@@ -209,7 +195,7 @@
 + (id) _nonZeroedDataWithLength:(NSUInteger) length
 {
    NSMutableData   *data;
-   
+
    data = [self dataWithCapacity:length];
    [data _setLengthDontZero:length];
    return( data);
@@ -239,7 +225,7 @@
    NSUInteger   remainderLocation;
    NSUInteger   remainderLength;
    uint8_t      *bytes;
-   
+
    length = [self length];
    if( range.location + range.length > length || range.length > length)
       MulleObjCThrowInvalidRangeException( range);
@@ -248,17 +234,17 @@
 
    remainderLocation = range.location + range.length;
    remainderLength   = length - remainderLocation;
-   
+
    if( diff > 0) // need to grow
       [self setLength:length + diff];
 
    bytes = [self mutableBytes];
    if( diff > 0) // rescue bytes
       memmove( &bytes[ remainderLocation + diff], &bytes[ remainderLocation], remainderLength);
-   
+
    // replace
    memcpy( &bytes[ range.location], replacementBytes, replacementLength);
-   
+
    // possibly fill up hole and shrink
    if( diff < 0) // need to grow
    {

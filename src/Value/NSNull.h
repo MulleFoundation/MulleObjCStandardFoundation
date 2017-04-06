@@ -33,10 +33,10 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
-@interface NSNull : NSObject < MulleObjCSingleton, NSCopying, NSCoding>
+@interface NSNull : NSObject < MulleObjCSingleton, NSCopying>
 {
 }
 

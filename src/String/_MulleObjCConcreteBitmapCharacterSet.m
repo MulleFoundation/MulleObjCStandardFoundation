@@ -56,13 +56,13 @@ static int   set_bit( uint32_t ** planes, int c)
    plane  = c >> 16;
    index  = c >> 5;
    bindex = c & 0x1F;
-   
+
    bitmap = planes[ plane];
    if( ! bitmap)
       return( -1);
-   
+
    bitmap[ index] |= 1 << bindex;
-   
+
    return( 0);
 }
 
@@ -74,18 +74,18 @@ static int   get_bit( uint32_t ** planes, int c)
    unsigned int   bindex;
    unsigned int   index;
    unsigned int   plane;
-   
+
    plane  = c >> 16;
    index  = c >> 5;
    bindex = c & 0x1F;
-   
+
    bitmap = planes[ plane];
    if( ! bitmap)
       return( 0);
-   
+
    word = bitmap[ index];
    word = word & (1 << bindex);
-   
+
    return( word ? 1 : 0);
 }
 
@@ -97,16 +97,16 @@ static int   get_bit( uint32_t ** planes, int c)
 {
    _MulleObjCConcreteBitmapCharacterSet   *obj;
    NSUInteger                             i;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
-   
+
    for( i = 0; i <= 0x10; i++)
       obj->_planes[ i] = planes[ i];
-   
+
    obj->_rval      = invert ? 0 : 1;
    obj->_allocator = allocator;
    obj->_owner     = [owner retain];
-   
+
    return( obj);
 }
 
@@ -117,7 +117,7 @@ static int   get_bit( uint32_t ** planes, int c)
    NSUInteger                             i, n;
    unichar                                c;
    unsigned int                           plane;
-   
+
    obj = NSAllocateObject( self, 0, NULL);
 
    obj->_allocator = MulleObjCClassGetAllocator( self);
@@ -134,7 +134,7 @@ static int   get_bit( uint32_t ** planes, int c)
          set_bit( obj->_planes, c);
       }
    }
-   
+
    return( obj);
 }
 
@@ -142,13 +142,13 @@ static int   get_bit( uint32_t ** planes, int c)
 - (void) dealloc
 {
    unsigned int  i;
-   
+
    [_owner release];
-   
+
    if( _allocator)
       for( i = 0; i <= 0x10; i++)
          mulle_allocator_free( _allocator, _planes[ i]);
-   
+
    [super dealloc];
 }
 
@@ -156,7 +156,7 @@ static int   get_bit( uint32_t ** planes, int c)
 - (BOOL) characterIsMember:(unichar) c
 {
    int            bit;
-   
+
    bit = get_bit( _planes, c);
    return( _rval == bit);
 }

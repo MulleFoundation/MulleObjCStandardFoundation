@@ -53,7 +53,7 @@
 - (id) description
 {
    char   *type;
-   
+
    type = [self objCType];
    switch( *type)
    {
@@ -65,7 +65,7 @@
    case _C_UINT :
    case _C_ULNG :
       return( [NSString stringWithFormat:@"%lu", [self unsignedLongValue]]);
-      
+
    case _C_LNG_LNG :
       return( [NSString stringWithFormat:@"%lld", [self longLongValue]]);
    case _C_ULNG_LNG :
@@ -77,7 +77,7 @@
 
    case _C_LNG_DBL :
       return( [NSString stringWithFormat:@"%Lf", [self longDoubleValue]]);
-      
+
    }
 }
 

@@ -44,7 +44,7 @@
    unsigned int   _count;
    unsigned int   _size;
    NSString       **_storage;
-   
+
    mulle_utf8_t   *_shadow;
    NSUInteger     _shadowLen;
 }
@@ -58,7 +58,7 @@
 - (void) appendString:(NSString *) s;
 - (void) appendFormat:(NSString *) format, ...;
 
-- (void) replaceCharactersInRange:(NSRange) aRange 
+- (void) replaceCharactersInRange:(NSRange) aRange
                        withString:(NSString *) replacement;
 
 - (void) replaceOccurrencesOfString:(NSString *) s

@@ -44,7 +44,7 @@
 // subclasses provide length
 // ASCII is something that's provided "hidden". It's the best,
 // because it can provide mulle_utf8_t and mulle_utf32_t w/o composition
-// 
+//
 @interface _MulleObjCASCIIString : NSString
 @end
 
@@ -60,9 +60,9 @@
 
 //
 // just some shortcuts to avoid having to store the length, when our byte size
-// length would blow up the string by another 4 bytes (because of malloc 
+// length would blow up the string by another 4 bytes (because of malloc
 // alignment) (and we like to keep/have the trailing zero)
-// 
+//
 //
 @interface _MulleObjC03LengthASCIIString : _MulleObjCASCIIString
 @end

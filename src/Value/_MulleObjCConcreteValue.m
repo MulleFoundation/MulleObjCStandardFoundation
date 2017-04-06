@@ -35,6 +35,7 @@
 //
 
 #import "_MulleObjCConcreteValue.h"
+#import "_MulleObjCConcreteValue+Private.h"
 
 // other files in this library
 
@@ -47,18 +48,6 @@
 
 @implementation _MulleObjCConcreteValue
 
-static void   *_MulleObjCConcreteValueBytes( _MulleObjCConcreteValue *self)
-{
-   return( &self->_size + 1);
-}
-
-
-static void   *_MulleObjCConcreteValueObjCType( _MulleObjCConcreteValue *self)
-{
-   return( &((char *) _MulleObjCConcreteValueBytes( self))[ self->_size]);
-}
-
-
 + (id) newWithBytes:(void *) bytes
            objCType:(char *) type
 {
@@ -66,38 +55,26 @@ static void   *_MulleObjCConcreteValueObjCType( _MulleObjCConcreteValue *self)
    NSUInteger                extra;
    NSUInteger                size;
    size_t                    type_size;
-   
+
    NSParameterAssert( type && strlen( type));
    NSParameterAssert( bytes);
    assert( bytes); // for analyzer
    assert( type && strlen( type)); // for analyzer
-   
+
    NSGetSizeAndAlignment( type, &size, NULL);
-   
+
    NSParameterAssert( size);
-   
+
    type_size = strlen( type) + 1;
    extra     = size + type_size;
-   
+
    value = NSAllocateObject( self, extra, NULL);
-   
+
    value->_size = size;
    memcpy( _MulleObjCConcreteValueBytes( value), bytes, size);
    memcpy( _MulleObjCConcreteValueObjCType( value), type, type_size);
-   
+
    return( value);
-}
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   char  *type;
-   
-   type = NULL;
-   [coder encodeValueOfObjCType:@encode( char *)
-                             at:&type];
-   [coder encodeValueOfObjCType:type
-                             at:_MulleObjCConcreteValueBytes( self)];
 }
 
 
@@ -124,7 +101,7 @@ static void   *_MulleObjCConcreteValueObjCType( _MulleObjCConcreteValue *self)
 {
    if( size != _size)
       MulleObjCThrowInvalidArgumentException( @"size should be %ld bytes on this platform", _size);
-   
+
    memcpy( bytes, _MulleObjCConcreteValueBytes( self), _size);
 }
 

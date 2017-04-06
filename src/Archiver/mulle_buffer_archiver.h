@@ -36,7 +36,7 @@
 
 #import <mulle_buffer/mulle_buffer.h>
 
-#include "ns_byteorder.h"
+#include <MulleObjC/ns_byteorder.h>
 
 
 # pragma mark -
@@ -50,19 +50,19 @@ static inline uint64_t  mulle_buffer_next_integer( struct mulle_buffer *buffer)
 {
    int        c;
    uint64_t   v;
-   
+
    v = 0;
    do
    {
       c = mulle_buffer_next_byte( buffer);
       if( c < 0) // EOB
          return( 0);
-      
+
       v <<= 7;
       v  += (c & 0x7F);
    }
    while( c & 0x80);
-   
+
    return( v);
 }
 
@@ -70,7 +70,7 @@ static inline uint64_t  mulle_buffer_next_integer( struct mulle_buffer *buffer)
 static inline long long   mulle_buffer_next_long_long( struct mulle_buffer *buffer)
 {
    long long   swap;
-   
+
    mulle_buffer_next_bytes( buffer, &swap, sizeof( swap));
    return( NSSwapBigLongLongToHost( swap));
 }
@@ -79,7 +79,7 @@ static inline long long   mulle_buffer_next_long_long( struct mulle_buffer *buff
 static inline float   mulle_buffer_next_float( struct mulle_buffer *buffer)
 {
    NSSwappedFloat   swap;
-   
+
    mulle_buffer_next_bytes( buffer, &swap, sizeof( swap));
    return( NSSwapBigFloatToHost( swap));
 }
@@ -88,7 +88,7 @@ static inline float   mulle_buffer_next_float( struct mulle_buffer *buffer)
 static inline double   mulle_buffer_next_double( struct mulle_buffer *buffer)
 {
    NSSwappedDouble   swap;
-   
+
    mulle_buffer_next_bytes( buffer, &swap, sizeof( swap));
    return( NSSwapBigDoubleToHost( swap));
 }
@@ -97,7 +97,7 @@ static inline double   mulle_buffer_next_double( struct mulle_buffer *buffer)
 static inline long double   mulle_buffer_next_long_double( struct mulle_buffer *buffer)
 {
    NSSwappedLongDouble   swap;
-   
+
    mulle_buffer_next_bytes( buffer, &swap, sizeof( swap));
    return( NSSwapBigLongDoubleToHost( swap));
 }
@@ -194,17 +194,17 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
 {
    uint32_t       v32;
    unsigned int   bytes;
-   
+
    if( v < 0x7F)
    {
       mulle_buffer_add_integer_7( buffer, (uint8_t) v);
       return;
    }
-   
+
    if( v < 0x10000000U)    // 32 bit: best fit 28 bits
    {
       uint32_t   mask;
-      
+
       bytes = 4;
       v32 = (uint32_t) v;
       mask = 0x0FE00000U;
@@ -217,7 +217,7 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
    else
    {
       uint64_t   mask;
-      
+
       bytes = 10;
       if( (int64_t) v >= 0)  // 32 bit: best fit 63 bits
       {
@@ -230,7 +230,7 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
          }
       }
    }
-   
+
    switch( bytes)
    {
    case 10 : mulle_buffer_add_integer_64( buffer, v); return;
@@ -239,7 +239,7 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
    case  7 : mulle_buffer_add_integer_49( buffer, v); return;
    case  6 : mulle_buffer_add_integer_42( buffer, v); return;
    case  5 : mulle_buffer_add_integer_35( buffer, v); return;
-      
+
    case  4 : mulle_buffer_add_integer_28( buffer, (uint32_t) v); return;
    case  3 : mulle_buffer_add_integer_21( buffer, (uint32_t) v); return;
    case  2 : mulle_buffer_add_integer_14( buffer, (uint16_t) v); return;
@@ -251,7 +251,7 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
 static inline void  mulle_buffer_add_long_long( struct mulle_buffer *buffer, long long v)
 {
    long long   swap;
-   
+
    swap = NSSwapHostLongLongToBig( v);
    mulle_buffer_add_bytes( buffer, &swap, sizeof( swap));
 }
@@ -260,7 +260,7 @@ static inline void  mulle_buffer_add_long_long( struct mulle_buffer *buffer, lon
 static inline void  mulle_buffer_add_float( struct mulle_buffer *buffer, float v)
 {
    NSSwappedFloat   swap;
-   
+
    swap = NSSwapHostFloatToBig( v);
    mulle_buffer_add_bytes( buffer, &swap, sizeof( swap));
 }
@@ -269,7 +269,7 @@ static inline void  mulle_buffer_add_float( struct mulle_buffer *buffer, float v
 static inline void   mulle_buffer_add_double( struct mulle_buffer *buffer, double v)
 {
    NSSwappedDouble   swap;
-   
+
    swap = NSSwapHostDoubleToBig( v);
    mulle_buffer_add_bytes( buffer, &swap, sizeof( swap));
 }
@@ -278,7 +278,7 @@ static inline void   mulle_buffer_add_double( struct mulle_buffer *buffer, doubl
 static inline void   mulle_buffer_add_long_double( struct mulle_buffer *buffer, long double v)
 {
    NSSwappedLongDouble   swap;
-   
+
    swap = NSSwapHostLongDoubleToBig( v);
    mulle_buffer_add_bytes( buffer, &swap, sizeof( swap));
 }

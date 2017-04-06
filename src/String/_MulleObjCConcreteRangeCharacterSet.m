@@ -49,7 +49,7 @@
              invert:(BOOL) invert;
 {
    _MulleObjCConcreteRangeCharacterSet   *obj;
-   
+
    // known to be all zeroed out(!) important!
    obj           = NSAllocateObject( self, 0, NULL);
    obj->_range   = range;
@@ -73,7 +73,7 @@
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
 {
    NSRange   planeRange;
-   
+
    planeRange.location = plane * 0x10000;
    planeRange.length   = 0x10000;
    return( (NSIntersectionRange( _range, planeRange).length != 0) == _rval);

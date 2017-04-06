@@ -35,7 +35,7 @@
 //
 
 #define _MULLE_OBJC_BUFFERED_DATA_OUTPUT_STREAM_IVAR_VISIBILITY  @public
- 
+
 #import "_MulleObjCBufferedDataOutputStream.h"
 
 
@@ -46,7 +46,7 @@ void   _MulleObjCBufferedDataOutputStreamExtendBuffer( _MulleObjCBufferedDataOut
 static inline void  _MulleObjCBufferedDataOutputStreamNextCharacter( _MulleObjCBufferedDataOutputStream *_self, char c)
 {
    struct { @defs( _MulleObjCBufferedDataOutputStream); }  *self = (void *) _self;
-   
+
    if( self->_current == self->_sentinel)
       _MulleObjCBufferedDataOutputStreamExtendBuffer( _self);
    *self->_current++ = c;
@@ -57,6 +57,6 @@ static inline void  _MulleObjCBufferedDataOutputStreamNextCharacter( _MulleObjCB
 static inline size_t  _MulleObjCBufferedDataOutputStreamBytesWritten( _MulleObjCBufferedDataOutputStream *_self)
 {
    struct { @defs( _MulleObjCBufferedDataOutputStream); }  *self = (void *) _self;
-   
+
    return( self->_current - self->_start);
 }

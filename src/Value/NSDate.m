@@ -40,12 +40,6 @@
 // other libraries of MulleObjCFoundation
 
 // std-c and dependencies
-#include <time.h>
-
-
-// compatible values
-#define NSDistantFuture   63113904000.0
-#define NSDistantPast    -63114076800.0
 
 
 @implementation NSObject( _NSDate)
@@ -75,35 +69,7 @@
 
 
 # pragma mark -
-# pragma mark NSCoding
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   NSTimeInterval   value;
-   
-   [coder decodeValueOfObjCType:@encode( NSTimeInterval)
-                             at:&value];
-   return( [self initWithTimeIntervalSinceReferenceDate:value]);
-}
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   [coder encodeValueOfObjCType:@encode( NSTimeInterval)
-                             at:&_interval];
-}
-
-
-# pragma mark -
 # pragma mark convenience constructors
-
-+ (id) date
-{  
-   NSTimeInterval   seconds;
-   
-   seconds = time( NULL) + NSTimeIntervalSince1970;
-   return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:seconds] autorelease]);
-}
 
 
 + (id) dateWithTimeIntervalSince1970:(NSTimeInterval) seconds
@@ -136,7 +102,7 @@
 # pragma mark -
 # pragma mark Various inits
 
-- (id) initWithTimeInterval:(NSTimeInterval) seconds 
+- (id) initWithTimeInterval:(NSTimeInterval) seconds
                   sinceDate:(NSDate *) refDate
 {
    return( [self initWithTimeIntervalSinceReferenceDate:seconds - [refDate timeIntervalSinceReferenceDate]]);
@@ -157,7 +123,7 @@
 {
    if( ! other)
       return( NO);
-   
+
    return( [self timeIntervalSinceReferenceDate] == [other timeIntervalSinceReferenceDate]);
 }
 
@@ -175,12 +141,12 @@
 
 
 - (NSComparisonResult) compare:(id) other
-{  
+{
    NSTimeInterval  diff;
-   
+
    if( ! other)
       return( NSOrderedDescending);
-      
+
    diff = [self timeIntervalSinceReferenceDate] - [other timeIntervalSinceReferenceDate];
    if( diff < 0)
       return( NSOrderedAscending);
@@ -200,7 +166,7 @@
 - (NSDate *) earlierDate:(NSDate *) other
 {
    NSTimeInterval   diff;
-   
+
    diff = [self timeIntervalSinceDate:other];  // according to dox
    if( diff < 0)
       return( self);
@@ -211,13 +177,6 @@
 - (NSTimeInterval) timeIntervalSinceReferenceDate
 {
    return( _interval);
-}
-
-
-+ (NSTimeInterval) timeIntervalSinceReferenceDate
-{
-   // TODO: non optimal!
-   return( time( NULL));
 }
 
 

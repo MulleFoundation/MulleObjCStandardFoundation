@@ -40,5 +40,5 @@
 @interface NSString  (PropertyListPrinting)
 
 - (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent;
-                                          
+
 @end

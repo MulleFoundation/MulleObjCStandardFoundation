@@ -63,7 +63,7 @@
 
 @interface _MulleObjCMediumData : _MulleObjCConcreteData
 {
-   uint16_t        _length;         // 257-65792 
+   uint16_t        _length;         // 257-65792
    unsigned char   _storage[ 2];
 }
 
@@ -71,7 +71,7 @@
              length:(NSUInteger) length;
 @end
 
-                  
+
 @interface _MulleObjCAllocatorData : _MulleObjCConcreteData
 {
    NSUInteger   _length;

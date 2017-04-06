@@ -76,12 +76,12 @@ static inline id   _MulleObjCCheatingASCIIStringStorageInit( struct _MulleObjCCh
                                                              NSUInteger length)
 {
    _MulleObjCCheatingASCIIString   *p;
-   
+
    p = _MulleObjCCheatingASCIIStringStorageGetObject( storage);
-   
-   _mulle_objc_object_infinite_retain( p);
-   _mulle_objc_object_set_isa( p, [_MulleObjCCheatingASCIIString class]);
-   
+
+   MulleObjCInfiniteRetain( p);
+   MulleObjCSetClass( p, [_MulleObjCCheatingASCIIString class]);
+
    storage->_storage = buf;
    storage->_length  = length;
 
