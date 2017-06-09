@@ -40,6 +40,7 @@
 
 #import "NSNotification.h"
 #import "NSNotificationCenter.h"
+#import "NSThread+NSNotification.h"
 
 // export everything with MulleObjC
 

@@ -57,6 +57,14 @@ extern NSString  *NSDateFormatter1000BehaviourClassKey;
 extern NSString  *NSDateFormatter1040BehaviourClassKey;
 
 
+//
+// formatters are not re-entrant!
+// For historical reasons, there is only an NSDateFormatter and
+// no NSCalendarDate formatter
+//
+// Eventually there will be a NSDateObject protocol or some such
+// so that it fits both better
+//
 @interface NSDateFormatter : NSFormatter
 {
    Class< NSLocalizedDateFactory>   _dateClass;
@@ -74,8 +82,8 @@ extern NSString  *NSDateFormatter1040BehaviourClassKey;
 @property( readonly) BOOL       allowsNaturalLanguage;
 @property( assign, getter=isLenient) BOOL  lenient;
 
-- (id) initWithDateFormat:(NSString *) format
-     allowNaturalLanguage:(BOOL) flag;
+- (instancetype) initWithDateFormat:(NSString *) format
+               allowNaturalLanguage:(BOOL) flag;
 
 + (void) setDefaultFormatterBehavior:(NSDateFormatterBehavior) behavior;
 + (NSDateFormatterBehavior) defaultFormatterBehavior;
@@ -92,8 +100,8 @@ extern NSString  *NSDateFormatter1040BehaviourClassKey;
 
 @interface NSDateFormatter ( Future)
 
-- (id) _initWithDateFormat:(NSString *) format
-      allowNaturalLanguage:(BOOL) flag;
+- (instancetype) _initWithDateFormat:(NSString *) format
+                allowNaturalLanguage:(BOOL) flag;
 
 - (NSDate *) dateFromString:(NSString *) s;
 - (NSString *) stringFromDate:(NSDate *) date;

@@ -48,7 +48,7 @@
 #define Buffersize      0x2000
 #define MaxToBuffer     (Buffersize - (Buffersize / 4))
 
-- (id) initWithOutputStream:(id <_MulleObjCOutputDataStream>) stream
+- (instancetype) initWithOutputStream:(id <_MulleObjCOutputDataStream>) stream
 {
    _stream = [stream retain];
    _data   = [[NSMutableData alloc] initWithLength:Buffersize];
@@ -61,7 +61,7 @@
 }
 
 
-- (id) initWithMutableData:(NSMutableData *) data
+- (instancetype) initWithMutableData:(NSMutableData *) data
 {
    _stream = [data retain];
 

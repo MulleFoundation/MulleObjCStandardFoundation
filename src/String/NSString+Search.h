@@ -47,6 +47,9 @@
 - (BOOL) isEqualToString:(NSString *) other;
 
 - (NSComparisonResult) compare:(NSString *) other;
+- (NSComparisonResult) compare:(id) other
+                       options:(NSStringCompareOptions) mask;
+
 - (NSComparisonResult) caseInsensitiveCompare:(NSString *) other;
 
 - (NSRange) rangeOfString:(NSString *) other

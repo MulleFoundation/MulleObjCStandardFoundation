@@ -46,7 +46,7 @@
 
 @implementation _MulleObjCConcreteBitmapCharacterSet
 
-static int   set_bit( uint32_t ** planes, int c)
+static int   set_bit( uint32_t **planes, int c)
 {
    uint32_t       *bitmap;
    unsigned int   bindex;
@@ -67,7 +67,7 @@ static int   set_bit( uint32_t ** planes, int c)
 }
 
 
-static int   get_bit( uint32_t ** planes, int c)
+static int   get_bit( uint32_t **planes, int c)
 {
    uint32_t       *bitmap;
    uint32_t       word;
@@ -90,7 +90,7 @@ static int   get_bit( uint32_t ** planes, int c)
 }
 
 
-+ (id) newWithBitmapPlanes:(uint32_t **) planes
++ (instancetype) newWithBitmapPlanes:(uint32_t **) planes
                     invert:(BOOL) invert
                  allocator:(struct mulle_allocator *)  allocator
                      owner:(id) owner
@@ -111,7 +111,7 @@ static int   get_bit( uint32_t ** planes, int c)
 }
 
 
-+ (id) newWithString:(NSString *) s
++ (instancetype) newWithString:(NSString *) s
 {
    _MulleObjCConcreteBitmapCharacterSet   *obj;
    NSUInteger                             i, n;

@@ -180,9 +180,10 @@ static void   grab_utf32( id self,
 }
 
 
+#pragma mark - hash and equality
+
 - (NSUInteger) hash
 {
-   NSRange       range;
    NSUInteger    len;
 
    len = MulleObjCTaggedPointerChar5StringGetLength( self);
@@ -194,8 +195,7 @@ static void   grab_utf32( id self,
                  buf,
                  NSMakeRange( 0, len));
 
-      range = MulleObjCHashRange( len);
-      return( MulleObjCStringHash( (char *) &buf[ range.location], range.length));
+      return( MulleObjCStringHash( buf, len));
    }
 }
 

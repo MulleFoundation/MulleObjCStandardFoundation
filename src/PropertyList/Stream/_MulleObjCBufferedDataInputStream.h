@@ -64,8 +64,8 @@ _MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY      // allow public acce
    NSMutableData   *_bookmarkData;
 }
 
-- (id) initWithData:(NSData *) data;
-- (id) initWithInputStream:(id <_MulleObjCInputDataStream>) stream;
+- (instancetype) initWithData:(NSData *) data;
+- (instancetype) initWithInputStream:(id <_MulleObjCInputDataStream>) stream;
 
 - (NSData *) readDataOfLength:(NSUInteger) size;
 

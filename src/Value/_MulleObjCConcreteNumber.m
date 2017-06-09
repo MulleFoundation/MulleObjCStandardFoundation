@@ -45,7 +45,7 @@
 
 @implementation _MulleObjCInt8Number : NSNumber
 
-+ (id) newWithInt8:(int8_t) value
++ (instancetype) newWithInt8:(int8_t) value
 {
    _MulleObjCInt8Number  *obj;
 
@@ -92,7 +92,7 @@
 
 @implementation _MulleObjCInt16Number : NSNumber
 
-+ (id) newWithInt16:(int16_t) value
++ (instancetype) newWithInt16:(int16_t) value
 {
    _MulleObjCInt16Number  *obj;
 
@@ -141,7 +141,7 @@
 
 @implementation _MulleObjCInt32Number : NSNumber
 
-+ (id) newWithInt32:(int32_t) value
++ (instancetype) newWithInt32:(int32_t) value
 {
    _MulleObjCInt32Number  *obj;
 
@@ -190,7 +190,7 @@
 
 @implementation _MulleObjCInt64Number
 
-+ (id) newWithInt64:(int64_t) value
++ (instancetype) newWithInt64:(int64_t) value
 {
    _MulleObjCInt64Number  *obj;
 
@@ -239,7 +239,7 @@
 
 @implementation _MulleObjCUInt32Number : NSNumber
 
-+ (id) newWithUInt32:(uint32_t) value
++ (instancetype) newWithUInt32:(uint32_t) value
 {
    _MulleObjCUInt32Number  *obj;
 
@@ -297,7 +297,7 @@
 
 @implementation _MulleObjCUInt64Number : NSNumber
 
-+ (id) newWithUInt64:(uint64_t) value
++ (instancetype) newWithUInt64:(uint64_t) value
 {
    _MulleObjCUInt64Number  *obj;
 
@@ -354,7 +354,7 @@
 
 @implementation _MulleObjCDoubleNumber : NSNumber
 
-+ (id) newWithDouble:(double) value
++ (instancetype) newWithDouble:(double) value
 {
    _MulleObjCDoubleNumber  *obj;
 
@@ -417,7 +417,7 @@
 @implementation _MulleObjCLongDoubleNumber : NSNumber
 
 
-+ (id) newWithLongDouble:(long double) value
++ (instancetype) newWithLongDouble:(long double) value
 {
    _MulleObjCLongDoubleNumber  *obj;
 

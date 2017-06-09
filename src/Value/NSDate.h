@@ -42,17 +42,22 @@ typedef double    NSTimeInterval;
 #define NSTimeIntervalSince1970  978307200.0
 
 // compatible values
-#define NSDistantFuture   63113904000.0
-#define NSDistantPast    -63114076800.0
+#define _NSDistantFuture   63113904000.0
+#define _NSDistantPast    -63114076800.0
 
 
 //
-// _interval is always GMT, this means if NSDate had
-// a timeZone property, it would return GMT!
+// NSDate is a container for UTC. UTC is a calendar time variant.
+// It is not a physical time. This means that if you asked on
+// 31.Dez.2016 23:59:59 for [NSDate date] and did this again in
+// the next physical second, you'd be getting a duplicate because
+// of the leap second being added.
 //
-// The time interval is not "physical" seconds but
-// calendar seconds (sometime seconds appear or disappear
-// due to leap years).
+// Arithmetic on NSDate is useful in terms of seconds, minutes and
+// days, but is errorprone when extended to months or years due o
+// leap years with varyiing numbers of days.
+//
+// NSDate is floating point with all it's problems.
 //
 @interface NSDate : NSObject < NSDateFactory>
 {
@@ -60,18 +65,18 @@ typedef double    NSTimeInterval;
 }
 
 
-+ (id) dateWithTimeIntervalSince1970:(NSTimeInterval) seconds;
-+ (id) dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
-+ (id) distantFuture;
-+ (id) distantPast;
++ (instancetype) dateWithTimeIntervalSince1970:(NSTimeInterval) seconds;
++ (instancetype) dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
++ (instancetype) distantFuture;
++ (instancetype) distantPast;
 
-- (id) initWithTimeInterval:(NSTimeInterval) seconds
+- (instancetype) initWithTimeInterval:(NSTimeInterval) seconds
                   sinceDate:(NSDate *) refDate;
-- (id) initWithTimeIntervalSince1970:(NSTimeInterval) seconds;
-- (id) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
+- (instancetype) initWithTimeIntervalSince1970:(NSTimeInterval) seconds;
+- (instancetype) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
 
 - (NSComparisonResult) compare:(id) other;
-- (id) dateByAddingTimeInterval:(NSTimeInterval) seconds;
+- (instancetype) dateByAddingTimeInterval:(NSTimeInterval) seconds;
 - (NSDate *) earlierDate:(NSDate *) other;
 - (NSTimeInterval) timeIntervalSince1970;
 - (NSTimeInterval) timeIntervalSinceDate:(NSDate *) other;
@@ -82,7 +87,7 @@ typedef double    NSTimeInterval;
 
 @interface NSDate ( Future)
 
-+ (id) date;
++ (instancetype) date;
 + (NSTimeInterval) timeIntervalSinceReferenceDate;
 
 @end

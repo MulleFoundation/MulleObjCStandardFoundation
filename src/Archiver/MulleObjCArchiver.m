@@ -57,7 +57,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 @implementation MulleObjCArchiver
 
-- (id) init
+- (instancetype) init
 {
    _allocator = *MulleObjCObjectGetAllocator( self);
 
@@ -257,7 +257,11 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 {
    intptr_t   handle;
 
-   handle = class ? MulleObjCPointerHandleMapGet( &_classes, class) : 0;
+   // can't archive tagged pointers, because they have no alloc
+   NSParameterAssert( ! [class conformsToProtocol:@protocol( MulleObjCTaggedPointer)]);
+   NSParameterAssert( [class conformsToProtocol:@protocol( NSCoding)]);
+
+   handle = class ? MulleObjCPointerHandleMapGetOrAdd( &_classes, class) : 0;
    mulle_buffer_add_integer( &_buffer, handle);
 }
 
@@ -266,7 +270,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 {
    intptr_t   handle;
 
-   handle = sel ? MulleObjCPointerHandleMapGet( &_selectors, (void *) (uintptr_t) sel) : 0;
+   handle = sel ? MulleObjCPointerHandleMapGetOrAdd( &_selectors, (void *) (uintptr_t) sel) : 0;
    mulle_buffer_add_integer( &_buffer, handle);
 }
 
@@ -282,19 +286,29 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
       return;
    }
 
+   assert( [obj class]);
+
+#ifdef DEBUG
    fprintf( stderr, "check _objectSubstitutions for %p\n", obj);
+#endif
    other = NSMapGet( _objectSubstitutions, obj);
    if( other)
    {
+#ifdef DEBUG
       fprintf( stderr, "substituted %p with %p\n", obj, other);
+#endif
       obj = other;
    }
 
+#ifdef DEBUG
    fprintf( stderr, "check _objects.map for %p\n", obj);
+#endif
    handle = (intptr_t) mulle_map_get( &_objects.map, obj);
    if( ! handle)
    {
+#ifdef DEBUG
       fprintf( stderr, "check _conditionalObjects.map for %p\n", obj);
+#endif
       handle = (intptr_t) mulle_map_get( &_conditionalObjects.map, obj);
       if( ! handle)
          handle = ++_objectHandle;
@@ -530,10 +544,10 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
       mulle_buffer_add_integer( &_buffer, [cls version]);
 
       // write down ivar hash for pedantic checks
-      mulle_buffer_add_integer( &_buffer, _mulle_objc_class_get_ivarhash( cls));
+      mulle_buffer_add_integer( &_buffer, _mulle_objc_infraclass_get_ivarhash( cls));
 
       // write down class name
-      name = _mulle_objc_class_get_name( cls);
+      name = _mulle_objc_infraclass_get_name( cls);
       substitute = NSMapGet( _classNameSubstitutions, name);
       if( substitute)
          name = substitute;

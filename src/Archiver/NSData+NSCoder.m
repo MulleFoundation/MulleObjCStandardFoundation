@@ -5,14 +5,9 @@
 //  Created by Nat! on 28.03.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
-
-#import "MulleObjCFoundationData.h"
+#import "NSData+NSCoder.h"
 
 #import "NSCoder.h"
-
-
-@interface NSData (NSCoder) <NSCoding>
-@end
 
 
 @implementation NSData( NSCoder)
@@ -26,7 +21,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    void         *bytes;
    NSUInteger   length;

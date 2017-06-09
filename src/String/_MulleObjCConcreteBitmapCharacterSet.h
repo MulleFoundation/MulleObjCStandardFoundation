@@ -47,9 +47,11 @@
 }
 
 
-+ (id) newWithBitmapPlanes:(uint32_t **) planes
++ (instancetype) newWithBitmapPlanes:(uint32_t **) planes
                     invert:(BOOL) invert
                  allocator:(struct mulle_allocator *)  allocator
                      owner:(id) owner;
+
++ (instancetype) newWithString:(NSString *) s;
 
 @end

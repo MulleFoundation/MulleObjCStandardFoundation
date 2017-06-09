@@ -42,7 +42,7 @@
    int8_t  _value;
 }
 
-+ (id) newWithInt8:(int8_t) value;
++ (instancetype) newWithInt8:(int8_t) value;
 
 @end
 
@@ -52,7 +52,7 @@
    int16_t  _value;
 }
 
-+ (id) newWithInt16:(int16_t) value;
++ (instancetype) newWithInt16:(int16_t) value;
 
 @end
 
@@ -62,7 +62,7 @@
    int32_t  _value;
 }
 
-+ (id) newWithInt32:(int32_t) value;
++ (instancetype) newWithInt32:(int32_t) value;
 
 @end
 
@@ -72,7 +72,7 @@
    int64_t  _value;
 }
 
-+ (id) newWithInt64:(int64_t) value;
++ (instancetype) newWithInt64:(int64_t) value;
 
 @end
 
@@ -86,7 +86,7 @@
    uint32_t  _value;
 }
 
-+ (id) newWithUInt32:(uint32_t) value;
++ (instancetype) newWithUInt32:(uint32_t) value;
 
 @end
 
@@ -96,7 +96,7 @@
    uint64_t  _value;
 }
 
-+ (id) newWithUInt64:(uint64_t) value;
++ (instancetype) newWithUInt64:(uint64_t) value;
 
 @end
 
@@ -107,7 +107,7 @@
    double   _value;
 }
 
-+ (id) newWithDouble:(double) value;
++ (instancetype) newWithDouble:(double) value;
 
 @end
 
@@ -117,6 +117,6 @@
    long double   _value;
 }
 
-+ (id) newWithLongDouble:(long double) value;
++ (instancetype) newWithLongDouble:(long double) value;
 
 @end

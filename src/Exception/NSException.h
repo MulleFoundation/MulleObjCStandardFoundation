@@ -65,17 +65,17 @@ extern NSString   *NSParseErrorException;
 //
 + (void) raise:(NSString *) name
         format:(NSString *) format
-     arguments:(mulle_vararg_list) args;
+mulleVarargList:(mulle_vararg_list) args;
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-       va_list:(va_list) va;
+       varargList:(va_list) va;
 
 + (void) raise:(NSString *) name
         format:(NSString *) format, ...;
 
 
-- (id) initWithName:(NSString *) name
+- (instancetype) initWithName:(NSString *) name
              reason:(NSString *) reason
            userInfo:(NSDictionary *) userInfo;
 

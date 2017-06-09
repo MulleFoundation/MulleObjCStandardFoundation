@@ -65,44 +65,42 @@ static inline int   _ns_superquad_compare( _ns_superquad a, _ns_superquad b)
 }
 
 
-+ (id) numberWithChar:(char) value;
-+ (id) numberWithUnsignedChar:(unsigned char) value;
-+ (id) numberWithShort:(short) value;
-+ (id) numberWithUnsignedShort:(unsigned short) value;
-+ (id) numberWithInt:(int) value;
-+ (id) numberWithUnsignedInt:(unsigned int) value;
-+ (id) numberWithInteger:(NSInteger) value;
-+ (id) numberWithUnsignedInteger:(NSUInteger) value;
-+ (id) numberWithLong:(long) value;
-+ (id) numberWithUnsignedLong:(unsigned long) value;
-+ (id) numberWithLongLong:(long long) value;
-+ (id) numberWithUnsignedLongLong:(unsigned long long) value;
-+ (id) numberWithFloat:(float) value;
-+ (id) numberWithDouble:(double) value;
-+ (id) numberWithLongDouble:(long double) value;
-+ (id) numberWithBool:(BOOL) value;
++ (instancetype) numberWithChar:(char) value;
++ (instancetype) numberWithUnsignedChar:(unsigned char) value;
++ (instancetype) numberWithShort:(short) value;
++ (instancetype) numberWithUnsignedShort:(unsigned short) value;
++ (instancetype) numberWithInt:(int) value;
++ (instancetype) numberWithUnsignedInt:(unsigned int) value;
++ (instancetype) numberWithInteger:(NSInteger) value;
++ (instancetype) numberWithUnsignedInteger:(NSUInteger) value;
++ (instancetype) numberWithLong:(long) value;
++ (instancetype) numberWithUnsignedLong:(unsigned long) value;
++ (instancetype) numberWithLongLong:(long long) value;
++ (instancetype) numberWithUnsignedLongLong:(unsigned long long) value;
++ (instancetype) numberWithFloat:(float) value;
++ (instancetype) numberWithDouble:(double) value;
++ (instancetype) numberWithLongDouble:(long double) value;
++ (instancetype) numberWithBool:(BOOL) value;
 
 - (NSComparisonResult) compare:(id) other;
 - (BOOL) isEqualToNumber:(id) other;
-- (BOOL) isEqual:(id) other;
-- (NSUInteger) hash;
 
-- (id) initWithChar:(char) value;
-- (id) initWithUnsignedChar:(unsigned char) value;
-- (id) initWithShort:(short) value;
-- (id) initWithUnsignedShort:(unsigned short) value;
-- (id) initWithInt:(int) value;
-- (id) initWithUnsignedInt:(unsigned int) value;
-- (id) initWithInteger:(NSInteger) value;
-- (id) initWithUnsignedInteger:(NSUInteger) value;
-- (id) initWithLong:(long) value;
-- (id) initWithUnsignedLong:(unsigned long) value;
-- (id) initWithLongLong:(long long) value;
-- (id) initWithUnsignedLongLong:(unsigned long long) value;
-- (id) initWithFloat:(float) value;
-- (id) initWithDouble:(double) value;
-- (id) initWithLongDouble:(long double) value;
-- (id) initWithBool:(BOOL) value;
+- (instancetype) initWithChar:(char) value;
+- (instancetype) initWithUnsignedChar:(unsigned char) value;
+- (instancetype) initWithShort:(short) value;
+- (instancetype) initWithUnsignedShort:(unsigned short) value;
+- (instancetype) initWithInt:(int) value;
+- (instancetype) initWithUnsignedInt:(unsigned int) value;
+- (instancetype) initWithInteger:(NSInteger) value;
+- (instancetype) initWithUnsignedInteger:(NSUInteger) value;
+- (instancetype) initWithLong:(long) value;
+- (instancetype) initWithUnsignedLong:(unsigned long) value;
+- (instancetype) initWithLongLong:(long long) value;
+- (instancetype) initWithUnsignedLongLong:(unsigned long long) value;
+- (instancetype) initWithFloat:(float) value;
+- (instancetype) initWithDouble:(double) value;
+- (instancetype) initWithLongDouble:(long double) value;
+- (instancetype) initWithBool:(BOOL) value;
 
 - (BOOL) boolValue;
 - (NSUInteger) unsignedIntegerValue;

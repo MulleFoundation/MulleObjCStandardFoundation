@@ -233,4 +233,77 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    return( MulleObjCComponentsSeparatedByString( self, separator));
 }
 
+
+
+NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators)
+{
+   NSUInteger        i, n;
+   NSUInteger        m;
+   NSUInteger        max;
+   NSArray           *array;
+   mulle_utf8_t      *buf;
+   mulle_utf8_t      *sep;
+   mulle_utf8_t      *sentinel;
+   mulle_utf8_t      *p;
+   NSUInteger        *offsets;
+   NSUInteger        *tofree;
+   size_t            size;
+   IMP               isMember;
+   
+   n = [self _UTF8StringLength];
+   if( ! n)
+      return( nil);   // not the same as Objective-C (!) see below
+
+   // stay compatible to foundation
+   if( ! separators)
+      return( nil);
+
+   //
+   // for really huge strings, we might want to choose a different
+   // batching algorithm. But for EOF, strings are mostly small
+   //
+   m    = 1;
+   max  = (n + (m - 1)) / m + 2;
+   size = (n + m) * sizeof( mulle_utf8_t) + max * sizeof( NSUInteger);
+   {
+      NSUInteger   tmp[ 0x100];
+
+      tofree  = NULL;
+      offsets = tmp;
+      if( size > sizeof( NSUInteger) * 0x100)
+         tofree = offsets = mulle_malloc( size);
+      buf = (mulle_utf8_t *) &offsets[ max];
+      sep = (mulle_utf8_t *) &buf[ n];
+
+      [self _getUTF8Characters:buf];
+      sentinel = &buf[ n];
+
+      // Degenerate case @"." -> ( @"", @"")
+   
+      isMember = [separators methodForSelector:@selector( characterIsMember:)];
+      i = 0;
+      for( p = buf; p < sentinel;)
+      {
+         if( ! (*isMember)( separators, @selector( characterIsMember:), (id) (uintptr_t) *p++))
+            continue;
+         
+         offsets[ i++] = p - buf;
+      }
+
+      // 95% of all cases, there is no separator in self
+      array = nil;
+      if( i)
+         array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( buf, n, offsets, i, m);
+      mulle_free( tofree);
+   }
+   return( [array autorelease]);
+}
+
+// will return nil, if not separated! (to be compatible)
+- (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators
+{
+   return( MulleObjCComponentsSeparatedByCharacterSet( self, separators));
+}
+
+
 @end

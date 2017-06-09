@@ -71,7 +71,7 @@ __attribute__ ((noreturn))
 void   MulleObjCThrowInvalidArgumentException( NSString *format, ...)
 {
    va_list   args;
-   
+
    va_start( args, format);
    MulleObjCExceptionHandlersUnfailingGetTable()->invalid_argument( format, args);
    va_end( args);

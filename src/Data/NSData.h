@@ -36,7 +36,6 @@
 #import "MulleObjCFoundationBase.h"
 
 
-
 enum
 {
    NSDataSearchBackwards = 1UL << 0,
@@ -48,15 +47,15 @@ enum
 {
 }
 
-+ (id) dataWithBytes:(void *) bytes
-              length:(NSUInteger) length;
-+ (id) dataWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length;
-+ (id) dataWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-              freeWhenDone:(BOOL) flag;
-+ (id) dataWithData:(NSData *) other;
-+ (id) data;
++ (instancetype) dataWithBytes:(void *) bytes
+                        length:(NSUInteger) length;
++ (instancetype) dataWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length;
++ (instancetype) dataWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length
+                        freeWhenDone:(BOOL) flag;
++ (instancetype) dataWithData:(NSData *) other;
++ (instancetype) data;
 
 - (NSUInteger) hash;
 - (BOOL) isEqual:(id) other;
@@ -67,7 +66,7 @@ enum
 - (void) getBytes:(void *) bytes
             range:(NSRange) range;
 - (BOOL) isEqualToData:(NSData *) other;
-- (id) subdataWithRange:(NSRange) range;
+- (NSData *) subdataWithRange:(NSRange) range;
 - (NSRange) rangeOfData:(id) other
                 options:(NSUInteger) options
                   range:(NSRange) range;
@@ -76,23 +75,23 @@ enum
 
 @interface NSData ( MulleObjCDataPlaceholder)
 
-- (id) initWithBytes:(void *) bytes
+- (instancetype) initWithBytes:(void *) bytes
               length:(NSUInteger) length
                 copy:(BOOL) copy
         freeWhenDone:(BOOL) freeWhenDone
           bytesAreVM:(BOOL) bytesAreVM;
-- (id) initWithBytes:(void *) bytes
+- (instancetype) initWithBytes:(void *) bytes
               length:(NSUInteger) length;
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length;
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
                  allocator:(struct mulle_allocator *) allocator;
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
               freeWhenDone:(BOOL) flag;
 
-- (id) initWithData:(NSData *) other;
+- (instancetype) initWithData:(NSData *) other;
 
 @end
 

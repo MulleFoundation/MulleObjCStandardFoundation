@@ -45,7 +45,7 @@
 
 @implementation _MulleObjCConcreteRangeCharacterSet
 
-+ (id) newWithRange:(NSRange) range
++ (instancetype) newWithRange:(NSRange) range
              invert:(BOOL) invert;
 {
    _MulleObjCConcreteRangeCharacterSet   *obj;

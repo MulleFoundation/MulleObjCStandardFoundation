@@ -96,7 +96,7 @@ typedef NSUInteger   NSStringEncodingConversionOptions;
 
 - (NSData *) dataUsingEncoding:(NSStringEncoding) encoding;
 
-- (id) initWithData:(NSData *) data
+- (instancetype) initWithData:(NSData *) data
            encoding:(NSUInteger) encoding;
 
 - (instancetype) initWithBytes:(void *) bytes

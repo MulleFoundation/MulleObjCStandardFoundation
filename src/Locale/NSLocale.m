@@ -92,11 +92,33 @@ NSString   *NSYearMonthWeekDesignations = @"NSYearMonthWeekDesignations";
 
 // most of the code is OS Specific, so not much here
 
+@implementation NSObject( _NSLocale)
+
+- (BOOL) __isNSLocale
+{
+   return( NO);
+}
+
+@end
+
+
 @implementation NSLocale
+
+- (BOOL) __isNSLocale
+{
+   return( YES);
+}
+
 
 - (NSString *) localeIdentifier
 {
    return( _identifier);
+}
+
+
+- (id) :(id) key;
+{
+   return( [_keyValues :key]);
 }
 
 
@@ -115,6 +137,28 @@ NSString   *NSYearMonthWeekDesignations = @"NSYearMonthWeekDesignations";
 - (id) copy
 {
    return( [self retain]);
+}
+
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   return( [self->_identifier hash]);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSLocale])
+      return( NO);
+   return( [self isEqualToLocale:other]);
+}
+
+
+- (BOOL) isEqualToLocale:(NSLocale *) other
+{
+   return( [self->_identifier isEqualToString:[other localeIdentifier]]);
 }
 
 @end

@@ -46,7 +46,7 @@
 #include <ctype.h>
 
 
-@implementation NSData (NSString)
+@implementation NSData( NSString)
 
 static inline unsigned int   hex( unsigned int c)
 {

@@ -168,6 +168,7 @@
 //
 // these protocols supply implementations
 //
+@class MulleObjCUnkeyedArchiver;
 @protocol MulleObjCUnkeyedArchiver
 
 @optional
@@ -185,6 +186,7 @@
 @end
 
 
+@class MulleObjCUnkeyedUnarchiver;
 @protocol MulleObjCUnkeyedUnarchiver
 
 @optional

@@ -92,13 +92,13 @@ static NSString   *UTF8ToString( char *s)
 }
 
 
-+ (id) string
++ (instancetype) string
 {
    return( [[[self alloc] init] autorelease]);
 }
 
 
-+ (id) stringWithCharacters:(unichar *) s
++ (instancetype) stringWithCharacters:(unichar *) s
                      length:(NSUInteger) len;
 {
    return( [[[self alloc] initWithCharacters:s
@@ -106,7 +106,7 @@ static NSString   *UTF8ToString( char *s)
 }
 
 
-+ (id) _stringWithCharactersNoCopy:(unichar *) s
++ (instancetype) _stringWithCharactersNoCopy:(unichar *) s
                             length:(NSUInteger) len
                          allocator:(struct mulle_allocator *) allocator;
 {
@@ -116,13 +116,13 @@ static NSString   *UTF8ToString( char *s)
 }
 
 
-+ (id) stringWithUTF8String:(char *) s
++ (instancetype) stringWithUTF8String:(char *) s
 {
    return( [[[self alloc] initWithUTF8String:s] autorelease]);
 }
 
 
-+ (id) _stringWithUTF8Characters:(mulle_utf8_t *) s
++ (instancetype) _stringWithUTF8Characters:(mulle_utf8_t *) s
                          length:(NSUInteger) len
 {
    return( [[[self alloc] _initWithUTF8Characters:s
@@ -130,7 +130,7 @@ static NSString   *UTF8ToString( char *s)
 }
 
 
-+ (id) _stringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
++ (instancetype) _stringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
                                 length:(NSUInteger) len
                              allocator:(struct mulle_allocator *) allocator
 {
@@ -143,7 +143,7 @@ static NSString   *UTF8ToString( char *s)
 }
 
 
-+ (id) stringWithString:(NSString *) s
++ (instancetype) stringWithString:(NSString *) s
 {
    return( [[[self alloc] initWithString:s] autorelease]);
 }
@@ -154,7 +154,7 @@ static NSString   *UTF8ToString( char *s)
 #pragma mark generic init
 
 
-- (id) initWithString:(NSString *) other
+- (instancetype) initWithString:(NSString *) other
 {
    char   *s;
 
@@ -166,7 +166,7 @@ static NSString   *UTF8ToString( char *s)
 #pragma mark -
 #pragma mark generic code
 
-- (id) description
+- (NSString *) description
 {
    return( self);
 }
@@ -175,17 +175,6 @@ static NSString   *UTF8ToString( char *s)
 - (NSString *) _debugContentsDescription
 {
    return( self);
-}
-
-
-- (NSUInteger) hash
-{
-   NSRange   range;
-   char      *s;
-
-   range = MulleObjCHashRange( [self _UTF8StringLength]);
-   s     = [self UTF8String];
-   return( MulleObjCStringHash( &s[ range.location], range.length));
 }
 
 
@@ -339,6 +328,15 @@ static void   grab_utf8( id self,
 /*
  * some generic stuff, irregardless of UTF or C
  */
+
+#pragma mark - hash and equality
+
+// subclasses do it better usually
+- (NSUInteger) hash
+{
+   return( MulleObjCStringHash( (mulle_utf8_t *) [self UTF8String], [self _UTF8StringLength]));
+}
+
 
 - (BOOL) isEqual:(id) other
 {

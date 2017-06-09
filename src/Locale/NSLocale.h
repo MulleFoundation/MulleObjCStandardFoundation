@@ -57,8 +57,8 @@
 
 @interface NSLocale( Future)
 
-+ (id) systemLocale;
-+ (id) currentLocale;
++ (instancetype) systemLocale;
++ (instancetype) currentLocale;
 
 + (NSArray *) availableLocaleIdentifiers;
 + (NSArray *) ISOLanguageCodes;
@@ -71,9 +71,12 @@
 + (NSString *) canonicalLocaleIdentifierFromString:(NSString *) string;
 + (NSString *) canonicalLanguageIdentifierFromString:(NSString *) string;
 
-- (id) initWithLocaleIdentifier:(NSString *) string;
+- (instancetype) initWithLocaleIdentifier:(NSString *) string;
 - (NSString *) localeIdentifier;
+- (id) :(id) key;
 - (id) objectForKey:(id) key;
+
+- (BOOL) isEqualToLocale:(NSLocale *) other;
 
 @end
 

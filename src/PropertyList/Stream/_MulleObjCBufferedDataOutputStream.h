@@ -53,8 +53,8 @@ _MULLE_OBJC_BUFFERED_DATA_OUTPUT_STREAM_IVAR_VISIBILITY      // allow public acc
 //
 // DO NOT DO THAT, JUST USE NSMutableData as stream!
 //
-//- (id) initWithMutableData:(NSMutableData *) data;
-- (id) initWithOutputStream:(id <_MulleObjCOutputDataStream>) stream;
+//- (instancetype) initWithMutableData:(NSMutableData *) data;
+- (instancetype) initWithOutputStream:(id <_MulleObjCOutputDataStream>) stream;
 
 - (void) writeData:(NSData *) data;
 

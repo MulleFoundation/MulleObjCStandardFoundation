@@ -59,8 +59,8 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
 
 
 
-- (id) _initWithDateFormat:(NSString *) format
-     allowNaturalLanguage:(BOOL) flag
+- (instancetype) _initWithDateFormat:(NSString *) format
+                allowNaturalLanguage:(BOOL) flag
 {
    _dateClass             = [NSDate class];
    _dateFormat            = [format copy];
@@ -70,14 +70,15 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
 }
 
 
-- (id) init
+- (instancetype) init
 {
+   // this is incompatible, os x uses an empty date format
    return( [self initWithDateFormat:@"%y-%m-%dT%H:%M:%SZ%z"
                allowNaturalLanguage:NO]);
 }
 
 
-- (id) initWithDateFormat:(NSString *) format
+- (instancetype) initWithDateFormat:(NSString *) format
      allowNaturalLanguage:(BOOL) flag
 {
    [self setFormatterBehavior:NSDateFormatterBehavior10_0];

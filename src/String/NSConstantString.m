@@ -47,14 +47,14 @@
 @implementation NSConstantString
 
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
-+ (SEL *) classDependencies
++ (struct _mulle_objc_dependency *) dependencies
 {
-   static SEL   dependencies[] =
+   static struct _mulle_objc_dependency   dependencies[] =
    {
-      @selector( _MulleObjCTaggedPointerChar7String),
-      @selector( _MulleObjCTaggedPointerChar5String),
-      @selector( NSThread),
-      0
+      { @selector( _MulleObjCTaggedPointerChar7String), 0 },
+      { @selector( _MulleObjCTaggedPointerChar5String), 0 },
+      { @selector( NSThread), 0 },
+      { 0, 0 }
    };
    return( dependencies);
 }
@@ -64,11 +64,9 @@
 + (void) load
 {
    struct _mulle_objc_runtime   *runtime;
-   struct _mulle_objc_class     *cls;
 
-   cls     = self;
-   runtime = _mulle_objc_class_get_runtime( cls);
-   _mulle_objc_runtime_set_staticstringclass( runtime, cls);
+   runtime = _mulle_objc_infraclass_get_runtime( self);
+   _mulle_objc_runtime_set_staticstringclass( runtime, self);
 }
 
 
@@ -108,9 +106,9 @@
 }
 
 
-- (id) retain       {  return( self); }
-- (void) release    { }
-- (id) autorelease  { return( self); }
+- (instancetype) retain       {  return( self); }
+- (void) release              { }
+- (instancetype) autorelease  { return( self); }
 - (void) dealloc
 {
    assert( 0 && "deallocing a NSConstantString ???");

@@ -54,7 +54,7 @@
 }
 
 
-+ (id) defaultCenter;
++ (instancetype) defaultCenter;
 
 - (void) addObserver:(id) observer
             selector:(SEL) sel
@@ -70,4 +70,7 @@
 
 - (void) removeObserver:(id) observer;
 
+- (void) removeObserver:(id) observer
+                   name:(NSString *) name
+                 object:(id) sender;
 @end

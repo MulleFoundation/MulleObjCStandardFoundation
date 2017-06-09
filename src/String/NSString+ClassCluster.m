@@ -239,7 +239,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 #pragma mark class cluster init
 
 
-- (id) initWithUTF8String:(char *) s
+- (instancetype) initWithUTF8String:(char *) s
 {
    struct mulle_allocator  *allocator;
 
@@ -252,8 +252,8 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 }
 
 
-- (id) _initWithUTF8Characters:(mulle_utf8_t *) s
-                        length:(NSUInteger) len
+- (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) s
+                                  length:(NSUInteger) len
 {
    struct mulle_allocator  *allocator;
 
@@ -264,7 +264,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 
 
 
-- (id) initWithCharacters:(unichar *) s
+- (instancetype) initWithCharacters:(unichar *) s
                    length:(NSUInteger) len
 {
    struct mulle_allocator  *allocator;
@@ -275,9 +275,9 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 }
 
 
-- (id) _initWithCharactersNoCopy:(unichar *) s
-                          length:(NSUInteger) length
-                       allocator:(struct mulle_allocator *) allocator
+- (instancetype) _initWithCharactersNoCopy:(unichar *) s
+                                    length:(NSUInteger) length
+                                 allocator:(struct mulle_allocator *) allocator
 {
    struct mulle_utf_information   info;
 
@@ -312,9 +312,9 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 }
 
 
-- (id) _initWithNonASCIIUTF8Characters:(mulle_utf8_t *) s
-                                length:(NSUInteger) length
-                              userInfo:(void *) userInfo
+- (instancetype) _initWithNonASCIIUTF8Characters:(mulle_utf8_t *) s
+                                          length:(NSUInteger) length
+                                        userInfo:(void *) userInfo
 {
    struct mulle_utf_information  *info;
    struct mulle_utf_information  _info;
@@ -340,11 +340,10 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 
    // need to copy it, because it's not ASCII
 
-   [self release];
-
    allocator = MulleObjCObjectGetAllocator( self);
    mulle_buffer_init( &buffer, allocator);
 
+   [self release];
 
    // convert it to UTF16
    // make it a regular string
@@ -379,9 +378,10 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    return( self);
 }
 
-- (id) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                              length:(NSUInteger) length
-                           allocator:(struct mulle_allocator *) allocator
+
+- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                        length:(NSUInteger) length
+                                     allocator:(struct mulle_allocator *) allocator
 {
    struct mulle_utf_information  info;
    id                            obj;

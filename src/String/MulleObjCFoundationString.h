@@ -41,6 +41,8 @@
 #import "NSString.h"
 #import "NSFormatter.h"
 
+#import "NSObject+NSString.h"
+
 #import "NSString+Components.h"
 #import "NSString+ClassCluster.h"
 #import "NSString+Escaping.h"

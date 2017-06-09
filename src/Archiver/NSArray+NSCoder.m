@@ -6,17 +6,13 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-#import "MulleObjCFoundationContainer.h"
+#import "NSArray+NSCoder.h"
 
 #import "NSCoder.h"
 
 #import "_MulleObjCEmptyArray.h"
 #import "_MulleObjCConcreteArray.h"
 #import "_MulleObjCConcreteArray+Private.h"
-
-
-@interface NSArray( NSCoder) < NSCoding>
-@end
 
 @implementation NSArray( NSCoder)
 
@@ -29,7 +25,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
 

@@ -54,7 +54,7 @@
 
 @implementation MulleObjCUnarchiver
 
-+ (id) unarchiveObjectWithData:(NSData *) data
++ (instancetype) unarchiveObjectWithData:(NSData *) data
 {
    MulleObjCUnarchiver   *unarchiver;
 
@@ -149,7 +149,8 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
          name = substitution;
 
       clshash = mulle_objc_uniqueid_from_string( blob->_storage);
-      cls     = _mulle_objc_runtime_lookup_class( mulle_objc_get_runtime() , clshash);
+      cls     = _mulle_objc_runtime_get_or_lookup_infraclass( mulle_objc_get_runtime() ,
+                                                  clshash);
       if( ! cls)
          return( NO);
 
@@ -441,7 +442,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
    [super init];
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator  = MulleObjCObjectGetAllocator( self);
    _objects   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 16, allocator);
    _offsets   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, mulle_container_valuecallback_intptr, 16, allocator);
 
@@ -473,10 +474,12 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
    [_data release];
 
+   // go over objects and release them
    rover = NSEnumerateMapTable( _objects);
    while( NSNextMapEnumeratorPair( &rover, NULL, (void **) &obj))
-      [obj autorelease];
+      [obj release];
    NSEndMapTableEnumeration( &rover);
+   NSFreeMapTable( _objects);
 
    NSFreeMapTable( _objectSubstitutions);
    NSFreeMapTable( _classNameSubstitutions);
@@ -485,7 +488,6 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    NSFreeMapTable( _selectors);
    NSFreeMapTable( _classes);
    NSFreeMapTable( _offsets);
-   NSFreeMapTable( _objects);
 
    mulle_buffer_done( &_buffer);
    [super dealloc];
@@ -523,7 +525,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 }
 
 
-- (id) _initObject:(id) obj
+- (instancetype) _initObject:(id) obj
 {
    return( [obj initWithCoder:self]);
 }
@@ -749,7 +751,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
       next     = s;
       max_size = 0;
       max_type = NULL;
-      
+
       while( *next != _C_UNION_E)
       {
          next = NSGetSizeAndAlignment( next, &size, NULL);

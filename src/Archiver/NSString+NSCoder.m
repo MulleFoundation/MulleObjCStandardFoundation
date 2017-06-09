@@ -6,13 +6,9 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-#import "MulleObjCFoundationString.h"
+#import "NSString+NSCoder.h"
 
 #import "NSCoder.h"
-
-
-@interface NSString (NSCoder) <NSCoding> // invisible NSCoding, is it bad ?
-@end
 
 
 @implementation NSString (NSCoder)
@@ -26,7 +22,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    void         *bytes;
    NSUInteger   length;

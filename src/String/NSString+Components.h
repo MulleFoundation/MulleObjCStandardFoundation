@@ -51,11 +51,13 @@
 #pragma mark -
 #pragma mark mulle additions
 
-// will return nil, if no separator found
+// these two will return nil, if no separator is found
 - (NSArray *) _componentsSeparatedByString:(NSString *) separator;
+- (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators;
 
 
 @end
 
 // this returns nil, if no separator is found
 NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator);
+NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);

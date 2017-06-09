@@ -137,7 +137,7 @@ static void  handleFailureInMethod( SEL selector,
    mulle_vararg_start( args, format);
 
    desc = [NSString stringWithFormat:format
-                           arguments:args];
+                     mulleVarargList:args];
    mulle_vararg_end( args);
 
    handleFailureInMethod( sel, obj, filename, line, desc);
@@ -155,7 +155,7 @@ static void  handleFailureInMethod( SEL selector,
    mulle_vararg_start( args, format);
 
    desc = [NSString stringWithFormat:format
-                            arguments:args];
+                     mulleVarargList:args];
    mulle_vararg_end( args);
 
    handleFailureInFunction( functionname, filename, line, desc);
@@ -176,7 +176,7 @@ void   NSAssertionHandlerHandleMethodFailure( SEL sel,
    va_start( args, format);
 
    desc = [NSString stringWithFormat:format
-                             va_list:args];
+                             varargList:args];
    va_end( args);
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];
@@ -202,7 +202,7 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
 
    va_start( args, format);
    desc = [NSString stringWithFormat:format
-                             va_list:args];
+                             varargList:args];
    va_end( args);
    desc = [desc stringByReplacingOccurrencesOfString:@"%"
                                           withString:@"%%"];

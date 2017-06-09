@@ -17,7 +17,7 @@ __attribute__ ((noreturn))
 static inline void   MulleObjCThrowCInvalidArgumentException( char *format, ...)
 {
    va_list  args;
-   
+
    va_start( args, format);
    mulle_objc_throw_invalid_argument_exception_v( format, args);
    va_end( args);
@@ -28,7 +28,7 @@ __attribute__ ((noreturn))
 static inline void   MulleObjCThrowCInternalInconsistencyException( char *format, ...)
 {
    va_list  args;
-   
+
    va_start( args, format);
    mulle_objc_throw_internal_inconsistency_exception_v( format, args);
    va_end( args);
@@ -39,10 +39,10 @@ __attribute__ ((noreturn))
 static inline void   MulleObjCThrowCErrnoException( char *format, ...)
 {
    va_list  args;
-   
+
    va_start( args, format);
    mulle_objc_throw_errno_exception_v( format, args);
    va_end( args);
 }
 
-#endif 
+#endif

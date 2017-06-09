@@ -41,12 +41,13 @@
 #import "MulleObjCFoundationCore.h"
 
 #import "MulleObjCFoundationArchiver.h"
-#import "MulleObjCFoundationKVC.h"
 #import "MulleObjCFoundationLocale.h"
 #import "MulleObjCFoundationNotification.h"
 #import "MulleObjCFoundationPropertyList.h"
 
 
-#if MULLE_OBJC_VERSION < ((0 << 20) | (1 << 8) | 0)
+#import "MulleObjCLoader+Foundation.h"
+
+#if MULLE_OBJC_VERSION < ((0 << 20) | (6 << 8) | 0)
 # error "MulleObjC is too old"
 #endif

@@ -46,7 +46,7 @@
 
 @implementation _MulleObjCMemoryDataInputStream : NSObject
 
-- (id) initWithData:(NSData *) data
+- (instancetype) initWithData:(NSData *) data
 {
    _data = [data retain];
 

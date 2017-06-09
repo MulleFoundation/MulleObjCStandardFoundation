@@ -48,8 +48,8 @@ MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
    long   _lineNr;
 }
 
-- (id) initWithString:(NSString *) s;
-- (id) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream;
+- (instancetype) initWithString:(NSString *) s;
+- (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream;
 
 - (void) bookmark;
 - (NSData *) bookmarkedData;

@@ -45,7 +45,7 @@
 
 - (NSString *) description
 {
-   return( [NSString stringWithFormat:@"%@ %@ { %@ }",
+   return( [NSString stringWithFormat:@"%@: %@ { %@ }",
                [self name],
                [self reason],
                [self userInfo]]);;

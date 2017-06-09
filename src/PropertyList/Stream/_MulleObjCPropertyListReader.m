@@ -46,7 +46,7 @@
 
 @implementation _MulleObjCPropertyListReader
 
-- (id) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
+- (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
 {
    //
    // this will consume first character
@@ -59,7 +59,7 @@
    return( self);
 }
 
-//- (id) init
+//- (instancetype) init
 //{
 //   [super init];
 //

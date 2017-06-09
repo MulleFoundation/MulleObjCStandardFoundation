@@ -64,33 +64,33 @@
 # pragma mark -
 # pragma mark conveniences
 
-+ (id) data
++ (instancetype) data
 {
    return( [self dataWithCapacity:0]);
 }
 
 
-+ (id) dataWithLength:(NSUInteger) length
++ (instancetype) dataWithLength:(NSUInteger) length
 {
    return( [[[self alloc] initWithLength:length] autorelease]);
 }
 
 
-+ (id) dataWithCapacity:(NSUInteger) capacity
++ (instancetype) dataWithCapacity:(NSUInteger) capacity
 {
    return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
 
 
-+ (id) dataWithBytes:(void *) buf
-              length:(NSUInteger) len
++ (instancetype) dataWithBytes:(void *) buf
+                        length:(NSUInteger) len
 {
    return( [[[self alloc] initWithBytes:buf
                                  length:len] autorelease]);
 }
 
 
-+ (id) dataWithData:(NSData *) other
++ (instancetype) dataWithData:(NSData *) other
 {
    return( [[[self alloc] initWithBytes:[other bytes]
                                  length:[other length]] autorelease]);
@@ -100,7 +100,22 @@
 # pragma mark -
 # pragma mark classcluster
 
-- (id) initWithCapacity:(NSUInteger) capacity
+// as we are "breaking out" of the class cluster, use standard
+// allocation
+
++ (instancetype) alloc
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
++ (instancetype) allocWithZone:(NSZone *) zone
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
+- (instancetype) initWithCapacity:(NSUInteger) capacity
 {
    [self release];
 
@@ -108,7 +123,7 @@
 }
 
 
-- (id) initWithLength:(NSUInteger) length
+- (instancetype) initWithLength:(NSUInteger) length
 {
    [self release];
 
@@ -116,7 +131,7 @@
 }
 
 
-- (id) initWithBytes:(void *) bytes
+- (instancetype) initWithBytes:(void *) bytes
               length:(NSUInteger) length
 {
    [self release];
@@ -126,7 +141,7 @@
 }
 
 
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
                freeWhenDone:(BOOL) flag
 {
@@ -148,9 +163,10 @@
    return( self);
 }
 
-- (id) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-                 allocator:(struct mulle_allocator *) allocator
+
+- (instancetype) initWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length
+                           allocator:(struct mulle_allocator *) allocator
 {
    [self release];
 
@@ -160,7 +176,7 @@
 }
 
 
-- (id) initWithData:(NSData *) data
+- (instancetype) initWithData:(NSData *) data
 {
    [self release];
 
@@ -192,7 +208,7 @@
 }
 
 
-+ (id) _nonZeroedDataWithLength:(NSUInteger) length
++ (instancetype) _nonZeroedDataWithLength:(NSUInteger) length
 {
    NSMutableData   *data;
 
@@ -202,7 +218,7 @@
 }
 
 
-- (id) _initNonZeroedDataWithLength:(NSUInteger) length;
+- (instancetype) _initNonZeroedDataWithLength:(NSUInteger) length;
 {
    [self init];
    [self _setLengthDontZero:length];

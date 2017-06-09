@@ -86,8 +86,8 @@
 #pragma mark -
 #pragma mark classcluster ?
 
-- (id) initWithBytes:(void *) value
-            objCType:(char *) type
+- (instancetype) initWithBytes:(void *) value
+                      objCType:(char *) type
 {
    [self release];
    return( [_MulleObjCConcreteValue newWithBytes:value
@@ -102,7 +102,7 @@
 //           can  be shared
 
 
-+ (id) value:(void *) bytes
++ (instancetype) value:(void *) bytes
 withObjCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
@@ -110,7 +110,7 @@ withObjCType:(char *) type
 }
 
 
-+ (id) valueWithBytes:(void *) bytes
++ (instancetype) valueWithBytes:(void *) bytes
              objCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
@@ -118,56 +118,17 @@ withObjCType:(char *) type
 }
 
 
-+ (id) valueWithPointer:(void *) pointer
++ (instancetype) valueWithPointer:(void *) pointer
 {
    return( [[[self alloc] initWithBytes:&pointer
                                objCType:@encode( void *)] autorelease]);
 }
 
 
-+ (id) valueWithRange:(NSRange) range
++ (instancetype) valueWithRange:(NSRange) range
 {
    return( [[[self alloc] initWithBytes:&range
                                objCType:@encode( NSRange)] autorelease]);
-}
-
-
-- (BOOL) isEqualToValue:(NSValue *) other
-{
-   NSUInteger   size;
-   NSUInteger   otherSize;
-   char         *buf;
-   char         *buf2;
-   BOOL         flag;
-
-   NSParameterAssert( [other isKindOfClass:[NSValue class]]);
-
-   if( strcmp( [self objCType], [other objCType]))
-      return( NO);
-
-   size      = [self _size];
-   otherSize = [other _size];
-   if( size == otherSize)
-      return( NO);
-
-   buf  = mulle_malloc( size * 2);
-   buf2 = &buf[ size];
-
-   [self getValue:&buf];
-   [other getValue:&buf2];
-
-   flag = ! memcmp( buf, buf2, size);
-   mulle_free( buf);
-
-   return( flag);
-}
-
-
-- (BOOL) isEqual:(id) other
-{
-   if( ! [other __isNSValue])
-      return( NO);
-   return( [self isEqualToValue:other]);
 }
 
 
@@ -178,13 +139,6 @@ withObjCType:(char *) type
    NSGetSizeAndAlignment( [self objCType], &size, NULL);
    return( size);
 }
-
-
-- (NSUInteger) hash
-{
-   abort();
-}
-
 
 - (void) getValue:(void *) bytes
              size:(NSUInteger) size
@@ -221,6 +175,69 @@ withObjCType:(char *) type
 - (id) copy
 {
    return( [self retain]);
+}
+
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   NSUInteger   size;
+
+   NSGetSizeAndAlignment( [self objCType], &size, NULL);
+
+   {
+      char  bytes[ size];
+
+      [self getValue:bytes];
+
+      return( MulleObjCBytesPartialHash( bytes, size));
+   }
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSValue])
+      return( NO);
+   return( [self isEqualToValue:other]);
+}
+
+
+- (BOOL) isEqualToValue:(NSValue *) other
+{
+   char        *type;
+   char        *oType;
+   NSUInteger   size;
+   NSUInteger   otherSize;
+   BOOL         flag;
+
+   NSParameterAssert( [other isKindOfClass:[NSValue class]]);
+
+   type  = [self objCType];
+   oType = [other objCType];
+
+   // should not compare adornments ?
+   if( strcmp( type, oType))
+      return( NO);
+
+   NSGetSizeAndAlignment( type, &size, NULL);
+   NSGetSizeAndAlignment( oType, &otherSize, NULL);
+
+   if( size != otherSize)
+      return( NO);
+
+   {
+      auto char   buf[ size];
+      auto char   buf2[ size];
+
+      [self getValue:&buf];
+      [other getValue:&buf2];
+
+      flag = ! memcmp( buf, buf2, size);
+   }
+
+   return( flag);
 }
 
 @end

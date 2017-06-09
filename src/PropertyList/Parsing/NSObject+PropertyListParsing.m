@@ -54,16 +54,17 @@ static char  end_char_lut[ 128];
 
 + (void) load
 {
-   end_char_lut[ ' ']  = YES;
-   end_char_lut[ '\t'] = YES;
-   end_char_lut[ '\n'] = YES;
-   end_char_lut[ '\r'] = YES;
-   end_char_lut[ '=']  = YES;
-   end_char_lut[ ';']  = YES;
-   end_char_lut[ ',']  = YES;
-   end_char_lut[ '"']  = YES;
-   end_char_lut[ ')']  = YES;
-   end_char_lut[ '}']  = YES;
+   // could be a static initialize of end_char_lut, but laziness...
+   end_char_lut[ ' ']  =
+   end_char_lut[ '\t'] =
+   end_char_lut[ '\n'] =
+   end_char_lut[ '\r'] =
+   end_char_lut[ '=']  =
+   end_char_lut[ ';']  =
+   end_char_lut[ ',']  =
+   end_char_lut[ '"']  =
+   end_char_lut[ ')']  =
+   end_char_lut[ '}']  =
    end_char_lut[ '>']  = YES;
 }
 

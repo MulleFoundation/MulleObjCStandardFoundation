@@ -66,7 +66,7 @@
 
 
 
-- (id) initWithKey:(NSString *) key
+- (instancetype) initWithKey:(NSString *) key
          ascending:(BOOL) ascending
           selector:(SEL) selector
 {
@@ -84,7 +84,7 @@
 }
 
 
-- (id) initWithKey:(NSString *) key
+- (instancetype) initWithKey:(NSString *) key
          ascending:(BOOL) ascending
 {
    return( [self initWithKey:key

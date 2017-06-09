@@ -17,7 +17,7 @@
 
 - (NSCalendarDate *) calendarDateWithTimeZone:(NSTimeZone *) tz;
 
-// deprecated and ignores calendarFormat 
+// deprecated and ignores calendarFormat
 - (NSCalendarDate *) dateWithCalendarFormat:(NSString *) format
                                    timeZone:(NSTimeZone *) aTimeZone;
 @end

@@ -49,10 +49,10 @@
    NSUInteger     _shadowLen;
 }
 
-+ (id) stringWithCapacity:(NSUInteger) capacity;
-- (id) initWithCapacity:(NSUInteger) capacity;
++ (instancetype) stringWithCapacity:(NSUInteger) capacity;
+- (instancetype) initWithCapacity:(NSUInteger) capacity;
 
-- (id) initWithStrings:(NSString **) strings
+- (instancetype) initWithStrings:(NSString **) strings
                  count:(NSUInteger) count;
 
 - (void) appendString:(NSString *) s;

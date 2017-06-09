@@ -21,7 +21,32 @@
 // std-c and dependencies
 
 
+@implementation NSObject( _NSCalendarDate)
+
+- (BOOL) __isNSCalendarDate
+{
+   return( NO);
+}
+
+@end
+
+
 @implementation NSCalendarDate
+
+- (BOOL) __isNSCalendarDate
+{
+   return( YES);
+}
+
+
++ (instancetype) calendarDate
+{
+   NSTimeInterval   seconds;
+
+   seconds = time( NULL) + NSTimeIntervalSince1970;
+   return( [[self new] autorelease]);
+}
+
 
 - (NSString *) calendarFormat
 {
@@ -32,15 +57,22 @@
 - (instancetype) _initWithMiniTM:(struct mulle_mini_tm) tm
                         timeZone:(NSTimeZone *) tz
 {
-   self = [self init];
-   
+   // don't call self init!
    _tm.values = tm;
-   
+
    if( ! tz)
       tz = [NSTimeZone defaultTimeZone];
-   _timeZone = [tz retain];
    
+   _timeZone = [tz retain];
+   assert( _timeZone);
+
    return( self);
+}
+
+
+- (struct mulle_mini_tm) _miniTM
+{
+   return( _tm.values);
 }
 
 
@@ -53,7 +85,7 @@
                      timeZone:(NSTimeZone *) tz
 {
    struct mulle_mini_tm   tm;
-   
+
    NSParameterAssert( year >= mulle_mini_tm_min_year && year <= mulle_mini_tm_max_year);
    NSParameterAssert( month >= 1 && month <= 12);
    NSParameterAssert( day >= 1 && day <= 31);
@@ -61,7 +93,8 @@
    NSParameterAssert( minute >= 0 && minute <= 59);
    NSParameterAssert( second >= 0 && second <= 60);
 
-   
+
+   tm.type   = 0;
    tm.year   = (int) year;
    tm.month  = (int) month;
    tm.day    = (int) day;
@@ -69,7 +102,7 @@
    tm.minute = (int) minute;
    tm.second = (int) second;
    tm.ns     = 0;
-   
+
    return( [self _initWithMiniTM:tm
                         timeZone:tz]);
 }
@@ -90,6 +123,13 @@
                                 minute:minute
                                 second:second
                               timeZone:tz] autorelease]);
+}
+
+
+- (void) dealloc
+{
+   [_timeZone release];
+   NSDeallocateObject( self);
 }
 
 
@@ -130,5 +170,28 @@
    return( self->_tm.values.year);
 }
 
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   return( self->_tm.bits ^ [self->_timeZone hash]);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSCalendarDate])
+      return( NO);
+   return( [self isEqualToCalendarDate:other]);
+}
+
+
+- (BOOL) isEqualToCalendarDate:(NSCalendarDate *) date
+{
+   if( ! [date->_timeZone isEqualToTimeZone:self->_timeZone])
+      return( NO);
+   return( date->_tm.bits != self->_tm.bits);
+}
 
 @end

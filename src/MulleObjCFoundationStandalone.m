@@ -48,12 +48,12 @@
 
 
 __attribute__((const))  // always returns same value (in same thread)
-struct _mulle_objc_runtime  *__get_or_create_objc_runtime( void)
+struct _mulle_objc_runtime  *__get_or_create_mulle_objc_runtime( void)
 {
    struct _mulle_objc_runtime  *runtime;
 
    runtime = __mulle_objc_get_runtime();
-   if( _mulle_objc_runtime_is_initalized( runtime))
+   if( _mulle_objc_runtime_is_initialized( runtime))
       return( runtime);
 
    {

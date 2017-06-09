@@ -219,6 +219,11 @@
 }
 
 
++ (NSCharacterSet *) characterSetWithCharactersInString:(NSString *) s
+{
+   return( [[_MulleObjCConcreteBitmapCharacterSet newWithString:s] autorelease]);
+}
+
 
 - (BOOL) isSupersetOfSet:(NSCharacterSet *) set
 {
@@ -276,7 +281,7 @@
 }
 
 
-- (id) initWithBitmapRepresentation:(NSData *) data
+- (instancetype) initWithBitmapRepresentation:(NSData *) data
 {
    NSUInteger   size;
    NSUInteger   n_planes;
@@ -293,9 +298,9 @@
    bytes = [data bytes];
 
    return( [_MulleObjCConcreteBitmapCharacterSet newWithBitmapPlanes:bytes
-                    invert:NO
-                 allocator:NULL
-                     owner:data]);
+                                                              invert:NO
+                                                           allocator:NULL
+                                                               owner:data]);
 }
 
 

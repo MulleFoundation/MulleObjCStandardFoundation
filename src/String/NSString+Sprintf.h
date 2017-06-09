@@ -39,19 +39,19 @@
 
 @interface NSString (Sprintf)
 
-+ (id) stringWithFormat:(NSString *) format
-              arguments:(mulle_vararg_list) arguments;
++ (instancetype) stringWithFormat:(NSString *) format
+        mulleVarargList:(mulle_vararg_list) arguments;
 
-+ (id) stringWithFormat:(NSString *) format
-                va_list:(va_list) args;
++ (instancetype) stringWithFormat:(NSString *) format
+             varargList:(va_list) args;
 
-+ (id) stringWithFormat:(NSString *) format, ...;
++ (instancetype) stringWithFormat:(NSString *) format, ...;
 
 - (NSString *) stringByAppendingFormat:(NSString *) format, ...;
 
-- (id) initWithFormat:(NSString *) format
-            arguments:(mulle_vararg_list) arguments;
-- (id) initWithFormat:(NSString *) format
-              va_list:(va_list) va_list;
+- (instancetype) initWithFormat:(NSString *) format
+      mulleVarargList:(mulle_vararg_list) arguments;
+- (instancetype) initWithFormat:(NSString *) format
+           varargList:(va_list) va_list;
 
 @end

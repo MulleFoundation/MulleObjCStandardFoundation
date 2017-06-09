@@ -49,32 +49,32 @@
 
 @implementation NSString (Sprintf)
 
-+ (id) stringWithFormat:(NSString *) format
-              arguments:(mulle_vararg_list) arguments
++ (instancetype) stringWithFormat:(NSString *) format
+        mulleVarargList:(mulle_vararg_list) arguments
 {
    return( [[[self alloc] initWithFormat:format
-                               arguments:arguments] autorelease]);
+                         mulleVarargList:arguments] autorelease]);
 }
 
 
-+ (id) stringWithFormat:(NSString *) format
-                va_list:(va_list) args
++ (instancetype) stringWithFormat:(NSString *) format
+            varargList:(va_list) args
 {
    return( [[[self alloc] initWithFormat:format
-                                 va_list:args] autorelease]);
+                                 varargList:args] autorelease]);
 }
 
 //
 // Generic stuff for both NSString and NSMutableString
 //
-+ (id) stringWithFormat:(NSString *) format, ...
++ (instancetype) stringWithFormat:(NSString *) format, ...
 {
    NSString                  *s;
    mulle_vararg_list    args;
 
    mulle_vararg_start( args, format);
    s = [self stringWithFormat:format
-                    arguments:args];
+              mulleVarargList:args];
    mulle_vararg_end( args);
    return( s);
 }
@@ -87,15 +87,15 @@
 
    mulle_vararg_start( args, format);
    s = [NSString stringWithFormat:format
-                        arguments:args];
+                  mulleVarargList:args];
    mulle_vararg_end( args);
 
    return( [self stringByAppendingString:s]);
 }
 
 
-- (id) initWithFormat:(NSString *) format
-            arguments:(mulle_vararg_list) arguments
+- (instancetype) initWithFormat:(NSString *) format
+            mulleVarargList:(mulle_vararg_list) arguments
 {
    NSString                 *s;
    char                     *c_format;
@@ -140,8 +140,8 @@
 }
 
 
-- (id) initWithFormat:(NSString *) format
-              va_list:(va_list) va_list
+- (instancetype) initWithFormat:(NSString *) format
+              varargList:(va_list) va_list
 {
    char                     *c_format;
    mulle_utf8_t             *result;
