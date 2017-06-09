@@ -36,6 +36,7 @@
 #import "NSTimeZone.h"
 
 // other files in this library
+#import "_NSGMTTimeZone.h"
 
 // other libraries of MulleObjCFoundation
 #import "MulleObjCFoundationContainer.h"
@@ -68,24 +69,40 @@
 @end
 
 
+@implementation NSObject( _NSTimeZone)
+
+- (BOOL) __isNSTimeZone
+{
+   return( NO);
+}
+
+@end
+
+
 @implementation NSTimeZone
 
-+ (id) timeZoneWithName:(NSString *) name
+- (BOOL) __isNSTimeZone
+{
+   return( YES);
+}
+
+
++ (instancetype) timeZoneWithName:(NSString *) name
 {
    return( [[[self alloc] initWithName:name] autorelease]);
 }
 
 
-+ (id) timeZoneWithName:(NSString *) name
-                   data:(NSData *) data
++ (instancetype) timeZoneWithName:(NSString *) name
+                             data:(NSData *) data
 {
    return( [[[self alloc] initWithName:name
                                   data:data] autorelease]);
 }
 
 
-- (id) initWithName:(NSString *) name
-               data:(NSData *) data;
+- (instancetype) initWithName:(NSString *) name
+                         data:(NSData *) data;
 {
    [self init];
 
@@ -114,7 +131,7 @@
 #pragma mark convenience constructors
 
 
-+ (id) timeZoneWithAbbreviation:(NSString *) key
++ (instancetype) timeZoneWithAbbreviation:(NSString *) key
 {
    NSString  *name;
 
@@ -140,6 +157,8 @@
 
 static NSString   *NSSystemTimeZoneKey  = @"NSSystemTimeZone";
 static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
+static NSString   *NSGMTTimeZoneKey     = @"NSGMTTimeZone";
+
 
 + (NSTimeZone *) systemTimeZone
 {
@@ -160,7 +179,7 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
 {
    NSTimeZone   *timeZone;
 
-   timeZone   = [self _uncachedSystemTimeZone];
+   timeZone = [self _uncachedSystemTimeZone];
    [self setClassValue:timeZone
                 forKey:NSSystemTimeZoneKey];
 }
@@ -177,6 +196,12 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
 }
 
 
++ (NSTimeZone *) _GMTTimeZone
+{
+   return( [_NSGMTTimeZone sharedInstance]);
+}
+
+
 + (void) setDefaultTimeZone:(NSTimeZone *) tz
 {
    [self setClassValue:[[tz copy] autorelease]
@@ -188,14 +213,6 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
 {
    // return a proxy
    return( [[_MulleObjCLocalTimeZone new] autorelease]);
-}
-
-
-- (BOOL) isEqualToTimeZone:(NSTimeZone *) tz
-{
-   if( ! tz)
-      return( NO);
-   return( [_data isEqualToData:[tz data]]);
 }
 
 
@@ -224,6 +241,28 @@ static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
                                  [self abbreviation],
                                  [self secondsFromGMT],
                                  [self isDaylightSavingTime] ? " (Daylight)" : ""]);
+}
+
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   return( [self->_name hash]);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSTimeZone])
+      return( NO);
+   return( [self isEqualToTimeZone:other]);
+}
+
+
+- (BOOL) isEqualToTimeZone:(NSTimeZone *) other
+{
+   return( [self->_name isEqualToString:[other name]]);
 }
 
 @end

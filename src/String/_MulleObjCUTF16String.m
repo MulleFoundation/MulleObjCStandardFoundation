@@ -170,7 +170,7 @@ static void   grab_utf32( id self,
 
 @implementation _MulleObjCGenericUTF16String
 
-+ (id) newWithUTF16Characters:(mulle_utf16_t *) chars
++ (instancetype) newWithUTF16Characters:(mulle_utf16_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCGenericUTF16String   *obj;
@@ -202,7 +202,7 @@ static void   grab_utf32( id self,
 
 @implementation _MulleObjCAllocatorUTF16String
 
-+ (id) newWithUTF16CharactersNoCopy:(void *) chars
++ (instancetype) newWithUTF16CharactersNoCopy:(void *) chars
                              length:(NSUInteger) length
                           allocator:(struct mulle_allocator *) allocator
 {
@@ -245,7 +245,7 @@ static void   grab_utf32( id self,
 
 @implementation _MulleObjCSharedUTF16String
 
-+ (id) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
++ (instancetype) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
                              length:(NSUInteger) length
                       sharingObject:(id) sharingObject
 {

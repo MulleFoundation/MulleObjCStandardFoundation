@@ -46,6 +46,8 @@ typedef mulle_utf32_t  unichar;
 
 @interface NSCharacterSet : NSObject  < MulleObjCClassCluster>
 
+- (instancetype) initWithBitmapRepresentation:(NSData *) data;
+
 - (NSData *) bitmapRepresentation;
 - (BOOL) isSupersetOfSet:(NSCharacterSet *) set;
 - (BOOL) longCharacterIsMember:(long) c;

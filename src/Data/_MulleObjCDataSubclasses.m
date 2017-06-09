@@ -47,7 +47,7 @@
 
 @implementation _MulleObjCConcreteData
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
 {
    _MulleObjCZeroBytesData   *data;
 
@@ -79,7 +79,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCEightBytesData
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
 {
    _MulleObjCEightBytesData   *data;
 
@@ -95,7 +95,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCSixteenBytesData
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
 {
    _MulleObjCSixteenBytesData   *data;
 
@@ -111,7 +111,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCAllocatorData
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
              length:(NSUInteger) length
 {
    _MulleObjCAllocatorData   *data;
@@ -128,7 +128,7 @@ static inline void   *get_bytes( id self)
 }
 
 
-+ (id) newWithBytesNoCopy:(void *) bytes
++ (instancetype) newWithBytesNoCopy:(void *) bytes
                    length:(NSUInteger) length
                 allocator:(struct mulle_allocator *) allocator
 {
@@ -169,7 +169,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCSharedData
 
-+ (id) newWithBytesNoCopy:(void *) bytes
++ (instancetype) newWithBytesNoCopy:(void *) bytes
                        length:(NSUInteger) length
                         owner:(id) owner
 {
@@ -195,7 +195,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCTinyData
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
              length:(NSUInteger) length
 {
    _MulleObjCTinyData   *data;
@@ -229,7 +229,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCMediumData
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
              length:(NSUInteger) length
 {
    _MulleObjCMediumData   *data;

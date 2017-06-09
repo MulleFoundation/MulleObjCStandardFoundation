@@ -105,8 +105,8 @@ static inline void   MulleObjCPointerHandleMapDone( struct MulleObjCPointerHandl
 }
 
 
-static inline intptr_t  MulleObjCPointerHandleMapGet( struct MulleObjCPointerHandleMap *map,
-                                                      void *p)
+static inline intptr_t  MulleObjCPointerHandleMapGetOrAdd( struct MulleObjCPointerHandleMap *map,
+                                                           void *p)
 {
    intptr_t   handle;
 
@@ -116,7 +116,7 @@ static inline intptr_t  MulleObjCPointerHandleMapGet( struct MulleObjCPointerHan
 
    handle      = mulle_map_get_count( &map->map) + 1;
    mulle_map_set( &map->map, p, (void *) handle);
-   mulle_pointerarray_add( &map->array,p);
+   mulle_pointerarray_add( &map->array, p);
 
    return( handle);
 }

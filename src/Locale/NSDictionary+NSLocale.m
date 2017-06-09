@@ -36,9 +36,11 @@
 
 #import "NSDictionary+NSLocale.h"
 
+#import "MulleObjCFoundationString.h"
+
+
 
 @implementation NSDictionary (NSLocale)
-
 
 - (NSString *) descriptionWithLocale:(NSLocale *) locale
                               indent:(NSUInteger) level

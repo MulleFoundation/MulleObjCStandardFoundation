@@ -48,7 +48,7 @@
 
 @implementation _MulleObjCUInt32Number (NSString)
 
-- (id) description
+- (NSString *) description
 {
    return( [NSString stringWithFormat:@"%lu", [self unsignedLongValue]]);
 }
@@ -58,7 +58,7 @@
 
 @implementation _MulleObjCUInt64Number (NSString)
 
-- (id) description
+- (NSString *) description
 {
    return( [NSString stringWithFormat:@"%llu", [self unsignedLongLongValue]]);
 }
@@ -68,7 +68,7 @@
 
 @implementation _MulleObjCDoubleNumber (NSString)
 
-- (id) description
+- (NSString *) description
 {
    return( [NSString stringWithFormat:@"%f", [self doubleValue]]);
 }
@@ -78,7 +78,7 @@
 
 @implementation _MulleObjCLongDoubleNumber (NSString)
 
-- (id) description
+- (NSString *) description
 {
    return( [NSString stringWithFormat:@"%Lf", [self longDoubleValue]]);
 }

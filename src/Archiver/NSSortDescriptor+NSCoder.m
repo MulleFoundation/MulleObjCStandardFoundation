@@ -5,15 +5,11 @@
 //  Created by Nat! on 28.03.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
-
-#import "MulleObjCFoundationContainer.h"
+#import "NSSortDescriptor+NSCoder.h"
 
 #import "NSCoder.h"
+
 #import "MulleObjCFoundationString.h"
-
-
-@interface NSSortDescriptor( NSCoder) < NSCoding>
-@end
 
 
 @implementation NSSortDescriptor( NSCoder)
@@ -23,7 +19,7 @@
 
 
 /**/
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSString   *s;
 

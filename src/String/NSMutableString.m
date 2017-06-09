@@ -128,14 +128,29 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (id) initWithCapacity:(NSUInteger) n
+// as we are "breaking out" of the class cluster, use standard
+// allocation
+
++ (instancetype) alloc
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
++ (instancetype) allocWithZone:(NSZone *) zone
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
+- (instancetype) initWithCapacity:(NSUInteger) n
 {
    sizeStorageWithCount( self, (unsigned int) (n >> 1));
    return( self);
 }
 
 
-- (id) initWithString:(NSString *) s
+- (instancetype) initWithString:(NSString *) s
 {
    if( s)
       initWithStrings( self, &s, 1);
@@ -143,7 +158,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (id) initWithStrings:(NSString **) strings
+- (instancetype) initWithStrings:(NSString **) strings
                  count:(NSUInteger) count
 {
    if( count)
@@ -157,12 +172,12 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 // need to implement all MulleObjCCStringPlaceholder does
-- (id) initWithFormat:(NSString *) format
-            arguments:(mulle_vararg_list) arguments
+- (instancetype) initWithFormat:(NSString *) format
+            mulleVarargList:(mulle_vararg_list) arguments
 {
    NSString  *s;
    s = [[NSString alloc] initWithFormat:format
-                              arguments:arguments];
+                        mulleVarargList:arguments];
    if( ! s)
    {
       [self release];
@@ -175,7 +190,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (id) initWithUTF8String:(char *) cStr
+- (instancetype) initWithUTF8String:(char *) cStr
 {
    NSString  *s;
 
@@ -326,7 +341,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 #pragma mark -
 #pragma mark additional convenience constructors
 
-+ (id) stringWithCapacity:(NSUInteger) capacity
++ (instancetype) stringWithCapacity:(NSUInteger) capacity
 {
    return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
@@ -482,7 +497,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
    mulle_vararg_start( args, format);
    s = [NSString stringWithFormat:format
-                        arguments:args];
+                  mulleVarargList:args];
    mulle_vararg_end( args);
 
    [self appendString:s];

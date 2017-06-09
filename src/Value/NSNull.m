@@ -61,7 +61,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    return( [self init]);
 }

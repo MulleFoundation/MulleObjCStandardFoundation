@@ -17,25 +17,43 @@
 #define mulle_mini_tm_min_year ((int) (~0UL << 17))
 #define mulle_mini_tm_max_year ((int) (1UL << 17))
 
-// 64 bit large
+// 64 bit large, if we support other calendars make
+// another struct and put it in the union
 struct mulle_mini_tm
 {
-   int              year    : 18;   // -100000  +100000 (?)
+   unsigned int     type    : 1;    // 0: gregorian, 1: other
+   int              year    : 17;   // -100000  +100000 (?)
    unsigned int     month   : 4;    // 1-12 (15)
    unsigned int     day     : 5;    // 1-31 (31)
    unsigned int     hour    : 5;    // 0-23 (31)
    unsigned int     minute  : 6;    // 0-59 (63)
    unsigned int     second  : 6;    // 0-59 (63)
-   unsigned int     ns      : 20;   // 0-999 (1023)  **unused **
+   unsigned int     ms      : 10;   // 0-999 (1023)  **unused **
+   unsigned int     ns      : 10;   // 0-999 (1023)  **unused **
 };
 
 
 //
-// A NSCalendarDate is NOT really an NSDate
-// This is a misdesign perpertrated since OpenStep
-// Also the old NSCalendarDate was mutable with respect to NSTimeZone
+// A NSCalendarDate is a "human" representation of what a date is.
+// In does not deal fractions of seconds. It is integer based,
+// therefore you can not compare NSDates with it properly.
+//
+// The old NSCalendarDate was mutable with respect to NSTimeZone
 // and the calendarFormat, this is no longer the case
-
+//
+// Equality: Should a NSCalendarDate for 12:00 CEST equal to 11:00 CET ?
+// The point in time is equal, but the timezones are not. So they
+// are not equal. Otherwise an interesting piece of information would not
+// be considered and lost if both were placed into NSSet and only one
+// would randomly win.
+//
+// For portability, there is quite a bit of conversion capability
+// with NSDate. But in general the concept of timeInterval is not
+// meaningful with NSCalendarDate. If you are dealing with
+// NSTimeInterval, look for NSDate.
+//
+// A NSCalendarDate in this Foundation _always_ has a timeZone.
+//
 @interface NSCalendarDate : NSObject < NSDateFactory>
 {
    union
@@ -86,6 +104,8 @@ struct mulle_mini_tm
 //
 - (NSString *) calendarFormat;
 
+- (BOOL) isEqualToCalendarDate:(NSCalendarDate *) date;
+
 @end
 
 
@@ -93,6 +113,8 @@ struct mulle_mini_tm
 
 @interface NSCalendarDate( Future)
 
+- (instancetype) init:(NSDate *) date;
+- (instancetype) _initWithDate:(NSDate *) date;
 - (instancetype) initWithDate:(NSDate *) date
                      timeZone:(NSTimeZone *) tz;
 - (NSInteger) dayOfWeek;
@@ -106,4 +128,20 @@ struct mulle_mini_tm
                            seconds:(NSInteger) second;
 
 @end
+
+
+@interface NSCalendarDate( NSDateFuture)
+
+// NSDate compatibility
+- (instancetype) initWithTimeIntervalSince1970:(NSTimeInterval) timeInterval;
+- (instancetype) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval) timeInterval;
+- (instancetype) initWithTimeIntervalSince1970:(NSTimeInterval) timeInterval
+                                      timeZone:(NSTimeZone *) timeZone;
+
+- (NSTimeInterval) timeIntervalSinceReferenceDate;
+- (NSTimeInterval) timeIntervalSince1970;
+- (NSDate *) date;
+
+@end
+
 

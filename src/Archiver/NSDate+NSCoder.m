@@ -6,13 +6,10 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-#import "MulleObjCFoundationValue.h"
+#import "NSDate+NSCoder.h"
 
 #import "NSCoder.h"
 
-
-@interface NSDate (NSCoder) <NSCoding>
-@end
 
 
 @implementation NSDate( NSCoder)
@@ -20,7 +17,7 @@
 # pragma mark -
 # pragma mark NSCoding
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSTimeInterval   value;
 

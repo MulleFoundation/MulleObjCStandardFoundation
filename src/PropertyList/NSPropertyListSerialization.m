@@ -131,7 +131,7 @@
    return( NSPropertyListXMLFormat_v1_0);
 }
 
-+ (id) propertyListFromData:(NSData *) data
++ (instancetype) propertyListFromData:(NSData *) data
            mutabilityOption:(NSPropertyListMutabilityOptions) opt
                      format:(NSPropertyListFormat *) format
            errorDescription:(NSString **) errorString

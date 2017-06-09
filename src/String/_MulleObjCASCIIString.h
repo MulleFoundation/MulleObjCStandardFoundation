@@ -51,9 +51,9 @@
 
 @interface _MulleObjCASCIIString( _Subclasses)
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length;
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length;
 @end
 
@@ -97,7 +97,7 @@
    char         *_storage;
 }
 
-+ (id) newWithASCIIStringNoCopy:(char *) chars
++ (instancetype) newWithASCIIStringNoCopy:(char *) chars
                              length:(NSUInteger) length;
 
 @end
@@ -109,7 +109,7 @@
    struct mulle_allocator   *_allocator;
 }
 
-+ (id) newWithASCIIStringNoCopy:(char *) chars
++ (instancetype) newWithASCIIStringNoCopy:(char *) chars
                          length:(NSUInteger) length
                       allocator:(struct mulle_allocator *) allocator;
 
@@ -122,7 +122,7 @@
    mulle_utf8_t   *_shadow;
 }
 
-+ (id) newWithASCIICharactersNoCopy:(char *) chars
++ (instancetype) newWithASCIICharactersNoCopy:(char *) chars
                              length:(NSUInteger) length
                       sharingObject:(id) sharingObject;
 

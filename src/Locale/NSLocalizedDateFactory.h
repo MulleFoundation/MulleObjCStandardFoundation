@@ -12,7 +12,7 @@
 
 @protocol NSLocalizedDateFactory
 
-- (id) initWithTimeintervalSince1970:(NSTimeInterval) interval
+- (instancetype) initWithTimeintervalSince1970:(NSTimeInterval) interval
                             timeZone:(NSTimeZone *) timeZone;
 
 @end

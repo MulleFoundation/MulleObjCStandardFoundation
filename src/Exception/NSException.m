@@ -73,7 +73,7 @@ static void   throw_errno_exception( id format, va_list args)
    NSString  *s;
 
    s = [NSString stringWithFormat:format
-                          va_list:args];
+                          varargList:args];
    [NSException raise:MulleObjCErrnoException
                format:@"%@: %s", s, strerror( errno)];
 }
@@ -84,7 +84,7 @@ static void   throw_inconsistency_exception( id format, va_list args)
 {
    [NSException raise:NSInternalInconsistencyException
                format:format
-               va_list:args];
+               varargList:args];
 }
 
 
@@ -93,7 +93,7 @@ static void   throw_argument_exception( id format, va_list args)
 {
    [NSException raise:NSInvalidArgumentException
                format:format
-               va_list:args];
+               varargList:args];
 }
 
 
@@ -148,20 +148,20 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
    mulle_vararg_start( args, format);
    [self raise:name
         format:format
-     arguments:args];
+ mulleVarargList:args];
    mulle_vararg_end( args);
 }
 
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-       va_list:(va_list) args
+    varargList:(va_list) args
 {
    NSException   *exception;
    NSString      *reason;
 
    reason     = [NSString stringWithFormat:format
-                                   va_list:args];
+                                   varargList:args];
    exception  = [self exceptionWithName:name
                                  reason:reason
                                userInfo:nil];
@@ -172,13 +172,13 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-     arguments:(mulle_vararg_list) arguments
+     mulleVarargList:(mulle_vararg_list) arguments
 {
    NSException   *exception;
    NSString      *reason;
 
    reason     = [NSString stringWithFormat:format
-                                 arguments:arguments];
+                           mulleVarargList:arguments];
    exception  = [self exceptionWithName:name
                                  reason:reason
                                userInfo:nil];
@@ -199,7 +199,7 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 }
 
 
-- (id) initWithName:(NSString *) name
+- (instancetype) initWithName:(NSString *) name
              reason:(NSString *) reason
            userInfo:(NSDictionary *) userInfo
 {

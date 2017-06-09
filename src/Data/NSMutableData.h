@@ -47,9 +47,9 @@
 
 @interface NSMutableData : NSData < MulleObjCClassCluster>
 
-+ (id) dataWithCapacity:(NSUInteger) aNumItems;
-+ (id) dataWithLength:(NSUInteger) length;
-- (id) initWithLength:(NSUInteger) length;
++ (instancetype) dataWithCapacity:(NSUInteger) aNumItems;
++ (instancetype) dataWithLength:(NSUInteger) length;
+- (instancetype) initWithLength:(NSUInteger) length;
 - (void) appendData:(NSData *) otherData;
 
 - (void) setData:(NSData *) aData;
@@ -59,7 +59,7 @@
 
 @interface NSMutableData( Subclass)
 
-- (id) initWithCapacity:(NSUInteger) capacity;
+- (instancetype) initWithCapacity:(NSUInteger) capacity;
 
 - (void) appendBytes:(void *) bytes
              length:(NSUInteger) length;
@@ -81,8 +81,8 @@
 
 @interface NSMutableData( _Private)
 
-+ (id) _nonZeroedDataWithLength:(NSUInteger) length;
-- (id) _initNonZeroedDataWithLength:(NSUInteger) length;
++ (instancetype) _nonZeroedDataWithLength:(NSUInteger) length;
+- (instancetype) _initNonZeroedDataWithLength:(NSUInteger) length;
 - (void) _setLengthDontZero:(NSUInteger) length;
 
 @end

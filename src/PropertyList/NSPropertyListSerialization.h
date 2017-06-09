@@ -75,7 +75,7 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 + (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format;
 
-+ (id) propertyListFromData:(NSData *) data
++ (instancetype) propertyListFromData:(NSData *) data
            mutabilityOption:(NSPropertyListMutabilityOptions) opt
                      format:(NSPropertyListFormat *) format
            errorDescription:(NSString **) errorString;

@@ -44,15 +44,7 @@
 
 @interface NSDate( NSDateFormatter) < NSLocalizedDateFactory>
 
-+ (instancetype) dateWithNaturalLanguageString:(NSString *) s
-                                        locale:(id) locale;
-+ (instancetype) dateWithNaturalLanguageString:(NSString *) s;
-
 + (instancetype) dateWithString:(NSString *) aString;
-+ (instancetype) dateWithNaturalLanguageString:(NSString *) string
-                                        locale:(id) locale;
-+ (instancetype) dateWithNaturalLanguageString:(NSString *) string;
-
 - (instancetype) initWithString:(NSString *) description;
 
 - (NSString *) descriptionWithLocale:(NSLocale *) locale;

@@ -14,6 +14,10 @@
 @class NSException;
 @class NSString;
 
+#ifdef MULLE_OBJC_EXCEPTION_CLASS_P
+# error "MULLE_OBJC_EXCEPTION_CLASS_P has already been defined, do not import MulleObjC before MulleObjCFoundation"
+#endif
+
 #define MULLE_OBJC_EXCEPTION_CLASS_P  NSException *
 #define MULLE_OBJC_STRING_CLASS_P     NSString *
 

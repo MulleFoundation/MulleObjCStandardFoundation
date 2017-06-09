@@ -29,7 +29,7 @@ static void    clone_date( NSDate *obj)
 
 int main(int argc, const char * argv[])
 {
-  clone_date( [NSDate date]);
+  clone_date( [[[NSDate alloc] initWithTimeIntervalSinceReferenceDate:18.48] autorelease]);
 
   return( 0);
 }

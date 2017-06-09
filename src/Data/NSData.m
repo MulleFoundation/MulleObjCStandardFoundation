@@ -52,7 +52,7 @@
 #endif
 
 
-@implementation NSObject ( _NSData)
+@implementation NSObject( _NSData)
 
 - (BOOL) __isNSData
 {
@@ -70,31 +70,31 @@
 }
 
 
-+ (id) data
++ (instancetype) data
 {
    return( [[self new] autorelease]);
 }
 
 
-+ (id) dataWithBytes:(void *) buf
-              length:(NSUInteger) length
++ (instancetype) dataWithBytes:(void *) buf
+                        length:(NSUInteger) length
 {
    return( [[[self alloc] initWithBytes:buf
                                  length:length] autorelease]);
 }
 
 
-+ (id) dataWithBytesNoCopy:(void *) buf
-                    length:(NSUInteger) length
++ (instancetype) dataWithBytesNoCopy:(void *) buf
+                              length:(NSUInteger) length
 {
    return( [[[self alloc] initWithBytesNoCopy:buf
                                        length:length] autorelease]);
 }
 
 
-+ (id) dataWithBytesNoCopy:(void *) buf
-                    length:(NSUInteger) length
-              freeWhenDone:(BOOL) flag
++ (instancetype) dataWithBytesNoCopy:(void *) buf
+                              length:(NSUInteger) length
+                        freeWhenDone:(BOOL) flag
 {
    return( [[[self alloc] initWithBytesNoCopy:buf
                                        length:length
@@ -102,7 +102,7 @@
 }
 
 
-+ (id) dataWithData:(NSData *) data
++ (instancetype) dataWithData:(NSData *) data
 {
    return( [[[self alloc] initWithData:data] autorelease]);
 }
@@ -132,7 +132,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 #pragma mark -
 #pragma mark class cluster stuff
 
-- (id)  init
+- (instancetype)  init
 {
    [self release];
    return( _newData( 0, 0));
@@ -140,7 +140,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 
 // since "self" is the placeholder, we don't really need to release it
-- (id) initWithBytes:(void *) bytes
+- (instancetype) initWithBytes:(void *) bytes
               length:(NSUInteger) length
 {
    [self release];
@@ -148,7 +148,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
 {
    [self release];
@@ -157,7 +157,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
                                              allocator:&mulle_stdlib_allocator]);
 }
 
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
                  allocator:(struct mulle_allocator *) allocator
 {
@@ -168,7 +168,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
                freeWhenDone:(BOOL) flag
 {
@@ -183,7 +183,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (id) initWithBytesNoCopy:(void *) bytes
+- (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
                      owner:(id) owner
 {
@@ -195,7 +195,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (id) initWithData:(id) other
+- (instancetype) initWithData:(NSData *) other
 {
    [self release];
 
@@ -209,8 +209,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-#pragma mark -
-#pragma mark common code
+#pragma mark - hash and equality
 
 - (NSUInteger) hash
 {
@@ -249,6 +248,21 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
+- (BOOL) isEqualToData:(NSData *) other
+{
+   NSUInteger   length;
+
+   length = [other length];
+   if( length != [self length])
+      return( NO);
+   return( ! memcmp( [self bytes], [other bytes], length));
+}
+
+
+#pragma mark -
+#pragma mark common code
+
+
 - (void) getBytes:(void *) buf
 {
    assert( buf);
@@ -275,18 +289,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 
-- (BOOL) isEqualToData:(NSData *) other
-{
-   NSUInteger   length;
-
-   length = [other length];
-   if( length != [self length])
-      return( NO);
-   return( ! memcmp( [self bytes], [other bytes], length));
-}
-
-
-- (id) subdataWithRange:(NSRange) range
+- (NSData *) subdataWithRange:(NSRange) range
 {
    MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, [self length]);
 

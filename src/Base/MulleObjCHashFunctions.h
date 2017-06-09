@@ -1,9 +1,9 @@
 //
-//  MulleObjCFoundationKVC.h
+//  MulleObjCHash.h
 //  MulleObjCFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2017 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2017 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,15 +33,47 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "MulleObjCFoundationParent.h"
 
 
-// export everything with NS
-#import "NSSortDescriptor.h"
+// limit hash to last 48 bytes
 
-#import "NSObject+KeyValueCoding.h"
-#import "NSArray+NSSortDescriptor.h"
+static inline NSRange   MulleObjCGetHashBytesRange( NSUInteger length)
+{
+   NSUInteger   offset;
 
-// export everything with MulleObjC
+   offset = 0;
+   if( length > 48)
+   {
+      offset = length - 48;
+      length = 48;
+   }
+   return( NSMakeRange( offset, length));
+}
 
 
-// export nothing with _MulleObjC
+static inline NSUInteger   MulleObjCBytesHash( void *buf, NSUInteger length)
+{
+   if( ! buf)
+      return( -1);
+   return( _mulle_objc_fnv1( buf, length));
+}
+
+
+static inline NSUInteger   MulleObjCBytesHashRange( void *buf, NSRange range)
+{
+   if( ! buf)
+      return( -1);
+   return( _mulle_objc_fnv1( &((char *)buf)[ range.location], range.length));
+}
+
+
+static inline NSUInteger   MulleObjCBytesPartialHash( void *buf, NSUInteger length)
+{
+   NSRange   range;
+
+   range = MulleObjCGetHashBytesRange( length);
+   return( MulleObjCBytesHashRange( buf, range));
+}
+
+

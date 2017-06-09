@@ -56,17 +56,17 @@
 // Primary creation method is +timeZoneWithName:; the
 // data-taking variants should rarely be used directly
 
-+ (id) timeZoneWithName:(NSString *) name;
-+ (id) timeZoneWithName:(NSString *) name
++ (instancetype) timeZoneWithName:(NSString *) name;
++ (instancetype) timeZoneWithName:(NSString *) name
                    data:(NSData *) data;
 
-- (id) initWithName:(NSString *) name
-               data:(NSData *) data;
+- (instancetype) initWithName:(NSString *) name
+                         data:(NSData *) data;
 
 // Time zones created with this never have daylight savings and the
 // offset is constant no matter the date; the name and abbreviation
 // do NOT follow the Posix convention (of minutes-west).
-+ (id) timeZoneWithAbbreviation:(NSString *) abbreviation;
++ (instancetype) timeZoneWithAbbreviation:(NSString *) abbreviation;
 
 - (NSString *) name;
 - (NSData *) data;
@@ -86,24 +86,22 @@
 - (BOOL) isDaylightSavingTime;
 - (NSString *) description;
 
+// mulle addition
++ (NSTimeZone *) _GMTTimeZone;
 
 @end
 
 
-
-
 @interface NSTimeZone( Future)
 
-- (id) initWithName:(NSString *) name;
+- (instancetype) initWithName:(NSString *) name;
+- (instancetype) timeZoneForSecondsFromGMT:(NSInteger) seconds;
+
 + (NSTimeZone  *) _uncachedSystemTimeZone;
 + (NSArray *) knownTimeZoneNames;
 + (NSDictionary *) abbreviationDictionary;
 
-- (NSInteger) secondsFromGMT;
 - (NSInteger) secondsFromGMTForDate:(NSDate *) date;
-
-+ (id) timeZoneForSecondsFromGMT:(NSInteger) seconds;
-- (NSInteger) secondsFromGMTForDate:(NSDate *) aDate;
 - (NSString *) abbreviationForDate:(NSDate *) aDate;
 - (BOOL) isDaylightSavingTimeForDate:(NSDate *) aDate;
 

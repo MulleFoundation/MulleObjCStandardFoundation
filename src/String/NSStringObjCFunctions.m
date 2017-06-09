@@ -29,7 +29,7 @@ SEL   NSSelectorFromString( NSString *s)
 NSString   *NSStringFromClass( Class cls)
 {
    char   *s;
-   
+
    s = MulleObjCClassGetName( cls);
    return( [NSString stringWithUTF8String:s]);
 }
@@ -38,7 +38,7 @@ NSString   *NSStringFromClass( Class cls)
 NSString   *NSStringFromSelector( SEL sel)
 {
    char   *s;
-   
+
    s = MulleObjCSelectorGetName( sel);
    return( s ? [NSString stringWithUTF8String:s] : @"<invalid selector>");
 }

@@ -140,7 +140,7 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
 }
 
 
-- (id) description
+- (NSString *) description
 {
    return( [self _descriptionWithSelector:_cmd]);
 }

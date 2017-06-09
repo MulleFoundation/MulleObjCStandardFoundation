@@ -45,7 +45,6 @@ struct mulle_unichar_enumerator
 };
 
 
-
 struct _ns_unichar_enumerator
 {
    struct mulle_unichar_enumerator   utfrover;
@@ -132,7 +131,6 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 }
 
 
-
 - (void) _setLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
                                 options:(NSStringCompareOptions) options
                                   range:(NSRange) range
@@ -205,8 +203,6 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
                                 options:options|NSLiteralSearch
                                   range:range];
 }
-
-
 
 
 - (void) _setCharacterEnumerator:(struct _ns_unichar_enumerator *) rover

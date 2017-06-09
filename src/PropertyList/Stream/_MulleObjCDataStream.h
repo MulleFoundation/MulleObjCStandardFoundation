@@ -69,7 +69,7 @@
    unsigned char   *_sentinel;
 }
 
-- (id) initWithData:(NSData *) data;
+- (instancetype) initWithData:(NSData *) data;
 - (NSData *) readDataOfLength:(NSUInteger) length;
 
 @end

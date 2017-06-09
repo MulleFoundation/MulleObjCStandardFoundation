@@ -122,7 +122,7 @@ static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NS
 }
 
 
-+ (id) newWithBytesNoCopy:(void *) bytes
++ (instancetype) newWithBytesNoCopy:(void *) bytes
                    length:(NSUInteger) length
                 allocator:(struct mulle_allocator *) allocator
 {

@@ -44,7 +44,7 @@
    int   _rval;
 }
 
-+ (id) newWithMemberFunction:(int (*)( unichar)) f
++ (instancetype) newWithMemberFunction:(int (*)( unichar)) f
                planeFunction:(int (*)( unsigned int)) plane_f
                       invert:(BOOL) invert;
 

@@ -70,7 +70,7 @@ extern NSString  *NSInconsistentArchiveException;
 
 - (BOOL) atEnd;
 
-+ (id) unarchiveObjectWithData:(NSData *) data;
++ (instancetype) unarchiveObjectWithData:(NSData *) data;
 
 - (void) decodeClassName:(NSString *) inArchiveName
              asClassName:(NSString *) trueName;

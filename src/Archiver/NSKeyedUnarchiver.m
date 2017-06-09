@@ -117,7 +117,7 @@
 #pragma mark xxx
 
 
-- (id) _initObject:(id) obj
+- (instancetype) _initObject:(id) obj
 {
    size_t         offset;
    size_t         skip;

@@ -92,10 +92,10 @@ static void  tear_down_and_check()
 __attribute__(( noreturn))
 static void   uncaught_exception( void *exception)
 {
-   extern void   mulle_objc_runtime_dump_to_tmp( void);
+   extern void   mulle_objc_dotdump_to_tmp( void);
 
    fprintf( stderr, "uncaught exception: %s", [[(id) exception description] UTF8String]);
-   mulle_objc_runtime_dump_to_tmp();
+   mulle_objc_dotdump_to_tmp();
    abort();
 }
 

@@ -303,7 +303,7 @@ static struct mulle_container_keyvaluecallback    observer_no_free_registry_call
 // stored in the sender registry
 static void   *OmniscientObserver;
 
-- (id) init
+- (instancetype) init
 {
    struct mulle_allocator   *allocator;
 
@@ -346,7 +346,7 @@ static void   *OmniscientObserver;
 }
 
 
-+ (id) defaultCenter
++ (instancetype) defaultCenter
 {
    static NSNotificationCenter  *defaultCenter;
 

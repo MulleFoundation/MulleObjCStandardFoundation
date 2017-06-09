@@ -40,14 +40,14 @@
 {
 }
 
-+ (id) value:(void *) bytes
++ (instancetype) value:(void *) bytes
 withObjCType:(char *) type;
-+ (id) valueWithBytes:(void *) bytes
++ (instancetype) valueWithBytes:(void *) bytes
              objCType:(char *) type;
-+ (id) valueWithPointer:(void *) pointer;
-+ (id) valueWithRange:(NSRange) range;
++ (instancetype) valueWithPointer:(void *) pointer;
++ (instancetype) valueWithRange:(NSRange) range;
 
-- (id) initWithBytes:(void *) value
+- (instancetype) initWithBytes:(void *) value
             objCType:(char *) type;
 
 - (BOOL) isEqual:(id) other;
@@ -62,7 +62,7 @@ withObjCType:(char *) type;
 @interface NSValue (Subclasses)
 
 - (char *) objCType;
-- (id) initWithBytes:(void *) bytes
+- (instancetype) initWithBytes:(void *) bytes
             objCType:(char *) type;
 - (void) getValue:(void *) bytes;
 

@@ -50,7 +50,6 @@
    }
 }
 
-
 - (int32_t) _int32Value     { return( (int32_t) _MulleObjCTaggedPointerIntegerNumberGetIntegerValue( self)); }
 - (int64_t) _int64Value     { return( (int64_t) _MulleObjCTaggedPointerIntegerNumberGetIntegerValue( self)); }
 

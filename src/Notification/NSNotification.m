@@ -49,7 +49,7 @@ static void   init( NSNotification *self,
 }
 
 
-+ (id) notificationWithName:(NSString *) name
++ (instancetype) notificationWithName:(NSString *) name
                      object:(id) obj;
 {
    NSNotification   *notification;
@@ -63,7 +63,7 @@ static void   init( NSNotification *self,
 }
 
 
-+ (id) notificationWithName:(NSString *) name
++ (instancetype) notificationWithName:(NSString *) name
                      object:(id) obj
                    userInfo:(NSDictionary *) userInfo
 {

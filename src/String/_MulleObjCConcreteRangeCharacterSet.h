@@ -43,7 +43,7 @@
    int       _rval;
 }
 
-+ (id) newWithRange:(NSRange) range
++ (instancetype) newWithRange:(NSRange) range
              invert:(BOOL) invert;
 
 @end

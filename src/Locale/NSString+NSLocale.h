@@ -41,13 +41,13 @@
 
 @interface NSString( NSLocale)
 
-+ (id) stringWithFormat:(NSString *) format
++ (instancetype) stringWithFormat:(NSString *) format
                  locale:(NSLocale *) locale;
 
-- (id) initWithFormat:(NSString *) format
+- (instancetype) initWithFormat:(NSString *) format
                locale:(NSLocale *) locale, ...;
 
-+ (id) localizedStringWithFormat:(NSString *) format;
++ (instancetype) localizedStringWithFormat:(NSString *) format;
 
 - (NSComparisonResult) localizedCompare:(NSString *) other;
 - (NSComparisonResult) localizedCaseInsensitiveCompare:(NSString *) other;
@@ -62,11 +62,11 @@
                     range:(NSRange) range
                    locale:(NSLocale *) locale;
 
-- (id) initWithFormat:(NSString *) format
-              locale:(NSLocale *) locale
-           arguments:(va_list) argList;
+- (instancetype) initWithFormat:(NSString *) format
+                         locale:(NSLocale *) locale
+                      arguments:(va_list) argList;
 
-- (id) stringByFoldingWithOptions:(NSUInteger) options
-                           locale:(id) locale;
+- (instancetype) stringByFoldingWithOptions:(NSUInteger) options
+                                     locale:(id) locale;
 
 @end

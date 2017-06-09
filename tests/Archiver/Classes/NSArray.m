@@ -38,9 +38,11 @@ static void    clone_array( int n)
 
 int main(int argc, const char * argv[])
 {
-  clone_array( 0);
-  clone_array( 1);
-  clone_array( 2);
+   mulle_objc_check_runtime();
 
-  return( 0);
+   clone_array( 0);
+   clone_array( 1);
+   clone_array( 2);
+
+   return( 0);
 }

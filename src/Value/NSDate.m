@@ -60,7 +60,7 @@
 }
 
 
-- (id) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval)seconds
+- (instancetype) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval)seconds
 {
    self->_interval = seconds;
 
@@ -72,29 +72,29 @@
 # pragma mark convenience constructors
 
 
-+ (id) dateWithTimeIntervalSince1970:(NSTimeInterval) seconds
++ (instancetype) dateWithTimeIntervalSince1970:(NSTimeInterval) seconds
 {
    seconds -= NSTimeIntervalSince1970;
    return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:seconds] autorelease]);
 }
 
 
-+ (id) dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds
++ (instancetype) dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds
 {
    return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:seconds] autorelease]);
 }
 
 
 // make these class clusters
-+ (id) distantFuture
++ (instancetype) distantFuture
 {
-   return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:NSDistantFuture] autorelease]);
+   return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:_NSDistantFuture] autorelease]);
 }
 
 
-+ (id) distantPast
++ (instancetype) distantPast
 {
-   return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:NSDistantPast] autorelease]);
+   return( [[[self alloc] initWithTimeIntervalSinceReferenceDate:_NSDistantPast] autorelease]);
 }
 
 
@@ -102,42 +102,18 @@
 # pragma mark -
 # pragma mark Various inits
 
-- (id) initWithTimeInterval:(NSTimeInterval) seconds
+- (instancetype) initWithTimeInterval:(NSTimeInterval) seconds
                   sinceDate:(NSDate *) refDate
 {
    return( [self initWithTimeIntervalSinceReferenceDate:seconds - [refDate timeIntervalSinceReferenceDate]]);
 }
 
 
-- (id) initWithTimeIntervalSince1970:(NSTimeInterval) seconds
+- (instancetype) initWithTimeIntervalSince1970:(NSTimeInterval) seconds
 {
    return( [self initWithTimeIntervalSinceReferenceDate:seconds - NSTimeIntervalSince1970]);
 }
 
-
-
-# pragma mark -
-# pragma mark Operations
-
-- (BOOL) isEqualToDate:(NSDate *) other
-{
-   if( ! other)
-      return( NO);
-
-   return( [self timeIntervalSinceReferenceDate] == [other timeIntervalSinceReferenceDate]);
-}
-
-
-- (BOOL) isEqual:(id) other
-{
-   if( ! [other __isNSDate])
-      return( NO);
-
-   // dunno yet
-   //   if( ! [other __isNSCalendarDate])
-   //      return( NO);
-   return( [self isEqualToDate:other]);
-}
 
 
 - (NSComparisonResult) compare:(id) other
@@ -156,7 +132,7 @@
 }
 
 
-- (id) dateByAddingTimeInterval:(NSTimeInterval) seconds
+- (instancetype) dateByAddingTimeInterval:(NSTimeInterval) seconds
 {
    seconds += [self timeIntervalSinceReferenceDate];
    return( [[self class] dateWithTimeIntervalSinceReferenceDate:seconds]);
@@ -191,5 +167,36 @@
 {
    return( [self timeIntervalSinceReferenceDate] + NSTimeIntervalSince1970);
 }
+
+
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   return( mulle_hash( &self->_interval, sizeof( NSTimeInterval)));
+}
+
+
+- (BOOL) isEqualToDate:(NSDate *) other
+{
+   if( ! other)
+      return( NO);
+
+   return( [self timeIntervalSinceReferenceDate] == [other timeIntervalSinceReferenceDate]);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSDate])
+      return( NO);
+
+   // dunno yet
+   //   if( ! [other __isNSCalendarDate])
+   //      return( NO);
+   return( [self isEqualToDate:other]);
+}
+
 
 @end

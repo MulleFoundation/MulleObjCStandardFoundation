@@ -60,7 +60,7 @@
 
 @interface _MulleObjCUTF16String( _Subclasses)
 
-+ (id) newWithUTF16Characters:(mulle_utf16_t *) bytes
++ (instancetype) newWithUTF16Characters:(mulle_utf16_t *) bytes
                        length:(NSUInteger) length;
 
 @end
@@ -79,7 +79,7 @@
    struct mulle_allocator   *_allocator;
 }
 
-+ (id) newWithUTF16CharactersNoCopy:(void *) bytes
++ (instancetype) newWithUTF16CharactersNoCopy:(void *) bytes
                              length:(NSUInteger) length
                           allocator:(struct mulle_allocator *) allocator;
 
@@ -92,7 +92,7 @@
    id               _sharingObject;
 }
 
-+ (id) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
++ (instancetype) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
                              length:(NSUInteger) length
                       sharingObject:(id) sharingObject;
 @end

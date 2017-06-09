@@ -5,16 +5,12 @@
 //  Created by Nat! on 28.03.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
-#import "MulleObjCFoundationContainer.h"
+#import "NSSet+NSCoder.h"
 
 #import "NSCoder.h"
 
 #import "_MulleObjCConcreteSet.h"
 #import "_MulleObjCConcreteMutableSet.h"
-
-
-@interface NSSet( NSCoder) < NSCoding>
-@end
 
 
 @implementation NSSet (NSCoder)
@@ -28,7 +24,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
 
@@ -101,7 +97,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
 

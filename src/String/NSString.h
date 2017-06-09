@@ -91,10 +91,10 @@ typedef NSUInteger   NSStringCompareOptions;
 {
 }
 
-+ (id) string;
-+ (id) stringWithString:(NSString *) other;
++ (instancetype) string;
++ (instancetype) stringWithString:(NSString *) other;
 
-- (id) description;
+- (NSString *) description;
 
 - (NSString *) substringWithRange:(NSRange) range;
 - (NSString *) substringFromIndex:(NSUInteger) index;
@@ -111,7 +111,7 @@ typedef NSUInteger   NSStringCompareOptions;
 //
 // UTF32
 //
-+ (id) stringWithCharacters:(unichar *) s
++ (instancetype) stringWithCharacters:(unichar *) s
                      length:(NSUInteger) len;
 
 - (void) getCharacters:(unichar *) buffer;
@@ -119,8 +119,8 @@ typedef NSUInteger   NSStringCompareOptions;
 //
 // UTF8
 // keep "old" UTF8Strings methods using char *
-+ (id) stringWithUTF8String:(char *) s;
-+ (id) _stringWithUTF8Characters:(mulle_utf8_t *) s
++ (instancetype) stringWithUTF8String:(char *) s;
++ (instancetype) _stringWithUTF8Characters:(mulle_utf8_t *) s
                          length:(NSUInteger) len;
 
 // characters are not zero terminated
@@ -148,10 +148,10 @@ typedef NSUInteger   NSStringCompareOptions;
 @interface NSString( MulleAdditions)
 
 - (NSUInteger) _UTF8StringLength;
-+ (id) _stringWithCharactersNoCopy:(unichar *) s
++ (instancetype) _stringWithCharactersNoCopy:(unichar *) s
                             length:(NSUInteger) len
                          allocator:(struct mulle_allocator *) allocator;
-+ (id) _stringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
++ (instancetype) _stringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
                                 length:(NSUInteger) len
                              allocator:(struct mulle_allocator *) allocator;
 
@@ -174,9 +174,9 @@ typedef NSUInteger   NSStringCompareOptions;
 
 - (NSString *) stringByAppendingString:(NSString *) other;
 
-- (id) stringByPaddingToLength:(NSUInteger) length
-                    withString:(NSString *) other
-                startingAtIndex:(NSUInteger) index;
+- (instancetype) stringByPaddingToLength:(NSUInteger) length
+                              withString:(NSString *) other
+                         startingAtIndex:(NSUInteger) index;
 
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) search
                                          withString:(NSString *) replacement
@@ -192,27 +192,13 @@ typedef NSUInteger   NSStringCompareOptions;
 @end
 
 
-/*
- * support for subclasses to calculate
- * hash efficiently. Deals with UTF8 strings!
- */
-static inline  NSRange   MulleObjCHashRange( NSUInteger length)
+static inline NSRange   MulleObjCGetHashStringRange(NSUInteger length)
 {
-   NSUInteger   offset;
-
-   offset = 0;
-   if( length > 48)
-   {
-      offset = length - 48;
-      length = 48;
-   }
-   return( NSMakeRange( offset, length));
+   return( MulleObjCGetHashBytesRange( length));
 }
 
 
-static inline NSUInteger   MulleObjCStringHash( char *buf, NSUInteger length)
+static inline NSUInteger   MulleObjCStringHash( mulle_utf8_t *buf, NSUInteger length)
 {
-   if( ! buf)
-      return( -1);
-   return( _mulle_objc_fnv1( buf, length));
+   return( MulleObjCBytesPartialHash( buf, length));
 }

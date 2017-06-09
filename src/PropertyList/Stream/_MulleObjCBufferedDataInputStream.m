@@ -52,7 +52,7 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
 
 @implementation _MulleObjCBufferedDataInputStream
 
-- (id) initWithInputStream:(id <_MulleObjCInputDataStream>) stream
+- (instancetype) initWithInputStream:(id <_MulleObjCInputDataStream>) stream
 {
    _stream = [stream retain];
    _MulleObjCBufferedDataInputStreamFillBuffer( self);  // need to have a notion of "_current" immediately
@@ -62,7 +62,7 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
 }
 
 
-- (id) initWithData:(NSData *) data
+- (instancetype) initWithData:(NSData *) data
 {
    _MulleObjCMemoryDataInputStream  *stream;
 

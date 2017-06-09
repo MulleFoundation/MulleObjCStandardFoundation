@@ -339,8 +339,8 @@ enum
 #pragma mark -
 #pragma mark Import
 
-- (id) _initWithUTF16Characters:(mulle_utf16_t *) chars
-                         length:(NSUInteger) length
+- (instancetype) _initWithUTF16Characters:(mulle_utf16_t *) chars
+                                   length:(NSUInteger) length
 {
    struct mulle_utf_information    info;
    struct mulle_buffer             buffer;
@@ -399,8 +399,8 @@ enum
 }
 
 
-- (id) _initWithSwappedUTF16Characters:(mulle_utf16_t *) chars
-                                  length:(NSUInteger) length
+- (instancetype) _initWithSwappedUTF16Characters:(mulle_utf16_t *) chars
+                                          length:(NSUInteger) length
 {
    mulle_utf16_t   *p;
    mulle_utf16_t   *buf;
@@ -419,8 +419,8 @@ enum
 
 
 
-- (id) _initWithSwappedUTF32Characters:(mulle_utf32_t *) chars
-                                  length:(NSUInteger) length
+- (instancetype) _initWithSwappedUTF32Characters:(mulle_utf32_t *) chars
+                                          length:(NSUInteger) length
 {
    mulle_utf32_t   *p;
    mulle_utf32_t   *buf;
@@ -498,7 +498,7 @@ enum
 }
 
 
-- (id) initWithData:(NSData *) data
+- (instancetype) initWithData:(NSData *) data
            encoding:(NSUInteger) encoding
 {
    void         *bytes;

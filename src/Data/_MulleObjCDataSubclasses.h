@@ -38,7 +38,7 @@
 
 @interface _MulleObjCConcreteData : NSData
 
-+ (id) newWithBytes:(void *) bytes;
++ (instancetype) newWithBytes:(void *) bytes;
 
 @end
 
@@ -55,7 +55,7 @@
    unsigned char   _storage[ 3];
 }
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
              length:(NSUInteger) length;
 
 @end
@@ -67,7 +67,7 @@
    unsigned char   _storage[ 2];
 }
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
              length:(NSUInteger) length;
 @end
 
@@ -79,10 +79,10 @@
    void         *_allocator;
 }
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
              length:(NSUInteger) length;
 
-+ (id) newWithBytesNoCopy:(void *) bytes
++ (instancetype) newWithBytesNoCopy:(void *) bytes
                    length:(NSUInteger) length
                 allocator:(struct mulle_allocator *) allocator;
 
@@ -94,7 +94,7 @@
    id   _other;
 }
 
-+ (id) newWithBytesNoCopy:(void *) bytes
++ (instancetype) newWithBytesNoCopy:(void *) bytes
                    length:(NSUInteger) length
                     owner:(id) owner;
 

@@ -6,15 +6,11 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-#import "MulleObjCFoundationContainer.h"
+#import "NSDictionary+NSCoder.h"
 
 #import "NSCoder.h"
 
 #import "_MulleObjCConcreteDictionary.h"
-
-
-@interface NSDictionary( NSCoder) < NSCoding>
-@end
 
 
 @implementation NSDictionary( NSCoder)
@@ -28,7 +24,7 @@
 }
 
 
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
 

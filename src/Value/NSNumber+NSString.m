@@ -50,7 +50,7 @@
 // default implementation, actually it's kinda good enough
 // but there are also overrides in _MulleObjCConcreteNumber+NSString.m
 //
-- (id) description
+- (NSString *) stringValue
 {
    char   *type;
 
@@ -79,6 +79,12 @@
       return( [NSString stringWithFormat:@"%Lf", [self longDoubleValue]]);
 
    }
+}
+
+
+- (NSString *) description
+{
+   return( [self stringValue]); // or localize
 }
 
 

@@ -48,9 +48,9 @@
 
 @implementation NSObject (NSString)
 
-+ (id) description
+- (NSString *) description
 {
-   return( NSStringFromClass( self));
+   return( NSStringFromClass( [self class]));
 }
 
 

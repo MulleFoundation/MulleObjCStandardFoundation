@@ -122,14 +122,12 @@ static void   grab_utf8( id self,
 }
 
 
+#pragma mark - hash and equality
+
 - (NSUInteger) hash
 {
-   NSRange       range;
-   mulle_utf8_t  *s;
-
-   range = MulleObjCHashRange( [self _UTF8StringLength]);
-   s     = [self _fastUTF8Characters];
-   return( MulleObjCStringHash( (char *) &s[ range.location], range.length));
+   return( MulleObjCStringHash( [self _fastUTF8Characters],
+                                [self _UTF8StringLength]));
 }
 
 
@@ -189,7 +187,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjC03LengthASCIIString
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC03LengthASCIIString   *obj;
@@ -203,7 +201,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC03LengthASCIIString   *obj;
@@ -225,7 +223,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjC07LengthASCIIString
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC07LengthASCIIString   *obj;
@@ -239,7 +237,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC07LengthASCIIString   *obj;
@@ -260,7 +258,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjC11LengthASCIIString
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC11LengthASCIIString   *obj;
@@ -274,7 +272,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC11LengthASCIIString   *obj;
@@ -296,7 +294,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjC15LengthASCIIString
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC15LengthASCIIString   *obj;
@@ -310,7 +308,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjC15LengthASCIIString   *obj;
@@ -332,7 +330,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjCTinyASCIIString
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCTinyASCIIString   *obj;
@@ -355,7 +353,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCTinyASCIIString   *obj;
@@ -411,7 +409,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 
 #if 1
-- (id) retain
+- (instancetype) retain
 {
    return( [super retain]);
 }
@@ -428,7 +426,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjCGenericASCIIString
 
-+ (id) newWithASCIICharacters:(char *) chars
++ (instancetype) newWithASCIICharacters:(char *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCGenericASCIIString   *obj;
@@ -443,7 +441,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
-+ (id) newWithUTF32Characters:(mulle_utf32_t *) chars
++ (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
                        length:(NSUInteger) length
 {
    _MulleObjCGenericASCIIString   *obj;
@@ -494,7 +492,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjCReferencingASCIIString
 
-+ (id) newWithASCIIStringNoCopy:(char *) s
++ (instancetype) newWithASCIIStringNoCopy:(char *) s
                          length:(NSUInteger) length
 {
    _MulleObjCReferencingASCIIString   *obj;
@@ -556,7 +554,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 @implementation _MulleObjCAllocatorASCIIString
 
 
-+ (id) newWithASCIIStringNoCopy:(char *) s
++ (instancetype) newWithASCIIStringNoCopy:(char *) s
                          length:(NSUInteger) length
                        allocator:(struct mulle_allocator *) allocator
 {
@@ -589,7 +587,7 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 
 @implementation _MulleObjCSharedASCIIString
 
-+ (id) newWithASCIICharactersNoCopy:(char *) s
++ (instancetype) newWithASCIICharactersNoCopy:(char *) s
                              length:(NSUInteger) length
                       sharingObject:(id) sharingObject
 {

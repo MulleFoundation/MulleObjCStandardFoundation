@@ -49,7 +49,7 @@
 + (instancetype) newWithBytes:(void *) buf
                        length:(NSUInteger) length;
 
-+ (id) newWithBytesNoCopy:(void *) bytes
++ (instancetype) newWithBytesNoCopy:(void *) bytes
                    length:(NSUInteger) length
                 allocator:(struct mulle_allocator *) allocator;
 @end

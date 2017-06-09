@@ -88,7 +88,7 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 }
 
 
-- (id) init
+- (instancetype) init
 {
    [self _initDefaultValues];
    return( self);
@@ -176,7 +176,7 @@ retry:
       if( behavior == NSNumberFormatterBehaviorDefault)
          behavior = NSNumberFormatterBehavior10_0;
       goto retry;
-      
+
    case NSNumberFormatterBehavior10_0 :
    ;
    }

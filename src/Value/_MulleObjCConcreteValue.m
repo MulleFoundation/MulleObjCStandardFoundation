@@ -48,7 +48,7 @@
 
 @implementation _MulleObjCConcreteValue
 
-+ (id) newWithBytes:(void *) bytes
++ (instancetype) newWithBytes:(void *) bytes
            objCType:(char *) type
 {
    _MulleObjCConcreteValue   *value;
@@ -83,6 +83,7 @@
    return( _MulleObjCConcreteValueObjCType( self));
 }
 
+#pragma mark - hash and equality
 
 - (NSUInteger) hash
 {

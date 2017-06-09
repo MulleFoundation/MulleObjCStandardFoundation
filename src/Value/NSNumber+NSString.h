@@ -43,5 +43,6 @@
 @interface NSNumber (NSString)
 
 - (NSString *) description;
+- (NSString *) stringValue;
 
 @end

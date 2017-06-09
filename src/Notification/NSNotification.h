@@ -46,10 +46,10 @@
 @property(retain) id            object;
 @property(retain) NSDictionary  *userInfo;
 
-+ (id) notificationWithName:(NSString *) aName
++ (instancetype) notificationWithName:(NSString *) aName
                      object:(id) anObject;
 
-+ (id) notificationWithName:(NSString *) aName
++ (instancetype) notificationWithName:(NSString *) aName
                      object:(id) anObject
                    userInfo:(NSDictionary *) userInfo;
 

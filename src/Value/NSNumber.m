@@ -146,42 +146,42 @@ static inline id   newNumberWithUnsignedLongLong( unsigned long long  value)
 }
 
 
-- (id) initWithBool:(BOOL) value
+- (instancetype) initWithBool:(BOOL) value
 {
    [self release];
    return( newNumberWithBOOL(value));
 }
 
 
-- (id) initWithUnsignedChar:(unsigned char) value
+- (instancetype) initWithUnsignedChar:(unsigned char) value
 {
    [self release];
    return( newNumberWithUnsignedChar(value));
 }
 
 
-- (id) initWithUnsignedShort:(unsigned short) value
+- (instancetype) initWithUnsignedShort:(unsigned short) value
 {
    [self release];
    return( newNumberWithUnsignedShort(value));
 }
 
 
-- (id) initWithUnsignedInt:(unsigned int) value
+- (instancetype) initWithUnsignedInt:(unsigned int) value
 {
    [self release];
    return( newNumberWithUnsignedInt(value));
 }
 
 
-- (id) initWithUnsignedLong:(unsigned long) value
+- (instancetype) initWithUnsignedLong:(unsigned long) value
 {
    [self release];
    return( newNumberWithUnsignedLong(value));
 }
 
 
-- (id) initWithUnsignedInteger:(NSUInteger) value
+- (instancetype) initWithUnsignedInteger:(NSUInteger) value
 {
    [self release];
 
@@ -189,7 +189,7 @@ static inline id   newNumberWithUnsignedLongLong( unsigned long long  value)
 }
 
 
-- (id) initWithUnsignedLongLong:(unsigned long long) value
+- (instancetype) initWithUnsignedLongLong:(unsigned long long) value
 {
    [self release];
    return( newNumberWithUnsignedLongLong(value));
@@ -277,7 +277,7 @@ static inline id   newNumberWithLongLong( long long  value)
 }
 
 
-- (id) initWithChar:(char) value
+- (instancetype) initWithChar:(char) value
 {
    [self release];
 
@@ -286,7 +286,7 @@ static inline id   newNumberWithLongLong( long long  value)
 }
 
 
-- (id) initWithShort:(short) value
+- (instancetype) initWithShort:(short) value
 {
    [self release];
 
@@ -294,28 +294,28 @@ static inline id   newNumberWithLongLong( long long  value)
 }
 
 
-- (id) initWithInt:(int) value
+- (instancetype) initWithInt:(int) value
 {
    [self release];
    return( newNumberWithInt( value));
 }
 
 
-- (id) initWithLong:(long) value
+- (instancetype) initWithLong:(long) value
 {
    [self release];
    return( newNumberWithLong( value));
 }
 
 
-- (id) initWithInteger:(NSInteger) value
+- (instancetype) initWithInteger:(NSInteger) value
 {
    [self release];
    return( newNumberWithInteger( value));
 }
 
 
-- (id) initWithLongLong:(long long) value
+- (instancetype) initWithLongLong:(long long) value
 {
    [self release];
    return( newNumberWithLongLong( value));
@@ -326,7 +326,7 @@ static inline id   newNumberWithLongLong( long long  value)
 #pragma marl FP inits
 
 
-- (id) initWithFloat:(float) value
+- (instancetype) initWithFloat:(float) value
 {
    [self release];
 
@@ -334,7 +334,7 @@ static inline id   newNumberWithLongLong( long long  value)
 }
 
 
-- (id) initWithDouble:(double) value
+- (instancetype) initWithDouble:(double) value
 {
    [self release];
 
@@ -342,7 +342,7 @@ static inline id   newNumberWithLongLong( long long  value)
 }
 
 
-- (id) initWithLongDouble:(long double) value
+- (instancetype) initWithLongDouble:(long double) value
 {
    [self release];
 
@@ -354,7 +354,7 @@ static inline id   newNumberWithLongLong( long long  value)
 #pragma mark NSValue init
 
 
-- (id) initWithBytes:(void *) value
+- (instancetype) initWithBytes:(void *) value
             objCType:(char *) type
 {
    switch( type[ 0])
@@ -386,97 +386,97 @@ static inline id   newNumberWithLongLong( long long  value)
 
 // don't short-circuit for subclasses
 
-+ (id) numberWithBool:(BOOL) value
++ (instancetype) numberWithBool:(BOOL) value
 {
    return( [[[self alloc] initWithBool:value] autorelease]);
 }
 
 
-+ (id) numberWithChar:(char) value
++ (instancetype) numberWithChar:(char) value
 {
    return( [[[self alloc] initWithChar:value] autorelease]);
 }
 
 
-+ (id) numberWithUnsignedChar:(unsigned char) value
++ (instancetype) numberWithUnsignedChar:(unsigned char) value
 {
    return( [[[self alloc] initWithUnsignedChar:value] autorelease]);
 }
 
 
-+ (id) numberWithShort:(short) value
++ (instancetype) numberWithShort:(short) value
 {
    return( [[[self alloc] initWithShort:value] autorelease]);
 }
 
 
-+ (id) numberWithUnsignedShort:(unsigned short) value
++ (instancetype) numberWithUnsignedShort:(unsigned short) value
 {
    return( [[[self alloc] initWithUnsignedShort:value] autorelease]);
 }
 
 
-+ (id) numberWithInt:(int) value
++ (instancetype) numberWithInt:(int) value
 {
    return( [[[self alloc] initWithInt:value] autorelease]);
 }
 
 
-+ (id) numberWithUnsignedInt:(unsigned int) value;
++ (instancetype) numberWithUnsignedInt:(unsigned int) value;
 {
    return( [[[self alloc] initWithUnsignedInt:value] autorelease]);
 }
 
 
-+ (id) numberWithLong:(long) value
++ (instancetype) numberWithLong:(long) value
 {
    return( [[[self alloc] initWithLong:value] autorelease]);
 }
 
 
-+ (id) numberWithUnsignedLong:(unsigned long) value
++ (instancetype) numberWithUnsignedLong:(unsigned long) value
 {
    return( [[[self alloc] initWithUnsignedLong:value] autorelease]);
 }
 
 
-+ (id) numberWithInteger:(NSInteger) value
++ (instancetype) numberWithInteger:(NSInteger) value
 {
    return( [[[self alloc] initWithInteger:value] autorelease]);
 }
 
 
-+ (id) numberWithUnsignedInteger:(NSUInteger) value
++ (instancetype) numberWithUnsignedInteger:(NSUInteger) value
 {
    return( [[[self alloc] initWithUnsignedInteger:value] autorelease]);
 }
 
 
-+ (id) numberWithLongLong:(long long) value
++ (instancetype) numberWithLongLong:(long long) value
 {
    return( [[[self alloc] initWithLongLong:value] autorelease]);
 }
 
 
-+ (id) numberWithUnsignedLongLong:(unsigned long long) value
++ (instancetype) numberWithUnsignedLongLong:(unsigned long long) value
 {
    return( [[[self alloc] initWithUnsignedLongLong:value] autorelease]);
 }
 
 
-+ (id) numberWithFloat:(float) value
++ (instancetype) numberWithFloat:(float) value
 {
    return( [[[self alloc] initWithFloat:value] autorelease]);
 }
 
 
-+ (id) numberWithDouble:(double) value
++ (instancetype) numberWithDouble:(double) value
 {
    return( [[[self alloc] initWithDouble:value] autorelease]);
 }
 
 
-+ (id) numberWithLongDouble:(long double) value
++ (instancetype) numberWithLongDouble:(long double) value
 {
    return( [[[self alloc] initWithLongDouble:value] autorelease]);
 }
@@ -670,17 +670,9 @@ bail:
 }
 
 
-- (NSUInteger) hash
-{
-   NSUInteger  value;
-   uintptr_t   hash;
+#pragma mark - hash and equality
 
-   value = [self unsignedIntegerValue];
-   hash  = mulle_hash( &value, sizeof( NSUInteger)); // stay compatible to NSValue
-
-   return( hash);
-}
-
+// NSNumbers are NSValues so don't do isEqual: or hash
 
 - (BOOL) isEqualToNumber:(NSNumber *) other
 {
@@ -690,32 +682,11 @@ bail:
 }
 
 
-- (BOOL) isEqual:(id) other
-{
-   if( ! [other __isNSNumber])
-      return( NO);
-   return( [self isEqualToNumber:other]);
-}
-
-
 - (id) copy
 {
    return( [self retain]);
 }
 
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSNumber class]);
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
 
 
 #pragma mark -

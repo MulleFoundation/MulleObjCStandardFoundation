@@ -44,6 +44,7 @@
 
 #import "MulleObjCCExceptionFunctions.h"
 #import "MulleObjCExceptionFunctions.h"
+#import "MulleObjCHashFunctions.h"
 
 // export nothing with _MulleObjC
 

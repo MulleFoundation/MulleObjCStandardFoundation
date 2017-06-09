@@ -48,7 +48,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 @implementation _MulleObjCUTF8StreamReader
 
-- (id) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
+- (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
 {
    NSCParameterAssert( [stream isKindOfClass:[_MulleObjCBufferedDataInputStream class]]);
 
@@ -65,7 +65,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 }
 
 
-- (id) initWithString:(NSString *) s
+- (instancetype) initWithString:(NSString *) s
 {
    _MulleObjCBufferedDataInputStream  *stream;
    NSData                            *data;
@@ -114,12 +114,12 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 
 - (void) logFailure:(NSString *) format
-            va_list:(va_list) args
+            varargList:(va_list) args
 {
    NSString   *s;
 
    s = [NSString stringWithFormat:format
-                          va_list:args];
+                          varargList:args];
    fprintf( stderr, "%s\n", [s UTF8String]);
 }
 
@@ -176,11 +176,11 @@ void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *self, NSStri
 {
    if( ! [self throwExceptionOnError])
       [self logFailure:format
-               va_list:args];
+               varargList:args];
    else
       [NSException raise:@"_MulleObjCUTF8StreamReaderException"
                   format:format
-                 va_list:args];
+                 varargList:args];
 }
 
 

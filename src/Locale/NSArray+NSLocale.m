@@ -36,6 +36,9 @@
 
 #import "NSArray+NSLocale.h"
 
+#import "MulleObjCFoundationString.h"
+
+
 
 @implementation NSArray (NSLocale)
 

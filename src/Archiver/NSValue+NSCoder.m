@@ -5,16 +5,12 @@
 //  Created by Nat! on 28.03.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
-#import "MulleObjCFoundationValue.h"
+#import "NSValue+NSCoder.h"
 
 #import "NSCoder.h"
 
 #import "_MulleObjCConcreteValue.h"
 #import "_MulleObjCConcreteValue+Private.h"
-
-
-@interface NSValue (NSCoder) <NSCoding>
-@end
 
 
 @implementation NSValue (NSCoder)
@@ -45,7 +41,7 @@
 
 
 // if this is a bottleneck, improve in subclasses
-- (id) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    char         *type;
    NSUInteger   size;
@@ -87,4 +83,36 @@
 }
 
 @end
+
+
+#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+
+#import "_MulleObjCTaggedPointerIntegerNumber.h"
+
+
+@interface _MulleObjCTaggedPointerIntegerNumber( NSCoder) < NSCoding>
+@end
+
+@implementation _MulleObjCTaggedPointerIntegerNumber( NSCoder)
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   char        *type;
+   NSInteger   value;
+
+   value = _MulleObjCTaggedPointerIntegerNumberGetIntegerValue( self);
+
+   type = @encode( NSInteger);
+   [coder encodeBytes:type
+               length:sizeof( @encode( NSInteger))];
+   [coder encodeValueOfObjCType:type
+                             at:&value];
+}
+
+@end
+
+#endif
 
