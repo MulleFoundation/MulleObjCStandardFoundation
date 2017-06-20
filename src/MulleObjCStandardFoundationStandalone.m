@@ -1,6 +1,6 @@
 //
-//  MulleObjCFoundation.c
-//  MulleObjCFoundation
+//  MulleObjCFoundationStandalone.m
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -34,4 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-char  somefood_for_the_linker[] = "VfL Bochum";
+#import "MulleObjCFoundationSetup.h"
+
+#include "MulleObjCFoundationStandalone.inc"
+

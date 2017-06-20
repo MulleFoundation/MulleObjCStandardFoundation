@@ -6,7 +6,7 @@
 #  Copyright (c) 2013 Mulle kybernetiK. All rights reserved.
 #  (was run-mulle-scion-test)
 
-LIBRARY_SHORTNAME="MulleObjCFoundation"
+LIBRARY_SHORTNAME="MulleObjCStandardFoundation"
 
 CC=mulle-clang
 . "mulle-tests/test-m-common.sh"

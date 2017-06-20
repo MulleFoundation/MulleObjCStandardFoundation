@@ -1,6 +1,6 @@
 //
 //  MulleObjCFoundationString.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.

@@ -1,6 +1,6 @@
 //
 //  NSNumber+PropertyListPrinting.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2009 Codeon GmbH.
@@ -38,7 +38,7 @@
 
 // other files in this library
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationLocale.h"
 
 // std-c and dependencies

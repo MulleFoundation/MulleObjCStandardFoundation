@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleObjCFoundation/MulleObjCFoundation.h>
+#import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 
 
 static void    test_dictionary( int n)

@@ -1,6 +1,6 @@
 //
 //  NSDateFormatter.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -40,7 +40,7 @@
 #import "NSTimeZone.h"
 #import "NSCalendarDate.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
 #import "MulleObjCFoundationString.h"
 #import "MulleObjCFoundationValue.h"

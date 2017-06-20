@@ -1,6 +1,6 @@
 //
 //  NSValue.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -38,7 +38,7 @@
 // other files in this library
 #import "_MulleObjCConcreteValue.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies

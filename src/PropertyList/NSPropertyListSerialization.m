@@ -1,6 +1,6 @@
 //
 //  NSPropertyListSerialization.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -40,7 +40,7 @@
 #import "NSObject+PropertyListParsing.h"
 #import "NSData+Unicode.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 #include <ctype.h>

@@ -1,6 +1,6 @@
 //
 //  NSConstantString.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -33,11 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "NSString.h"
+
 #import "NSConstantString.h"
 
 // other files in this library
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 
@@ -63,10 +65,10 @@
 
 + (void) load
 {
-   struct _mulle_objc_runtime   *runtime;
+   struct _mulle_objc_universe   *universe;
 
-   runtime = _mulle_objc_infraclass_get_runtime( self);
-   _mulle_objc_runtime_set_staticstringclass( runtime, self);
+   universe = _mulle_objc_infraclass_get_universe( self);
+   _mulle_objc_universe_set_staticstringclass( universe, self);
 }
 
 

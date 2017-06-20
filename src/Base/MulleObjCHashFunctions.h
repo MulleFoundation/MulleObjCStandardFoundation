@@ -1,6 +1,6 @@
 //
 //  MulleObjCHash.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2017 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2017 Codeon GmbH.
@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationParent.h"
+#import "MulleObjCStandardFoundationParent.h"
 
 
 // limit hash to last 48 bytes

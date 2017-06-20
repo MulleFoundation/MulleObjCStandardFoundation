@@ -7,7 +7,7 @@
 //
 
 #ifdef __MULLE_OBJC__
-# import <MulleObjCFoundation/MulleObjCFoundation.h>
+# import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 #else
 # import <Foundation/Foundation.h>
 #endif

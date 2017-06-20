@@ -1,6 +1,6 @@
 //
 //  NSObject+NSString.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -40,7 +40,7 @@
 #import "NSString+Sprintf.h"
 #import "NSStringObjCFunctions.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationBase.h"
 
 // std-c and dependencies

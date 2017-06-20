@@ -1,6 +1,6 @@
 //
 //  NSNumber.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -39,7 +39,7 @@
 #import "_MulleObjCConcreteNumber.h"
 #import "_MulleObjCTaggedPointerIntegerNumber.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
 
 // std-c dependencies

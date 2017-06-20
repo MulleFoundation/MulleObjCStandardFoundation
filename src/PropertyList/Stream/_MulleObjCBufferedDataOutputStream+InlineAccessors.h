@@ -1,6 +1,6 @@
 //
 //  _MulleObjCBufferedDataOutputStream+InlineAccessors.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2009 Codeon GmbH.

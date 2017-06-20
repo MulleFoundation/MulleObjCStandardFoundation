@@ -7,8 +7,8 @@
 //
 
 
-#import <MulleObjCFoundation/MulleObjCFoundation.h>
-#import <MulleObjCFoundation/mulle_buffer_archiver.h>
+#import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
+#import <MulleObjCStandardFoundation/mulle_buffer_archiver.h>
 
 #include <limits.h>
 #include <float.h>

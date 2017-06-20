@@ -1,6 +1,6 @@
 //
 //  NSFormatter.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -37,7 +37,7 @@
 
 // other files in this library
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
 
 // std-c and dependencies

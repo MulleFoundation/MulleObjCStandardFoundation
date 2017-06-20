@@ -1,4 +1,4 @@
-# MulleObjCFoundation
+# MulleObjCStandardFoundation
 
 ${MULLE_REPOSITORIES:-https://github.com/mulle-nat}/mulle-buffer;;${MULLE_BUFFER_BRANCH:-release}
 ${MULLE_REPOSITORIES:-https://github.com/mulle-nat}/mulle-container;;${MULLE_CONTAINER_BRANCH:-release}

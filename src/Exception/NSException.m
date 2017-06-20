@@ -1,6 +1,6 @@
 //
 //  NSException.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -39,7 +39,7 @@
 #import "NSAssertionHandler.h"
 #import "ns_foundationconfiguration.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
 
 // std-c and dependencies

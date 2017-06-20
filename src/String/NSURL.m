@@ -1,6 +1,6 @@
 //
 //  NSURL.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -45,7 +45,7 @@
 #import "NSCharacterSet.h"
 #include "http_parser.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationContainer.h"
 #import "MulleObjCFoundationData.h"
 #import "MulleObjCFoundationValue.h"

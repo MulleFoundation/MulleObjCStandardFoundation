@@ -1,6 +1,6 @@
 //
 //  _MulleObjCCheatingASCIIString.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "NSString.h"
+#import "_MulleObjCASCIIString.h"
 
 #import "_MulleObjCCheatingASCIIString.h"
 

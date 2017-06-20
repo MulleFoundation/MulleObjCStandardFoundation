@@ -1,6 +1,6 @@
 //
 //  ns_foundationconfiguration.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -58,7 +58,7 @@ struct _ns_foundation_setupconfig
 };
 
 
-void   _ns_foundation_setup( struct _mulle_objc_runtime *runtime,
+void   _ns_foundation_setup( struct _mulle_objc_universe *universe,
                              struct _ns_foundation_setupconfig *config);
 
 

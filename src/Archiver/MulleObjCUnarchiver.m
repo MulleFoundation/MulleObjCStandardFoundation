@@ -1,6 +1,6 @@
 //
 //  MulleObjCUnarchiver.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -39,7 +39,7 @@
 #import "MulleObjCArchiver+Private.h"
 #include "mulle_buffer_archiver.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationContainer.h"
 #import "MulleObjCFoundationData.h"
 #import "MulleObjCFoundationException.h"
@@ -149,7 +149,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
          name = substitution;
 
       clshash = mulle_objc_uniqueid_from_string( blob->_storage);
-      cls     = _mulle_objc_runtime_get_or_lookup_infraclass( mulle_objc_get_runtime() ,
+      cls     = _mulle_objc_universe_get_or_lookup_infraclass( mulle_objc_get_universe() ,
                                                   clshash);
       if( ! cls)
          return( NO);
