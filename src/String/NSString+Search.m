@@ -1,6 +1,6 @@
 //
 //  NSString+NSSearch.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Created by Nat! on 19.03.16.
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
@@ -10,7 +10,7 @@
 
 // other files in this library
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies

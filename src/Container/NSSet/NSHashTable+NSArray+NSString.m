@@ -1,6 +1,6 @@
 //
 //  NSHashTable+NSArray+NSString.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -39,7 +39,7 @@
 #import "NSArray.h"
 #import "NSMutableArray.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
 
 // std-c and dependencies

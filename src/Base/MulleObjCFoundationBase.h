@@ -1,6 +1,6 @@
 //
 //  MulleObjCFoundationBase.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCFoundationParent.h"
+#import "MulleObjCStandardFoundationParent.h"
 
 // export everything with NS
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LIBRARY_SHORTNAME="MulleObjCFoundation"
+LIBRARY_SHORTNAME="MulleObjCStandardFoundation"
 
 . "mulle-tests/test-m-common.sh"
 . "mulle-tests/test-tools-common.sh"

@@ -1,6 +1,6 @@
 //
 //  NSSortDescriptor.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2006 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2006 Codeon GmbH.

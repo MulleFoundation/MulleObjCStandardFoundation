@@ -1,6 +1,6 @@
 //
 //  NSArray+PropertyListParsing.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2009 Codeon GmbH.
@@ -39,7 +39,7 @@
 #import "NSObject+PropertyListParsing.h"
 #import "_MulleObjCPropertyListReader+InlineAccessors.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 

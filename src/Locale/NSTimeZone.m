@@ -1,6 +1,6 @@
 //
 //  NSTimeZone.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -38,7 +38,7 @@
 // other files in this library
 #import "_NSGMTTimeZone.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationContainer.h"
 #import "MulleObjCFoundationData.h"
 #import "MulleObjCFoundationString.h"

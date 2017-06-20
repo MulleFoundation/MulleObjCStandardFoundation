@@ -1,6 +1,6 @@
 //
 //  NSArray+NSSortDescriptor.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2006 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2006 Codeon GmbH.
@@ -38,7 +38,7 @@
 // other files in this library
 #import "NSSortDescriptor.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 

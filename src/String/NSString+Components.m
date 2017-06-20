@@ -1,6 +1,6 @@
 //
 //  NSString+Components.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2006 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2006 Codeon GmbH.
@@ -37,7 +37,7 @@
 
 // other files in this library
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationContainer.h"
 #import "MulleObjCFoundationData.h"
 #import "MulleObjCFoundationException.h"

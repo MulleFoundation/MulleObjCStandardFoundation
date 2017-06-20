@@ -1,6 +1,6 @@
 //
 //  NSString.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -56,11 +56,11 @@ typedef NSUInteger   NSStringCompareOptions;
 //
 // NSString is outside of NSObject, the most fundamental class
 // since its totally pervasive in all other classes.
-// The implementation in MulleObjCFoundation is slightly schizophrenic.
+// The implementation in MulleObjCStandardFoundation is slightly schizophrenic.
 // On the character level anything below UTF-32 is just misery.
 // But UTF-8 is basically what is being used (for I/O).
 //
-// The MulleObjCFoundation deals with UTF32 and UTF8.
+// The MulleObjCStandardFoundation deals with UTF32 and UTF8.
 // UTF-16 is treated just an optimized storage medium for UTF strings.
 //
 // A CString is a string with a zero terminator in the C locale,
@@ -82,7 +82,7 @@ typedef NSUInteger   NSStringCompareOptions;
 
 //
 // when dealing with the filesystem (open/stat) use -fileSystemRepresentation
-// defined by a layer upwards of MulleObjCFoundation
+// defined by a layer upwards of MulleObjCStandardFoundation
 // when interfacing with the OS (log messages) or C use cString
 // in all other cases use UTF8String
 //

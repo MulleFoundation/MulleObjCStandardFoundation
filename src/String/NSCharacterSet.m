@@ -1,6 +1,6 @@
 //
 //  NSCharacterSet.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -41,7 +41,7 @@
 #import "_MulleObjCConcreteBitmapCharacterSet.h"
 #import "_MulleObjCConcreteRangeCharacterSet.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationData.h"
 
 // std-c and dependencies

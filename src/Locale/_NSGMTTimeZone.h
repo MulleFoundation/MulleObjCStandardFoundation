@@ -1,6 +1,6 @@
 //
 //  _NSGMTTimeZone.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Created by Nat! on 14.05.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.

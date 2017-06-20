@@ -1,6 +1,6 @@
 //
 //  MulleObjCFoundationSetup.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -36,9 +36,9 @@
 #import "MulleObjCFoundationSetup.h"
 
 // other files in this library
-#import "MulleObjCFoundation.h"
+#import "MulleObjCStandardFoundation.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and other dependencies
 #import <MulleObjC/ns_objc_setup.h>
@@ -49,13 +49,13 @@
 #pragma mark -
 #pragma mark versioning
 
-static void   versionassert( struct _mulle_objc_runtime *runtime,
+static void   versionassert( struct _mulle_objc_universe *universe,
                              void *friend,
                              struct mulle_objc_loadversion *version)
 {
    if( (version->foundation & ~0xFF) != (MULLE_OBJC_FOUNDATION_VERSION & ~0xFF))
-      _mulle_objc_runtime_raise_inconsistency_exception( runtime, "mulle_objc_runtime %p: foundation version set to %x but runtime foundation is %x",
-                                                        runtime,
+      _mulle_objc_universe_raise_inconsistency_exception( universe, "mulle_objc_universe %p: foundation version set to %x but universe foundation is %x",
+                                                        universe,
                                                         version->foundation,
                                                         MULLE_OBJC_FOUNDATION_VERSION);
 }
@@ -103,8 +103,8 @@ static void   uncaught_exception( void *exception)
 void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfig *setup)
 {
    setup->config                               = *ns_objc_get_default_setupconfig();
-   setup->config.runtime.versionassert         = versionassert;
-   setup->config.runtime.uncaughtexception     = uncaught_exception;
+   setup->config.universe.versionassert         = versionassert;
+   setup->config.universe.uncaughtexception     = uncaught_exception;
    setup->config.foundation.configurationsize  = sizeof( struct _ns_foundationconfiguration);
    setup->config.callbacks.setup               = (void (*)()) _ns_foundation_setup;
    setup->config.callbacks.tear_down_and_check = tear_down_and_check;

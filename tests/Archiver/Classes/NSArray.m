@@ -7,7 +7,7 @@
 //
 
 
-#import <MulleObjCFoundation/MulleObjCFoundation.h>
+#import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 
 
 static void    clone_array( int n)
@@ -38,7 +38,12 @@ static void    clone_array( int n)
 
 int main(int argc, const char * argv[])
 {
-   mulle_objc_check_runtime();
+   if( mulle_objc_check_universe() != mulle_objc_universe_is_ok)
+   if( mulle_objc_check_universe() != mulle_objc_universe_is_ok)
+   {
+      mulle_objc_dotdump_universe_to_tmp();
+      return( 1);
+   }
 
    clone_array( 0);
    clone_array( 1);

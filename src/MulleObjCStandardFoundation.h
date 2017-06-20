@@ -1,6 +1,6 @@
 //
 //  MulleObjCFoundation.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -35,6 +35,7 @@
 //
 
 // keep this in sync with MULLE_OBJC_VERSION, else pain!
+#import "MulleObjCStandardFoundationParent.h"
 
 #define MULLE_OBJC_FOUNDATION_VERSION   MULLE_OBJC_VERSION
 
@@ -46,8 +47,8 @@
 #import "MulleObjCFoundationPropertyList.h"
 
 
-#import "MulleObjCLoader+Foundation.h"
+#import "MulleObjCLoader+MulleObjCStandardFoundation.h"
 
-#if MULLE_OBJC_VERSION < ((0 << 20) | (6 << 8) | 0)
+#if MULLE_OBJC_VERSION < ((0 << 20) | (9 << 8) | 0)
 # error "MulleObjC is too old"
 #endif

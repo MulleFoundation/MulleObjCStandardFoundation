@@ -1,4 +1,4 @@
-#import <MulleObjCFoundation/MulleObjCFoundation.h>
+#import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 
 #include <stdio.h>
 #include <stdlib.h>
