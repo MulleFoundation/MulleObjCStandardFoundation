@@ -2340,7 +2340,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 419FE8051C9858190094A915 /* Debug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.2.0;
+				CURRENT_PROJECT_VERSION = 0.9.1;
 				DEPENDENCIES_DIR = "$(PROJECT_DIR)/../dependencies";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/Frameworks/$(LIBRARY_CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
@@ -2376,7 +2376,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 419FE80C1C9858190094A915 /* Release.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 0.2.0;
+				CURRENT_PROJECT_VERSION = 0.9.1;
 				DEPENDENCIES_DIR = "$(PROJECT_DIR)/../dependencies";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEPENDENCIES_DIR)/Frameworks/$(LIBRARY_CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
