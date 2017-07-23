@@ -187,6 +187,8 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 }
 
 
+#if HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
+
 @implementation _MulleObjC03LengthASCIIString
 
 + (instancetype) newWithASCIICharacters:(char *) chars
@@ -328,6 +330,8 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 - (NSUInteger) length            { return( 15); }
 
 @end
+
+#endif
 
 
 @implementation _MulleObjCTinyASCIIString

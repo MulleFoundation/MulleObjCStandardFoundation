@@ -42,7 +42,6 @@
 #import "_MulleObjCASCIIString.h"
 #import "_MulleObjCUTF16String.h"
 #import "_MulleObjCUTF32String.h"
-#import "_MulleObjCEmptyString.h"
 
 // other libraries of MulleObjCStandardFoundation
 
@@ -50,60 +49,7 @@
 #include <mulle_sprintf/mulle_sprintf.h>
 
 
-@implementation NSString (ClassCluster)
-
-#pragma mark -
-#pragma mark class cluster selection
-
-
-NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s, NSUInteger length);
-
-NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s, NSUInteger length)
-{
-   // if we hit the length exactly then avoid adding extra 4 zero bytes
-   // by using subclass. Diminishing returns with larger strings...
-   switch( length)
-   {
-      case 00 : return( [[_MulleObjCEmptyString sharedInstance] retain]);
-      case 03 : return( [_MulleObjC03LengthASCIIString newWithASCIICharacters:s
-                                                                       length:length]);
-      case 07 : return( [_MulleObjC07LengthASCIIString newWithASCIICharacters:s
-                                                                       length:length]);
-      case 11 : return( [_MulleObjC11LengthASCIIString newWithASCIICharacters:s
-                                                                       length:length]);
-      case 15 : return( [_MulleObjC15LengthASCIIString newWithASCIICharacters:s
-                                                                       length:length]);
-   }
-   if( length < 0x100 + 1)
-      return( [_MulleObjCTinyASCIIString newWithASCIICharacters:s
-                                                         length:length]);
-   return( [_MulleObjCGenericASCIIString newWithASCIICharacters:s
-                                                         length:length]);
-}
-
-
-static NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s, NSUInteger length)
-{
-   // if we hit the length exactly then avoid adding extra 4 zero bytes
-   // by using subclass. Diminishing returns with larger strings...
-   switch( length)
-   {
-   case 00 : return( [[_MulleObjCEmptyString sharedInstance] retain]);
-   case 03 : return( [_MulleObjC03LengthASCIIString newWithUTF32Characters:s
-                                                                    length:length]);
-   case 07 : return( [_MulleObjC07LengthASCIIString newWithUTF32Characters:s
-                                                                    length:length]);
-   case 11 : return( [_MulleObjC11LengthASCIIString newWithUTF32Characters:s
-                                                                    length:length]);
-   case 15 : return( [_MulleObjC15LengthASCIIString newWithUTF32Characters:s
-                                                                    length:length]);
-   }
-   if( length < 0x100 + 1)
-      return( [_MulleObjCTinyASCIIString newWithUTF32Characters:s
-                                                         length:length]);
-   return( [_MulleObjCGenericASCIIString newWithUTF32Characters:s
-                                                         length:length]);
-}
+@implementation NSString( ClassCluster)
 
 
 static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, NSUInteger length, struct mulle_allocator *allocator)
@@ -194,7 +140,7 @@ static NSString  *MulleObjCNewUTF32StringWithUTF32Characters( mulle_utf32_t *s, 
 }
 
 
-static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf, NSUInteger len, struct mulle_allocator   *allocator)
+static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf, NSUInteger len, struct mulle_allocator *allocator)
 {
    struct mulle_utf_information  info;
 
@@ -334,7 +280,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    if( ! info->utf8len)
    {
       [self release];
-      return( [[_MulleObjCEmptyString sharedInstance] retain]);
+      return( @"");
    }
 
 

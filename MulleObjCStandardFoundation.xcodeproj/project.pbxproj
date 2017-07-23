@@ -195,7 +195,6 @@
 		41B7541A1CCE21AC00E7845D /* _MulleObjCASCIIString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F896A81C9C68E400971F63 /* _MulleObjCASCIIString.m */; };
 		41B7541B1CCE21AC00E7845D /* _MulleObjCUTF16String.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E85B491C9D6BD800C81E18 /* _MulleObjCUTF16String.m */; };
 		41B7541C1CCE21AC00E7845D /* _MulleObjCUTF32String.m in Sources */ = {isa = PBXBuildFile; fileRef = 41E85B4F1C9D7BC400C81E18 /* _MulleObjCUTF32String.m */; };
-		41B7541D1CCE21AC00E7845D /* _MulleObjCEmptyString.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F896AA1C9C68E400971F63 /* _MulleObjCEmptyString.m */; };
 		41B7541F1CCE21AC00E7845D /* _MulleObjCConcreteCharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C42CD21CC107CD000CBA00 /* _MulleObjCConcreteCharacterSet.m */; };
 		41B754201CCE21AC00E7845D /* _MulleObjCConcreteRangeCharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C128A61CC16B97008FDD08 /* _MulleObjCConcreteRangeCharacterSet.m */; };
 		41B754221CCE21AC00E7845D /* _MulleObjCConcreteBitmapCharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C128AA1CC16EA2008FDD08 /* _MulleObjCConcreteBitmapCharacterSet.m */; };
@@ -769,8 +768,6 @@
 		41F896A11C9C64BF00971F63 /* NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString.m; sourceTree = "<group>"; };
 		41F896A71C9C68E400971F63 /* _MulleObjCASCIIString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCASCIIString.h; sourceTree = "<group>"; };
 		41F896A81C9C68E400971F63 /* _MulleObjCASCIIString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCASCIIString.m; sourceTree = "<group>"; };
-		41F896A91C9C68E400971F63 /* _MulleObjCEmptyString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MulleObjCEmptyString.h; sourceTree = "<group>"; };
-		41F896AA1C9C68E400971F63 /* _MulleObjCEmptyString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MulleObjCEmptyString.m; sourceTree = "<group>"; };
 		41F896AB1C9C68E400971F63 /* NSConstantString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSConstantString.h; sourceTree = "<group>"; };
 		41F896AC1C9C68E400971F63 /* NSConstantString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSConstantString.m; sourceTree = "<group>"; };
 		41F91AF01CD8A2CB00AC6AEE /* NSDictionary+NSString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NSString.m"; sourceTree = "<group>"; };
@@ -1492,8 +1489,6 @@
 				41C42CD21CC107CD000CBA00 /* _MulleObjCConcreteCharacterSet.m */,
 				41C128A51CC16B97008FDD08 /* _MulleObjCConcreteRangeCharacterSet.h */,
 				41C128A61CC16B97008FDD08 /* _MulleObjCConcreteRangeCharacterSet.m */,
-				41F896A91C9C68E400971F63 /* _MulleObjCEmptyString.h */,
-				41F896AA1C9C68E400971F63 /* _MulleObjCEmptyString.m */,
 				41E85B481C9D6BD800C81E18 /* _MulleObjCUTF16String.h */,
 				41E85B491C9D6BD800C81E18 /* _MulleObjCUTF16String.m */,
 				41E85B4E1C9D7BC400C81E18 /* _MulleObjCUTF32String.h */,
@@ -2086,7 +2081,6 @@
 				41B7541B1CCE21AC00E7845D /* _MulleObjCUTF16String.m in Sources */,
 				4144A5D71D43F03C003FE893 /* _MulleObjCTaggedPointerIntegerNumber.m in Sources */,
 				41B7541C1CCE21AC00E7845D /* _MulleObjCUTF32String.m in Sources */,
-				41B7541D1CCE21AC00E7845D /* _MulleObjCEmptyString.m in Sources */,
 				41B7541F1CCE21AC00E7845D /* _MulleObjCConcreteCharacterSet.m in Sources */,
 				41B754201CCE21AC00E7845D /* _MulleObjCConcreteRangeCharacterSet.m in Sources */,
 				41B754221CCE21AC00E7845D /* _MulleObjCConcreteBitmapCharacterSet.m in Sources */,

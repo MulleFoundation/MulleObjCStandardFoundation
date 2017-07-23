@@ -186,7 +186,7 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 
    rover->curr     = rover->start;
    rover->selector = @selector( characterAtIndex:);
-   rover->imp      = (unichar (*)()) [self methodForSelector:rover->selector];
+   rover->imp      = (unichar (*)( id, SEL, NSUInteger)) [self methodForSelector:rover->selector];
 
    NSParameterAssert( rover->imp);
 }

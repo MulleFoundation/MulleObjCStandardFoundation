@@ -75,3 +75,9 @@
                              sharingObject:(id) object;
 
 @end
+
+NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s,
+                                                      NSUInteger length);
+NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
+                                                      NSUInteger length);
+

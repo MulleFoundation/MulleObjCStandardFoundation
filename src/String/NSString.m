@@ -38,6 +38,11 @@
 // other files in this library
 #import "NSString+ClassCluster.h"
 #import "NSString+Search.h"
+#import "_MulleObjCTaggedPointerChar5String.h"
+#import "_MulleObjCTaggedPointerChar7String.h"
+#import "_MulleObjCASCIIString.h"
+#import "_MulleObjCUTF16String.h"
+#import "_MulleObjCUTF32String.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationBase.h"
@@ -63,6 +68,7 @@
 
 @implementation NSString
 
+#pragma mark - Patch string class into runtime
 
 static char   *stringToUTF8( NSString *s)
 {
@@ -79,7 +85,7 @@ static NSString   *UTF8ToString( char *s)
 + (void) load
 {
    struct _ns_rootconfiguration   *config;
-
+   
    config = _ns_get_rootconfiguration();
    config->string.charsfromobject = (char *(*)()) stringToUTF8;
    config->string.objectfromchars = (void *(*)()) UTF8ToString;
@@ -91,6 +97,123 @@ static NSString   *UTF8ToString( char *s)
    return( YES);
 }
 
+
+# pragma mark - Class cluster support
+
+// here and not in +Classcluster for +initialize
+
+enum _NSStringClassClusterStringSize
+{
+   _NSStringClassClusterStringSize0         = 0,
+   _NSStringClassClusterStringSizeOther     = 1,
+   _NSStringClassClusterStringSize256OrLess = 2,
+#if HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
+   _NSStringClassClusterStringSize3         = 3,
+   _NSStringClassClusterStringSize7         = 4,
+   _NSStringClassClusterStringSize11        = 5,
+   _NSStringClassClusterStringSize15        = 6,
+#endif
+   _NSStringClassClusterStringSizeMax
+};
+
+
+//
+// it is useful for coverage, to make all possible subclasses known here
+// Otherwise someone might only test with 255 bytes strings and it
+// will crash with larger byte strings. Arguably that's something that should
+// be tested, but _MulleObjC11LengthASCIIString may be fairly obscure to hit
+// though.
+//
++ (void) initialize
+{
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+
+   if( self != [NSString class])
+      return;
+   
+   assert( _NS_ROOTCONFIGURATION_N_STRINGSUBCLASSES >= _NSStringClassClusterStringSizeMax);
+
+   universe = _mulle_objc_infraclass_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   
+   config->stringsubclasses[ 0] = NULL;
+   config->stringsubclasses[ _NSStringClassClusterStringSize256OrLess] = [_MulleObjCTinyASCIIString class];
+   config->stringsubclasses[ _NSStringClassClusterStringSizeOther]     = [_MulleObjCGenericASCIIString class];
+   
+#if HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
+   config->stringsubclasses[ _NSStringClassClusterStringSize3]  = [_MulleObjC03LengthASCIIString class];
+   config->stringsubclasses[ _NSStringClassClusterStringSize7]  = [_MulleObjC07LengthASCIIString class];
+   config->stringsubclasses[ _NSStringClassClusterStringSize11] = [_MulleObjC11LengthASCIIString class];
+   config->stringsubclasses[ _NSStringClassClusterStringSize15] = [_MulleObjC15LengthASCIIString class];
+#endif
+}
+
+
+#pragma mark -
+#pragma mark class cluster selection
+
+static enum _NSStringClassClusterStringSize   MulleObjCStringClassIndexForLength( NSUInteger length)
+{
+   //
+   // if we hit the length exactly then avoid adding extra 4 zero bytes
+   // by using subclass. Diminishing returns with larger strings...
+   // Depends also on the granularity of the mallocer
+   //
+   switch( length)
+   {
+      case 00 : return( _NSStringClassClusterStringSize0);
+#if HAVE_ASCII_SUBCLASSES
+      case 03 : return( _NSStringClassClusterStringSize3);
+      case 07 : return( _NSStringClassClusterStringSize7);
+      case 11 : return( _NSStringClassClusterStringSize11);
+      case 15 : return( _NSStringClassClusterStringSize15);
+#endif
+   }
+   if( length < 0x100 + 1)
+      return( _NSStringClassClusterStringSize256OrLess);
+   return( _NSStringClassClusterStringSizeOther);
+}
+
+
+NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s,
+                                                       NSUInteger length)
+{
+   struct _ns_rootconfiguration           *config;
+   struct _mulle_objc_universe            *universe;
+   enum _NSStringClassClusterStringSize   classIndex;
+   
+   classIndex = MulleObjCStringClassIndexForLength( length);
+   if( ! classIndex)
+      return( @"");
+   
+   universe = mulle_objc_inlined_get_universe();
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   
+   return( [(Class) config->stringsubclasses[ classIndex] newWithASCIICharacters:s
+                                                                  length:length]);
+}
+
+
+NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
+                                                       NSUInteger length)
+{
+   struct _ns_rootconfiguration           *config;
+   struct _mulle_objc_universe            *universe;
+   enum _NSStringClassClusterStringSize    classIndex;
+   
+   classIndex = MulleObjCStringClassIndexForLength( length);
+   if( ! classIndex)
+      return( @"");
+   
+   universe = mulle_objc_inlined_get_universe();
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   
+   return( [(Class) config->stringsubclasses[ classIndex] newWithUTF32Characters:s
+                                                               length:length]);
+}
+
+# pragma mark - convenience constructors
 
 + (instancetype) string
 {
