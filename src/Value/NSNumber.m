@@ -64,261 +64,415 @@
 }
 
 
+// here and not in +Classcluster for +initialize
+
+enum _NSNumberClassClusterNumberType
+{
+   _NSNumberClassClusterInt8Type       = 0,
+   _NSNumberClassClusterInt16Type      = 1,
+   _NSNumberClassClusterInt32Type      = 2,
+   _NSNumberClassClusterInt64Type      = 3,
+   _NSNumberClassClusterUInt32Type     = 4,
+   _NSNumberClassClusterUInt64Type     = 5,
+   _NSNumberClassClusterDoubleType     = 6,
+   _NSNumberClassClusterLongDoubleType = 7,
+   _NSNumberClassClusterNumberTypeMax
+};
+
+
+#pragma mark - class cluster support
+
+//
+// it is useful for coverage, to make all possible subclasses known here
+//
++ (void) initialize
+{
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   if( self != [NSNumber class])
+      return;
+   
+   assert( _NS_ROOTCONFIGURATION_N_NUMBERSUBCLASSES >= _NSNumberClassClusterNumberTypeMax);
+   
+   universe = _mulle_objc_infraclass_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   
+   config->numbersubclasses[ _NSNumberClassClusterInt8Type]   = [_MulleObjCInt8Number class];
+   config->numbersubclasses[ _NSNumberClassClusterInt16Type]  = [_MulleObjCInt16Number class];
+   config->numbersubclasses[ _NSNumberClassClusterInt32Type]  = [_MulleObjCInt32Number class];
+   config->numbersubclasses[ _NSNumberClassClusterInt64Type]  = [_MulleObjCInt64Number class];
+   config->numbersubclasses[ _NSNumberClassClusterUInt32Type] = [_MulleObjCUInt32Number class];
+   config->numbersubclasses[ _NSNumberClassClusterUInt64Type] = [_MulleObjCUInt64Number class];
+   config->numbersubclasses[ _NSNumberClassClusterDoubleType] = [_MulleObjCDoubleNumber class];
+   config->numbersubclasses[ _NSNumberClassClusterLongDoubleType] = [_MulleObjCLongDoubleNumber class];
+}
+
+
+#define MULLE_C11_CONSUMED __attribute__((ns_consumed))
+
+
 #pragma mark -
 #pragma mark unsigned init
 
-static inline id   newNumberWithBOOL(BOOL value)
+static inline id   replaceWithNumberWithWithBOOL( MULLE_C11_CONSUMED NSNumber *self,
+                                                  BOOL value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   [self release];
    return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value ? YES : NO));
 #else
-   return( [_MulleObjCInt8Number newWithInt8:value ? YES : NO]);
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterInt8Type] newWithInt8:value ? YES : NO]);
 #endif
 }
 
 
-static inline id   newNumberWithUnsignedChar(unsigned char   value)
+static inline id   replaceWithNumberWithWithUnsignedChar( MULLE_C11_CONSUMED NSNumber *self, unsigned char value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   [self release];
    return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
 #else
-   return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value]);
 #endif
 }
 
 
-static inline id   newNumberWithUnsignedShort(unsigned short value)
+static inline id   replaceWithNumberWithWithUnsignedShort( MULLE_C11_CONSUMED NSNumber *self, unsigned short value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   [self release];
    return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
 #else
-   return( [_MulleObjCUInt32Number newWithUInt32:value]);
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value]);
 #endif
 }
 
-static inline id   newNumberWithUnsignedInt( unsigned int value)
+static inline id   replaceWithNumberWithWithUnsignedInt( MULLE_C11_CONSUMED NSNumber *self, unsigned int value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( MulleObjCTaggedPointerIsIntegerValue( value))
+   {
+      [self release];
       return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #endif
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
    if( sizeof( unsigned int) == sizeof( uint32_t))
-      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value]);
    else
-      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value]);
 }
 
 
-static inline id   newNumberWithUnsignedInteger(NSUInteger value)
+static inline id   replaceWithNumberWithWithUnsignedInteger( MULLE_C11_CONSUMED NSNumber *self, NSUInteger value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( MulleObjCTaggedPointerIsIntegerValue( value))
+   {
+      [self release];
       return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #endif
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
    if( sizeof( NSUInteger) == sizeof( uint32_t))
-      return( [_MulleObjCUInt32Number newWithUInt32:(uint32_t) value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value]);
    else
-      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value]);
 }
 
 
-static inline id   newNumberWithUnsignedLong(unsigned long   value)
+static inline id   replaceWithNumberWithWithUnsignedLong( MULLE_C11_CONSUMED NSNumber *self, unsigned long value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( MulleObjCTaggedPointerIsIntegerValue( value))
+   {
+      [self release];
       return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #endif
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
    if( sizeof( unsigned long) == sizeof( uint32_t))
-      return( [_MulleObjCUInt32Number newWithUInt32:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value]);
    else
-      return( [_MulleObjCUInt64Number newWithUInt64:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value]);
 }
 
 
-static inline id   newNumberWithUnsignedLongLong( unsigned long long  value)
+static inline id   replaceWithNumberWithWithUnsignedLongLong( MULLE_C11_CONSUMED NSNumber *self, unsigned long long value)
 {
    assert( sizeof( unsigned long long) == sizeof( uint64_t));
-
    // does this really pay off, I doubt it
    if( value <= ULONG_MAX)
-      return( newNumberWithUnsignedLong( (unsigned long) value));
-   return( [_MulleObjCUInt64Number newWithUInt64:value]);
+      return( replaceWithNumberWithWithUnsignedLong( self, (unsigned long) value));
+
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value]);
 }
 
+
+#pragma mark - unsigned inits
 
 - (instancetype) initWithBool:(BOOL) value
 {
-   [self release];
-   return( newNumberWithBOOL(value));
+   return( replaceWithNumberWithWithBOOL( self, value));
 }
 
 
 - (instancetype) initWithUnsignedChar:(unsigned char) value
 {
-   [self release];
-   return( newNumberWithUnsignedChar(value));
+   return( replaceWithNumberWithWithUnsignedChar( self, value));
 }
 
 
 - (instancetype) initWithUnsignedShort:(unsigned short) value
 {
-   [self release];
-   return( newNumberWithUnsignedShort(value));
+   return( replaceWithNumberWithWithUnsignedShort( self, value));
 }
 
 
 - (instancetype) initWithUnsignedInt:(unsigned int) value
 {
-   [self release];
-   return( newNumberWithUnsignedInt(value));
+   return( replaceWithNumberWithWithUnsignedInt( self, value));
 }
 
 
 - (instancetype) initWithUnsignedLong:(unsigned long) value
 {
-   [self release];
-   return( newNumberWithUnsignedLong(value));
+   return( replaceWithNumberWithWithUnsignedLong( self, value));
 }
 
 
 - (instancetype) initWithUnsignedInteger:(NSUInteger) value
 {
-   [self release];
-
-   return( newNumberWithUnsignedInteger(value));
+   return( replaceWithNumberWithWithUnsignedInteger( self, value));
 }
 
 
 - (instancetype) initWithUnsignedLongLong:(unsigned long long) value
 {
-   [self release];
-   return( newNumberWithUnsignedLongLong(value));
+   return( replaceWithNumberWithWithUnsignedLongLong( self, value));
 }
 
 
-#pragma mark -
-#pragma mark signed init
+#pragma mark - signed inits
 
-
-static inline id   newNumberWithChar( char value)
+static inline id   replaceWithNumberWithWithChar( MULLE_C11_CONSUMED NSNumber *self, char value)
 {
+   assert( sizeof( char) == sizeof( int8_t));
+   
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+   [self release];
    return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
 #else
-   return( [_MulleObjCInt8Number newWithInt8:value]);
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterInt8Type] newWithInt8:value]);
 #endif
 }
 
 
 #ifdef _C_BOOL
-static inline id   newNumberWithBool( _Bool value)
+static inline id   replaceWithNumberWithWithBool( MULLE_C11_CONSUMED NSNumber *self, _Bool value)
 {
-   return( newNumberWithChar( (char) value));
+   return( replaceWithNumberWithWithChar( self, (char) value));
 }
 #endif
 
 
-static inline id   newNumberWithShort( short value)
+static inline id   replaceWithNumberWithWithShort( MULLE_C11_CONSUMED NSNumber *self, short value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
-   return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   {
+      [self release];
+      return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #else
-   return( [_MulleObjCInt32Number newWithUInt32:value]);
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterInt16Type] newWithInt16:value]);
 #endif
 }
 
 
-static inline id   newNumberWithInt( int value)
+static inline id   replaceWithNumberWithWithInt( MULLE_C11_CONSUMED NSNumber *self, int value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( MulleObjCTaggedPointerIsIntegerValue(value))
+   {
+      [self release];
       return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #endif
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
    if( sizeof( int) == sizeof( int32_t))
-      return( [_MulleObjCInt32Number newWithInt32:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterInt32Type] newWithInt32:value]);
    else
-      return( [_MulleObjCInt64Number newWithInt64:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value]);
 }
 
 
-static inline id   newNumberWithInteger( NSInteger value)
+static inline id   replaceWithNumberWithWithInteger( MULLE_C11_CONSUMED NSNumber *self,
+                                                     NSInteger value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( MulleObjCTaggedPointerIsIntegerValue(value))
+   {
+      [self release];
       return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #endif
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
    if( sizeof( NSInteger) == sizeof( int32_t))
-      return( [_MulleObjCInt32Number newWithInt32:(int32_t) value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterInt32Type] newWithInt32:(int32_t)value]);
    else
-      return( [_MulleObjCInt64Number newWithInt64:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value]);
 }
 
 
-static inline id   newNumberWithLong( long value)
+static inline id   replaceWithNumberWithWithLong( MULLE_C11_CONSUMED NSNumber *self,
+                                                  long value)
 {
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( MulleObjCTaggedPointerIsIntegerValue(value))
+   {
+      [self release];
       return( _MulleObjCTaggedPointerIntegerNumberWithInteger( value));
+   }
 #endif
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+
    if( sizeof( long) == sizeof( int32_t))
-      return( [_MulleObjCInt32Number newWithInt32:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterInt32Type] newWithInt32:value]);
    else
-      return( [_MulleObjCInt64Number newWithInt64:value]);
+      return( [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value]);
 }
 
 
-static inline id   newNumberWithLongLong( long long  value)
+static inline id   replaceWithNumberWithWithLongLong( MULLE_C11_CONSUMED NSNumber *self,
+                                                      long long  value)
 {
    assert( sizeof( long long) == sizeof( int64_t));
 
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
    if( value <= LONG_MAX && value >= LONG_MIN)
-      return( newNumberWithLong( (long) value));
-   return( [_MulleObjCInt64Number newWithInt64:value]);
+      return( replaceWithNumberWithWithLong( self, (long) value));
+
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+   [self release];
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value]);
 }
 
 
 - (instancetype) initWithChar:(char) value
 {
-   [self release];
-
-   assert( sizeof( char) == sizeof( int8_t));
-   return( newNumberWithChar( value));
+   return( replaceWithNumberWithWithChar( self, value));
 }
 
 
 - (instancetype) initWithShort:(short) value
 {
-   [self release];
-
-   return( newNumberWithShort( value));
+   return( replaceWithNumberWithWithShort( self, value));
 }
 
 
 - (instancetype) initWithInt:(int) value
 {
-   [self release];
-   return( newNumberWithInt( value));
+   return( replaceWithNumberWithWithInt( self, value));
 }
 
 
 - (instancetype) initWithLong:(long) value
 {
-   [self release];
-   return( newNumberWithLong( value));
+   return( replaceWithNumberWithWithLong( self, value));
 }
 
 
 - (instancetype) initWithInteger:(NSInteger) value
 {
-   [self release];
-   return( newNumberWithInteger( value));
+   return( replaceWithNumberWithWithInteger( self, value));
 }
 
 
 - (instancetype) initWithLongLong:(long long) value
 {
-   [self release];
-   return( newNumberWithLongLong( value));
+   return( replaceWithNumberWithWithLongLong( self, value));
 }
 
 
@@ -328,25 +482,40 @@ static inline id   newNumberWithLongLong( long long  value)
 
 - (instancetype) initWithFloat:(float) value
 {
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
    [self release];
-
-   return( [_MulleObjCDoubleNumber newWithDouble:value]);
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterDoubleType] newWithDouble:value]);
 }
 
 
 - (instancetype) initWithDouble:(double) value
 {
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
    [self release];
-
-   return( [_MulleObjCDoubleNumber newWithDouble:value]);
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterDoubleType] newWithDouble:value]);
 }
 
 
 - (instancetype) initWithLongDouble:(long double) value
 {
+   struct _ns_rootconfiguration   *config;
+   struct _mulle_objc_universe    *universe;
+   
+   universe = _mulle_objc_object_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
    [self release];
-
-   return( [_MulleObjCLongDoubleNumber newWithLongDouble:value]);
+   
+   return( [config->numbersubclasses[ _NSNumberClassClusterLongDoubleType] newWithLongDouble:value]);
 }
 
 
@@ -355,23 +524,23 @@ static inline id   newNumberWithLongLong( long long  value)
 
 
 - (instancetype) initWithBytes:(void *) value
-            objCType:(char *) type
+                     objCType:(char *) type
 {
    switch( type[ 0])
    {
 #ifdef _C_BOOL
-   case _C_BOOL     : [self release]; return( newNumberWithBool( *(_Bool *) value));
+   case _C_BOOL     : return( replaceWithNumberWithWithBool( self, *(_Bool *) value));
 #endif
-   case _C_CHR      : [self release]; return( newNumberWithChar( *(char *) value));
-   case _C_UCHR     : [self release]; return( newNumberWithUnsignedChar( *(unsigned char *) value));
-   case _C_SHT      : [self release]; return( newNumberWithShort( *(short *) value));
-   case _C_USHT     : [self release]; return( newNumberWithUnsignedShort( *(unsigned short *) value));
-   case _C_INT      : [self release]; return( newNumberWithInt( *(int *) value));
-   case _C_UINT     : [self release]; return( newNumberWithUnsignedInt( *(unsigned int *) value));
-   case _C_LNG      : [self release]; return( newNumberWithLong( *(long *) value));
-   case _C_ULNG     : [self release]; return( newNumberWithUnsignedLong( *(unsigned long *) value));
-   case _C_LNG_LNG  : [self release]; return( newNumberWithLongLong( *(long long *) value));
-   case _C_ULNG_LNG : [self release]; return( newNumberWithUnsignedLongLong( *(unsigned long long *) value));
+   case _C_CHR      : return( replaceWithNumberWithWithChar( self, *(char *) value));
+   case _C_UCHR     : return( replaceWithNumberWithWithUnsignedChar( self, *(unsigned char *) value));
+   case _C_SHT      : return( replaceWithNumberWithWithShort( self, *(short *) value));
+   case _C_USHT     : return( replaceWithNumberWithWithUnsignedShort( self, *(unsigned short *) value));
+   case _C_INT      : return( replaceWithNumberWithWithInt( self, *(int *) value));
+   case _C_UINT     : return( replaceWithNumberWithWithUnsignedInt( self, *(unsigned int *) value));
+   case _C_LNG      : return( replaceWithNumberWithWithLong( self, *(long *) value));
+   case _C_ULNG     : return( replaceWithNumberWithWithUnsignedLong( self, *(unsigned long *) value));
+   case _C_LNG_LNG  : return( replaceWithNumberWithWithLongLong( self, *(long long *) value));
+   case _C_ULNG_LNG : return( replaceWithNumberWithWithUnsignedLongLong( self, *(unsigned long long *) value));
 
    case _C_FLT      : return( [self initWithFloat:*(float *) value]);
    case _C_DBL      : return( [self initWithDouble:*(double *) value]);
@@ -381,8 +550,7 @@ static inline id   newNumberWithLongLong( long long  value)
 }
 
 
-#pragma mark -
-#pragma mark convenience constructors
+#pragma mark - convenience constructors
 
 // don't short-circuit for subclasses
 
@@ -488,7 +656,7 @@ static inline id   newNumberWithLongLong( long long  value)
 /*
  * this compare: "properly" promotes all comparisons to unsigned
  * if one ot the two numbers is unsigned (and not FP)
- * this is is believe different from Apple
+ * this is I believe different from Apple
  */
 #define _C_SUPERQUAD  1848
 

@@ -57,6 +57,7 @@
 @end
 
 
+#if HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
 //
 // just some shortcuts to avoid having to store the length, when our byte size
 // length would blow up the string by another 4 bytes (because of malloc
@@ -71,6 +72,8 @@
 @end
 @interface _MulleObjC15LengthASCIIString : _MulleObjCASCIIString
 @end
+
+#endif
 
 
 @interface _MulleObjCTinyASCIIString : _MulleObjCASCIIString
