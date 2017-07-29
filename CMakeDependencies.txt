@@ -1,61 +1,81 @@
-include( ${DEPENDENCIES_DIR}/include/MulleObjC/CMakeDependencies.txt)
+if( NOT __MULLE_OBJC_STANDARD_FOUNDATION_CMAKE_DEPENDENCIES_TXT__)
+   set( __MULLE_OBJC_STANDARD_FOUNDATION_CMAKE_DEPENDENCIES_TXT__ ON)
 
-if( NOT MULLE_BUFFER_LIBRARY)
-   find_library( MULLE_BUFFER_LIBRARY NAMES mulle_buffer)
-   message(STATUS "MULLE_BUFFER_LIBRARY is ${MULLE_BUFFER_LIBRARY}")
-   set( C_DEPENDENCY_LIBRARIES
-${MULLE_BUFFER_LIBRARY}
-${C_DEPENDENCY_LIBRARIES}
-CACHE INTERNAL "need to cache this"
-)
+   include( ${DEPENDENCIES_DIR}/include/MulleObjC/CMakeDependencies.txt)
+
+   if( NOT MULLE_BUFFER_LIBRARY)
+      find_library( MULLE_BUFFER_LIBRARY NAMES mulle_buffer)
+      message(STATUS "MULLE_BUFFER_LIBRARY is ${MULLE_BUFFER_LIBRARY}")
+      set( C_DEPENDENCY_LIBRARIES
+         ${MULLE_BUFFER_LIBRARY}
+         ${C_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+   endif()
+
+   if( NOT MULLE_CONTAINER_LIBRARY)
+      find_library( MULLE_CONTAINER_LIBRARY NAMES mulle_container)
+      message(STATUS "MULLE_CONTAINER_LIBRARY is ${MULLE_CONTAINER_LIBRARY}")
+      set( C_DEPENDENCY_LIBRARIES
+         ${MULLE_CONTAINER_LIBRARY}
+         ${C_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+   endif()
+
+   if( NOT MULLE_UTF_LIBRARY)
+      find_library( MULLE_UTF_LIBRARY NAMES mulle_utf)
+      message(STATUS "MULLE_UTF_LIBRARY is ${MULLE_UTF_LIBRARY}")
+      set( C_DEPENDENCY_LIBRARIES
+         ${MULLE_UTF_LIBRARY}
+         ${C_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+   endif()
+
+   if( NOT MULLE_SPRINTF_LIBRARY)
+      find_library( MULLE_SPRINTF_LIBRARY NAMES mulle_sprintf)
+      message(STATUS "MULLE_SPRINTF_LIBRARY is ${MULLE_SPRINTF_LIBRARY}")
+      set( C_DEPENDENCY_LIBRARIES
+         ${MULLE_SPRINTF_LIBRARY}
+         ${C_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+   endif()
+
+   if( NOT MULLE_OBJC_LIBRARY)
+      find_library( MULLE_OBJC_LIBRARY NAMES MulleObjC)
+      message(STATUS "MULLE_OBJC_LIBRARY is ${MULLE_OBJC_LIBRARY}")
+      set( OBJC_DEPENDENCY_LIBRARIES
+         ${MULLE_OBJC_LIBRARY}
+         ${OBJC_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+      set( OBJC_DEPENDENCY_NAMES
+         MulleObjC
+         ${OBJC_DEPENDENCY_NAMES}
+         CACHE INTERNAL "need to cache this too"
+      )
+   endif()
+
+   #
+   # for ppl including us
+   #
+   if( NOT MULLE_OBJC_STANDARD_FOUNDATION_LIBRARY)
+      find_library( MULLE_OBJC_STANDARD_FOUNDATION_LIBRARY NAMES MulleObjCStandardFoundation)
+      message(STATUS "MULLE_OBJC_STANDARD_FOUNDATION_LIBRARY is ${MULLE_OBJC_STANDARD_FOUNDATION_LIBRARY}")
+      set( OBJC_DEPENDENCY_LIBRARIES
+         ${MULLE_OBJC_STANDARD_FOUNDATION_LIBRARY}
+         ${OBJC_DEPENDENCY_LIBRARIES}
+         CACHE INTERNAL "need to cache this"
+      )
+      set( OBJC_DEPENDENCY_NAMES
+         MulleObjCStandardFoundation
+         ${OBJC_DEPENDENCY_NAMES}
+         CACHE INTERNAL "need to cache this too"
+      )
+   endif()
+
+   message( STATUS "# Included MulleObjCStandardFoundation CMakeDependencies.txt")
+
 endif()
-
-if( NOT MULLE_CONTAINER_LIBRARY)
-   find_library( MULLE_CONTAINER_LIBRARY NAMES mulle_container)
-   message(STATUS "MULLE_CONTAINER_LIBRARY is ${MULLE_CONTAINER_LIBRARY}")
-   set( C_DEPENDENCY_LIBRARIES
-${MULLE_CONTAINER_LIBRARY}
-${C_DEPENDENCY_LIBRARIES}
-CACHE INTERNAL "need to cache this"
-)
-
-endif()
-
-if( NOT MULLE_UTF_LIBRARY)
-   find_library( MULLE_UTF_LIBRARY NAMES mulle_utf)
-   message(STATUS "MULLE_UTF_LIBRARY is ${MULLE_UTF_LIBRARY}")
-   set( C_DEPENDENCY_LIBRARIES
-${MULLE_UTF_LIBRARY}
-${C_DEPENDENCY_LIBRARIES}
-CACHE INTERNAL "need to cache this"
-)
-endif()
-
-if( NOT MULLE_SPRINTF_LIBRARY)
-   find_library( MULLE_SPRINTF_LIBRARY NAMES mulle_sprintf)
-   message(STATUS "MULLE_SPRINTF_LIBRARY is ${MULLE_SPRINTF_LIBRARY}")
-   set( C_DEPENDENCY_LIBRARIES
-${MULLE_SPRINTF_LIBRARY}
-${C_DEPENDENCY_LIBRARIES}
-CACHE INTERNAL "need to cache this"
-)
-endif()
-
-
-if( NOT MULLE_OBJC_LIBRARY)
-   find_library( MULLE_OBJC_LIBRARY NAMES MulleObjC)
-   message(STATUS "MULLE_OBJC_LIBRARY is ${MULLE_OBJC_LIBRARY}")
-   set( OBJC_DEPENDENCY_LIBRARIES
-${MULLE_OBJC_LIBRARY}
-${OBJC_DEPENDENCY_LIBRARIES}
-CACHE INTERNAL "need to cache this"
-)
-   set( OBJC_DEPENDENCY_NAMES
-MulleObjC
-${OBJC_DEPENDENCY_NAMES}
-CACHE INTERNAL "need to cache this too"
-)
-endif()
-
-
-message( STATUS "# Included MulleObjCStandardFoundation CMakeDependencies.txt")

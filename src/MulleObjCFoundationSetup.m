@@ -70,22 +70,15 @@ extern void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *ta
 #pragma mark -
 #pragma mark setup and teardown ObjC
 
-static void  tear_down()
+static void   tear_down()
 {
-   _NSThreadResignAsMainThread();
+   ns_objc_universe_tear_down();
 
-   // No Objective-C available anymore
-}
-
-
-static void  tear_down_and_check()
-{
-   tear_down();
-
-   // clear up storage of sprintf library
-   (*mulle_sprintf_free_storage)();
-
-   mulle_test_allocator_objc_reset();
+   if( mulle_objc_getenv_yes_no( "MULLE_OBJC_TEST_ALLOCATOR"))
+   {
+      (*mulle_sprintf_free_storage)();
+      mulle_test_allocator_objc_reset();
+   }
 }
 
 
@@ -107,7 +100,6 @@ void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfi
    setup->config.universe.uncaughtexception     = uncaught_exception;
    setup->config.foundation.configurationsize  = sizeof( struct _ns_foundationconfiguration);
    setup->config.callbacks.setup               = (void (*)()) _ns_foundation_setup;
-   setup->config.callbacks.tear_down_and_check = tear_down_and_check;
    setup->config.callbacks.tear_down           = tear_down;
    _MulleObjCExceptionInitTable( &setup->config.foundation.exceptiontable);
 }
