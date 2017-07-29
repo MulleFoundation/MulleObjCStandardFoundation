@@ -56,6 +56,13 @@
 @end
 
 
+@interface NSObject( Initialize)
+
++ (void) initialize;
+
+@end
+
+
 @implementation NSNumber
 
 - (BOOL) __isNSNumber
@@ -90,6 +97,8 @@ enum _NSNumberClassClusterNumberType
    struct _ns_rootconfiguration   *config;
    struct _mulle_objc_universe    *universe;
    
+   MulleObjCClassClusterMarkClassAsClassCluster( self);
+
    if( self != [NSNumber class])
       return;
    
