@@ -66,6 +66,13 @@
 @end
 
 
+@interface NSObject( Initialize)
+
++ (void) initialize;
+
+@end
+
+
 @implementation NSString
 
 #pragma mark - Patch string class into runtime
@@ -129,6 +136,8 @@ enum _NSStringClassClusterStringSize
    struct _ns_rootconfiguration   *config;
    struct _mulle_objc_universe    *universe;
 
+   MulleObjCClassClusterMarkClassAsClassCluster( self);
+   
    if( self != [NSString class])
       return;
    
