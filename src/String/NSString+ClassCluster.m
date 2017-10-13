@@ -140,12 +140,75 @@ static NSString  *MulleObjCNewUTF32StringWithUTF32Characters( mulle_utf32_t *s, 
 }
 
 
-static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf, NSUInteger len, struct mulle_allocator *allocator)
+static void   _NSThrowInvalidUTF8Exception( mulle_utf8_t *s,
+                                            struct mulle_utf_information *info)
 {
-   struct mulle_utf_information  info;
+   struct mulle_buffer   buffer;
+   auto char             space[ 256];
+   mulle_utf8_t          *p;
+   size_t                len;
+
+   if( s > (mulle_utf8_t *) info->invalid)
+      mulle_objc_throw_invalid_argument_exception( "UTF8 internal corruption, no data can be shown");
+
+   mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), NULL);
+
+   p   = info->invalid;
+   len = 16;
+   p  -= 15;
+   if( p < s)
+   {
+      p  += 15;
+      len = p - s;
+      p   = s;
+   }
+
+   mulle_buffer_add_string( &buffer, "Invalid UTF8 (last value): ");
+   mulle_buffer_hexdump( &buffer, (uint8_t *) p, len, (size_t) (s - p), -1);
+
+   mulle_objc_throw_invalid_argument_exception( space);
+}
+
+
+static void   _NSThrowInvalidUTF32Exception( mulle_utf32_t *s,
+                                             struct mulle_utf_information *info)
+{
+   struct mulle_buffer   buffer;
+   auto char             space[ 256];
+   mulle_utf32_t         *p;
+   size_t                len;
+
+
+   if( s > (mulle_utf32_t *) info->invalid)
+      mulle_objc_throw_invalid_argument_exception( "UTF32 internal corruption, no data can be shown");
+
+   mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), NULL);
+
+   p   = info->invalid;
+   len = 4;
+   p  -= 3;
+   if( p < s)
+   {
+      p  += 3;
+      len = p - s;
+      p   = s;
+   }
+
+   mulle_buffer_add_string( &buffer, "Invalid UTF32 (last values): ");
+   mulle_buffer_hexdump( &buffer, (uint8_t *) p, len, (size_t) (s - p), -1);
+
+   mulle_objc_throw_invalid_argument_exception( space);
+}
+
+
+static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf,
+                                               NSUInteger len,
+                                               struct mulle_allocator *allocator)
+{
+   struct mulle_utf_information   info;
 
    if( mulle_utf8_information( buf, len, &info))
-      MulleObjCThrowInvalidArgumentException( @"invalid UTF8");
+      _NSThrowInvalidUTF8Exception( buf, &info);
 
 #ifndef MULLE_OBJC_NO_TAGGED_POINTERS
    if( info.is_ascii && info.utf8len <= mulle_char7_get_maxlength())
@@ -164,12 +227,14 @@ static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf, NSUInteger len
 }
 
 
-static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger len, struct mulle_allocator *allocator)
+static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
+                                                NSUInteger len,
+                                                struct mulle_allocator *allocator)
 {
    struct mulle_utf_information  info;
 
    if( mulle_utf32_information( buf, len, &info))
-      MulleObjCThrowInvalidArgumentException( @"invalid UTF32");
+      _NSThrowInvalidUTF32Exception( buf, &info);
 
    if( info.is_ascii)
       return( MulleObjCNewASCIIStringWithUTF32Characters( info.start, info.utf32len));
@@ -194,7 +259,9 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
 
    allocator = MulleObjCObjectGetAllocator( self);
    [self release];
-   return( (id) newStringWithUTF8Characters( (mulle_utf8_t *) s, mulle_utf8_strlen( (mulle_utf8_t *) s), allocator));
+   return( (id) newStringWithUTF8Characters( (mulle_utf8_t *) s,
+                                             mulle_utf8_strlen( (mulle_utf8_t *) s),
+                                             allocator));
 }
 
 
@@ -228,7 +295,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    struct mulle_utf_information   info;
 
    if( mulle_utf32_information( s, length, &info))
-      MulleObjCThrowInvalidArgumentException( @"invalid UTF32");
+      _NSThrowInvalidUTF32Exception( s, &info);
 
    if( info.has_bom)
    {
@@ -262,8 +329,8 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
                                           length:(NSUInteger) length
                                         userInfo:(void *) userInfo
 {
-   struct mulle_utf_information  *info;
-   struct mulle_utf_information  _info;
+   struct mulle_utf_information   *info;
+   struct mulle_utf_information   _info;
    struct mulle_buffer            buffer;
    void                           *utf;
    struct mulle_allocator         *allocator;
@@ -273,7 +340,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
    {
       info = &_info;
       if( mulle_utf8_information( s, length, info))
-         MulleObjCThrowInvalidArgumentException( @"invalid UTF8");
+        _NSThrowInvalidUTF8Exception( s, info);
    }
 
 
@@ -329,13 +396,13 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
                                         length:(NSUInteger) length
                                      allocator:(struct mulle_allocator *) allocator
 {
-   struct mulle_utf_information  info;
-   id                            obj;
+   struct mulle_utf_information   info;
+   id                             obj;
 
    assert( length <= NSIntegerMax);
 
    if( mulle_utf8_information( s, length, &info))
-      MulleObjCThrowInvalidArgumentException( @"invalid UTF8");
+      _NSThrowInvalidUTF8Exception( s, &info);
 
    obj = [self _initWithNonASCIIUTF8Characters:info.start
                                         length:info.utf8len
@@ -366,10 +433,10 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf, NSUInteger l
                                         length:(NSUInteger) length
                                  sharingObject:(id) object
 {
-   struct mulle_utf_information  info;
+   struct mulle_utf_information   info;
 
    if( mulle_utf8_information( s, length, &info))
-      MulleObjCThrowInvalidArgumentException( @"invalid UTF8");
+      _NSThrowInvalidUTF8Exception( s, &info);
 
    return( [self _initWithNonASCIIUTF8Characters:info.start
                                           length:info.utf8len

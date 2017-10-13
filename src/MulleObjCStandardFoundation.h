@@ -37,7 +37,7 @@
 // keep this in sync with MULLE_OBJC_VERSION, else pain!
 #import "MulleObjCStandardFoundationParent.h"
 
-#define MULLE_OBJC_FOUNDATION_VERSION   MULLE_OBJC_VERSION
+#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   MULLE_OBJC_VERSION
 
 #import "MulleObjCFoundationCore.h"
 
@@ -49,6 +49,6 @@
 
 #import "MulleObjCLoader+MulleObjCStandardFoundation.h"
 
-#if MULLE_OBJC_VERSION < ((0 << 20) | (9 << 8) | 0)
+#if MULLE_OBJC_VERSION < ((0 << 20) | (12 << 8) | 0)
 # error "MulleObjC is too old"
 #endif

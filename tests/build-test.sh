@@ -2,6 +2,7 @@
 
 LIBRARY_SHORTNAME="MulleObjCStandardFoundation"
 
+CC=mulle-clang
 . "mulle-tests/test-m-common.sh"
 . "mulle-tests/test-tools-common.sh"
 . "mulle-tests/test-sharedlib-common.sh"

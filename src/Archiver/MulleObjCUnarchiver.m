@@ -148,13 +148,17 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
       if( substitution)
          name = substitution;
 
-      clshash = mulle_objc_uniqueid_from_string( blob->_storage);
-      cls     = _mulle_objc_universe_get_or_lookup_infraclass( mulle_objc_get_universe() ,
-                                                  clshash);
+      clshash = mulle_objc_uniqueid_from_string( name);
+      cls     = _mulle_objc_universe_fastlookup_infraclass( mulle_objc_get_universe() ,
+                                                           clshash);
       if( ! cls)
          return( NO);
 
       if( [cls version] < version)
+         return( NO);
+
+      // for safety, check that name also matches
+      if( ! strcmp( _mulle_objc_infraclass_get_name( cls), name))
          return( NO);
 
       // warn if ivarhash differs in debug mode

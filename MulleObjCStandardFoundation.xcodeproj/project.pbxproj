@@ -1077,7 +1077,7 @@
 				419FE8101C9858190094A915 /* ToolOSX.xcconfig */,
 				419FE8111C9858190094A915 /* _Common.xcconfig */,
 			);
-			path = "mulle-configuration";
+			path = "mulle-configuration/xcode";
 			sourceTree = "<group>";
 		};
 		419FE82E1C9859450094A915 /* Container */ = {

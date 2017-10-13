@@ -49,15 +49,19 @@
 #pragma mark -
 #pragma mark versioning
 
+//
+// this version assert is probably not used, but supplanted with
+// by the enveloping Foundation
+//
 static void   versionassert( struct _mulle_objc_universe *universe,
                              void *friend,
                              struct mulle_objc_loadversion *version)
 {
-   if( (version->foundation & ~0xFF) != (MULLE_OBJC_FOUNDATION_VERSION & ~0xFF))
+   if( (version->foundation & ~0xFF) != (MULLE_OBJC_STANDARD_FOUNDATION_VERSION & ~0xFF))
       _mulle_objc_universe_raise_inconsistency_exception( universe, "mulle_objc_universe %p: foundation version set to %x but universe foundation is %x",
                                                         universe,
                                                         version->foundation,
-                                                        MULLE_OBJC_FOUNDATION_VERSION);
+                                                        MULLE_OBJC_STANDARD_FOUNDATION_VERSION);
 }
 
 
@@ -95,11 +99,11 @@ static void   uncaught_exception( void *exception)
 
 void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfig *setup)
 {
-   setup->config                               = *ns_objc_get_default_setupconfig();
-   setup->config.universe.versionassert         = versionassert;
-   setup->config.universe.uncaughtexception     = uncaught_exception;
-   setup->config.foundation.configurationsize  = sizeof( struct _ns_foundationconfiguration);
-   setup->config.callbacks.setup               = (void (*)()) _ns_foundation_setup;
-   setup->config.callbacks.tear_down           = tear_down;
+   setup->config                              = *ns_objc_get_default_setupconfig();
+   setup->config.universe.versionassert       = versionassert;
+   setup->config.universe.uncaughtexception   = uncaught_exception;
+   setup->config.foundation.configurationsize = sizeof( struct _ns_foundationconfiguration);
+   setup->config.callbacks.setup              = (void (*)()) _ns_foundation_setup;
+   setup->config.callbacks.tear_down          = tear_down;
    _MulleObjCExceptionInitTable( &setup->config.foundation.exceptiontable);
 }
