@@ -68,7 +68,7 @@
    [self getValue:value];
 
    mulle_buffer_init_with_static_bytes( &buffer, tmp, sizeof( tmp), NULL);
-   mulle_buffer_dump_hex( &buffer, value, size, 0, 0x5); // no counter. no ASCII
+   mulle_buffer_hexdump( &buffer, value, size, 0, 0x5); // no counter. no ASCII
    mulle_buffer_add_byte( &buffer, 0);
    s = [NSString stringWithFormat:@"\"%s\" %s", type, mulle_buffer_get_bytes( &buffer)];
    mulle_buffer_done( &buffer);

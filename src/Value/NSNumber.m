@@ -97,10 +97,10 @@ enum _NSNumberClassClusterNumberType
    struct _ns_rootconfiguration   *config;
    struct _mulle_objc_universe    *universe;
    
-   MulleObjCClassClusterMarkClassAsClassCluster( self);
-
    if( self != [NSNumber class])
       return;
+   
+   [super initialize]; // get MulleObjCClassCluster initialize
    
    assert( _NS_ROOTCONFIGURATION_N_NUMBERSUBCLASSES >= _NSNumberClassClusterNumberTypeMax);
    

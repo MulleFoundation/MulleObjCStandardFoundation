@@ -165,6 +165,7 @@ enum
 //
 - (NSData *) _utf16DataWithEndianness:(unsigned int) endianess
                         prefixWithBOM:(BOOL) prefixWithBOM
+                    terminateWithZero:(BOOL) terminateWithZero
 {
    NSMutableData                  *data;
    NSMutableData                  *tmp_data;
@@ -192,6 +193,8 @@ enum
    utf16total = info.utf16len;
    if( prefixWithBOM)
       ++utf16total;
+   if( terminateWithZero)
+      ++utf16total;
 
    size = utf16total * sizeof( mulle_utf16_t);
    data = [NSMutableData _nonZeroedDataWithLength:size];
@@ -208,6 +211,12 @@ enum
                                        info.utf32len,
                                        &buffer,
                                        (void (*)()) mulle_buffer_add_bytes);
+   if( terminateWithZero)
+   {
+      bom = 0;
+      mulle_buffer_add_bytes( &buffer, &bom, sizeof( bom));
+   }
+
    assert( mulle_buffer_get_length( &buffer) == size);
    assert( ! mulle_buffer_has_overflown( &buffer));
    mulle_buffer_done( &buffer);
@@ -238,6 +247,7 @@ enum
 
 - (NSData *) _utf32DataWithEndianness:(unsigned int) endianess
                         prefixWithBOM:(BOOL) prefixWithBOM
+                    terminateWithZero:(BOOL) terminateWithZero
 {
    NSUInteger      length;
    NSUInteger      total;
@@ -249,7 +259,9 @@ enum
    total = length = [self length];
    if( prefixWithBOM)
       ++total;
-
+   if( terminateWithZero)
+      ++total;
+   
    data    = [NSMutableData _nonZeroedDataWithLength:total * sizeof( mulle_utf32_t)];
    p = buf = [data mutableBytes];
 
@@ -258,9 +270,14 @@ enum
 
    [self getCharacters:p
                  range:NSMakeRange( 0, length)];
+   p = &p[ length];
+
+   if( terminateWithZero)
+      *p = 0;
 
    if( endianess == native_end_first)
       return( data);
+   
 #ifdef __LITTLE_ENDIAN__
    if( endianess == little_end_first)
       return( data);
@@ -303,7 +320,9 @@ enum
 }
 
 
-- (NSData *) dataUsingEncoding:(NSUInteger) encoding
+- (NSData *) _dataUsingEncoding:(NSStringEncoding) encoding
+                  prefixWithBOM:(BOOL) withBOM
+              terminateWithZero:(BOOL) withZero
 {
    switch( encoding)
    {
@@ -315,27 +334,41 @@ enum
 
    case NSUTF16StringEncoding :
       return( [self _utf16DataWithEndianness:native_end_first
-                                prefixWithBOM:YES]);
+                                prefixWithBOM:withBOM
+                           terminateWithZero:withZero]);
    case NSUTF16LittleEndianStringEncoding :
       return( [self _utf16DataWithEndianness:little_end_first
-                                prefixWithBOM:YES]);
+                               prefixWithBOM:withBOM
+                           terminateWithZero:withZero]);
    case NSUTF16BigEndianStringEncoding :
       return( [self _utf16DataWithEndianness:big_end_first
-                                prefixWithBOM:YES]);
+                               prefixWithBOM:withBOM
+                           terminateWithZero:withZero]);
 
    case NSUTF32StringEncoding :
       return( [self _utf32DataWithEndianness:native_end_first
-                               prefixWithBOM:YES]);
+                               prefixWithBOM:withBOM
+                           terminateWithZero:withZero]);
    case NSUTF32LittleEndianStringEncoding :
       return( [self _utf32DataWithEndianness:little_end_first
-                               prefixWithBOM:YES]);
+                               prefixWithBOM:withBOM
+                           terminateWithZero:withZero]);
    case NSUTF32BigEndianStringEncoding :
       return( [self _utf32DataWithEndianness:big_end_first
-                               prefixWithBOM:YES]);
+                               prefixWithBOM:withBOM
+                           terminateWithZero:withZero]);
    }
 }
 
+   
+- (NSData *) dataUsingEncoding:(NSStringEncoding) encoding
+{
+   return( [self _dataUsingEncoding:encoding
+                            prefixWithBOM:YES
+                       terminateWithZero:NO]);
+}
 
+   
 #pragma mark -
 #pragma mark Import
 

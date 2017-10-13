@@ -142,7 +142,7 @@ static inline unsigned int   hex( unsigned int c)
 
    mulle_buffer_init( &buffer, allocator);
 
-   mulle_buffer_dump_hex( &buffer, bytes, length, 0, 0);
+   mulle_buffer_hexdump( &buffer, bytes, length, 0, 0);
    mulle_buffer_add_byte( &buffer, 0);
 
    length = mulle_buffer_get_length( &buffer);

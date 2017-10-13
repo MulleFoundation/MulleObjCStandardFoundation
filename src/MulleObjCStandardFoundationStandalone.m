@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCFoundationSetup.h"
+#import "MulleObjCStandardFoundation.h"
 
-#include "MulleObjCFoundationStandalone.inc"
+int   __MulleObjCStandardFoundationStandaloneVersion__ = MULLE_OBJC_STANDARD_FOUNDATION_VERSION;
 
