@@ -159,7 +159,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) initWithStrings:(NSString **) strings
-                 count:(NSUInteger) count
+                           count:(NSUInteger) count
 {
    if( count)
       initWithStrings( self, strings, (unsigned int) count);
@@ -173,9 +173,10 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 // need to implement all MulleObjCCStringPlaceholder does
 - (instancetype) initWithFormat:(NSString *) format
-            mulleVarargList:(mulle_vararg_list) arguments
+                mulleVarargList:(mulle_vararg_list) arguments
 {
    NSString  *s;
+
    s = [[NSString alloc] initWithFormat:format
                         mulleVarargList:arguments];
    if( ! s)
@@ -186,6 +187,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
    initWithStrings( self, &s, 1);
    [s release];
+
    return( self);
 }
 

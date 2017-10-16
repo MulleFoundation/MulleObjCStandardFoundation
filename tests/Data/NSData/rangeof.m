@@ -52,6 +52,7 @@ void  test_4( NSData *data, NSData *search, NSRange range)
 void  test( NSData *data, NSData *search)
 {
    printf( "\n%.*s\n", (int) [search length], (char *) [search bytes]);
+
    test_4( data, search, NSMakeRange( 0, [data length]));
    test_4( data, search, NSMakeRange( 1, [data length] - 1));
    test_4( data, search, NSMakeRange( 0, [data length] - 1));
@@ -72,16 +73,16 @@ int main( int argc, const char * argv[])
    NSData    *beschriebenData;
    NSData    *norbertData;
 
-   textData       = [NSData dataWithBytes:text
-                                   length:sizeof( text) - 1];
-   kybernetikData = [NSData dataWithBytes:kybernetik
-                                   length:sizeof( kybernetik) - 1];
-   dieData        = [NSData dataWithBytes:die
-                                   length:sizeof( die) - 1];
+   textData        = [NSData dataWithBytes:text
+                                    length:sizeof( text) - 1];
+   kybernetikData  = [NSData dataWithBytes:kybernetik
+                                    length:sizeof( kybernetik) - 1];
+   dieData         = [NSData dataWithBytes:die
+                                    length:sizeof( die) - 1];
    beschriebenData = [NSData dataWithBytes:beschrieben
-                                   length:sizeof( beschrieben) - 1];
-   norbertData    = [NSData dataWithBytes:norbert
-                                   length:sizeof( norbert) - 1];
+                                    length:sizeof( beschrieben) - 1];
+   norbertData     = [NSData dataWithBytes:norbert
+                                    length:sizeof( norbert) - 1];
 
 //   test_data( textData, beschriebenData, NSDataSearchBackwards, NSMakeRange( 0, [textData length]));
 

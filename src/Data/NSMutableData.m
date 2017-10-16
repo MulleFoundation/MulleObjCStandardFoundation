@@ -100,21 +100,6 @@
 # pragma mark -
 # pragma mark classcluster
 
-// as we are "breaking out" of the class cluster, use standard
-// allocation
-
-+ (instancetype) alloc
-{
-   return( NSAllocateObject( self, 0, NULL));
-}
-
-
-+ (instancetype) allocWithZone:(NSZone *) zone
-{
-   return( NSAllocateObject( self, 0, NULL));
-}
-
-
 - (instancetype) initWithCapacity:(NSUInteger) capacity
 {
    [self release];
@@ -132,7 +117,7 @@
 
 
 - (instancetype) initWithBytes:(void *) bytes
-              length:(NSUInteger) length
+                        length:(NSUInteger) length
 {
    [self release];
 
@@ -142,8 +127,8 @@
 
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-               freeWhenDone:(BOOL) flag
+                              length:(NSUInteger) length
+                        freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
 

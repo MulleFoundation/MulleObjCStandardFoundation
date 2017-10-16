@@ -19,9 +19,17 @@
 
 @implementation Foo
 
+
+- (void) finalize
+{
+   fprintf( stderr, "finalize\n");
+   [super finalize];
+}
+
+
 - (void) dealloc
 {
-//   printf( "dealloc\n");
+   fprintf( stderr, "dealloc\n");
    [super dealloc];
 }
 
@@ -43,14 +51,19 @@
 // and its being released properly during  dealloc
 // since it's a property
 
-int main(int argc, const char * argv[])
+int   main( int argc, const char * argv[])
 {
-   Foo      *foo;
+   Foo   *foo;
 
-   foo = [[Foo new] autorelease];
+   // the automatic autoreleasepool is optimized away
+   // when test_allocator is not set, which is confusing
+   
+   @autoreleasepool
+   {
+      foo = [[Foo new] autorelease];
 
-   [foo setStr:"VfL"];
-   [foo setStr:"Bochum"];
-
+      [foo setStr:"VfL"];
+      [foo setStr:"Bochum"];
+   }
    return( 0);
 }

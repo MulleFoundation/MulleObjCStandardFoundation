@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationSetup.h"
+#import "MulleObjCStandardFoundationSetup.h"
 
 // other files in this library
 #import "MulleObjCStandardFoundation.h"
@@ -97,8 +97,12 @@ static void   uncaught_exception( void *exception)
 }
 
 
-void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfig *setup)
+void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfig *setup,
+                                                struct _mulle_objc_universe *universe)
 {
+   if( universe->debug.trace.universe)
+      fprintf( stderr, "MulleObjCStandardFoundation: install exceptions and callbacks\n");
+
    setup->config                              = *ns_objc_get_default_setupconfig();
    setup->config.universe.versionassert       = versionassert;
    setup->config.universe.uncaughtexception   = uncaught_exception;

@@ -39,7 +39,6 @@ static void    clone_array( int n)
 int main(int argc, const char * argv[])
 {
    if( mulle_objc_check_universe() != mulle_objc_universe_is_ok)
-   if( mulle_objc_check_universe() != mulle_objc_universe_is_ok)
    {
       mulle_objc_dotdump_universe_to_tmp();
       return( 1);

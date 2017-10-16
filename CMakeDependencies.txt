@@ -27,6 +27,22 @@ if( NOT __MULLE_OBJC_STANDARD_FOUNDATION_CMAKE_DEPENDENCIES_TXT__)
       )
    endif()
 
+   #
+   # This library contains ___get_or_create_mulle_objc_universe and
+   # the startup code to create the universe
+   #
+   if( NOT MULLE_OBJC_STANDARD_FOUNDATION_STARTUP_LIBRARY)
+      find_library( MULLE_OBJC_STANDARD_FOUNDATION_STARTUP_LIBRARY NAMES MulleObjCStandardFoundationStartup)
+      message( STATUS "MULLE_OBJC_STANDARD_FOUNDATION_STARTUP_LIBRARY is ${MULLE_OBJC_STANDARD_FOUNDATION_STARTUP_LIBRARY}")
+
+      # overwrite what came before
+      set( OBJC_STARTUP_LIBRARY
+         ${MULLE_OBJC_STARTUP_LIBRARY}
+         CACHE INTERNAL "need to cache this"
+      )
+   endif()
+
+
    if( MSVC)
       set( MULLE_OBJC_STANDARD_FOUNDATION_DEFINITIONS
          ${MULLE_OBJC_DEFINITIONS}

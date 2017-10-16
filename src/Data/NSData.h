@@ -76,14 +76,14 @@ enum
 @interface NSData ( MulleObjCDataPlaceholder)
 
 - (instancetype) initWithBytes:(void *) bytes
-              length:(NSUInteger) length
-                copy:(BOOL) copy
-        freeWhenDone:(BOOL) freeWhenDone
-          bytesAreVM:(BOOL) bytesAreVM;
+                        length:(NSUInteger) length
+                          copy:(BOOL) copy
+                  freeWhenDone:(BOOL) freeWhenDone
+                    bytesAreVM:(BOOL) bytesAreVM;
 - (instancetype) initWithBytes:(void *) bytes
-              length:(NSUInteger) length;
+                        length:(NSUInteger) length;
 - (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length;
+                              length:(NSUInteger) length;
 - (instancetype) initWithBytesNoCopy:(void *) bytes
                     length:(NSUInteger) length
                  allocator:(struct mulle_allocator *) allocator;
