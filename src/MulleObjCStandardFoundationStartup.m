@@ -1,6 +1,6 @@
 //
-//  MulleObjCFoundationSetup.h
-//  MulleObjCStandardFoundation
+//  MulleObjCStandalone.m
+//  MulleObjC
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -33,9 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationBase.h"
-#import <MulleObjC/ns_objc_setup.h>
+#include "MulleObjCStandardFoundationSetup.h"
 
-#import "ns_foundationconfiguration.h"
-
-void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfig *setup);
+#include "MulleObjCStandardFoundationStartup.inc"

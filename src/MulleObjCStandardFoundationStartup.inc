@@ -1,10 +1,6 @@
 // std-c and other dependencies
 #import <MulleObjC/ns_objc_setup.h>
-
-//
-// this gets included by Standalone shared libraries, that wrap
-// everything together, which is useful for testing
-//
+#include <stdlib.h>
 
 
 static void   bang( struct _mulle_objc_universe *universe,
@@ -13,7 +9,7 @@ static void   bang( struct _mulle_objc_universe *universe,
 {
    struct _ns_foundation_setupconfig   setup;
 
-   MulleObjCFoundationGetDefaultSetupConfig( &setup);
+   MulleObjCFoundationGetDefaultSetupConfig( &setup, universe);
 #ifdef FOUNDATION_VERSION_ASSERT
    setup.config.universe.versionassert = versionassert;
 #endif

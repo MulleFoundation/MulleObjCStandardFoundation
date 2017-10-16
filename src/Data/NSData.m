@@ -141,7 +141,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 // since "self" is the placeholder, we don't really need to release it
 - (instancetype) initWithBytes:(void *) bytes
-              length:(NSUInteger) length
+                        length:(NSUInteger) length
 {
    [self release];
    return( _newData( bytes, length));
@@ -149,7 +149,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
+                              length:(NSUInteger) length
 {
    [self release];
    return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
@@ -158,8 +158,8 @@ static NSData  *_newData( void *buf, NSUInteger length)
 }
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-                 allocator:(struct mulle_allocator *) allocator
+                              length:(NSUInteger) length
+                           allocator:(struct mulle_allocator *) allocator
 {
    [self release];
    return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
@@ -169,8 +169,8 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-               freeWhenDone:(BOOL) flag
+                              length:(NSUInteger) length
+                        freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
 
@@ -184,8 +184,8 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-                     owner:(id) owner
+                              length:(NSUInteger) length
+                               owner:(id) owner
 {
    [self release];
 

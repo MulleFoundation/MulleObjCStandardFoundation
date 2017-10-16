@@ -158,7 +158,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
          return( NO);
 
       // for safety, check that name also matches
-      if( ! strcmp( _mulle_objc_infraclass_get_name( cls), name))
+      if( strcmp( _mulle_objc_infraclass_get_name( cls), name))
          return( NO);
 
       // warn if ivarhash differs in debug mode

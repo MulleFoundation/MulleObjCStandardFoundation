@@ -52,7 +52,9 @@
 @implementation NSString( ClassCluster)
 
 
-static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, NSUInteger length, struct mulle_allocator *allocator)
+static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, 
+                                                             NSUInteger length, 
+                                                             struct mulle_allocator *allocator)
 {
    struct mulle_buffer   buffer;
    NSUInteger            utf16len;
@@ -63,10 +65,10 @@ static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, NS
 
    // make intital alloc large enough for optimal case
    mulle_buffer_guarantee( &buffer, length * sizeof( mulle_utf16_t));
-   mulle_utf8_bufferconvert_to_utf16( s,
-                                           length,
-                                           &buffer,
-                                           (void (*)()) mulle_buffer_add_bytes);
+   mulle_utf8_bufferconvert_to_utf16( s, 
+                                      length,
+                                      &buffer,
+                                      (void (*)()) mulle_buffer_add_bytes);
 
    utf16len = mulle_buffer_get_length( &buffer) / 2;
    utf16    = mulle_buffer_extract_all( &buffer);
@@ -78,7 +80,9 @@ static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s, NS
 }
 
 
-static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s, NSUInteger length, struct mulle_allocator   *allocator)
+static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s, 
+                                                              NSUInteger length, 
+                                                              struct mulle_allocator *allocator)
 {
    NSUInteger            utf16len;
    mulle_utf16_t         *utf16;
@@ -104,7 +108,9 @@ static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s, 
 }
 
 
-static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s, NSUInteger length, struct mulle_allocator   *allocator)
+static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s, 
+                                                             NSUInteger length, 
+                                                             struct mulle_allocator *allocator)
 {
    struct mulle_buffer   buffer;
    NSUInteger            utf32len;
@@ -118,9 +124,9 @@ static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s, NS
    // make intital alloc large enough for optimal case
    mulle_buffer_guarantee( &buffer, length * sizeof( mulle_utf32_t));
    mulle_utf8_bufferconvert_to_utf32( s,
-                                           length,
-                                           &buffer,
-                                           (void (*)()) mulle_buffer_add_bytes);
+                                      length,
+                                      &buffer,
+                                      (void (*)()) mulle_buffer_add_bytes);
 
    utf32len = mulle_buffer_get_length( &buffer) / sizeof( unichar);
    utf32    = mulle_buffer_extract_all( &buffer);
@@ -132,7 +138,8 @@ static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s, NS
 }
 
 
-static NSString  *MulleObjCNewUTF32StringWithUTF32Characters( mulle_utf32_t *s, NSUInteger length)
+static NSString  *MulleObjCNewUTF32StringWithUTF32Characters( mulle_utf32_t *s, 
+                                                              NSUInteger length)
 {
    assert( length);
    return( [_MulleObjCGenericUTF32String newWithUTF32Characters:s
