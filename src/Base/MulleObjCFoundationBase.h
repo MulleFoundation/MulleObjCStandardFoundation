@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCStandardFoundationParent.h"
+#import "import.h"
 
 // export everything with NS
 

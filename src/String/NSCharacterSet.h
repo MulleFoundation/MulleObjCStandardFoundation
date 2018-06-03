@@ -36,7 +36,7 @@
 
 #import "MulleObjCFoundationBase.h"
 
-#import <mulle_utf/mulle_utf.h>
+#import <mulle-utf/mulle-utf.h>
 
 
 @class NSData;

@@ -42,7 +42,7 @@
 #import "MulleObjCFoundationString.h"
 
 // std-c dependencies
-#include <mulle_buffer/mulle_buffer.h>
+#include <mulle-buffer/mulle-buffer.h>
 #include <stdint.h>
 
 

@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include <mulle_utf/mulle_utf.h>
+#include <mulle-utf/mulle-utf.h>
 
 // ASCIICharacters are just the chars without trailing zero
 // ASCIIString always has a trailing zero

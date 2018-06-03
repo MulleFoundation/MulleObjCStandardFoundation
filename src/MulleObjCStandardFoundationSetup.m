@@ -43,7 +43,7 @@
 // std-c and other dependencies
 #import <MulleObjC/ns_objc_setup.h>
 #import <MulleObjC/ns_test_allocation.h>
-#import <mulle_sprintf/mulle_sprintf.h>
+#import <mulle-sprintf/mulle-sprintf.h>
 
 
 #pragma mark -

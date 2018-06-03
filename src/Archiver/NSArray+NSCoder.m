@@ -12,7 +12,7 @@
 
 #import "_MulleObjCEmptyArray.h"
 #import "_MulleObjCConcreteArray.h"
-#import "_MulleObjCConcreteArray+Private.h"
+#import "_MulleObjCConcreteArray-Private.h"
 
 @implementation NSArray( NSCoder)
 

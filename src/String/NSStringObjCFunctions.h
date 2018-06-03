@@ -10,8 +10,8 @@
 
 @class NSString;
 
-Class   NSClassFromString( NSString *s);
-SEL   NSSelectorFromString( NSString *s);
+Class       NSClassFromString( NSString *s);
+SEL         NSSelectorFromString( NSString *s);
 NSString   *NSStringFromClass( Class cls);
 NSString   *NSStringFromSelector( SEL sel);
 NSString   *NSStringFromRange( NSRange range);

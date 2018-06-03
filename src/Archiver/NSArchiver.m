@@ -37,7 +37,7 @@
 #import "NSArchiver.h"
 
 // other files in this library
-#import "MulleObjCArchiver+Private.h"
+#import "MulleObjCArchiver-Private.h"
 
 // other libraries of MulleObjCStandardFoundation
 

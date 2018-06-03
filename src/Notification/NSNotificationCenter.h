@@ -36,7 +36,7 @@
 
 #import "MulleObjCFoundationBase.h"
 
-#import <mulle_container/mulle_container.h>
+#import <mulle-container/mulle-container.h>
 
 
 @class NSDictionary;

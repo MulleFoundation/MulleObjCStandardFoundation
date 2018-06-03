@@ -46,8 +46,8 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-#include <mulle_utf/mulle_utf.h>
-#include <mulle_buffer/mulle_buffer.h>
+#include <mulle-utf/mulle-utf.h>
+#include <mulle-buffer/mulle-buffer.h>
 
 enum
 {
@@ -261,7 +261,7 @@ enum
       ++total;
    if( terminateWithZero)
       ++total;
-   
+
    data    = [NSMutableData _nonZeroedDataWithLength:total * sizeof( mulle_utf32_t)];
    p = buf = [data mutableBytes];
 
@@ -277,7 +277,7 @@ enum
 
    if( endianess == native_end_first)
       return( data);
-   
+
 #ifdef __LITTLE_ENDIAN__
    if( endianess == little_end_first)
       return( data);
@@ -360,7 +360,7 @@ enum
    }
 }
 
-   
+
 - (NSData *) dataUsingEncoding:(NSStringEncoding) encoding
 {
    return( [self _dataUsingEncoding:encoding
@@ -368,7 +368,7 @@ enum
                        terminateWithZero:NO]);
 }
 
-   
+
 #pragma mark -
 #pragma mark Import
 

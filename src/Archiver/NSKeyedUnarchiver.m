@@ -37,7 +37,7 @@
 #import "NSKeyedUnarchiver.h"
 
 // other files in this library
-#import "MulleObjCArchiver+Private.h"
+#import "MulleObjCArchiver-Private.h"
 #include "mulle_buffer_archiver.h"
 
 // other libraries of MulleObjCStandardFoundation

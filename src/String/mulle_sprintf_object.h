@@ -33,6 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include <mulle_sprintf/mulle_sprintf.h>
+#include <mulle-sprintf/mulle-sprintf.h>
 
 void  mulle_sprintf_register_object_functions( struct mulle_sprintf_conversion *tables);

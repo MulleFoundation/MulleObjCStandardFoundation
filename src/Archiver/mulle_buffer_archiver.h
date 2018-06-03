@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import <mulle_buffer/mulle_buffer.h>
+#import <mulle-buffer/mulle-buffer.h>
 
 #include <MulleObjC/ns_byteorder.h>
 

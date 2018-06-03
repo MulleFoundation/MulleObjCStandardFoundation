@@ -36,7 +36,7 @@
 #import "NSTimeZone.h"
 
 // other files in this library
-#import "_NSGMTTimeZone.h"
+#import "_NSGMTTimeZone-Private.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationContainer.h"

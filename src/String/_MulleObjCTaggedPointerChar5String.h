@@ -36,7 +36,7 @@
 
 #import "NSString.h"
 
-#include <mulle_utf/mulle_utf.h>
+#include <mulle-utf/mulle-utf.h>
 #include <assert.h>
 
 // Char5Characters is a subset of ASCII that fits into 5 bits

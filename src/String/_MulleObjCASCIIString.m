@@ -43,8 +43,8 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-#include <mulle_buffer/mulle_buffer.h>
-#include <mulle_utf/mulle_utf.h>
+#include <mulle-buffer/mulle-buffer.h>
+#include <mulle-utf/mulle-utf.h>
 
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
