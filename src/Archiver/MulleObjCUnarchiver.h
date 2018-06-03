@@ -36,7 +36,7 @@
 
 #import "NSCoder.h"
 
-#include <mulle_buffer/mulle_buffer.h>
+#include <mulle-buffer/mulle-buffer.h>
 #import "ns_map_table.h"
 #import "ns_hash_table.h"
 

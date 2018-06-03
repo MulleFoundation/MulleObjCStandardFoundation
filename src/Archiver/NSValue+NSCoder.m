@@ -10,7 +10,7 @@
 #import "NSCoder.h"
 
 #import "_MulleObjCConcreteValue.h"
-#import "_MulleObjCConcreteValue+Private.h"
+#import "_MulleObjCConcreteValue-Private.h"
 
 
 @implementation NSValue (NSCoder)

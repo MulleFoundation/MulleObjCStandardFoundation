@@ -35,7 +35,7 @@
 //
 
 #import "_MulleObjCConcreteValue.h"
-#import "_MulleObjCConcreteValue+Private.h"
+#import "_MulleObjCConcreteValue-Private.h"
 
 // other files in this library
 

@@ -40,7 +40,7 @@
 #define MulleObjCContainerCallback_h__
 
 #include <MulleObjC/ns_objc.h>
-#include <mulle_container/mulle_container.h>
+#include <mulle-container/mulle-container.h>
 
 //
 // these are "const" to make them reside possibly in

@@ -43,7 +43,7 @@
 #import "MulleObjCExceptionFunctions.h"
 
 // std-c and dependencies
-#include <mulle_sprintf/mulle_sprintf.h>
+#include <mulle-sprintf/mulle-sprintf.h>
 #include <stdarg.h>
 
 

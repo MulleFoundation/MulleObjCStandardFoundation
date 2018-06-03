@@ -132,9 +132,9 @@
 }
 
 + (instancetype) propertyListFromData:(NSData *) data
-           mutabilityOption:(NSPropertyListMutabilityOptions) opt
-                     format:(NSPropertyListFormat *) format
-           errorDescription:(NSString **) errorString
+                     mutabilityOption:(NSPropertyListMutabilityOptions) opt
+                               format:(NSPropertyListFormat *) format
+                     errorDescription:(NSString **) errorString
 {
    _MulleObjCByteOrderMark             bom;
    _MulleObjCPropertyListReader        *reader;
@@ -170,6 +170,9 @@
 
    case NSPropertyListXMLFormat_v1_0 :
       parser  = [[NSPropertyListSerialization new] autorelease];
+      if( ! [parser respondsToSelector:@selector( _parseXMLData:)])
+         MulleObjCThrowInternalInconsistencyException( @"XML parser is not installed");
+
       plist   = [parser _parseXMLData:data];
    }
 

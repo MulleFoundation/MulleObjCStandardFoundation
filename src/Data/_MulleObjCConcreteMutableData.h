@@ -35,7 +35,7 @@
 //
 
 #import "NSMutableData.h"
-#import <mulle_buffer/mulle_buffer.h>
+#import <mulle-buffer/mulle-buffer.h>
 
 
 

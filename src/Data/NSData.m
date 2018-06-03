@@ -44,7 +44,7 @@
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
-#import <mulle_buffer/mulle_buffer.h>
+#import <mulle-buffer/mulle-buffer.h>
 
 
 #if MULLE_BUFFER_VERSION < ((0 << 20) | (4 << 8) | 1)

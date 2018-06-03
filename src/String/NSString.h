@@ -37,7 +37,7 @@
 
 #import "NSCharacterSet.h"
 
-#import <mulle_vararg/mulle_vararg.h>
+#import <mulle-vararg/mulle-vararg.h>
 
 
 enum

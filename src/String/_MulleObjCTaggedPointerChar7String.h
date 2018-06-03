@@ -36,7 +36,7 @@
 
 #import "NSString.h"
 
-#include <mulle_utf/mulle_utf.h>
+#include <mulle-utf/mulle-utf.h>
 #include <assert.h>
 
 

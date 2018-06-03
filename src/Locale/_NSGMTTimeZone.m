@@ -8,7 +8,7 @@
 
 #import "NSTimeZone.h"
 
-#import "_NSGMTTimeZone.h"
+#import "_NSGMTTimeZone-Private.h"
 
 @implementation _NSGMTTimeZone
 

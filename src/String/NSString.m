@@ -48,7 +48,7 @@
 #import "MulleObjCFoundationBase.h"
 
 // std-c and dependencies
-#include <mulle_utf/mulle_utf.h>
+#include <mulle-utf/mulle-utf.h>
 #include <ctype.h>
 
 #if MULLE_UTF_VERSION < ((1 << 20) | (0 << 8) | 0)
@@ -92,7 +92,7 @@ static NSString   *UTF8ToString( char *s)
 + (void) load
 {
    struct _ns_rootconfiguration   *config;
-   
+
    config = _ns_get_rootconfiguration();
    config->string.charsfromobject = (char *(*)()) stringToUTF8;
    config->string.objectfromchars = (void *(*)()) UTF8ToString;
@@ -136,21 +136,21 @@ enum _NSStringClassClusterStringSize
    struct _ns_rootconfiguration   *config;
    struct _mulle_objc_universe    *universe;
 
-   
+
    if( self != [NSString class])
       return;
 
    [super initialize]; // get MulleObjCClassCluster initialize
-   
+
    assert( _NS_ROOTCONFIGURATION_N_STRINGSUBCLASSES >= _NSStringClassClusterStringSizeMax);
 
    universe = _mulle_objc_infraclass_get_universe( self);
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
-   
+
    config->stringsubclasses[ 0] = NULL;
    config->stringsubclasses[ _NSStringClassClusterStringSize256OrLess] = [_MulleObjCTinyASCIIString class];
    config->stringsubclasses[ _NSStringClassClusterStringSizeOther]     = [_MulleObjCGenericASCIIString class];
-   
+
 #if HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
    config->stringsubclasses[ _NSStringClassClusterStringSize3]  = [_MulleObjC03LengthASCIIString class];
    config->stringsubclasses[ _NSStringClassClusterStringSize7]  = [_MulleObjC07LengthASCIIString class];
@@ -192,14 +192,14 @@ NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s,
    struct _ns_rootconfiguration           *config;
    struct _mulle_objc_universe            *universe;
    enum _NSStringClassClusterStringSize   classIndex;
-   
+
    classIndex = MulleObjCStringClassIndexForLength( length);
    if( ! classIndex)
       return( @"");
-   
+
    universe = mulle_objc_inlined_get_universe();
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
-   
+
    return( [(Class) config->stringsubclasses[ classIndex] newWithASCIICharacters:s
                                                                   length:length]);
 }
@@ -211,14 +211,14 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
    struct _ns_rootconfiguration           *config;
    struct _mulle_objc_universe            *universe;
    enum _NSStringClassClusterStringSize    classIndex;
-   
+
    classIndex = MulleObjCStringClassIndexForLength( length);
    if( ! classIndex)
       return( @"");
-   
+
    universe = mulle_objc_inlined_get_universe();
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
-   
+
    return( [(Class) config->stringsubclasses[ classIndex] newWithUTF32Characters:s
                                                                length:length]);
 }
