@@ -37,7 +37,7 @@
 #import "MulleObjCStandardFoundationParent.h"
 
 // keep this in sync with MULLE_OBJC_VERSION, else pain! (why ?)
-#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   ((0 << 20) | (13 << 8) | 0) 
+#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   ((0 << 20) | (13 << 8) | 1) 
 
 #import "MulleObjCFoundationCore.h"
 
