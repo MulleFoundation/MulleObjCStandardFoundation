@@ -34,10 +34,10 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCStandardFoundationParent.h"
+#import "import.h"
 
 // keep this in sync with MULLE_OBJC_VERSION, else pain! (why ?)
-#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   ((0 << 20) | (13 << 8) | 2) 
+#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   ((0 << 20) | (13 << 8) | 3)
 
 #import "MulleObjCFoundationCore.h"
 
