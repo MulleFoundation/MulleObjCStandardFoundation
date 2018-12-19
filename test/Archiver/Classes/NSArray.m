@@ -38,12 +38,16 @@ static void    clone_array( int n)
 
 int main(int argc, const char * argv[])
 {
-   if( mulle_objc_check_universe() != mulle_objc_universe_is_ok)
+#ifdef __MULLE_OBJC__
+   struct _mulle_objc_universe    *universe;
+
+   universe = mulle_objc_global_get_universe( __MULLE_OBJC_UNIVERSEID__);
+   if( __mulle_objc_universe_check( universe, MULLE_OBJC_RUNTIME_VERSION) != mulle_objc_universe_is_ok)
    {
-      mulle_objc_dotdump_universe_to_tmp();
+      MulleObjCDotdumpUniverseToTmp();
       return( 1);
    }
-
+#endif
    clone_array( 0);
    clone_array( 1);
    clone_array( 2);

@@ -62,7 +62,7 @@
 
    if( ! tz)
       tz = [NSTimeZone defaultTimeZone];
-   
+
    _timeZone = [tz retain];
    assert( _timeZone);
 
@@ -125,6 +125,8 @@
                               timeZone:tz] autorelease]);
 }
 
+
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
 - (void) dealloc
 {

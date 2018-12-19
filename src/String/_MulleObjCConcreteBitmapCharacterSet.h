@@ -37,6 +37,9 @@
 #import "NSCharacterSet.h"
 
 
+@class NSString;
+
+
 @interface _MulleObjCConcreteBitmapCharacterSet : NSCharacterSet
 {
    uint32_t                 *_planes[ 0x11];
@@ -48,9 +51,9 @@
 
 
 + (instancetype) newWithBitmapPlanes:(uint32_t **) planes
-                    invert:(BOOL) invert
-                 allocator:(struct mulle_allocator *)  allocator
-                     owner:(id) owner;
+                              invert:(BOOL) invert
+                           allocator:(struct mulle_allocator *) allocator
+                               owner:(id) owner;
 
 + (instancetype) newWithString:(NSString *) s;
 

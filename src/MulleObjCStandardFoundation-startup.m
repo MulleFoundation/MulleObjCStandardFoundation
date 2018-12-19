@@ -33,6 +33,15 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include "MulleObjCStandardFoundationSetup.h"
 
-#include "MulleObjCStandardFoundation-startup.inc"
+//
+// Startup is the small library that gets linked into the executable
+// and determines the start of the foundation (usually MulleFoundation,
+// but sometimes also MulleObjc or MulleFoundationStandard)
+//
+#import "import-private.h"
+
+#import <MulleObjC/private/mulle-objc-testallocator-private.h>
+#import "mulle-foundation-universeconfiguration-private.h"
+
+#import "mulle-foundation-startup-private.inc"

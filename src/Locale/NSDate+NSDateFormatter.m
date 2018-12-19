@@ -22,8 +22,12 @@ static NSString   *NSDateDefaultFormat = @"%Y-%m-%d %H:%M:%S %z";
 // lame code, fix later
 - (instancetype) initWithString:(NSString *) s
 {
-   [self release];
-   return( [[[self class] dateWithString:s] retain]);
+   id   old;
+
+   old  = self;
+   self = [[[self class] dateWithString:s] retain];
+   [old release];
+   return( self);
 }
 
 

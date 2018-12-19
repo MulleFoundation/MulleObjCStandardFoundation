@@ -36,8 +36,7 @@
 
 #import "NSCoder.h"
 
-#include <mulle-buffer/mulle-buffer.h>
-#include "ns_map_table.h"
+#include "ns-map-table.h"
 
 
 struct MulleObjCPointerHandleMap

@@ -39,6 +39,7 @@
 
 @class NSArray;
 @class NSDictionary;
+@class NSString;
 
 
 extern NSString  *NSErrorKey;

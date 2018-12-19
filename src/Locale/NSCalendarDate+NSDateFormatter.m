@@ -43,15 +43,17 @@
                          locale:(id) locale
 {
    NSDateFormatter   *formatter;
+   id                old;
 
    formatter = [[[NSDateFormatter alloc] initWithDateFormat:format
                                        allowNaturalLanguage:YES] autorelease];
    [formatter setGenerateCalendarDates:YES];
    [formatter setLocale:locale];
 
-   [self release];
-
+   old  = self;
    self = (id) [[formatter dateFromString:s] retain];
+   [old release];
+
    return( self);
 }
 

@@ -36,6 +36,7 @@
 
 #import "MulleObjCFoundationBase.h"
 
+@class NSString;
 
 
 extern NSString  *NSAssertionHandlerKey;
@@ -47,15 +48,15 @@ extern NSString  *NSAssertionHandlerKey;
 + (NSAssertionHandler *) currentHandler;
 
 - (void) handleFailureInMethod:(SEL) selector
-                        object:(id)object
-                          file:(NSString *)fileName
-                    lineNumber:(NSInteger)line
-                   description:(NSString *)format, ...;
+                        object:(id) object
+                          file:(NSString *) fileName
+                    lineNumber:(NSInteger) line
+                   description:(NSString *) format, ...;
 
 - (void) handleFailureInFunction:(NSString *) functionname
-                          file:(NSString *)filename
-                    lineNumber:(NSInteger)line
-                   description:(NSString *)format, ...;
+                          file:(NSString *) filename
+                    lineNumber:(NSInteger) line
+                   description:(NSString *) format, ...;
 
 @end
 

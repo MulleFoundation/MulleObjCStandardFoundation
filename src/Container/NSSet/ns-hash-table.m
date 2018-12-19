@@ -33,10 +33,10 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include "ns_hash_table.h"
+#import "ns-hash-table.h"
 
 // other files in this library
-#include "MulleObjCCExceptionFunctions.h"
+#import "NSException.h"
 
 // other libraries of MulleObjCStandardFoundation
 
@@ -67,7 +67,7 @@ NSHashTable   *NSCopyHashTable( NSHashTable *table)
 void   NSHashInsert( NSHashTable *table, void *p)
 {
    if( p == table->_callback.notakey)
-      MulleObjCThrowCInvalidArgumentException( "key is not a key marker (%p)", p);
+      MulleObjCThrowInvalidArgumentException( @"key is not a key marker (%p)", p);
    mulle_set_set( &table->_set, p);
 }
 
@@ -75,10 +75,10 @@ void   NSHashInsert( NSHashTable *table, void *p)
 void   NSHashInsertKnownAbsent( NSHashTable *table, void *p)
 {
    if( p == table->_callback.notakey)
-      MulleObjCThrowCInvalidArgumentException( "key is not a key marker (%p)", p);
+      MulleObjCThrowInvalidArgumentException( @"key is not a key marker (%p)", p);
 
    if( mulle_set_get( &table->_set, p))
-      MulleObjCThrowCInvalidArgumentException( "key is already present (%p)", p);
+      MulleObjCThrowInvalidArgumentException( @"key is already present (%p)", p);
 
    mulle_set_set( &table->_set, p);
 }

@@ -43,6 +43,7 @@
 #import "MulleObjCFoundationString.h"
 
 // std-c and dependencies
+#import "NSException.h"
 
 
 NSString  *NSErrorKey = @"NSError";

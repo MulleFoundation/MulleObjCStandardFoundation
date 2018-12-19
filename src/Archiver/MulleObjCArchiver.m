@@ -571,7 +571,8 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
       sel = (SEL) mulle_pointerarray_get( &_selectors.array, i);
 
       // get name for selector
-      name = mulle_objc_lookup_methodname( (mulle_objc_methodid_t) sel);
+      name = mulle_objc_universe_lookup_methodname( MulleObjCObjectGetUniverse( self),
+                                                    (mulle_objc_methodid_t) sel);
       if( ! name)
          [NSException raise:NSInconsistentArchiveException
                      format:@"can't archive selector \"%p\" that is not registered in the runtime", sel];

@@ -8,8 +8,11 @@
 
 #import "MulleObjCFoundationBase.h"
 
-@interface NSThread (NSNotification)
 
+@class NSString;
+
+
+@interface NSThread (NSNotification)
 @end
 
 

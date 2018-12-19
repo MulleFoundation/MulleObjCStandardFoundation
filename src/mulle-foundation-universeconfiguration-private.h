@@ -1,5 +1,5 @@
 //
-//  mulle_qsort_pointers.h
+//  MulleObjCFoundationSetup.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -33,23 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import <MulleObjC/private/mulle-objc-universeconfiguration-private.h>
 
-#ifndef mulle_qsort_pointers_h__
-#define mulle_qsort_pointers_h__
-
-#include <stddef.h>
-
-//
-// needed, because qsort_t is not portable
-// since it's incompatible anyway, mulle_qsort_pointers is even less compatible
-//
-// a) different callback parameters (no indirection, userinfo in the back)
-// b) no element size
-// c) different order of cmp and userinfo (with regards to BSD)
-//
-void   mulle_qsort_pointers( void **pointers,
-                             size_t n,
-                             int (*cmp)( void *a, void *b, void *userinfo),
-                             void *userinfo);
-
-#endif
+void  mulle_foundation_universeconfiguration_set_defaults( struct _mulle_objc_universeconfiguration *setup);

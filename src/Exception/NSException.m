@@ -37,7 +37,10 @@
 
 // other files in this library
 #import "NSAssertionHandler.h"
-#import "ns_foundationconfiguration.h"
+
+
+// private stuff from MulleObjC
+#import <MulleObjC/private/mulle-objc-universefoundationinfo-private.h>
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
@@ -113,9 +116,12 @@ static void   throw_range_exception( NSRange arg)
 }
 
 
-void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table);
+//
+// for the benefit of MulleObjC vector their exceptions to us
+//
+void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table);
 
-void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
+void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table)
 {
    table->errno_error            = throw_errno_exception;
    table->allocation_error       = throw_malloc_exception;
@@ -129,10 +135,12 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 // maybe too late here... the foundation intializer should do this
 + (void) initialize
 {
-   struct _ns_foundationconfiguration   *config;
+   struct _mulle_objc_exceptionhandlertable   *table;
+   struct _mulle_objc_universe                *universe;
 
-   config = _ns_get_foundationconfiguration();
-   _MulleObjCExceptionInitTable( &config->root.exception.vectors);
+   universe = MulleObjCObjectGetUniverse( self);
+   table    = mulle_objc_universe_get_foundationexceptionhandlertable( universe);
+   _MulleObjCExceptionInitTable( table);
 }
 
 
@@ -172,7 +180,7 @@ void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table)
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-     mulleVarargList:(mulle_vararg_list) arguments
+mulleVarargList:(mulle_vararg_list) arguments
 {
    NSException   *exception;
    NSString      *reason;
@@ -261,3 +269,54 @@ NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
    return( max);
 }
 
+
+
+MULLE_C_NO_RETURN
+   void   MulleObjCThrowAllocationException( size_t bytes)
+{
+   throw_malloc_exception( bytes);
+}
+
+
+MULLE_C_NO_RETURN void
+   MulleObjCThrowInvalidArgumentException( NSString *format, ...)
+{
+   va_list   args;
+
+   va_start( args, format);
+   throw_argument_exception( format, args);
+   va_end( args);
+}
+
+
+MULLE_C_NO_RETURN void   MulleObjCThrowInvalidIndexException( NSUInteger index)
+{
+   throw_index_exception( index);
+}
+
+
+MULLE_C_NO_RETURN void
+   MulleObjCThrowInternalInconsistencyException( NSString *format, ...)
+{
+   va_list   args;
+
+   va_start( args, format);
+   throw_inconsistency_exception( format, args);
+   va_end( args);
+}
+
+
+MULLE_C_NO_RETURN void   MulleObjCThrowInvalidRangeException( NSRange range)
+{
+   throw_range_exception( range);
+}
+
+
+MULLE_C_NO_RETURN void   MulleObjCThrowErrnoException( NSString *format, ...)
+{
+   va_list  args;
+
+   va_start( args, format);
+   throw_errno_exception( format, args);
+   va_end( args);
+}

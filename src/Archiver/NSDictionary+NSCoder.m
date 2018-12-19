@@ -27,11 +27,15 @@
 - (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
+   id           old;
 
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
-   [self release];
-   return( [_MulleObjCConcreteDictionary _allocWithCapacity:count]);
+   old  = self;
+   self = [_MulleObjCConcreteDictionary _allocWithCapacity:count];
+   [old release];
+
+   return( self);
 }
 
 

@@ -36,7 +36,7 @@
 
 #import <mulle-buffer/mulle-buffer.h>
 
-#include <MulleObjC/ns_byteorder.h>
+#include <MulleObjC/minimal.h>
 
 
 # pragma mark -

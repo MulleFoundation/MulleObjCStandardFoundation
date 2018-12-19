@@ -44,6 +44,7 @@
 #import "_MulleObjCUTF32String.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
 
 // std-c and dependencies
 #include <mulle-sprintf/mulle-sprintf.h>
@@ -52,9 +53,10 @@
 @implementation NSString( ClassCluster)
 
 
-static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s,
-                                                             NSUInteger length,
-                                                             struct mulle_allocator *allocator)
+static NSString  *
+   MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s,
+                                              NSUInteger length,
+                                              struct mulle_allocator *allocator)
 {
    struct mulle_buffer   buffer;
    NSUInteger            utf16len;
@@ -80,9 +82,10 @@ static NSString  *MulleObjCNewUTF16StringWithUTF8Characters( mulle_utf8_t *s,
 }
 
 
-static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s,
-                                                              NSUInteger length,
-                                                              struct mulle_allocator *allocator)
+static NSString  *
+   MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s,
+                                               NSUInteger length,
+                                               struct mulle_allocator *allocator)
 {
    NSUInteger            utf16len;
    mulle_utf16_t         *utf16;
@@ -108,9 +111,10 @@ static NSString  *MulleObjCNewUTF16StringWithUTF32Characters( mulle_utf32_t *s,
 }
 
 
-static NSString  *MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s,
-                                                             NSUInteger length,
-                                                             struct mulle_allocator *allocator)
+static NSString  *
+   MulleObjCNewUTF32StringWithUTF8Characters( mulle_utf8_t *s,
+                                              NSUInteger length,
+                                              struct mulle_allocator *allocator)
 {
    struct mulle_buffer   buffer;
    NSUInteger            utf32len;
@@ -156,7 +160,7 @@ static void   _NSThrowInvalidUTF8Exception( mulle_utf8_t *s,
    size_t                len;
 
    if( s > (mulle_utf8_t *) info->invalid)
-      mulle_objc_throw_invalid_argument_exception( "UTF8 internal corruption, no data can be shown");
+      MulleObjCThrowInvalidArgumentException( @"UTF8 internal corruption, no data can be shown");
 
    mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), NULL);
 
@@ -173,7 +177,7 @@ static void   _NSThrowInvalidUTF8Exception( mulle_utf8_t *s,
    mulle_buffer_add_string( &buffer, "Invalid UTF8 (last value): ");
    mulle_buffer_hexdump( &buffer, (uint8_t *) p, len, (size_t) (s - p), -1);
 
-   mulle_objc_throw_invalid_argument_exception( space);
+   MulleObjCThrowInvalidArgumentException( @"Invalid UTF8 (last value): %s", space);
 }
 
 
@@ -187,7 +191,7 @@ static void   _NSThrowInvalidUTF32Exception( mulle_utf32_t *s,
 
 
    if( s > (mulle_utf32_t *) info->invalid)
-      mulle_objc_throw_invalid_argument_exception( "UTF32 internal corruption, no data can be shown");
+      MulleObjCThrowInvalidArgumentException( @"UTF32 internal corruption, no data can be shown");
 
    mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), NULL);
 
@@ -204,7 +208,7 @@ static void   _NSThrowInvalidUTF32Exception( mulle_utf32_t *s,
    mulle_buffer_add_string( &buffer, "Invalid UTF32 (last values): ");
    mulle_buffer_hexdump( &buffer, (uint8_t *) p, len, (size_t) (s - p), -1);
 
-   mulle_objc_throw_invalid_argument_exception( space);
+   MulleObjCThrowInvalidArgumentException( @"Invalid UTF32 (last value): %s", space);
 }
 
 
@@ -217,7 +221,7 @@ static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf,
    if( mulle_utf8_information( buf, len, &info))
       _NSThrowInvalidUTF8Exception( buf, &info);
 
-#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+#ifdef __MULLE_OBJC_TPS__
    if( info.is_ascii && info.utf8len <= mulle_char7_get_maxlength())
       return( MulleObjCTaggedPointerChar7StringWithASCIICharacters( (char *) info.start, info.utf8len));
    if( info.is_char5 && info.utf8len <= mulle_char5_get_maxlength())
@@ -260,15 +264,18 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
 - (instancetype) initWithUTF8String:(char *) s
 {
    struct mulle_allocator  *allocator;
+   id           old;
 
    if( ! s)
       MulleObjCThrowInvalidArgumentException( @"argument must not be null");
 
    allocator = MulleObjCObjectGetAllocator( self);
-   [self release];
-   return( (id) newStringWithUTF8Characters( (mulle_utf8_t *) s,
+   old       = self;
+   self      = newStringWithUTF8Characters( (mulle_utf8_t *) s,
                                              mulle_utf8_strlen( (mulle_utf8_t *) s),
-                                             allocator));
+                                             allocator);
+   [old release];
+   return( self);
 }
 
 
@@ -276,10 +283,13 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
                                   length:(NSUInteger) len
 {
    struct mulle_allocator  *allocator;
+   id           old;
 
    allocator = MulleObjCObjectGetAllocator( self);
-   [self release];
-   return( (id) newStringWithUTF8Characters( s, len, allocator));
+   old       = self;
+   self      = (id) newStringWithUTF8Characters( s, len, allocator);
+   [old release];
+   return( self);
 }
 
 
@@ -288,10 +298,13 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
                    length:(NSUInteger) len
 {
    struct mulle_allocator  *allocator;
+   id           old;
 
    allocator = MulleObjCObjectGetAllocator( self);
-   [self release];
-   return( (id) newStringWithUTF32Characters( s, len, allocator));
+   old       = self;
+   self      = (id) newStringWithUTF32Characters( s, len, allocator);
+   [old release];
+   return( self);
 }
 
 
@@ -300,6 +313,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
                                  allocator:(struct mulle_allocator *) allocator
 {
    struct mulle_utf_information   info;
+   id                             old;
 
    if( mulle_utf32_information( s, length, &info))
       _NSThrowInvalidUTF32Exception( s, &info);
@@ -312,10 +326,12 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
       return( self);
    }
 
-   [self release];
-   return( [_MulleObjCAllocatorUTF32String newWithUTF32CharactersNoCopy:info.start
-                                                                 length:info.utf32len
-                                                              allocator:allocator]);
+   old  = self;
+   self = [_MulleObjCAllocatorUTF32String newWithUTF32CharactersNoCopy:info.start
+                                                                length:info.utf32len
+                                                             allocator:allocator];
+   [old release];
+   return( self);
 }
 
 
@@ -326,9 +342,10 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    struct mulle_allocator   *allocator;
 
    allocator = flag ? &mulle_stdlib_allocator : NULL;
-   return( [self _initWithCharactersNoCopy:chars
-                                    length:length
-                                 allocator:allocator]);
+   self      = [self _initWithCharactersNoCopy:chars
+                                        length:length
+                                     allocator:allocator];
+   return( self);
 }
 
 
@@ -341,6 +358,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    struct mulle_buffer            buffer;
    void                           *utf;
    struct mulle_allocator         *allocator;
+   id                             old;
 
    info = userInfo;
    if( ! info)
@@ -363,7 +381,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    allocator = MulleObjCObjectGetAllocator( self);
    mulle_buffer_init( &buffer, allocator);
 
-   [self release];
+   old = self;
 
    // convert it to UTF16
    // make it a regular string
@@ -395,6 +413,8 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    }
 
    mulle_buffer_done( &buffer);
+
+   [old release];
    return( self);
 }
 
@@ -430,9 +450,10 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    struct mulle_allocator   *allocator;
 
    allocator = flag ? &mulle_stdlib_allocator : NULL;
-   return( [self _initWithUTF8CharactersNoCopy:s
-                                        length:length
-                                     allocator:allocator]);
+   self      = [self _initWithUTF8CharactersNoCopy:s
+                                            length:length
+                                         allocator:allocator];
+   return( self);
 }
 
 
@@ -445,9 +466,10 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    if( mulle_utf8_information( s, length, &info))
       _NSThrowInvalidUTF8Exception( s, &info);
 
-   return( [self _initWithNonASCIIUTF8Characters:info.start
-                                          length:info.utf8len
-                                        userInfo:&info]);
+   self = [self _initWithNonASCIIUTF8Characters:info.start
+                                         length:info.utf8len
+                                       userInfo:&info];
+   return( self);
 
 }
 
@@ -456,10 +478,14 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
                                     length:(NSUInteger) length
                              sharingObject:(id) object
 {
-   [self release];
-   return( [_MulleObjCSharedUTF32String newWithUTF32CharactersNoCopy:s
-                                                              length:length
-                                                       sharingObject:object]);
+   id    old;
+
+   old  = self;
+   self = [_MulleObjCSharedUTF32String newWithUTF32CharactersNoCopy:s
+                                                             length:length
+                                                      sharingObject:object];
+   [old release];
+   return( self);
 }
 
 @end

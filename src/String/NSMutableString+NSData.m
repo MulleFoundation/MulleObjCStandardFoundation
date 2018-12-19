@@ -66,7 +66,7 @@
    }
 
    self = [self initWithStrings:&s
-                          count:s? 1 : 0];
+                          count:s ? 1 : 0];
    [s release];
 
    return( self);
