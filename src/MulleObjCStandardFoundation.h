@@ -49,6 +49,6 @@
 
 #import "MulleObjCLoader+MulleObjCStandardFoundation.h"
 
-#if MULLE_OBJC_VERSION < ((0 << 20) | (13 << 8) | 0)
+#if MULLE_OBJC_VERSION < ((0 << 20) | (14 << 8) | 0)
 # error "MulleObjC is too old"
 #endif
