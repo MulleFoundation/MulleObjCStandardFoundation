@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
+
 #import "MulleObjCUnarchiver.h"
 
 // other files in this library
@@ -149,8 +151,8 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
          name = substitution;
 
       clshash = mulle_objc_uniqueid_from_string( name);
-      cls     = _mulle_objc_universe_fastlookup_infraclass( mulle_objc_get_universe() ,
-                                                           clshash);
+      cls     = _mulle_objc_universe_lookup_infraclass( MulleObjCObjectGetUniverse( self) ,
+                                                        clshash);
       if( ! cls)
          return( NO);
 

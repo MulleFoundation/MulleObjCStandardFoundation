@@ -33,6 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
 
 #import "NSCharacterSet.h"
 
@@ -286,21 +287,24 @@
    NSUInteger   size;
    NSUInteger   n_planes;
    void         *bytes;
+   id           old;
 
-   [self release];
-
+   old      = self;
    size     = [data length];
    n_planes = 1 + (size - 8192) / 8193;
-   if( 8192 + (n_planes - 1) * 8193 != size)
-      return( nil);
-
-   data  = [[data copy] autorelease];
-   bytes = [data bytes];
-
-   return( [_MulleObjCConcreteBitmapCharacterSet newWithBitmapPlanes:bytes
-                                                              invert:NO
-                                                           allocator:NULL
-                                                               owner:data]);
+   if( 8192 + (n_planes - 1) * 8193 == size)
+   {
+      data  = [[data copy] autorelease];
+      bytes = [data bytes];
+      self  = [_MulleObjCConcreteBitmapCharacterSet newWithBitmapPlanes:bytes
+                                                                 invert:NO
+                                                              allocator:NULL
+                                                                  owner:data];
+   }
+   else
+      self = nil;
+   [old release];
+   return( self);
 }
 
 

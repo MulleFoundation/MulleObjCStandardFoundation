@@ -42,6 +42,8 @@
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationBase.h"
+#import "NSException.h"
+
 
 // std-c and dependencies
 #include <mulle-buffer/mulle-buffer.h>
@@ -81,7 +83,9 @@ static void   autoreleaseStorageStrings( NSMutableString *self)
    n = self->_count;
    self->_count = 0;  // do it now, important for autoreleasepool checks
 
-   _MulleObjCAutoreleaseObjects( self->_storage, n);
+   _MulleObjCAutoreleaseObjects( self->_storage,
+                                 n,
+                                 MulleObjCObjectGetUniverse( self));
 }
 
 

@@ -45,6 +45,7 @@
 
 // std-c and dependencies
 #import <mulle-buffer/mulle-buffer.h>
+#import <string.h>
 
 
 #if MULLE_BUFFER_VERSION < ((0 << 20) | (4 << 8) | 1)
@@ -134,8 +135,12 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 - (instancetype)  init
 {
-   [self release];
-   return( _newData( 0, 0));
+   id   old;
+
+   old  = self;
+   self = _newData( 0, 0);
+   [old release];
+   return( self);
 }
 
 
@@ -143,28 +148,40 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (instancetype) initWithBytes:(void *) bytes
                         length:(NSUInteger) length
 {
-   [self release];
-   return( _newData( bytes, length));
+   id   old;
+
+   old  = self;
+   self = _newData( bytes, length);
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
                               length:(NSUInteger) length
 {
-   [self release];
-   return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
-                                                length:length
-                                             allocator:&mulle_stdlib_allocator]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
+                                               length:length
+                                            allocator:&mulle_stdlib_allocator];
+   [old release];
+   return( self);
 }
 
 - (instancetype) initWithBytesNoCopy:(void *) bytes
                               length:(NSUInteger) length
                            allocator:(struct mulle_allocator *) allocator
 {
-   [self release];
-   return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
-                                                length:length
-                                             allocator:allocator]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
+                                               length:length
+                                            allocator:allocator];
+   [old release];
+   return( self);
 }
 
 
@@ -173,13 +190,16 @@ static NSData  *_newData( void *buf, NSUInteger length)
                         freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
+   id                       old;
 
-   [self release];
+   old  = self;
 
    allocator = flag ? &mulle_stdlib_allocator: NULL;
-   return( [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
-                                                length:length
-                                             allocator:allocator]);
+   self = [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
+                                               length:length
+                                            allocator:allocator];
+   [old release];
+   return( self);
 }
 
 
@@ -187,19 +207,25 @@ static NSData  *_newData( void *buf, NSUInteger length)
                               length:(NSUInteger) length
                                owner:(id) owner
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCSharedData newWithBytesNoCopy:bytes
-                                             length:length
-                                              owner:owner]);
+   old  = self;
+   self = [_MulleObjCSharedData newWithBytesNoCopy:bytes
+                                            length:length
+                                             owner:owner];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithData:(NSData *) other
 {
-   [self release];
+   id   old;
 
-   return( _newData( [other bytes], [other length]));
+   old  = self;
+   self = _newData( [other bytes], [other length]);
+   [old release];
+   return( self);
 }
 
 

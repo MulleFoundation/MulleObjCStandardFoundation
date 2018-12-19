@@ -89,9 +89,13 @@
 - (instancetype) initWithBytes:(void *) value
                       objCType:(char *) type
 {
-   [self release];
-   return( [_MulleObjCConcreteValue newWithBytes:value
-                                        objCType:type]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteValue newWithBytes:value
+                                        objCType:type];
+   [old release];
+   return( self);
 }
 
 

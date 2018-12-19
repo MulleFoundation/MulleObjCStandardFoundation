@@ -33,18 +33,26 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCStandardFoundationSetup.h"
+
+#import "import-private.h"
+
 
 // other files in this library
+#import <MulleObjC/private/mulle-objc-testallocator-private.h>
+#import "mulle-foundation-universeconfiguration-private.h"
+
 #import "MulleObjCStandardFoundation.h"
 
 // other libraries of MulleObjCStandardFoundation
 
 // std-c and other dependencies
-#import <MulleObjC/ns_objc_setup.h>
-#import <MulleObjC/ns_test_allocation.h>
+
 #import <mulle-sprintf/mulle-sprintf.h>
 
+
+//
+// setup is what will be used by "startup" to initialize the runtime
+//
 
 #pragma mark -
 #pragma mark versioning
@@ -58,56 +66,51 @@ static void   versionassert( struct _mulle_objc_universe *universe,
                              struct mulle_objc_loadversion *version)
 {
    if( (version->foundation & ~0xFF) != (MULLE_OBJC_STANDARD_FOUNDATION_VERSION & ~0xFF))
-      _mulle_objc_universe_raise_inconsistency_exception( universe, "mulle_objc_universe %p: foundation version set to %x but universe foundation is %x",
-                                                        universe,
-                                                        version->foundation,
-                                                        MULLE_OBJC_STANDARD_FOUNDATION_VERSION);
+      mulle_objc_universe_fail_inconsistency( universe,
+        "mulle_objc_universe %p: foundation version set to %x but "
+        "universe foundation is %x",
+            universe,
+            version->foundation,
+            MULLE_OBJC_STANDARD_FOUNDATION_VERSION);
 }
 
 
 #pragma mark -
 #pragma mark exception (mishandling)
 
-extern void  _MulleObjCExceptionInitTable ( struct _ns_exceptionhandlertable *table);
+extern void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table);
 
 
 #pragma mark -
 #pragma mark setup and teardown ObjC
 
-static void   tear_down()
+static void   teardown_objc( void)
 {
-   ns_objc_universe_tear_down();
+   struct _mulle_objc_universe *universe;
 
-   if( mulle_objc_getenv_yes_no( "MULLE_OBJC_TEST_ALLOCATOR"))
-   {
+   if( mulle_objc_environment_get_yes_no( "MULLE_OBJC_TEST_ALLOCATOR"))
       (*mulle_sprintf_free_storage)();
-      mulle_test_allocator_objc_reset();
-   }
+
+   universe = MulleObjCGetUniverse();
+   mulle_objc_teardown_universe( universe);
 }
 
 
-__attribute__(( noreturn))
+MULLE_C_NO_RETURN
 static void   uncaught_exception( void *exception)
 {
-   extern void   mulle_objc_dotdump_to_tmp( void);
-
-   fprintf( stderr, "uncaught exception: %s", [[(id) exception description] UTF8String]);
-   mulle_objc_dotdump_to_tmp();
+   fprintf( stderr, "uncaught exception: %s",
+                    [[(id) exception description] UTF8String]);
    abort();
 }
 
 
-void  MulleObjCFoundationGetDefaultSetupConfig( struct _ns_foundation_setupconfig *setup,
-                                                struct _mulle_objc_universe *universe)
+void  mulle_foundation_universeconfiguration_set_defaults( struct _mulle_objc_universeconfiguration *config)
 {
-   if( universe->debug.trace.universe)
-      fprintf( stderr, "MulleObjCStandardFoundation: install exceptions and callbacks\n");
+   *config                              = *mulle_objc_global_get_default_universeconfiguration();
+   config->universe.versionassert       = versionassert;
+   config->universe.uncaughtexception   = uncaught_exception;
+   config->callbacks.teardown           = teardown_objc;
 
-   setup->config                              = *ns_objc_get_default_setupconfig();
-   setup->config.universe.versionassert       = versionassert;
-   setup->config.universe.uncaughtexception   = uncaught_exception;
-   setup->config.foundation.configurationsize = sizeof( struct _ns_foundationconfiguration);
-   setup->config.callbacks.setup              = (void (*)()) _ns_foundation_setup;
-   setup->config.callbacks.tear_down          = tear_down;
-   _MulleObjCExceptionInitTable( &setup->config.foundation.exceptiontable);
+   _MulleObjCExceptionInitTable( &config->foundation.exceptiontable);
 }

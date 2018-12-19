@@ -76,4 +76,10 @@
    return( [NSString stringWithFormat:@"<%@ %p %@>", [self class], self, contents]);
 }
 
+
+- (NSString *) cStringDescription
+{
+   return( [[self description] cStringDescription]);
+}
+
 @end

@@ -379,6 +379,7 @@ enum
    struct mulle_buffer             buffer;
    void                            *p;
    struct mulle_allocator          *allocator;
+   id                              old;
 
    if( mulle_utf16_information( chars, length, &info))
       MulleObjCThrowInvalidArgumentException( @"invalid UTF16");
@@ -408,9 +409,11 @@ enum
    if( info.is_utf15)
    {
       // shortcut ...
-      [self release];
-      return( [_MulleObjCGenericUTF16String newWithUTF16Characters:info.start
-                                                            length:info.utf16len]);
+      old  = self;
+      self = [_MulleObjCGenericUTF16String newWithUTF16Characters:info.start
+                                                            length:info.utf16len];
+      [old release];
+      return( self);
    }
 
    /* convert to utf32 */

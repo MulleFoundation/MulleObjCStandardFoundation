@@ -5,6 +5,7 @@
 //  Created by Nat! on 19.03.16.
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
 
 #import "NSString+Search.h"
 

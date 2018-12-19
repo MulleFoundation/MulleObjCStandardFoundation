@@ -40,7 +40,7 @@
 #import "NSString+ClassCluster.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCExceptionFunctions.h"
+#import "NSException.h"
 
 // std-c and dependencies
 #include <mulle-sprintf/mulle-sprintf.h>
@@ -50,7 +50,7 @@
 @implementation NSString (Sprintf)
 
 + (instancetype) stringWithFormat:(NSString *) format
-        mulleVarargList:(mulle_vararg_list) arguments
+                  mulleVarargList:(mulle_vararg_list) arguments
 {
    return( [[[self alloc] initWithFormat:format
                          mulleVarargList:arguments] autorelease]);
@@ -58,7 +58,7 @@
 
 
 + (instancetype) stringWithFormat:(NSString *) format
-            varargList:(va_list) args
+                       varargList:(va_list) args
 {
    return( [[[self alloc] initWithFormat:format
                                  varargList:args] autorelease]);
@@ -95,7 +95,7 @@
 
 
 - (instancetype) initWithFormat:(NSString *) format
-            mulleVarargList:(mulle_vararg_list) arguments
+                mulleVarargList:(mulle_vararg_list) arguments
 {
    NSString                 *s;
    char                     *c_format;
@@ -141,7 +141,7 @@
 
 
 - (instancetype) initWithFormat:(NSString *) format
-              varargList:(va_list) va_list
+                     varargList:(va_list) va_list
 {
    char                     *c_format;
    mulle_utf8_t             *result;

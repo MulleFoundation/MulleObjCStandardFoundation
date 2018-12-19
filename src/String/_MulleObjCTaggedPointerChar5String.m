@@ -38,8 +38,10 @@
 
 #import "MulleObjCFoundationData.h"
 
+#import "NSException.h"
 
-#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+
+#ifdef __MULLE_OBJC_TPS__
 
 @implementation _MulleObjCTaggedPointerChar5String
 

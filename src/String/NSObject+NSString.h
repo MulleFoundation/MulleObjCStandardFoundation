@@ -16,5 +16,6 @@
 
 - (NSString *) description;
 - (NSString *) debugDescription;
+- (NSString *) cStringDescription;
 
 @end

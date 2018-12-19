@@ -37,8 +37,8 @@
 #import "NSCoder.h"
 
 #include <mulle-buffer/mulle-buffer.h>
-#import "ns_map_table.h"
-#import "ns_hash_table.h"
+#import "ns-map-table.h"
+#import "ns-hash-table.h"
 
 @class NSData;
 

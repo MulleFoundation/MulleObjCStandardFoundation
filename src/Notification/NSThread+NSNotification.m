@@ -11,6 +11,8 @@
 // other files in this library
 #import "NSNotificationCenter.h"
 
+#import "NSException.h"
+
 
 NSString  *NSWillBecomeMultiThreadedNotification = @"NSWillBecomeMultiThreadedNotification";
 

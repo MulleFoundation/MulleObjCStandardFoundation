@@ -1,5 +1,5 @@
 //
-//  ns_foundationconfiguration.h
+//  mulle-qsort-pointers.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -34,39 +34,22 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#ifndef ns_foundationconfiguration_h__
-#define ns_foundationconfiguration_h__
+#ifndef mulle_qsort_pointers_h__
+#define mulle_qsort_pointers_h__
 
-#include <MulleObjC/ns_objc_type.h>
-#include <MulleObjC/ns_int_type.h>
-#include <MulleObjC/ns_rootconfiguration.h>
-
+#include <stddef.h>
 
 //
-// used to be used for foundation specific stuff, but currently there is
-// none...
+// needed, because qsort_t is not portable
+// since it's incompatible anyway, mulle_qsort_pointers is even less compatible
 //
-struct _ns_foundationconfiguration
-{
-   struct _ns_rootconfiguration   root;
-};
-
-
-struct _ns_foundation_setupconfig
-{
-   struct _ns_root_setupconfig   config;
-};
-
-
-void   _ns_foundation_setup( struct _mulle_objc_universe *universe,
-                             struct _ns_foundation_setupconfig *config);
-
-
-
-__attribute__((const, returns_nonnull))  // always returns same value (in same thread)
-static inline struct _ns_foundationconfiguration   *_ns_get_foundationconfiguration( void)
-{
-   return( (struct _ns_foundationconfiguration *) _ns_get_rootconfiguration());
-}
+// a) different callback parameters (no indirection, userinfo in the back)
+// b) no element size
+// c) different order of cmp and userinfo (with regards to BSD)
+//
+void   mulle_qsort_pointers( void **pointers,
+                             size_t n,
+                             int (*cmp)( void *a, void *b, void *userinfo),
+                             void *userinfo);
 
 #endif

@@ -28,15 +28,18 @@
 - (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
+   id           old;
 
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
 
-   [self release];
+   old = self;
    if( ! count)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( [_MulleObjCConcreteArray _allocWithCapacity:count]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+      self = [_MulleObjCConcreteArray _allocWithCapacity:count];
+   [old release];
+   return( self);
 }
 
 

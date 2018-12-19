@@ -35,7 +35,7 @@
 //
 #import "MulleObjCFoundationBase.h"
 
-#import "ns_hash_table.h"
+#import "ns-hash-table.h"
 
 
 @class NSArray;

@@ -40,6 +40,8 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
+
 
 // std-c and dependencies
 
@@ -48,7 +50,7 @@
 
 @implementation NSConstantString
 
-#ifndef MULLE_OBJC_NO_TAGGED_POINTERS
+#ifdef __MULLE_OBJC_TPS__
 + (struct _mulle_objc_dependency *) dependencies
 {
    static struct _mulle_objc_dependency   dependencies[] =

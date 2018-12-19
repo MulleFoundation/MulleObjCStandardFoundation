@@ -60,7 +60,7 @@ extern NSString   *NSParseErrorException;
                            userInfo:(id) userInfo;
 
 //
-// MEMO: don't marker raise as __attribute__(( noreturn)) because
+// MEMO: don't marker raise as MULLE_C_NO_RETURN because
 //       when self is nil, it does return.
 //
 + (void) raise:(NSString *) name
@@ -76,8 +76,8 @@ mulleVarargList:(mulle_vararg_list) args;
 
 
 - (instancetype) initWithName:(NSString *) name
-             reason:(NSString *) reason
-           userInfo:(NSDictionary *) userInfo;
+                       reason:(NSString *) reason
+                     userInfo:(NSDictionary *) userInfo;
 
 - (NSString *) name;
 - (NSString *) reason;
@@ -96,23 +96,23 @@ NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
                                                               NSUInteger length);
 
 
-// some conveniences (see MulleObjC/ns_exception.h>
+@class NSString;
 
-__attribute__ ((noreturn))
+MULLE_C_NO_RETURN
 void   MulleObjCThrowAllocationException( size_t bytes);
 
-__attribute__ ((noreturn))
-void   MulleObjCThrowInvalidArgumentException( NSString *format, ...);
-
-__attribute__ ((noreturn))
+MULLE_C_NO_RETURN
 void   MulleObjCThrowInvalidIndexException( NSUInteger index);
 
-__attribute__ ((noreturn))
-void   MulleObjCThrowInternalInconsistencyException( NSString *format, ...);
-
-__attribute__ ((noreturn))
+MULLE_C_NO_RETURN
 void   MulleObjCThrowInvalidRangeException( NSRange range);
 
-__attribute__ ((noreturn))
+MULLE_C_NO_RETURN
+void   MulleObjCThrowInvalidArgumentException( NSString *format, ...);
+
+MULLE_C_NO_RETURN
+void   MulleObjCThrowInternalInconsistencyException( NSString *format, ...);
+
+MULLE_C_NO_RETURN
 void   MulleObjCThrowErrnoException( NSString *format, ...);
 

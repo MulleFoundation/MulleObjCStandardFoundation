@@ -35,7 +35,7 @@
 //
 #import "MulleObjCFoundationBase.h"
 
-#include "ns_map_table.h"
+#include "ns-map-table.h"
 
 
 @class NSArray;

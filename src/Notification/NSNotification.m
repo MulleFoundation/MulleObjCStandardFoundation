@@ -35,6 +35,8 @@
 //
 #import "NSNotification.h"
 
+#import "NSException.h"
+
 
 @implementation NSNotification
 

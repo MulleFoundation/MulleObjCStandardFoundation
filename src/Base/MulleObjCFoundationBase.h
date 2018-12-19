@@ -42,11 +42,8 @@
 
 // export everything with MulleObjC
 
-#import "MulleObjCCExceptionFunctions.h"
-#import "MulleObjCExceptionFunctions.h"
 #import "MulleObjCHashFunctions.h"
 
 // export nothing with _MulleObjC
 
 // export everything with ns_
-#import "ns_foundationconfiguration.h"  // rename

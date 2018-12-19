@@ -69,7 +69,7 @@ static int  _sprintf_object_conversion( struct mulle_buffer *buffer,
    assert( arguments);
 
    v = arguments->values[ argc];
-   s = v.obj ? (char *) [[(id) v.obj description] UTF8String] : "(nil)";
+   s = v.obj ? (char *) [(id) v.obj cStringDescription] : "(nil)";
 
    return( _mulle_sprintf_charstring_conversion( buffer, info, s));
 }

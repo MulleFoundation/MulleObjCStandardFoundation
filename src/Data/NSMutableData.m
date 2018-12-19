@@ -39,6 +39,7 @@
 #import "_MulleObjCConcreteMutableData.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
 
 // std-c and dependencies
 
@@ -102,27 +103,36 @@
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteMutableData newWithCapacity:capacity]);
+   old  = self;
+   self = [_MulleObjCConcreteMutableData newWithCapacity:capacity];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithLength:(NSUInteger) length
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteMutableData newWithLength:length]);
+   old  = self;
+   self = [_MulleObjCConcreteMutableData newWithLength:length];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithBytes:(void *) bytes
                         length:(NSUInteger) length
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteMutableData newWithBytes:bytes
-                                                length:length]);
+   old  = self;
+   self = [_MulleObjCConcreteMutableData newWithBytes:bytes
+                                                length:length];
+   [old release];
+   return( self);
 }
 
 
@@ -131,15 +141,18 @@
                         freeWhenDone:(BOOL) flag
 {
    struct mulle_allocator   *allocator;
+   id                       old;
 
    allocator = &mulle_stdlib_allocator;
 
    if( flag)
    {
-      [self release];
-      return( [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
+      old  = self;
+      self = [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
                                                          length:length
-                                                      allocator:allocator]);
+                                                      allocator:allocator];
+      [old release];
+      return( self);
    }
 
    self = [self initWithBytes:bytes
@@ -153,20 +166,26 @@
                               length:(NSUInteger) length
                            allocator:(struct mulle_allocator *) allocator
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
+   old  = self;
+   self = [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
                                                       length:length
-                                                   allocator:allocator]);
+                                                   allocator:allocator];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithData:(NSData *) data
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteMutableData newWithBytes:[data bytes]
-                                                length:[data length]]);
+   old  = self;
+   self = [_MulleObjCConcreteMutableData newWithBytes:[data bytes]
+                                                length:[data length]];
+   [old release];
+   return( self);
 }
 
 
