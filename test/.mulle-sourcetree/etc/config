@@ -1,0 +1,2 @@
+MulleObjCStandardFoundation;tar;no-all-load,no-import,no-singlephase,only-standalone;4802319D-FBBB-41A4-B90E-FF879820E9E9;${MULLE_OBJC_STANDARD_FOUNDATION_URL:-https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/${MULLE_OBJC_STANDARD_FOUNDATION_BRANCH:-latest}.tar.gz};;;;
+mulle-testallocator;tar;no-all-load,no-import,no-singlephase;9D6AB6E6-2022-4F54-AC68-D87B62E4871C;${MULLE_TESTALLOCATOR_URL:-https://github.com/mulle-core/mulle-testallocator/archive/${MULLE_TESTALLOCATOR_BRANCH:-latest}.tar.gz};;;;
