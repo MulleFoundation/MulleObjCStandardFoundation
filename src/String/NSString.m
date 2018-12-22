@@ -312,7 +312,7 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
 //
 // default for sprintf (and exceptions ?)
 //
-- (NSString *) cStringDescription
+- (char *) cStringDescription
 {
   return( [self UTF8String]);
 }
