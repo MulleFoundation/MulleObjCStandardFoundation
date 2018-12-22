@@ -77,7 +77,7 @@
 }
 
 
-- (NSString *) cStringDescription
+- (char *) cStringDescription
 {
    return( [[self description] cStringDescription]);
 }
