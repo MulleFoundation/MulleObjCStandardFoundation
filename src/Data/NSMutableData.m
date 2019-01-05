@@ -263,7 +263,7 @@
       memmove( &bytes[ remainderLocation + diff], &bytes[ remainderLocation], remainderLength);
 
    // replace
-   memcpy( &bytes[ range.location], replacementBytes, replacementLength);
+   memmove( &bytes[ range.location], replacementBytes, replacementLength);
 
    // possibly fill up hole and shrink
    if( diff < 0) // need to grow
