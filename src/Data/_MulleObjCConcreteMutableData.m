@@ -211,7 +211,7 @@ static void   *validated_range_pointer( _MulleObjCConcreteMutableData *self, NSR
    void  *p;
 
    p = validated_range_pointer( self, range);
-   memcpy( p, bytes, range.length);
+   memmove( p, bytes, range.length);
 }
 
 

@@ -112,7 +112,7 @@ static inline void   *get_bytes( id self)
 @implementation _MulleObjCAllocatorData
 
 + (instancetype) newWithBytes:(void *) bytes
-             length:(NSUInteger) length
+                       length:(NSUInteger) length
 {
    _MulleObjCAllocatorData   *data;
 
@@ -129,8 +129,8 @@ static inline void   *get_bytes( id self)
 
 
 + (instancetype) newWithBytesNoCopy:(void *) bytes
-                   length:(NSUInteger) length
-                allocator:(struct mulle_allocator *) allocator
+                             length:(NSUInteger) length
+                          allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCAllocatorData   *data;
 
