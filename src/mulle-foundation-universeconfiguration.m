@@ -38,7 +38,6 @@
 
 
 // other files in this library
-#import <MulleObjC/private/mulle-objc-testallocator-private.h>
 #import "mulle-foundation-universeconfiguration-private.h"
 
 #import "MulleObjCStandardFoundation.h"
@@ -88,8 +87,7 @@ static void   teardown_objc( void)
 {
    struct _mulle_objc_universe *universe;
 
-   if( mulle_objc_environment_get_yes_no( "MULLE_OBJC_TEST_ALLOCATOR"))
-      (*mulle_sprintf_free_storage)();
+   (*mulle_sprintf_free_storage)();
 
    universe = MulleObjCGetUniverse();
    mulle_objc_teardown_universe( universe);

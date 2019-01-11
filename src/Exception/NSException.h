@@ -43,7 +43,7 @@
 extern NSString   *NSInternalInconsistencyException;
 extern NSString   *NSGenericException;
 extern NSString   *NSInvalidArgumentException;
-extern NSString   *NSMallocException;
+extern NSString   *NSMallocException;  // never thrown in MulleObjC
 extern NSString   *NSRangeException;
 extern NSString   *NSParseErrorException;
 
@@ -97,9 +97,6 @@ NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
 
 
 @class NSString;
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowAllocationException( size_t bytes);
 
 MULLE_C_NO_RETURN
 void   MulleObjCThrowInvalidIndexException( NSUInteger index);
