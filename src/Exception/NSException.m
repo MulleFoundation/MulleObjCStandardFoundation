@@ -62,14 +62,6 @@ NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
 @implementation NSException
 
-// TODO: localization hooks for exceptions ?
-__attribute__ ((noreturn))
-static void   throw_malloc_exception( size_t bytes)
-{
-   [NSException raise:NSMallocException
-               format:@"out of memory, when requesting %ld bytes", bytes];
-}
-
 __attribute__ ((noreturn))
 static void   throw_errno_exception( id format, va_list args)
 {
@@ -124,7 +116,6 @@ void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *t
 void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table)
 {
    table->errno_error            = throw_errno_exception;
-   table->allocation_error       = throw_malloc_exception;
    table->invalid_argument       = throw_argument_exception;
    table->internal_inconsistency = throw_inconsistency_exception;
    table->invalid_index          = throw_index_exception;
@@ -267,14 +258,6 @@ NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
    if( range.location > max || max > length)
       MulleObjCThrowInvalidRangeException( range);
    return( max);
-}
-
-
-
-MULLE_C_NO_RETURN
-   void   MulleObjCThrowAllocationException( size_t bytes)
-{
-   throw_malloc_exception( bytes);
 }
 
 

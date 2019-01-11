@@ -39,9 +39,31 @@
 // and determines the start of the foundation (usually MulleFoundation,
 // but sometimes also MulleObjc or MulleFoundationStandard)
 //
+#define _GNU_SOURCE
+
 #import "import-private.h"
 
-#import <MulleObjC/private/mulle-objc-testallocator-private.h>
 #import "mulle-foundation-universeconfiguration-private.h"
 
-#import "mulle-foundation-startup-private.inc"
+#import <MulleObjC/private/MulleObjCExceptionHandler-Private.h>
+#import <MulleObjC/private/mulle-objc-startup-private.inc>
+
+
+static void   MulleObjCStandardFoundationBang( struct _mulle_objc_universe *universe,
+                                               struct mulle_allocator *allocator,
+                                               struct _mulle_objc_universeconfiguration *config)
+{
+   MulleObjCBang( universe, allocator, config);
+}
+
+
+static void   bang( struct _mulle_objc_universe *universe,
+                    struct mulle_allocator *allocator,
+                    void *userinfo)
+{
+   struct _mulle_objc_universeconfiguration   config;
+
+   mulle_foundation_universeconfiguration_set_defaults( &config);
+   MulleObjCStandardFoundationBang( universe, allocator, &config);
+}
+
