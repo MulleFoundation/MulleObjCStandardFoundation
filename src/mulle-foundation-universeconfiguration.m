@@ -83,13 +83,10 @@ extern void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlert
 #pragma mark -
 #pragma mark setup and teardown ObjC
 
-static void   teardown_objc( void)
+static void   teardown_objc( struct _mulle_objc_universe *universe)
 {
-   struct _mulle_objc_universe *universe;
-
    (*mulle_sprintf_free_storage)();
 
-   universe = MulleObjCGetUniverse();
    mulle_objc_teardown_universe( universe);
 }
 

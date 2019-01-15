@@ -1,15 +1,15 @@
 // std-c and other dependencies
 #import <MulleObjC/private/mulle-objc-universeconfiguration-private.h>
+#include <MulleObjC/private/mulle-objc-startup-private.inc>
 #include <stdlib.h>
 
 
-static void   bang( struct _mulle_objc_universe *universe,
-                    void *userinfo)
+static void   MulleObjCStandardFoundationBang( struct _mulle_objc_universe *universe,
+                                               struct mulle_allocator *allocator,
+                                               struct _mulle_objc_universeconfiguration *config)
 {
-   struct _mulle_objc_universeconfiguration   config;
-
-   mulle_foundation_universeconfiguration_set_defaults( &config);
-   mulle_objc_universe_configure( universe, &config);
+   MulleObjCBang( universe, allocator, config);
 }
+
 
 
