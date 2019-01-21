@@ -52,6 +52,7 @@
 NSString  *NSInconsistentArchiveException     = @"NSInconsistentArchiveException";
 NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationException";
 
+// #define ARCHIVER_DEBUG
 
 #pragma mark -
 
@@ -288,25 +289,25 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
    assert( [obj class]);
 
-#ifdef DEBUG
+#ifdef ARCHIVER_DEBUG
    fprintf( stderr, "check _objectSubstitutions for %p\n", obj);
 #endif
    other = NSMapGet( _objectSubstitutions, obj);
    if( other)
    {
-#ifdef DEBUG
+#ifdef ARCHIVER_DEBUG
       fprintf( stderr, "substituted %p with %p\n", obj, other);
 #endif
       obj = other;
    }
 
-#ifdef DEBUG
+#ifdef ARCHIVER_DEBUG
    fprintf( stderr, "check _objects.map for %p\n", obj);
 #endif
    handle = (intptr_t) mulle_map_get( &_objects.map, obj);
    if( ! handle)
    {
-#ifdef DEBUG
+#ifdef ARCHIVER_DEBUG
       fprintf( stderr, "check _conditionalObjects.map for %p\n", obj);
 #endif
       handle = (intptr_t) mulle_map_get( &_conditionalObjects.map, obj);
