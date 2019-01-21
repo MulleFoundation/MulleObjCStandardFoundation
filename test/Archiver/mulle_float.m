@@ -26,7 +26,7 @@ static void   test_float( float value)
    if( read == value)
       printf( "passed\n");
   else
-      printf( "failed: %llu vs. %llu\n", value, read);
+      printf( "failed: %llu vs. %f\n", value, read);
 
    mulle_buffer_done( &buffer);
 }
@@ -44,7 +44,7 @@ static void   test_double( double value)
    if( read == value)
       printf( "passed\n");
   else
-      printf( "failed: %lld vs. %lld\n", value, read);
+      printf( "failed: %lld vs. %f\n", value, read);
 
    mulle_buffer_done( &buffer);
 }
