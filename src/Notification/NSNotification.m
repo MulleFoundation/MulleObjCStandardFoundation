@@ -51,8 +51,11 @@ static void   init( NSNotification *self,
 }
 
 
+// don't need dealloc, because they are all properties
+
+
 + (instancetype) notificationWithName:(NSString *) name
-                     object:(id) obj;
+                               object:(id) obj;
 {
    NSNotification   *notification;
 
@@ -66,8 +69,8 @@ static void   init( NSNotification *self,
 
 
 + (instancetype) notificationWithName:(NSString *) name
-                     object:(id) obj
-                   userInfo:(NSDictionary *) userInfo
+                               object:(id) obj
+                             userInfo:(NSDictionary *) userInfo
 {
    NSNotification   *notification;
 

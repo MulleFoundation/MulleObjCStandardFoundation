@@ -1,0 +1,24 @@
+test_multiple
+post_notifications 1
+-[Receiver2 receiveNameNotification:] Sender 1
+-[Receiver3 receiveNameNotification:] Blender Receiver
+-[Receiver1 receiveNameNotification:] Blender Receiver
+-[Receiver4 receiveNameNotification:] Sender Receiver
+-[Receiver1 receiveNameNotification:] Sender Receiver
+-[Receiver2 receiveNameNotification:] Sender Receiver
+removed Receiver4
+post_notifications 2
+-[Receiver2 receiveNameNotification:] Sender 2
+-[Receiver3 receiveNameNotification:] Blender Receiver
+-[Receiver1 receiveNameNotification:] Blender Receiver
+-[Receiver1 receiveNameNotification:] Sender Receiver
+-[Receiver2 receiveNameNotification:] Sender Receiver
+removed Receiver2
+post_notifications 3
+-[Receiver3 receiveNameNotification:] Blender Receiver
+-[Receiver1 receiveNameNotification:] Blender Receiver
+-[Receiver1 receiveNameNotification:] Sender Receiver
+removed Receiver1
+post_notifications 4
+-[Receiver3 receiveNameNotification:] Blender Receiver
+removed Receiver3
