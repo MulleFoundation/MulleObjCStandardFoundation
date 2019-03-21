@@ -1,0 +1,28 @@
+test_leak
+test_leak2
+test_name
+nameNotification: Sender nil
+nameNotification: Sender self
+test_name2
+nameNotification: Sender nil
+nameNotification: Sender self
+test_object
+objectNotification: Blender self
+objectNotification: Sender self
+test_object_name
+nameObjectNotification: Sender self
+test_any
+anyNotification: Blender nil
+anyNotification: Sender nil
+anyNotification: Blender self
+anyNotification: Sender self
+test_multiple
+anyNotification: Blender nil
+nameNotification: Sender nil
+anyNotification: Sender nil
+objectNotification: Blender self
+anyNotification: Blender self
+nameObjectNotification: Sender self
+objectNotification: Sender self
+nameNotification: Sender self
+anyNotification: Sender self
