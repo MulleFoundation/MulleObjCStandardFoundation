@@ -33,19 +33,19 @@ int   main( int argc, const char * argv[])
 
    for( i = 0; i <= sizeof( hoehoe); i++)
    {
-      if( ! [NSString _areValidUTF8Characters:hoehoe
-                                       length:i])
+      if( ! [NSString mulleAreValidUTF8Characters:hoehoe
+                                           length:i])
       {
          continue;
       }
-      s = [NSString _stringWithUTF8Characters:hoehoe
-                                       length:i];
+      s = [NSString mulleStringWithUTF8Characters:hoehoe
+                                           length:i];
       [s getCharacters:buf];
       copy = [NSString stringWithCharacters:buf
                                      length:[s length]];
       printf( "%s (%ld/%ld) -> %s (%ld/%ld)\n",
-                  [s UTF8String], [s length], [s _UTF8StringLength],
-                  [copy UTF8String], [copy length], [copy _UTF8StringLength]);
+                  [s UTF8String], [s length], [s mulleUTF8StringLength],
+                  [copy UTF8String], [copy length], [copy mulleUTF8StringLength]);
    }
 
    return( 0);

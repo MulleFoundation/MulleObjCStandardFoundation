@@ -1,0 +1,59 @@
+-initWithObjects:forKeys:
+{}
+Threw a NSInvalidArgumentException exception
+{}
+Threw a NSInvalidArgumentException exception
+{
+   1 = 1;
+   1848 = 1848;
+   2 = 2;
+}
+Threw a NSInvalidArgumentException exception
+{}
+Threw a NSInvalidArgumentException exception
+{}
+-initWithObjectsAndKeys:
+{
+   1 = (
+      a;
+   );
+   whatever = {
+      a = 1;
+   };
+}
+-initWithDictionary:
+{
+   a = 1;
+}
+{}
+-init
+{}
+-initWithObject:mulleVarargList:
+Threw a NSInvalidArgumentException exception
+{
+   1 = "%@";
+}
+{
+   1 = "%@ %@ %@ %@ %@";
+   3 = 2;
+   5 = 4;
+}
+-initWithDictionary:copyItems:
+{
+   a = 1;
+}
+{
+   a = 1;
+}
+{}
+{}
+-initWithObjects:forKeys:count:
+{}
+{
+   VfL = VfL;
+}
+{
+   " " = " ";
+   VfL = VfL;
+}
+{}
