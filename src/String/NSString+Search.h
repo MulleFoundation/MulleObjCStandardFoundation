@@ -64,7 +64,7 @@
 - (BOOL) hasPrefix:(NSString *) prefix;
 - (BOOL) hasSuffix:(NSString *) suffix;
 
-- (NSComparisonResult) compare:(id) other
+- (NSComparisonResult) compare:(NSString *) other
                        options:(NSStringCompareOptions) options
                          range:(NSRange) range;
 

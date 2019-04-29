@@ -79,7 +79,7 @@ static void   throw_inconsistency_exception( id format, va_list args)
 {
    [NSException raise:NSInternalInconsistencyException
                format:format
-               varargList:args];
+           varargList:args];
 }
 
 
@@ -88,7 +88,7 @@ static void   throw_argument_exception( id format, va_list args)
 {
    [NSException raise:NSInvalidArgumentException
                format:format
-               varargList:args];
+           varargList:args];
 }
 
 
@@ -104,16 +104,28 @@ __attribute__ ((noreturn))
 static void   throw_range_exception( NSRange arg)
 {
    [NSException raise:NSRangeException
-               format:@"range %lu.%lu doesn't fit", (long) arg.location, (long) arg.length];
+               format:@"range %lu/%lu doesn't fit", (long) arg.location, (long) arg.length];
+}
+
+
+
+__attribute__ ((noreturn))
+static void   throw_malloc_exception( void *block, size_t size)
+{
+   if( ! block)
+      [NSException raise:NSMallocException
+                  format:@"could not allocate %lu bytes", (unsigned long) size];
+   else
+      [NSException raise:NSMallocException
+                  format:@"could not reallocate %lu bytes for block %p", (unsigned long) size, block];
 }
 
 
 //
 // for the benefit of MulleObjC vector their exceptions to us
 //
-void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table);
-
-void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table)
+void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *table);
+void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *table)
 {
    table->errno_error            = throw_errno_exception;
    table->invalid_argument       = throw_argument_exception;
@@ -128,10 +140,15 @@ void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *t
 {
    struct _mulle_objc_exceptionhandlertable   *table;
    struct _mulle_objc_universe                *universe;
+   static int                                 flag;
 
-   universe = MulleObjCObjectGetUniverse( self);
-   table    = mulle_objc_universe_get_foundationexceptionhandlertable( universe);
-   _MulleObjCExceptionInitTable( table);
+   if( ! flag)
+   {
+      universe = MulleObjCObjectGetUniverse( self);
+      table    = mulle_objc_universe_get_foundationexceptionhandlertable( universe);
+      _MulleObjCExceptionInitTable( table);
+      flag = YES;
+   }
 }
 
 
@@ -199,11 +216,16 @@ mulleVarargList:(mulle_vararg_list) arguments
 
 
 - (instancetype) initWithName:(NSString *) name
-             reason:(NSString *) reason
-           userInfo:(NSDictionary *) userInfo
+                       reason:(NSString *) reason
+                     userInfo:(NSDictionary *) userInfo
 {
-   NSParameterAssert( [name isKindOfClass:[NSString class]]);
    NSParameterAssert( ! reason || [reason isKindOfClass:[NSString class]]);
+
+   if( ! name)
+   {
+      [self release];
+      MulleObjCThrowInvalidArgumentException( @"name can not be nil");
+   }
 
    _name     = [name copy];
    _reason   = [reason copy];
@@ -221,6 +243,7 @@ mulleVarargList:(mulle_vararg_list) arguments
 
    [super dealloc];
 }
+
 
 # pragma mark -
 # pragma mark petty accessors
@@ -247,17 +270,11 @@ mulleVarargList:(mulle_vararg_list) arguments
 //
 // maybe a bit too lazy...
 //
-NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
-                                                              NSUInteger length)
+void   MulleObjCValidateRangeWithLength( NSRange range,
+                                         NSUInteger length)
 {
-   NSUInteger max;
-
-   if( range.length == ULONG_MAX)
-      range.length = length;
-   max = range.location + range.length;
-   if( range.location > max || max > length)
+   if( ! MulleObjCRangeIsValidWithLength( range, length))
       MulleObjCThrowInvalidRangeException( range);
-   return( max);
 }
 
 
@@ -286,6 +303,12 @@ MULLE_C_NO_RETURN void
    va_start( args, format);
    throw_inconsistency_exception( format, args);
    va_end( args);
+}
+
+
+MULLE_C_NO_RETURN void   MulleObjCThrowMallocException( void *block, size_t size)
+{
+   throw_malloc_exception( block, size);
 }
 
 

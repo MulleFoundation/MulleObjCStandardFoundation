@@ -427,8 +427,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSString     *s;
    NSUInteger   grab_len;
 
-   if( range.length + range.location > _length || range.length > _length)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, _length);
 
    p        = &_storage[ 0];
    sentinel = &p[ _count];
@@ -577,8 +576,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSUInteger   r_length;
    NSUInteger   end;
 
-   if( range.length + range.location > _length || range.length > _length)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, _length);
 
    r_length = [replacement length];
    options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;
@@ -653,16 +651,16 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    while( strings < sentinel)
    {
       s   = *strings++;
-      len = [s _UTF8StringLength];
+      len = [s mulleUTF8StringLength];
       p   = mulle_buffer_advance( buffer, len);
-      [s _getUTF8Characters:p
+      [s mulleGetUTF8Characters:p
                  maxLength:len];
    }
    mulle_buffer_add_byte( buffer, 0);
 }
 
 
-- (void) _getUTF8Characters:(mulle_utf8_t *) buf
+- (void) mulleGetUTF8Characters:(mulle_utf8_t *) buf
                   maxLength:(NSUInteger) maxLength
 {
    NSString       *s;
@@ -676,11 +674,11 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    while( strings < sentinel)
    {
       s   = *strings++;
-      len = [s _UTF8StringLength];
+      len = [s mulleUTF8StringLength];
       if( len > maxLength)
          len = maxLength;
 
-      [s _getUTF8Characters:buf
+      [s mulleGetUTF8Characters:buf
                   maxLength:len];
 
       buf        = &buf[ len];
@@ -691,7 +689,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 }
 
 
-- (NSUInteger) _UTF8StringLength
+- (NSUInteger) mulleUTF8StringLength
 {
    if( ! _shadow)
       [self UTF8String];
@@ -760,21 +758,21 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    NSString    *s;
    mulle_utf8_t    *buf;
 
-   len = [self _UTF8StringLength];
+   len = [self mulleUTF8StringLength];
    if( ! len)
       return( [[other copy] autorelease]);
 
-   other_len = [other _UTF8StringLength];
+   other_len = [other mulleUTF8StringLength];
    if( ! other_len)
       return( [[self copy] autorelease]);
 
    combined_len = len + other_len;
    buf          = MulleObjCObjectAllocateNonZeroedMemory( self, combined_len * sizeof( mulle_utf8_t));
 
-   [self _getUTF8Characters:buf
+   [self mulleGetUTF8Characters:buf
                  maxLength:len];
 
-   [other _getUTF8Characters:&buf[ len]
+   [other mulleGetUTF8Characters:&buf[ len]
                   maxLength:other_len];
 
    s = [[[NSString alloc] _initWithUTF8CharactersNoCopy:buf

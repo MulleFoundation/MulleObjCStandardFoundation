@@ -36,7 +36,7 @@
 #import "MulleObjCFoundationBase.h"
 
 
-@interface NSNull : NSObject < MulleObjCSingleton, NSCopying>
+@interface NSNull : NSObject < MulleObjCSingleton, NSCopying, NSCoding>
 {
 }
 

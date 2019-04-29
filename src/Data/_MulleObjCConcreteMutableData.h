@@ -44,12 +44,16 @@
    struct mulle_buffer   _storage;
 }
 
-+ (instancetype) newWithLength:(NSUInteger) length;
-+ (instancetype) newWithCapacity:(NSUInteger) capacity;
-+ (instancetype) newWithBytes:(void *) buf
-                       length:(NSUInteger) length;
++ (instancetype) mulleNewWithCapacity:(NSUInteger) capacity;
 
-+ (instancetype) newWithBytesNoCopy:(void *) bytes
-                   length:(NSUInteger) length
-                allocator:(struct mulle_allocator *) allocator;
++ (instancetype) mulleNewWithLength:(NSUInteger) length;
+
++ (instancetype) mulleNewWithBytes:(void *) buf
+                            length:(NSUInteger) length;
+
++ (instancetype) mulleNewWithBytesNoCopy:(void *) bytes
+                                  length:(NSUInteger) length
+                               allocator:(struct mulle_allocator *) allocator;
+
+
 @end

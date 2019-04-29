@@ -36,10 +36,9 @@
 
 #import "MulleObjCFoundationBase.h"
 
-#import <mulle-utf/mulle-utf.h>
-
 
 @class NSData;
+@class NSString;
 
 typedef mulle_utf32_t  unichar;
 
@@ -51,6 +50,8 @@ typedef mulle_utf32_t  unichar;
 - (NSData *) bitmapRepresentation;
 - (BOOL) isSupersetOfSet:(NSCharacterSet *) set;
 - (BOOL) longCharacterIsMember:(long) c;
+
++ (NSCharacterSet *) characterSetWithCharactersInString:(NSString *) s;
 
 + (NSCharacterSet *) alphanumericCharacterSet;
 + (NSCharacterSet *) capitalizedLetterCharacterSet;

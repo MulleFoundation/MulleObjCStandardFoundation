@@ -73,10 +73,10 @@
 
    case _C_FLT :
    case _C_DBL :
-      return( [NSString stringWithFormat:@"%f", [self doubleValue]]);
+      return( [NSString stringWithFormat:@"%g", [self doubleValue]]);
 
    case _C_LNG_DBL :
-      return( [NSString stringWithFormat:@"%Lf", [self longDoubleValue]]);
+      return( [NSString stringWithFormat:@"%Lg", [self longDoubleValue]]);
 
    }
 }
@@ -88,7 +88,7 @@
 }
 
 
-- (NSString *) _debugContentsDescription
+- (NSString *) mulleDebugContentsDescription
 {
    return( [self description]);
 }

@@ -90,6 +90,15 @@ NSString   *NSWeekDayNameArray          = @"NSWeekDayNameArray";
 NSString   *NSYearMonthWeekDesignations = @"NSYearMonthWeekDesignations";
 
 
+// https://developer.apple.com/documentation/foundation/nsdecimalseparator
+NSString   *NSDecimalSeparator = @".";
+NSString   *NSCurrencySymbol = @"$";
+NSString   *NSThousandsSeparator = @",";
+NSString   *NSDecimalDigits = @"0123456789"; // ?? check with macos
+NSString   *NSInternationalCurrencyString = @"USD";
+NSString   *NSNegativeCurrencyFormatString = @"–$9,999.00";
+NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
+
 // most of the code is OS Specific, so not much here
 
 @implementation NSObject( _NSLocale)

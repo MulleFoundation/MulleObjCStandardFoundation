@@ -38,13 +38,17 @@
 
 // other files in this library
 #import "NSCharacterSet.h"
+#import "NSString+Components.h"
 #import "NSString+NSData.h"
+#import "NSMutableString.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationData.h"
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies
+#include <ctype.h>
+
 
 // what's the point of this warning, anyway ?
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
@@ -63,6 +67,65 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 }
 
 
+// C escape quoting
+- (NSString *) mulleQuotedString
+{
+   struct mulle_allocator   *allocator;
+   NSUInteger               dst_length;
+   NSUInteger               length;
+   mulle_utf8_t             *buf;
+   mulle_utf8_t             *dst;
+   mulle_utf8_t             *s;
+   mulle_utf8_t             *sentinel;
+   mulle_utf8_t             c;
+
+   length = [self mulleUTF8StringLength];
+   if( ! length)
+      return( @"\"\"");
+
+   allocator = MulleObjCObjectGetAllocator( self);
+   buf       = (mulle_utf8_t *) mulle_allocator_malloc( allocator, length * 3 + 3);
+
+   // place source in the back of our buffer
+   // then quote from the start
+   s        = &buf[ length * 2 + 3];
+   sentinel = &s[ length];
+   dst      = buf;
+
+   [self mulleGetUTF8Characters:s
+                      maxLength:length];
+
+   *dst++ = '\"';
+   while( s < sentinel)
+   {
+      c = *s++;
+      switch( c)
+      {
+         case '\a' : *dst++ = '\\'; *dst++ = 'a'; continue;
+         case '\b' : *dst++ = '\\'; *dst++ = 'b'; continue;
+         case '\e' : *dst++ = '\\'; *dst++ = 'e'; continue;
+         case '\f' : *dst++ = '\\'; *dst++ = 'f'; continue;
+         case '\n' : *dst++ = '\\'; *dst++ = 'n'; continue;
+         case '\r' : *dst++ = '\\'; *dst++ = 'r'; continue;
+         case '\t' : *dst++ = '\\'; *dst++ = 't'; continue;
+         case '\v' : *dst++ = '\\'; *dst++ = 'v'; continue;
+         case '?'  : *dst++ = '\\'; *dst++ = '?'; continue;  // trigraph
+         case '\\' : *dst++ = '\\'; *dst++ = '\\'; continue;
+         case '"'  : *dst++ = '\\'; *dst++ = '"'; continue;
+         default   : *dst++ = c;
+      }
+   }
+   *dst++ = '\"';
+   *dst++ = 0;
+
+   dst_length = dst - buf;
+   buf        = mulle_allocator_realloc( allocator, buf, dst_length);
+   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf
+                                                  length:dst_length
+                                               allocator:allocator]);
+}
+
+
 - (NSString *) stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet *) allowedCharacters
 {
    IMP            characterIsMemberIMP;
@@ -76,12 +139,12 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   c;
 
-   length = [self _UTF8StringLength];
+   length = [self mulleUTF8StringLength];
    if( ! length)
       return( self);
 
    buf = (mulle_utf8_t *) [[NSMutableData dataWithLength:length] mutableBytes];
-   [self _getUTF8Characters:buf
+   [self mulleGetUTF8Characters:buf
                  maxLength:length];
 
    characterIsMemberSEL = @selector( characterIsMember:);
@@ -118,7 +181,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    if( ! dst_buf)
       return( self);
 
-   return( [NSString _stringWithUTF8Characters:dst_buf
+   return( [NSString mulleStringWithUTF8Characters:dst_buf
                                         length:p - dst_buf]);
 }
 
@@ -172,12 +235,12 @@ static inline int   dehex( mulle_utf8_t c)
    mulle_utf8_t   c;
    int            hi, lo;
 
-   length = [self _UTF8StringLength];
+   length = [self mulleUTF8StringLength];
    if( ! length)
       return( self);
 
    buf = (mulle_utf8_t *) [[NSMutableData dataWithLength:length] mutableBytes];
-   [self _getUTF8Characters:buf
+   [self mulleGetUTF8Characters:buf
                  maxLength:length];
 
    characterIsMemberSEL = @selector( characterIsMember:);
@@ -231,7 +294,7 @@ static inline int   dehex( mulle_utf8_t c)
    if( ! dst_buf)
       return( self);
 
-   return( [NSString _stringWithUTF8Characters:dst_buf
+   return( [NSString mulleStringWithUTF8Characters:dst_buf
                                         length:p - dst_buf]);
 }
 
@@ -250,5 +313,89 @@ static inline int   dehex( mulle_utf8_t c)
    return( [self stringByReplacingPercentEscapesWithDisallowedCharacters:nil]);
 }
 
+
+
+enum quoteState
+{
+   NeedsNothing          = 0x0,
+   NeedsQuotes           = 0x1,
+   NeedsQuotesAndEscapes = 0x2
+};
+
+
+- (enum quoteState) mulleNeedsQuotes
+{
+   mulle_utf8_t      *s;
+   mulle_utf8_t      *sentinel;
+   NSUInteger        len;
+   enum quoteState   state;
+
+   len = [self mulleUTF8StringLength];
+   if( ! len)
+      return( NeedsQuotes);
+
+   state = NeedsNothing;
+
+   s  = [self mulleFastUTF8Characters];
+   if( ! s)
+      s = (mulle_utf8_t *) [self UTF8String];
+#ifdef MULLE_PLIST_DECODE_NSNUMBER
+   if( isdigit( *s))
+      state = NeedsQuotes;
+#endif
+
+   sentinel = &s[ len];
+   while( s < sentinel)
+   {
+      switch( *s)
+      {
+         case '\a' :
+         case '\b' :
+         case '\e' :
+         case '\f' :
+         case '\n' :
+         case '\r' :
+         case '\t' :
+         case '\v' :
+         case '\?' :
+         case '\\' :
+         case '"'  : return( NeedsQuotesAndEscapes);
+
+         default   :
+            if( ! isalnum( *s))
+               state = NeedsQuotes;
+      }
+
+      ++s;
+   }
+   return( state);
+}
+
+
+- (NSString *) mulleQuotedDescriptionIfNeeded
+{
+   NSString          *strings[ 3];
+   NSMutableString   *s;
+
+   switch( [self mulleNeedsQuotes])
+   {
+   case NeedsNothing:
+      return( self);
+
+   case NeedsQuotesAndEscapes :
+      return( [self mulleQuotedString]);
+
+   case NeedsQuotes:
+      break;
+   }
+
+   strings[ 0] = @"\"";
+   strings[ 1] = self;
+   strings[ 2] = @"\"";
+
+   s = [[[NSMutableString alloc] initWithStrings:strings
+                                           count:3] autorelease];
+   return( s);
+}
 
 @end

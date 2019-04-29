@@ -77,7 +77,7 @@
                   format:@"nil key is not acceptable"];
 
    s      = [key UTF8String];
-   length = [key _UTF8StringLength] + 1;
+   length = [key mulleUTF8StringLength] + 1;
 
    [self _appendBytes:s
                length:length];

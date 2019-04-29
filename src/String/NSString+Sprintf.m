@@ -94,13 +94,39 @@
 }
 
 
+static id   string_from_buffer( NSString *self,
+                                struct mulle_buffer *buffer,
+                                struct mulle_allocator *allocator)
+{
+   size_t         len;
+   mulle_utf8_t   *result;
+   NSString       *s;
+
+   // check if buffer needed to malloc
+   len = mulle_buffer_get_staticlength( buffer);
+   if( len)
+   {
+      result = mulle_buffer_get_bytes( buffer);
+      s      = [self _initWithUTF8Characters:result
+                                      length:len];
+   }
+   else
+   {
+      len    = mulle_buffer_get_length( buffer);
+      result = mulle_buffer_extract_all( buffer);
+      s      = [self _initWithUTF8CharactersNoCopy:result
+                                            length:len
+                                         allocator:allocator];
+   }
+   mulle_buffer_done( buffer);
+   return( s);
+}
+
+
 - (instancetype) initWithFormat:(NSString *) format
                 mulleVarargList:(mulle_vararg_list) arguments
 {
-   NSString                 *s;
    char                     *c_format;
-   mulle_utf8_t             *result;
-   size_t                   len;
    struct mulle_allocator   *allocator;
    struct mulle_buffer      buffer;
    auto char                space[ 512];
@@ -108,10 +134,9 @@
    if( ! format)
       MulleObjCThrowInvalidArgumentException( @"format is nil");
 
-   c_format  = [format UTF8String];
    allocator = MulleObjCObjectGetAllocator( self);
-
    mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), allocator);
+   c_format  = [format UTF8String];
    if( mulle_mvsprintf( &buffer, (char *) c_format, arguments) < 0)
    {
       mulle_buffer_done( &buffer);
@@ -119,24 +144,7 @@
       return( nil);
    }
 
-   // check if buffer needed to malloc (len == 0)
-   len = mulle_buffer_get_staticlength( &buffer);
-   if( len)
-   {
-      result = mulle_buffer_get_bytes( &buffer);
-      s      = [self _initWithUTF8Characters:result
-                                      length:len];
-   }
-   else
-   {
-      len    = mulle_buffer_get_length( &buffer);
-      result = mulle_buffer_extract_all( &buffer);
-      s      = [self _initWithUTF8CharactersNoCopy:result
-                                           length:len
-                                        allocator:allocator];
-   }
-   mulle_buffer_done( &buffer);
-   return( s);
+   return( string_from_buffer( self, &buffer, allocator));
 }
 
 
@@ -144,40 +152,24 @@
                      varargList:(va_list) va_list
 {
    char                     *c_format;
-   mulle_utf8_t             *result;
    struct mulle_buffer      buffer;
    struct mulle_allocator   *allocator;
-   size_t                   len;
-   NSString                 *s;
+   auto char                space[ 512];
 
-   c_format  = [format UTF8String];
+   if( ! format)
+      MulleObjCThrowInvalidArgumentException( @"format is nil");
+
    allocator = MulleObjCObjectGetAllocator( self);
-
-   mulle_buffer_init( &buffer, allocator);
+   mulle_buffer_init_with_static_bytes( &buffer, space, sizeof( space), allocator);
+   c_format  = [format UTF8String];
    if( mulle_vsprintf( &buffer, (char *) c_format, va_list) < 0)
    {
+      mulle_buffer_done( &buffer);
       [self release];
       return( nil);
    }
 
-   // check if buffer need't malloc
-   len = mulle_buffer_get_staticlength( &buffer);
-   if( len)
-   {
-      result = mulle_buffer_get_bytes( &buffer);
-      s      = [self _initWithUTF8Characters:result
-                                      length:len];
-   }
-   else
-   {
-      len    = mulle_buffer_get_length( &buffer);
-      result = mulle_buffer_extract_all( &buffer);
-      s      = [self _initWithUTF8CharactersNoCopy:result
-                                            length:len
-                                         allocator:allocator];
-   }
-   mulle_buffer_done( &buffer);
-   return( s);
+   return( string_from_buffer( self, &buffer, allocator));
 }
 
 @end

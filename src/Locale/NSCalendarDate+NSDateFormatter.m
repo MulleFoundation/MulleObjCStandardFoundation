@@ -22,7 +22,7 @@
 
    formatter = [[[NSDateFormatter alloc] initWithDateFormat:format
                                        allowNaturalLanguage:YES] autorelease];
-   [formatter setGenerateCalendarDates:YES];
+   [formatter setGeneratesCalendarDates:YES];
    [formatter setLocale:locale];
 
    return( (NSCalendarDate *) [formatter dateFromString:s]);
@@ -47,7 +47,7 @@
 
    formatter = [[[NSDateFormatter alloc] initWithDateFormat:format
                                        allowNaturalLanguage:YES] autorelease];
-   [formatter setGenerateCalendarDates:YES];
+   [formatter setGeneratesCalendarDates:YES];
    [formatter setLocale:locale];
 
    old  = self;

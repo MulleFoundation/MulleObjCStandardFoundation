@@ -37,6 +37,7 @@
 #import "NSNumber.h"
 
 
+// TODO: coalesce into 8 into 16 and add a @encode ?
 @interface _MulleObjCInt8Number : NSNumber
 {
    int8_t  _value;

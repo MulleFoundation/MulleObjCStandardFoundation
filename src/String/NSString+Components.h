@@ -47,6 +47,7 @@
 @interface NSString ( Components)
 
 - (NSArray *) componentsSeparatedByString:(NSString *) s;
+- (NSArray *) componentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
 
 #pragma mark -
 #pragma mark mulle additions

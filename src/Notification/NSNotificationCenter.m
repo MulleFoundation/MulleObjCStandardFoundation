@@ -348,15 +348,7 @@ static void   *OmniscientObserver;
 
 + (instancetype) defaultCenter
 {
-   static NSNotificationCenter  *defaultCenter;
-
-   if( ! defaultCenter)
-   {
-      defaultCenter = [self new];
-      [defaultCenter _becomeRootObject]; // retains
-      [defaultCenter release];
-   }
-   return( defaultCenter);
+   return( MulleObjCSingletonCreate( self));
 }
 
 

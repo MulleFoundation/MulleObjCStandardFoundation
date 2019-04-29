@@ -52,13 +52,14 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
    id               element;
    long             x;
 
+   assert( reader->nsArrayClass);
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
    if (x != '(')
       return( _MulleObjCPropertyListReaderFail( reader, @"did not find array (expected '(')"));
 
 
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '('
-   x = _MulleObjCPropertyListReaderSkipWhite( reader);
+   x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
 
    if( x == ')')
    { // an empty array
@@ -75,15 +76,18 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
          [result release];  // NSParse already complained
          return( nil);
       }
-      [result addObject:element];
-      [element release];
+      // this is ,)  it happens with pbxproj...
+      if( element != [NSNull null])
+      {
+         [result addObject:element];
+         [element release];
+      }
 
-      _MulleObjCPropertyListReaderSkipWhite( reader);
+      _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 ')'
       if( x == ',')
       {
          _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
-         _MulleObjCPropertyListReaderSkipWhite( reader);
          continue;
       }
 

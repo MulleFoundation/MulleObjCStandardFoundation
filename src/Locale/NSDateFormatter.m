@@ -70,6 +70,15 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
 }
 
 
+- (void) dealloc
+{
+   MulleObjCObjectDeallocateMemory( self, _cformat);
+   [_dateFormat release];
+
+   [super dealloc];
+}
+
+
 - (instancetype) init
 {
    // this is incompatible, os x uses an empty date format
@@ -92,6 +101,17 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
 //   if( behavior != NSDateFormatterBehaviorDefault && behavior != NSDateFormatterBehavior10_0)
 //      MulleObjCThrowInvalidArgumentException( @"unsupported behavior");
 //}
+
++ (void) initialize
+{
+   static BOOL  doneOnce;
+
+   if( doneOnce)
+      return;
+   doneOnce = YES;
+
+   [self setDefaultFormatterBehavior:NSDateFormatterBehavior10_0];
+}
 
 
 + (void) setDefaultFormatterBehavior:(NSDateFormatterBehavior) behavior
@@ -149,19 +169,19 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
    }
 
    if( ! cls)
-      MulleObjCThrowInternalInconsistencyException( @"no class for behaviour %d loaded", formatterBehavior);
+      MulleObjCThrowInternalInconsistencyException( @"no class for NSDateFormatterBehavior %d loaded", formatterBehavior);
 
    MulleObjCSetClass( self, cls);
 }
 
 
-- (BOOL) generateCalendarDates
+- (BOOL) generatesCalendarDates
 {
    return( [(id) _dateClass isSubclassOfClass:[NSCalendarDate class]]);
 }
 
 
-- (void) setGenerateCalendarDates:(BOOL) flag
+- (void) setGeneratesCalendarDates:(BOOL) flag
 {
    _dateClass = flag ? [NSCalendarDate class] : [NSDate class];
 }

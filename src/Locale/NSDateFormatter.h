@@ -59,7 +59,7 @@ extern NSString  *NSDateFormatter1040BehaviourClassKey;
 
 //
 // formatters are not re-entrant!
-// For historical reasons, there is only an NSDateFormatter and
+// For historical reasons, there is only a NSDateFormatter and
 // no NSCalendarDate formatter
 //
 // Eventually there will be a NSDateObject protocol or some such
@@ -92,8 +92,8 @@ extern NSString  *NSDateFormatter1040BehaviourClassKey;
 - (void) setFormatterBehavior:(NSDateFormatterBehavior) behavior;
 - (NSDateFormatterBehavior) formatterBehavior;
 
-- (BOOL) generateCalendarDates;
-- (void) setGenerateCalendarDates:(BOOL) flag;
+- (BOOL) generatesCalendarDates;
+- (void) setGeneratesCalendarDates:(BOOL) flag;
 
 @end
 

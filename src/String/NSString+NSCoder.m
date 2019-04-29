@@ -39,7 +39,7 @@
    NSUInteger   length;
 
    bytes  = [self UTF8String];
-   length = [self _UTF8StringLength];
+   length = [self mulleUTF8StringLength];
    [coder encodeBytes:bytes
                length:length + 1];
 }

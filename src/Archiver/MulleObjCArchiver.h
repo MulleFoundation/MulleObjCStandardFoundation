@@ -77,8 +77,11 @@ extern NSString  *NSInvalidArchiveOperationException;
    intptr_t                                 _objectHandle;
 
    struct mulle_allocator                   _allocator;
+   NSMutableData                            *_copyTo;
 }
 
+
+- (instancetype) initForWritingWithMutableData:(NSMutableData *) data;
 
 + (NSData *) archivedDataWithRootObject:(id) rootObject;
 

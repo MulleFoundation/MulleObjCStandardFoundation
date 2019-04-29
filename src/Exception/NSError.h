@@ -42,10 +42,12 @@
 @class NSString;
 
 
-extern NSString  *NSErrorKey;
+extern NSString   *NSErrorKey;
+extern NSString   *MulleErrorClassKey;  // class to produce lazy error
 
 extern NSString   *NSOSStatusErrorDomain;
 extern NSString   *NSMachErrorDomain;
+extern NSString   *MulleErrnoErrorDomain;
 
 extern NSString   *NSFilePathErrorKey;
 extern NSString   *NSStringEncodingErrorKey;// NSNumber containing NSStringEncoding
@@ -64,9 +66,9 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 
 @interface NSError : NSObject < NSCopying>
 
-@property( readonly) NSString       *domain;
-@property( readonly) NSInteger      code;
-@property( readonly) NSDictionary   *userInfo;
+@property( readonly, copy)   NSString       *domain;
+@property( readonly)         NSInteger      code;
+@property( readonly, retain) NSDictionary   *userInfo;
 
 - (instancetype) initWithDomain:(NSString *) domain
                            code:(NSInteger) code
@@ -84,12 +86,20 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 
 
 // mulle addition:  the default ways are tedious and lame
-+ (void) setCurrentError:(NSError *) eror;
-+ (void) setCurrentErrorWithDomain:(NSString *) domain
-                              code:(NSInteger) code
-                          userInfo:(NSDictionary *) userInfo;
-+ (instancetype) currentError;
-+ (void) clearCurrentError;
+
+// if you use errno or some other threadlocal error state, you can
+// set the errordomain to a constant only and create mulleCurrentError lazily
+
+
++ (void) mulleSetCurrentErrorClass:(Class) cls;
++ (void) mulleResetCurrentErrorClass; // set to self
+
++ (void) mulleSetCurrentError:(NSError *) error;
++ (void) mulleSetCurrentErrorWithDomain:(NSString *) domain
+                                   code:(NSInteger) code
+                               userInfo:(NSDictionary *) userInfo;
++ (instancetype) mulleCurrentError;
++ (void) mulleClearCurrentError;
 
 @end
 

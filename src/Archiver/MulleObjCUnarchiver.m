@@ -56,7 +56,7 @@
 
 @implementation MulleObjCUnarchiver
 
-+ (instancetype) unarchiveObjectWithData:(NSData *) data
++ (id) unarchiveObjectWithData:(NSData *) data
 {
    MulleObjCUnarchiver   *unarchiver;
 
@@ -212,7 +212,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    size_t                                 memo;
    size_t                                 offset;
    struct mulle_pointerarray              regular;
-   struct mulle_pointerarray_enumerator   enumerator;
+   struct mulle_pointerarrayenumerator    enumerator;
    void                                   *obj_index;
    struct mulle_allocator                 *allocator;
 
@@ -231,7 +231,6 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    }
    NSEndMapTableEnumeration( &rover);
 
-
    memo  = mulle_buffer_get_seek( &_buffer);
 
    /* do class cluster objects, that may change self */
@@ -241,7 +240,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    _initClassCluster = YES;
 
    enumerator = mulle_pointerarray_enumerate( &_classcluster);
-   while( obj_index =  mulle_pointerarray_enumerator_next( &enumerator))
+   while( obj_index =  mulle_pointerarrayenumerator_next( &enumerator))
    {
       offset = (size_t) NSMapGet( _offsets, obj_index);
 
@@ -262,13 +261,13 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
          NSMapInsert( _objects, (void *) obj_index, inited);
       }
    }
-   mulle_pointerarray_enumerator_done( &enumerator);
+   mulle_pointerarrayenumerator_done( &enumerator);
 
    _initClassCluster = 0;
 
    /* do regular objects, that must not change self */
    enumerator = mulle_pointerarray_enumerate( &regular);
-   while( obj_index = (void *) mulle_pointerarray_enumerator_next( &enumerator))
+   while( obj_index = (void *) mulle_pointerarrayenumerator_next( &enumerator))
    {
       offset = (size_t) NSMapGet( _offsets, obj_index);
 
@@ -281,15 +280,14 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
       if( inited != obj)
          [NSException raise:NSInconsistentArchiveException
-                     format:@"%@ must implement -decodeWithCoder: if it wants to return a different object than self", [self class]];
+                     format:@"%@ must implement -decodeWithCoder: if it wants to return a different object than self", [obj class]];
    }
-   mulle_pointerarray_enumerator_done( &enumerator);
+   mulle_pointerarrayenumerator_done( &enumerator);
    mulle_pointerarray_done( &regular);
 
    /* now call decodeWithCoder: on classclusters */
-
    enumerator = mulle_pointerarray_enumerate( &_classcluster);
-   while( obj_index =  mulle_pointerarray_enumerator_next( &enumerator))
+   while( obj_index =  mulle_pointerarrayenumerator_next( &enumerator))
    {
       offset = (size_t) NSMapGet( _offsets, obj_index);
 
@@ -300,7 +298,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
       obj = (id) NSMapGet( _objects, obj_index);
       [obj decodeWithCoder:self];
    }
-   mulle_pointerarray_enumerator_done( &enumerator);
+   mulle_pointerarrayenumerator_done( &enumerator);
 
    mulle_pointerarray_done( &_classcluster);
 
@@ -783,7 +781,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
 
 /* BUG #1#
-   It's assumeed that the allocator for the archiver and the object are the same.
+   It's assumed that the allocator for the archiver and the object are the same.
    It's not really a bug, because there are no "zones" here and we don't want
    them.
 */

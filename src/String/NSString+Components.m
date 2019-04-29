@@ -63,22 +63,21 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
                                                                    NSUInteger nOffsets,
                                                                    NSUInteger sepLen)
 {
-   NSArray        *array;
-   NSString       **strings;
-   NSString       **tofree;
-   NSUInteger     i;
-   mulle_utf8_t   *p;
-   mulle_utf8_t   *q;
-   NSUInteger     len;
-   NSString       *tmp[ 0x100];
+   NSArray                  *array;
+   NSString                 **strings;
+   NSUInteger               i;
+   mulle_utf8_t             *p;
+   mulle_utf8_t             *q;
+   NSUInteger               len;
+   Class                    arrayCls;
+   struct mulle_allocator   *allocator;
 
    NSCParameterAssert( bufLen >= 1);
    NSCParameterAssert( sepLen >= 1);
 
-   strings = tmp;
-   tofree  = NULL;
-   if( nOffsets > 0x100 - 1)
-      tofree = strings = (NSString **) mulle_malloc( (nOffsets + 1) * sizeof( NSString *));
+   arrayCls  = [NSArray class];
+   allocator = MulleObjCClassGetAllocator( arrayCls);
+   strings   = mulle_allocator_malloc( allocator, (nOffsets + 1) * sizeof( NSString *));
 
    /* create strings for offsets make a little string of it and place it in
       strings array
@@ -97,12 +96,9 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
    len = q - p;
    strings[ i++] = makeUTF8String( p, len);
 
-   // would be nice if we could add them retained already...
-   array = [[NSArray alloc] _initWithRetainedObjects:strings
-                                               count:i];
-
-   mulle_free( tofree);
-
+   array = [[arrayCls alloc] mulleInitWithRetainedObjectStorage:strings
+                                                          count:i
+                                                          size:i];
    return( array);
 }
 
@@ -125,12 +121,12 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    int               diff;
    size_t            size;
 
-   n = [self _UTF8StringLength];
+   n = [self mulleUTF8StringLength];
    if( ! n)
       return( nil);   // not the same as Objective-C (!) see below
 
    // stay compatible to foundation
-   m = [separator _UTF8StringLength];
+   m = [separator mulleUTF8StringLength];
    if( ! m)
       return( nil);
 
@@ -144,16 +140,16 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
    max  = (n + (m - 1)) / m + 2;
    size = (n + m) * sizeof( mulle_utf8_t) + max * sizeof( NSUInteger);
    {
-      NSUInteger   tmp[ 0x100];
+      NSUInteger   tmp[ 0x20];
 
       tofree  = NULL;
       offsets = tmp;
-      if( size > sizeof( NSUInteger) * 0x100)
+      if( size > sizeof( NSUInteger) * 0x20)
          tofree = offsets = mulle_malloc( size);
       buf = (mulle_utf8_t *) &offsets[ max];
       sep = (mulle_utf8_t *) &buf[ n];
 
-      [self _getUTF8Characters:buf];
+      [self mulleGetUTF8Characters:buf];
       sentinel = &buf[ n];
 
       // Degenerate case @"." -> ( @"", @"")
@@ -174,7 +170,7 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
       }
       else
       {
-         [separator _getUTF8Characters:sep];
+         [separator mulleGetUTF8Characters:sep];
 
          remain = m;
          p      = buf;
@@ -249,8 +245,8 @@ NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacte
    NSUInteger        *tofree;
    size_t            size;
    IMP               isMember;
-   
-   n = [self _UTF8StringLength];
+
+   n = [self mulleUTF8StringLength];
    if( ! n)
       return( nil);   // not the same as Objective-C (!) see below
 
@@ -266,27 +262,27 @@ NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacte
    max  = (n + (m - 1)) / m + 2;
    size = (n + m) * sizeof( mulle_utf8_t) + max * sizeof( NSUInteger);
    {
-      NSUInteger   tmp[ 0x100];
+      NSUInteger   tmp[ 0x20];
 
       tofree  = NULL;
       offsets = tmp;
-      if( size > sizeof( NSUInteger) * 0x100)
+      if( size > sizeof( NSUInteger) * 0x20)
          tofree = offsets = mulle_malloc( size);
       buf = (mulle_utf8_t *) &offsets[ max];
       sep = (mulle_utf8_t *) &buf[ n];
 
-      [self _getUTF8Characters:buf];
+      [self mulleGetUTF8Characters:buf];
       sentinel = &buf[ n];
 
       // Degenerate case @"." -> ( @"", @"")
-   
+
       isMember = [separators methodForSelector:@selector( characterIsMember:)];
       i = 0;
       for( p = buf; p < sentinel;)
       {
          if( ! (*isMember)( separators, @selector( characterIsMember:), (id) (uintptr_t) *p++))
             continue;
-         
+
          offsets[ i++] = p - buf;
       }
 
@@ -305,5 +301,15 @@ NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacte
    return( MulleObjCComponentsSeparatedByCharacterSet( self, separators));
 }
 
+
+- (NSArray *) componentsSeparatedByCharactersInSet:(NSCharacterSet *) separators
+{
+   NSArray   *array;
+
+   array = MulleObjCComponentsSeparatedByCharacterSet( self, separators);
+   if( ! array)
+      array = [NSArray arrayWithObject:self];
+   return( array);
+}
 
 @end

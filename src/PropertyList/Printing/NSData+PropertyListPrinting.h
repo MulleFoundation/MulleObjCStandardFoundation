@@ -34,11 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 
-@interface NSData ( PropertyListPrinting)
-
-- (BOOL) propertyListUTF8DataNeedsQuoting;
-
+@interface NSData ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 @end

@@ -47,6 +47,13 @@ enum
 {
 }
 
+- (instancetype) initWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length;
+- (instancetype) initWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length
+                        freeWhenDone:(BOOL) flag;
+- (instancetype) initWithData:(NSData *) other;
+
 + (instancetype) dataWithBytes:(void *) bytes
                         length:(NSUInteger) length;
 + (instancetype) dataWithBytesNoCopy:(void *) bytes
@@ -80,18 +87,18 @@ enum
                           copy:(BOOL) copy
                   freeWhenDone:(BOOL) freeWhenDone
                     bytesAreVM:(BOOL) bytesAreVM;
+
 - (instancetype) initWithBytes:(void *) bytes
                         length:(NSUInteger) length;
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length;
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-                 allocator:(struct mulle_allocator *) allocator;
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                    length:(NSUInteger) length
-              freeWhenDone:(BOOL) flag;
 
-- (instancetype) initWithData:(NSData *) other;
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                allocator:(struct mulle_allocator *) allocator;
+
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                    owner:(id) owner;
+
 
 @end
 

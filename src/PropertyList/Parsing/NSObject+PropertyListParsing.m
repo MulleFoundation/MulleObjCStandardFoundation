@@ -40,6 +40,7 @@
 #import "NSDictionary+PropertyListParsing.h"
 #import "NSData+PropertyListParsing.h"
 #import "NSString+PropertyListParsing.h"
+#import "_MulleObjCPropertyListReader.h"
 #import "_MulleObjCPropertyListReader+InlineAccessors.h"
 
 // other libraries of MulleObjCPosixFoundation
@@ -49,24 +50,6 @@
 
 @implementation NSObject( NSPropertyListParsing)
 
-
-static char  end_char_lut[ 128];
-
-+ (void) load
-{
-   // could be a static initialize of end_char_lut, but laziness...
-   end_char_lut[ ' ']  =
-   end_char_lut[ '\t'] =
-   end_char_lut[ '\n'] =
-   end_char_lut[ '\r'] =
-   end_char_lut[ '=']  =
-   end_char_lut[ ';']  =
-   end_char_lut[ ',']  =
-   end_char_lut[ '"']  =
-   end_char_lut[ ')']  =
-   end_char_lut[ '}']  =
-   end_char_lut[ '>']  = YES;
-}
 
 enum
 {
@@ -205,14 +188,9 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
 }
 
 
-static BOOL _isUnquotedStringEndChar(long _c)
-{
-   return( (unsigned long) _c >= 128 ? NO : end_char_lut[ _c]);
-}
-
-
 //
-// if it's unquoted it's known to be non-nil, unescaped and ASCII
+// if it's unquoted it's known to be non-nil, unescaped and alnum
+// (with possibly +-eE)
 //
 id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
@@ -221,61 +199,95 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
    int              type;
 
    _MulleObjCPropertyListReaderBookmark( reader);
-   _MulleObjCPropertyListReaderSkipUntilTrue( reader, _isUnquotedStringEndChar);
+   _MulleObjCPropertyListReaderSkipUntilTrue( reader, _MulleObjCPropertyListReaderIsUnquotedStringEndChar);
    region = _MulleObjCPropertyListReaderBookmarkedRegion( reader);
    // empty string not possible
 
-   switch( type = _dude_looks_like_a_number( (char *) region.bytes, region.length))
+   if( [reader decodesNumber])
    {
-   case is_integer :
-   case is_double  :
-      memcpy( buf, region.bytes, region.length);
-      buf[ region.length] = 0;
-      if( type == is_integer)
-         return( [[NSNumber alloc] initWithLongLong:atoll( buf)]);
-      return( [[NSNumber alloc] initWithDouble:atof( buf)]);
+      switch( type = _dude_looks_like_a_number( (char *) region.bytes, region.length))
+      {
+      case is_integer :
+      case is_double  :
+         memcpy( buf, region.bytes, region.length);
+         buf[ region.length] = 0;
+         if( type == is_integer)
+            return( [[NSNumber alloc] initWithLongLong:atoll( buf)]);
+         return( [[NSNumber alloc] initWithDouble:atof( buf)]);
+      }
    }
    return( [[reader->nsStringClass alloc] _initWithUTF8Characters:region.bytes
-                                                          length:region.length]);
+                                                           length:region.length]);
 }
 
 
+// nil means error, _MulleObjCPropertyListReaderFail should have complained
+// already.
+//
+// NSNull means some plist is incomplete like a comma after a value is
+// missing "{ x, }".If you get this at the beginning of a parse it indicates
+// a malformed plist
+//
 id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader *reader)
 {
-    unsigned long   x;
+   long   x;
+   long   y;
+   id     plist;
+   id     tofree;
+   BOOL   missingSlash;
 
-    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
+   for(;;)
+   {
+      x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
+      switch( x)
+      {
+      case -1 :
+         return( (id) _MulleObjCPropertyListReaderFail( reader,
+                        @"empty property list is invalid"));
 
-retry:
-    switch( x)
-    {
-    case ' ':
-    case '\t':
-    case '\r':
-    case '\n':
-    case '\f':
-    case '\v':
-    case '\b':
-        x = _MulleObjCPropertyListReaderNextUTF32Character( reader);
-        goto retry;
+      default: // an unquoted string or number
+         if( ! [reader decodesComments])
+         {
+            if( x == '/')
+               return( (id) _MulleObjCPropertyListReaderFail( reader, @"stray '/' in input (needs to be quoted)"));
+         }
 
-    default: // an unquoted string
-        return( _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( reader));
-    case '"': // quoted string
-        return( _MulleObjCNewStringFromPropertyListWithReader( reader));
-    case '{': // dictionary
-        return( _MulleObjCNewDictionaryFromPropertyListWithReader( reader));
-    case '(': // array
-        return( _MulleObjCNewArrayFromPropertyListWithReader( reader));
-    case '<': // data
-        return( _MulleObjCNewDataFromPropertyListWithReader( reader));
+         /* we missed a '/', only happens ifdef MULLE_PLIST_DECODE_PBX  */
+         missingSlash = (x != _MulleObjCPropertyListReaderCurrentUTF32Character( reader));
+         if( ! _MulleObjCPropertyListReaderIsUnquotedStringStartChar( reader, x))
+            return( (id) _MulleObjCPropertyListReaderFail( reader,
+                        @"stray '%c'(%ld) in input (needs to be quoted)",
+                        (int) x, x));
 
-    case '}' :
-    case ')' :  // can happen in  (  v, y, c, ) situations
-      ;
-    }
+         plist = _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( reader);
+         if( missingSlash && plist)
+         {
+            [plist autorelease];
+            plist  = [[@"/" stringByAppendingString:plist] retain];
+         }
+         return( plist);
 
-    return( nil);
+      case '"': // quoted string
+         plist = _MulleObjCNewStringFromPropertyListWithReader( reader);
+         return( plist);
+
+      case '{': // dictionary
+         plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader);
+         return( plist);
+
+      case '(': // array
+         plist = _MulleObjCNewArrayFromPropertyListWithReader( reader);
+         return( plist);
+
+      case '<': // data
+         plist = _MulleObjCNewDataFromPropertyListWithReader( reader);
+         return( plist);
+
+      case '}' :
+      case ')' :  // can happen in  (  v, y, c, ) situations
+         return( [NSNull null]);
+      }
+   }
 }
 
 @end

@@ -37,6 +37,7 @@
 #import "NSNumber+PropertyListPrinting.h"
 
 // other files in this library
+#import "NSString+PropertyListPrinting.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationLocale.h"
@@ -46,12 +47,17 @@
 
 @implementation NSNumber ( PropertyListPrinting)
 
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
 {
    NSString   *s;
 
    s = [self descriptionWithLocale:_MulleObjCPropertyListCanonicalPrintingLocale];
+#ifdef MULLE_PLIST_DECODE_NSNUMBER
+   return( [s propertyListUTF8DataWithIndent:indent
+                               quoteIfNeeded:NO]);
+#else
    return( [s propertyListUTF8DataWithIndent:indent]);
+#endif
 }
 
 @end

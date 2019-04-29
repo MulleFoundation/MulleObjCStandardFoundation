@@ -35,76 +35,101 @@
 //
 #import "_MulleObjCPropertyListReader.h"
 
+#import "_MulleObjCPropertyListReader+InlineAccessors.h"
 #import "_MulleObjCUTF8StreamReader+InlineAccessors.h"
 
 
-static inline void   _MulleObjCPropertyListReaderBookmark( _MulleObjCPropertyListReader *self)
+static inline void
+   _MulleObjCPropertyListReaderBookmark( _MulleObjCPropertyListReader *self)
 {
    _MulleObjCUTF8StreamReaderBookmark( (_MulleObjCUTF8StreamReader *) self);
 }
 
 
-static inline MulleObjCMemoryRegion   _MulleObjCPropertyListReaderBookmarkedRegion( _MulleObjCPropertyListReader *self)
+static inline MulleObjCMemoryRegion
+   _MulleObjCPropertyListReaderBookmarkedRegion( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderBookmarkedRegion( (_MulleObjCUTF8StreamReader *) self));
 }
 
 
-static inline long   _MulleObjCPropertyListReaderCurrentUTF32Character( _MulleObjCPropertyListReader *self)
+static inline long
+   _MulleObjCPropertyListReaderCurrentUTF32Character( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderCurrentUTF32Character( (_MulleObjCUTF8StreamReader *) self));
 }
 
 
-static inline long   __NSPropertyListReaderNextUTF32Character( _MulleObjCPropertyListReader *self)
+static inline long
+   __NSPropertyListReaderNextUTF32Character( _MulleObjCPropertyListReader *self)
 {
    return( __NSUTF8StreamReaderNextUTF32Character( (_MulleObjCUTF8StreamReader *) self));
 }
 
 
-static inline long   _MulleObjCPropertyListReaderNextUTF32Character( _MulleObjCPropertyListReader *self)
+static inline long
+   _MulleObjCPropertyListReaderNextUTF32Character( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderNextUTF32Character( (_MulleObjCUTF8StreamReader *) self));
 }
 
 
-static inline void   _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( _MulleObjCPropertyListReader *self)
+static inline void
+   _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( _MulleObjCPropertyListReader *self)
 {
    _MulleObjCUTF8StreamReaderConsumeCurrentUTF32Character( (_MulleObjCUTF8StreamReader *) self);
 }
 
 
-static inline long   _MulleObjCPropertyListReaderSkipWhite( _MulleObjCPropertyListReader *self)
+static inline long
+   _MulleObjCPropertyListReaderSkipWhite( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderSkipWhite( (_MulleObjCUTF8StreamReader *) self));
 }
 
 
-static inline long   _MulleObjCPropertyListReaderSkipNonWhite( _MulleObjCPropertyListReader *self)
+static inline long
+   _MulleObjCPropertyListReaderSkipWhiteAndComments( _MulleObjCPropertyListReader *self)
+{
+   return( _MulleObjCUTF8StreamReaderSkipWhiteAndComments( (_MulleObjCUTF8StreamReader *) self));
+}
+
+
+static inline long
+   _MulleObjCPropertyListReaderSkipNonWhite( _MulleObjCPropertyListReader *self)
 {
    return( _MulleObjCUTF8StreamReaderSkipNonWhite( (_MulleObjCUTF8StreamReader *) self));
 }
 
 
-static inline long   _MulleObjCPropertyListReaderSkipUntil( _MulleObjCPropertyListReader *self, long c)
+static inline long
+   _MulleObjCPropertyListReaderSkipUntil( _MulleObjCPropertyListReader *self,
+                                          long c)
 {
    return( _MulleObjCUTF8StreamReaderSkipUntil( (_MulleObjCUTF8StreamReader *) self, c));
 }
 
 
-static inline long   _MulleObjCPropertyListReaderSkipUntilUnquoted( _MulleObjCPropertyListReader *self, long c)
+static inline long
+   _MulleObjCPropertyListReaderSkipUntilUnquoted( _MulleObjCPropertyListReader *self,
+                                                  long c)
 {
    return( _MulleObjCUTF8StreamReaderSkipUntilUnquoted( (_MulleObjCUTF8StreamReader *) self, c));
 }
 
 
-static inline long   _MulleObjCPropertyListReaderSkipUntilTrue( _MulleObjCPropertyListReader *self, BOOL (*f)( long))
+static inline long
+   _MulleObjCPropertyListReaderSkipUntilTrue( _MulleObjCPropertyListReader *self,
+                                              BOOL (*f)( _MulleObjCPropertyListReader *self, long))
 {
-   return( _MulleObjCUTF8StreamReaderSkipUntilTrue( (_MulleObjCUTF8StreamReader *) self, f));
+   return( _MulleObjCUTF8StreamReaderSkipUntilTrue( (_MulleObjCUTF8StreamReader *) self,
+                                                    (BOOL (*)( _MulleObjCUTF8StreamReader *, long)) f));
 }
 
 
-static inline void   *_MulleObjCPropertyListReaderFail( _MulleObjCPropertyListReader *self, NSString *format, ...)
+static inline void   *
+   _MulleObjCPropertyListReaderFail( _MulleObjCPropertyListReader *self,
+                                     NSString *format, ...)
 {
    va_list   args;
 
@@ -116,3 +141,9 @@ static inline void   *_MulleObjCPropertyListReaderFail( _MulleObjCPropertyListRe
 
    return( NULL);
 }
+
+
+extern BOOL   _MulleObjCPropertyListReaderIsUnquotedStringEndChar(
+            _MulleObjCPropertyListReader *reader, long _c);
+extern BOOL   _MulleObjCPropertyListReaderIsUnquotedStringStartChar(
+         _MulleObjCPropertyListReader *reader, long _c);

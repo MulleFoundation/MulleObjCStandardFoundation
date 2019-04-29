@@ -70,7 +70,7 @@
 }
 
 
-- (NSUInteger) _UTF8StringLength
+- (NSUInteger) mulleUTF8StringLength
 {
    return( mulle_utf32_utf8length( [self _fastUTF32Characters], _length));
 }
@@ -99,13 +99,12 @@
 static void   grab_utf32( id self,
                           SEL sel,
                           mulle_utf32_t *storage,
-                          NSUInteger len,
+                          NSUInteger length,
                           mulle_utf32_t *dst,
                           NSRange range)
 {
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   if( range.length + range.location > len || range.length > len)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, length);
 
    memcpy( dst, &storage[ range.location], range.length * sizeof( mulle_utf32_t));
 }
@@ -138,8 +137,7 @@ static void   grab_utf32( id self,
    NSUInteger      length;
 
    length = [self length];
-   if( range.length + range.location > length || range.length > length)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, length);
 
    s = [self _fastUTF32Characters];
    assert( s);
@@ -157,7 +155,7 @@ static void   grab_utf32( id self,
 @implementation _MulleObjCGenericUTF32String
 
 + (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
-                       length:(NSUInteger) length
+                                 length:(NSUInteger) length
 {
    _MulleObjCGenericUTF32String   *obj;
 
@@ -189,15 +187,14 @@ static void   grab_utf32( id self,
 @implementation _MulleObjCAllocatorUTF32String
 
 + (instancetype) newWithUTF32CharactersNoCopy:(mulle_utf32_t *) chars
-                             length:(NSUInteger) length
-                          allocator:(struct mulle_allocator *) allocator
+                                       length:(NSUInteger) length
+                                   allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCAllocatorUTF32String   *obj;
 
    NSParameterAssert( mulle_utf32_strnlen( chars, length) == length);
 
-   obj = NSAllocateObject( self, 0, NULL);
-
+   obj             = NSAllocateObject( self, 0, NULL);
    obj->_storage   = chars;
    obj->_length    = length;
    obj->_allocator = allocator;
@@ -233,15 +230,14 @@ static void   grab_utf32( id self,
 @implementation _MulleObjCSharedUTF32String
 
 + (instancetype) newWithUTF32CharactersNoCopy:(mulle_utf32_t *) chars
-                             length:(NSUInteger) length
-                      sharingObject:(id) sharingObject
+                                      length:(NSUInteger) length
+                               sharingObject:(id) sharingObject
 {
    _MulleObjCSharedUTF32String  *data;
 
    NSParameterAssert( mulle_utf32_strnlen( (mulle_utf32_t *) chars, length) == length);
 
-   data = NSAllocateObject( self, 0, NULL);
-
+   data                 = NSAllocateObject( self, 0, NULL);
    data->_storage       = chars;
    data->_length        = length;
    data->_sharingObject = [sharingObject retain];

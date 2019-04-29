@@ -47,16 +47,17 @@
 @implementation NSString ( NSPropertyListParsing)
 
 
-NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
+NSString   *
+   _MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
-   long           x;
-   size_t         len;
-   size_t         escaped;
-   MulleObjCMemoryRegion  region;
-   NSMutableData  *data;
-   unsigned char  *src;
-   unsigned char  *dst;
-   NSString       *s;
+   long                    x;
+   size_t                  len;
+   size_t                  escaped;
+   MulleObjCMemoryRegion   region;
+   NSMutableData           *data;
+   unsigned char           *src;
+   unsigned char           *dst;
+   NSString                *s;
 
    // grab '"' off
    x = _MulleObjCPropertyListReaderNextUTF32Character( reader);
@@ -88,7 +89,7 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
 #if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
          case '0' :
 #endif
-               break;
+            break;
          }
          escaped++;
       }
@@ -131,11 +132,13 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
          {
          case 'a'  : dst[ -1] = '\a'; break;
          case 'b'  : dst[ -1] = '\b'; break;
+         case 'e'  : dst[ -1] = '\e'; break;
          case 'f'  : dst[ -1] = '\f'; break;
          case 'n'  : dst[ -1] = '\n'; break;
          case 'r'  : dst[ -1] = '\r'; break;
          case 't'  : dst[ -1] = '\t'; break;
          case 'v'  : dst[ -1] = '\v'; break;
+         case '?'  : dst[ -1] = '?';  break;
          case '\\' : dst[ -1] = '\\'; break;
          case '\"' : dst[ -1] = '\"'; break;
 #if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
@@ -145,14 +148,15 @@ NSString   *_MulleObjCNewStringParsedQuotedFromPropertyListWithReader( _MulleObj
          }
    }
    s = [[reader->nsStringClass alloc] initWithData:data
-                                           encoding:NSUTF8StringEncoding];
+                                          encoding:NSUTF8StringEncoding];
    [data release];
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);  // skip '"'
    return( s);
 }
 
 
-NSString   *_MulleObjCNewStringFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
+NSString   *
+   _MulleObjCNewStringFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
    long  x;
 

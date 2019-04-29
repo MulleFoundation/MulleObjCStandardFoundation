@@ -65,14 +65,14 @@ typedef NSUInteger   NSStringCompareOptions;
 //
 // A CString is a string with a zero terminator in the C locale,
 // this particular library does not deal with locales, so the concept
-// is postponed until the POSIX is introduced. (Truth be told, c locales suck)
+// is postponed until POSIX is introduced. (Truth be told, c locales suck)
 //
 // To support unichar somewhat efficiently
 //
 //    o make unichar UTF-32
 //    o store strings in three formats
 //        1. ASCII (7 bit)
-//        2. UTF-16 (w/o surrogate pairs)
+//        2. UTF-16 (15 bit only) (w/o surrogate pairs)
 //        3. UTF-32, everything else
 //    o strings that are not ASCII, store their UTF8 representation when
 //      needed.
@@ -94,6 +94,8 @@ typedef NSUInteger   NSStringCompareOptions;
 + (instancetype) string;
 + (instancetype) stringWithString:(NSString *) other;
 
+- (instancetype) initWithString:(NSString *) s;
+
 - (NSString *) description;
 
 - (NSString *) substringWithRange:(NSRange) range;
@@ -112,7 +114,7 @@ typedef NSUInteger   NSStringCompareOptions;
 // UTF32
 //
 + (instancetype) stringWithCharacters:(unichar *) s
-                     length:(NSUInteger) len;
+                               length:(NSUInteger) len;
 
 - (void) getCharacters:(unichar *) buffer;
 
@@ -120,21 +122,6 @@ typedef NSUInteger   NSStringCompareOptions;
 // UTF8
 // keep "old" UTF8Strings methods using char *
 + (instancetype) stringWithUTF8String:(char *) s;
-+ (instancetype) _stringWithUTF8Characters:(mulle_utf8_t *) s
-                         length:(NSUInteger) len;
-
-// characters are not zero terminated
-- (void) _getUTF8Characters:(mulle_utf8_t *) buf;
-
-+ (BOOL) _areValidUTF8Characters:(mulle_utf8_t *) buffer
-                          length:(NSUInteger) length;
-
-// strings are zero terminated, zero stored in
-// buf[ size - 1]
-//
-- (NSUInteger) _getUTF8String:(mulle_utf8_t *) buf
-                  bufferSize:(NSUInteger) size;
-- (void) _getUTF8String:(mulle_utf8_t *) buf;
 
 - (char *) UTF8String;
 
@@ -147,13 +134,38 @@ typedef NSUInteger   NSStringCompareOptions;
 
 @interface NSString( MulleAdditions)
 
-- (NSUInteger) _UTF8StringLength;
-+ (instancetype) _stringWithCharactersNoCopy:(unichar *) s
-                            length:(NSUInteger) len
-                         allocator:(struct mulle_allocator *) allocator;
-+ (instancetype) _stringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                length:(NSUInteger) len
-                             allocator:(struct mulle_allocator *) allocator;
+- (NSUInteger) mulleUTF8StringLength;
+- (mulle_utf8_t *) mulleFastUTF8Characters;
++ (instancetype) mulleStringWithCharactersNoCopy:(unichar *) s
+                                          length:(NSUInteger) len
+                                       allocator:(struct mulle_allocator *) allocator;
++ (instancetype) mulleStringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                              length:(NSUInteger) len
+                                           allocator:(struct mulle_allocator *) allocator;
+
++ (instancetype) mulleStringWithStrings:(NSString *) s, ...;
++ (instancetype) mulleStringWithString:(NSString *) s
+                mulleVarargList:(mulle_vararg_list) args;
+
+
+//
+// UTF8
+// keep "old" UTF8Strings methods using char *
++ (instancetype) mulleStringWithUTF8Characters:(mulle_utf8_t *) s
+                                    length:(NSUInteger) len;
+
+// characters are not zero terminated
+- (void) mulleGetUTF8Characters:(mulle_utf8_t *) buf;
+
++ (BOOL) mulleAreValidUTF8Characters:(mulle_utf8_t *) buffer
+                          length:(NSUInteger) length;
+
+// strings are zero terminated, zero stored in
+// buf[ size - 1]
+//
+- (NSUInteger) mulleGetUTF8String:(mulle_utf8_t *) buf
+                       bufferSize:(NSUInteger) size;
+- (void) mulleGetUTF8String:(mulle_utf8_t *) buf;
 
 @end
 
@@ -165,8 +177,8 @@ typedef NSUInteger   NSStringCompareOptions;
 
 - (void) getCharacters:(unichar *) buffer
                  range:(NSRange) range;
-- (void) _getUTF8Characters:(mulle_utf8_t *) buffer
-                  maxLength:(NSUInteger) length;
+- (void) mulleGetUTF8Characters:(mulle_utf8_t *) buffer
+                      maxLength:(NSUInteger) length;
 @end
 
 

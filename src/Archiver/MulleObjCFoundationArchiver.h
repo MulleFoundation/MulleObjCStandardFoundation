@@ -41,17 +41,8 @@
 #import "NSKeyedUnarchiver.h"
 #import "NSUnarchiver.h"
 
-#import "NSArray+NSCoder.h"
-#import "NSData+NSCoder.h"
-#import "NSDate+NSCoder.h"
-#import "NSDictionary+NSCoder.h"
-#import "NSObject+NSCoder.h"
-#import "NSNumber+NSCoder.h"
-#import "NSSet+NSCoder.h"
-#import "NSString+NSCoder.h"
-#import "NSSortDescriptor+NSCoder.h"
-#import "NSValue+NSCoder.h"
 
+#import "NSObject+NSCoder.h"
 
 // export everything with MulleObjC
 #import "MulleObjCArchiver.h"

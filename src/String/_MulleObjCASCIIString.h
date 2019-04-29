@@ -51,13 +51,16 @@
 @interface _MulleObjCASCIIString( _Subclasses)
 
 + (instancetype) newWithASCIICharacters:(char *) chars
-                       length:(NSUInteger) length;
+                                 length:(NSUInteger) length;
 + (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
-                       length:(NSUInteger) length;
+                                 length:(NSUInteger) length;
 @end
 
 
-#if HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
+
+// (nat/2019) I don't feel these are worth the class meta overhead
+
+#ifdef HAVE_FIXED_LENGTH_ASCII_SUBCLASSES
 //
 // just some shortcuts to avoid having to store the length, when our byte size
 // length would blow up the string by another 4 bytes (because of malloc
@@ -92,16 +95,15 @@
 @end
 
 
-// does not have a trailing zero
+// TODO: coalesce next three into one
+
+// does not have a trailing zero, this is an abstract class
 @interface _MulleObjCReferencingASCIIString : _MulleObjCASCIIString
 {
-   NSUInteger   _length;
-   char         *_storage;
+   NSUInteger     _length;
+   char           *_storage;
+   mulle_utf8_t   *_shadow;
 }
-
-+ (instancetype) newWithASCIIStringNoCopy:(char *) chars
-                             length:(NSUInteger) length;
-
 @end
 
 
@@ -111,21 +113,32 @@
    struct mulle_allocator   *_allocator;
 }
 
-+ (instancetype) newWithASCIIStringNoCopy:(char *) chars
-                         length:(NSUInteger) length
-                      allocator:(struct mulle_allocator *) allocator;
++ (instancetype) newWithASCIICharactersNoCopy:(char *) chars
+                                       length:(NSUInteger) length
+                                    allocator:(struct mulle_allocator *) allocator;
 
 @end
 
 
+// does not have a trailing zero
 @interface _MulleObjCSharedASCIIString : _MulleObjCReferencingASCIIString
 {
-   id             _sharingObject;
-   mulle_utf8_t   *_shadow;
+   id   _sharingObject;
 }
 
 + (instancetype) newWithASCIICharactersNoCopy:(char *) chars
-                             length:(NSUInteger) length
-                      sharingObject:(id) sharingObject;
+                                       length:(NSUInteger) length
+                                sharingObject:(id) sharingObject;
 
 @end
+
+
+// does have a trailing zero
+@interface _MulleObjCAllocatorZeroTerminatedASCIIString  : _MulleObjCAllocatorASCIIString
+
++ (instancetype) newWithZeroTerminatedASCIICharactersNoCopy:(char *) chars
+                                                     length:(NSUInteger) length
+                                                  allocator:(struct mulle_allocator *) allocator;
+
+@end
+

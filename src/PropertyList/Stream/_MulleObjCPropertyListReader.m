@@ -98,4 +98,61 @@
    nsDataClass   = [NSData class];
 }
 
+
+BOOL   _MulleObjCPropertyListReaderIsUnquotedStringEndChar(
+            _MulleObjCPropertyListReader *reader, long _c)
+{
+   // mostly compatible to Apple (which is good for us)
+   // except, that we support +-. Ee  for doubles
+   if( [reader decodesPBX] &&
+         (
+            _c  == '_' ||
+            _c == '/'  ||
+            _c == '$'
+         )
+      )
+      return( NO);
+
+   if( [reader decodesNumber] &&
+         (
+            _c == '+'  ||
+            _c  == '-' ||
+            _c == '.'
+         )
+      )
+      return( NO);
+
+   if( _c < 127 && isalnum( _c))
+      return( NO);
+   return( YES);
+}
+
+
+BOOL  _MulleObjCPropertyListReaderIsUnquotedStringStartChar(
+         _MulleObjCPropertyListReader *reader, long _c)
+{
+   // mostly compatible to Apple (which is good for us)
+   // except, that we support +-. Ee  for doubles
+   if( [reader decodesPBX] &&
+         (
+            _c  == '_' ||
+            _c == '/'  ||
+            _c == '$'
+         )
+      )
+      return( YES);
+
+   if( [reader decodesNumber] &&
+         (
+            _c == '+' ||
+            _c == '-'
+         )
+      )
+      return( YES);
+
+   if( _c < 127 && isalnum( _c))
+      return( YES);
+   return( NO);
+}
+
 @end

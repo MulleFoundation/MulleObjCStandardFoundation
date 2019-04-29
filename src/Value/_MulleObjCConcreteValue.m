@@ -48,21 +48,20 @@
 
 @implementation _MulleObjCConcreteValue
 
-+ (instancetype) newWithBytes:(void *) bytes
-           objCType:(char *) type
++ (instancetype) mulleNewWithBytes:(void *) bytes
+                     objCType:(char *) type
 {
    _MulleObjCConcreteValue   *value;
    NSUInteger                extra;
    NSUInteger                size;
    size_t                    type_size;
 
-   NSParameterAssert( type && strlen( type));
-   NSParameterAssert( bytes);
-   assert( bytes); // for analyzer
-   assert( type && strlen( type)); // for analyzer
+   if( ! bytes)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
+   if( ! type)
+      MulleObjCThrowInvalidArgumentException( @"empty type");
 
    NSGetSizeAndAlignment( type, &size, NULL);
-
    NSParameterAssert( size);
 
    type_size = strlen( type) + 1;
@@ -93,6 +92,9 @@
 
 - (void) getValue:(void *) bytes
 {
+   if( ! bytes)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
+
    memcpy( bytes, _MulleObjCConcreteValueBytes( self), _size);
 }
 
@@ -100,6 +102,8 @@
 - (void) getValue:(void *) bytes
              size:(NSUInteger) size
 {
+   if( ! bytes && size)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
    if( size != _size)
       MulleObjCThrowInvalidArgumentException( @"size should be %ld bytes on this platform", _size);
 

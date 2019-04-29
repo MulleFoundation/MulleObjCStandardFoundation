@@ -10,8 +10,8 @@
 
 #import "_NSGMTTimeZone-Private.h"
 
-@implementation _NSGMTTimeZone
 
+@implementation _NSGMTTimeZone
 
 - (NSInteger) secondsFromGMT  { return( 0); }
 - (NSString *) abbreviation   { return( @"GMT"); }

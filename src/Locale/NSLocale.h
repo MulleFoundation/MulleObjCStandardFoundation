@@ -121,3 +121,11 @@ extern NSString   *NSTimeDateFormatString;
 extern NSString   *NSTimeFormatString;
 extern NSString   *NSWeekDayNameArray;
 extern NSString   *NSYearMonthWeekDesignations;
+
+extern NSString   *NSCurrencySymbol;
+extern NSString   *NSDecimalDigits; // ?? check with macos
+extern NSString   *NSDecimalSeparator;
+extern NSString   *NSInternationalCurrencyString;
+extern NSString   *NSNegativeCurrencyFormatString;
+extern NSString   *NSPositiveCurrencyFormatString;
+extern NSString   *NSThousandsSeparator;

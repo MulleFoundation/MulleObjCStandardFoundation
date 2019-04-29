@@ -33,12 +33,12 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 
-@interface NSArray( PropertyListPrinting)
+@interface NSArray( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(unsigned int) indent;
+                               indent:(NSUInteger) indent;
 
 @end

@@ -84,13 +84,13 @@
 }
 
 
-- (mulle_utf8_t *) _fastUTF8Characters
+- (mulle_utf8_t *) mulleFastUTF8Characters
 {
    return( (mulle_utf8_t *) _storage);
 }
 
 
-- (NSUInteger) _UTF8StringLength
+- (NSUInteger) mulleUTF8StringLength
 {
    return( _length);
 }
@@ -110,11 +110,26 @@
 }
 
 
-- (instancetype) retain       {  return( self); }
-- (void) release              { }
-- (instancetype) autorelease  { return( self); }
+- (instancetype) retain
+{
+   return( self);
+}
+
+
+- (void) release
+{
+}
+
+
+- (instancetype) autorelease
+{
+   return( self);
+}
+
+
 - (void) dealloc
 {
    assert( 0 && "deallocing a NSConstantString ???");
 }
+
 @end

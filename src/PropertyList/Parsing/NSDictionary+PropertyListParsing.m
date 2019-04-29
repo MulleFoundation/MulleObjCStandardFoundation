@@ -50,8 +50,8 @@
 NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
    NSMutableDictionary   *result;
+   id                    key;
    long                  x;
-   NSString              *key;
    id                    value;
 
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader);
@@ -60,7 +60,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
 
 
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '{'
-   x = _MulleObjCPropertyListReaderSkipWhite( reader);
+   x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
 
    if( x == '}')
    { // an empty dictionary
@@ -78,7 +78,10 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          return( nil);
       }
 
-      _MulleObjCPropertyListReaderSkipWhite( reader);
+      if( key == [NSNull null])
+         break;
+
+      _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 '='
       if( x != '=')
       {
@@ -87,7 +90,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          return( (id) _MulleObjCPropertyListReaderFail( reader, @"expected '=' after key in dictionary"));
       }
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
-      _MulleObjCPropertyListReaderSkipWhite( reader);
+      _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
 
       value = _MulleObjCNewFromPropertyListWithStreamReader( reader);
       if( ! value)
@@ -104,16 +107,22 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
       [value release];
       [key release];
 
-      _MulleObjCPropertyListReaderSkipWhite( reader);
+      _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 ';}'
       if( x != ';')
       {
-         [result release];
-         return( (id) _MulleObjCPropertyListReaderFail( reader, @"expected ';' after value in dictionary"));
+         if( x != '}')  // lenient, can skip last ';' but then must get '}''
+         {
+            [result release];
+            return( (id) _MulleObjCPropertyListReaderFail( reader, @"expected ';' after value in dictionary"));
+         }
+      }
+      else
+      {
+         _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
+         x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
       }
 
-      _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
-      x = _MulleObjCPropertyListReaderSkipWhite( reader);
       if( x == '}')
       {
          _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);

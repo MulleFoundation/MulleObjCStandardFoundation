@@ -36,12 +36,15 @@
 #import "NSDictionary+PropertyListPrinting.h"
 
 // other files in this library
-#import "NSObject+PropertyListPrinting.h"
+#import "NSArray.h"
+
+#import "MulleObjCPropertyListPrinting.h"
 
 // std-c and dependencies
 
 
 @implementation NSDictionary( PropertyListPrinting)
+
 
 typedef struct
 {
@@ -51,41 +54,31 @@ typedef struct
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                                  indent:(unsigned int) indent
+                               indent:(NSUInteger) indent
 {
    id              key, value;
-   NSEnumerator    *enumerator;
    NSData          *keyData;
    NSData          *valueData;
    NSData          *indentation1;
-   static NSData   *assignment;
-   static NSData   *terminator;
-   static NSData   *closer;
+   NSArray         *keys;
    unsigned        indent1;
 
    indent1 = indent + 1;
 
    if( ! [self count])
    {
-      [handle writeData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
+      [handle writeBytes:"{}"
+                  length:2];
       return;
    }
 
-   [handle writeData:[@"{\n" dataUsingEncoding:NSUTF8StringEncoding]];
-
+   [handle writeBytes:"{\n"
+               length:2];
    indentation1 = [self propertyListUTF8DataIndentation:indent1];
 
-   if( ! assignment)
-   {
-      assignment = [[@" = " dataUsingEncoding:NSUTF8StringEncoding] retain];
-      terminator = [[@";\n" dataUsingEncoding:NSUTF8StringEncoding] retain];
-      closer     = [[@"}" dataUsingEncoding:NSUTF8StringEncoding] retain];
-   }
-
    // don't really care if sorted or not but WTF.. :)
-   enumerator = [[[self allKeys] sortedArrayUsingSelector:@selector( compare:)] objectEnumerator];
-
-   while( key = [enumerator nextObject])
+   keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
+   for( key in keys)
    {
       value = [self objectForKey:key];
 
@@ -94,13 +87,16 @@ typedef struct
 
       [handle writeData:indentation1];
       [handle writeData:keyData];
-      [handle writeData:assignment];
+      [handle writeBytes:" = "
+                  length:3];
       [handle writeData:valueData];
-      [handle writeData:terminator];
+      [handle writeBytes:";\n"
+                  length:1];
    }
 
    [handle writeData:[self propertyListUTF8DataIndentation:indent]];
-   [handle writeData:closer];
+   [handle writeBytes:"}"
+               length:1];
 }
 
 @end

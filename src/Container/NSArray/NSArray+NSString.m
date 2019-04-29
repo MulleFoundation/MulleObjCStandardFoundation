@@ -39,6 +39,7 @@
 
 // other files in this library
 #import "NSEnumerator.h"
+#import "MulleObjCContainerDescription.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
@@ -84,79 +85,21 @@
 }
 
 
-BOOL   NSArrayCompatibleDescription = YES;
-
-- (NSString *) _descriptionWithSelector:(SEL) sel
+- (NSString *) mulleDescriptionWithSelector:(SEL) sel
 {
-   NSMutableString   *s;
-   NSEnumerator      *rover;
-   BOOL              flag;
-   id                p;
-   NSString          *initalSpaceOne;
-   NSString          *initalSpaceMany;
-   NSString          *secondSpace;
-   NSString          *firstNewLine;
-   NSUInteger        count;
-
-   count = [self count];
-   if( ! count)
-      return( NSArrayCompatibleDescription ? @"(\n)" : @"()");
-
-   if( NSArrayCompatibleDescription)
-   {
-      initalSpaceOne  = @"\n    ";
-      initalSpaceMany = @"\n";
-      secondSpace     = @"    ";
-      firstNewLine    = @"\n";
-   }
-   else
-   {
-      initalSpaceOne  = @" ";
-      initalSpaceMany = @"\n";
-      secondSpace     = @"   ";
-      firstNewLine    = @" ";
-   }
-
-   flag  = NO;
-   s     = [NSMutableString stringWithString:@"("];
-   if( count > 1)
-      [s appendString:initalSpaceMany];
-   else
-      [s appendString:initalSpaceOne];
-
-   rover = [self objectEnumerator];
-   while( p = [rover nextObject])
-   {
-      if( flag)
-         [s appendString:@",\n"];
-      flag = YES;
-
-      if( count > 1)
-         [s appendString:secondSpace];
-
-      [s appendString:[p performSelector:sel]];
-   }
-
-   if( count == 1)
-      [s appendString:firstNewLine];
-   else
-      [s appendString:@"\n"];
-
-   [s appendString:@")"];
-
-   return( s);
+   return( MulleObjCObjectContainerDescriptionWithSelector( self, sel, @"(", @")", @"()"));
 }
 
 
 - (NSString *) description
 {
-   return( [self _descriptionWithSelector:_cmd]);
+   return( [self mulleDescriptionWithSelector:@selector( mulleQuotedDescriptionIfNeeded)]);
 }
 
 
-- (NSString *) _debugContentsDescription
+- (NSString *) mulleDebugContentsDescription
 {
-   return( [self _descriptionWithSelector:_cmd]);
+   return( [self mulleDescriptionWithSelector:_cmd]);
 }
 
 

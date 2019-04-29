@@ -48,7 +48,7 @@
 
 @implementation NSValue (NSString)
 
-- (NSString *) _debugContentsDescription
+- (NSString *) mulleDebugContentsDescription
 {
    struct mulle_buffer   buffer;
    char                  tmp[ 512];
@@ -74,6 +74,12 @@
    mulle_buffer_done( &buffer);
 
    return( s);
+}
+
+
+- (NSString *) mulleQuotedDescriptionIfNeeded
+{
+   return( [[self description] mulleQuotedDescriptionIfNeeded]);
 }
 
 @end

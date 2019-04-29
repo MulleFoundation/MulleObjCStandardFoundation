@@ -43,7 +43,7 @@
 extern NSString   *NSInternalInconsistencyException;
 extern NSString   *NSGenericException;
 extern NSString   *NSInvalidArgumentException;
-extern NSString   *NSMallocException;  // never thrown in MulleObjC
+extern NSString   *NSMallocException;
 extern NSString   *NSRangeException;
 extern NSString   *NSParseErrorException;
 
@@ -86,15 +86,14 @@ mulleVarargList:(mulle_vararg_list) args;
 @end
 
 
-#define NS_DURING		@try {
-#define NS_HANDLER		} @catch( NSException *localException) {
-#define NS_ENDHANDLER		}
-#define NS_VALUERETURN( v,t)	return (v)
-#define NS_VOIDRETURN		return
+#define NS_DURING             @try {
+#define NS_HANDLER            } @catch( NSException *localException) {
+#define NS_ENDHANDLER         }
+#define NS_VALUERETURN( v,t)  return (v)
+#define NS_VOIDRETURN         return
 
-NSUInteger  MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSRange range,
-                                                              NSUInteger length);
-
+void   MulleObjCValidateRangeWithLength( NSRange range,
+                                         NSUInteger length);
 
 @class NSString;
 
@@ -103,6 +102,10 @@ void   MulleObjCThrowInvalidIndexException( NSUInteger index);
 
 MULLE_C_NO_RETURN
 void   MulleObjCThrowInvalidRangeException( NSRange range);
+
+// vectored through mulle_allocator, don't throw yourself
+MULLE_C_NO_RETURN
+void   MulleObjCThrowMallocException( void *block, size_t size);
 
 MULLE_C_NO_RETURN
 void   MulleObjCThrowInvalidArgumentException( NSString *format, ...);

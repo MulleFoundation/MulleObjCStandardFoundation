@@ -46,11 +46,13 @@
 #import "NSException.h"
 
 
-NSString  *NSErrorKey = @"NSError";
+NSString  *NSErrorKey          = @"NSError";
+NSString  *MulleErrorClassKey  = @"MulleErrorClass";
 
 
 NSString   *NSOSStatusErrorDomain  = @"NSOSStatusError";
 NSString   *NSMachErrorDomain      = @"NSMachError";
+NSString   *MulleErrnoErrorDomain  = @"MulleErrnoError";
 
 NSString   *NSFilePathErrorKey       = @"NSFilePathError";
 NSString   *NSStringEncodingErrorKey = @"NSStringEncodingError";
@@ -68,12 +70,13 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 
 @implementation NSError
 
+
 - (instancetype) initWithDomain:(NSString *) domain
                            code:(NSInteger) code
                        userInfo:(NSDictionary *) userInfo
 {
-   _domain = [domain copy];
-   _code   = code;
+   _domain   = [domain copy];
+   _code     = code;
    _userInfo = [userInfo copy];
 
    return( self);
@@ -126,8 +129,30 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 }
 
 
-// mulle addition:  the default ways are tedious and lame
-+ (void) setCurrentError:(NSError *) error
+//
+// mulle additions:  the default ways are tedious and lame
+//
++ (void) mulleResetCurrentErrorClass
+{
+   [self mulleSetCurrentErrorClass:self];
+}
+
+
++ (void) mulleSetCurrentErrorClass:(Class) domain
+{
+   NSMutableDictionary   *threadDictionary;
+
+   if( ! domain)
+      MulleObjCThrowInvalidArgumentException( @"domain must not be nil");
+
+   threadDictionary = [[NSThread currentThread] threadDictionary];
+   [threadDictionary removeObjectForKey:NSErrorKey];
+   [threadDictionary setObject:domain
+                        forKey:MulleErrorClassKey];
+}
+
+
++ (void) mulleSetCurrentError:(NSError *) error
 {
    if( ! error)
       MulleObjCThrowInvalidArgumentException( @"error must not be nil");
@@ -137,47 +162,85 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 }
 
 
-+ (void) setCurrentErrorWithDomain:(NSString *) domain
-                              code:(NSInteger) code
-                          userInfo:(NSDictionary *) userInfo
++ (void) mulleSetCurrentErrorWithDomain:(NSString *) domain
+                                   code:(NSInteger) code
+                               userInfo:(NSDictionary *) userInfo
 {
    NSError  *error;
 
    error = [NSError errorWithDomain:domain
                                code:code
                            userInfo:userInfo];
-   [self setCurrentError:error];
+   [self mulleSetCurrentError:error];
 }
 
 
-+ (void) clearCurrentError
++ (void) mulleClearCurrentError
 {
-   [[[NSThread currentThread] threadDictionary] removeObjectForKey:NSErrorKey];
+   NSMutableDictionary   *threadDictionary;
+
+   threadDictionary = [[NSThread currentThread] threadDictionary];
+   [threadDictionary removeObjectForKey:NSErrorKey];
+   [threadDictionary removeObjectForKey:MulleErrorClassKey];
 }
 
 
-+ (instancetype) currentError
++ (instancetype) mulleErrnoError
 {
-   return( [[[NSThread currentThread] threadDictionary] objectForKey:NSErrorKey]);
+   NSString       *s;
+   NSError        *error;
+   NSDictionary   *info;
+
+   if( ! errno)
+      return( nil);
+
+   //
+   // questionable!! Why is this UTF8
+   // if not then OS should overwrite this
+   //
+   s     = [NSString stringWithUTF8String:strerror( errno)];
+   info  = [NSDictionary dictionaryWithObject:s
+                                       forKey:NSLocalizedDescriptionKey];
+   error = [NSError errorWithDomain:MulleErrnoErrorDomain
+                               code:errno
+                           userInfo:info];
+   return( error);
+}
+
+
++ (instancetype) mulleCurrentError
+{
+   NSMutableDictionary   *threadDictionary;
+   NSError               *error;
+   Class                 cls;
+
+   threadDictionary = [[NSThread currentThread] threadDictionary];
+   error            = [threadDictionary objectForKey:NSErrorKey];
+   if( error)
+      return( error);
+
+   cls = [threadDictionary objectForKey:MulleErrorClassKey];
+   return( [cls mulleErrnoError]);
 }
 
 
 void   MulleObjCErrorSetCurrentError( NSString *domain, NSInteger code, NSDictionary *userInfo)
 {
-   [NSError setCurrentErrorWithDomain:domain
-                                 code:code
-                             userInfo:userInfo];
+   [NSError mulleSetCurrentErrorWithDomain:domain
+                                      code:code
+                                  userInfo:userInfo];
 }
+
 
 NSError  *MulleObjCErrorGetCurrentError( void)
 {
-   return( [NSError currentError]);
+   return( [NSError mulleCurrentError]);
 }
 
 
 void   MulleObjCErrorClearCurrentError( void)
 {
-   [NSError clearCurrentError];
+   [NSError mulleClearCurrentError];
 }
 
 

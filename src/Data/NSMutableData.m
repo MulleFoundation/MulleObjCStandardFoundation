@@ -62,130 +62,78 @@
 }
 
 
-# pragma mark -
-# pragma mark conveniences
-
-+ (instancetype) data
-{
-   return( [self dataWithCapacity:0]);
-}
-
-
-+ (instancetype) dataWithLength:(NSUInteger) length
-{
-   return( [[[self alloc] initWithLength:length] autorelease]);
-}
-
-
-+ (instancetype) dataWithCapacity:(NSUInteger) capacity
-{
-   return( [[[self alloc] initWithCapacity:capacity] autorelease]);
-}
-
-
-+ (instancetype) dataWithBytes:(void *) buf
-                        length:(NSUInteger) len
-{
-   return( [[[self alloc] initWithBytes:buf
-                                 length:len] autorelease]);
-}
-
-
-+ (instancetype) dataWithData:(NSData *) other
-{
-   return( [[[self alloc] initWithBytes:[other bytes]
-                                 length:[other length]] autorelease]);
-}
-
 
 # pragma mark -
 # pragma mark classcluster
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity
 {
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableData newWithCapacity:capacity];
-   [old release];
+   self = [_MulleObjCConcreteMutableData mulleNewWithCapacity:capacity];
    return( self);
 }
 
 
 - (instancetype) initWithLength:(NSUInteger) length
 {
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableData newWithLength:length];
-   [old release];
+   self = [_MulleObjCConcreteMutableData mulleNewWithLength:length];
    return( self);
 }
 
+
+- (instancetype)  init
+{
+   self = [_MulleObjCConcreteMutableData mulleNewWithLength:0];
+   return( self);
+}
 
 - (instancetype) initWithBytes:(void *) bytes
                         length:(NSUInteger) length
 {
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableData newWithBytes:bytes
-                                                length:length];
-   [old release];
+   self = [_MulleObjCConcreteMutableData mulleNewWithBytes:bytes
+                                                    length:length];
    return( self);
 }
 
 
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-                        freeWhenDone:(BOOL) flag
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                allocator:(struct mulle_allocator *) allocator
 {
-   struct mulle_allocator   *allocator;
-   id                       old;
-
-   allocator = &mulle_stdlib_allocator;
-
-   if( flag)
-   {
-      old  = self;
-      self = [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
-                                                         length:length
-                                                      allocator:allocator];
-      [old release];
-      return( self);
-   }
-
-   self = [self initWithBytes:bytes
-                       length:length];
+   self = [_MulleObjCConcreteMutableData mulleNewWithBytes:bytes
+                                                    length:length];
    mulle_allocator_free( allocator, bytes);
    return( self);
 }
 
 
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-                           allocator:(struct mulle_allocator *) allocator
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                    owner:(id) owner
 {
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableData newWithBytesNoCopy:bytes
-                                                      length:length
-                                                   allocator:allocator];
-   [old release];
+   self = [_MulleObjCConcreteMutableData mulleNewWithBytes:bytes
+                                                    length:length];
    return( self);
 }
 
 
 - (instancetype) initWithData:(NSData *) data
 {
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableData newWithBytes:[data bytes]
-                                                length:[data length]];
-   [old release];
+   self = [_MulleObjCConcreteMutableData mulleNewWithBytes:[data bytes]
+                                                    length:[data length]];
    return( self);
+}
+
+#pragma mark - convenience constructors
+
++ (instancetype) dataWithCapacity:(NSUInteger) length
+{
+   return( [[[self alloc] initWithCapacity:length] autorelease]);
+}
+
+
++ (instancetype) dataWithLength:(NSUInteger) length;
+{
+   return( [[[self alloc] initWithLength:length] autorelease]);
 }
 
 
@@ -247,8 +195,7 @@
    uint8_t      *bytes;
 
    length = [self length];
-   if( range.location + range.length > length || range.length > length)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, length);
 
    diff = (NSInteger) replacementLength - (NSInteger) range.length;
 

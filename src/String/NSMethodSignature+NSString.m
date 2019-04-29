@@ -45,7 +45,7 @@
 
 @implementation NSMethodSignature (NSString)
 
-- (NSString *) _debugContentsDescription
+- (NSString *) mulleDebugContentsDescription
 {
    return( [NSString stringWithFormat:@"\"%s\"", _types]);
 }

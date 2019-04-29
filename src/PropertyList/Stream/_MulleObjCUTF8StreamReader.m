@@ -172,15 +172,62 @@ long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *
 }
 
 
-void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *self, NSString *format, va_list args)
+void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *_self, NSString *format, va_list args)
 {
-   if( ! [self throwExceptionOnError])
-      [self logFailure:format
-               varargList:args];
+   struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
+
+   NSString   *prefixed;
+
+   prefixed = [NSString stringWithFormat:@"error:%ld:%@", self->_lineNr, format];
+   if( ! [_self throwExceptionOnError])
+      [_self logFailure:prefixed
+            varargList:args];
    else
       [NSException raise:@"_MulleObjCUTF8StreamReaderException"
-                  format:format
-                 varargList:args];
+                  format:prefixed
+              varargList:args];
+}
+
+
+// written like it belonged to +InlineAccessors.h
+long   _MulleObjCUTF8StreamReaderSkipWhiteAndComments( _MulleObjCUTF8StreamReader *_self)
+{
+   struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
+
+   for(;;)
+   {
+      while( isspace( (int) self->_current))
+         _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+
+      if( ! self->_decodesComments || self->_current != '/')
+         return( self->_current);
+
+      //
+      // we don't allow stray '/' anyway, so we can safely grab the next
+      // and can bail if we don't see // or /*
+      //
+      _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+      if( self->_current == '/')
+      {
+         _MulleObjCUTF8StreamReaderSkipUntil( _self, '\n');
+         continue;
+      }
+      if( self->_current != '*')
+         return( '/');     // indicate the stray
+
+      for(;;)
+      {
+         _MulleObjCUTF8StreamReaderSkipUntil( _self, '*');
+         _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+         if( self->_current == '/')
+         {
+            _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+            break;
+         }
+         if( self->_current == -1)
+            break;
+      }
+   }
 }
 
 

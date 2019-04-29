@@ -43,3 +43,7 @@
 #import "NSLock+NSDate.h"
 #import "NSThread+NSDate.h"
 #import "NSNumber+NSString.h"
+
+#import "NSDate+NSCoder.h"
+#import "NSNumber+NSCoder.h"
+#import "NSValue+NSCoder.h"

@@ -61,6 +61,29 @@
 }
 
 
+//
+// NSNull is hardcore singleton and does not like
+// coexisting NSNulls because then you can not compare with pointer equality.
+// Note that this is broken when using MULLE_OBJC_EPHEMERAL_SINGLETON, but
+// thats not NSNulls fault ;)
+//
+- (id) init
+{
+   Class   cls;
+
+   cls = MulleObjCGetClass( self);
+   [self release];
+   return( [MulleObjCSingletonCreate( cls) retain]);
+}
+
+
+
+- (id) __initSingleton
+{
+   return( self);
+}
+
+
 - (instancetype) initWithCoder:(NSCoder *) coder
 {
    return( [self init]);
@@ -80,7 +103,7 @@
 
 - (id) copy
 {
-   return( self);
+   return( [self retain]);
 }
 
 
