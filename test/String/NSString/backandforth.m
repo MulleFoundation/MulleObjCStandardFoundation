@@ -70,7 +70,7 @@ static void   test( mulle_utf32_t text[ 4])
    mulle_utf32_bufferconvert_to_utf16( text, 4, &buffer16, (void *) buffer_add);
    mulle_utf16_bufferconvert_to_utf8( buffer16.text._16, buffer16.n / sizeof( mulle_utf16_t), &buffer8, (void *) buffer_add);
 
-   s8  = [NSString _stringWithUTF8Characters:buffer8.text._8
+   s8  = [NSString mulleStringWithUTF8Characters:buffer8.text._8
                                       length:buffer8.n];
    s16 = [[[NSString alloc] _initWithUTF16Characters:buffer16.text._16
                                               length:buffer16.n / sizeof( mulle_utf16_t)] autorelease];

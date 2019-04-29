@@ -40,6 +40,7 @@ static void    clone_dictionary( int n)
 
 int main(int argc, const char * argv[])
 {
+  MulleObjCHTMLDumpUniverseToTmp();
 //  clone_dictionary( 0);
   clone_dictionary( 1);
 //  clone_dictionary( 2);

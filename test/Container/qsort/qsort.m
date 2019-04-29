@@ -34,6 +34,8 @@ static void  test( void **array, size_t n)
    printf( "]\n");
 }
 
+#pragma clang diagnostic ignored "-Wint-conversion"
+
 
 int   main(int argc, const char * argv[])
 {

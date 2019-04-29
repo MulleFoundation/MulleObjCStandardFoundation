@@ -16,7 +16,7 @@ int main( int argc, const char * argv[])
    char       text[] = "VfL Bochum 1848";
    NSString   *s;
 
-   s = [NSString _stringWithUTF8Characters:text
+   s = [NSString mulleStringWithUTF8Characters:(void *) text
                                     length:sizeof( text)];
 
    printf( "%s\n", [[s lowercaseString] UTF8String]);

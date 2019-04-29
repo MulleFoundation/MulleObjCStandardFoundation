@@ -1,0 +1,218 @@
+-initWithObjects:
+()
+(
+   1;
+   2;
+   3;
+)
+-initWithArray:andArray:
+()
+()
+(
+   1;
+   2;
+   1848;
+)
+()
+()
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+   1;
+   2;
+   1848;
+)
+-initWithObject:varargList:
+(
+   nix;
+)
+(
+   "%@";
+   1;
+)
+(
+   "%@ %@ %@ %@ %@";
+   1;
+   2;
+   3;
+   4;
+   5;
+)
+-init
+()
+-initWithObjects:count:
+()
+Threw a NSInvalidArgumentException exception
+Threw a NSInvalidArgumentException exception
+Threw a NSInvalidArgumentException exception
+-initWithArray:andObject:
+()
+(
+   whatever;
+)
+(
+   1;
+)
+(
+   {
+      a = 1;
+   };
+)
+(
+   (
+      a;
+   );
+)
+()
+(
+   whatever;
+)
+(
+   1;
+)
+(
+   {
+      a = 1;
+   };
+)
+(
+   (
+      a;
+   );
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+   whatever;
+)
+(
+   1;
+   2;
+   1848;
+   1;
+)
+(
+   1;
+   2;
+   1848;
+   {
+      a = 1;
+   };
+)
+(
+   1;
+   2;
+   1848;
+   (
+      a;
+   );
+)
+-initWithArray:
+()
+()
+(
+   1;
+   2;
+   1848;
+)
+-initWithArray:copyItems:
+()
+()
+()
+()
+()
+()
+()
+()
+()
+()
+()
+()
+()
+()
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+(
+   1;
+   2;
+   1848;
+)
+-initWithArray:range:
+()
+Threw a NSRangeException exception
+Threw a NSRangeException exception
+Threw a NSRangeException exception
+()
+Threw a NSRangeException exception
+Threw a NSRangeException exception
+Threw a NSRangeException exception
+()
+Threw a NSRangeException exception
+Threw a NSRangeException exception
+Threw a NSRangeException exception
+-initWithObject:mulleVarargList:
+(
+   nix;
+)
+(
+   "%@";
+   1;
+)
+(
+   "%@ %@ %@ %@ %@";
+   1;
+   2;
+   3;
+   4;
+   5;
+)
