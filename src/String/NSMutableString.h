@@ -53,7 +53,7 @@
 - (instancetype) initWithCapacity:(NSUInteger) capacity;
 
 - (instancetype) initWithStrings:(NSString **) strings
-                 count:(NSUInteger) count;
+                           count:(NSUInteger) count;
 
 - (void) appendString:(NSString *) s;
 - (void) appendFormat:(NSString *) format, ...;

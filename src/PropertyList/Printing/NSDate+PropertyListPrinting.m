@@ -37,6 +37,7 @@
 #import "NSDate+PropertyListPrinting.h"
 
 // other files in this library
+#import "NSString+PropertyListPrinting.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationLocale.h"
@@ -52,7 +53,7 @@ NSTimeZone    *_MulleObjCPropertyListCanonicalPrintingTimeZone;
 @implementation NSDate( PropertyListPrinting)
 
 
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
 {
    NSString   *s;
 

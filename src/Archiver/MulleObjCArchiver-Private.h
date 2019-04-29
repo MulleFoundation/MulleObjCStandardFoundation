@@ -89,9 +89,9 @@ static inline void   *blob_describe( struct mulle_container_keycallback *ignore,
 
 
 static inline void   MulleObjCPointerHandleMapInit( struct MulleObjCPointerHandleMap *map,
-                                                   unsigned int capacity,
-                                                   struct mulle_container_keyvaluecallback *callback,
-                                                   struct mulle_allocator *allocator)
+                                                    unsigned int capacity,
+                                                    struct mulle_container_keyvaluecallback *callback,
+                                                    struct mulle_allocator *allocator)
 {
    mulle_map_init( &map->map, capacity, callback, allocator);
    mulle_pointerarray_init( &map->array, capacity, NULL, allocator);

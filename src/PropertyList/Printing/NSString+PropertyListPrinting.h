@@ -34,11 +34,11 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 
-@interface NSString  (PropertyListPrinting)
+@interface NSString( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent;
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
 
 @end

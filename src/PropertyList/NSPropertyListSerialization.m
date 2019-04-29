@@ -38,9 +38,13 @@
 // other files in this library
 #import "_MulleObjCPropertyListReader.h"
 #import "NSObject+PropertyListParsing.h"
+#import "NSData+PropertyListParsing.h"
 #import "NSData+Unicode.h"
+#import "MulleObjCPropertyList.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSError.h"
+
 
 // std-c and dependencies
 #include <ctype.h>
@@ -58,8 +62,18 @@
 
 + (NSData *) dataFromPropertyList:(id) plist
                            format:(NSPropertyListFormat) format
-                 errorDescription:(NSString **) errorString;
+                 errorDescription:(NSString **) errorDescription
 {
+   NSData   *data;
+
+   if( format == NSPropertyListOpenStepFormat)
+   {
+      data = [plist propertyListUTF8DataWithIndent:0];
+      if( ! data && errorDescription)
+         *errorDescription = @"failed";   // TODO: grab current NSError or so
+      return( data);
+   }
+
    abort();
    return( 0);
 }
@@ -121,6 +135,7 @@
       case 'D' :
       case 'E' :
       case 'F' :
+      case '/' : // comment
       case '>' : return( NSPropertyListOpenStepFormat);
       }
       break;
@@ -130,6 +145,7 @@
       return( NSPropertyListOpenStepFormat);
    return( NSPropertyListXMLFormat_v1_0);
 }
+
 
 + (instancetype) propertyListFromData:(NSData *) data
                      mutabilityOption:(NSPropertyListMutabilityOptions) opt
@@ -156,6 +172,7 @@
       abort();
    }
 
+   // TODO: make this more plug and play via lookup table
    switch( [self _detectPropertyListFormat:data])
    {
    case NSPropertyListOpenStepFormat :
@@ -164,6 +181,8 @@
 
       [reader setMutableContainers:opt != NSPropertyListImmutable];
       [reader setMutableLeaves:opt == NSPropertyListMutableContainersAndLeaves];
+      [reader setDecodesComments:YES];
+      [reader setDecodesPBX:YES];
 
       plist = [_MulleObjCNewFromPropertyListWithStreamReader( reader) autorelease];
       break;
@@ -173,10 +192,34 @@
       if( ! [parser respondsToSelector:@selector( _parseXMLData:)])
          MulleObjCThrowInternalInconsistencyException( @"XML parser is not installed");
 
-      plist   = [parser _parseXMLData:data];
+      plist = [parser _parseXMLData:data];
    }
 
    return( plist);
 }
+
+
++ (id) propertyListWithData:(NSData *) data
+                    options:(NSPropertyListMutabilityOptions) opt
+                     format:(NSPropertyListFormat *) p_format
+                      error:(NSError **) p_error
+{
+   NSString   *errorDescription;
+   id         plist;
+
+   plist = [self propertyListFromData:data
+                     mutabilityOption:opt
+                               format:p_format
+                     errorDescription:&errorDescription];
+   if( plist || ! p_error)
+      return( plist);
+
+   // TODO: fix error handling of plist parser globally
+   *p_error = [NSError errorWithDomain:@"XMLDomain"
+                                  code:-1
+                              userInfo:nil];
+   return( plist);
+}
+
 
 @end

@@ -48,8 +48,7 @@
 - (instancetype) initWithUTF8String:(char *) s;
 
 
-# pragma mark -
-# pragma mark mulle additions
+// mulle additions
 
 - (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) s
                                   length:(NSUInteger) len;

@@ -67,7 +67,8 @@ static inline uint64_t  mulle_buffer_next_integer( struct mulle_buffer *buffer)
 }
 
 
-static inline long long   mulle_buffer_next_long_long( struct mulle_buffer *buffer)
+static inline long long
+   mulle_buffer_next_long_long( struct mulle_buffer *buffer)
 {
    long long   swap;
 
@@ -94,7 +95,8 @@ static inline double   mulle_buffer_next_double( struct mulle_buffer *buffer)
 }
 
 
-static inline long double   mulle_buffer_next_long_double( struct mulle_buffer *buffer)
+static inline long double
+   mulle_buffer_next_long_double( struct mulle_buffer *buffer)
 {
    NSSwappedLongDouble   swap;
 
@@ -115,27 +117,31 @@ static inline long double   mulle_buffer_next_long_double( struct mulle_buffer *
 #define shift32( x)    ((x) - 7)
 #define mask32( x)     ((0x1U << ((x) - 7)) - 1)
 
-static inline void  mulle_buffer_add_integer_7( struct mulle_buffer *buffer, uint8_t v)
+static inline void  mulle_buffer_add_integer_7( struct mulle_buffer *buffer,
+                                                uint8_t v)
 {
    mulle_buffer_add_byte( buffer, v);
 }
 
 
-static inline void  mulle_buffer_add_integer_14( struct mulle_buffer *buffer, uint16_t v)
+static inline void  mulle_buffer_add_integer_14( struct mulle_buffer *buffer,
+                                                 uint16_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift32( 14)) | 0x80);
    mulle_buffer_add_integer_7( buffer, v & mask32( 14));
 }
 
 
-static inline void  mulle_buffer_add_integer_21( struct mulle_buffer *buffer, uint32_t v)
+static inline void  mulle_buffer_add_integer_21( struct mulle_buffer *buffer,
+                                                 uint32_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift32( 21)) | 0x80);
    mulle_buffer_add_integer_14( buffer, v & mask32( 21));
 }
 
 
-static inline void  mulle_buffer_add_integer_28( struct mulle_buffer *buffer, uint32_t v)
+static inline void  mulle_buffer_add_integer_28( struct mulle_buffer *buffer,
+                                                 uint32_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift32( 28)) | 0x80);
    mulle_buffer_add_integer_21( buffer, v & mask32( 28));
@@ -144,42 +150,48 @@ static inline void  mulle_buffer_add_integer_28( struct mulle_buffer *buffer, ui
 #define shift64( x)    ((x) - 7)
 #define mask64( x)     ((0x1ULL << ((x) - 7)) - 1)
 
-static inline void  mulle_buffer_add_integer_35( struct mulle_buffer *buffer, uint64_t v)
+static inline void  mulle_buffer_add_integer_35( struct mulle_buffer *buffer,
+                                                 uint64_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift64( 35)) | 0x80);
    mulle_buffer_add_integer_28( buffer, (uint32_t) (v & mask64( 35)));
 }
 
 
-static inline void  mulle_buffer_add_integer_42( struct mulle_buffer *buffer, uint64_t v)
+static inline void  mulle_buffer_add_integer_42( struct mulle_buffer *buffer,
+                                                 uint64_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift64( 42)) | 0x80);
    mulle_buffer_add_integer_35( buffer, v & mask64( 42));
 }
 
 
-static inline void  mulle_buffer_add_integer_49( struct mulle_buffer *buffer, uint64_t v)
+static inline void  mulle_buffer_add_integer_49( struct mulle_buffer *buffer,
+                                                 uint64_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift64( 49)) | 0x80);
    mulle_buffer_add_integer_42( buffer, v & mask64( 49));
 }
 
 
-static inline void  mulle_buffer_add_integer_56( struct mulle_buffer *buffer, uint64_t v)
+static inline void  mulle_buffer_add_integer_56( struct mulle_buffer *buffer,
+                                                 uint64_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift64( 56)) | 0x80);
    mulle_buffer_add_integer_49( buffer, v & mask64( 56));
 }
 
 
-static inline void  mulle_buffer_add_integer_63( struct mulle_buffer *buffer, uint64_t v)
+static inline void  mulle_buffer_add_integer_63( struct mulle_buffer *buffer,
+                                                 uint64_t v)
 {
    mulle_buffer_add_byte( buffer, (unsigned char) (v >> shift64( 63)) | 0x80);
    mulle_buffer_add_integer_56( buffer, v & mask64( 63));
 }
 
 
-static inline void  mulle_buffer_add_integer_64( struct mulle_buffer *buffer, uint64_t v)
+static inline void  mulle_buffer_add_integer_64( struct mulle_buffer *buffer,
+                                                 uint64_t v)
 {
    mulle_buffer_add_byte( buffer, 0x81);
    mulle_buffer_add_integer_63( buffer, v << 1 >> 1);  // clear top bit
@@ -190,7 +202,8 @@ static inline void  mulle_buffer_add_integer_64( struct mulle_buffer *buffer, ui
 //
 // not efficient for negative numbers
 //
-static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint64_t v)
+static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer,
+                                               uint64_t v)
 {
    uint32_t       v32;
    unsigned int   bytes;
@@ -248,7 +261,8 @@ static inline void   mulle_buffer_add_integer( struct mulle_buffer *buffer, uint
 }
 
 
-static inline void  mulle_buffer_add_long_long( struct mulle_buffer *buffer, long long v)
+static inline void  mulle_buffer_add_long_long( struct mulle_buffer *buffer,
+                                                long long v)
 {
    long long   swap;
 
@@ -275,7 +289,8 @@ static inline void   mulle_buffer_add_double( struct mulle_buffer *buffer, doubl
 }
 
 
-static inline void   mulle_buffer_add_long_double( struct mulle_buffer *buffer, long double v)
+static inline void   mulle_buffer_add_long_double( struct mulle_buffer *buffer,
+                                                   long double v)
 {
    NSSwappedLongDouble   swap;
 

@@ -44,7 +44,7 @@
 @class NSString;
 
 
-@interface NSNotificationCenter : NSObject
+@interface NSNotificationCenter : NSObject < MulleObjCSingleton>
 {
    struct mulle_map   _pairRegistry;
    struct mulle_map   _nameRegistry;

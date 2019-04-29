@@ -90,21 +90,21 @@ static inline int   hex( _MulleObjCPropertyListReader *reader, char c)
 NSData   *_MulleObjCNewDataFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
    MulleObjCMemoryRegion  region;
-   NSMutableData   *buffer;
-   long            x;
-   unsigned char   *src;
-   unsigned char   *dst;
-   unsigned char   *start;
-   unsigned char   *srcSentinel;
+   NSMutableData          *buffer;
+   long                   x;
+   unsigned char          *src;
+   unsigned char          *dst;
+   unsigned char          *start;
+   unsigned char          *srcSentinel;
    //unsigned char   *dstSentinel;
-   size_t          len;
+   size_t                 len;
 
    x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // skip '<'
    if( x != '<')
       return( nil);
 
    _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '<'
-   x = _MulleObjCPropertyListReaderSkipWhite( reader);
+   x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
    if( x == '>')
    {
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '<'

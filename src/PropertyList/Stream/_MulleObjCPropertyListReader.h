@@ -46,6 +46,9 @@
    Class   nsDataClass;
 }
 
+@property( assign) BOOL  decodesPBX;      // $ _ / don't force quoted strings
+@property( assign) BOOL  decodesNumber;   // unquoted numbers become NSNumber
+
 - (void) setMutableContainers:(BOOL) flag;
 - (void) setMutableLeaves:(BOOL) flag;
 

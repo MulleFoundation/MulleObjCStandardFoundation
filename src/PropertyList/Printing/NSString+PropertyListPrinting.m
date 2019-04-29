@@ -45,32 +45,40 @@
 @implementation NSString ( PropertyListPrinting)
 
 //
-// this is probably too slow
+// this is probably too slow.
 //
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
+                              quoteIfNeeded:(BOOL) quoteIfNeeded
 {
    NSData          *data;
    unsigned char   *s, *start;
    unsigned char   *q, *sentinel;
+   NSString        *string;
    size_t          len;
    NSMutableData   *target;
+   BOOL            needsquote;
 
    // don't do this for larger strings
-   data = [self dataUsingEncoding:NSUTF8StringEncoding];
-   if( ! [data propertyListUTF8DataNeedsQuoting])
+   // TODO: create a sharing data on UTF8 strings so dataUsingEncoding
+   // becomes cheaper
+   string = quoteIfNeeded ? [self mulleQuotedDescriptionIfNeeded] : self;
+   data   = [string dataUsingEncoding:NSUTF8StringEncoding];
+   if( ! indent)
       return( data);
 
    // do proper quoting and escaping
-   len    = [data length];
-   target = [NSMutableData dataWithLength:len * 2 + 2];
-   start  = (unsigned char *) [target mutableBytes];
-   s      = start;
-   q      = (unsigned char *) [data bytes];
-
+   len      = [data length];
+   q        = (unsigned char *) [data bytes];
    sentinel = &q[ len];
-   *s++     = '\"';
 
-   do
+   target   = [NSMutableData dataWithLength:len * 2 + indent];
+   start    = (unsigned char *) [target mutableBytes];
+   s        = start;
+
+   while( indent--)
+      *s++ = ' ';
+
+   while( q < sentinel)
    {
       switch( *q)
       {
@@ -88,14 +96,18 @@
       case 0    : *s++ = '\\'; *s++ = '0'; break;
 #endif
       }
+      ++q;
    }
-   while( ++q < sentinel);
-
-   *s++   = '\"';
 
    [target setLength:s - start];
    return( target);
 }
 
+
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
+{
+   return( [self propertyListUTF8DataWithIndent:indent
+                                  quoteIfNeeded:YES]);
+}
 
 @end

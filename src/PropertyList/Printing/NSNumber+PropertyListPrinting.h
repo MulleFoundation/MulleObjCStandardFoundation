@@ -34,9 +34,9 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 
-@interface NSNumber ( PropertyListPrinting)
+@interface NSNumber ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 
 @end

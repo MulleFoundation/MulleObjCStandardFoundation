@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 // other files in this library
 #import "_MulleObjCDataStream.h"
@@ -41,10 +41,16 @@
 // std-c and dependencies
 
 
-@implementation NSObject( PropertyListPrinting)
 
-int    _MulleObjCPropertyListUTF8DataIndentationPerLevel  = 1;
-char   _MulleObjCPropertyListUTF8DataIndentationCharacter = '\t';
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wprotocol"
+#pragma clang diagnostic ignored "-Wobjc-root-class"
+
+
+PROTOCOLCLASS_IMPLEMENTATION( MulleObjCPropertyListPrinting)
+
+int            _MulleObjCPropertyListUTF8DataIndentationPerLevel  = 1;
+char           _MulleObjCPropertyListUTF8DataIndentationCharacter = '\t';
 NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
 
 
@@ -56,7 +62,7 @@ NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(unsigned int) indent;
+                               indent:(NSUInteger) indent;
 {
    NSData   *data;
 
@@ -65,13 +71,13 @@ NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
 }
 
 
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
 {
-   return( [[self description] dataUsingEncoding:NSUTF8StringEncoding]);
+   return( [[(NSObject *) self description] dataUsingEncoding:NSUTF8StringEncoding]);
 }
 
 
-- (NSData *) propertyListUTF8DataIndentation:(unsigned int) level
+- (NSData *) propertyListUTF8DataIndentation:(NSUInteger) level
 {
    NSMutableData   *data;
    unsigned int    n;
@@ -84,4 +90,6 @@ NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
    return( data);
 }
 
-@end
+PROTOCOLCLASS_END()
+
+#pragma clang diagnostic pop

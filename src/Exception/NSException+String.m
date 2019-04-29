@@ -41,6 +41,7 @@
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
 
+
 @implementation NSException (String)
 
 - (NSString *) description
@@ -50,5 +51,11 @@
                [self reason],
                [self userInfo]]);;
 }
+
+- (char *) cStringDescription
+{
+   return( [[self description] cStringDescription]);
+}
+
 
 @end

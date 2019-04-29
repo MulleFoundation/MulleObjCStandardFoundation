@@ -101,23 +101,24 @@ enum _NSNumberClassClusterNumberType
    struct _mulle_objc_universefoundationinfo   *config;
    struct _mulle_objc_universe                 *universe;
 
-   if( self != [NSNumber class])
+   universe = _mulle_objc_infraclass_get_universe( self);
+   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
+
+   // don't do it again for subclasses
+   if( config->numbersubclasses[ _NSNumberClassClusterInt8Type])
       return;
 
    [super initialize]; // get MulleObjCClassCluster initialize
 
    assert( _MULLE_OBJC_FOUNDATIONINFO_N_NUMBERSUBCLASSES >= _NSNumberClassClusterNumberTypeMax);
 
-   universe = _mulle_objc_infraclass_get_universe( self);
-   _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
-
-   config->numbersubclasses[ _NSNumberClassClusterInt8Type]   = [_MulleObjCInt8Number class];
-   config->numbersubclasses[ _NSNumberClassClusterInt16Type]  = [_MulleObjCInt16Number class];
-   config->numbersubclasses[ _NSNumberClassClusterInt32Type]  = [_MulleObjCInt32Number class];
-   config->numbersubclasses[ _NSNumberClassClusterInt64Type]  = [_MulleObjCInt64Number class];
-   config->numbersubclasses[ _NSNumberClassClusterUInt32Type] = [_MulleObjCUInt32Number class];
-   config->numbersubclasses[ _NSNumberClassClusterUInt64Type] = [_MulleObjCUInt64Number class];
-   config->numbersubclasses[ _NSNumberClassClusterDoubleType] = [_MulleObjCDoubleNumber class];
+   config->numbersubclasses[ _NSNumberClassClusterInt8Type]       = [_MulleObjCInt8Number class];
+   config->numbersubclasses[ _NSNumberClassClusterInt16Type]      = [_MulleObjCInt16Number class];
+   config->numbersubclasses[ _NSNumberClassClusterInt32Type]      = [_MulleObjCInt32Number class];
+   config->numbersubclasses[ _NSNumberClassClusterInt64Type]      = [_MulleObjCInt64Number class];
+   config->numbersubclasses[ _NSNumberClassClusterUInt32Type]     = [_MulleObjCUInt32Number class];
+   config->numbersubclasses[ _NSNumberClassClusterUInt64Type]     = [_MulleObjCUInt64Number class];
+   config->numbersubclasses[ _NSNumberClassClusterDoubleType]     = [_MulleObjCDoubleNumber class];
    config->numbersubclasses[ _NSNumberClassClusterLongDoubleType] = [_MulleObjCLongDoubleNumber class];
 }
 
@@ -128,12 +129,9 @@ enum _NSNumberClassClusterNumberType
 #pragma mark -
 #pragma mark unsigned init
 
-static inline id   replacePlaceholderWithBOOL( MULLE_C11_CONSUMED NSNumber *self,
-                                                  BOOL value)
+static inline id   initWithBOOL( NSNumber *self,
+                                 BOOL value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    self = _MulleObjCTaggedPointerIntegerNumberWithInteger( value ? YES : NO);
 #else
@@ -147,17 +145,13 @@ static inline id   replacePlaceholderWithBOOL( MULLE_C11_CONSUMED NSNumber *self
       self = [config->numbersubclasses[ _NSNumberClassClusterInt8Type] newWithInt8:value ? YES : NO];
    }
 #endif
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithUnsignedChar( MULLE_C11_CONSUMED NSNumber *self,
-                                                          unsigned char value)
+static inline id   initWithUnsignedChar( NSNumber *self,
+                                         unsigned char value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    self = _MulleObjCTaggedPointerIntegerNumberWithInteger( value);
 #else
@@ -171,16 +165,12 @@ static inline id   replacePlaceholderWithUnsignedChar( MULLE_C11_CONSUMED NSNumb
       self = [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value];
    }
 #endif
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithUnsignedShort( MULLE_C11_CONSUMED NSNumber *self, unsigned short value)
+static inline id   initWithUnsignedShort( NSNumber *self, unsigned short value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    self = _MulleObjCTaggedPointerIntegerNumberWithInteger( value);
 #else
@@ -194,15 +184,11 @@ static inline id   replacePlaceholderWithUnsignedShort( MULLE_C11_CONSUMED NSNum
       self = [config->numbersubclasses[ _NSNumberClassClusterUInt32Type] newWithUInt32:value];
    }
 #endif
-   [old release];
    return( self);
 }
 
-static inline id   replacePlaceholderWithUnsignedInt( MULLE_C11_CONSUMED NSNumber *self, unsigned int value)
+static inline id   initWithUnsignedInt( NSNumber *self, unsigned int value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    if( MulleObjCTaggedPointerIsIntegerValue( value))
    {
@@ -222,17 +208,13 @@ static inline id   replacePlaceholderWithUnsignedInt( MULLE_C11_CONSUMED NSNumbe
       else
          self = [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value];
    }
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithUnsignedInteger( MULLE_C11_CONSUMED NSNumber *self,
-                                                             NSUInteger value)
+static inline id   initWithUnsignedInteger( NSNumber *self,
+                                            NSUInteger value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    if( MulleObjCTaggedPointerIsIntegerValue( value))
    {
@@ -252,16 +234,12 @@ static inline id   replacePlaceholderWithUnsignedInteger( MULLE_C11_CONSUMED NSN
       else
          self = [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value];
    }
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithUnsignedLong( MULLE_C11_CONSUMED NSNumber *self, unsigned long value)
+static inline id   initWithUnsignedLong( NSNumber *self, unsigned long value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    if( MulleObjCTaggedPointerIsIntegerValue( value))
    {
@@ -281,31 +259,26 @@ static inline id   replacePlaceholderWithUnsignedLong( MULLE_C11_CONSUMED NSNumb
       else
          self = [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value];
    }
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithUnsignedLongLong( MULLE_C11_CONSUMED NSNumber *self,
-                                                           unsigned long long value)
+static inline id   initWithUnsignedLongLong( NSNumber *self,
+                                             unsigned long long value)
 {
    struct _mulle_objc_universefoundationinfo   *config;
    struct _mulle_objc_universe                 *universe;
-   id                                          old;
 
    assert( sizeof( unsigned long long) == sizeof( uint64_t));
 
    // does this really pay off, I doubt it
    if( value <= ULONG_MAX)
-      return( replacePlaceholderWithUnsignedLong( self, (unsigned long) value));
+      return( initWithUnsignedLong( self, (unsigned long) value));
 
    universe = _mulle_objc_object_get_universe( self);
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
 
-   old  = self;
    self = [config->numbersubclasses[ _NSNumberClassClusterUInt64Type] newWithUInt64:value];
-
-   [old release];
    return( self);
 }
 
@@ -314,55 +287,52 @@ static inline id   replacePlaceholderWithUnsignedLongLong( MULLE_C11_CONSUMED NS
 
 - (instancetype) initWithBool:(BOOL) value
 {
-   return( replacePlaceholderWithBOOL( self, value));
+   return( initWithBOOL( self, value));
 }
 
 
 - (instancetype) initWithUnsignedChar:(unsigned char) value
 {
-   return( replacePlaceholderWithUnsignedChar( self, value));
+   return( initWithUnsignedChar( self, value));
 }
 
 
 - (instancetype) initWithUnsignedShort:(unsigned short) value
 {
-   return( replacePlaceholderWithUnsignedShort( self, value));
+   return( initWithUnsignedShort( self, value));
 }
 
 
 - (instancetype) initWithUnsignedInt:(unsigned int) value
 {
-   return( replacePlaceholderWithUnsignedInt( self, value));
+   return( initWithUnsignedInt( self, value));
 }
 
 
 - (instancetype) initWithUnsignedLong:(unsigned long) value
 {
-   return( replacePlaceholderWithUnsignedLong( self, value));
+   return( initWithUnsignedLong( self, value));
 }
 
 
 - (instancetype) initWithUnsignedInteger:(NSUInteger) value
 {
-   return( replacePlaceholderWithUnsignedInteger( self, value));
+   return( initWithUnsignedInteger( self, value));
 }
 
 
 - (instancetype) initWithUnsignedLongLong:(unsigned long long) value
 {
-   return( replacePlaceholderWithUnsignedLongLong( self, value));
+   return( initWithUnsignedLongLong( self, value));
 }
 
 
 #pragma mark - signed inits
 
-static inline id   replacePlaceholderWithChar( MULLE_C11_CONSUMED NSNumber *self, char value)
+static inline id   initWithChar( NSNumber *self, char value)
 {
-   id   old;
-
    assert( sizeof( char) == sizeof( int8_t));
 
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    self = _MulleObjCTaggedPointerIntegerNumberWithInteger( value);
 #else
@@ -376,24 +346,20 @@ static inline id   replacePlaceholderWithChar( MULLE_C11_CONSUMED NSNumber *self
       self = [config->numbersubclasses[ _NSNumberClassClusterInt8Type] newWithInt8:value];
    }
 #endif
-   [old release];
    return( self);
 }
 
 
 #ifdef _C_BOOL
-static inline id   replacePlaceholderWithBool( MULLE_C11_CONSUMED NSNumber *self, _Bool value)
+static inline id   initWithBool( NSNumber *self, _Bool value)
 {
-   return( replacePlaceholderWithChar( self, (char) value));
+   return( initWithChar( self, (char) value));
 }
 #endif
 
 
-static inline id   replacePlaceholderWithShort( MULLE_C11_CONSUMED NSNumber *self, short value)
+static inline id   initWithShort( NSNumber *self, short value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    self = _MulleObjCTaggedPointerIntegerNumberWithInteger( value);
 #else
@@ -407,16 +373,12 @@ static inline id   replacePlaceholderWithShort( MULLE_C11_CONSUMED NSNumber *sel
       self = [config->numbersubclasses[ _NSNumberClassClusterInt16Type] newWithInt16:value];
    }
 #endif
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithInt( MULLE_C11_CONSUMED NSNumber *self, int value)
+static inline id   initWithInt( NSNumber *self, int value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    if( MulleObjCTaggedPointerIsIntegerValue(value))
    {
@@ -437,17 +399,13 @@ static inline id   replacePlaceholderWithInt( MULLE_C11_CONSUMED NSNumber *self,
          self = [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value];
    }
 
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithInteger( MULLE_C11_CONSUMED NSNumber *self,
-                                                     NSInteger value)
+static inline id   initWithInteger( NSNumber *self,
+                                    NSInteger value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    if( MulleObjCTaggedPointerIsIntegerValue(value))
    {
@@ -467,17 +425,13 @@ static inline id   replacePlaceholderWithInteger( MULLE_C11_CONSUMED NSNumber *s
       else
          self = [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value];
    }
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithLong( MULLE_C11_CONSUMED NSNumber *self,
-                                               long value)
+static inline id   initWithLong( NSNumber *self,
+                                 long value)
 {
-   id   old;
-
-   old = self;
 #ifdef __MULLE_OBJC_TPS__
    if( MulleObjCTaggedPointerIsIntegerValue( value))
    {
@@ -497,66 +451,62 @@ static inline id   replacePlaceholderWithLong( MULLE_C11_CONSUMED NSNumber *self
       else
          self = [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value];
    }
-   [old release];
    return( self);
 }
 
 
-static inline id   replacePlaceholderWithLongLong( MULLE_C11_CONSUMED NSNumber *self,
-                                                            long long  value)
+static inline id   initWithLongLong( NSNumber *self,
+                                     long long  value)
 {
    struct _mulle_objc_universefoundationinfo   *config;
    struct _mulle_objc_universe                 *universe;
-   id                                          old;
 
    assert( sizeof( long long) == sizeof( int64_t));
 
    if( value <= LONG_MAX && value >= LONG_MIN)
-      return( replacePlaceholderWithLong( self, (long) value));
+      return( initWithLong( self, (long) value));
 
    universe = _mulle_objc_object_get_universe( self);
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
 
-   old  = self;
    self = [config->numbersubclasses[ _NSNumberClassClusterInt64Type] newWithInt64:value];
-   [old release];
    return( self);
 }
 
 
 - (instancetype) initWithChar:(char) value
 {
-   return( replacePlaceholderWithChar( self, value));
+   return( initWithChar( self, value));
 }
 
 
 - (instancetype) initWithShort:(short) value
 {
-   return( replacePlaceholderWithShort( self, value));
+   return( initWithShort( self, value));
 }
 
 
 - (instancetype) initWithInt:(int) value
 {
-   return( replacePlaceholderWithInt( self, value));
+   return( initWithInt( self, value));
 }
 
 
 - (instancetype) initWithLong:(long) value
 {
-   return( replacePlaceholderWithLong( self, value));
+   return( initWithLong( self, value));
 }
 
 
 - (instancetype) initWithInteger:(NSInteger) value
 {
-   return( replacePlaceholderWithInteger( self, value));
+   return( initWithInteger( self, value));
 }
 
 
 - (instancetype) initWithLongLong:(long long) value
 {
-   return( replacePlaceholderWithLongLong( self, value));
+   return( initWithLongLong( self, value));
 }
 
 
@@ -568,14 +518,11 @@ static inline id   replacePlaceholderWithLongLong( MULLE_C11_CONSUMED NSNumber *
 {
    struct _mulle_objc_universefoundationinfo   *config;
    struct _mulle_objc_universe                 *universe;
-   id                                          old;
 
    universe = _mulle_objc_object_get_universe( self);
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
 
-   old  = self;
    self = [config->numbersubclasses[ _NSNumberClassClusterDoubleType] newWithDouble:value];
-   [old release];
    return( self);
 }
 
@@ -584,14 +531,11 @@ static inline id   replacePlaceholderWithLongLong( MULLE_C11_CONSUMED NSNumber *
 {
    struct _mulle_objc_universefoundationinfo   *config;
    struct _mulle_objc_universe                 *universe;
-   id                                          old;
 
    universe = _mulle_objc_object_get_universe( self);
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
 
-   old  = self;
    self = [config->numbersubclasses[ _NSNumberClassClusterDoubleType] newWithDouble:value];
-   [old release];
    return( self);
 }
 
@@ -600,15 +544,11 @@ static inline id   replacePlaceholderWithLongLong( MULLE_C11_CONSUMED NSNumber *
 {
    struct _mulle_objc_universefoundationinfo   *config;
    struct _mulle_objc_universe    *universe;
-   id   old;
-
 
    universe = _mulle_objc_object_get_universe( self);
    _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
 
-   old  = self;
    self = [config->numbersubclasses[ _NSNumberClassClusterLongDoubleType] newWithLongDouble:value];
-   [old release];
    return( self);
 }
 
@@ -620,26 +560,31 @@ static inline id   replacePlaceholderWithLongLong( MULLE_C11_CONSUMED NSNumber *
 - (instancetype) initWithBytes:(void *) value
                       objCType:(char *) type
 {
+   if( ! value)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
+   if( ! type)
+      MulleObjCThrowInvalidArgumentException( @"empty type");
+
    switch( type[ 0])
    {
 #ifdef _C_BOOL
-   case _C_BOOL     : return( replacePlaceholderWithBool( self, *(_Bool *) value));
+   case _C_BOOL     : return( initWithBool( self, *(_Bool *) value));
 #endif
-   case _C_CHR      : return( replacePlaceholderWithChar( self, *(char *) value));
-   case _C_UCHR     : return( replacePlaceholderWithUnsignedChar( self, *(unsigned char *) value));
-   case _C_SHT      : return( replacePlaceholderWithShort( self, *(short *) value));
-   case _C_USHT     : return( replacePlaceholderWithUnsignedShort( self, *(unsigned short *) value));
-   case _C_INT      : return( replacePlaceholderWithInt( self, *(int *) value));
-   case _C_UINT     : return( replacePlaceholderWithUnsignedInt( self, *(unsigned int *) value));
-   case _C_LNG      : return( replacePlaceholderWithLong( self, *(long *) value));
-   case _C_ULNG     : return( replacePlaceholderWithUnsignedLong( self, *(unsigned long *) value));
-   case _C_LNG_LNG  : return( replacePlaceholderWithLongLong( self, *(long long *) value));
-   case _C_ULNG_LNG : return( replacePlaceholderWithUnsignedLongLong( self, *(unsigned long long *) value));
+   case _C_CHR      : return( initWithChar( self, *(char *) value));
+   case _C_UCHR     : return( initWithUnsignedChar( self, *(unsigned char *) value));
+   case _C_SHT      : return( initWithShort( self, *(short *) value));
+   case _C_USHT     : return( initWithUnsignedShort( self, *(unsigned short *) value));
+   case _C_INT      : return( initWithInt( self, *(int *) value));
+   case _C_UINT     : return( initWithUnsignedInt( self, *(unsigned int *) value));
+   case _C_LNG      : return( initWithLong( self, *(long *) value));
+   case _C_ULNG     : return( initWithUnsignedLong( self, *(unsigned long *) value));
+   case _C_LNG_LNG  : return( initWithLongLong( self, *(long long *) value));
+   case _C_ULNG_LNG : return( initWithUnsignedLongLong( self, *(unsigned long long *) value));
 
    case _C_FLT      : return( [self initWithFloat:*(float *) value]);
    case _C_DBL      : return( [self initWithDouble:*(double *) value]);
    case _C_LNG_DBL  : return( [self initWithLongDouble:*(double *) value]);
-   default          : return( nil);
+   default          : MulleObjCThrowInvalidArgumentException( @"unknown type '%c'", type[ 0]);
    }
 }
 
@@ -841,6 +786,10 @@ static int  simplify_type_for_comparison( int type)
    long double            lda, ldb;
    int                    type;
    int                    other_type;
+
+   // apple dox says: must be a number, can't be nil
+
+   NSCParameterAssert( [other __isNSNumber]);
 
    p_type       = [self objCType];
    p_other_type = other ? [other objCType] : @encode( int);

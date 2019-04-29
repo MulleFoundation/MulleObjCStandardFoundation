@@ -49,7 +49,16 @@ void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *self, NSStri
 long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *self, unsigned char x);
 long   __NSUTF8StreamReaderUnescapedNextUTF32Character( _MulleObjCUTF8StreamReader *self);
 
-static inline void   _MulleObjCUTF8StreamReaderBookmark( _MulleObjCUTF8StreamReader *_self)
+//
+// if a stray '/' is encountered, then the return value
+// will be '/', but the return value of ...CurrentUTF32Character will
+// be the character behind it. It can not be a '/' as this would be the
+// comment. So this is easy, though inconvenient, to test against.
+//
+long   _MulleObjCUTF8StreamReaderSkipWhiteAndComments( _MulleObjCUTF8StreamReader *_self);
+
+static inline void
+   _MulleObjCUTF8StreamReaderBookmark( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -57,7 +66,8 @@ static inline void   _MulleObjCUTF8StreamReaderBookmark( _MulleObjCUTF8StreamRea
 }
 
 
-static inline MulleObjCMemoryRegion   _MulleObjCUTF8StreamReaderBookmarkedRegion( _MulleObjCUTF8StreamReader *_self)
+static inline MulleObjCMemoryRegion
+   _MulleObjCUTF8StreamReaderBookmarkedRegion( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -65,14 +75,17 @@ static inline MulleObjCMemoryRegion   _MulleObjCUTF8StreamReaderBookmarkedRegion
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderCurrentUTF32Character( _MulleObjCUTF8StreamReader *_self)
+static inline long
+   _MulleObjCUTF8StreamReaderCurrentUTF32Character( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
    return( self->_current);
 }
 
-static inline long   __NSUTF8StreamReaderFirstUTF32Character( _MulleObjCUTF8StreamReader *_self)
+
+static inline long
+   __NSUTF8StreamReaderFirstUTF32Character( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -85,7 +98,8 @@ static inline long   __NSUTF8StreamReaderFirstUTF32Character( _MulleObjCUTF8Stre
 }
 
 
-static inline long   __NSUTF8StreamReaderNextUTF32Character( _MulleObjCUTF8StreamReader *_self)
+static inline long
+   __NSUTF8StreamReaderNextUTF32Character( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -97,7 +111,8 @@ static inline long   __NSUTF8StreamReaderNextUTF32Character( _MulleObjCUTF8Strea
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderNextUTF32Character( _MulleObjCUTF8StreamReader *_self)
+static inline long
+   _MulleObjCUTF8StreamReaderNextUTF32Character( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -106,7 +121,8 @@ static inline long   _MulleObjCUTF8StreamReaderNextUTF32Character( _MulleObjCUTF
 }
 
 
-static inline void   _MulleObjCUTF8StreamReaderConsumeCurrentUTF32Character( _MulleObjCUTF8StreamReader *_self)
+static inline void
+   _MulleObjCUTF8StreamReaderConsumeCurrentUTF32Character( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -117,7 +133,8 @@ static inline void   _MulleObjCUTF8StreamReaderConsumeCurrentUTF32Character( _Mu
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderSkipWhite( _MulleObjCUTF8StreamReader *_self)
+static inline long
+   _MulleObjCUTF8StreamReaderSkipWhite( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -127,7 +144,9 @@ static inline long   _MulleObjCUTF8StreamReaderSkipWhite( _MulleObjCUTF8StreamRe
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderSkipNonWhite( _MulleObjCUTF8StreamReader *_self)
+
+static inline long
+   _MulleObjCUTF8StreamReaderSkipNonWhite( _MulleObjCUTF8StreamReader *_self)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -137,7 +156,9 @@ static inline long   _MulleObjCUTF8StreamReaderSkipNonWhite( _MulleObjCUTF8Strea
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderSkipUntil( _MulleObjCUTF8StreamReader *_self, long c)
+static inline long
+   _MulleObjCUTF8StreamReaderSkipUntil( _MulleObjCUTF8StreamReader *_self,
+                                        long c)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
@@ -147,7 +168,9 @@ static inline long   _MulleObjCUTF8StreamReaderSkipUntil( _MulleObjCUTF8StreamRe
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderSkipUntilUnquoted( _MulleObjCUTF8StreamReader *_self, long c)
+static inline long
+   _MulleObjCUTF8StreamReaderSkipUntilUnquoted( _MulleObjCUTF8StreamReader *_self,
+                                                long c)
 {
    long  old;
 
@@ -163,25 +186,28 @@ static inline long   _MulleObjCUTF8StreamReaderSkipUntilUnquoted( _MulleObjCUTF8
 }
 
 
-static inline long   _MulleObjCUTF8StreamReaderSkipUntilTrue( _MulleObjCUTF8StreamReader *_self, BOOL (*f)( long))
+static inline long
+   _MulleObjCUTF8StreamReaderSkipUntilTrue( _MulleObjCUTF8StreamReader *_self,
+                                            BOOL (*f)( _MulleObjCUTF8StreamReader *, long))
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
-   while( self->_current > 0 && ! (*f)( self->_current))
+   while( self->_current > 0 && ! (*f)( _self, self->_current))
+   while( self->_current > 0 && ! (*f)( _self, self->_current))
       _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
    return( self->_current);
 }
 
 
 
-static inline void   *_MulleObjCUTF8StreamReaderFail( _MulleObjCUTF8StreamReader *self, NSString *format, ...)
+static inline void   *
+   _MulleObjCUTF8StreamReaderFail( _MulleObjCUTF8StreamReader *self,
+                                   NSString *format, ...)
 {
    va_list   args;
 
    va_start( args, format);
-
    _MulleObjCUTF8StreamReaderFailV( self, format, args);
-
    va_end( args);
 
    return( NULL);

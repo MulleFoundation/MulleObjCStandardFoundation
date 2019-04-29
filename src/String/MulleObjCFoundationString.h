@@ -53,9 +53,9 @@
 #import "NSMutableString.h"
 
 #import "NSStringObjCFunctions.h"
+#import "NSString+NSCoder.h"
 
 // export everything with MulleObjC
-
 
 // export nothing with _MulleObjC
 

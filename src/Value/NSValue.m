@@ -89,12 +89,8 @@
 - (instancetype) initWithBytes:(void *) value
                       objCType:(char *) type
 {
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteValue newWithBytes:value
-                                        objCType:type];
-   [old release];
+   self = [_MulleObjCConcreteValue mulleNewWithBytes:value
+                                       objCType:type];
    return( self);
 }
 
@@ -107,7 +103,7 @@
 
 
 + (instancetype) value:(void *) bytes
-withObjCType:(char *) type
+          withObjCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
                               objCType:type] autorelease]);
@@ -115,7 +111,7 @@ withObjCType:(char *) type
 
 
 + (instancetype) valueWithBytes:(void *) bytes
-             objCType:(char *) type
+                       objCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
                               objCType:type] autorelease]);
@@ -148,6 +144,9 @@ withObjCType:(char *) type
              size:(NSUInteger) size
 {
    NSUInteger   real;
+
+   if( ! bytes && size)
+      MulleObjCThrowInvalidArgumentException( @"NULL bytes");
 
    NSGetSizeAndAlignment( [self objCType], &real, NULL);
    if( real != size)
@@ -191,7 +190,7 @@ withObjCType:(char *) type
    NSGetSizeAndAlignment( [self objCType], &size, NULL);
 
    {
-      char  bytes[ size];
+      char   bytes[ size];
 
       [self getValue:bytes];
 

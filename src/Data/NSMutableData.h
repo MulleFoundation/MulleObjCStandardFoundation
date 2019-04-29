@@ -62,7 +62,7 @@
 - (instancetype) initWithCapacity:(NSUInteger) capacity;
 
 - (void) appendBytes:(void *) bytes
-             length:(NSUInteger) length;
+              length:(NSUInteger) length;
 - (void) increaseLengthBy:(NSUInteger) extraLength;
 
 - (void *) mutableBytes;

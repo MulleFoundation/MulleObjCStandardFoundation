@@ -42,7 +42,7 @@
    NSUInteger  _size;
 }
 
-+ (instancetype) newWithBytes:(void *) bytes
++ (instancetype) mulleNewWithBytes:(void *) bytes
                      objCType:(char *) type;
 
 @end

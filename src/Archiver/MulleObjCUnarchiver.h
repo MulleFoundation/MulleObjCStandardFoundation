@@ -36,7 +36,6 @@
 
 #import "NSCoder.h"
 
-#include <mulle-buffer/mulle-buffer.h>
 #import "ns-map-table.h"
 #import "ns-hash-table.h"
 
@@ -70,7 +69,7 @@ extern NSString  *NSInconsistentArchiveException;
 
 - (BOOL) atEnd;
 
-+ (instancetype) unarchiveObjectWithData:(NSData *) data;
++ (id) unarchiveObjectWithData:(NSData *) data;
 
 - (void) decodeClassName:(NSString *) inArchiveName
              asClassName:(NSString *) trueName;

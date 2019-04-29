@@ -81,11 +81,18 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
    MulleObjCPointerHandleMapInit( &_blobs, 0x100, &_blob_callback, &_allocator);
 
    _classNameSubstitutions = _NSCreateMapTableWithAllocator( mulle_container_keycallback_copied_cstring,
-                                              mulle_container_valuecallback_copied_cstring, 16, &_allocator);
-   _objectSubstitutions    = _NSCreateMapTableWithAllocator( NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 16, &_allocator);
+                                                             mulle_container_valuecallback_copied_cstring,
+                                                             16,
+                                                             &_allocator);
+   _objectSubstitutions    = _NSCreateMapTableWithAllocator( _MulleObjCContainerKeyRetainPointerCompareCallback,
+                                                             NSObjectMapValueCallBacks,
+                                                             16,
+                                                             &_allocator);
 
    _offsets                = _NSCreateMapTableWithAllocator( NSNonOwnedPointerMapKeyCallBacks,
-                                              mulle_container_valuecallback_intptr, 16, &_allocator);
+                                                             mulle_container_valuecallback_intptr,
+                                                             16,
+                                                             &_allocator);
    return( self);
 }
 
@@ -103,6 +110,8 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
    NSFreeMapTable( _objectSubstitutions);
 
    mulle_buffer_done( &_buffer);
+
+   [_copyTo release];
 
    [super dealloc];
 }
@@ -179,6 +188,10 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
    if( mulle_buffer_has_overflown( &_buffer))
       [NSException raise:NSInconsistentArchiveException
                   format:@"could not archive object %p", rootObject];
+
+   if( _copyTo)
+      [_copyTo replaceBytesInRange:NSMakeRange( 0, mulle_buffer_get_length( &_buffer))
+                         withBytes:mulle_buffer_get_bytes( &_buffer)];
 }
 
 
@@ -187,7 +200,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 + (NSData *) archivedDataWithRootObject:(id) rootObject
 {
-   NSArchiver *archiver;
+   MulleObjCArchiver   *archiver;
 
    archiver = [[self new] autorelease];
    [archiver encodeRootObject:rootObject];
@@ -195,12 +208,29 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 }
 
 
+- (instancetype) initForWritingWithMutableData:(NSMutableData *) data
+{
+   if( ! data)
+      [NSException raise:NSInvalidArgumentException
+                  format:@"data is nil"];
+
+   self = [self init];
+   if( self)
+      _copyTo = [data retain];
+   return( self);
+
+}
+
 # pragma mark -
 # pragma mark accessor
 
 - (NSMutableData *) archiverData
 {
    size_t   len;
+
+   // by th book, but there won't be much here until encode is donw
+   if( _copyTo)
+      return( _copyTo);
 
    len = mulle_buffer_get_length( &_buffer);
    if( ! len)

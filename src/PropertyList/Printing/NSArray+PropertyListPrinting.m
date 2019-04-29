@@ -52,7 +52,7 @@ static char   closer[]    = { ' ', ')' };
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(unsigned int) indent
+                               indent:(NSUInteger) indent
 {
    NSUInteger   i, n;
    id           value;

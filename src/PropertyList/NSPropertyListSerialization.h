@@ -38,6 +38,7 @@
 
 @class NSData;
 @class NSString;
+@class NSError;
 
 
 typedef enum
@@ -50,8 +51,12 @@ typedef enum
 
 typedef enum
 {
-    NSPropertyListOpenStepFormat    = 1, //,
-    NSPropertyListXMLFormat_v1_0    = 100  // read, support with expat
+    NSPropertyListOpenStepFormat          = 1, // with wily Apple extensions
+    MullePropertyListStrictOpenStepFormat = 2, // no comments, no unquoted $ _ /
+//    MullePropertyListGNUstepFormat        = 4, // future
+//    MullePropertyListFormat               = 5, // future
+//    MullePropertyListJSONFormat           = 6, // future
+    NSPropertyListXMLFormat_v1_0          = 100  // read, support with expat
 //    NSPropertyListBinaryFormat_v1_0 = 200   // no support
 } NSPropertyListFormat;
 
@@ -75,10 +80,17 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 + (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format;
 
-+ (instancetype) propertyListFromData:(NSData *) data
+// both convenience methods are bad, because of the legacy error handling
++ (id) propertyListFromData:(NSData *) data
            mutabilityOption:(NSPropertyListMutabilityOptions) opt
                      format:(NSPropertyListFormat *) format
            errorDescription:(NSString **) errorString;
+
++ (id) propertyListWithData:(NSData *) data
+                    options:(NSPropertyListMutabilityOptions) opt
+                     format:(NSPropertyListFormat *) p_format
+                      error:(NSError **) p_error;
+
 
 @end
 

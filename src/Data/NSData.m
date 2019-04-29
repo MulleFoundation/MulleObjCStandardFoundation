@@ -53,6 +53,13 @@
 #endif
 
 
+@interface NSObject( _NSMutableData)
+
+- (BOOL) __isNSMutableData;
+
+@end
+
+
 @implementation NSObject( _NSData)
 
 - (BOOL) __isNSData
@@ -70,6 +77,134 @@
    return( YES);
 }
 
+
+
+static NSData  *_newData( void *buf, NSUInteger length)
+{
+   switch( length)
+   {
+   case 0  : return( [_MulleObjCZeroBytesData mulleNewWithBytes:buf]);
+   case 8  : return( [_MulleObjCEightBytesData mulleNewWithBytes:buf]);
+   case 16 : return( [_MulleObjCSixteenBytesData mulleNewWithBytes:buf]);
+   }
+
+   if( length < 0x100 + 1)
+      return( [_MulleObjCTinyData mulleNewWithBytes:buf
+                                        length:length]);
+   if( length < 0x10000 + 0x100 + 1)
+      return( [_MulleObjCMediumData mulleNewWithBytes:buf
+                                          length:length]);
+
+   return( [_MulleObjCAllocatorData mulleNewWithBytes:buf
+                                          length:length]);
+}
+
+
+#pragma mark -
+#pragma mark class cluster stuff
+
+- (instancetype) init
+{
+   self = _newData( 0, 0);
+   return( self);
+}
+
+
+// since "self" is the placeholder, we don't really need to release it
+- (instancetype) initWithBytes:(void *) bytes
+                        length:(NSUInteger) length
+{
+   self = _newData( bytes, length);
+   return( self);
+}
+
+
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                allocator:(struct mulle_allocator *) allocator
+{
+   self = [_MulleObjCAllocatorData mulleNewWithBytesNoCopy:bytes
+                                               length:length
+                                            allocator:allocator];
+   return( self);
+}
+
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                    owner:(id) owner
+{
+   self = [_MulleObjCSharedData mulleNewWithBytesNoCopy:bytes
+                                            length:length
+                                             owner:owner];
+   return( self);
+}
+
+
+#pragma mark - init abstract implementations
+
+- (instancetype) initWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length
+{
+   self = [self mulleInitWithBytesNoCopy:bytes
+                                  length:length
+                               allocator:&mulle_stdlib_allocator];
+   return( self);
+}
+
+
+- (instancetype) initWithBytesNoCopy:(void *) bytes
+                              length:(NSUInteger) length
+                        freeWhenDone:(BOOL) flag
+{
+   struct mulle_allocator   *allocator;
+
+   allocator = flag ? &mulle_stdlib_allocator: &mulle_stdlib_nofree_allocator;
+   self      = [self mulleInitWithBytesNoCopy:bytes
+                                       length:length
+                                    allocator:allocator];
+   return( self);
+}
+
+
+- (instancetype) initWithData:(NSData *) other
+{
+   if( [other __isNSMutableData])
+      self = [self initWithBytes:[other bytes]
+                          length:[other length]];
+   else
+      self = [self mulleInitWithBytesNoCopy:[other bytes]
+                                     length:[other length]
+                                      owner:other];
+   return( self);
+}
+
+
+- (instancetype) initWithBytes:(void *) bytes
+                        length:(NSUInteger) length
+                          copy:(BOOL) copy
+                  freeWhenDone:(BOOL) freeWhenDone
+                    bytesAreVM:(BOOL) bytesAreVM;
+{
+   struct mulle_allocator   *allocator;
+
+   assert( ! bytesAreVM);
+   allocator = freeWhenDone ?  &mulle_stdlib_allocator : &mulle_stdlib_nofree_allocator;
+
+   if( copy)
+   {
+      self = [self initWithBytes:bytes
+                          length:length];
+      mulle_allocator_free( allocator, bytes);
+      return( self);
+   }
+
+   self = [self mulleInitWithBytesNoCopy:bytes
+                                  length:length
+                               allocator:allocator];
+   return( self);
+}
+
+#pragma mark - construction conveniences
 
 + (instancetype) data
 {
@@ -109,124 +244,7 @@
 }
 
 
-static NSData  *_newData( void *buf, NSUInteger length)
-{
-   switch( length)
-   {
-   case 0  : return( [_MulleObjCZeroBytesData newWithBytes:buf]);
-   case 8  : return( [_MulleObjCEightBytesData newWithBytes:buf]);
-   case 16 : return( [_MulleObjCSixteenBytesData newWithBytes:buf]);
-   }
-
-   if( length < 0x100 + 1)
-      return( [_MulleObjCTinyData newWithBytes:buf
-                                        length:length]);
-   if( length < 0x10000 + 0x100 + 1)
-      return( [_MulleObjCMediumData newWithBytes:buf
-                                          length:length]);
-
-   return( [_MulleObjCAllocatorData newWithBytes:buf
-                                          length:length]);
-}
-
-
-#pragma mark -
-#pragma mark class cluster stuff
-
-- (instancetype)  init
-{
-   id   old;
-
-   old  = self;
-   self = _newData( 0, 0);
-   [old release];
-   return( self);
-}
-
-
-// since "self" is the placeholder, we don't really need to release it
-- (instancetype) initWithBytes:(void *) bytes
-                        length:(NSUInteger) length
-{
-   id   old;
-
-   old  = self;
-   self = _newData( bytes, length);
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
-                                               length:length
-                                            allocator:&mulle_stdlib_allocator];
-   [old release];
-   return( self);
-}
-
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-                           allocator:(struct mulle_allocator *) allocator
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
-                                               length:length
-                                            allocator:allocator];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-                        freeWhenDone:(BOOL) flag
-{
-   struct mulle_allocator   *allocator;
-   id                       old;
-
-   old  = self;
-
-   allocator = flag ? &mulle_stdlib_allocator: NULL;
-   self = [_MulleObjCAllocatorData newWithBytesNoCopy:bytes
-                                               length:length
-                                            allocator:allocator];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithBytesNoCopy:(void *) bytes
-                              length:(NSUInteger) length
-                               owner:(id) owner
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCSharedData newWithBytesNoCopy:bytes
-                                            length:length
-                                             owner:owner];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithData:(NSData *) other
-{
-   id   old;
-
-   old  = self;
-   self = _newData( [other bytes], [other length]);
-   [old release];
-   return( self);
-}
+#pragma mark - NSCopying
 
 
 - (id) copy
@@ -299,7 +317,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (void) getBytes:(void *) buf
            length:(NSUInteger) length
 {
-   MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( NSMakeRange( 0, length), [self length]);
+   MulleObjCValidateRangeWithLength( NSMakeRange( 0, length), [self length]);
    // need assert
    memcpy( buf, [self bytes], length);
 }
@@ -308,7 +326,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (void) getBytes:(void *) buf
             range:(NSRange) range
 {
-   MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, [self length]);
+   MulleObjCValidateRangeWithLength( range, [self length]);
 
    // need assert
    memcpy( buf, &((char *)[self bytes])[ range.location], range.length);
@@ -317,7 +335,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 - (NSData *) subdataWithRange:(NSRange) range
 {
-   MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, [self length]);
+   MulleObjCValidateRangeWithLength( range, [self length]);
 
    return( [NSData dataWithBytes:&((char *)[self bytes])[ range.location]
                            length:range.length]);
@@ -356,8 +374,7 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
    unsigned char   *start;
 
    length = [self length];
-   if( range.location + range.length > length || range.length > length)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, length);
 
    other_length = [other length];
    length       = range.length;

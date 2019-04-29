@@ -38,6 +38,8 @@
 #import "NSData.h"
 #import "NSMutableData.h"
 
+#import "NSData+NSCoder.h"
+
 // export everything with MulleObjC
 
 

@@ -168,8 +168,7 @@
 //
 // these protocols supply implementations
 //
-@class MulleObjCUnkeyedArchiver;
-@protocol MulleObjCUnkeyedArchiver
+PROTOCOLCLASS_INTERFACE0( MulleObjCUnkeyedArchiver)
 
 @optional
 - (void) encodeObject:(id) obj;
@@ -183,11 +182,11 @@
 
 - (void) encodeBytes:(void *)bytes
               length:(NSUInteger)length;
-@end
+
+PROTOCOLCLASS_END()
 
 
-@class MulleObjCUnkeyedUnarchiver;
-@protocol MulleObjCUnkeyedUnarchiver
+PROTOCOLCLASS_INTERFACE0( MulleObjCUnkeyedUnarchiver)
 
 @optional
 - (id) decodeObject;
@@ -201,4 +200,4 @@
 - (void) encodePropertyList:(id) aPropertyList;
 - (id)  decodePropertyList;
 
-@end
+PROTOCOLCLASS_END()

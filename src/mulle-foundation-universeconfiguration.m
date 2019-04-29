@@ -83,12 +83,31 @@ extern void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlert
 #pragma mark -
 #pragma mark setup and teardown ObjC
 
-static void   teardown_objc( struct _mulle_objc_universe *universe)
+
+void   mulle_foundation_postcreate_objc( struct _mulle_objc_universe *universe)
 {
+   struct mulle_allocator   *allocator;
+
+   mulle_objc_postcreate_universe( universe);
+
+   allocator = _mulle_objc_universe_get_foundationallocator( universe);
+   mulle_allocator_set_fail( allocator,
+                             MulleObjCThrowMallocException);
+}
+
+
+void   mulle_foundation_teardown_objc( struct _mulle_objc_universe *universe)
+{
+   struct mulle_allocator   *allocator;
+
    (*mulle_sprintf_free_storage)();
+
+   allocator = _mulle_objc_universe_get_foundationallocator( universe);
+   mulle_allocator_set_fail( allocator, 0);
 
    mulle_objc_teardown_universe( universe);
 }
+
 
 
 MULLE_C_NO_RETURN
@@ -105,7 +124,8 @@ void  mulle_foundation_universeconfiguration_set_defaults( struct _mulle_objc_un
    *config                              = *mulle_objc_global_get_default_universeconfiguration();
    config->universe.versionassert       = versionassert;
    config->universe.uncaughtexception   = uncaught_exception;
-   config->callbacks.teardown           = teardown_objc;
+   config->callbacks.postcreate         = mulle_foundation_postcreate_objc;
+   config->callbacks.teardown           = mulle_foundation_teardown_objc;
 
    _MulleObjCExceptionInitTable( &config->foundation.exceptiontable);
 }

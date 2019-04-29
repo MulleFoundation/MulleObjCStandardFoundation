@@ -1,9 +1,9 @@
 //
-//  NSObject+PropertyListPrinting.h
+//  _MulleObjCEmptyArray.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2009 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2009 Codeon GmbH.
+//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,27 +33,12 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationCore.h"
 
-#import "_MulleObjCDataStream.h"
-
+#import "NSDictionary.h"
 
 
-
-extern int    _MulleObjCPropertyListUTF8DataIndentationPerLevel;  //   = 1;
-extern char   _MulleObjCPropertyListUTF8DataIndentationCharacter; //  = '\t';
-extern NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
-
-
-@interface NSObject ( PropertyListPrinting)
-
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle;
-
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(unsigned int) indent;
-
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent;
-
-- (NSData *) propertyListUTF8DataIndentation:(unsigned int) level;
-
+@interface _MulleObjCEmptyDictionary : NSDictionary < MulleObjCSingleton>
 @end
+
+
+extern Class  _MulleObjCEmptyDictionaryClass;

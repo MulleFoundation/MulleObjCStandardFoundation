@@ -496,7 +496,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 }
 
 
-- (NSComparisonResult) compare:(id) other
+- (NSComparisonResult) compare:(NSString *) other
 {
    return( [self compare:other
                  options:0
@@ -504,7 +504,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 }
 
 
-- (NSComparisonResult) compare:(id) other
+- (NSComparisonResult) compare:(NSString *) other
                        options:(NSStringCompareOptions) mask
 {
    return( [self compare:other
@@ -521,7 +521,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 }
 
 
-- (NSComparisonResult) compare:(id) other
+- (NSComparisonResult) compare:(NSString *) other
                        options:(NSStringCompareOptions) options
                          range:(NSRange) range
 {
@@ -694,11 +694,11 @@ static NSInteger  _kmp_search( struct _ns_unichar_enumerator *self_rover,
    ptrdiff_t    *table;
    void         *tofree;
    NSInteger    found;
-   ptrdiff_t    tmp[ 0x100];
+   ptrdiff_t    tmp[ 0x20];
 
    tofree = NULL;
    table  = tmp;
-   if( search_len > 0x100 - 1)
+   if( search_len > 0x20 - 1)
       table = tofree = mulle_malloc( sizeof( ptrdiff_t) * search_len + 1);
 
    /* Preprocessing */
@@ -720,7 +720,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
    size_t      size;
    unichar     *search;
    unichar     *tofree;
-   unichar     tmp[ 0x100];
+   unichar     tmp[ 0x20];
 
    // must be > 0 and is not > self_len
 
@@ -730,7 +730,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
    tofree     = NULL;
    search     = tmp;
 
-   if( search_len > 0x100)
+   if( search_len > 0x20)
       search = tofree = mulle_malloc( size);
 
    get_characters( other_rover, search);
@@ -761,8 +761,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
    NSCParameterAssert( (options & (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
 
    len_self  = [self length];
-   if( range.location + range.length > len_self || range.length > len_self)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, len_self);
 
    len_self  = range.length;
    len_other = [other length];
@@ -858,8 +857,7 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
    NSCParameterAssert( (options & (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
 
    len_self  = [self length];
-   if( range.location + range.length > len_self || range.length > len_self)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, len_self);
 
    len_self = range.length;
    if( ! len_self)
@@ -948,8 +946,7 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
    NSCParameterAssert( (options & (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
 
    len_self  = [self length];
-   if( range.location + range.length > len_self || range.length > len_self)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, len_self);
 
    len_self = range.length;
    if( ! len_self)

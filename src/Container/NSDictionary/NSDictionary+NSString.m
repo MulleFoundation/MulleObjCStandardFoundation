@@ -40,6 +40,7 @@
 #import "NSEnumerator.h"
 #import "NSArray.h"
 #import "NSDictionary+NSArray.h"
+#import "MulleObjCContainerDescription.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationString.h"
@@ -54,8 +55,6 @@
 // it is convenient for testing to absolutely be
 // identical in output to Apple Foundation
 
-BOOL NSDictionaryCompatibleDescription = YES;
-
 
 static BOOL   allKeysRespondToCompare( NSArray *keys)
 {
@@ -68,87 +67,25 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
 }
 
 
-- (NSString *) _descriptionWithSelector:(SEL) sel
+- (NSString *) mulleDescriptionWithSelector:(SEL) sel
 {
-   NSArray           *keys;
-   NSMutableString   *s;
-   NSString          *key;
-   NSUInteger        count;
-   id                value;
-   NSString          *initalSpaceOne;
-   NSString          *initalSpaceMany;
-   NSString          *secondSpace;
-   NSString          *firstNewLine;
-   NSString          *secondNewLine;
-
-   count = [self count];
-   if( ! count)
-      return( NSDictionaryCompatibleDescription ? @"{\n}" : @"{}");
-
-   if( NSDictionaryCompatibleDescription)
-   {
-      initalSpaceOne  = @"\n    ";
-      initalSpaceMany = @"\n";
-      secondSpace     = @"    ";
-      firstNewLine    = @"\n";
-      secondNewLine   = @"\n";
-   }
-   else
-   {
-      initalSpaceOne  = @" ";
-      initalSpaceMany = @"\n";
-      secondSpace     = @"    ";
-      firstNewLine    = @" ";
-      secondNewLine   = @"\n";
-   }
-
-   s = [NSMutableString stringWithString:@"{"];
-   if( count > 1)
-      [s appendString:initalSpaceMany];
-   else
-      [s appendString:initalSpaceOne];
-
-// TODO: If each key in the dictionary responds to compare:, the entries are listed
-// in ascending order, by key. Otherwise, the order in which the entries are
-// listed is undefined.
-
-
-   keys = [self allKeys];
-   if( NSDictionaryCompatibleDescription && allKeysRespondToCompare( keys))
-      keys  = [[self allKeys] sortedArrayUsingSelector:@selector( compare:)];
-
-   for( key in keys)
-   {
-      value = [self objectForKey:key];
-
-      if( count > 1)
-         [s appendString:secondSpace];
-
-      [s appendString:[key performSelector:sel]];
-      [s appendString:@" = "];
-      [s appendString:[value performSelector:sel]];
-      [s appendString:@";"];
-      if( count > 1)
-         [s appendString:secondNewLine];
-   }
-
-   if( count == 1)
-      [s appendString:firstNewLine];
-   [s appendString:@"}"];
-
-   return( s);
+   return( MulleObjCKeyValueContainerDescriptionWithSelector( self, sel, @"{", @"}", @"{}"));
 }
 
 
+//
+// why is this not propertylist format ? because a propertyList
+// has a very restricted set of values
+//
 - (NSString *) description
 {
-   return( [self _descriptionWithSelector:_cmd]);
+   return( [self mulleDescriptionWithSelector:@selector( mulleQuotedDescriptionIfNeeded)]);
 }
 
 
-- (NSString *) _debugContentsDescription
+- (NSString *) mulleDebugContentsDescription
 {
-   return( [self _descriptionWithSelector:_cmd]);
+   return( [self mulleDescriptionWithSelector:_cmd]);
 }
 
 @end

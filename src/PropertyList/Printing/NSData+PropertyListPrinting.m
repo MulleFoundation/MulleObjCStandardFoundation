@@ -37,7 +37,7 @@
 #import "NSData+PropertyListPrinting.h"
 
 // other files in this library
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 // std-c and dependencies
 #include <ctype.h>
@@ -81,47 +81,20 @@ static inline unsigned char   toHex( unsigned char c)
 }
 
 
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
 {
    return( [[self newPropertyListUTF8DataWithIndent:indent] autorelease]);
 }
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                                  indent:(unsigned int) indent;
+                               indent:(NSUInteger) indent;
 {
    NSData   *data;
 
    data = [self newPropertyListUTF8DataWithIndent:indent];
    [handle writeData:data];
    [data release];
-}
-
-
-extern int  _dude_looks_like_a_number( char *buffer, size_t len);
-
-- (BOOL) propertyListUTF8DataNeedsQuoting
-{
-   size_t          len;
-   mulle_utf8_t    *s;
-   mulle_utf8_t    *sentinel;
-
-   len = [self length];
-   if( ! len || len > 128)
-      return( YES);
-
-   s = (unsigned char *) [self bytes];
-   if( _dude_looks_like_a_number( (char *) s, len))
-      return( YES);
-
-   sentinel = &s[ len];
-   while( s < sentinel)
-   {
-      if( ! isalnum( *s) && *s != '_')
-         return( YES);
-      ++s;
-   }
-   return( NO);
 }
 
 @end

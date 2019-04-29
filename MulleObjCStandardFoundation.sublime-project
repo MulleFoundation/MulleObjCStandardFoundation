@@ -7,17 +7,29 @@
          [
             "*~",
             "*~.*",
+            "*.bak",
             "*.chk",
+            "*.old",
             ".DS_Store",
             "._.DS_Store",
             "*.sublime-workspace",
             "tmp.*"
+         ],
+         "binary_file_patterns":
+         [
+            "*.jpg",
+            "*.exe",
+            "*.o",
+            ".mulle/*"
          ],
          "folder_exclude_patterns":
          [
             ".git",
             ".mulle-*",
             ".unison*",
+	         ".mulle/var",
+            ".mulle/var/",
+	         "var",
             "addiction",
             "build",
             "dependency",

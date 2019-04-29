@@ -75,8 +75,9 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
 
 - (void) dealloc
 {
-   [_stream autorelease];
-   [_data autorelease];
+   [_bookmarkData release];
+   [_stream release];
+   [_data release];
 
    [super dealloc];
 }
@@ -237,7 +238,7 @@ static void   _MulleObjCBufferedDataInputStreamFillBuffer( _MulleObjCBufferedDat
          self->_bookmarkData = [[NSMutableData alloc] initWithBytes:self->_bookmark
                                                              length:self->_sentinel - self->_bookmark];
       else
-         [self->_bookmarkData  appendData:self->_data];
+         [self->_bookmarkData appendData:self->_data];
    }
 
    [self->_data release];

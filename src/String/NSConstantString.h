@@ -35,6 +35,7 @@
 //
 #import "_MulleObjCASCIIString.h"
 
+
 // named NSConstantString, because it's compatible...
 @interface NSConstantString : _MulleObjCASCIIString
 {

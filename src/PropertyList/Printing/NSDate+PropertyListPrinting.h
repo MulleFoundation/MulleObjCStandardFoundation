@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSObject+PropertyListPrinting.h"
+#import "MulleObjCPropertyListPrinting.h"
 
 
 @class NSTimeZone;
@@ -42,8 +42,8 @@
 extern NSString      *_MulleObjCPropertyListCanonicalPrintingCalendarFormat;
 extern NSTimeZone    *_MulleObjCPropertyListCanonicalPrintingTimeZone;
 
-@interface NSDate ( PropertyListPrinting)
+@interface NSDate ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 
-- (NSData *) propertyListUTF8DataWithIndent:(unsigned int) indent;
+- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
 
 @end

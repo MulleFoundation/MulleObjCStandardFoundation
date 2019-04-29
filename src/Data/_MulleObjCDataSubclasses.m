@@ -47,7 +47,7 @@
 
 @implementation _MulleObjCConcreteData
 
-+ (instancetype) newWithBytes:(void *) bytes
++ (instancetype) mulleNewWithBytes:(void *) bytes
 {
    _MulleObjCZeroBytesData   *data;
 
@@ -79,7 +79,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCEightBytesData
 
-+ (instancetype) newWithBytes:(void *) bytes
++ (instancetype) mulleNewWithBytes:(void *) bytes
 {
    _MulleObjCEightBytesData   *data;
 
@@ -95,7 +95,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCSixteenBytesData
 
-+ (instancetype) newWithBytes:(void *) bytes
++ (instancetype) mulleNewWithBytes:(void *) bytes
 {
    _MulleObjCSixteenBytesData   *data;
 
@@ -111,8 +111,8 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCAllocatorData
 
-+ (instancetype) newWithBytes:(void *) bytes
-                       length:(NSUInteger) length
++ (instancetype) mulleNewWithBytes:(void *) bytes
+                            length:(NSUInteger) length
 {
    _MulleObjCAllocatorData   *data;
 
@@ -128,9 +128,9 @@ static inline void   *get_bytes( id self)
 }
 
 
-+ (instancetype) newWithBytesNoCopy:(void *) bytes
-                             length:(NSUInteger) length
-                          allocator:(struct mulle_allocator *) allocator
++ (instancetype) mulleNewWithBytesNoCopy:(void *) bytes
+                                  length:(NSUInteger) length
+                               allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCAllocatorData   *data;
 
@@ -169,13 +169,13 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCSharedData
 
-+ (instancetype) newWithBytesNoCopy:(void *) bytes
++ (instancetype) mulleNewWithBytesNoCopy:(void *) bytes
                        length:(NSUInteger) length
                         owner:(id) owner
 {
    _MulleObjCSharedData   *data;
 
-   data = [self newWithBytesNoCopy:bytes
+   data = [self mulleNewWithBytesNoCopy:bytes
                                 length:length
                              allocator:NULL];
    data->_other = [owner retain];
@@ -195,7 +195,7 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCTinyData
 
-+ (instancetype) newWithBytes:(void *) bytes
++ (instancetype) mulleNewWithBytes:(void *) bytes
              length:(NSUInteger) length
 {
    _MulleObjCTinyData   *data;
@@ -229,8 +229,8 @@ static inline void   *get_bytes( id self)
 
 @implementation _MulleObjCMediumData
 
-+ (instancetype) newWithBytes:(void *) bytes
-             length:(NSUInteger) length
++ (instancetype) mulleNewWithBytes:(void *) bytes
+                       length:(NSUInteger) length
 {
    _MulleObjCMediumData   *data;
 

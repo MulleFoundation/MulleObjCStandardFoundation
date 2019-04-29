@@ -38,12 +38,14 @@
 // other files in this library
 #import "NSString.h"
 #import "NSString+Sprintf.h"
+#import "NSString+Search.h"
 #import "NSStringObjCFunctions.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationBase.h"
 
 // std-c and dependencies
+#include <ctype.h>
 
 
 @implementation NSObject (NSString)
@@ -54,7 +56,13 @@
 }
 
 
-- (NSString *) _debugContentsDescription
+- (NSString *) testDescription
+{
+   return( [self description]);
+}
+
+
+- (NSString *) mulleDebugContentsDescription
 {
    return( nil);
 }
@@ -65,21 +73,34 @@
    NSString     *contents;
    NSUInteger   length;
 
-   contents = [self _debugContentsDescription];
+   contents = [self mulleDebugContentsDescription];
    length   = [contents length];
    if( ! length)
       return( [NSString stringWithFormat:@"<%@ %p>", [self class], self]);
 
    if( length >= 8192)
-      return( [NSString stringWithFormat:@"<%@ %p %.8192@...", [self class], self, contents]);
+      return( [NSString stringWithFormat:@"<%@ %p \"%.8192@...>", [self class], self, contents]);
 
-   return( [NSString stringWithFormat:@"<%@ %p %@>", [self class], self, contents]);
+   return( [NSString stringWithFormat:@"<%@ %p \"%@\">", [self class], self, contents]);
 }
 
 
 - (char *) cStringDescription
 {
    return( [[self description] cStringDescription]);
+}
+
+
+- (NSComparisonResult) mulleCompareDescription:(id) other;
+{
+   return( [[self description] compare:[other description]]);
+}
+
+
+// this is unqoted for NSData, NSDictionary etc.
+- (NSString *) mulleQuotedDescriptionIfNeeded
+{
+   return( [self description]);
 }
 
 @end

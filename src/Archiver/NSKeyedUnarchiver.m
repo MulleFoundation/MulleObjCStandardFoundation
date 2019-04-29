@@ -91,7 +91,7 @@
    struct blob   blob;
 
    blob._storage = [key UTF8String];
-   blob._length  = [key _UTF8StringLength] + 1;
+   blob._length  = [key mulleUTF8StringLength] + 1;
 
    offset = (size_t) NSMapGet( _scope, &blob);
    return( offset);
@@ -158,7 +158,7 @@
    mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, offset);
 
    p = [self _decodeValueOfObjCType:type
-                             at:p];
+                                 at:p];
    mulle_buffer_set_seek( &_buffer, MULLE_BUFFER_SEEK_SET, memo);
    return( p);
 }

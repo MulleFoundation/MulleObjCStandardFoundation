@@ -123,8 +123,7 @@ enum
       return( YES);
 
    length = [self length];
-   if( range.length + range.location > length || range.length > length)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, length);
 
    // do leftover (in unichar)
    if( leftover)
@@ -151,9 +150,9 @@ enum
    NSUInteger      length;
    NSMutableData   *data;
 
-   length = [self _UTF8StringLength];
+   length = [self mulleUTF8StringLength];
    data   = [NSMutableData _nonZeroedDataWithLength:length];
-   [self _getUTF8Characters:[data mutableBytes]
+   [self mulleGetUTF8Characters:[data mutableBytes]
                   maxLength:length];
    return( data);
 }
@@ -479,6 +478,9 @@ enum
                       encoding:(NSUInteger) encoding
 
 {
+   if( ! bytes && length)
+      MulleObjCThrowInvalidArgumentException( @"null bytes");
+
    switch( encoding)
    {
    default :
@@ -558,6 +560,9 @@ enum
    struct mulle_allocator   *allocator;
 
    allocator = flag ? &mulle_stdlib_allocator : NULL;
+
+   if( ! bytes && length)
+      MulleObjCThrowInvalidArgumentException( @"null bytes");
 
    // has zero termination ?
    switch( encoding)

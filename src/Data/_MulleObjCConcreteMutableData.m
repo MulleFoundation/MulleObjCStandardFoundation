@@ -75,11 +75,10 @@ static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NS
 }
 
 
-+ (instancetype) newWithCapacity:(NSUInteger) capacity
++ (instancetype) mulleNewWithCapacity:(NSUInteger) capacity
 {
    _MulleObjCConcreteMutableData   *data;
    struct mulle_allocator          *allocator;
-
 
    data = NSAllocateObject( self, 0, NULL);
 
@@ -90,11 +89,10 @@ static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NS
 }
 
 
-+ (instancetype) newWithLength:(NSUInteger) length
++ (instancetype) mulleNewWithLength:(NSUInteger) length
 {
    _MulleObjCConcreteMutableData   *data;
    struct mulle_allocator          *allocator;
-
 
    data = NSAllocateObject( self, 0, NULL);
 
@@ -106,12 +104,14 @@ static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NS
 }
 
 
-+ (instancetype) newWithBytes:(void *) buf
-                       length:(NSUInteger) length
++ (instancetype) mulleNewWithBytes:(void *) buf
+                            length:(NSUInteger) length
 {
    _MulleObjCConcreteMutableData   *data;
    struct mulle_allocator          *allocator;
 
+   if( ! buf && length)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
 
    data = NSAllocateObject( self, 0, NULL);
 
@@ -123,11 +123,14 @@ static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NS
 }
 
 
-+ (instancetype) newWithBytesNoCopy:(void *) bytes
-                   length:(NSUInteger) length
-                allocator:(struct mulle_allocator *) allocator
++ (instancetype) mulleNewWithBytesNoCopy:(void *) bytes
+                                  length:(NSUInteger) length
+                               allocator:(struct mulle_allocator *) allocator
 {
    _MulleObjCConcreteMutableData   *data;
+
+   if( ! bytes && length)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
 
    data = NSAllocateObject( self, 0, NULL);
 
@@ -199,8 +202,8 @@ static void   *validated_range_pointer( _MulleObjCConcreteMutableData *self, NSR
    p       = mulle_buffer_get_bytes( &self->_storage);
    len     = range.location + range.length;
    buf_len = mulle_buffer_get_length( &self->_storage);
-   if( len > buf_len || range.length > buf_len)
-      MulleObjCThrowInvalidRangeException( range);
+
+   MulleObjCValidateRangeWithLength( range, buf_len);
    return( p);
 }
 

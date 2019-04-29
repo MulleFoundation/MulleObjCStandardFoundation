@@ -14,6 +14,7 @@
 #import "_MulleObjCConcreteArray.h"
 #import "_MulleObjCConcreteArray-Private.h"
 
+
 @implementation NSArray( NSCoder)
 
 #pragma mark -
@@ -28,18 +29,16 @@
 - (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
-   id           old;
+   id           *objects;
+   id           *sentinel;
+   id           *p;
 
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
-
-   old = self;
    if( ! count)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-      self = [_MulleObjCConcreteArray _allocWithCapacity:count];
-   [old release];
-   return( self);
+      return( [self init]);
+
+   return( [self mulleInitWithCapacity:count]);
 }
 
 
@@ -58,6 +57,8 @@
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
+   // done in _MulleObjCConcreteArray or other subclass
+   abort();
 }
 
 @end
@@ -70,40 +71,4 @@
    return( [NSMutableArray class]);
 }
 
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
 @end
-
-
-@implementation _MulleObjCConcreteArray( NSCoder)
-
-#pragma mark -
-#pragma mark NSCoder
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   id           *p;
-   id           *sentinel;
-   id           *objects;
-
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   assert( self->_count && count);
-
-   objects = _MulleObjCConcreteArrayGetObjects( self);
-   p        = objects;
-   sentinel = &p[ count];
-
-   while( p < sentinel)
-   {
-      [coder decodeValueOfObjCType:@encode( id)
-                                at:p];
-      ++p;
-   }
-}
-
-@end
-

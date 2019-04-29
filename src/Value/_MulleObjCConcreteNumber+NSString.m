@@ -70,7 +70,7 @@
 
 - (NSString *) description
 {
-   return( [NSString stringWithFormat:@"%f", [self doubleValue]]);
+   return( [NSString stringWithFormat:@"%g", [self doubleValue]]);
 }
 
 @end
@@ -80,7 +80,7 @@
 
 - (NSString *) description
 {
-   return( [NSString stringWithFormat:@"%Lf", [self longDoubleValue]]);
+   return( [NSString stringWithFormat:@"%Lg", [self longDoubleValue]]);
 }
 
 @end

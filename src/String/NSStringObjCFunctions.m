@@ -44,6 +44,15 @@ NSString   *NSStringFromSelector( SEL sel)
 }
 
 
+NSString   *NSStringFromProtocol( PROTOCOL proto)
+{
+   char   *s;
+
+   s = MulleObjCProtocolGetName( proto);
+   return( s ? [NSString stringWithUTF8String:s] : @"<invalid protocol>");
+}
+
+
 NSString   *NSStringFromRange( NSRange range)
 {
    return( [NSString stringWithFormat:@"%lu, %lu", range.location, range.length]);
