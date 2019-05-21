@@ -171,7 +171,7 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
    if( ! cls)
       MulleObjCThrowInternalInconsistencyException( @"no class for NSDateFormatterBehavior %d loaded", formatterBehavior);
 
-   MulleObjCSetClass( self, cls);
+   MulleObjCObjectSetClass( self, cls);
 }
 
 

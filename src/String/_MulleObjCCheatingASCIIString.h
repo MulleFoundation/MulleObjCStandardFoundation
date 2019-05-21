@@ -81,7 +81,7 @@ static inline id   _MulleObjCCheatingASCIIStringStorageInit( struct _MulleObjCCh
    p = _MulleObjCCheatingASCIIStringStorageGetObject( storage);
 
    MulleObjCObjectConstantify( p);
-   MulleObjCSetClass( p, [_MulleObjCCheatingASCIIString class]);
+   MulleObjCObjectSetClass( p, [_MulleObjCCheatingASCIIString class]);
 
    storage->_storage = buf;
    storage->_length  = length;
