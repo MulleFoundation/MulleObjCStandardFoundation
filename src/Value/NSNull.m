@@ -71,7 +71,7 @@
 {
    Class   cls;
 
-   cls = MulleObjCGetClass( self);
+   cls = MulleObjCObjectGetClass( self);
    [self release];
    return( [MulleObjCSingletonCreate( cls) retain]);
 }

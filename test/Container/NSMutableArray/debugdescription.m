@@ -10,11 +10,13 @@
 #import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 
 
-int main(int argc, const char * argv[])
+int main( int argc, const char * argv[])
 {
    NSMutableArray   *array;
    NSNumber         *nr;
    NSString         *key;
+   NSString         *address;
+   NSString         *desc;
 
    // simple basic test for leakage
 
@@ -23,7 +25,11 @@ int main(int argc, const char * argv[])
    key   = [NSString stringWithUTF8String:"bar"];
    [array addObject:key];
 
-   printf( "%s\n", [[array debugDescription] UTF8String]);
+   address = [NSString stringWithFormat:@"%p", array];
+   desc    = [array debugDescription];
+   desc    = [desc stringByReplacingOccurrencesOfString:address
+                                             withString:@"<address>"];
+   printf( "%s\n", [desc UTF8String]);
 
    return( 0);
 }

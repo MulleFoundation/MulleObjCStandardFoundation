@@ -219,8 +219,10 @@
          MulleObjCThrowInternalInconsistencyException( @"XML parser is not installed");
 
       plist = [parser _parseXMLData:data];
+      break;
 
    default :
+      // really throw here ?
       MulleObjCThrowInvalidArgumentException( @"Can not parse this kind of plist");
    }
 
