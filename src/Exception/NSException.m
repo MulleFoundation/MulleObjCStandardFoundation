@@ -68,7 +68,7 @@ static void   throw_errno_exception( id format, va_list args)
    NSString  *s;
 
    s = [NSString stringWithFormat:format
-                          varargList:args];
+                          arguments:args];
    [NSException raise:MulleObjCErrnoException
                format:@"%@: %s", s, strerror( errno)];
 }
@@ -79,7 +79,7 @@ static void   throw_inconsistency_exception( id format, va_list args)
 {
    [NSException raise:NSInternalInconsistencyException
                format:format
-           varargList:args];
+           arguments:args];
 }
 
 
@@ -88,7 +88,7 @@ static void   throw_argument_exception( id format, va_list args)
 {
    [NSException raise:NSInvalidArgumentException
                format:format
-           varargList:args];
+           arguments:args];
 }
 
 
@@ -171,13 +171,13 @@ void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *ta
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-    varargList:(va_list) args
+     arguments:(va_list) args
 {
    NSException   *exception;
    NSString      *reason;
 
    reason     = [NSString stringWithFormat:format
-                                   varargList:args];
+                                   arguments:args];
    exception  = [self exceptionWithName:name
                                  reason:reason
                                userInfo:nil];

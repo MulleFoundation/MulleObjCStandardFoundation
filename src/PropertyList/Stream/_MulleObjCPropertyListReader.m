@@ -108,6 +108,7 @@ BOOL   _MulleObjCPropertyListReaderIsUnquotedStringEndChar(
          (
             _c  == '_' ||
             _c == '/'  ||
+            _c == '.'  ||
             _c == '$'
          )
       )
@@ -135,8 +136,9 @@ BOOL  _MulleObjCPropertyListReaderIsUnquotedStringStartChar(
    // except, that we support +-. Ee  for doubles
    if( [reader decodesPBX] &&
          (
-            _c  == '_' ||
-            _c == '/'  ||
+            _c == '_' ||
+            _c == '/' ||
+            _c == '.' ||
             _c == '$'
          )
       )

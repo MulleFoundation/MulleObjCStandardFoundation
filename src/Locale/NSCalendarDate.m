@@ -54,8 +54,8 @@
 }
 
 
-- (instancetype) _initWithMiniTM:(struct mulle_mini_tm) tm
-                        timeZone:(NSTimeZone *) tz
+- (instancetype) mulleInitWithMiniTM:(struct mulle_mini_tm) tm
+                            timeZone:(NSTimeZone *) tz
 {
    // don't call self init!
    _tm.values = tm;
@@ -70,7 +70,7 @@
 }
 
 
-- (struct mulle_mini_tm) _miniTM
+- (struct mulle_mini_tm) mulleMiniTM
 {
    return( _tm.values);
 }
@@ -103,8 +103,8 @@
    tm.second = (int) second;
    tm.ns     = 0;
 
-   return( [self _initWithMiniTM:tm
-                        timeZone:tz]);
+   return( [self mulleInitWithMiniTM:tm
+                            timeZone:tz]);
 }
 
 

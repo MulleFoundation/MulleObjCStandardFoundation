@@ -282,7 +282,7 @@ static int   test_i_init_with_format_vararg_list_( void)
          @try
          {
             obj = [[[NSString alloc] initWithFormat:params_1[ i_1]
-                         varargList:params_2[ i_2]] autorelease];
+                         arguments:params_2[ i_2]] autorelease];
             printf( "%s\n", [obj cStringDescription]);
          }
          @catch( NSException *localException)
@@ -392,7 +392,7 @@ int   main( int argc, char *argv[])
    errors += run_test( test_i_init_with_bytes_no_copy_length_encoding_free_when_done_, "-initWithBytesNoCopy:length:encoding:freeWhenDone:");
    errors += run_test( test_i_init_with_data_encoding_, "-initWithData:encoding:");
    errors += run_test( test_i_init_with_bytes_length_encoding_, "-initWithBytes:length:encoding:");
-//   errors += run_test( test_i_init_with_format_vararg_list_, "-initWithFormat:varargList:");
+//   errors += run_test( test_i_init_with_format_vararg_list_, "-initWithFormat:arguments:");
 //   errors += run_test( test_i_init_with_format_mulle_vararg_list_, "-initWithFormat:mulleVarargList:");
    errors += run_test( test_i_init_with_string_, "-initWithString:");
 

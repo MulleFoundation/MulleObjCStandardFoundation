@@ -69,7 +69,7 @@ mulleVarargList:(mulle_vararg_list) args;
 
 + (void) raise:(NSString *) name
         format:(NSString *) format
-       varargList:(va_list) va;
+     arguments:(va_list) va;
 
 + (void) raise:(NSString *) name
         format:(NSString *) format, ...;

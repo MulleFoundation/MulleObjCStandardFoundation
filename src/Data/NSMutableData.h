@@ -81,8 +81,9 @@
 
 @interface NSMutableData( _Private)
 
-+ (instancetype) _nonZeroedDataWithLength:(NSUInteger) length;
-- (instancetype) _initNonZeroedDataWithLength:(NSUInteger) length;
-- (void) _setLengthDontZero:(NSUInteger) length;
++ (instancetype) _mulleNonZeroedDataWithLength:(NSUInteger) length;
+- (instancetype) _mulleInitNonZeroedDataWithLength:(NSUInteger) length;
+- (void) _mulleSetLengthDontZero:(NSUInteger) length;
+- (instancetype) _mulleInitWithNonZeroedAllocatedCapacity:(NSUInteger) capacity;
 
 @end

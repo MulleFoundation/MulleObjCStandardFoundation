@@ -37,6 +37,7 @@
 #import "_MulleObjCUTF16String.h"
 
 // other files in this library
+#import "NSString+NSData.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
@@ -50,13 +51,13 @@
 
 @implementation _MulleObjCUTF16String
 
-- (mulle_utf16_t *) _fastUTF16Characters;
+- (mulle_utf16_t *) _fastUTF16Characters
 {
    return( NULL);
 }
 
 
-- (mulle_utf8_t *) mulleFastUTF8Characters;
+- (mulle_utf8_t *) mulleFastUTF8Characters
 {
    return( NULL);
 }
@@ -140,6 +141,7 @@ static void   grab_utf32( id self,
    [super dealloc];
 }
 
+
 - (NSString *) substringWithRange:(NSRange) range
 {
    mulle_utf16_t   *s;
@@ -161,6 +163,16 @@ static void   grab_utf32( id self,
    return( [[_MulleObjCSharedUTF16String newWithUTF16CharactersNoCopy:&s[ range.location]
                                                                length:range.length
                                                         sharingObject:self] autorelease]);
+}
+
+- (NSUInteger) lengthOfBytesUsingEncoding:(NSStringEncoding) encoding
+{
+   switch( encoding)
+   {
+   case NSUTF16StringEncoding : return( [self length] * sizeof( mulle_utf16_t));
+   case NSUTF32StringEncoding : return( [self length] * sizeof( mulle_utf32_t));
+   }
+   return( [super lengthOfBytesUsingEncoding:encoding]);
 }
 
 @end

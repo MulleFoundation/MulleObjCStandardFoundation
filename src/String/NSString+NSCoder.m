@@ -28,7 +28,7 @@
    NSUInteger   length;
 
    bytes = [coder decodeBytesWithReturnedLength:&length];
-   return( [self _initWithUTF8Characters:bytes
+   return( [self mulleInitWithUTF8Characters:bytes
                                   length:length]);
 }
 

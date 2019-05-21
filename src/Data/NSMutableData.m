@@ -95,6 +95,13 @@
 }
 
 
+- (instancetype) _mulleInitWithNonZeroedAllocatedCapacity:(NSUInteger) capacity;
+{
+   self = [_MulleObjCConcreteMutableData _mulleNewWithNonZeroedAllocatedCapacity:capacity];
+   return( self);
+}
+
+
 - (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
                                    length:(NSUInteger) length
                                 allocator:(struct mulle_allocator *) allocator
@@ -160,20 +167,20 @@
 }
 
 
-+ (instancetype) _nonZeroedDataWithLength:(NSUInteger) length
++ (instancetype) _mulleNonZeroedDataWithLength:(NSUInteger) length
 {
    NSMutableData   *data;
 
    data = [self dataWithCapacity:length];
-   [data _setLengthDontZero:length];
+   [data _mulleSetLengthDontZero:length];
    return( data);
 }
 
 
-- (instancetype) _initNonZeroedDataWithLength:(NSUInteger) length;
+- (instancetype) _mulleInitNonZeroedDataWithLength:(NSUInteger) length;
 {
    [self init];
-   [self _setLengthDontZero:length];
+   [self _mulleSetLengthDontZero:length];
    return( self);
 }
 

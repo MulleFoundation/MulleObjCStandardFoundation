@@ -42,8 +42,8 @@
 // std-c and dependencies
 
 
-
 @implementation NSObject( _NSNull)
+
 
 - (BOOL) __isNSNull
 {

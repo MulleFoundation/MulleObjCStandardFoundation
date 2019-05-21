@@ -135,6 +135,7 @@ typedef NSUInteger   NSStringCompareOptions;
 @interface NSString( MulleAdditions)
 
 - (NSUInteger) mulleUTF8StringLength;
+- (mulle_utf8_t *) mulleFastASCIICharacters;  // known 7 bit only
 - (mulle_utf8_t *) mulleFastUTF8Characters;
 + (instancetype) mulleStringWithCharactersNoCopy:(unichar *) s
                                           length:(NSUInteger) len
@@ -179,6 +180,7 @@ typedef NSUInteger   NSStringCompareOptions;
                  range:(NSRange) range;
 - (void) mulleGetUTF8Characters:(mulle_utf8_t *) buffer
                       maxLength:(NSUInteger) length;
+
 @end
 
 

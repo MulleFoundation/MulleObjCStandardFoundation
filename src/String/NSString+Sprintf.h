@@ -40,18 +40,18 @@
 @interface NSString (Sprintf)
 
 + (instancetype) stringWithFormat:(NSString *) format
-        mulleVarargList:(mulle_vararg_list) arguments;
+                  mulleVarargList:(mulle_vararg_list) arguments;
 
 + (instancetype) stringWithFormat:(NSString *) format
-             varargList:(va_list) args;
+                        arguments:(va_list) args;
 
 + (instancetype) stringWithFormat:(NSString *) format, ...;
 
 - (NSString *) stringByAppendingFormat:(NSString *) format, ...;
 
 - (instancetype) initWithFormat:(NSString *) format
-      mulleVarargList:(mulle_vararg_list) arguments;
+                mulleVarargList:(mulle_vararg_list) arguments;
 - (instancetype) initWithFormat:(NSString *) format
-           varargList:(va_list) va_list;
+                      arguments:(va_list) va_list;
 
 @end

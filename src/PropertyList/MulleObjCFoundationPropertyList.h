@@ -38,6 +38,7 @@
 // export everything with NS
 
 #import "NSPropertyListSerialization.h"
+#import "NSString+PropertyList.h"
 
 // export everything with MulleObjC
 

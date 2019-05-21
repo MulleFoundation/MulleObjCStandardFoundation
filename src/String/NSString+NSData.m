@@ -151,7 +151,7 @@ enum
    NSMutableData   *data;
 
    length = [self mulleUTF8StringLength];
-   data   = [NSMutableData _nonZeroedDataWithLength:length];
+   data   = [NSMutableData _mulleNonZeroedDataWithLength:length];
    [self mulleGetUTF8Characters:[data mutableBytes]
                   maxLength:length];
    return( data);
@@ -180,7 +180,7 @@ enum
    size_t                         size;
 
    tmp_length = [self length];
-   tmp_data   = [NSMutableData _nonZeroedDataWithLength:tmp_length * sizeof( mulle_utf32_t)];
+   tmp_data   = [NSMutableData _mulleNonZeroedDataWithLength:tmp_length * sizeof( mulle_utf32_t)];
    tmp_buf    = [tmp_data mutableBytes];
 
    [self getCharacters:tmp_buf
@@ -196,7 +196,7 @@ enum
       ++utf16total;
 
    size = utf16total * sizeof( mulle_utf16_t);
-   data = [NSMutableData _nonZeroedDataWithLength:size];
+   data = [NSMutableData _mulleNonZeroedDataWithLength:size];
    buf  = [data mutableBytes];
 
    mulle_buffer_init_inflexible_with_static_bytes( &buffer, buf, size);
@@ -261,7 +261,7 @@ enum
    if( terminateWithZero)
       ++total;
 
-   data    = [NSMutableData _nonZeroedDataWithLength:total * sizeof( mulle_utf32_t)];
+   data    = [NSMutableData _mulleNonZeroedDataWithLength:total * sizeof( mulle_utf32_t)];
    p = buf = [data mutableBytes];
 
    if( prefixWithBOM)
@@ -363,15 +363,15 @@ enum
 - (NSData *) dataUsingEncoding:(NSStringEncoding) encoding
 {
    return( [self _dataUsingEncoding:encoding
-                            prefixWithBOM:YES
-                       terminateWithZero:NO]);
+                      prefixWithBOM:YES
+                  terminateWithZero:NO]);
 }
 
 
 #pragma mark -
 #pragma mark Import
 
-- (instancetype) _initWithUTF16Characters:(mulle_utf16_t *) chars
+- (instancetype) mulleInitWithUTF16Characters:(mulle_utf16_t *) chars
                                    length:(NSUInteger) length
 {
    struct mulle_utf_information    info;
@@ -400,7 +400,7 @@ enum
       p = mulle_buffer_extract_all( &buffer);
       mulle_buffer_done( &buffer);
 
-      return( [self _initWithUTF8CharactersNoCopy:p
+      return( [self mulleInitWithUTF8CharactersNoCopy:p
                                            length:info.utf8len
                                         allocator:allocator]);
    }
@@ -428,9 +428,9 @@ enum
    p = mulle_buffer_extract_all( &buffer);
    mulle_buffer_done( &buffer);
 
-   return( [self _initWithCharactersNoCopy:p
-                                    length:info.utf32len
-                                 allocator:allocator]);
+   return( [self mulleInitWithCharactersNoCopy:p
+                                        length:info.utf32len
+                                     allocator:allocator]);
 }
 
 
@@ -441,15 +441,15 @@ enum
    mulle_utf16_t   *buf;
    mulle_utf16_t   *sentinel;
 
-   buf      = [[NSMutableData _nonZeroedDataWithLength:length * sizeof( mulle_utf16_t)] mutableBytes];
+   buf      = [[NSMutableData _mulleNonZeroedDataWithLength:length * sizeof( mulle_utf16_t)] mutableBytes];
    p        = buf;
    sentinel = &p[ length];
 
    while( p < sentinel)
       *p++ = MulleObjCSwapUInt16( *chars++);
 
-   return( [self _initWithUTF16Characters:buf
-                                   length:length]);
+   return( [self mulleInitWithUTF16Characters:buf
+                                       length:length]);
 }
 
 
@@ -461,7 +461,7 @@ enum
    mulle_utf32_t   *buf;
    mulle_utf32_t   *sentinel;
 
-   buf      = [[NSMutableData _nonZeroedDataWithLength:length * sizeof( mulle_utf32_t)] mutableBytes];
+   buf      = [[NSMutableData _mulleNonZeroedDataWithLength:length * sizeof( mulle_utf32_t)] mutableBytes];
    p        = buf;
    sentinel = &p[ length];
 
@@ -487,16 +487,16 @@ enum
       MulleObjCThrowInvalidArgumentException( @"encoding %d is not supported", encoding);
 
    case NSUTF8StringEncoding  :
-      return( [self _initWithUTF8Characters:bytes
+      return( [self mulleInitWithUTF8Characters:bytes
                                     length:length]);
 
    case NSUTF16StringEncoding :
-      return( [self _initWithUTF16Characters:bytes
+      return( [self mulleInitWithUTF16Characters:bytes
                                       length:length / sizeof( mulle_utf16_t)]);
 
    case NSUTF16LittleEndianStringEncoding :
 #ifdef __LITTLE_ENDIAN__
-      return( [self _initWithUTF16Characters:bytes
+      return( [self mulleInitWithUTF16Characters:bytes
                                       length:length / sizeof( mulle_utf16_t)]);
 #else
       return( [self _initWithSwappedUTF16Characters:bytes
@@ -537,7 +537,7 @@ enum
 
 
 - (instancetype) initWithData:(NSData *) data
-           encoding:(NSUInteger) encoding
+                     encoding:(NSUInteger) encoding
 {
    void         *bytes;
    NSUInteger   length;
@@ -569,13 +569,13 @@ enum
    {
    case NSUTF8StringEncoding :
       if( length && ! ((char *) bytes)[ length - 1])
-         return( [self _initWithUTF8CharactersNoCopy:bytes
-                                              length:length
-                                           allocator:allocator]);
+         return( [self mulleInitWithUTF8CharactersNoCopy:bytes
+                                                  length:length
+                                               allocator:allocator]);
       break;
 
    case NSUnicodeStringEncoding :
-      return( [self _initWithCharactersNoCopy:bytes
+      return( [self mulleInitWithCharactersNoCopy:bytes
                                        length:length
                                     allocator:allocator]);
    }
@@ -589,20 +589,20 @@ enum
 }
 
 
-- (instancetype) _initWithBytesNoCopy:(void *) bytes
-                               length:(NSUInteger) length
-                             encoding:(NSStringEncoding) encoding
-                        sharingObject:(id) owner
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                 encoding:(NSStringEncoding) encoding
+                            sharingObject:(id) owner
 {
    switch( encoding)
    {
    case NSUTF8StringEncoding :
-      return( [self _initWithUTF8CharactersNoCopy:bytes
+      return( [self mulleInitWithUTF8CharactersNoCopy:bytes
                                            length:length
                                        sharingObject:owner]);
    case NSUnicodeStringEncoding :
       NSParameterAssert( (length & (sizeof( mulle_utf32_t) - 1)) == 0);
-      return( [self _initWithCharactersNoCopy:bytes
+      return( [self mulleInitWithCharactersNoCopy:bytes
                                        length:length / sizeof( mulle_utf32_t)
                                 sharingObject:owner]);
    }
@@ -613,8 +613,8 @@ enum
 }
 
 
-- (instancetype) _initWithDataNoCopy:(NSData *) data
-                            encoding:(NSStringEncoding) encoding
+- (instancetype) mulleInitWithDataNoCopy:(NSData *) data
+                                encoding:(NSStringEncoding) encoding
 {
    void         *bytes;
    NSUInteger   length;
@@ -622,10 +622,50 @@ enum
    bytes  = [data bytes];
    length = [data length];
 
-   return( [self _initWithBytesNoCopy:bytes
-                               length:length
-                             encoding:encoding
-                        sharingObject:data]);
+   return( [self mulleInitWithBytesNoCopy:bytes
+                                   length:length
+                                 encoding:encoding
+                            sharingObject:data]);
+}
+
+
+// this code works for UTF8String and ASCII only
+- (NSUInteger) lengthOfBytesUsingEncoding:(NSStringEncoding) encoding
+{
+   size_t                        length;
+   struct mulle_utf_information  info;
+   mulle_utf8_t                  *s;
+
+   if( [self mulleFastASCIICharacters])
+   {
+      length = [self length];
+      switch( encoding)
+      {
+      case NSASCIIStringEncoding :
+      case NSUTF8StringEncoding  : return( length);
+      case NSUTF16StringEncoding : return( length * sizeof( mulle_utf16_t));
+      case NSUTF32StringEncoding : return( length * sizeof( mulle_utf32_t));
+      default                    : return( 0);
+      }
+   }
+
+   // subclasses can do this faster
+   s = [self mulleFastUTF8Characters];
+   if( ! s)
+      s = (mulle_utf8_t *) [self UTF8String];
+
+   length = [self mulleUTF8StringLength];
+   if( mulle_utf8_information( s, length, &info))
+      MulleObjCThrowInternalInconsistencyException( @"supposed UTF8 is not UTF8");
+
+   switch( encoding)
+   {
+   case NSASCIIStringEncoding : return( info.is_ascii ? info.utf8len : 0);
+   case NSUTF8StringEncoding  : return( info.utf8len);
+   case NSUTF16StringEncoding : return( info.utf16len * sizeof( mulle_utf16_t));
+   case NSUTF32StringEncoding : return( info.utf32len * sizeof( mulle_utf32_t));
+   default                    : return( 0);
+   }
 }
 
 

@@ -37,6 +37,7 @@
 #import "_MulleObjCUTF32String.h"
 
 // other files in this library
+#import "NSString+NSData.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
@@ -147,6 +148,16 @@ static void   grab_utf32( id self,
    return( [[_MulleObjCSharedUTF32String newWithUTF32CharactersNoCopy:s
                                                                length:range.length
                                                         sharingObject:self] autorelease]);
+}
+
+
+- (NSUInteger) lengthOfBytesUsingEncoding:(NSStringEncoding) encoding
+{
+   switch( encoding)
+   {
+   case NSUTF32StringEncoding : return( [self length] * sizeof( mulle_utf32_t));
+   }
+   return( [super lengthOfBytesUsingEncoding:encoding]);
 }
 
 @end

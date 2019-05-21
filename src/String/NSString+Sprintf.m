@@ -58,10 +58,10 @@
 
 
 + (instancetype) stringWithFormat:(NSString *) format
-                       varargList:(va_list) args
+                        arguments:(va_list) args
 {
    return( [[[self alloc] initWithFormat:format
-                                 varargList:args] autorelease]);
+                                 arguments:args] autorelease]);
 }
 
 //
@@ -107,14 +107,14 @@ static id   string_from_buffer( NSString *self,
    if( len)
    {
       result = mulle_buffer_get_bytes( buffer);
-      s      = [self _initWithUTF8Characters:result
+      s      = [self mulleInitWithUTF8Characters:result
                                       length:len];
    }
    else
    {
       len    = mulle_buffer_get_length( buffer);
       result = mulle_buffer_extract_all( buffer);
-      s      = [self _initWithUTF8CharactersNoCopy:result
+      s      = [self mulleInitWithUTF8CharactersNoCopy:result
                                             length:len
                                          allocator:allocator];
    }
@@ -149,7 +149,7 @@ static id   string_from_buffer( NSString *self,
 
 
 - (instancetype) initWithFormat:(NSString *) format
-                     varargList:(va_list) va_list
+                      arguments:(va_list) va_list
 {
    char                     *c_format;
    struct mulle_buffer      buffer;

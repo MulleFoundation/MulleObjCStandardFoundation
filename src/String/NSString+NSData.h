@@ -115,6 +115,8 @@ typedef NSUInteger   NSStringEncodingConversionOptions;
                             encoding:(NSStringEncoding) encoding
                         freeWhenDone:(BOOL) flag;
 
+// for subclasses this is easier sometimes
+- (NSUInteger) lengthOfBytesUsingEncoding:(NSStringEncoding) encoding;
 
 // the generic routine is slow
 - (BOOL) getBytes:(void *) buffer
@@ -125,16 +127,17 @@ typedef NSUInteger   NSStringEncodingConversionOptions;
             range:(NSRange) range
    remainingRange:(NSRangePointer) leftover;
 
+- (NSUInteger) lengthOfBytesUsingEncoding:(NSStringEncoding) encoding;
 
 #pragma mark -
 #pragma mark mulle additions
 
-- (instancetype) _initWithBytesNoCopy:(void *) bytes
-                               length:(NSUInteger) length
-                             encoding:(NSStringEncoding) encoding
-                        sharingObject:(id) owner;
+- (instancetype) mulleInitWithBytesNoCopy:(void *) bytes
+                                   length:(NSUInteger) length
+                                 encoding:(NSStringEncoding) encoding
+                            sharingObject:(id) owner;
 
-- (instancetype) _initWithDataNoCopy:(NSData *) s
+- (instancetype) mulleInitWithDataNoCopy:(NSData *) s
                             encoding:(NSStringEncoding) encoding;
 
 @end

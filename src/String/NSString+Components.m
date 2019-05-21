@@ -52,7 +52,7 @@ static NSString   *makeUTF8String( mulle_utf8_t *s, NSUInteger len)
 {
    if( ! len)
       return( @"");
-   return( [[NSString alloc] _initWithUTF8Characters:s
+   return( [[NSString alloc] mulleInitWithUTF8Characters:s
                                              length:len]);
 }
 

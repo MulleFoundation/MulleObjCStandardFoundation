@@ -41,20 +41,20 @@
 }
 
 + (instancetype) value:(void *) bytes
-withObjCType:(char *) type;
+          withObjCType:(char *) type;
 + (instancetype) valueWithBytes:(void *) bytes
-             objCType:(char *) type;
+                       objCType:(char *) type;
 + (instancetype) valueWithPointer:(void *) pointer;
 + (instancetype) valueWithRange:(NSRange) range;
 
-- (instancetype) initWithBytes:(void *) value
-            objCType:(char *) type;
++ (instancetype) valueWithNonretainedObject:(id) obj;
 
 - (BOOL) isEqual:(id) other;
 - (BOOL) isEqualToValue:(id) other;
 
 - (NSRange) rangeValue;
 - (void *) pointerValue;
+- (id) nonretainedObjectValue;
 
 @end
 
@@ -63,7 +63,7 @@ withObjCType:(char *) type;
 
 - (char *) objCType;
 - (instancetype) initWithBytes:(void *) bytes
-            objCType:(char *) type;
+                      objCType:(char *) type;
 - (void) getValue:(void *) bytes;
 
 @end
