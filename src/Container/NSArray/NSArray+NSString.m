@@ -51,13 +51,11 @@
 
 - (NSString *) componentsJoinedByString:(NSString *) separator
 {
-   NSEnumerator      *rover;
-   SEL               selNext;
-   IMP               impNext;
    SEL               selAppend;
    IMP               impAppend;
    NSMutableString   *buffer;
    NSString          *s;
+   NSString          *sep;
 
    switch( [self count])
    {
@@ -69,17 +67,12 @@
    selAppend = @selector( appendString:);
    impAppend = [buffer methodForSelector:selAppend];
 
-   rover  = [self objectEnumerator];
-   selNext = @selector( nextObject);
-   impNext = [rover methodForSelector:selNext];
-
-   s = (*impNext)( rover, selNext, NULL);
-   (*impAppend)( buffer, selAppend, s);
-
-   while( s = (*impNext)( rover, selNext, NULL))
+   sep = nil;
+   for( s in self)
    {
-      (*impAppend)( buffer, selAppend, separator);
+      (*impAppend)( buffer, selAppend, sep);
       (*impAppend)( buffer, selAppend, s);
+      sep = separator;
    }
    return( buffer);
 }

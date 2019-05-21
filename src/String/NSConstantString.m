@@ -83,6 +83,12 @@
    return( _storage);
 }
 
+// the compiler may place UTF8 in here
+- (mulle_utf8_t *) mulleFastASCIICharacters
+{
+   return( NULL);
+}
+
 
 - (mulle_utf8_t *) mulleFastUTF8Characters
 {

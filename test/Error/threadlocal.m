@@ -11,6 +11,7 @@ int   main( int argc, char *argv[])
 {
    NSDictionary   *dict;
    NSString       *s;
+   NSError        *error;
 
 #ifdef __MULLE_OBJC__
    // check that no classes are "stuck"
@@ -18,9 +19,21 @@ int   main( int argc, char *argv[])
          mulle_objc_universe_is_ok)
       _exit( 1);
 #endif
-
+   [NSError mulleClearCurrentError];
+   error = [NSError mulleCurrentError]; 
+   if( error != nil)
+      return( 1);
+   
    s    = @"a";
    dict =  @{ @"foo": @"bar"};
    MulleObjCErrorSetCurrentError( s, 1848, dict);
+   error = [NSError mulleCurrentError]; 
+   if( error == nil)
+      return( 1);
+
+   [NSError mulleClearCurrentError];
+   error = [NSError mulleCurrentError]; 
+   if( error != nil)
+      return( 1);
    return( 0);
 }

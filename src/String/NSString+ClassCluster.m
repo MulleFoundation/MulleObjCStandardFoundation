@@ -306,7 +306,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    NSParameterAssert( [self __isClassClusterPlaceholderObject]);
 
    allocator = flag ? &mulle_stdlib_allocator : NULL;
-   self      = [self _initWithCharactersNoCopy:chars
+   self      = [self mulleInitWithCharactersNoCopy:chars
                                         length:length
                                      allocator:allocator];
    return( self);
@@ -319,7 +319,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
 //
 // this is a mulle addition, public method
 //
-- (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) s
+- (instancetype) mulleInitWithUTF8Characters:(mulle_utf8_t *) s
                                   length:(NSUInteger) len
 {
    struct mulle_allocator  *allocator;
@@ -335,7 +335,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
 //
 // this is a mulle addition, public method
 //
-- (instancetype) _initWithCharactersNoCopy:(unichar *) s
+- (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
                                     length:(NSUInteger) length
                                  allocator:(struct mulle_allocator *) allocator
 {
@@ -458,7 +458,7 @@ static NSString *
 }
 
 
-- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
                                         length:(NSUInteger) length
                                      allocator:(struct mulle_allocator *) allocator
 {
@@ -466,7 +466,7 @@ static NSString *
 }
 
 
-- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
                                         length:(NSUInteger) length
                                   freeWhenDone:(BOOL) flag;
 {
@@ -481,7 +481,7 @@ static NSString *
 #pragma mark mulle private class cluster init
 
 
-- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
                                         length:(NSUInteger) length
                                  sharingObject:(id) object
 {
@@ -509,7 +509,7 @@ static NSString *
 
 }
 
-- (instancetype) _initWithCharactersNoCopy:(unichar *) s
+- (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
                                     length:(NSUInteger) length
                              sharingObject:(id) object
 {

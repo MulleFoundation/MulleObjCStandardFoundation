@@ -89,6 +89,25 @@ static void   append_bytes( _MulleObjCConcreteMutableData *self, void *bytes, NS
 }
 
 
+// ensure that data storage is present, though length is zero
+// useful as a bug around only
++ (instancetype) _mulleNewWithNonZeroedAllocatedCapacity:(NSUInteger) capacity
+{
+   _MulleObjCConcreteMutableData   *data;
+   struct mulle_allocator          *allocator;
+
+   data = NSAllocateObject( self, 0, NULL);
+
+   allocator = MulleObjCObjectGetAllocator( data);
+   mulle_buffer_init_with_capacity( &data->_storage, capacity, allocator);
+   _mulle_buffer_grow( (struct _mulle_buffer *) &data->_storage, capacity, allocator);
+
+   return( data);
+}
+
+
+
+
 + (instancetype) mulleNewWithLength:(NSUInteger) length
 {
    _MulleObjCConcreteMutableData   *data;
@@ -245,7 +264,7 @@ static void   *validated_range_pointer( _MulleObjCConcreteMutableData *self, NSR
 }
 
 
-- (void) _setLengthDontZero:(NSUInteger) length
+- (void) _mulleSetLengthDontZero:(NSUInteger) length
 {
    NSUInteger   curr_length;
 

@@ -62,8 +62,9 @@ extern NSString   *NSLocalizedRecoverySuggestionErrorKey;
 extern NSString   *NSRecoveryAttempterErrorKey;
 
 
+//
 // domain is just a way to categorize error numbers
-
+//
 @interface NSError : NSObject < NSCopying>
 
 @property( readonly, copy)   NSString       *domain;
@@ -91,7 +92,6 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 // set the errordomain to a constant only and create mulleCurrentError lazily
 
 
-+ (void) mulleSetCurrentErrorClass:(Class) cls;
 + (void) mulleResetCurrentErrorClass; // set to self
 
 + (void) mulleSetCurrentError:(NSError *) error;

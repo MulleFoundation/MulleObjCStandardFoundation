@@ -241,7 +241,7 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
                                       length:(NSUInteger) len
                                    allocator:(struct mulle_allocator *) allocator;
 {
-   return( [[[self alloc] _initWithCharactersNoCopy:s
+   return( [[[self alloc] mulleInitWithCharactersNoCopy:s
                                              length:len
                                           allocator:allocator] autorelease]);
 }
@@ -256,7 +256,7 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
 + (instancetype) mulleStringWithUTF8Characters:(mulle_utf8_t *) s
                                     length:(NSUInteger) len
 {
-   return( [[[self alloc] _initWithUTF8Characters:s
+   return( [[[self alloc] mulleInitWithUTF8Characters:s
                                            length:len] autorelease]);
 }
 
@@ -268,7 +268,7 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
    assert( s);
    assert( len);
 
-   return( [[[self alloc] _initWithUTF8CharactersNoCopy:s
+   return( [[[self alloc] mulleInitWithUTF8CharactersNoCopy:s
                                                 length:len
                                              allocator:allocator] autorelease]);
 }
@@ -394,6 +394,14 @@ static void   grab_utf8( id self,
 }
 
 
+- (mulle_utf8_t *) mulleFastASCIICharacters
+{
+   return( NULL);
+}
+
+//
+// this could be non-ascii in case of compiler generated strings
+//
 - (mulle_utf8_t *) mulleFastUTF8Characters
 {
    return( NULL);
@@ -454,7 +462,7 @@ static void   grab_utf8( id self,
    [self getCharacters:bytes
                  range:range];
 
-   return( [[[NSString alloc] _initWithCharactersNoCopy:bytes
+   return( [[[NSString alloc] mulleInitWithCharactersNoCopy:bytes
                                                  length:range.length
                                               allocator:allocator] autorelease]);
 }

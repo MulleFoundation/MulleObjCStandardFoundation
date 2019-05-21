@@ -562,7 +562,7 @@ static void   test_i_init_with_object_vararg_list_()
          for( i_2 = 0; i_2 < n_2; i_2++)
          {
             value = [obj initWithObject:params_1[ i_1]
-                         varargList:params_2[ i_2]];
+                         arguments:params_2[ i_2]];
             printf( "%s\n", [value cStringDescription]);
          }
       [obj release];

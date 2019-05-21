@@ -34,9 +34,10 @@ static void  code_decode( id value)
 
 int main(int argc, const char * argv[])
 {
+   code_decode( @"{ root=/; }");
+   code_decode( @"/");
    code_decode( @"/i/should/be/quoted/but/pbxproj/is/dumb/");
    code_decode( @"NOT_QUOTED_THOUGH_UNDERSCORE");
-   code_decode( @"/");
    code_decode( @"{ 41F6FBAF1BC3FE99000C60B2 "
 "/* PBXObject+PBXEncoding.h in Headers */ = "
 "{isa = PBXBuildFile; fileRef = 412167BB12D8A57E00D49F14 "

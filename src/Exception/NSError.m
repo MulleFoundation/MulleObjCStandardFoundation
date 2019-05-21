@@ -46,8 +46,8 @@
 #import "NSException.h"
 
 
-NSString  *NSErrorKey          = @"NSError";
-NSString  *MulleErrorClassKey  = @"MulleErrorClass";
+NSString   *NSErrorKey          = @"NSError";
+NSString   *MulleErrorClassKey  = @"MulleErrorClass";
 
 
 NSString   *NSOSStatusErrorDomain  = @"NSOSStatusError";
@@ -69,6 +69,14 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 
 
 @implementation NSError
+
+
+static Class   nsErrorClass;
+
++ (void) load
+{
+   nsErrorClass = self;
+}
 
 
 - (instancetype) initWithDomain:(NSString *) domain
@@ -99,9 +107,9 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 }
 
 
-- (NSString *) localizedFailureReason;
+- (NSString *) localizedFailureReason
 {
-   return( [_userInfo objectForKey:NSLocalizedDescriptionKey]);
+   return( [_userInfo objectForKey:NSLocalizedFailureReasonErrorKey]);
 }
 
 
@@ -134,20 +142,10 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 //
 + (void) mulleResetCurrentErrorClass
 {
-   [self mulleSetCurrentErrorClass:self];
-}
-
-
-+ (void) mulleSetCurrentErrorClass:(Class) domain
-{
    NSMutableDictionary   *threadDictionary;
 
-   if( ! domain)
-      MulleObjCThrowInvalidArgumentException( @"domain must not be nil");
-
    threadDictionary = [[NSThread currentThread] threadDictionary];
-   [threadDictionary removeObjectForKey:NSErrorKey];
-   [threadDictionary setObject:domain
+   [threadDictionary setObject:self
                         forKey:MulleErrorClassKey];
 }
 
@@ -175,17 +173,34 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 }
 
 
-+ (void) mulleClearCurrentError
++ (void) mulleClearErrorState
 {
-   NSMutableDictionary   *threadDictionary;
-
-   threadDictionary = [[NSThread currentThread] threadDictionary];
-   [threadDictionary removeObjectForKey:NSErrorKey];
-   [threadDictionary removeObjectForKey:MulleErrorClassKey];
+   errno = 0;
 }
 
 
-+ (instancetype) mulleErrnoError
++ (void) mulleClearCurrentError
+{
+   NSMutableDictionary   *threadDictionary;
+   Class                 cls;
+   
+   threadDictionary = [[NSThread currentThread] threadDictionary];
+   [threadDictionary removeObjectForKey:NSErrorKey];
+
+   cls = [threadDictionary objectForKey:MulleErrorClassKey];
+   if( ! cls)
+      cls  = self;
+   return( [cls mulleClearErrorState]);
+}
+
+
++ (NSString *) mulleDefaultDomain
+{
+   return( MulleErrnoErrorDomain);
+}
+
+
++ (instancetype) mulleLazyError
 {
    NSString       *s;
    NSError        *error;
@@ -201,7 +216,7 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
    s     = [NSString stringWithUTF8String:strerror( errno)];
    info  = [NSDictionary dictionaryWithObject:s
                                        forKey:NSLocalizedDescriptionKey];
-   error = [NSError errorWithDomain:MulleErrnoErrorDomain
+   error = [NSError errorWithDomain:[self mulleDefaultDomain]
                                code:errno
                            userInfo:info];
    return( error);
@@ -220,27 +235,29 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
       return( error);
 
    cls = [threadDictionary objectForKey:MulleErrorClassKey];
-   return( [cls mulleErrnoError]);
+   if( ! cls)
+      cls = self;
+   return( [cls mulleLazyError]);
 }
 
 
 void   MulleObjCErrorSetCurrentError( NSString *domain, NSInteger code, NSDictionary *userInfo)
 {
-   [NSError mulleSetCurrentErrorWithDomain:domain
-                                      code:code
-                                  userInfo:userInfo];
+   [nsErrorClass mulleSetCurrentErrorWithDomain:domain
+                                           code:code
+                                       userInfo:userInfo];
 }
 
 
 NSError  *MulleObjCErrorGetCurrentError( void)
 {
-   return( [NSError mulleCurrentError]);
+   return( [nsErrorClass mulleCurrentError]);
 }
 
 
 void   MulleObjCErrorClearCurrentError( void)
 {
-   [NSError mulleClearCurrentError];
+   [nsErrorClass mulleClearCurrentError];
 }
 
 

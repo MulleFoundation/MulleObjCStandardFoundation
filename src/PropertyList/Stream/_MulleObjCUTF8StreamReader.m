@@ -114,12 +114,12 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 
 - (void) logFailure:(NSString *) format
-            varargList:(va_list) args
+          arguments:(va_list) args
 {
    NSString   *s;
 
    s = [NSString stringWithFormat:format
-                          varargList:args];
+                          arguments:args];
    fprintf( stderr, "%s\n", [s UTF8String]);
 }
 
@@ -181,11 +181,11 @@ void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *_self, NSStr
    prefixed = [NSString stringWithFormat:@"error:%ld:%@", self->_lineNr, format];
    if( ! [_self throwExceptionOnError])
       [_self logFailure:prefixed
-            varargList:args];
+            arguments:args];
    else
       [NSException raise:@"_MulleObjCUTF8StreamReaderException"
                   format:prefixed
-              varargList:args];
+              arguments:args];
 }
 
 

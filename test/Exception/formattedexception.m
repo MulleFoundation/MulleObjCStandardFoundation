@@ -18,13 +18,13 @@ int main(int argc, const char * argv[])
    NSString  *reason;
    long      lineNumber;
 
-   fileName  = [[[NSString alloc] _initWithUTF8CharactersNoCopy:"commands/filter/filter-html.scion"
-                                                          length:NSIntegerMax
-                                                    freeWhenDone:NO] autorelease];
+   fileName  = [[[NSString alloc] mulleInitWithUTF8CharactersNoCopy:"commands/filter/filter-html.scion"
+                                                            length:NSIntegerMax
+                                                      freeWhenDone:NO] autorelease];
 
-   reason   = [[[NSString alloc] _initWithUTF8CharactersNoCopy:"at 'h' near \"{% filter htmlEscapedString, (output) %} <html> {{ \"\\\"html>\\\" }} {% endfilter %} {% filter htmlEscapedString %} <html\", unknown keyword \"filter\" (did you mean \"filter\" ?)"
-                                                          length:NSIntegerMax
-                                                    freeWhenDone:NO] autorelease];
+   reason   = [[[NSString alloc] mulleInitWithUTF8CharactersNoCopy:"at 'h' near \"{% filter htmlEscapedString, (output) %} <html> {{ \"\\\"html>\\\" }} {% endfilter %} {% filter htmlEscapedString %} <html\", unknown keyword \"filter\" (did you mean \"filter\" ?)"
+                                                            length:NSIntegerMax
+                                                      freeWhenDone:NO] autorelease];
    lineNumber = 1;
 
    @try

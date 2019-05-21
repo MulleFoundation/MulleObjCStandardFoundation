@@ -169,6 +169,7 @@ static void   grab_utf8( id self,
                                                         sharingObject:self] autorelease]);
 }
 
+
 @end
 
 
@@ -391,6 +392,11 @@ static void   utf32to8cpy( char *dst, mulle_utf32_t *src, NSUInteger len)
 - (char *) UTF8String
 {
    return( _storage);
+}
+
+- (mulle_utf8_t *) mulleFastASCIICharacters
+{
+   return( (mulle_utf8_t *) _storage);
 }
 
 

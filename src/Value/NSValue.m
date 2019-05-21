@@ -132,6 +132,13 @@
 }
 
 
++ (instancetype) valueWithNonretainedObject:(id) obj
+{
+   return( [[[self alloc] initWithBytes:&obj
+                               objCType:@encode( id)] autorelease]);
+}
+
+
 - (NSUInteger) _size
 {
    NSUInteger   size;
@@ -163,6 +170,16 @@
    [self getValue:&pointer
              size:sizeof( void *)];
    return( pointer);
+}
+
+
+- (id) nonretainedObjectValue
+{
+   id   obj;
+
+   [self getValue:&obj
+             size:sizeof( id)];
+   return( obj);
 }
 
 

@@ -46,6 +46,11 @@
 
 + (instancetype) mulleNewWithCapacity:(NSUInteger) capacity;
 
+// this does an initial malloc, but the length is kept at 0
+// a work around for people using CFDataCreateMutable/CFDataGetMutableBytePtr
+// incorrectly (i.e. JSONKit)
++ (instancetype) _mulleNewWithNonZeroedAllocatedCapacity:(NSUInteger) capacity;
+
 + (instancetype) mulleNewWithLength:(NSUInteger) length;
 
 + (instancetype) mulleNewWithBytes:(void *) buf

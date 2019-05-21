@@ -48,6 +48,7 @@
 
 // std-c and dependencies
 #include <ctype.h>
+#include <string.h>
 
 
 @interface NSObject( Future)
@@ -79,6 +80,28 @@
 }
 
 
++ (NSData *) dataWithPropertyList:(id) plist
+                           format:(NSPropertyListFormat) format
+                          options:(NSPropertyListWriteOptions) options
+                            error:(NSError **) p_error
+{
+   NSString   *errorDescription;
+   NSData     *data;
+
+   data = [self dataFromPropertyList:plist
+                              format:format
+                    errorDescription:&errorDescription];
+   if( data || ! p_error)
+      return( data);
+
+   // TODO:
+   *p_error = [NSError errorWithDomain:@"PlistDomain"
+                                  code:-1
+                              userInfo:nil];
+   return( data);
+}
+
+
 + (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format
 {
@@ -90,7 +113,7 @@
 
 
 // a heuristic
-+ (NSPropertyListFormat) _detectPropertyListFormat:(NSData *) data
++ (NSPropertyListFormat) mulleDetectPropertyListFormat:(NSData *) data
 {
    char         *s;
    char         *sentinel;
@@ -99,6 +122,9 @@
 
    s   = [data bytes];
    len = [data length];
+
+   if( len >= 6 && ! memcmp( s, "bplist", 6))
+      return( NSPropertyListBinaryFormat_v1_0);
 
    sentinel = &s[ len];
    while( s < sentinel)
@@ -173,7 +199,7 @@
    }
 
    // TODO: make this more plug and play via lookup table
-   switch( [self _detectPropertyListFormat:data])
+   switch( [self mulleDetectPropertyListFormat:data])
    {
    case NSPropertyListOpenStepFormat :
       stream = [[[_MulleObjCBufferedDataInputStream alloc] initWithData:data] autorelease];
@@ -193,6 +219,9 @@
          MulleObjCThrowInternalInconsistencyException( @"XML parser is not installed");
 
       plist = [parser _parseXMLData:data];
+
+   default :
+      MulleObjCThrowInvalidArgumentException( @"Can not parse this kind of plist");
    }
 
    return( plist);

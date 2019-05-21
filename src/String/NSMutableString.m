@@ -214,12 +214,12 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (instancetype) _initWithUTF8Characters:(mulle_utf8_t *) chars
+- (instancetype) mulleInitWithUTF8Characters:(mulle_utf8_t *) chars
                                   length:(NSUInteger) length
 {
    NSString  *s;
 
-   s = [[NSString alloc] _initWithUTF8Characters:chars
+   s = [[NSString alloc] mulleInitWithUTF8Characters:chars
                                           length:length];
    if( ! s)
    {
@@ -234,13 +234,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
                                         length:(NSUInteger) length
                                   freeWhenDone:(BOOL) flag
 {
    NSString  *s;
 
-   s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
+   s = [[NSString alloc] mulleInitWithUTF8CharactersNoCopy:chars
                                                 length:length
                                           freeWhenDone:flag];
    if( ! s)
@@ -256,13 +256,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (instancetype) _initWithCharactersNoCopy:(unichar *) chars
+- (instancetype) mulleInitWithCharactersNoCopy:(unichar *) chars
                                     length:(NSUInteger) length
                                  allocator:(struct mulle_allocator *) allocator
 {
    NSString  *s;
 
-   s = [[NSString alloc] _initWithCharactersNoCopy:chars
+   s = [[NSString alloc] mulleInitWithCharactersNoCopy:chars
                                             length:length
                                          allocator:allocator];
    if( ! s)
@@ -278,13 +278,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
                                         length:(NSUInteger) length
                                      allocator:(struct mulle_allocator *) allocator
 {
    NSString  *s;
 
-   s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
+   s = [[NSString alloc] mulleInitWithUTF8CharactersNoCopy:chars
                                                 length:length
                                           allocator:allocator];
    if( ! s)
@@ -300,13 +300,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (instancetype) _initWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
                                         length:(NSUInteger) length
                                  sharingObject:(id) object
 {
    NSString  *s;
 
-   s = [[NSString alloc] _initWithUTF8CharactersNoCopy:chars
+   s = [[NSString alloc] mulleInitWithUTF8CharactersNoCopy:chars
                                                 length:length
                                          sharingObject:object];
    if( ! s)
@@ -322,13 +322,13 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 }
 
 
-- (instancetype) _initWithCharactersNoCopy:(unichar *) chars
+- (instancetype) mulleInitWithCharactersNoCopy:(unichar *) chars
                                     length:(NSUInteger) length
                              sharingObject:(id) object
 {
    NSString  *s;
 
-   s = [[NSString alloc] _initWithCharactersNoCopy:chars
+   s = [[NSString alloc] mulleInitWithCharactersNoCopy:chars
                                             length:length
                                      sharingObject:object];
    if( ! s)
@@ -775,7 +775,7 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
    [other mulleGetUTF8Characters:&buf[ len]
                   maxLength:other_len];
 
-   s = [[[NSString alloc] _initWithUTF8CharactersNoCopy:buf
+   s = [[[NSString alloc] mulleInitWithUTF8CharactersNoCopy:buf
                                                  length:combined_len
                                               allocator:MulleObjCObjectGetAllocator( self)] autorelease];
    return( s);

@@ -72,7 +72,7 @@ static void   test( mulle_utf32_t text[ 4])
 
    s8  = [NSString mulleStringWithUTF8Characters:buffer8.text._8
                                       length:buffer8.n];
-   s16 = [[[NSString alloc] _initWithUTF16Characters:buffer16.text._16
+   s16 = [[[NSString alloc] mulleInitWithUTF16Characters:buffer16.text._16
                                               length:buffer16.n / sizeof( mulle_utf16_t)] autorelease];
    s32 = [NSString stringWithCharacters:text
                                  length:4];

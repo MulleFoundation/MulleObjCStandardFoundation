@@ -69,7 +69,7 @@ static void   _test_i_init_with_object_vararg_list_( id first, ...)
 
    va_start( args, first);
    obj = [[[NSArray alloc] initWithObject:first
-                               varargList:args] autorelease];
+                               arguments:args] autorelease];
    printf( "%s\n", [obj cStringDescription]);
    va_end( args);
 }
@@ -350,7 +350,7 @@ int   main( int argc, char *argv[])
    errors = 0;
    errors += run_test( test_i_init_with_objects_, "-initWithObjects:");
    errors += run_test( test_i_init_with_array_and_array_, "-initWithArray:andArray:");
-   errors += run_test( test_i_init_with_object_vararg_list_, "-initWithObject:varargList:");
+   errors += run_test( test_i_init_with_object_vararg_list_, "-initWithObject:arguments:");
    errors += run_test( test_i_init, "-init");
    errors += run_test( test_i_init_with_objects_count_, "-initWithObjects:count:");
    errors += run_test( test_i_init_with_array_and_object_, "-initWithArray:andObject:");

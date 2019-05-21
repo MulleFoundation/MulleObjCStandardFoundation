@@ -90,7 +90,14 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
          return( (id) _MulleObjCPropertyListReaderFail( reader, @"expected '=' after key in dictionary"));
       }
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader);
-      _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
+
+      //
+      // BUG: we don't support comments after the '='
+      // Proper fix: put readahead character into the "reader", but this
+      // slows everything down for no appreciable gain and supporting an
+      // optional feature (and Xcode doesn't write comments after ' = ')
+      // 
+      _MulleObjCPropertyListReaderSkipWhite( reader);
 
       value = _MulleObjCNewFromPropertyListWithStreamReader( reader);
       if( ! value)

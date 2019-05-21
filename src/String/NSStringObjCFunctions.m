@@ -11,6 +11,8 @@
 #import "NSString.h"
 #import "NSString+Sprintf.h"
 
+#import "NSException.h"
+
 
 @class NSString;
 
@@ -31,6 +33,13 @@ NSString   *NSStringFromClass( Class cls)
    char   *s;
 
    s = MulleObjCClassGetName( cls);
+   if( ! s)
+   {
+      if( ! cls)
+         return( nil);
+      MulleObjCThrowInternalInconsistencyException( @"unknown class %p", cls);
+   }
+
    return( [NSString stringWithUTF8String:s]);
 }
 
@@ -40,7 +49,13 @@ NSString   *NSStringFromSelector( SEL sel)
    char   *s;
 
    s = MulleObjCSelectorGetName( sel);
-   return( s ? [NSString stringWithUTF8String:s] : @"<invalid selector>");
+   if( ! s)
+   {
+      if( ! sel)
+         return( nil);
+      MulleObjCThrowInternalInconsistencyException( @"unknown selector id %08x (register selector first)", (uint32_t ) sel);
+   }
+   return([NSString stringWithUTF8String:s]);
 }
 
 
@@ -49,7 +64,13 @@ NSString   *NSStringFromProtocol( PROTOCOL proto)
    char   *s;
 
    s = MulleObjCProtocolGetName( proto);
-   return( s ? [NSString stringWithUTF8String:s] : @"<invalid protocol>");
+   if( ! s)
+   {
+      if( ! proto)
+         return( nil);
+      MulleObjCThrowInternalInconsistencyException( @"unknown protocol id %08x", (uint32_t ) proto);
+   }
+   return([NSString stringWithUTF8String:s]);
 }
 
 

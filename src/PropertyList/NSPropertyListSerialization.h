@@ -51,13 +51,13 @@ typedef enum
 
 typedef enum
 {
-    NSPropertyListOpenStepFormat          = 1, // with wily Apple extensions
-    MullePropertyListStrictOpenStepFormat = 2, // no comments, no unquoted $ _ /
+    NSPropertyListOpenStepFormat          = 1,   // with wily Apple extensions
+    MullePropertyListStrictOpenStepFormat = 2,   // no comments, no unquoted $ _ /
 //    MullePropertyListGNUstepFormat        = 4, // future
 //    MullePropertyListFormat               = 5, // future
 //    MullePropertyListJSONFormat           = 6, // future
-    NSPropertyListXMLFormat_v1_0          = 100  // read, support with expat
-//    NSPropertyListBinaryFormat_v1_0 = 200   // no support
+    NSPropertyListXMLFormat_v1_0          = 100, // read, support with expat
+    NSPropertyListBinaryFormat_v1_0       = 200  // no support
 } NSPropertyListFormat;
 
 
@@ -76,6 +76,12 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 + (NSData *) dataFromPropertyList:(id) plist
                            format:(NSPropertyListFormat) format
                  errorDescription:(NSString **)errorString;
+
++ (NSData *) dataWithPropertyList:(id) plist
+                           format:(NSPropertyListFormat) format
+                          options:(NSPropertyListWriteOptions) options
+                            error:(NSError **) p_error;
+
 
 + (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format;

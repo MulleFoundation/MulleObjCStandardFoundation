@@ -38,7 +38,7 @@
    2;
    1848;
 )
--initWithObject:varargList:
+-initWithObject:arguments:
 (
    nix;
 )
