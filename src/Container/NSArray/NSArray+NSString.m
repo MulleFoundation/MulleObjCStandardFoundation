@@ -78,9 +78,15 @@
 }
 
 
+static struct MulleObjCObjectContainerDescriptionInfo  info =
+{
+   @"(", @")", @"()", @",\n", @"\n"
+};
+
+
 - (NSString *) mulleDescriptionWithSelector:(SEL) sel
 {
-   return( MulleObjCObjectContainerDescriptionWithSelector( self, sel, @"(", @")", @"()"));
+   return( MulleObjCObjectContainerDescriptionWithSelector( self, sel, &info));
 }
 
 

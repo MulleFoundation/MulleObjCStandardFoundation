@@ -187,6 +187,9 @@ static enum _NSStringClassClusterStringSize   MulleObjCStringClassIndexForLength
 }
 
 
+//
+// TODO: need a function for ZeroTerminated ASCII string
+//
 NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s,
                                                        NSUInteger length)
 {

@@ -67,9 +67,16 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
 }
 
 
+
+static struct MulleObjCObjectContainerDescriptionInfo  info =
+{
+   @"{", @"}", @"{}", @";\n", @";\n"
+};
+
+
 - (NSString *) mulleDescriptionWithSelector:(SEL) sel
 {
-   return( MulleObjCKeyValueContainerDescriptionWithSelector( self, sel, @"{", @"}", @"{}"));
+   return( MulleObjCKeyValueContainerDescriptionWithSelector( self, sel, &info));
 }
 
 

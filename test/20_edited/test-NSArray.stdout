@@ -1,13 +1,13 @@
 void test_i_encode_decode()
 (
-   1;
-   2;
-   3;
+    1,
+    2,
+    3
 )
 (
-   1;
-   2;
-   3;
+    1,
+    2,
+    3
 )
 void test_i_class_for_coder()
 NSArray
@@ -16,9 +16,9 @@ void test_i_sorted_array_using_descriptors_()
 ()
 void test_i_description()
 (
-   1;
-   2;
-   3;
+    1,
+    2,
+    3
 )
 void test_i_components_joined_by_string_()
 123
@@ -26,62 +26,62 @@ void test_i_components_joined_by_string_()
 1VfL Bochum2VfL Bochum3
 void test_c_array_with_retained_objects_count_()
 (
-   a;
-   b;
-   c;
+    a,
+    b,
+    c
 )
 void test_c_array_with_objects_()
 (
-   whatever;
-   1;
-   {
-      a = 1;
-   };
-   (
-      a;
-   );
+    whatever,
+    1,
+    {
+        a = 1;
+    },
+    (
+        a
+    )
 )
 void test_c_array_with_object_()
 ()
 (
-   whatever;
+    whatever
 )
 (
-   1;
+    1
 )
 (
-   {
-      a = 1;
-   };
+    {
+        a = 1;
+    }
 )
 (
-   (
-      a;
-   );
+    (
+        a
+    )
 )
 void test_c_array()
 ()
 void test_c_array_with_objects_count_()
 ()
 (
-   a;
+    a
 )
 (
-   a;
-   b;
+    a,
+    b
 )
 (
-   a;
-   b;
-   c;
+    a,
+    b,
+    c
 )
 void test_c_array_with_array_()
 ()
 ()
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 void test_c_array_with_array_range_()
 ()
@@ -98,14 +98,14 @@ NSRangeException: range 0/18446744073709551615 doesn't fit { (nil) }
 NSRangeException: range 2147483647/2147483647 doesn't fit { (nil) }
 void test_i_init_with_objects_()
 (
-   whatever;
-   1;
-   {
-      a = 1;
-   };
-   (
-      a;
-   );
+    whatever,
+    1,
+    {
+        a = 1;
+    },
+    (
+        a
+    )
 )
 void test_i_contains_object_()
 value is 0
@@ -117,34 +117,34 @@ void test_i_init_with_array_and_array_()
 ()
 ()
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 ()
 ()
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 (
-   1;
-   2;
-   1848;
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848,
+    1,
+    2,
+    1848
 )
 void test_i_contains_object_in_range_()
 value is YES
@@ -178,119 +178,119 @@ void test_i_array_by_adding_objects_from_array_()
 ()
 ()
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 void test_i_make_objects_perform_selector_()
 void test_i_array_by_adding_object_()
 ()
 (
-   whatever;
+    whatever
 )
 (
-   1;
+    1
 )
 (
-   {
-      a = 1;
-   };
+    {
+        a = 1;
+    }
 )
 (
-   (
-      a;
-   );
+    (
+        a
+    )
 )
 void test_i_init_with_objects_count_()
 ()
 (
-   whatever;
+    whatever
 )
 (
-   whatever;
-   1;
-   {
-      a = 1;
-   };
-   (
-      a;
-   );
+    whatever,
+    1,
+    {
+        a = 1;
+    },
+    (
+        a
+    )
 )
 void test_i_init_with_array_and_object_()
 ()
 (
-   whatever;
+    whatever
 )
 (
-   1;
+    1
 )
 (
-   {
-      a = 1;
-   };
+    {
+        a = 1;
+    }
 )
 (
-   (
-      a;
-   );
+    (
+        a
+    )
 )
 ()
 (
-   whatever;
+    whatever
 )
 (
-   1;
+    1
 )
 (
-   {
-      a = 1;
-   };
+    {
+        a = 1;
+    }
 )
 (
-   (
-      a;
-   );
+    (
+        a
+    )
 )
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 (
-   1;
-   2;
-   1848;
-   whatever;
+    1,
+    2,
+    1848,
+    whatever
 )
 (
-   1;
-   2;
-   1848;
-   1;
+    1,
+    2,
+    1848,
+    1
 )
 (
-   1;
-   2;
-   1848;
-   {
-      a = 1;
-   };
+    1,
+    2,
+    1848,
+    {
+        a = 1;
+    }
 )
 (
-   1;
-   2;
-   1848;
-   (
-      a;
-   );
+    1,
+    2,
+    1848,
+    (
+        a
+    )
 )
 void test_i_init_with_array_()
 ()
 ()
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 void test_i_last_object()
 (null)
@@ -300,14 +300,14 @@ void test_i_init_with_array_copy_items_()
 ()
 ()
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 (
-   1;
-   2;
-   1848;
+    1,
+    2,
+    1848
 )
 void test_i_index_of_object_identical_to_()
 9223372036854775807
@@ -414,66 +414,66 @@ NSIndexException
 NSIndexException
 void test_i_sorted_array_using_selector_()
 (
-   1;
-   2;
-   3;
+    1,
+    2,
+    3
 )
 Threw a NSInvalidArgumentException exception
 void test_i_mutable_copy()
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 void test_i_description_with_locale_indent_()
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 void test_i_description_with_locale_()
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )
 (
-   2;
-   3;
-   1;
+    2,
+    3,
+    1
 )

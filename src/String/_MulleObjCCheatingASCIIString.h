@@ -72,11 +72,17 @@ static inline size_t  _MulleObjCCheatingASCIIStringStorageGetLength( struct _Mul
 }
 
 
+//
+// the cheating ASCII string is always zero terminated
+// size is the length of the string plus zero termination
+//
 static inline id   _MulleObjCCheatingASCIIStringStorageInit( struct _MulleObjCCheatingASCIIStringStorage *storage,
                                                              char *buf,
                                                              NSUInteger length)
 {
    _MulleObjCCheatingASCIIString   *p;
+
+   assert( strlen( buf) == length);
 
    p = _MulleObjCCheatingASCIIStringStorageGetObject( storage);
 
@@ -85,6 +91,7 @@ static inline id   _MulleObjCCheatingASCIIStringStorageInit( struct _MulleObjCCh
 
    storage->_storage = buf;
    storage->_length  = length;
+   storage->_shadow  = 0;
 
    return( p);
 }
