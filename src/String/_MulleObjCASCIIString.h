@@ -38,6 +38,8 @@
 
 // ASCIICharacters are just the chars without trailing zero
 // ASCIIString always has a trailing zero
+// TODO: rewrite with size and ZeroTerminatedASCIICharacters so
+//       its understandable
 
 //
 // subclasses provide length

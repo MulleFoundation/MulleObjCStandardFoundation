@@ -47,11 +47,10 @@
 // std-c and dependencies
 
 
+
 NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
                                                              SEL sel,
-                                                             NSString *opener,
-                                                             NSString *closer,
-                                                             NSString *empty)
+                                                             struct MulleObjCObjectContainerDescriptionInfo *info)
 {
    id                value;
    NSArray           *lines;
@@ -63,14 +62,14 @@ NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
 
    count = [self count];
    if( ! count)
-      return( empty);
+      return( info->empty);
 
-   s = [NSMutableString stringWithString:opener];
+   s = [NSMutableString stringWithString:info->opener];
    [s appendString:@"\n"];
 
    for( value in self)
    {
-     [s appendString:@"   "];
+     [s appendString:@"    "];   // 4 spaces for MulleScion tests
 
       /**/
       valueString = [value performSelector:sel];
@@ -79,26 +78,22 @@ NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
       i = 0;
       for( line in lines)
       {
-         [s appendString:! i++ ? @"" : @"\n   "];
+         [s appendString:! i++ ? @"" : @"\n    "]; // 4 spaces for MulleScion tests
          [s appendString:line];
       }
 
-      [s appendString:@";\n"];
+      [s appendString:--count ? info->separator : info->lastSeparator];
    }
 
-   [s appendString:closer];
+   [s appendString:info->closer];
 
    return( s);
 }
 
 
-
-
 NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
                                                                SEL sel,
-                                                               NSString *opener,
-                                                               NSString *closer,
-                                                               NSString *empty)
+                                                               struct MulleObjCObjectContainerDescriptionInfo *info)
 {
    id                value;
    NSArray           *keys;
@@ -112,16 +107,16 @@ NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
 
    count = [self count];
    if( ! count)
-      return( empty);
+      return( info->empty);
 
-   s = [NSMutableString stringWithString:opener];
+   s = [NSMutableString stringWithString:info->opener];
    [s appendString:@"\n"];
 
    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
    for( key in keys)
    {
       value = [self objectForKey:key];
-      [s appendString:@"   "];
+      [s appendString:@"    "]; // 4 spaces for MulleScion tests
 
       /**/
       [s appendString:[key performSelector:sel]];
@@ -133,13 +128,13 @@ NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
       i = 0;
       for( line in lines)
       {
-         [s appendString:! i++ ? @"" : @"\n   "];
+         [s appendString:! i++ ? @"" : @"\n    "]; // 4 spaces for MulleScion tests
          [s appendString:line];
       }
-      [s appendString:@";\n"];
+      [s appendString:info->separator];  // no lastSeparator here
    }
 
-   [s appendString:closer];
+   [s appendString:info->closer];
 
    return( s);
 }

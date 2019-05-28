@@ -8,10 +8,13 @@
 #ifndef _mulle_objc_standard_foundation_include_h__
 #define _mulle_objc_standard_foundation_include_h__
 
+// library: remove with `mark no-header`, rename with `set include`
 # include <mulle-buffer/mulle-buffer.h>   // mulle-buffer
 
+// library: remove with `mark no-header`, rename with `set include`
 # include <mulle-utf/mulle-utf.h>   // mulle-utf
 
+// library: remove with `mark no-header`, rename with `set include`
 # include <mulle-sprintf/mulle-sprintf.h>   // mulle-sprintf
 
 #endif

@@ -1,0 +1,10 @@
+"" has suffix "0": NO
+"" has prefix "0": NO
+" " has suffix "0": NO
+" " has prefix "0": NO
+"0" has suffix "0": YES
+"0" has prefix "0": YES
+"10" has suffix "0": YES
+"10" has prefix "0": NO
+"01" has suffix "0": NO
+"01" has prefix "0": YES

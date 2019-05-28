@@ -58,6 +58,12 @@ BOOL   NSSetCompatibleDescription = YES;
 //       identical to NSArray.
 //
 
+static struct MulleObjCObjectContainerDescriptionInfo  info =
+{
+   @"{(", @")}", @"{()}", @",\n", @"\n"
+};
+
+
 - (NSString *) mulleDescriptionWithSelector:(SEL) sel
 {
    NSArray   *array;
@@ -69,7 +75,7 @@ BOOL   NSSetCompatibleDescription = YES;
    //
    array = [self allObjects];
    array = [array sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
-   return( MulleObjCObjectContainerDescriptionWithSelector( array, sel, @"{(", @")}", @"{()}"));
+   return( MulleObjCObjectContainerDescriptionWithSelector( array, sel, &info));
 }
 
 

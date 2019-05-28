@@ -39,15 +39,19 @@
 
 @class NSString;
 
+struct MulleObjCObjectContainerDescriptionInfo
+{
+   NSString  *opener;
+   NSString  *closer;
+   NSString  *empty;
+   NSString  *separator;
+   NSString  *lastSeparator;
+};
 
 NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
                                                              SEL sel,
-                                                             NSString *opener,
-                                                             NSString *closer,
-                                                             NSString *empty);
+                                                             struct MulleObjCObjectContainerDescriptionInfo *info);
 
 NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
                                                                SEL sel,
-                                                               NSString *opener,
-                                                               NSString *closer,
-                                                               NSString *empty);
+                                                               struct MulleObjCObjectContainerDescriptionInfo *info);
