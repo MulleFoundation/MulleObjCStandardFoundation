@@ -91,6 +91,17 @@ static Class   nsErrorClass;
 }
 
 
+- (void) finalize
+{
+   [_domain autorelease];
+   _domain = 0;
+   [_userInfo autorelease];
+   _userInfo = 0;
+
+   [super finalize];
+}
+
+
 + (instancetype) errorWithDomain:(NSString *) domain
                             code:(NSInteger) code
                         userInfo:(NSDictionary *) userInfo;
@@ -183,7 +194,7 @@ static Class   nsErrorClass;
 {
    NSMutableDictionary   *threadDictionary;
    Class                 cls;
-   
+
    threadDictionary = [[NSThread currentThread] threadDictionary];
    [threadDictionary removeObjectForKey:NSErrorKey];
 
