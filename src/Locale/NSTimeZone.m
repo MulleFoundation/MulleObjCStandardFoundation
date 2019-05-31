@@ -198,7 +198,7 @@ static NSString   *NSGMTTimeZoneKey     = @"NSGMTTimeZone";
 
 + (NSTimeZone *) _GMTTimeZone
 {
-   return( [[_NSGMTTimeZone sharedInstance] retain]);
+   return( [_NSGMTTimeZone sharedInstance]);
 }
 
 
