@@ -61,4 +61,25 @@ NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s, NSUInteger lengt
    return( MulleObjCNewASCIIStringWithASCIICharacters( _storage, _length));
 }
 
+
+// cheating string can't use shadow
+- (char *) UTF8String
+{
+   struct mulle_buffer      buffer;
+   struct mulle_allocator   *allocator;
+   char                     *s;
+
+   allocator = MulleObjCObjectGetAllocator( self);
+
+   mulle_buffer_init( &buffer, allocator);
+   mulle_buffer_add_bytes( &buffer, _storage, _length);
+   mulle_buffer_add_byte( &buffer, 0);
+   s = mulle_buffer_extract_all( &buffer);
+   mulle_buffer_done( &buffer);
+
+   MulleObjCAutoreleaseAllocation( s, allocator);
+
+   return( s);
+}
+
 @end

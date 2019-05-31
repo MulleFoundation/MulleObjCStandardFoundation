@@ -1660,7 +1660,6 @@ int   main( int argc, char *argv[])
    run_test( test_i_description_with_locale_indent_);
    run_test( test_i_description_with_locale_);
 //   run_test( test_i_property_list_utf8_data_to_stream_indent_);
-
    // universe should not leak check now
    mulle_testallocator_cancel();  // will
 

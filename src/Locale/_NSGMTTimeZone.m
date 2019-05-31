@@ -13,6 +13,8 @@
 
 @implementation _NSGMTTimeZone
 
+- (id) __initSingleton        { return( self); }
+
 - (NSInteger) secondsFromGMT  { return( 0); }
 - (NSString *) abbreviation   { return( @"GMT"); }
 - (BOOL) isDaylightSavingTime { return( NO); }
