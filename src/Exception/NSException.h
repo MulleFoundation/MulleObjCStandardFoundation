@@ -116,3 +116,8 @@ void   MulleObjCThrowInternalInconsistencyException( NSString *format, ...);
 MULLE_C_NO_RETURN
 void   MulleObjCThrowErrnoException( NSString *format, ...);
 
+MULLE_C_NO_RETURN
+void   _MulleObjCThrowErrnoException( NSString *exceptionName,
+                                      NSString *format,
+                                      ...);
+

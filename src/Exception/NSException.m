@@ -62,15 +62,26 @@ NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
 @implementation NSException
 
+
 __attribute__ ((noreturn))
-static void   throw_errno_exception( id format, va_list args)
+static void   _throw_errno_exception( NSString *exceptionName,
+                                     id format,
+                                     va_list args)
 {
    NSString  *s;
 
    s = [NSString stringWithFormat:format
                           arguments:args];
-   [NSException raise:MulleObjCErrnoException
+   [NSException raise:exceptionName
                format:@"%@: %s", s, strerror( errno)];
+}
+
+
+__attribute__ ((noreturn))
+static void   throw_errno_exception (id format,
+                                     va_list args)
+{
+   _throw_errno_exception( MulleObjCErrnoException, format, args);
 }
 
 
@@ -88,7 +99,7 @@ static void   throw_argument_exception( id format, va_list args)
 {
    [NSException raise:NSInvalidArgumentException
                format:format
-           arguments:args];
+            arguments:args];
 }
 
 
@@ -326,3 +337,15 @@ MULLE_C_NO_RETURN void   MulleObjCThrowErrnoException( NSString *format, ...)
    throw_errno_exception( format, args);
    va_end( args);
 }
+
+
+MULLE_C_NO_RETURN void   _MulleObjCThrowErrnoException( NSString *exceptionName,
+                                                        NSString *format, ...)
+{
+   va_list  args;
+
+   va_start( args, format);
+   _throw_errno_exception( exceptionName, format, args);
+   va_end( args);
+}
+

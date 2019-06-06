@@ -241,12 +241,12 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
 
 
 + (instancetype) mulleStringWithCharactersNoCopy:(unichar *) s
-                                      length:(NSUInteger) len
-                                   allocator:(struct mulle_allocator *) allocator;
+                                          length:(NSUInteger) len
+                                       allocator:(struct mulle_allocator *) allocator;
 {
    return( [[[self alloc] mulleInitWithCharactersNoCopy:s
-                                             length:len
-                                          allocator:allocator] autorelease]);
+                                                 length:len
+                                              allocator:allocator] autorelease]);
 }
 
 
@@ -257,7 +257,7 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
 
 
 + (instancetype) mulleStringWithUTF8Characters:(mulle_utf8_t *) s
-                                    length:(NSUInteger) len
+                                        length:(NSUInteger) len
 {
    return( [[[self alloc] mulleInitWithUTF8Characters:s
                                            length:len] autorelease]);
@@ -265,11 +265,8 @@ NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
 
 
 + (instancetype) mulleStringWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                          length:(NSUInteger) len
-                                       allocator:(struct mulle_allocator *) allocator
-{
-   assert( s);
-   assert( len);
+length:(NSUInteger) len allocator:(struct mulle_allocator *) allocator { assert(
+s); assert( len);
 
    return( [[[self alloc] mulleInitWithUTF8CharactersNoCopy:s
                                                 length:len

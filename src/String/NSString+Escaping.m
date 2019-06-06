@@ -191,7 +191,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    NSCharacterSet   *characterSet;
 
    NSAssert( encoding == NSUTF8StringEncoding, @"only suppports NSUTF8StringEncoding");
-   characterSet = [NSCharacterSet nonPercentEscapeCharacterSet];
+   characterSet = [NSCharacterSet mulleNonPercentEscapeCharacterSet];
    return( [self stringByAddingPercentEncodingWithAllowedCharacters:characterSet]);
 }
 
@@ -304,7 +304,7 @@ static inline int   dehex( mulle_utf8_t c)
    NSCharacterSet   *characterSet;
 
    NSAssert( encoding == NSUTF8StringEncoding, @"only suppports NSUTF8StringEncoding");
-   characterSet = [NSCharacterSet nonPercentEscapeCharacterSet];
+   characterSet = [NSCharacterSet mulleNonPercentEscapeCharacterSet];
    return( [self stringByReplacingPercentEscapesWithDisallowedCharacters:characterSet]);
 }
 

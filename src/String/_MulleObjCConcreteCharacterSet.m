@@ -46,35 +46,35 @@
 @implementation _MulleObjCConcreteCharacterSet
 
 + (instancetype) newWithMemberFunction:(int (*)( unichar)) f
-               planeFunction:(int (*)( unsigned int)) plane_f
-                      invert:(BOOL) invert
+                         planeFunction:(int (*)( unsigned int)) plane_f
+                                invert:(BOOL) invert
 {
    _MulleObjCConcreteCharacterSet   *obj;
 
    // known to be all zeroed out(!) important!
-   obj           = NSAllocateObject( self, 0, NULL);
-   obj->_f       = f;
-   obj->_plane_f = plane_f;
-   obj->_rval    = invert ? 0 : 1;
+   obj            = NSAllocateObject( self, 0, NULL);
+   obj->_f        = f;
+   obj->_plane_f  = plane_f;
+   obj->_invert   = invert;
    return( obj);
 }
 
 
 - (BOOL) characterIsMember:(unichar) c
 {
-   return( (*_f)( c) == _rval);
+   return( (*_f)( c) == ! _invert);
 }
 
 
 - (BOOL) longCharacterIsMember:(long) c
 {
-   return( (*_f)( (unichar) c) == _rval);
+   return( (*_f)( (unichar) c) == ! _invert);
 }
 
 
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
 {
-   return( (*_plane_f)( (unsigned int) plane) == _rval);
+   return( (*_plane_f)( (unsigned int) plane) == ! _invert);
 }
 
 
@@ -82,12 +82,12 @@
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:_f
                                                     planeFunction:_plane_f
-                                                           invert:_rval] autorelease]);
+                                                           invert:! _invert] autorelease]);
 }
 
 
-- (void) getBitmapBytes:(unsigned char *) bytes
-                  plane:(unsigned int) plane
+- (void) mulleGetBitmapBytes:(unsigned char *) bytes
+                       plane:(NSUInteger) plane
 {
    mulle_utf32_t   c;
    mulle_utf32_t   end;

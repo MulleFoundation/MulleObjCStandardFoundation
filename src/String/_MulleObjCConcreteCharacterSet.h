@@ -41,11 +41,11 @@
 {
    int   (*_f)( unichar c);
    int   (*_plane_f)( unsigned int c);
-   int   _rval;
+   int   _invert;
 }
 
 + (instancetype) newWithMemberFunction:(int (*)( unichar)) f
-               planeFunction:(int (*)( unsigned int)) plane_f
-                      invert:(BOOL) invert;
+                         planeFunction:(int (*)( unsigned int)) plane_f
+                                invert:(BOOL) invert;
 
 @end

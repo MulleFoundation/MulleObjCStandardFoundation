@@ -56,7 +56,7 @@
 }
 
 
-- (NSString *) testDescription
+- (NSString *) mulleTestDescription
 {
    return( [self description]);
 }

@@ -88,7 +88,8 @@ static void   _NSThrowInvalidUTF8Exception( mulle_utf8_t *s,
 
 static void   _NSThrowInvalidUTF32Exception( mulle_utf32_t *s,
                                              size_t len,
-                                             struct mulle_utf_information *info)
+                                             struct mulle_utf_information *info,
+                                             struct mulle_allocator *allocator)
 {
    struct mulle_buffer   buffer;
    auto char             space[ 256];
@@ -97,7 +98,11 @@ static void   _NSThrowInvalidUTF32Exception( mulle_utf32_t *s,
 
    invalid = (mulle_utf32_t *) info->invalid;
    if( s > (mulle_utf32_t *) info->invalid)
+   {
+      if( allocator)
+         mulle_allocator_free( allocator, s);
       MulleObjCThrowInvalidArgumentException( @"UTF32 internal corruption, no data can be shown");
+   }
 
    p   = invalid;
    p  -= 2;
@@ -114,7 +119,10 @@ static void   _NSThrowInvalidUTF32Exception( mulle_utf32_t *s,
    mulle_buffer_hexdump_line( &buffer, (uint8_t *) invalid, len * sizeof( mulle_utf32_t), (size_t) (invalid - s) * sizeof( mulle_utf32_t), mulle_buffer_hexdump_no_offset|mulle_buffer_hexdump_no_ascii);
    mulle_buffer_zero_last_byte( &buffer);
 
-   MulleObjCThrowInvalidArgumentException( @"Invalid UTF32: %s", space);
+   if( allocator)
+      mulle_allocator_free( allocator, s);
+
+   MulleObjCThrowInvalidArgumentException( @"Invalid UTF32 (0x%x): %s", *invalid, space);
 }
 
 
@@ -250,7 +258,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    struct mulle_utf_information  info;
 
    if( mulle_utf32_information( buf, len, &info))
-      _NSThrowInvalidUTF32Exception( buf, len, &info);
+      _NSThrowInvalidUTF32Exception( buf, len, &info, NULL);
 
    if( info.is_ascii)
       return( MulleObjCNewASCIIStringWithUTF32Characters( info.start, info.utf32len));
@@ -320,7 +328,7 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
 // this is a mulle addition, public method
 //
 - (instancetype) mulleInitWithUTF8Characters:(mulle_utf8_t *) s
-                                  length:(NSUInteger) len
+                                      length:(NSUInteger) len
 {
    struct mulle_allocator  *allocator;
 
@@ -336,14 +344,14 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
 // this is a mulle addition, public method
 //
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
-                                    length:(NSUInteger) length
-                                 allocator:(struct mulle_allocator *) allocator
+                                        length:(NSUInteger) length
+                                     allocator:(struct mulle_allocator *) allocator
 {
    struct mulle_utf_information   info;
    id                             old;
 
    if( mulle_utf32_information( s, length, &info))
-      _NSThrowInvalidUTF32Exception( s, length, &info);
+      _NSThrowInvalidUTF32Exception( s, length, &info, allocator);
 
    if( ! info.utf32len)
    {
@@ -356,7 +364,8 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
    {
       self = [self initWithCharacters:s
                                length:length];
-      mulle_allocator_free( allocator, s);
+      if( allocator)
+         mulle_allocator_free( allocator, s);
       return( self);
    }
 
@@ -459,16 +468,16 @@ static NSString *
 
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                        length:(NSUInteger) length
-                                     allocator:(struct mulle_allocator *) allocator
+                                            length:(NSUInteger) length
+                                         allocator:(struct mulle_allocator *) allocator
 {
    return( initWithUTF8CharactersNoCopyWithAllocator( self, s, length, allocator));
 }
 
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                        length:(NSUInteger) length
-                                  freeWhenDone:(BOOL) flag;
+                                            length:(NSUInteger) length
+                                      freeWhenDone:(BOOL) flag;
 {
    struct mulle_allocator   *allocator;
 
@@ -482,8 +491,8 @@ static NSString *
 
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                        length:(NSUInteger) length
-                                 sharingObject:(id) object
+                                            length:(NSUInteger) length
+                                     sharingObject:(id) object
 {
    struct mulle_utf_information   info;
 
@@ -510,8 +519,8 @@ static NSString *
 }
 
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
-                                    length:(NSUInteger) length
-                             sharingObject:(id) object
+                                        length:(NSUInteger) length
+                                 sharingObject:(id) object
 {
    struct mulle_utf_information   info;
 
@@ -519,7 +528,7 @@ static NSString *
       MulleObjCThrowInvalidArgumentException( @"object is nil");
 
    if( mulle_utf32_information( s, length, &info))
-      _NSThrowInvalidUTF32Exception( s, length, &info);
+      _NSThrowInvalidUTF32Exception( s, length, &info, NULL);
 
    if( ! info.utf32len)
       return( @"");

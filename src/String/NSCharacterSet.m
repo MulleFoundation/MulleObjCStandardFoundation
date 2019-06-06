@@ -41,6 +41,7 @@
 #import "_MulleObjCConcreteCharacterSet.h"
 #import "_MulleObjCConcreteBitmapCharacterSet.h"
 #import "_MulleObjCConcreteRangeCharacterSet.h"
+#import "_MulleObjCConcreteInvertedCharacterSet.h"
 #import "NSString.h"
 
 // other libraries of MulleObjCStandardFoundation
@@ -51,144 +52,155 @@
 
 @implementation NSCharacterSet
 
-+ (NSCharacterSet *) alphanumericCharacterSet
++ (instancetype) alphanumericCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_alphanumeric
-                                                   planeFunction:mulle_utf_is_alphanumericplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_alphanumericplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) capitalizedLetterCharacterSet
++ (instancetype) capitalizedLetterCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_capitalized
-                                                   planeFunction:mulle_utf_is_capitalizedplane
+                                                   planeFunction:(int (*)(unsigned int)) mulle_utf_is_capitalizedplane
                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) controlCharacterSet
++ (instancetype) controlCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_control
-                                                   planeFunction:mulle_utf_is_controlplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_controlplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) decimalDigitCharacterSet
++ (instancetype) decimalDigitCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decimaldigit
-                                                   planeFunction:mulle_utf_is_decimaldigitplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_decimaldigitplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) decomposableCharacterSet
++ (instancetype) decomposableCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decomposable
-                                                   planeFunction:mulle_utf_is_decomposableplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_decomposableplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) letterCharacterSet
++ (instancetype) illegalCharacterSet
+{
+   NSCharacterSet  *characterSet;
+
+   characterSet = [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_legalcharacter
+                                                          planeFunction:mulle_utf_is_legalcharacterplane
+                                                                 invert:NO];
+   return( [characterSet invertedSet]);
+}
+
+
++ (instancetype) letterCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_letter
-                                                   planeFunction:mulle_utf_is_letterplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_letterplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) lowercaseLetterCharacterSet
++ (instancetype) lowercaseLetterCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_lowercase
-                                                   planeFunction:mulle_utf_is_lowercaseplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_lowercaseplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) nonBaseCharacterSet
++ (instancetype) nonBaseCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonbase
-                                                   planeFunction:mulle_utf_is_nonbaseplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_nonbaseplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) punctuationCharacterSet
++ (instancetype) punctuationCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_punctuation
-                                                   planeFunction:mulle_utf_is_punctuationplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_punctuationplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) symbolCharacterSet
++ (instancetype) symbolCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_symbol
-                                                   planeFunction:mulle_utf_is_symbolplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_symbolplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) uppercaseLetterCharacterSet
++ (instancetype) uppercaseLetterCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_uppercase
-                                                   planeFunction:mulle_utf_is_uppercaseplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_uppercaseplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) whitespaceAndNewlineCharacterSet
++ (instancetype) whitespaceAndNewlineCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespaceornewline
-                                                   planeFunction:mulle_utf_is_whitespaceornewlineplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_whitespaceornewlineplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) whitespaceCharacterSet
++ (instancetype) whitespaceCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespace
-                                                   planeFunction:mulle_utf_is_whitespaceplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_whitespaceplane
+                                                           invert:NO] autorelease]);
 }
 
 
 
-+ (NSCharacterSet *) URLFragmentAllowedCharacterSet
++ (instancetype) URLFragmentAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlfragment
-                                                   planeFunction:mulle_utf_is_validurlfragmentplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_validurlfragmentplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) URLHostAllowedCharacterSet
++ (instancetype) URLHostAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlhost
-                                                   planeFunction:mulle_utf_is_validurlhostplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_validurlhostplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) URLPasswordAllowedCharacterSet
++ (instancetype) URLPasswordAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpassword
-                                                   planeFunction:mulle_utf_is_validurlpasswordplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_validurlpasswordplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) URLPathAllowedCharacterSet
++ (instancetype) URLPathAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpath
-                                                   planeFunction:mulle_utf_is_validurlpathplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_validurlpathplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) URLQueryAllowedCharacterSet
++ (instancetype) URLQueryAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlquery
                                                     planeFunction:mulle_utf_is_validurlqueryplane
@@ -196,34 +208,40 @@
 }
 
 
-+ (NSCharacterSet *) URLSchemeAllowedCharacterSet
++ (instancetype) mulleURLSchemeAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlscheme
                                                     planeFunction:mulle_utf_is_validurlschemeplane
-                                                          invert:NO] autorelease]);
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) URLUserAllowedCharacterSet
++ (instancetype) URLUserAllowedCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurluser
                                                     planeFunction:mulle_utf_is_validurluserplane
-                                                          invert:NO] autorelease]);
+                                                           invert:NO] autorelease]);
 }
 
 
 
-+ (NSCharacterSet *) nonPercentEscapeCharacterSet
++ (instancetype) mulleNonPercentEscapeCharacterSet
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonpercentescape
-                                                   planeFunction:mulle_utf_is_nonpercentescapeplane
-                                                          invert:NO] autorelease]);
+                                                    planeFunction:mulle_utf_is_nonpercentescapeplane
+                                                           invert:NO] autorelease]);
 }
 
 
-+ (NSCharacterSet *) characterSetWithCharactersInString:(NSString *) s
++ (instancetype) characterSetWithCharactersInString:(NSString *) s
 {
    return( [[_MulleObjCConcreteBitmapCharacterSet newWithString:s] autorelease]);
+}
+
+
+- (instancetype) invertedSet
+{
+   return( [[_MulleObjCConcreteInvertedCharacterSet newWithCharacterSet:self] autorelease]);
 }
 
 
@@ -245,7 +263,6 @@
          return( NO);
 
    // ultra layme
-
    for( c = 0; c <= mulle_utf32_max; c++)
       if( [self longCharacterIsMember:c] != [set longCharacterIsMember:c])
          return( NO);
@@ -260,8 +277,8 @@
 }
 
 
-- (void) getBitmapBytes:(unsigned char *) bytes
-                  plane:(unsigned int) plane
+- (void) mulleGetBitmapBytes:(unsigned char *) bytes
+                       plane:(NSUInteger) plane
 {
    long   c;
    long   end;
@@ -285,25 +302,10 @@
 
 - (instancetype) initWithBitmapRepresentation:(NSData *) data
 {
-   NSUInteger   size;
-   NSUInteger   n_planes;
-   void         *bytes;
-   id           old;
+   id   old;
 
-   old      = self;
-   size     = [data length];
-   n_planes = 1 + (size - 8192) / 8193;
-   if( 8192 + (n_planes - 1) * 8193 == size)
-   {
-      data  = [[data copy] autorelease];
-      bytes = [data bytes];
-      self  = [_MulleObjCConcreteBitmapCharacterSet newWithBitmapPlanes:bytes
-                                                                 invert:NO
-                                                              allocator:NULL
-                                                                  owner:data];
-   }
-   else
-      self = nil;
+   old  = self;
+   self = [_MulleObjCConcreteBitmapCharacterSet newWithBitmapRepresentation:data];
    [old release];
    return( self);
 }
@@ -318,30 +320,132 @@
    unsigned char   *p;
 
    extra = 0;
-   for( i = 1; i <= 0x10; i++)
+   for( i = 1; i < 0x11; i++)
       if( planes[ i] = [self hasMemberInPlane:i])
          ++extra;
 
-   data  = [NSMutableData dataWithLength:8192 + extra * 8193];
+   data  = [NSMutableData dataWithLength:8192 + (extra * 8193)];
    p     = [data mutableBytes];
 
-   [self getBitmapBytes:p
-                  plane:0];
+   [self mulleGetBitmapBytes:p
+                       plane:0];
    p = &p[ 8192];
 
-   for( i = 1; i <= 0x10; i++)
+   for( i = 1; i < 0x11; i++)
    {
       if( ! planes[ i])
          continue;
 
-      *p++ = planes[ i];
+      *p++ = i;
 
-      [self getBitmapBytes:p
+      [self mulleGetBitmapBytes:p
                      plane:i];
       p = &p[ 8192];
    }
 
    return( data);
+}
+
+
+static inline void    _mulle_buffer_add_unichar( struct _mulle_buffer *buffer,
+                                                 unichar c,
+                                                 struct mulle_allocator *allocator)
+{
+   unsigned char   *p;
+
+   if( _mulle_buffer_guarantee( buffer, 4, allocator))
+      return;
+
+   p = (unsigned char *) &c;
+
+   *buffer->_curr++ = *p++;
+   *buffer->_curr++ = *p++;
+   *buffer->_curr++ = *p++;
+   *buffer->_curr++ = *p++;
+}
+
+
+static inline void    mulle_buffer_add_unichar( struct mulle_buffer *buffer,
+                                                unichar c)
+{
+   _mulle_buffer_add_unichar( (struct _mulle_buffer *) buffer,
+                              c,
+                              mulle_buffer_get_allocator( buffer));
+}
+
+
+static NSString *
+   NSCharacterSetDescriptionWithSeparatorCharacter( NSCharacterSet *self,
+                                                    unichar separator)
+{
+   struct mulle_buffer      buffer;
+   struct mulle_allocator   *allocator;
+   uint8_t                  *bitmap;
+   uint8_t                  byte;
+   unsigned int             i, j, k;
+   uint8_t                  bit;
+   unichar                  c;
+   unichar                  *characters;
+   size_t                   length;
+
+   allocator = MulleObjCClassGetAllocator( [NSString class]);
+   mulle_buffer_init( &buffer, allocator);
+
+   bitmap = mulle_malloc( 8192);
+   for( i = 0; i < 0x11; i++)
+   {
+      if( ! [self hasMemberInPlane:i])
+         continue;
+
+      [self mulleGetBitmapBytes:bitmap
+                     plane:i];
+
+      for( j = 0; j < 8192; j++)
+      {
+         if( ! (byte = bitmap[ j]))
+            continue;
+
+         for( k = 0; k < 8; k++)
+         {
+            bit = 1 << k;
+            if( ! (byte & bit))
+               continue;
+
+            c = k + j * 8 + i * 65536;
+
+            if( separator && mulle_buffer_get_length( &buffer))
+               mulle_buffer_add_unichar( &buffer, separator);
+            mulle_buffer_add_unichar( &buffer, c);
+         }
+      }
+   }
+   mulle_free( bitmap);
+
+   length     = mulle_buffer_get_length( &buffer) / sizeof( unichar);
+   characters = mulle_buffer_extract_all( &buffer);
+   mulle_buffer_done( &buffer);
+
+   return( [NSString mulleStringWithCharactersNoCopy:characters
+                                              length:length
+                                           allocator:allocator]);
+}
+
+
+- (NSString *) description
+{
+   return( NSCharacterSetDescriptionWithSeparatorCharacter( self, 0));
+}
+
+
+- (NSString *) mulleTestDescription
+{
+   return( NSCharacterSetDescriptionWithSeparatorCharacter( self, '\n'));
+}
+
+
+- (id) copy
+{
+   return( [self retain]);
 }
 
 @end
