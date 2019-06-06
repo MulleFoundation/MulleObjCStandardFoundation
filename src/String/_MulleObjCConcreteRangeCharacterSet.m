@@ -53,20 +53,20 @@
    // known to be all zeroed out(!) important!
    obj           = NSAllocateObject( self, 0, NULL);
    obj->_range   = range;
-   obj->_rval    = invert ? 0 : 1;
+   obj->_invert  = invert;
    return( obj);
 }
 
 
 - (BOOL) characterIsMember:(unichar) c
 {
-   return( NSLocationInRange( c, _range) == _rval);
+   return( NSLocationInRange( c, _range) == ! _invert);
 }
 
 
 - (BOOL) longCharacterIsMember:(long) c
 {
-   return( NSLocationInRange( c, _range)  == _rval);
+   return( NSLocationInRange( c, _range)  == ! _invert);
 }
 
 
@@ -74,16 +74,20 @@
 {
    NSRange   planeRange;
 
+   if( plane >= 0x11
+)
+      return( 0);
+
    planeRange.location = plane * 0x10000;
    planeRange.length   = 0x10000;
-   return( (NSIntersectionRange( _range, planeRange).length != 0) == _rval);
+   return( (NSIntersectionRange( _range, planeRange).length != 0) == ! _invert);
 }
 
 
 - (NSCharacterSet *) invertedSet
 {
    return( [[_MulleObjCConcreteRangeCharacterSet newWithRange:_range
-                                                       invert:_rval] autorelease]);
+                                                       invert:! _invert] autorelease]);
 }
 
 @end

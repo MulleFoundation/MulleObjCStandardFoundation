@@ -35,26 +35,20 @@
 //
 
 #import "NSCharacterSet.h"
+#import "MulleObjCCharacterBitmap.h"
 
 
 @class NSString;
+@class NSData;
 
 
 @interface _MulleObjCConcreteBitmapCharacterSet : NSCharacterSet
 {
-   uint32_t                 *_planes[ 0x11];
-   int                      _rval;
-
-   struct mulle_allocator   *_allocator;
-   id                       _owner;
+   struct MulleObjCCharacterBitmap   _bitmap;
 }
 
 
-+ (instancetype) newWithBitmapPlanes:(uint32_t **) planes
-                              invert:(BOOL) invert
-                           allocator:(struct mulle_allocator *) allocator
-                               owner:(id) owner;
-
++ (instancetype) newWithBitmapRepresentation:(NSData *) data;
 + (instancetype) newWithString:(NSString *) s;
 
 @end

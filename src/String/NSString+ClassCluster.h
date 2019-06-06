@@ -51,27 +51,27 @@
 // mulle additions
 
 - (instancetype) mulleInitWithUTF8Characters:(mulle_utf8_t *) s
-                                  length:(NSUInteger) len;
+                                      length:(NSUInteger) len;
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                        length:(NSUInteger) length
-                                  freeWhenDone:(BOOL) flag;
+                                            length:(NSUInteger) length
+                                      freeWhenDone:(BOOL) flag;
 
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
-                                    length:(NSUInteger) length
-                                 allocator:(struct mulle_allocator *) allocator;
-
-- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                        length:(NSUInteger) lengt
+                                        length:(NSUInteger) length
                                      allocator:(struct mulle_allocator *) allocator;
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
-                                        length:(NSUInteger) length
-                                 sharingObject:(id) object;
+                                            length:(NSUInteger) lengt
+                                         allocator:(struct mulle_allocator *) allocator;
+
+- (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
+                                            length:(NSUInteger) length
+                                     sharingObject:(id) object;
 
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
-                                    length:(NSUInteger) length
-                             sharingObject:(id) object;
+                                        length:(NSUInteger) length
+                                 sharingObject:(id) object;
 
 @end
 

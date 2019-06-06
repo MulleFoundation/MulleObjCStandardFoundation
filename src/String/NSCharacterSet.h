@@ -43,7 +43,7 @@
 typedef mulle_utf32_t  unichar;
 
 
-@interface NSCharacterSet : NSObject  < MulleObjCClassCluster>
+@interface NSCharacterSet : NSObject  < NSCopying, MulleObjCClassCluster>
 
 - (instancetype) initWithBitmapRepresentation:(NSData *) data;
 
@@ -51,32 +51,36 @@ typedef mulle_utf32_t  unichar;
 - (BOOL) isSupersetOfSet:(NSCharacterSet *) set;
 - (BOOL) longCharacterIsMember:(long) c;
 
-+ (NSCharacterSet *) characterSetWithCharactersInString:(NSString *) s;
++ (instancetype) characterSetWithCharactersInString:(NSString *) s;
 
-+ (NSCharacterSet *) alphanumericCharacterSet;
-+ (NSCharacterSet *) capitalizedLetterCharacterSet;
-+ (NSCharacterSet *) controlCharacterSet;
-+ (NSCharacterSet *) decimalDigitCharacterSet;
-+ (NSCharacterSet *) decomposableCharacterSet;
-+ (NSCharacterSet *) letterCharacterSet;
-+ (NSCharacterSet *) lowercaseLetterCharacterSet;
-+ (NSCharacterSet *) nonBaseCharacterSet;
-+ (NSCharacterSet *) punctuationCharacterSet;
-+ (NSCharacterSet *) symbolCharacterSet;
-+ (NSCharacterSet *) uppercaseLetterCharacterSet;
-+ (NSCharacterSet *) whitespaceAndNewlineCharacterSet;
-+ (NSCharacterSet *) whitespaceCharacterSet;
-+ (NSCharacterSet *) URLFragmentAllowedCharacterSet;
-+ (NSCharacterSet *) URLHostAllowedCharacterSet;
-+ (NSCharacterSet *) URLPasswordAllowedCharacterSet;
-+ (NSCharacterSet *) URLPathAllowedCharacterSet;
-+ (NSCharacterSet *) URLQueryAllowedCharacterSet;
-+ (NSCharacterSet *) URLSchemeAllowedCharacterSet;
-+ (NSCharacterSet *) URLUserAllowedCharacterSet;
++ (instancetype) alphanumericCharacterSet;
++ (instancetype) capitalizedLetterCharacterSet;
++ (instancetype) controlCharacterSet;
++ (instancetype) decimalDigitCharacterSet;
++ (instancetype) decomposableCharacterSet;
++ (instancetype) illegalCharacterSet;
++ (instancetype) letterCharacterSet;
++ (instancetype) lowercaseLetterCharacterSet;
++ (instancetype) nonBaseCharacterSet;
++ (instancetype) punctuationCharacterSet;
++ (instancetype) symbolCharacterSet;
++ (instancetype) uppercaseLetterCharacterSet;
++ (instancetype) whitespaceAndNewlineCharacterSet;
++ (instancetype) whitespaceCharacterSet;
+
++ (instancetype) URLFragmentAllowedCharacterSet;
++ (instancetype) URLHostAllowedCharacterSet;
++ (instancetype) URLPasswordAllowedCharacterSet;
++ (instancetype) URLPathAllowedCharacterSet;
++ (instancetype) URLQueryAllowedCharacterSet;
++ (instancetype) URLUserAllowedCharacterSet;
 
 // mulle addition
-+ (NSCharacterSet *) nonPercentEscapeCharacterSet;
++ (instancetype) mulleURLSchemeAllowedCharacterSet;
++ (instancetype) mulleNonPercentEscapeCharacterSet;
 
+- (void) mulleGetBitmapBytes:(unsigned char *) bytes
+                       plane:(NSUInteger) plane;
 @end
 
 

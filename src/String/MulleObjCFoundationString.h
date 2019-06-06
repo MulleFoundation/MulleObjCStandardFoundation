@@ -50,6 +50,8 @@
 #import "NSString+NSData.h"
 #import "NSString+Search.h"
 #import "NSString+Sprintf.h"
+
+#import "NSMutableCharacterSet.h"
 #import "NSMutableString.h"
 
 #import "NSStringObjCFunctions.h"

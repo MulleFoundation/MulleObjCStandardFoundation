@@ -241,8 +241,8 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSString  *s;
 
    s = [[NSString alloc] mulleInitWithUTF8CharactersNoCopy:chars
-                                                length:length
-                                          freeWhenDone:flag];
+                                                    length:length
+                                              freeWhenDone:flag];
    if( ! s)
    {
       [self release];
@@ -257,14 +257,14 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) chars
-                                    length:(NSUInteger) length
-                                 allocator:(struct mulle_allocator *) allocator
+                                        length:(NSUInteger) length
+                                     allocator:(struct mulle_allocator *) allocator
 {
    NSString  *s;
 
    s = [[NSString alloc] mulleInitWithCharactersNoCopy:chars
-                                            length:length
-                                         allocator:allocator];
+                                                length:length
+                                             allocator:allocator];
    if( ! s)
    {
       [self release];

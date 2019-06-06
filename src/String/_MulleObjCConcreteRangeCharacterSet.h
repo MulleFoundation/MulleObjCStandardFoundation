@@ -40,7 +40,7 @@
 @interface _MulleObjCConcreteRangeCharacterSet : NSCharacterSet
 {
    NSRange   _range;
-   int       _rval;
+   int       _invert;
 }
 
 + (instancetype) newWithRange:(NSRange) range
