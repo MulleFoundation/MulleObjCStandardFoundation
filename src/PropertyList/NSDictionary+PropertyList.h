@@ -1,9 +1,9 @@
 //
-//  MulleObjCFoundationPropertyList.h
+//  NSString+NSPropertyList.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2019 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2019 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,18 +33,11 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "MulleObjCFoundationContainer.h"
 
 
-// export everything with NS
+@interface NSDictionary( PropertyList)
 
-#import "NSPropertyListSerialization.h"
-#import "NSString+PropertyList.h"
-#import "NSDictionary+PropertyList.h"
+- (NSString *) descriptionInStringsFileFormat;
 
-// export everything with MulleObjC
-
-
-// export nothing with _MulleObjC
-
-
-// export everything with ns_
+@end

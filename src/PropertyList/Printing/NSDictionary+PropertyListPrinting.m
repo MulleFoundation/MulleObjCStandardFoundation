@@ -45,23 +45,40 @@
 
 @implementation NSDictionary( PropertyListPrinting)
 
-
-typedef struct
+- (void) _propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                           indentation:(NSData *) indentation
 {
-    NSString   *keyDescription;
-    NSString   *valueDescription;
-} __KeyValueDescription;
+   id        key, value;
+   NSData    *keyData;
+   NSData    *valueData;
+   NSArray   *keys;
+
+   // don't really care if sorted or not but WTF.. :)
+   keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
+   for( key in keys)
+   {
+      value = [self objectForKey:key];
+
+      keyData   = [key propertyListUTF8DataWithIndent:0];
+      valueData = [value propertyListUTF8DataWithIndent:0];
+
+      [handle writeData:indentation];
+      [handle writeData:keyData];
+      [handle writeBytes:" = "
+                  length:3];
+      [handle writeData:valueData];
+      [handle writeBytes:";\n"
+                  length:2];
+   }
+}
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
                                indent:(NSUInteger) indent
 {
-   id              key, value;
-   NSData          *keyData;
-   NSData          *valueData;
-   NSData          *indentation1;
-   NSArray         *keys;
-   unsigned        indent1;
+   NSData     *indentation1;
+   NSArray    *keys;
+   unsigned   indent1;
 
    indent1 = indent + 1;
 
@@ -76,23 +93,8 @@ typedef struct
                length:2];
    indentation1 = [self propertyListUTF8DataIndentation:indent1];
 
-   // don't really care if sorted or not but WTF.. :)
-   keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
-   for( key in keys)
-   {
-      value = [self objectForKey:key];
-
-      keyData   = [key propertyListUTF8DataWithIndent:indent1];
-      valueData = [value propertyListUTF8DataWithIndent:indent1];
-
-      [handle writeData:indentation1];
-      [handle writeData:keyData];
-      [handle writeBytes:" = "
-                  length:3];
-      [handle writeData:valueData];
-      [handle writeBytes:";\n"
-                  length:1];
-   }
+   [self _propertyListUTF8DataToStream:handle
+                           indentation:indentation1];
 
    [handle writeData:[self propertyListUTF8DataIndentation:indent]];
    [handle writeBytes:"}"

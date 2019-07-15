@@ -36,4 +36,5 @@
 
 #import "NSObject+PropertyListParsing.h"
 
-NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPropertyListReader *reader);
+NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPropertyListReader *reader,
+                                                                   NSString *initialKey);

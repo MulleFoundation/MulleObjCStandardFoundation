@@ -46,8 +46,10 @@
    Class   nsDataClass;
 }
 
-@property( assign) BOOL  decodesPBX;      // $ _ / don't force quoted strings
-@property( assign) BOOL  decodesNumber;   // unquoted numbers become NSNumber
+@property( assign) BOOL  decodesPBX;                        // $ _ / don't force quoted strings
+@property( assign) BOOL  decodesNumber;                     // unquoted numbers become NSNumber
+@property( assign, setter=setLeaf:) BOOL  isLeaf;           // only used for strings parsing
+@property( assign, setter=setStringsPlist:) BOOL  isStringsPlist;   // only used for strings parsing
 
 - (void) setMutableContainers:(BOOL) flag;
 - (void) setMutableLeaves:(BOOL) flag;

@@ -184,9 +184,6 @@
    id                           plist;
    NSPropertyListSerialization  *parser;
 
-   if( ! [data length])
-      return( nil);
-
    bom = [data _byteOrderMark];
    switch( bom)
    {
@@ -194,9 +191,22 @@
    case _MulleObjCUTF8ByteOrderMark :
       break;
 
-   default                   :
-      abort();
+   case _MulleObjCUTF16LittleEndianByteOrderMark :
+      if( NSHostByteOrder() != NS_LittleEndian)
+         data = [data swappedUTF16Data];
+      data = [data UTF8DataFromUTF16];
+      // convert to UTF8
+      break;
+
+   case _MulleObjCUTF16BigEndianByteOrderMark :
+      if( NSHostByteOrder() != NS_BigEndian)
+         data = [data swappedUTF16Data];
+      data = [data UTF8DataFromUTF16];
+      break;
    }
+
+   if( ! [data length])
+      return( nil);
 
    // TODO: make this more plug and play via lookup table
    switch( [self mulleDetectPropertyListFormat:data])

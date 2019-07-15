@@ -38,23 +38,11 @@
 
 @implementation NSData( _Unicode)
 
-- (_MulleObjCByteOrderMark) _byteOrderMark;
+
+static _MulleObjCByteOrderMark  byteOrderMark( uint8_t *p, size_t len)
 {
-   NSUInteger     len;
-   unsigned char  *p;
+   assert( p && len >= 2);
 
-   len = [self length];
-   if( len < 2)
-      return( _MulleObjCNoByteOrderMark);
-
-// http://de.wikipedia.org/wiki/Byte_Order_Mark
-//
-//  Kodierung 	        hexadezimale Darstellung
-//  UTF-8 	        EF BB BF[3]
-//  UTF-16 (BE) 	FE FF
-//  UTF-16 (LE) 	FF FE
-
-   p = [self bytes];
    switch( *p)
    {
    case 0xEF :
@@ -74,5 +62,84 @@
    }
    return( _MulleObjCNoByteOrderMark);
 }
+
+
+- (_MulleObjCByteOrderMark) _byteOrderMark
+{
+   NSUInteger     len;
+   unsigned char  *p;
+
+   len = [self length];
+   if( len < 2)
+      return( _MulleObjCNoByteOrderMark);
+
+// http://de.wikipedia.org/wiki/Byte_Order_Mark
+//
+//  Kodierung 	        hexadezimale Darstellung
+//  UTF-8 	        EF BB BF[3]
+//  UTF-16 (BE) 	FE FF
+//  UTF-16 (LE) 	FF FE
+
+   return( byteOrderMark( [self bytes], len));
+}
+
+
+- (NSData *) swappedUTF16Data
+{
+   NSMutableData   *data;
+   mulle_utf16_t   *src;
+   mulle_utf16_t   *sentinel;
+   mulle_utf16_t   *dst;
+   NSUInteger      length;
+
+   length  = [self length];
+   if( length & 1)
+      return( nil);
+
+   data = [NSMutableData _mulleNonZeroedDataWithLength:length];
+   dst  = [data mutableBytes];
+
+   src      = [self bytes];
+   sentinel = &src[ length / sizeof( uint16_t)];
+   while( src < sentinel)
+      *dst++ = MulleObjCSwapUInt16( *src++);
+   return( data);
+}
+
+
+- (NSData *) UTF8DataFromUTF16
+{
+   struct mulle_buffer      buf;
+   struct mulle_allocator   *allocator;
+   size_t                   length;
+   mulle_utf16_t            *srcBytes;
+   mulle_utf8_t             *dstBytes;
+
+   allocator = MulleObjCObjectGetAllocator( self);
+   mulle_buffer_init( &buf, allocator);
+   srcBytes  = [self bytes];
+   length    = [self length] / sizeof( mulle_utf16_t);
+   if( length)
+   {
+      if( *srcBytes == mulle_utf16_get_bomcharacter())
+      {
+         --length;
+         ++srcBytes;
+      }
+   }
+   mulle_utf16_bufferconvert_to_utf8( srcBytes,
+                                      length,
+                                      &buf,
+                                      (void (*)()) mulle_buffer_add_bytes);
+
+   length   = mulle_buffer_get_length( &buf);
+   dstBytes = mulle_buffer_extract_all( &buf);
+   mulle_buffer_done( &buf);
+
+   return( [[[NSData alloc] mulleInitWithBytesNoCopy:dstBytes
+                                              length:length
+                                           allocator:allocator] autorelease]);
+}
+
 
 @end

@@ -83,15 +83,15 @@
 
 - (mulle_utf8_t *) UTF8String
 {
-   struct mulle_buffer  buf;
+   struct mulle_buffer   buf;
 
    if( ! _shadow)
    {
       mulle_buffer_init( &buf, MulleObjCObjectGetAllocator( self));
       mulle_utf16_bufferconvert_to_utf8( [self _fastUTF16Characters],
-                                              [self _UTF16StringLength],
-                                              &buf,
-                                              (void (*)()) mulle_buffer_add_bytes);
+                                         [self _UTF16StringLength],
+                                         &buf,
+                                         (void (*)()) mulle_buffer_add_bytes);
 
       mulle_buffer_add_byte( &buf, 0);
       _shadow = mulle_buffer_extract_all( &buf);

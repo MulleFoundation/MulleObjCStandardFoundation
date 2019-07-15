@@ -47,5 +47,7 @@ typedef enum
 @interface NSData( Unicode)
 
 - (_MulleObjCByteOrderMark) _byteOrderMark;
+- (NSData *) UTF8DataFromUTF16;
+- (NSData *) swappedUTF16Data;
 
 @end
