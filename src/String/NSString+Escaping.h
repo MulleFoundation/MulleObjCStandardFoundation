@@ -48,4 +48,6 @@
 - (NSString *) stringByReplacingPercentEscapesUsingEncoding:(NSStringEncoding) encoding;
 - (NSString *) stringByRemovingPercentEncoding;
 
+- (NSString *) mulleQuotedString;
+
 @end

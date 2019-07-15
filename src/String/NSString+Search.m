@@ -919,7 +919,10 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
    SEL       selMember;
    IMP       impMember;
 
-   len       = get_length( self_rover);
+   len = get_length( self_rover);
+   if( ! set)
+      return( len);
+
    selMember = @selector( characterIsMember:);
    impMember = [set methodForSelector:selMember];
 

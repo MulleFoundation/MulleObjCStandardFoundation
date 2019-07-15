@@ -235,58 +235,69 @@ id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader
    id     plist;
    id     tofree;
    BOOL   missingSlash;
+   BOOL   isLeaf;
 
-   for(;;)
+   isLeaf = [reader isLeaf];
+   [reader setLeaf:YES];
+
+   x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
+   switch( x)
    {
-      x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
-      switch( x)
+   case -1 :
+      return( (id) _MulleObjCPropertyListReaderFail( reader,
+                     @"empty property list is invalid"));
+
+   default: // an unquoted string or number
+      if( ! [reader decodesComments])
       {
-      case -1 :
-         return( (id) _MulleObjCPropertyListReaderFail( reader,
-                        @"empty property list is invalid"));
-
-      default: // an unquoted string or number
-         if( ! [reader decodesComments])
-         {
-            if( x == '/')
-               return( (id) _MulleObjCPropertyListReaderFail( reader, @"stray '/' in input (needs to be quoted)"));
-         }
-
-         /* we missed a '/', only happens ifdef MULLE_PLIST_DECODE_PBX  */
-         missingSlash = (x != _MulleObjCPropertyListReaderCurrentUTF32Character( reader));
-         if( ! _MulleObjCPropertyListReaderIsUnquotedStringStartChar( reader, x))
-            return( (id) _MulleObjCPropertyListReaderFail( reader,
-                        @"stray '%c'(%ld) in input (needs to be quoted)",
-                        (int) x, x));
-
-         plist = _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( reader);
-         if( missingSlash && plist)
-         {
-            [plist autorelease];
-            plist  = [[@"/" stringByAppendingString:plist] retain];
-         }
-         return( plist);
-
-      case '"': // quoted string
-         plist = _MulleObjCNewStringFromPropertyListWithReader( reader);
-         return( plist);
-
-      case '{': // dictionary
-         plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader);
-         return( plist);
-
-      case '(': // array
-         plist = _MulleObjCNewArrayFromPropertyListWithReader( reader);
-         return( plist);
-
-      case '<': // data
-         plist = _MulleObjCNewDataFromPropertyListWithReader( reader);
-         return( plist);
-
-      case '}' :
-      case ')' :  // can happen in  (  v, y, c, ) situations
-         return( [NSNull null]);
+         if( x == '/')
+            return( (id) _MulleObjCPropertyListReaderFail( reader, @"stray '/' in input (needs to be quoted)"));
       }
+
+      /* we missed a '/', only happens ifdef MULLE_PLIST_DECODE_PBX  */
+      missingSlash = (x != _MulleObjCPropertyListReaderCurrentUTF32Character( reader));
+      if( ! _MulleObjCPropertyListReaderIsUnquotedStringStartChar( reader, x))
+         return( (id) _MulleObjCPropertyListReaderFail( reader,
+                     @"stray '%c'(%ld) in input (needs to be quoted)",
+                     (int) x, x));
+
+      plist = _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( reader);
+      if( missingSlash && plist)
+      {
+         [plist autorelease];
+         plist  = [[@"/" stringByAppendingString:plist] retain];
+      }
+      return( plist);
+
+   case '"': // quoted string
+      plist = _MulleObjCNewStringFromPropertyListWithReader( reader);
+      if( isLeaf)
+         return( plist);
+
+      x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
+      if( x != '=')
+         return( plist);
+
+      /* it's a strings file really ! */
+      [reader setStringsPlist:YES];
+      plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader, plist);
+      return( plist);
+
+   case '{': // dictionary
+      plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader, nil);
+      return( plist);
+
+   case '(': // array
+      plist = _MulleObjCNewArrayFromPropertyListWithReader( reader);
+      return( plist);
+
+   case '<': // data
+      plist = _MulleObjCNewDataFromPropertyListWithReader( reader);
+      return( plist);
+
+   case '}' :
+   case ')' :  // can happen in  (  v, y, c, ) situations
+      return( [NSNull null]);
    }
 }
 

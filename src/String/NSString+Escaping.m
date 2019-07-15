@@ -139,6 +139,9 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   c;
 
+   if( ! allowedCharacters)
+      return( nil);
+
    length = [self mulleUTF8StringLength];
    if( ! length)
       return( self);
@@ -234,6 +237,9 @@ static inline int   dehex( mulle_utf8_t c)
    mulle_utf8_t   *sentinel;
    mulle_utf8_t   c;
    int            hi, lo;
+
+   if( ! disallowedCharacters)
+      return( self);
 
    length = [self mulleUTF8StringLength];
    if( ! length)
