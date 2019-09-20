@@ -217,6 +217,9 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
 {
    NSArray  *components;
 
+   if( ! separator)
+      MulleObjCThrowInvalidArgumentException( @"separator can't be nil");
+
    components = MulleObjCComponentsSeparatedByString( self, separator);
    if( ! components)
       components = [NSArray arrayWithObject:self];
@@ -228,7 +231,6 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
 {
    return( MulleObjCComponentsSeparatedByString( self, separator));
 }
-
 
 
 NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators)

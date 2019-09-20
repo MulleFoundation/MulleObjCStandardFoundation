@@ -145,6 +145,29 @@ enum
 }
 
 
+- (NSData *) _asciiData
+{
+   NSUInteger      length;
+   NSMutableData   *data;
+   mulle_utf8_t    *p;
+   mulle_utf8_t    *sentinel;
+
+   length   = [self mulleUTF8StringLength];
+   data     = [NSMutableData _mulleNonZeroedDataWithLength:length];
+   p        = [data mutableBytes];
+   sentinel = &p[ length];
+   [self mulleGetUTF8Characters:p
+                      maxLength:length];
+
+   // check that its only ASCII
+   while( p < sentinel)
+      if( *p++ & 0x80)
+         return( nil);
+   return( data);
+}
+
+
+
 - (NSData *) _utf8Data
 {
    NSUInteger      length;
@@ -153,7 +176,7 @@ enum
    length = [self mulleUTF8StringLength];
    data   = [NSMutableData _mulleNonZeroedDataWithLength:length];
    [self mulleGetUTF8Characters:[data mutableBytes]
-                  maxLength:length];
+                      maxLength:length];
    return( data);
 }
 
@@ -305,28 +328,67 @@ enum
 {
    switch( encoding)
    {
-   case NSUTF8StringEncoding  :
-   case NSUTF16StringEncoding :
+   case NSUTF8StringEncoding              :
+   case NSUTF16StringEncoding             :
    case NSUTF16LittleEndianStringEncoding :
-   case NSUTF16BigEndianStringEncoding :
-   case NSUTF32StringEncoding :
+   case NSUTF16BigEndianStringEncoding    :
+   case NSUTF32StringEncoding             :
    case NSUTF32LittleEndianStringEncoding :
-   case NSUTF32BigEndianStringEncoding :
-      return( YES);
+   case NSUTF32BigEndianStringEncoding    : return( YES);
    }
 
    return( NO);
 }
 
 
+char   *MulleStringEncodingCStringDescription( NSStringEncoding encoding)
+{
+   switch( encoding)
+   {
+   case NSASCIIStringEncoding             : return( "ASCII");
+   case NSNEXTSTEPStringEncoding          : return( "NEXTSTEP");
+   case NSJapaneseEUCStringEncoding       : return( "JapaneseEUC");
+   case NSUTF8StringEncoding              : return( "UTF8");
+   case NSISOLatin1StringEncoding         : return( "ISOLatin1");
+   case NSSymbolStringEncoding            : return( "Symbol");
+   case NSNonLossyASCIIStringEncoding     : return( "NonLossyASCII");
+   case NSShiftJISStringEncoding          : return( "ShiftJIS");
+   case NSISOLatin2StringEncoding         : return( "ISOLatin2");
+   case NSUTF16StringEncoding             : return( "UTF16");
+   case NSWindowsCP1251StringEncoding     : return( "WindowsCP1251");
+   case NSWindowsCP1252StringEncoding     : return( "WindowsCP1252");
+   case NSWindowsCP1253StringEncoding     : return( "WindowsCP1253");
+   case NSWindowsCP1254StringEncoding     : return( "WindowsCP1254");
+   case NSWindowsCP1250StringEncoding     : return( "WindowsCP1250");
+   case NSISO2022JPStringEncoding         : return( "ISO2022JP");
+   case NSUTF16BigEndianStringEncoding    : return( "UTF16BigEndian");
+   case NSUTF16LittleEndianStringEncoding : return( "UTF16LittleEndian");
+   case NSUTF32StringEncoding             : return( "UTF32");
+   case NSUTF32BigEndianStringEncoding    : return( "UTF32BigEndian");
+   case NSUTF32LittleEndianStringEncoding : return( "UTF32LittleEndian");
+   default                                : return( "???");
+   }
+};
+
+
 - (NSData *) _dataUsingEncoding:(NSStringEncoding) encoding
                   prefixWithBOM:(BOOL) withBOM
               terminateWithZero:(BOOL) withZero
 {
+   NSData   *data;
+
    switch( encoding)
    {
    default :
-      MulleObjCThrowInvalidArgumentException( @"encoding %d is not supported", encoding);
+      MulleObjCThrowInvalidArgumentException( @"encoding %s (%ld) is not supported",
+         MulleStringEncodingCStringDescription( encoding),
+         (long) encoding);
+
+   case NSASCIIStringEncoding  :
+      data = [self _asciiData];
+      if( ! data)
+         MulleObjCThrowInvalidArgumentException( @"Can not convert this string to ASCII");
+      return( data);
 
    case NSUTF8StringEncoding  :
       return( [self _utf8Data]);
@@ -484,20 +546,23 @@ enum
    switch( encoding)
    {
    default :
-      MulleObjCThrowInvalidArgumentException( @"encoding %d is not supported", encoding);
+      MulleObjCThrowInvalidArgumentException( @"encoding %s (%ld) is not supported",
+         MulleStringEncodingCStringDescription( encoding),
+         (long) encoding);
 
+   case NSASCIIStringEncoding :
    case NSUTF8StringEncoding  :
       return( [self mulleInitWithUTF8Characters:bytes
-                                    length:length]);
+                                         length:length]);
 
    case NSUTF16StringEncoding :
       return( [self mulleInitWithUTF16Characters:bytes
-                                      length:length / sizeof( mulle_utf16_t)]);
+                                          length:length / sizeof( mulle_utf16_t)]);
 
    case NSUTF16LittleEndianStringEncoding :
 #ifdef __LITTLE_ENDIAN__
       return( [self mulleInitWithUTF16Characters:bytes
-                                      length:length / sizeof( mulle_utf16_t)]);
+                                          length:length / sizeof( mulle_utf16_t)]);
 #else
       return( [self _initWithSwappedUTF16Characters:bytes
                                              length:length / sizeof( mulle_utf16_t)]);

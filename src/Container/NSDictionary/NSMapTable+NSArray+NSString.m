@@ -86,33 +86,42 @@ NSArray   *NSAllMapTableValues( NSMapTable *table)
 
 NSString   *NSStringFromMapTable( NSMapTable *table)
 {
-   NSMutableString     *s;
-   NSString            *description;
-   NSMapEnumerator    rover;
-   void                *key;
-   void                *value;
-   NSString            *separator;
+   char                     *cStringDescription;
+   NSMapEnumerator          rover;
+   NSMutableString          *s;
+   NSString                 *separator;
+   struct mulle_allocator   *allocator;
+   void                     *key;
+   void                     *value;
 
    if( NSCountMapTable( table) == 0)
       return( @"{}");
 
    s         = [NSMutableString stringWithString:@"{\n   "];
-   separator = nil;
+   separator = @"";
 
    rover = NSEnumerateMapTable( table);
    while( NSNextMapEnumeratorPair( &rover, &key, &value))
    {
       [s appendString:separator];
 
-      description = (*table->_callback.keycallback.describe)( &table->_callback.keycallback,
-                                                             key,
-                                                             table->_allocator);
-      [s appendString:description];
+      allocator          = table->_allocator;
+      cStringDescription = (*table->_callback.keycallback.describe)( &table->_callback.keycallback,
+                                                                     key,
+                                                                     &allocator);
+      [s appendFormat:@"%s", cStringDescription];
+      if( allocator)
+         mulle_allocator_free( allocator, s);
       [s appendString:@" = "];
-      description = (*table->_callback.valuecallback.describe)( &table->_callback.valuecallback,
-                                                                value,
-                                                                table->_allocator);
-      [s appendString:description];
+
+      allocator          = table->_allocator;
+      cStringDescription = (*table->_callback.valuecallback.describe)( &table->_callback.valuecallback,
+                                                                       value,
+                                                                       &allocator);
+      [s appendFormat:@"%s", cStringDescription];
+      if( allocator)
+         mulle_allocator_free( allocator, s);
+
       separator = @";\n   ";
    }
    NSEndMapTableEnumeration( &rover);

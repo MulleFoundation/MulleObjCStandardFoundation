@@ -47,6 +47,12 @@
 
 // std-c and dependencies
 
+@interface NSObject( _NS)
+
+- (BOOL) __isNSString;
+
+@end
+
 
 @implementation NSObject( NSPropertyListParsing)
 
@@ -217,7 +223,7 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
       }
    }
    return( [[reader->nsStringClass alloc] mulleInitWithUTF8Characters:region.bytes
-                                                           length:region.length]);
+                                                               length:region.length]);
 }
 
 
@@ -267,21 +273,13 @@ id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader
          [plist autorelease];
          plist  = [[@"/" stringByAppendingString:plist] retain];
       }
-      return( plist);
+      break;
 
    case '"': // quoted string
       plist = _MulleObjCNewStringFromPropertyListWithReader( reader);
       if( isLeaf)
          return( plist);
-
-      x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
-      if( x != '=')
-         return( plist);
-
-      /* it's a strings file really ! */
-      [reader setStringsPlist:YES];
-      plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader, plist);
-      return( plist);
+      break;
 
    case '{': // dictionary
       plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader, nil);
@@ -299,6 +297,18 @@ id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader
    case ')' :  // can happen in  (  v, y, c, ) situations
       return( [NSNull null]);
    }
+
+   // known to be a string, lets check if it really is "strings format"
+   NSCParameterAssert( [plist __isNSString]);
+
+   x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
+   if( x != '=')
+      return( plist);
+
+   /* it's a strings file really ! */
+   [reader setStringsPlist:YES];
+   plist = _MulleObjCNewDictionaryFromPropertyListWithReader( reader, plist);
+   return( plist);
 }
 
 @end

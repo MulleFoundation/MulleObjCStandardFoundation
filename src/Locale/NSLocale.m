@@ -113,9 +113,22 @@ NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
 
 @implementation NSLocale
 
+
++ (instancetype) localeWithLocaleIdentifier:(NSString *) s
+{
+   return( [[[self alloc] initWithLocaleIdentifier:s] autorelease]);
+}
+
+
 - (BOOL) __isNSLocale
 {
    return( YES);
+}
+
+
++ (instancetype) autoupdatingCurrentLocale
+{
+   return( [self currentLocale]);
 }
 
 
@@ -136,12 +149,35 @@ NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
    return( [_keyValues objectForKey:key]);
 }
 
-
+// https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html#//apple_ref/doc/uid/10000171i-CH15
+// some ugly hacks for Framework resource loading
+//
+// this should be done in icu properly
+//
 - (NSString *) displayNameForKey:(id) key
                            value:(id) value
 {
-   return( [NSString stringWithFormat:@"%@ = %@", key, value]);
+   if( [key isEqualToString:NSLocaleLanguageCode])
+   {
+      if( [_identifier hasPrefix:@"en"])
+      {
+         if( [value hasPrefix:@"de"])
+            return( @"German");
+         if( [value hasPrefix:@"en"])
+            return( @"English");
+         if( [value hasPrefix:@"fr"])
+            return( @"French");
+         if( [value hasPrefix:@"jp"])
+            return( @"Japanese");
+         if( [value hasPrefix:@"zh"])
+            return( @"Chinese");
+         if( [value hasPrefix:@"es"])
+            return( @"Spanish");
+      }
+   }
+   return( value);
 }
+
 
 - (id) copy
 {
@@ -168,6 +204,106 @@ NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
 - (BOOL) isEqualToLocale:(NSLocale *) other
 {
    return( [self->_identifier isEqualToString:[other localeIdentifier]]);
+}
+
+// these are somewhat superflous shortcuts for objectForKey:
+
+
+- (NSString *) languageCode
+{
+   return( [self objectForKey:NSLocaleLanguageCode]);
+}
+
+
+- (NSString *) countryCode
+{
+   return( [self objectForKey:NSLocaleCountryCode]);
+}
+
+
+- (NSString *) scriptCode
+{
+   return( [self objectForKey:NSLocaleScriptCode]);
+}
+
+
+- (NSString *) variantCode
+{
+   return( [self objectForKey:NSLocaleVariantCode]);
+}
+
+
+- (NSString *) collationIdentifier
+{
+   return( [self objectForKey:NSLocaleCollationIdentifier]);
+}
+
+
+- (NSString *) currencyCode
+{
+   return( [self objectForKey:NSLocaleCollatorIdentifier]);
+}
+
+
+- (NSString *) calendarIdentifier
+{
+   return( [self objectForKey:NSLocaleCalendar]);
+}
+
+
+
+// these are somewhat superflous shortcuts for displayNameForKey:
+- (NSString *) localizedStringForLocaleIdentifier:(NSString *) localeIdentifier
+{
+   return( [self displayNameForKey:NSLocaleIdentifier value:localeIdentifier]);
+}
+
+
+- (NSString *) localizedStringForCountryCode:(NSString *) countryCode
+{
+   return( [self displayNameForKey:NSLocaleCountryCode value:countryCode]);
+}
+
+
+- (NSString *) localizedStringForLanguageCode:(NSString *) languageCode
+{
+   return( [self displayNameForKey:NSLocaleLanguageCode value:languageCode]);
+}
+
+
+- (NSString *) localizedStringForScriptCode:(NSString *) scriptCode
+{
+   return( [self displayNameForKey:NSLocaleScriptCode value:scriptCode]);
+}
+
+
+- (NSString *) localizedStringForVariantCode:(NSString *) variantCode
+{
+   return( [self displayNameForKey:NSLocaleVariantCode value:variantCode]);
+}
+
+
+- (NSString *) localizedStringForCollationIdentifier:(NSString *) collationIdentifier
+{
+   return( [self displayNameForKey:NSLocaleCollationIdentifier value:collationIdentifier]);
+}
+
+
+- (NSString *) localizedStringForCollatorIdentifier:(NSString *) collatorIdentifier
+{
+   return( [self displayNameForKey:NSLocaleCollatorIdentifier value:collatorIdentifier]);
+}
+
+
+- (NSString *) localizedStringForCurrencyCode:(NSString *) currencyCode
+{
+   return( [self displayNameForKey:NSLocaleCurrencyCode value:currencyCode]);
+}
+
+
+- (NSString *) localizedStringForCalendarIdentifier:(NSString *) calendarIdentifier
+{
+   return( [self displayNameForKey:NSLocaleCalendar value:calendarIdentifier]);
 }
 
 @end

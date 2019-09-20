@@ -25,5 +25,15 @@ int main(int argc, const char * argv[])
 
    printf( "%s\n", [array count] == 2 ? "passed" : "failed");
 
+   @try
+   {
+     [array addObject:nil];
+     return( 1);
+   }
+   @catch( NSException *e)
+   {
+      printf( "%s\n", [[e name] UTF8String]);
+   }
+
    return( 0);
 }

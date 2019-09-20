@@ -94,10 +94,8 @@
    if( data || ! p_error)
       return( data);
 
-   // TODO:
-   *p_error = [NSError errorWithDomain:@"PlistDomain"
-                                  code:-1
-                              userInfo:nil];
+   *p_error = [NSError mulleGenericErrorWithDomain:@"PlistDomain"
+                              localizedDescription:errorDescription];
    return( data);
 }
 
@@ -181,8 +179,12 @@
    _MulleObjCByteOrderMark             bom;
    _MulleObjCPropertyListReader        *reader;
    _MulleObjCBufferedDataInputStream   *stream;
-   id                           plist;
-   NSPropertyListSerialization  *parser;
+   id                                  plist;
+   NSPropertyListSerialization         *parser;
+   NSString                            *dummy;
+
+   if( ! errorString)
+      errorString = &dummy;
 
    bom = [data _byteOrderMark];
    switch( bom)
@@ -208,6 +210,7 @@
    if( ! [data length])
       return( nil);
 
+   plist = nil;
    // TODO: make this more plug and play via lookup table
    switch( [self mulleDetectPropertyListFormat:data])
    {
@@ -220,20 +223,31 @@
       [reader setDecodesComments:YES];
       [reader setDecodesPBX:YES];
 
+NS_DURING
       plist = [_MulleObjCNewFromPropertyListWithStreamReader( reader) autorelease];
+NS_HANDLER
+      *errorString = [localException reason];
+NS_ENDHANDLER
       break;
 
    case NSPropertyListXMLFormat_v1_0 :
       parser  = [[NSPropertyListSerialization new] autorelease];
       if( ! [parser respondsToSelector:@selector( _parseXMLData:)])
-         MulleObjCThrowInternalInconsistencyException( @"XML parser is not installed");
-
+      {
+         // really throw here ?
+         *errorString = @"XML parser is not installed";
+         return( nil);
+      }
+NS_DURING
       plist = [parser _parseXMLData:data];
+NS_HANDLER
+      *errorString = [localException reason];
+NS_ENDHANDLER
       break;
 
    default :
       // really throw here ?
-      MulleObjCThrowInvalidArgumentException( @"Can not parse this kind of plist");
+      *errorString = @"Can not parse this kind of data as a plist";
    }
 
    return( plist);
@@ -256,9 +270,8 @@
       return( plist);
 
    // TODO: fix error handling of plist parser globally
-   *p_error = [NSError errorWithDomain:@"XMLDomain"
-                                  code:-1
-                              userInfo:nil];
+   *p_error = [NSError mulleGenericErrorWithDomain:@"PlistDomain"
+                              localizedDescription:errorDescription];
    return( plist);
 }
 

@@ -38,8 +38,6 @@
 
 @interface NSDictionary( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 
-- (NSString *) descriptionInStringsFileFormat;
-
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
                                indent:(NSUInteger) indent;
 

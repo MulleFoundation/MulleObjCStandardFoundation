@@ -54,4 +54,7 @@
 - (instancetype) initWithFormat:(NSString *) format
                       arguments:(va_list) va_list;
 
+- (instancetype) initWithFormat:(NSString *) format, ...;
+
+
 @end

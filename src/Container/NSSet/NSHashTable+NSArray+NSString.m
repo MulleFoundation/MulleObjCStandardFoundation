@@ -53,15 +53,12 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
    NSHashEnumerator    rover;
    void                *item;
 
-   array = nil;
+   // EOF depends on an array being returned (for asserts)
+   array = [NSMutableArray array];
 
    rover = NSEnumerateHashTable( table);
    while( item = NSNextHashEnumeratorItem( &rover))
-   {
-      if( ! array)
-         array = [NSMutableArray array];
       [array addObject:item];
-   }
    NSEndHashTableEnumeration( &rover);
 
    return( array);
@@ -70,23 +67,29 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
 
 NSString   *NSStringFromHashTable( NSHashTable *table)
 {
-   NSMutableString     *s;
-   NSString            *description;
-   NSHashEnumerator    rover;
-   void                *item;
-   NSString            *separator;
+   char                     *cStringDescription;
+   NSHashEnumerator         rover;
+   NSMutableString          *s;
+   NSString                 *separator;
+   struct mulle_allocator   *allocator;
+   void                     *item;
 
    s         = [NSMutableString stringWithString:@"<[\n"];
-   separator = nil;
+   separator = @"";
 
    rover = NSEnumerateHashTable( table);
    while( item = NSNextHashEnumeratorItem( &rover))
    {
-      description = (*table->_callback.describe)( &table->_callback,
-                                                  item,
-                                                  mulle_set_get_allocator( &table->_set));
       [s appendString:separator];
-      [s appendString:description];
+
+      allocator           = mulle_set_get_allocator( &table->_set);
+      cStringDescription = (*table->_callback.describe)( &table->_callback,
+                                                         item,
+                                                         &allocator);
+      [s appendFormat:@"%s", cStringDescription];
+      if( allocator)
+         mulle_allocator_free( allocator, cStringDescription);
+
       separator = @",\n   ";
    }
    NSEndHashTableEnumeration( &rover);

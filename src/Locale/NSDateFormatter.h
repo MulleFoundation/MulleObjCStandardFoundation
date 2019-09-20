@@ -53,9 +53,6 @@ enum
 
 typedef NSUInteger   NSDateFormatterBehavior;
 
-extern NSString  *NSDateFormatter1000BehaviourClassKey;
-extern NSString  *NSDateFormatter1040BehaviourClassKey;
-
 
 //
 // formatters are not re-entrant!
@@ -94,6 +91,10 @@ extern NSString  *NSDateFormatter1040BehaviourClassKey;
 
 - (BOOL) generatesCalendarDates;
 - (void) setGeneratesCalendarDates:(BOOL) flag;
+
+//
++ (void) mulleSetClass:(Class) cls
+  forFormatterBehavior:(NSDateFormatterBehavior) formatterBehavior;
 
 @end
 

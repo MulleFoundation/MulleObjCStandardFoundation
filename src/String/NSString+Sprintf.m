@@ -172,4 +172,17 @@ static id   string_from_buffer( NSString *self,
    return( string_from_buffer( self, &buffer, allocator));
 }
 
+
+- (instancetype) initWithFormat:(NSString *) format, ...
+{
+   NSString                  *s;
+   mulle_vararg_list    args;
+
+   mulle_vararg_start( args, format);
+   s = [self initWithFormat:format
+              mulleVarargList:args];
+   mulle_vararg_end( args);
+   return( s);
+}
+
 @end

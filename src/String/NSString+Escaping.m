@@ -404,4 +404,53 @@ enum quoteState
    return( s);
 }
 
+
+- (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) set
+                                       withCharacter:(unichar) c
+{
+   IMP                       characterIsMemberIMP;
+   NSUInteger                length;
+   unichar                   *buf;
+   unichar                   *s;
+   unichar                   *sentinel;
+   unichar                   c;
+   int                       replaced;
+   struct mulle_allocator   *allocator;
+
+   if( ! c || c >= 0x1F0000)
+      return( nil);
+
+   length = [self length];
+   if( ! length)
+      return( self);
+
+   allocator = MulleObjCObjectGetAllocator( self);
+   buf       = mulle_allocator_malloc( allocator, length * sizeof( unichar));
+   [self getCharacters:buf];
+
+   characterIsMemberIMP = [set methodForSelector:@selector( characterIsMember:)];
+
+   replaced = 0;
+   s        = buf;
+   sentinel = &s[ length];
+   while( s < sentinel)
+   {
+      if( (*characterIsMemberIMP)( set, @selector( characterIsMember:), (void *) *s))
+      {
+         replaced = 1;
+         *s       = c;
+      }
+      ++s;
+   }
+
+   if( ! replaced)
+   {
+      mulle_allocator_free( allocator, buf);
+      return( self);
+   }
+
+   return( [NSString mulleStringWithCharactersNoCopy:buf
+                                              length:length
+                                           allocator:allocator]);
+}
 @end

@@ -50,4 +50,8 @@
 
 - (NSString *) mulleQuotedString;
 
+// useful for converting non-printables to '.' for example
+- (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
+                                       withCharacter:(unichar) c;
+
 @end

@@ -77,7 +77,6 @@
 
    case _C_LNG_DBL :
       return( [NSString stringWithFormat:@"%Lg", [self longDoubleValue]]);
-
    }
 }
 

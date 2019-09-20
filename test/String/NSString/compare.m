@@ -11,7 +11,7 @@
 //#import "MulleStandaloneObjCFoundation.h"
 
 
-print_comparison( NSComparisonResult  result)
+static void  print_comparison( NSComparisonResult  result)
 {
    switch( result)
    {

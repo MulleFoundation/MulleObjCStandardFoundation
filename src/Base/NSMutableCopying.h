@@ -33,8 +33,16 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+
+
+//
+// this an ill-conceived legacy protocol. It breaks the possibilty of
+// returning nil, for an empty container. (-copy is fine though)
+//
 @protocol NSMutableCopying
 
-- (id) mutableCopy;
+- (id) mutableCopy
+   __attribute__((deprecated( "mutableCopy does not work as expected, if the receiver is nil",
+                              "Use a NSMutable<Class> constructor instead")));
 
 @end

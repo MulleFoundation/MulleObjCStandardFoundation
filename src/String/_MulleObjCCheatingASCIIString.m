@@ -45,11 +45,11 @@
 @implementation _MulleObjCCheatingASCIIString
 
 
-+ (instancetype) alloc               { abort(); }
-- (void) dealloc                     { abort(); }
-- (instancetype) autorelease         { abort(); }
-- (instancetype) retain              { abort(); }
-- (void) release                     { abort(); }
++ (instancetype) alloc       { abort(); }
+- (void) dealloc             { abort(); }
+- (instancetype) autorelease { abort(); }
+- (instancetype) retain      { abort(); }
+- (void) release             { abort(); }
 
 //
 // the only way to keep a cheating string

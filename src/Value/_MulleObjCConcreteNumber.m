@@ -87,6 +87,11 @@
    return( @encode( int8_t));
 }
 
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
+}
+
 @end
 
 
@@ -133,6 +138,11 @@
 - (char *) objCType
 {
    return( @encode( int16_t));
+}
+
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
 }
 
 @end
@@ -184,6 +194,11 @@
    return( @encode( int32_t));
 }
 
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
+}
+
 @end
 
 
@@ -232,6 +247,11 @@
 - (char *) objCType
 {
    return( @encode( int64_t));
+}
+
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
 }
 
 @end
@@ -292,6 +312,11 @@
    return( @encode( uint32_t));
 }
 
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
+}
+
 @end
 
 
@@ -346,6 +371,11 @@
 - (char *) objCType
 {
    return( @encode( uint64_t));
+}
+
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
 }
 
 @end
@@ -411,6 +441,11 @@
    return( @encode( double));
 }
 
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
+}
+
 @end
 
 
@@ -461,5 +496,12 @@
 {
    return( @encode( long double));
 }
+
+
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
+}
+
 
 @end

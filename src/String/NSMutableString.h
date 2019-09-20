@@ -66,10 +66,13 @@
                             options:(NSStringCompareOptions) options
                               range:(NSRange) range;
 
-- (void) deleteCharactersInRange:(NSRange)aRange;
+- (void) deleteCharactersInRange:(NSRange) aRange;
 
 // here nil is allowed and clears the NSMutableString(!)
 - (void) setString:(NSString *) s;
+
+- (void) mulleAppendCharacters:(unichar *) buf
+                        length:(NSUInteger) length;
 
 @end
 

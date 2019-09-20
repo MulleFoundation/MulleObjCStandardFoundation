@@ -137,6 +137,8 @@ typedef NSUInteger   NSStringCompareOptions;
 - (NSUInteger) mulleUTF8StringLength;
 - (mulle_utf8_t *) mulleFastASCIICharacters;  // known 7 bit only
 - (mulle_utf8_t *) mulleFastUTF8Characters;
+- (NSString *) mulleDecapitalizedString;
+
 + (instancetype) mulleStringWithCharactersNoCopy:(unichar *) s
                                           length:(NSUInteger) len
                                        allocator:(struct mulle_allocator *) allocator;
@@ -146,14 +148,14 @@ typedef NSUInteger   NSStringCompareOptions;
 
 + (instancetype) mulleStringWithStrings:(NSString *) s, ...;
 + (instancetype) mulleStringWithString:(NSString *) s
-                mulleVarargList:(mulle_vararg_list) args;
+                      mulleVarargList:(mulle_vararg_list) args;
 
 
 //
 // UTF8
 // keep "old" UTF8Strings methods using char *
 + (instancetype) mulleStringWithUTF8Characters:(mulle_utf8_t *) s
-                                    length:(NSUInteger) len;
+                                        length:(NSUInteger) len;
 
 // characters are not zero terminated
 - (void) mulleGetUTF8Characters:(mulle_utf8_t *) buf;
@@ -184,7 +186,7 @@ typedef NSUInteger   NSStringCompareOptions;
 @end
 
 
-@interface NSString ( Todo)
+@interface NSString ( Future)
 
 - (NSString *) stringByAppendingString:(NSString *) other;
 
@@ -202,6 +204,12 @@ typedef NSUInteger   NSStringCompareOptions;
 
 - (NSString *) stringByReplacingCharactersInRange:(NSRange) range
                                        withString:(NSString *) replacement;
+
+
+// if prefix or suffix don't match, return self, otherwise the substring
+- (NSString *) mulleStringByRemovingPrefix:(NSString *) other;
+- (NSString *) mulleStringByRemovingSuffix:(NSString *) other;
+
 
 @end
 

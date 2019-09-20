@@ -43,6 +43,7 @@
 typedef mulle_utf32_t  unichar;
 
 
+
 @interface NSCharacterSet : NSObject  < NSCopying, MulleObjCClassCluster>
 
 - (instancetype) initWithBitmapRepresentation:(NSData *) data;
@@ -91,3 +92,72 @@ typedef mulle_utf32_t  unichar;
 - (NSCharacterSet *) invertedSet;
 
 @end
+
+
+
+static inline size_t   mulle_unichar_strlen( unichar *s)
+{
+   return( mulle_utf32_strlen( s));
+}
+
+
+static inline size_t   mulle_unichar_strnlen( unichar *s, size_t len)
+{
+   return( mulle_utf32_strnlen( s, len));
+}
+
+
+static inline unichar   *mulle_unichar_strncpy( unichar *dst, unichar *src, size_t len)
+{
+   return( mulle_utf32_strncpy( dst, src, len));
+}
+
+
+static inline unichar   *mulle_unichar_strchr( unichar *s, int c)
+{
+   return( mulle_utf32_strchr( s, c));
+}
+
+
+static inline int   _mulle_unichar_atoi( unichar **s)
+{
+   return( _mulle_utf32_atoi( s));
+}
+
+
+static inline unichar   *mulle_unichar_strstr( unichar *s1, unichar *s2)
+{
+   return( mulle_utf32_strstr( s1, s2));
+}
+
+
+static inline int      mulle_unichar_strncmp( unichar *s1, unichar *s2, size_t len)
+{
+   return( mulle_utf32_strncmp( s1, s2, len));
+}
+
+
+static inline size_t   mulle_unichar_strspn( unichar *s1, unichar *s2)
+{
+   return( mulle_utf32_strspn( s1, s2));
+}
+
+
+static inline size_t   mulle_unichar_strcspn( unichar *s1, unichar *s2)
+{
+   return( mulle_utf32_strcspn( s1, s2));
+}
+
+
+static inline int   mulle_unichar_strcmp( mulle_utf32_t *s1, mulle_utf32_t *s2)
+{
+   return( mulle_unichar_strncmp( s1, s2, -1));
+}
+
+
+static inline int   mulle_unichar_atoi( unichar *s)
+{
+   return( _mulle_unichar_atoi( &s));
+}
+
+

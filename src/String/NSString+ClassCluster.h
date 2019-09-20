@@ -57,10 +57,12 @@
                                             length:(NSUInteger) length
                                       freeWhenDone:(BOOL) flag;
 
+// use allocator: NULL for static text only
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) s
                                         length:(NSUInteger) length
                                      allocator:(struct mulle_allocator *) allocator;
 
+// use allocator: NULL for static text only
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) s
                                             length:(NSUInteger) lengt
                                          allocator:(struct mulle_allocator *) allocator;
@@ -76,7 +78,7 @@
 @end
 
 NSString  *MulleObjCNewASCIIStringWithASCIICharacters( char *s,
-                                                      NSUInteger length);
+                                                       NSUInteger length);
 NSString  *MulleObjCNewASCIIStringWithUTF32Characters( mulle_utf32_t *s,
-                                                      NSUInteger length);
+                                                       NSUInteger length);
 

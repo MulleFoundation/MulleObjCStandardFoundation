@@ -10,11 +10,11 @@
 static int   test_i_init_with_characters_length_( void)
 {
    NSString *obj;
-   static unichar  _EmptyUnichar[] = { 0 };
-   static unichar  _1848Unichar[]  = { '1', '8', '4', '8', 0 };
-   static unichar  _VfLUnichar[]   = { 'V', 'f', 'L', ' ', 'B', 'o', 'c', 'h', 'u', 'm', 0 };
-   static unichar  _UTF16Unichar[] = { 0xd83d, 0xdc63, 0x0023, 0x20ac, 0xd83c, 0xdfb2, 0 }; /* UTF16 feet, hash, euro, dice */
-   static unichar  _UTF32Unichar[] = { 0x0001f463, 0x00000023,0x000020ac, 0x0001f3b2, 0};   /* UTF32 feet, hash, euro, dice */
+   static const unichar  _EmptyUnichar[] = { 0 };
+   static const unichar  _1848Unichar[]  = { '1', '8', '4', '8', 0 };
+   static const unichar  _VfLUnichar[]   = { 'V', 'f', 'L', ' ', 'B', 'o', 'c', 'h', 'u', 'm', 0 };
+   static const unichar  _UTF16Unichar[] = { 0xd83d, 0xdc63, 0x0023, 0x20ac, 0xd83c, 0xdfb2, 0 }; /* UTF16 feet, hash, euro, dice */
+   static const unichar  _UTF32Unichar[] = { 0x0001f463, 0x00000023,0x000020ac, 0x0001f3b2, 0};   /* UTF32 feet, hash, euro, dice */
    unichar * params_1[] =
    {
       NULL,
@@ -26,13 +26,18 @@ static int   test_i_init_with_characters_length_( void)
    };
    unsigned int   i_1;
    unsigned int   n_1 = 6;
+   NSUInteger     length;
+   unichar        *s;
 
    for( i_1 = 0; i_1 < n_1; i_1++)
    {
       @try
       {
-         obj = [[[NSString alloc] initWithCharacters:params_1[ i_1]
-                                               length:params_1[ i_1] ? mulle_utf16_strlen( params_1[ i_1]) : 0] autorelease];
+         s      = params_1[ i_1];
+         length = s ? mulle_unichar_strlen( s) : 0;
+
+         obj = [[[NSString alloc] initWithCharacters:s
+                                              length:length] autorelease];
          printf( "%s\n", [obj cStringDescription]);
       }
       @catch( NSException *localException)
@@ -44,7 +49,7 @@ static int   test_i_init_with_characters_length_( void)
 }
 
 
-static int   test_i_init_with_ut_f8_string_( void)
+static int   test_i_init_with_utf8_string_( void)
 {
    NSString *obj;
    char * params_1[] =
@@ -94,15 +99,20 @@ static int   test_i_init_with_characters_no_copy_length_free_when_done_( void)
    };
    unsigned int   i_1;
    unsigned int   n_1 = 6;
+   NSUInteger     length;
+   unichar        *s;
 
 
    for( i_1 = 0; i_1 < n_1; i_1++)
    {
       @try
       {
-         obj = [[[NSString alloc] initWithCharactersNoCopy:params_1[ i_1]
-                                                    length:params_1[ i_1] ? mulle_utf16_strlen( params_1[ i_1]) : 0
-                                              freeWhenDone:NO] autorelease];
+         s      = params_1[ i_1];
+         length = s ? mulle_unichar_strlen( s) : 0;
+
+         obj    = [[[NSString alloc] initWithCharactersNoCopy:s
+                                                       length:length
+                                                 freeWhenDone:NO] autorelease];
          printf( "%s\n", [obj cStringDescription]);
       }
       @catch( NSException *localException)
@@ -387,7 +397,7 @@ int   main( int argc, char *argv[])
 #endif
    errors = 0;
    errors += run_test( test_i_init_with_characters_length_, "-initWithCharacters:length:");
-   errors += run_test( test_i_init_with_ut_f8_string_, "-initWithUTF8String:");
+   errors += run_test( test_i_init_with_utf8_string_, "-initWithUTF8String:");
    errors += run_test( test_i_init_with_characters_no_copy_length_free_when_done_, "-initWithCharactersNoCopy:length:freeWhenDone:");
    errors += run_test( test_i_init_with_bytes_no_copy_length_encoding_free_when_done_, "-initWithBytesNoCopy:length:encoding:freeWhenDone:");
    errors += run_test( test_i_init_with_data_encoding_, "-initWithData:encoding:");

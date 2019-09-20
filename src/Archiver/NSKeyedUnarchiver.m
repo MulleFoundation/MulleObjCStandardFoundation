@@ -69,7 +69,7 @@
    callback          = NSNonOwnedPointerMapKeyCallBacks;
    callback.hash     = (uintptr_t (*)()) blob_hash;
    callback.is_equal = (int (*)()) blob_is_equal;
-   callback.describe = (void *(*)()) blob_describe;
+   callback.describe = blob_describe;
 
    _scope = _NSCreateMapTableWithAllocator( callback,
                               NSIntegerMapValueCallBacks,

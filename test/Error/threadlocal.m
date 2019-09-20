@@ -20,20 +20,26 @@ int   main( int argc, char *argv[])
       _exit( 1);
 #endif
    [NSError mulleClearCurrentError];
-   error = [NSError mulleCurrentError]; 
+   error = [NSError mulleCurrentError];
    if( error != nil)
       return( 1);
-   
+
    s    = @"a";
    dict =  @{ @"foo": @"bar"};
    MulleObjCErrorSetCurrentError( s, 1848, dict);
-   error = [NSError mulleCurrentError]; 
+   error = [NSError mulleCurrentError];
    if( error == nil)
       return( 1);
 
    [NSError mulleClearCurrentError];
-   error = [NSError mulleCurrentError]; 
+   error = [NSError mulleCurrentError];
    if( error != nil)
       return( 1);
+
+   // should be reclaimed
+   s    = @"b";
+   dict =  @{ @"Foo": @"bie"};
+   MulleObjCErrorSetCurrentError( s, 1849, dict);
+
    return( 0);
 }

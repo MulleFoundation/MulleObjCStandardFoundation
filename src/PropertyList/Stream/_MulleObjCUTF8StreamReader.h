@@ -43,11 +43,12 @@
 MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
 #endif
    _MulleObjCBufferedDataInputStream  *_stream;
-   long   _current;
-   long   _lineNr;
+   long                                _current;
+   long                                _lineNr;
 }
 
 @property( assign) BOOL  decodesComments;
+@property( assign) BOOL  throwsException; // if failing
 
 - (instancetype) initWithString:(NSString *) s;
 - (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream;

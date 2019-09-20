@@ -16,12 +16,12 @@ static NSString   *XMulleErrorClassKey  = @"MulleErrorClass";
 static NSString   *XNSOSStatusErrorDomain  = @"NSOSStatusError";
 static NSString   *XNSMachErrorDomain      = @"NSMachError";
 static NSString   *XMulleErrnoErrorDomain  = @"MulleErrnoError";
- 
+
 static NSString   *XNSFilePathErrorKey       = @"NSFilePathError";
 static NSString   *XNSStringEncodingErrorKey = @"NSStringEncodingError";
 static NSString   *XNSURLErrorKey            = @"NSURLError";
 static NSString   *XNSUnderlyingErrorKey     = @"NSUnderlyingError";
- 
+
 static NSString   *XNSHelpAnchorErrorKey                  = @"NSHelpAnchorError";
 static NSString   *XNSLocalizedDescriptionKey             = @"NSLocalizedDescription";
 static NSString   *XNSLocalizedFailureReasonErrorKey      = @"NSLocalizedFailureReasonError";
@@ -36,6 +36,8 @@ static NSString   *XNSRecoveryAttempterErrorKey           = @"NSRecoveryAttempte
 
 
 @implementation Foo : NSObject
+
+MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCStandardFoundation);
 
 + (void) mulleResetCurrentErrorClass
 {

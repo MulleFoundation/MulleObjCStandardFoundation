@@ -130,7 +130,7 @@ static void   stress_test()
    for( i = 0; i < 100000; i++)
    {
       if( i % 100 == 0)
-         fprintf( stderr, "%ld\n", i);
+         fprintf( stderr, "%u\n", i);
 
       switch( rand() % 5)
       {

@@ -37,6 +37,8 @@
 
 #import "NSException.h"
 
+#import "MulleObjCFoundationString.h"
+
 
 @implementation NSNotification
 
@@ -81,6 +83,12 @@ static void   init( NSNotification *self,
    init( notification, name, obj, userInfo);
 
    return( notification);
+}
+
+
+- (NSString *) mulleDebugContentsDescription
+{
+   return( [NSString stringWithFormat:@"name=%@ object=%@ userInfo=%@", _name, _object, _userInfo]);
 }
 
 @end
