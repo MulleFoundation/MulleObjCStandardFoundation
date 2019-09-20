@@ -13,8 +13,8 @@
 
 int main( int argc, const char * argv[])
 {
-   char       text[] = "VfL Bochum 1848";
-   NSString   *s;
+   mulle_utf8_t   text[] = "VfL Bochum 1848";
+   NSString       *s;
 
    s = [NSString mulleStringWithUTF8Characters:text
                                     length:sizeof( text)];
@@ -22,8 +22,8 @@ int main( int argc, const char * argv[])
    printf( "%s\n", [[s description] UTF8String]);
 
    s = [NSString mulleStringWithUTF8CharactersNoCopy:text
-                                          length:sizeof( text)
-                                       allocator:NULL];
+                                              length:sizeof( text)
+                                           allocator:NULL];
    printf( "%s\n", [[s description] UTF8String]);
 
    return( 0);

@@ -87,6 +87,58 @@
 }
 
 
+static NSString   *NSSystemTimeZoneKey  = @"System";
+static NSString   *NSDefaultTimeZoneKey = @"Default";
+static NSString   *NSGMTTimeZoneKey     = @"GMT";
+
+
+static struct
+{
+   mulle_thread_mutex_t   _lock;
+   NSMapTable             *_table;
+} Self;
+
+
+static inline void   SelfLock( void)
+{
+   mulle_thread_mutex_lock( &Self._lock);
+}
+
+
+static inline void   SelfUnlock( void)
+{
+   mulle_thread_mutex_unlock( &Self._lock);
+}
+
+
++ (void) initialize
+{
+   if( ! Self._table)
+   {
+      Self._table = NSCreateMapTable( NSObjectMapKeyCallBacks,
+                                      NSObjectMapValueCallBacks,
+                                      4);
+      mulle_thread_mutex_init( &Self._lock);
+   }
+
+}
+
++ (void) deinitialize
+{
+   @autoreleasepool
+   {
+      // table will release values, reap them ASAP
+      NSFreeMapTable( Self._table);
+   }
+   Self._table = NULL;
+   mulle_thread_mutex_done( &Self._lock);
+#ifdef DEBUG
+   memset( &Self, 0xEE, sizeof( Self));
+#endif
+}
+
+
+
 + (instancetype) timeZoneWithName:(NSString *) name
 {
    return( [[[self alloc] initWithName:name] autorelease]);
@@ -127,8 +179,8 @@
    return( [self retain]);
 }
 
-#pragma mark -
-#pragma mark convenience constructors
+
+#pragma mark - convenience constructors
 
 
 + (instancetype) timeZoneWithAbbreviation:(NSString *) key
@@ -155,22 +207,20 @@
 }
 
 
-static NSString   *NSSystemTimeZoneKey  = @"NSSystemTimeZone";
-static NSString   *NSDefaultTimeZoneKey = @"NSDefaultTimeZone";
-static NSString   *NSGMTTimeZoneKey     = @"NSGMTTimeZone";
-
-
 + (NSTimeZone *) systemTimeZone
 {
    NSTimeZone   *timeZone;
 
-   timeZone = [self classValueForKey:NSSystemTimeZoneKey];
-   if( ! timeZone)
+   SelfLock();
    {
-      timeZone = [self _uncachedSystemTimeZone];
-      [self setClassValue:timeZone
-                   forKey:NSSystemTimeZoneKey];
+      timeZone = NSMapGet( Self._table,NSSystemTimeZoneKey);
+      if( ! timeZone)
+      {
+         timeZone = [self _uncachedSystemTimeZone];
+         NSMapInsert( Self._table, NSSystemTimeZoneKey, timeZone);
+      }
    }
+   SelfUnlock();
    return( timeZone);
 }
 
@@ -180,8 +230,11 @@ static NSString   *NSGMTTimeZoneKey     = @"NSGMTTimeZone";
    NSTimeZone   *timeZone;
 
    timeZone = [self _uncachedSystemTimeZone];
-   [self setClassValue:timeZone
-                forKey:NSSystemTimeZoneKey];
+   SelfLock();
+   {
+      NSMapInsert( Self._table, NSSystemTimeZoneKey, timeZone);
+   }
+   SelfUnlock();
 }
 
 
@@ -189,9 +242,15 @@ static NSString   *NSGMTTimeZoneKey     = @"NSGMTTimeZone";
 {
    NSTimeZone   *timeZone;
 
-   timeZone = [self classValueForKey:NSDefaultTimeZoneKey];
+   SelfLock();
+   {
+      timeZone = NSMapGet( Self._table, NSDefaultTimeZoneKey);
+   }
+   SelfUnlock();
+
    if( ! timeZone)
       timeZone = [self systemTimeZone];
+
    return( timeZone);
 }
 
@@ -204,8 +263,12 @@ static NSString   *NSGMTTimeZoneKey     = @"NSGMTTimeZone";
 
 + (void) setDefaultTimeZone:(NSTimeZone *) tz
 {
-   [self setClassValue:[[tz copy] autorelease]
-                forKey:NSSystemTimeZoneKey];
+   tz = [[tz copy] autorelease];
+   SelfLock();
+   {
+      NSMapInsert( Self._table, NSDefaultTimeZoneKey, tz);
+   }
+   SelfUnlock();
 }
 
 

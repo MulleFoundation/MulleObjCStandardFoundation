@@ -87,7 +87,7 @@ static struct MulleObjCObjectContainerDescriptionInfo  info =
 
 - (NSString *) mulleDebugContentsDescription
 {
-   return( [self mulleDescriptionWithSelector:_cmd]);
+   return( [self mulleDescriptionWithSelector:@selector( debugDescription)]);
 }
 
 

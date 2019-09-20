@@ -42,10 +42,10 @@
 @interface NSString( NSLocale)
 
 + (instancetype) stringWithFormat:(NSString *) format
-                 locale:(NSLocale *) locale;
+                           locale:(NSLocale *) locale;
 
 - (instancetype) initWithFormat:(NSString *) format
-               locale:(NSLocale *) locale, ...;
+                         locale:(NSLocale *) locale, ...;
 
 + (instancetype) localizedStringWithFormat:(NSString *) format;
 

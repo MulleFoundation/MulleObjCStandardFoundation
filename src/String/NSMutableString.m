@@ -215,7 +215,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) mulleInitWithUTF8Characters:(mulle_utf8_t *) chars
-                                  length:(NSUInteger) length
+                                      length:(NSUInteger) length
 {
    NSString  *s;
 
@@ -235,8 +235,8 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
-                                        length:(NSUInteger) length
-                                  freeWhenDone:(BOOL) flag
+                                            length:(NSUInteger) length
+                                      freeWhenDone:(BOOL) flag
 {
    NSString  *s;
 
@@ -279,8 +279,8 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
-                                        length:(NSUInteger) length
-                                     allocator:(struct mulle_allocator *) allocator
+                                            length:(NSUInteger) length
+                                         allocator:(struct mulle_allocator *) allocator
 {
    NSString  *s;
 
@@ -301,8 +301,8 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) mulleInitWithUTF8CharactersNoCopy:(mulle_utf8_t *) chars
-                                        length:(NSUInteger) length
-                                 sharingObject:(id) object
+                                            length:(NSUInteger) length
+                                     sharingObject:(id) object
 {
    NSString  *s;
 
@@ -323,8 +323,8 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 
 
 - (instancetype) mulleInitWithCharactersNoCopy:(unichar *) chars
-                                    length:(NSUInteger) length
-                             sharingObject:(id) object
+                                        length:(NSUInteger) length
+                                 sharingObject:(id) object
 {
    NSString  *s;
 
@@ -387,6 +387,25 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
 - (NSUInteger) length
 {
    return( _length);
+}
+
+
+- (NSUInteger) mulleUTF8StringLength
+{
+   NSString     **p;
+   NSString     **sentinel;
+   NSUInteger   length;
+   NSString     *s;
+
+   if( _shadow)
+      return( _shadowLen);
+
+   length   = 0;
+   p        = &_storage[ 0];
+   sentinel = &p[ _count];
+   while( p < sentinel)
+      length += [*p++ mulleUTF8StringLength];
+   return( length);
 }
 
 
@@ -505,7 +524,20 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
                   mulleVarargList:args];
    mulle_vararg_end( args);
 
-   [self appendString:s];
+   if( s)
+      [self appendString:s];
+}
+
+
+- (void) mulleAppendCharacters:(unichar *) buf
+                        length:(NSUInteger) length
+{
+   NSString   *s;
+
+   s = [NSString stringWithCharacters:buf
+                               length:length];
+   if( s)
+      [self appendString:s];
 }
 
 
@@ -661,12 +693,12 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
 
 
 - (void) mulleGetUTF8Characters:(mulle_utf8_t *) buf
-                  maxLength:(NSUInteger) maxLength
+                      maxLength:(NSUInteger) maxLength
 {
-   NSString       *s;
-   id             *sentinel;
-   NSUInteger     len;
-   NSString       **strings;
+   id           *sentinel;
+   NSString     **strings;
+   NSString     *s;
+   NSUInteger   len;
 
    strings  = _storage;
    sentinel = &strings[ _count];
@@ -686,14 +718,6 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
       if( ! maxLength)
          break;
    }
-}
-
-
-- (NSUInteger) mulleUTF8StringLength
-{
-   if( ! _shadow)
-      [self UTF8String];
-   return( _shadowLen);
 }
 
 
@@ -835,5 +859,22 @@ static void   mulleConvertStringsToUTF8( NSString **strings,
                          withString:replacement];
    return( copy);
 }
+
+
+- (NSString *) mulleStringByRemovingPrefix:(NSString *) other
+{
+   if( ! [self hasPrefix:other])
+      return( self);
+   return( [self substringFromIndex:[other length]]);
+}
+
+
+- (NSString *) mulleStringByRemovingSuffix:(NSString *) other
+{
+   if( ! [self hasSuffix:other])
+      return( self);
+   return( [self substringToIndex:[self length] - [other length]]);
+}
+
 
 @end

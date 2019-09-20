@@ -98,7 +98,6 @@
 }
 
 
-
 # pragma mark -
 # pragma mark Various inits
 
@@ -113,7 +112,6 @@
 {
    return( [self initWithTimeIntervalSinceReferenceDate:seconds - NSTimeIntervalSince1970]);
 }
-
 
 
 - (NSComparisonResult) compare:(id) other
@@ -169,7 +167,6 @@
 }
 
 
-
 #pragma mark - hash and equality
 
 - (NSUInteger) hash
@@ -198,5 +195,10 @@
    return( [self isEqualToDate:other]);
 }
 
+
+- (id) copy
+{
+   return( [self retain]);
+}
 
 @end

@@ -45,7 +45,7 @@ static void   test_i_encode_decode()
          obj  = [[NSArray alloc] initWithArray:@[ @"1", @"2", @"3"]];
          data = [NSArchiver archivedDataWithRootObject:obj];
          obj2 = [NSUnarchiver unarchiveObjectWithData:data];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
          printf( "%s\n", [obj2 cStringDescription]);
          [obj release];
       }
@@ -103,7 +103,7 @@ static void   test_i_sorted_array_using_descriptors_()
          @try
          {
             value = [obj sortedArrayUsingDescriptors:params_1[ i_1]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
          @catch( NSException *exception)
          {
@@ -128,7 +128,7 @@ static void   test_i_description()
       {
          obj = [[NSArray alloc] initWithObjects:@1, @2, @3, nil];
          value = [obj description];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          [obj release];
       }
       @catch( NSException *exception)
@@ -162,7 +162,7 @@ static void   test_i_components_joined_by_string_()
          @try
          {
             value = [obj componentsJoinedByString:params_1[ i_1]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
          @catch( NSException *exception)
          {
@@ -187,7 +187,7 @@ static void   test_c_array_with_retained_objects_count_()
       {
          value = [NSArray mulleArrayWithRetainedObjects:params_1
                                                   count:3];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
       @catch( NSException *exception)
       {
@@ -206,7 +206,7 @@ static void   test_c_array_with_objects_()
       id value;
 
       value = [NSArray arrayWithObjects: @"whatever", @1, @{ @"a": @1 }, @[ @"a"], nil];
-      printf( "%s\n", [value cStringDescription]);
+      printf( "%s\n", value ? [value cStringDescription] : "*nil*");
    }
 }
 
@@ -232,7 +232,7 @@ static void   test_c_array_with_object_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [NSArray arrayWithObject:params_1[ i_1]];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
    }
 }
@@ -247,7 +247,7 @@ static void   test_c_array()
       id value;
 
       value = [NSArray array];
-      printf( "%s\n", [value cStringDescription]);
+      printf( "%s\n", value ? [value cStringDescription] : "*nil*");
    }
 }
 
@@ -274,7 +274,7 @@ static void   test_c_array_with_objects_count_()
       {
          value = [NSArray arrayWithObjects:params_1
                                      count:params_2[ i_2]];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
    }
 }
@@ -299,7 +299,7 @@ static void   test_c_array_with_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [NSArray arrayWithArray:params_1[ i_1]];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
    }
 }
@@ -342,7 +342,7 @@ static void   test_c_array_with_array_range_()
             {
                value = localException;
             }
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
    }
 }
@@ -357,7 +357,7 @@ static void   test_i_init_with_objects_()
       NSArray   *obj;
 
       obj = [[NSArray alloc] initWithObjects:@"whatever", @1, @{ @"a": @1 }, @[ @"a"], nil];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
       [obj release];
    }
 }
@@ -423,7 +423,7 @@ static void   test_i_init_with_array_and_array_()
          {
             obj = [[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                              andArray:params_2[ i_2]];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
             [obj release];
          }
    }
@@ -524,7 +524,7 @@ static void   test_i_first_object_common_with_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [obj firstObjectCommonWithArray:params_1[ i_1]];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
       [obj release];
    }
@@ -563,7 +563,7 @@ static void   test_i_init_with_object_vararg_list_()
          {
             value = [obj initWithObject:params_1[ i_1]
                          arguments:params_2[ i_2]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
       [obj release];
    }
@@ -579,7 +579,7 @@ static void   test_i_init()
       NSArray *obj;
 
       obj = [[NSArray alloc] init];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
       [obj release];
    }
 }
@@ -606,7 +606,7 @@ static void   test_i_array_by_adding_objects_from_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [obj arrayByAddingObjectsFromArray:params_1[ i_1]];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
       [obj release];
    }
@@ -668,7 +668,7 @@ static void   test_i_array_by_adding_object_()
          {
             value = [localException name];
          }
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
       [obj release];
    }
@@ -697,7 +697,7 @@ static void   test_i_init_with_objects_count_()
       {
          obj = [[NSArray alloc] initWithObjects:_params1
                                           count:params_2[ i_2]];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
          [obj release];
       }
    }
@@ -737,7 +737,7 @@ static void   test_i_init_with_array_and_object_()
             {
                obj = [[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                                andObject:params_2[ i_2]];
-               printf( "%s\n", [obj cStringDescription]);
+               printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
                [obj release];
             }
             @catch( NSException *localException)
@@ -768,7 +768,7 @@ static void   test_i_init_with_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          obj = [[NSArray alloc] initWithArray:params_1[ i_1]];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
          [obj release];
       }
    }
@@ -786,7 +786,7 @@ static void   test_i_last_object()
 
       obj = [[NSArray alloc] init];
       value = [obj lastObject];
-      printf( "%s\n", [value cStringDescription]);
+      printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       [obj release];
    }
 }
@@ -821,7 +821,7 @@ static void   test_i_init_with_array_copy_items_()
          {
             obj = [[NSArray alloc] initWithArray:params_1[ i_1]
                                        copyItems:params_2[ i_2]];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
             [obj release];
          }
    }
@@ -891,7 +891,7 @@ static void   test_i_init_with_array_range_()
             {
                obj = [[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                                    range:params_2[ i_2]];
-               printf( "%s\n", [obj cStringDescription]);
+               printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
                [obj release];
             }
             @catch( NSException *localException)
@@ -993,7 +993,7 @@ static void   test_i_mulle_for_each_object_call_function_argument_preempt_()
                value = [obj mulleForEachObjectCallFunction:params_1[ i_1]
                             argument:params_2[ i_2]
                             preempt:params_3[ i_3]];
-               printf( "%s\n", [value cStringDescription]);
+               printf( "%s\n", value ? [value cStringDescription] : "*nil*");
             }
       [obj release];
    }
@@ -1061,7 +1061,7 @@ static void   test_i_subarray_with_range_()
          @try
          {
             value = [obj subarrayWithRange:params_1[ i_1]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
          @catch( NSException *localException)
          {
@@ -1194,7 +1194,7 @@ static void   test_i_init_with_object_mulle_vararg_list_()
          {
             value = [obj initWithObject:params_1[ i_1]
                          mulleVarargList:params_2[ i_2]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
       [obj release];
    }
@@ -1214,7 +1214,7 @@ static void   test_i_object_enumerator()
       obj   = [[NSArray alloc] initWithArray:@[ @1, @2, @3]];
       rover = [obj objectEnumerator];
       while( value = [rover nextObject])
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       [obj release];
    }
 }
@@ -1232,7 +1232,7 @@ static void   test_i_reverse_object_enumerator()
       obj   = [[NSArray alloc] initWithArray:@[ @1, @2, @3]];
       rover = [obj reverseObjectEnumerator];
       while( value = [rover nextObject])
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       [obj release];
    }
 }
@@ -1265,7 +1265,7 @@ static void   test_i_sorted_array_using_function_context_()
          {
             value = [obj sortedArrayUsingFunction:params_1[ i_1]
                             context:params_2[ i_2]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
       [obj release];
    }
@@ -1332,7 +1332,7 @@ static void   test_i_hash()
 
       obj   = [[NSArray alloc] initWithArray:@[ @1, @2, @3]];
       value = [obj hash];
-      printf( "%llu\n", value);
+      // printf( "%llu\n", value); // cpu dependent!
       [obj release];
    }
 }
@@ -1362,7 +1362,7 @@ static void   test_i__()
          @try
          {
             value = [obj :params_1[ i_1]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
          @catch( NSException *localException)
          {
@@ -1448,7 +1448,7 @@ static void   test_i_sorted_array_using_selector_()
          {
             obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
             value = [obj sortedArrayUsingSelector:params_1[ i_1]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
          @catch( NSException *exception)
          {
@@ -1472,7 +1472,7 @@ static void   test_i_mutable_copy()
       {
          obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
          value = [[obj mutableCopy] autorelease];
-         printf( "%s\n", [value cStringDescription]);
+         printf( "%s\n", value ? [value cStringDescription] : "*nil*");
       }
       @catch( NSException *exception)
       {
@@ -1513,7 +1513,7 @@ static void   test_i_description_with_locale_indent_()
                obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
                value = [obj descriptionWithLocale:params_1[ i_1]
                                            indent:params_2[ i_2]];
-               printf( "%s\n", [value cStringDescription]);
+               printf( "%s\n", value ? [value cStringDescription] : "*nil*");
             }
             @catch( NSException *exception)
             {
@@ -1546,7 +1546,7 @@ static void   test_i_description_with_locale_()
          {
             obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
             value = [obj descriptionWithLocale:params_1[ i_1]];
-            printf( "%s\n", [value cStringDescription]);
+            printf( "%s\n", value ? [value cStringDescription] : "*nil*");
          }
          @catch( NSException *exception)
          {

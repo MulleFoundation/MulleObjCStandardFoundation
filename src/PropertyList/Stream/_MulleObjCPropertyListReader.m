@@ -54,6 +54,7 @@
    self = [super initWithBufferedInputStream:stream];
    if( self)
    {
+      [self setThrowsException:YES];
       _MulleObjCPropertyListReaderSkipWhite( self); // dial up to first interesting char
    }
    return( self);

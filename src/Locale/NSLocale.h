@@ -49,8 +49,29 @@
    id         _keyValues;
 }
 
++ (instancetype) localeWithLocaleIdentifier:(NSString *) s;
++ (instancetype) autoupdatingCurrentLocale;
 - (NSString *) displayNameForKey:(id) key
                            value:(id) value;
+
+
+- (NSString *) languageCode;
+- (NSString *) scriptCode;
+- (NSString *) variantCode;
+- (NSString *) collationIdentifier;
+- (NSString *) currencyCode;
+- (NSString *) calendarIdentifier;
+
+
+- (NSString *) localizedStringForLocaleIdentifier:(NSString *)localeIdentifier;
+- (NSString *) localizedStringForCountryCode:(NSString *) countryCode;
+- (NSString *) localizedStringForLanguageCode:(NSString *) languageCode;
+- (NSString *) localizedStringForScriptCode:(NSString *) scriptCode;
+- (NSString *) localizedStringForVariantCode:(NSString *) variantCode;
+- (NSString *) localizedStringForCollationIdentifier:(NSString *) collationIdentifier;
+- (NSString *) localizedStringForCollatorIdentifier:(NSString *) collatorIdentifier;
+- (NSString *) localizedStringForCurrencyCode:(NSString *) currencyCode;
+- (NSString *) localizedStringForCalendarIdentifier:(NSString *) calendarIdentifier;
 
 @end
 
@@ -71,12 +92,12 @@
 + (NSString *) canonicalLocaleIdentifierFromString:(NSString *) string;
 + (NSString *) canonicalLanguageIdentifierFromString:(NSString *) string;
 
-- (instancetype) initWithLocaleIdentifier:(NSString *) string;
-- (NSString *) localeIdentifier;
 - (id) :(id) key;
 - (id) objectForKey:(id) key;
 
 - (BOOL) isEqualToLocale:(NSLocale *) other;
+
+- (instancetype) initWithLocaleIdentifier:(NSString *) s;
 
 @end
 

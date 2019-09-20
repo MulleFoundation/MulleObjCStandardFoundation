@@ -48,13 +48,111 @@
 
 @class NSDecimalNumberHandler;
 
-extern Class   __NS1000NumberFormatterClass;
-extern Class   __NS1040NumberFormatterClass;
-
 
 @implementation NSNumberFormatter
 
-static NSString  *MulleObjCDefaultNumberFormatterBehaviorKey = @"MulleObjCDefaultNumberFormatterBehavior";
+
+static struct
+{
+   mulle_thread_mutex_t        _lock;
+   NSMapTable                  *_table;
+   NSNumberFormatterBehavior   _defaultBehavior;
+} Self;
+
+
+static inline void   SelfLock( void)
+{
+   mulle_thread_mutex_lock( &Self._lock);
+}
+
+
+static inline void   SelfUnlock( void)
+{
+   mulle_thread_mutex_unlock( &Self._lock);
+}
+
+
++ (void) initialize
+{
+   if( ! Self._table)
+   {
+      Self._table = NSCreateMapTable( NSIntegerMapKeyCallBacks,
+                                      NSObjectMapValueCallBacks,
+                                      4);
+      mulle_thread_mutex_init( &Self._lock);
+      Self._defaultBehavior = NSNumberFormatterBehavior10_0;
+      NSMapInsertKnownAbsent( Self._table,
+                              (void *) NSNumberFormatterBehavior10_0,
+                              self);
+   }
+
+}
+
++ (void) deinitialize
+{
+   @autoreleasepool
+   {
+      NSFreeMapTable( Self._table);
+   }
+   Self._table = NULL;
+   mulle_thread_mutex_done( &Self._lock);
+#ifdef DEBUG
+   memset( &Self, 0xEE, sizeof( Self));
+#endif
+}
+
+
++ (void) setDefaultFormatterBehavior:(NSNumberFormatterBehavior) behavior
+{
+   NSParameterAssert( behavior == NSNumberFormatterBehavior10_0 ||
+                      behavior == NSNumberFormatterBehavior10_4);
+
+   SelfLock();
+   {
+      Self._defaultBehavior = behavior;
+   }
+   SelfUnlock();
+}
+
+
++ (NSNumberFormatterBehavior) defaultFormatterBehavior
+{
+   NSNumberFormatterBehavior   behavior;
+
+   SelfLock();
+   {
+      behavior = Self._defaultBehavior;
+   }
+   SelfUnlock();
+   return( behavior);
+}
+
+
+- (void) setFormatterBehavior:(NSNumberFormatterBehavior) formatterBehavior
+{
+   Class   cls;
+
+   cls = [self class];
+   if( formatterBehavior == NSNumberFormatterBehaviorDefault)
+      formatterBehavior = [cls defaultFormatterBehavior];
+
+   SelfLock();
+   {
+      cls = NSMapGet( Self._table, (void *) formatterBehavior);
+   }
+   SelfUnlock();
+
+   if( ! cls)
+      MulleObjCThrowInternalInconsistencyException( @"no class for NSNumberFormatterBehavior %d loaded", formatterBehavior);
+
+   MulleObjCObjectSetClass( self, cls);
+}
+
+
+- (NSNumberFormatterBehavior) formatterBehavior
+{
+   return( NSNumberFormatterBehavior10_0);
+}
 
 
 static void   validate_behavior( NSNumberFormatterBehavior behavior)
@@ -64,25 +162,11 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 }
 
 
-+ (NSNumberFormatterBehavior) defaultFormatterBehavior
-{
-   return( [[self classValueForKey:MulleObjCDefaultNumberFormatterBehaviorKey] unsignedIntegerValue]);
-}
-
-
-+ (void) setDefaultFormatterBehavior:(NSNumberFormatterBehavior) behavior
-{
-   validate_behavior( behavior);
-   [self setClassValue:[NSNumber numberWithUnsignedInteger:behavior]
-                forKey:MulleObjCDefaultNumberFormatterBehaviorKey];
-}
-
-
 - (void) _initDefaultValues
 {
-   _format            = @"";
-   _positiveFormat    = _format;
-   _negativeFormat    = _format;
+   _format            =
+   _positiveFormat    =
+   _negativeFormat    = @"";
    _decimalSeparator  = @".";
    _thousandSeparator = @",";
 }
@@ -97,7 +181,7 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 
 - (void) dealloc
 {
-   [_format release];  // need to release nonnull manually
+   [_format release];  // need to release nonnull manually  (still true ??)
    [super dealloc];
 }
 
@@ -105,7 +189,7 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 - (void) setAllowsFloats:(BOOL) flag            {  _flags.allowsFloats = flag; }
 - (void) setGeneratesDecimalNumbers:(BOOL) flag {  _flags.generatesDecimalNumbers = flag; }
 - (void) setHasThousandSeparators:(BOOL) flag   {  _flags.hasThousandSeparators = flag; }
-- (void) setLenient:(BOOL) flag   {  _flags.isLenient = flag; }
+- (void) setLenient:(BOOL) flag                 {  _flags.isLenient = flag; }
 
 - (BOOL) allowsFloats              { return( _flags.allowsFloats); }
 - (BOOL) generatesDecimalNumbers   { return( _flags.generatesDecimalNumbers); }
@@ -142,8 +226,8 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
    }
 
    _format = [zero copy];
-   [self setPositiveFormat:zero];
-   [self setNegativeFormat:zero];
+   [self setPositiveFormat:plus];
+   [self setNegativeFormat:minus];
 }
 
 
@@ -162,24 +246,6 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 - (NSString *) stringFromNumber:(NSNumber *) number
 {
    return( [self stringForObjectValue:number]);
-}
-
-
-- (void) setFormatterBehavior:(NSNumberFormatterBehavior) behavior
-{
-   validate_behavior( behavior);
-retry:
-   switch( behavior)
-   {
-   case NSNumberFormatterBehaviorDefault :
-      behavior = [[self class] defaultFormatterBehavior];
-      if( behavior == NSNumberFormatterBehaviorDefault)
-         behavior = NSNumberFormatterBehavior10_0;
-      goto retry;
-
-   case NSNumberFormatterBehavior10_0 :
-   ;
-   }
 }
 
 

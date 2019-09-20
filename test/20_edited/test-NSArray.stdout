@@ -169,9 +169,9 @@ NSRangeException
 NSRangeException
 void test_i_get_objects_()
 void test_i_first_object_common_with_array_()
-(null)
-(null)
-(null)
+*nil*
+*nil*
+*nil*
 void test_i_init()
 ()
 void test_i_array_by_adding_objects_from_array_()
@@ -293,7 +293,7 @@ void test_i_init_with_array_()
     1848
 )
 void test_i_last_object()
-(null)
+*nil*
 void test_i_init_with_array_copy_items_()
 ()
 ()
@@ -381,7 +381,6 @@ void test_i_reverse_object_enumerator()
 1
 void test_i_mulle_make_objects_perform_selector_with_object_with_object_()
 void test_i_hash()
-6399761937749426484
 void test_i__()
 1
 2
@@ -393,9 +392,9 @@ void test_i_index_of_object_in_range_()
 1
 9223372036854775807
 1
-NSRangeException
+9223372036854775807
 1
-NSRangeException
+9223372036854775807
 NSIndexException
 NSIndexException
 NSIndexException

@@ -46,14 +46,23 @@
 
 @interface NSNotificationCenter : NSObject < MulleObjCSingleton>
 {
-   struct mulle_map   _pairRegistry;
-   struct mulle_map   _nameRegistry;
-   struct mulle_map   _senderRegistry;
+   mulle_thread_mutex_t     _lock;
+   struct mulle_map         _pairRegistry;
+   struct mulle_map         _nameRegistry;
+   struct mulle_map         _senderRegistry;
 
-   struct mulle_map   _observerRegistry;
+   struct mulle_map         _observerRegistry;
+   mulle_atomic_pointer_t   _isNotifying;    // for debugging
+   mulle_atomic_pointer_t   _generationCount;
 }
 
 
+//
+// currently, this is "app-wide" but shouldn't this be thread local ?
+// It would a) reduce complexity b) reduce surprise by being called from
+// a different thread.
+// Possible fix: tie observer to thread, and raise on mismatch ?
+//
 + (instancetype) defaultCenter;
 
 - (void) addObserver:(id) observer
@@ -74,3 +83,6 @@
                    name:(NSString *) name
                  object:(id) sender;
 @end
+
+
+extern NSString   *MulleObjCUniverseWillFinalizeNotification; // @"MulleObjCUniverseWillFinalizeNotification";

@@ -1,0 +1,6 @@
+"" seperated by "": ""
+NSInvalidArgumentException
+"0,1,2,3" seperated by ",": "0" "1" "2" "3"
+"0,1,2,3" seperated by ",,": "0,1,2,3"
+"0,1,,2,,,,3,,,,4" seperated by ",": "0" "1" "" "2" "" "" "" "3" "" "" "" "4"
+"0,1,,2,,,,3,,,,4" seperated by ",,": "0,1" "2" "" "3" "" "4"

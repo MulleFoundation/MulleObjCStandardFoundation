@@ -1,0 +1,16 @@
+AxB default = A
+AxB NSAnchoredSearch = A
+AxB NSBackwardsSearch = B
+AxB NSAnchoredSearch|NSBackwardsSearch = B
+xAxB default = A
+xAxB NSAnchoredSearch = 
+xAxB NSBackwardsSearch = B
+xAxB NSAnchoredSearch|NSBackwardsSearch = B
+AxBy default = A
+AxBy NSAnchoredSearch = A
+AxBy NSBackwardsSearch = B
+AxBy NSAnchoredSearch|NSBackwardsSearch = 
+xAxBx default = A
+xAxBx NSAnchoredSearch = 
+xAxBx NSBackwardsSearch = B
+xAxBx NSAnchoredSearch|NSBackwardsSearch = 

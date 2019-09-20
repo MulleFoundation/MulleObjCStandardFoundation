@@ -1,9 +1,9 @@
 //
-//  MulleObjCStandardFoundation-startup.m
-//  MulleObjC
+//  NSError+String.m
+//  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2019 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2019 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -34,30 +34,28 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-//
-// Startup is the small library that gets linked into the executable
-// and determines the start of the foundation (usually MulleFoundation,
-// but sometimes also MulleObjc or MulleFoundationStandard)
-//
-#define _GNU_SOURCE
+#import "NSError.h"
 
-#import "import-private.h"
+// other files in this library
 
-#import "mulle-foundation-universeconfiguration-private.h"
-
-#import <MulleObjC/private/MulleObjCExceptionHandler-Private.h>
-#import <MulleObjC/private/mulle-objc-startup-private.inc>
-
-#include "mulle-foundation-startup-private.inc"
+// other libraries of MulleObjCStandardFoundation
+#import "MulleObjCFoundationString.h"
 
 
-static void   bang( struct _mulle_objc_universe *universe,
-                    struct mulle_allocator *allocator,
-                    void *userinfo)
+@implementation NSError( String)
+
+- (NSString *) description
 {
-   struct _mulle_objc_universeconfiguration   config;
-
-   mulle_foundation_universeconfiguration_set_defaults( &config);
-   MulleObjCStandardFoundationBang( universe, allocator, &config);
+   return( [NSString stringWithFormat:@"%@: %ld { %@ }",
+               [self domain],
+               (long) [self code],
+               [self userInfo]]);
 }
 
+- (char *) cStringDescription
+{
+   return( [[self description] cStringDescription]);
+}
+
+
+@end

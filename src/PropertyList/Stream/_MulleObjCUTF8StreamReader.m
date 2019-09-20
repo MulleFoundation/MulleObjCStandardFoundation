@@ -93,12 +93,6 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 }
 
 
-- (BOOL) throwExceptionOnError
-{
-   return( NO);
-}
-
-
 - (NSData *) bookmarkedData
 {
    // our stop and quote characters are ASCII...
@@ -125,7 +119,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 
 /*
-   00000000-01111111 	00-7F 	0-127        	US-ASCII (single byte)
+   00000000-01111111 	00-7F 	0-127    US-ASCII (single byte)
    10000000-10111111 	80-BF 	128-191 	Second, third, or fourth byte of a multi-byte sequence
    11000000-11000001 	C0-C1 	192-193 	Overlong encoding: start of a 2-byte sequence, but code point <= 127
    11000010-11011111 	C2-DF 	194-223 	Start of 2-byte sequence
@@ -134,7 +128,7 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
    11110101-11110111 	F5-F7 	245-247 	Restricted by RFC 3629: start of 4-byte sequence for codepoint above 10FFFF
    11111000-11111011 	F8-FB 	248-251 	Restricted by RFC 3629: start of 5-byte sequence
    11111100-11111101 	FC-FD 	252-253 	Restricted by RFC 3629: start of 6-byte sequence
-  11111110-11111111 	FE-FF 	254-255 	Invalid: not defined by original UTF-8 specification
+   11111110-11111111 	FE-FF 	254-255 	Invalid: not defined by original UTF-8 specification
 */
 
 //
@@ -172,20 +166,22 @@ long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *
 }
 
 
-void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *_self, NSString *format, va_list args)
+void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *_self,
+                                        NSString *format,
+                                        va_list args)
 {
    struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
    NSString   *prefixed;
 
    prefixed = [NSString stringWithFormat:@"error:%ld:%@", self->_lineNr, format];
-   if( ! [_self throwExceptionOnError])
+   if( ! [_self throwsException])
       [_self logFailure:prefixed
-            arguments:args];
+              arguments:args];
    else
       [NSException raise:@"_MulleObjCUTF8StreamReaderException"
                   format:prefixed
-              arguments:args];
+               arguments:args];
 }
 
 

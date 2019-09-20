@@ -46,7 +46,7 @@ extern char   _MulleObjCPropertyListUTF8DataIndentationCharacter; //  = '\t';
 extern NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
 
 
-PROTOCOLCLASS_INTERFACE( MulleObjCPropertyListPrinting, NSObject)
+PROTOCOLCLASS_INTERFACE0( MulleObjCPropertyListPrinting)
 
 // you need to implement some, but not all ... use the source
 

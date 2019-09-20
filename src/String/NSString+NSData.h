@@ -86,6 +86,7 @@ enum
 
 typedef NSUInteger   NSStringEncodingConversionOptions;
 
+char  *MulleStringEncodingCStringDescription( NSStringEncoding encoding);
 
 @interface NSString (NSData)
 

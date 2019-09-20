@@ -88,8 +88,8 @@
 // use NSBackwardsSearch to find Suffix
 // cheaper than using an inverted set
 // It's always NSAnchoredSearch implicitly!
-- (NSRange) _rangeOfCharactersFromSet:(NSCharacterSet *) set
-                              options:(NSStringCompareOptions) options
-                                range:(NSRange) range;
+- (NSRange) mulleRangeOfCharactersFromSet:(NSCharacterSet *) set
+                                  options:(NSStringCompareOptions) options
+                                    range:(NSRange) range;
 
 @end

@@ -101,6 +101,9 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 + (instancetype) mulleCurrentError;
 + (void) mulleClearCurrentError;
 
+// cheat :) function to just set an error quickly with localizedDescription
++ (instancetype) mulleGenericErrorWithDomain:( NSString *) domain
+                        localizedDescription:(NSString *) s;
 @end
 
 
@@ -109,6 +112,8 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 void      MulleObjCErrorSetCurrentError( NSString *domain, NSInteger code, NSDictionary *userInfo);
 NSError  *MulleObjCErrorGetCurrentError( void);
 void      MulleObjCErrorClearCurrentError( void);
+
+
 
 @interface NSObject( RecoveryAttempting)
 

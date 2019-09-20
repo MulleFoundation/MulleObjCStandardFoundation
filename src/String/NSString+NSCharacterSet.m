@@ -55,12 +55,12 @@
 
    originalRange = NSMakeRange( 0, [self length]);
 
-   startRange = [self _rangeOfCharactersFromSet:set
-                                             options:0
-                                               range:originalRange];
-   endRange   = [self _rangeOfCharactersFromSet:set
-                                             options:NSBackwardsSearch
-                                                range:originalRange];
+   startRange = [self mulleRangeOfCharactersFromSet:set
+                                            options:0
+                                              range:originalRange];
+   endRange   = [self mulleRangeOfCharactersFromSet:set
+                                            options:NSBackwardsSearch
+                                              range:originalRange];
 
    if( startRange.length)
    {

@@ -72,13 +72,16 @@ static inline int   blob_is_equal( struct mulle_container_keycallback *ignore,
 }
 
 
-static inline void   *blob_describe( struct mulle_container_keycallback *ignore,
-                                     struct blob  *blob,
-                                     struct mulle_allocator *allocator)
+static inline char   *blob_describe( struct mulle_container_keycallback *ignore,
+                                     void  *_blob,
+                                     struct mulle_allocator **p_allocator)
 {
-   return( [NSString stringWithFormat:@"<%ld %p %.*s>",
-            blob->_length, blob->_storage,
-            blob->_length, blob->_storage]);
+   struct blob  *blob = _blob;
+
+   *p_allocator = NULL;
+   return( [[NSString stringWithFormat:@"<%ld %p %.*s>",
+                                          blob->_length, blob->_storage,
+                                          blob->_length, blob->_storage] UTF8String]);
 }
 
 

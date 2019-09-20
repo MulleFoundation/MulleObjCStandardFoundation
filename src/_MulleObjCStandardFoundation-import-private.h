@@ -10,6 +10,8 @@
 #ifndef _mulle_objc_standard_foundation_import_private_h__
 #define _mulle_objc_standard_foundation_import_private_h__
 
+#include "_MulleObjCStandardFoundation-include-private.h"
+
 /* no headers */
 
 #endif

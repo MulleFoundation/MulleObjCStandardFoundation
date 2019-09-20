@@ -20,13 +20,19 @@ int main( int argc, const char * argv[])
 
    // simple basic test for leakage
 
-   nr    = [NSNumber numberWithInt:1848];
+   nr    = [NSNumber numberWithInteger:1848]; // too big for tps ?
    array = [NSMutableArray arrayWithObject:nr];
-   key   = [NSString stringWithUTF8String:"bar"];
+   key   = [NSString stringWithUTF8String:"not-a-tps-pointer"];
    [array addObject:key];
 
    address = [NSString stringWithFormat:@"%p", array];
    desc    = [array debugDescription];
+   desc    = [desc stringByReplacingOccurrencesOfString:address
+                                             withString:@"<address>"];
+   address = [NSString stringWithFormat:@"%p", key];
+   desc    = [desc stringByReplacingOccurrencesOfString:address
+                                             withString:@"<address>"];
+   address = [NSString stringWithFormat:@"%p", nr];
    desc    = [desc stringByReplacingOccurrencesOfString:address
                                              withString:@"<address>"];
    printf( "%s\n", [desc UTF8String]);

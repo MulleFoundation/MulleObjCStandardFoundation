@@ -50,9 +50,9 @@ NSString   *NSErrorKey          = @"NSError";
 NSString   *MulleErrorClassKey  = @"MulleErrorClass";
 
 
-NSString   *NSOSStatusErrorDomain  = @"NSOSStatusError";
-NSString   *NSMachErrorDomain      = @"NSMachError";
-NSString   *MulleErrnoErrorDomain  = @"MulleErrnoError";
+NSString   *NSOSStatusErrorDomain    = @"NSOSStatusError";
+NSString   *NSMachErrorDomain        = @"NSMachError";
+NSString   *MulleErrnoErrorDomain    = @"MulleErrnoError";
 
 NSString   *NSFilePathErrorKey       = @"NSFilePathError";
 NSString   *NSStringEncodingErrorKey = @"NSStringEncodingError";
@@ -109,6 +109,17 @@ static Class   nsErrorClass;
    return( [[[self alloc] initWithDomain:domain
                                     code:code
                                 userInfo:userInfo] autorelease]);
+}
+
+
++ (instancetype) mulleGenericErrorWithDomain:(NSString *) domain
+                        localizedDescription:(NSString *) s
+{
+   if( ! s)
+      s = @"???";
+   return( [self errorWithDomain:domain
+                            code:-1
+                        userInfo:@{ NSLocalizedDescriptionKey: s }]);
 }
 
 

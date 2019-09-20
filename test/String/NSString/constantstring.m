@@ -17,7 +17,9 @@ NSString  *BStringVariable = @"WithBConstantString";
 @interface Foo : NSObject
 @end
 
-@implementation Foo 
+@implementation Foo
+
+MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCStandardFoundation);
 
 + (void) passAStringVariable:(NSString *) a
                      another:(NSString *) b

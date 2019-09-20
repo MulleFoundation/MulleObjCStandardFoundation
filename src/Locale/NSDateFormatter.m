@@ -41,6 +41,7 @@
 #import "NSCalendarDate.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "MulleObjCFoundationContainer.h"
 #import "MulleObjCFoundationException.h"
 #import "MulleObjCFoundationString.h"
 #import "MulleObjCFoundationValue.h"
@@ -51,14 +52,124 @@
 @implementation NSDateFormatter
 
 
-NSString  *NSDateFormatter1000BehaviourClassKey = @"1000";
-NSString  *NSDateFormatter1040BehaviourClassKey = @"1040";
+static struct
+{
+   mulle_thread_mutex_t      _lock;
+   NSMapTable                *_table;
+   NSDateFormatterBehavior   _defaultBehavior;
+} Self =
+{
+   ._defaultBehavior = NSDateFormatterBehavior10_0
+};
 
 
-static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultDateFormatterBehavior";
+static inline void   SelfLock( void)
+{
+   mulle_thread_mutex_lock( &Self._lock);
+}
 
 
+static inline void   SelfUnlock( void)
+{
+   mulle_thread_mutex_unlock( &Self._lock);
+}
 
+
++ (void) initialize
+{
+   if( ! Self._table)
+   {
+      Self._table = NSCreateMapTable( NSIntegerMapKeyCallBacks,
+                                      NSObjectMapValueCallBacks,
+                                      4);
+      mulle_thread_mutex_init( &Self._lock);
+   }
+}
+
++ (void) deinitialize
+{
+   @autoreleasepool
+   {
+      // table will release values, reap them ASAP
+      NSFreeMapTable( Self._table);
+   }
+   Self._table = NULL;
+   mulle_thread_mutex_done( &Self._lock);
+#ifdef DEBUG
+   memset( &Self, 0xEE, sizeof( Self));
+#endif
+}
+
+
++ (void) setDefaultFormatterBehavior:(NSDateFormatterBehavior) behavior
+{
+   NSParameterAssert( behavior == NSDateFormatterBehavior10_0 ||
+                      behavior == NSDateFormatterBehavior10_4);
+
+   SelfLock();
+   {
+      Self._defaultBehavior = behavior;
+   }
+   SelfUnlock();
+}
+
+
++ (NSDateFormatterBehavior) defaultFormatterBehavior
+{
+   NSDateFormatterBehavior   behavior;
+
+   SelfLock();
+   {
+      behavior = Self._defaultBehavior;
+   }
+   SelfUnlock();
+   return( behavior);
+}
+
+
+- (NSDateFormatterBehavior) formatterBehavior
+{
+   // subclasses override this
+   return( NSDateFormatterBehaviorDefault);
+}
+
+
+- (void) setFormatterBehavior:(NSDateFormatterBehavior) formatterBehavior
+{
+   Class   cls;
+
+   cls = [self class];
+   if( formatterBehavior == NSDateFormatterBehaviorDefault)
+      formatterBehavior = [cls defaultFormatterBehavior];
+
+   SelfLock();
+   {
+      cls = NSMapGet( Self._table, (void *) formatterBehavior);
+   }
+   SelfUnlock();
+
+   if( ! cls)
+      MulleObjCThrowInternalInconsistencyException( @"no class for NSDateFormatterBehavior %d loaded", formatterBehavior);
+
+   MulleObjCObjectSetClass( self, cls);
+}
+
+
++ (void) mulleSetClass:(Class) cls
+  forFormatterBehavior:(NSDateFormatterBehavior) formatterBehavior
+{
+   SelfLock();
+   {
+      NSMapInsert( Self._table, (void *) formatterBehavior, cls);
+      NSParameterAssert( cls == NSMapGet( Self._table, (void *) formatterBehavior));
+   }
+   SelfUnlock();
+}
+
+
+/*
+ *
+ */
 - (instancetype) _initWithDateFormat:(NSString *) format
                 allowNaturalLanguage:(BOOL) flag
 {
@@ -102,77 +213,6 @@ static NSString  *MulleObjCDefaultDateFormatterBehaviorKey = @"MulleObjCDefaultD
 //      MulleObjCThrowInvalidArgumentException( @"unsupported behavior");
 //}
 
-+ (void) initialize
-{
-   static BOOL  doneOnce;
-
-   if( doneOnce)
-      return;
-   doneOnce = YES;
-
-   [self setDefaultFormatterBehavior:NSDateFormatterBehavior10_0];
-}
-
-
-+ (void) setDefaultFormatterBehavior:(NSDateFormatterBehavior) behavior
-{
-   NSParameterAssert( behavior == NSDateFormatterBehavior10_0 ||
-                      behavior == NSDateFormatterBehavior10_4);
-
-   [self setClassValue:behavior == NSDateFormatterBehavior10_0 ?
-                          NSDateFormatter1000BehaviourClassKey :
-                          NSDateFormatter1040BehaviourClassKey
-                forKey:MulleObjCDefaultDateFormatterBehaviorKey];
-}
-
-
-+ (NSDateFormatterBehavior) defaultFormatterBehavior
-{
-   NSString  *key;
-
-   key = [self classValueForKey:MulleObjCDefaultDateFormatterBehaviorKey];
-   if( key == NSDateFormatter1040BehaviourClassKey)
-      return( NSDateFormatterBehavior10_4);
-   if( key == NSDateFormatter1000BehaviourClassKey)
-      return( NSDateFormatterBehavior10_0);
-   return( NSDateFormatterBehaviorDefault);
-}
-
-
-- (NSDateFormatterBehavior) formatterBehavior
-{
-   return( NSDateFormatterBehaviorDefault);
-}
-
-
-- (void) setFormatterBehavior:(NSDateFormatterBehavior) formatterBehavior
-{
-   Class   cls;
-
-   cls = [self class];
-   if( formatterBehavior == NSDateFormatterBehaviorDefault)
-      formatterBehavior = [cls defaultFormatterBehavior];
-
-   switch( formatterBehavior)
-   {
-   case NSDateFormatterBehavior10_0  :
-      cls = [cls classValueForKey:NSDateFormatter1000BehaviourClassKey];
-      break;
-
-   case NSDateFormatterBehavior10_4 :
-      cls = [cls classValueForKey:NSDateFormatter1040BehaviourClassKey];
-      break;
-
-   default :
-      cls = Nil;
-      break;
-   }
-
-   if( ! cls)
-      MulleObjCThrowInternalInconsistencyException( @"no class for NSDateFormatterBehavior %d loaded", formatterBehavior);
-
-   MulleObjCObjectSetClass( self, cls);
-}
 
 
 - (BOOL) generatesCalendarDates

@@ -440,7 +440,11 @@ static NSString *
       _NSThrowInvalidUTF8Exception( s, length, &info);
 
    if( ! info.utf8len)
+   {
+      if( allocator)
+         mulle_allocator_free( allocator, s);
       return( @"");
+   }
 
    if( info.is_ascii)
    {
@@ -453,8 +457,8 @@ static NSString *
       }
 
       self = [_MulleObjCAllocatorASCIIString newWithASCIICharactersNoCopy:info.start
-                                                                  length:info.utf8len
-                                                               allocator:allocator];
+                                                                   length:info.utf8len
+                                                                allocator:allocator];
       return( self);
    }
 
