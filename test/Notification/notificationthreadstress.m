@@ -94,7 +94,10 @@ int  main( int argc, char  *argv[])
 {
    NSMutableArray         *objects;
    NSUInteger             i;
+   NSUInteger             n_threads;
    Foo                    *foo;
+
+   n_threads = (argc == 2) ? atoi( argv[ 1]) : 16;
 
    objects = [NSMutableArray array];
    for( i = 0; i < N_OBJECTS; i++)
@@ -103,7 +106,7 @@ int  main( int argc, char  *argv[])
       [objects addObject:foo];
    }
 
-   for( i = 0; i < 16; i++)
+   for( i = 0; i < n_threads; i++)
    {
       [NSThread detachNewThreadSelector:@selector( testWithObjects:)
                                toTarget:[Foo class]

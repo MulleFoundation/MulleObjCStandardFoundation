@@ -65,7 +65,7 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 //
 // domain is just a way to categorize error numbers
 //
-@interface NSError : NSObject < NSCopying>
+@interface NSError : NSObject < NSCopying, MulleObjCImmutable>
 
 @property( readonly, copy)   NSString       *domain;
 @property( readonly)         NSInteger      code;

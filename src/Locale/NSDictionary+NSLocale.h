@@ -39,7 +39,7 @@
 @class NSLocale;
 
 
-@interface NSDictionary (NSLocale)
+@interface NSDictionary( NSLocale)
 
 - (NSString *) descriptionWithLocale:(NSLocale *) locale
                               indent:(NSUInteger) level;

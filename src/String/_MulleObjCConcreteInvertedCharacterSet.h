@@ -38,7 +38,7 @@
 
 
 // used for MulleObjCConcreteInvertedCharacterSet
-@interface _MulleObjCConcreteInvertedCharacterSet : NSCharacterSet
+@interface _MulleObjCConcreteInvertedCharacterSet : NSCharacterSet < MulleObjCImmutable>
 {
    NSCharacterSet   *_original;
 }

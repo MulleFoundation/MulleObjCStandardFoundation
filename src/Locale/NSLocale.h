@@ -41,7 +41,7 @@
 
 
 
-@interface NSLocale : NSObject <NSCopying>
+@interface NSLocale : NSObject <NSCopying, MulleObjCImmutable>
 {
    NSString   *_identifier;
    void       *_xlocale;

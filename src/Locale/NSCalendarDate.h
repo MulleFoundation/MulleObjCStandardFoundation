@@ -54,7 +54,7 @@ struct mulle_mini_tm
 //
 // A NSCalendarDate in this Foundation _always_ has a timeZone.
 //
-@interface NSCalendarDate : NSObject < NSDateFactory>
+@interface NSCalendarDate : NSObject < NSDateFactory, MulleObjCImmutable>
 {
    union
    {

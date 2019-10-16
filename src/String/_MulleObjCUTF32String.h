@@ -34,9 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSString.h"
 
-@interface _MulleObjCUTF32String : NSString
+@interface _MulleObjCUTF32String : NSString < MulleObjCImmutable>
 {
    mulle_utf8_t    *_shadow;
    NSUInteger      _length;         // 257-max
@@ -47,7 +46,7 @@
 @interface _MulleObjCUTF32String( _Subclasses)
 
 + (instancetype) newWithUTF32Characters:(mulle_utf32_t *) chars
-                       length:(NSUInteger) length;
+                                 length:(NSUInteger) length;
 
 @end
 
@@ -66,8 +65,8 @@
 }
 
 + (instancetype) newWithUTF32CharactersNoCopy:(mulle_utf32_t *) chars
-                             length:(NSUInteger) length
-                          allocator:(struct mulle_allocator *) allocator;
+                                       length:(NSUInteger) length
+                                    allocator:(struct mulle_allocator *) allocator;
 
 @end
 
@@ -79,8 +78,8 @@
 }
 
 + (instancetype) newWithUTF32CharactersNoCopy:(mulle_utf32_t *) chars
-                             length:(NSUInteger) length
-                      sharingObject:(id) sharingObject;
+                                       length:(NSUInteger) length
+                                sharingObject:(id) sharingObject;
 @end
 
 

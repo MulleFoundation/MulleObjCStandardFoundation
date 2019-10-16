@@ -38,7 +38,7 @@
 
 
 // TODO: coalesce into 8 into 16 and add a @encode ?
-@interface _MulleObjCInt8Number : NSNumber
+@interface _MulleObjCInt8Number : NSNumber <MulleObjCImmutable>
 {
    int8_t  _value;
 }
@@ -48,7 +48,7 @@
 @end
 
 
-@interface _MulleObjCInt16Number : NSNumber
+@interface _MulleObjCInt16Number : NSNumber <MulleObjCImmutable>
 {
    int16_t  _value;
 }
@@ -58,7 +58,7 @@
 @end
 
 
-@interface _MulleObjCInt32Number : NSNumber
+@interface _MulleObjCInt32Number : NSNumber <MulleObjCImmutable>
 {
    int32_t  _value;
 }
@@ -68,7 +68,7 @@
 @end
 
 
-@interface _MulleObjCInt64Number : NSNumber
+@interface _MulleObjCInt64Number : NSNumber <MulleObjCImmutable>
 {
    int64_t  _value;
 }
@@ -82,7 +82,7 @@
 #pragma mark unsigned variants (8/16 superflous)
 
 
-@interface _MulleObjCUInt32Number : NSNumber
+@interface _MulleObjCUInt32Number : NSNumber <MulleObjCImmutable>
 {
    uint32_t  _value;
 }
@@ -92,7 +92,7 @@
 @end
 
 
-@interface _MulleObjCUInt64Number : NSNumber
+@interface _MulleObjCUInt64Number : NSNumber <MulleObjCImmutable>
 {
    uint64_t  _value;
 }
@@ -103,7 +103,7 @@
 
 
 // assume float losslessly converts to double and back
-@interface _MulleObjCDoubleNumber : NSNumber
+@interface _MulleObjCDoubleNumber : NSNumber <MulleObjCImmutable>
 {
    double   _value;
 }
@@ -113,7 +113,7 @@
 @end
 
 
-@interface _MulleObjCLongDoubleNumber : NSNumber
+@interface _MulleObjCLongDoubleNumber : NSNumber <MulleObjCImmutable>
 {
    long double   _value;
 }

@@ -34,11 +34,16 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "NSString.h"
+
+#include <mulle-utf/mulle-utf.h>
+#include <assert.h>
+
 #import "_MulleObjCTaggedPointerChar7String.h"
 
 #import "MulleObjCFoundationData.h"
 
-#import "NSException.h"
+#import "MulleObjCFoundationException.h"
 
 
 #ifdef __MULLE_OBJC_TPS__
@@ -185,19 +190,10 @@ static void   grab_utf32( id self,
 
 - (NSUInteger) hash
 {
-   NSUInteger    len;
+   uintptr_t   value;
 
-   len = MulleObjCTaggedPointerChar7StringGetLength( self);
-   {
-      mulle_utf8_t   buf[ len];
-
-      grab_utf8( self,
-                 len,
-                 buf,
-                 NSMakeRange( 0, len));
-
-      return( MulleObjCStringHash( buf, len));
-   }
+   value = _MulleObjCTaggedPointerChar7ValueFromString( self);
+   return( _mulle_char7_fnv1a( value));
 }
 
 

@@ -40,7 +40,7 @@
 @class NSString;
 
 
-@interface NSSortDescriptor : NSObject <NSCopying>
+@interface NSSortDescriptor : NSObject <NSCopying, MulleObjCImmutable>
 {
    SEL        _selector;
    NSString   *_key;

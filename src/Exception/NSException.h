@@ -48,7 +48,7 @@ extern NSString   *NSRangeException;
 extern NSString   *NSParseErrorException;
 
 
-@interface NSException : NSObject < MulleObjCException>
+@interface NSException : NSObject < MulleObjCException, MulleObjCImmutable>
 {
    NSString       *_name;
    NSString       *_reason;

@@ -44,7 +44,7 @@ typedef mulle_utf32_t  unichar;
 
 
 
-@interface NSCharacterSet : NSObject  < NSCopying, MulleObjCClassCluster>
+@interface NSCharacterSet : NSObject  < NSCopying, MulleObjCClassCluster, MulleObjCValue>
 
 - (instancetype) initWithBitmapRepresentation:(NSData *) data;
 

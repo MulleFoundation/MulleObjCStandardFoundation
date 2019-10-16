@@ -59,7 +59,7 @@ typedef double    NSTimeInterval;
 //
 // NSDate is floating point with all it's problems.
 //
-@interface NSDate : NSObject < NSDateFactory, NSCopying>
+@interface NSDate : NSObject < NSDateFactory, NSCopying, MulleObjCValue, MulleObjCImmutable>
 {
    NSTimeInterval   _interval;
 }

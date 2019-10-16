@@ -36,7 +36,7 @@
 #import "NSData.h"
 
 
-@interface _MulleObjCConcreteData : NSData
+@interface _MulleObjCConcreteData : NSData <MulleObjCImmutable>
 
 + (instancetype) mulleNewWithBytes:(void *) bytes;
 

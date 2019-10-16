@@ -34,10 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSString.h"
+// private header don't include anything
 
-#include <mulle-utf/mulle-utf.h>
-#include <assert.h>
 
 // Char5Characters is a subset of ASCII that fits into 5 bits
 //

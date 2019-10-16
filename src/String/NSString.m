@@ -86,9 +86,17 @@ static char   *stringToUTF8( NSString *s)
 }
 
 
+// keep global for gdb
+MULLE_C_NEVER_INLINE
+NSString  *_NSNewStringFromCString( char *s)
+{
+   return( [[NSString alloc] initWithUTF8String:s]);
+}
+
+
 static NSString   *UTF8ToString( char *s)
 {
-   return( [NSString stringWithUTF8String:s]);
+   return( [_NSNewStringFromCString(  s) autorelease]);
 }
 
 
@@ -98,8 +106,8 @@ static NSString   *UTF8ToString( char *s)
 
    config = _mulle_objc_universe_get_universefoundationinfo( MulleObjCObjectGetUniverse( self));
 
-   config->string.charsfromobject = (char *(*)()) stringToUTF8;
-   config->string.objectfromchars = (void *(*)()) UTF8ToString;
+   config->string.charsfromobject = (char *(*)( void *)) stringToUTF8;
+   config->string.objectfromchars = (void *(*)( char *)) UTF8ToString;
 }
 
 

@@ -37,7 +37,7 @@
 #import "NSValue.h"
 
 
-@interface _MulleObjCConcreteValue : NSValue
+@interface _MulleObjCConcreteValue : NSValue <MulleObjCImmutable>
 {
    NSUInteger  _size;
 }

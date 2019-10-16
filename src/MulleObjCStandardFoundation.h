@@ -45,6 +45,7 @@
 #import "MulleObjCFoundationLocale.h"
 #import "MulleObjCFoundationNotification.h"
 #import "MulleObjCFoundationPropertyList.h"
+#import "MulleObjCFoundationUndo.h"
 
 
 #import "MulleObjCLoader+MulleObjCStandardFoundation.h"
