@@ -33,6 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "NSString.h"
 
 #import "_MulleObjCUTF32String.h"
 
@@ -85,9 +86,9 @@
    {
       mulle_buffer_init( &buf, MulleObjCObjectGetAllocator( self));
       mulle_utf32_bufferconvert_to_utf8( [self _fastUTF32Characters],
-                                              [self _UTF32StringLength],
-                                              &buf,
-                                              (void (*)()) mulle_buffer_add_bytes);
+                                         [self _UTF32StringLength],
+                                         &buf,
+                                         (void (*)()) mulle_buffer_add_bytes);
 
       mulle_buffer_add_byte( &buf, 0);
       _shadow = mulle_buffer_extract_all( &buf);
@@ -275,7 +276,7 @@ static void   grab_utf32( id self,
 {
    [_sharingObject release];
 
-   NSDeallocateObject( self);
+   [super dealloc];
 }
 
 @end

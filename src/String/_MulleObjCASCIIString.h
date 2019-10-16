@@ -34,7 +34,6 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include <mulle-utf/mulle-utf.h>
 
 // ASCIICharacters are just the chars without trailing zero
 // ASCIIString always has a trailing zero
@@ -46,7 +45,7 @@
 // ASCII is something that's provided "hidden". It's the best,
 // because it can provide mulle_utf8_t and mulle_utf32_t w/o composition
 //
-@interface _MulleObjCASCIIString : NSString
+@interface _MulleObjCASCIIString : NSString < MulleObjCImmutable>
 @end
 
 

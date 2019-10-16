@@ -226,7 +226,9 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 
 - (BOOL) isEqualToString:(NSString *) other
 {
-   NSUInteger   len;
+   NSUInteger     len;
+   mulle_utf8_t   *ours;
+   mulle_utf8_t   *theirs;
 
    if( self == other)
       return( YES);
@@ -234,6 +236,11 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
    len = [self length];
    if( len != [other length])
       return( NO);
+
+   ours   = [self mulleFastUTF8Characters];
+   theirs = [other mulleFastUTF8Characters];
+   if( ours && theirs)
+      return( ! memcmp( ours, theirs, len));
 
    return( [self compare:other
                  options:NSLiteralSearch

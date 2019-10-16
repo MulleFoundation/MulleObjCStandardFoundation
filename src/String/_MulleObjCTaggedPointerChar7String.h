@@ -34,10 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSString.h"
+// private header don't include anything
 
-#include <mulle-utf/mulle-utf.h>
-#include <assert.h>
 
 
 @interface _MulleObjCTaggedPointerChar7String : NSString < MulleObjCTaggedPointer>

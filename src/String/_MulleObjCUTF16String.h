@@ -34,17 +34,12 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSString.h"
-
-#include <mulle-utf/mulle-utf.h>
-
-
 //
 // these UTF16 classes do not store a trailing zero, but the
 // shadow UTF8 string will have one, for UTF8String
 // access
 //
-@interface _MulleObjCUTF16String: NSString
+@interface _MulleObjCUTF16String: NSString <MulleObjCImmutable>
 {
    mulle_utf8_t   *_shadow;
    NSUInteger     _length;
@@ -61,7 +56,7 @@
 @interface _MulleObjCUTF16String( _Subclasses)
 
 + (instancetype) newWithUTF16Characters:(mulle_utf16_t *) bytes
-                       length:(NSUInteger) length;
+                                 length:(NSUInteger) length;
 
 @end
 
@@ -80,19 +75,19 @@
 }
 
 + (instancetype) newWithUTF16CharactersNoCopy:(void *) bytes
-                             length:(NSUInteger) length
-                          allocator:(struct mulle_allocator *) allocator;
+                                       length:(NSUInteger) length
+                                    allocator:(struct mulle_allocator *) allocator;
 
 @end
 
 
-@interface _MulleObjCSharedUTF16String  : _MulleObjCUTF16String
+@interface _MulleObjCSharedUTF16String : _MulleObjCUTF16String
 {
    mulle_utf16_t   *_storage;
    id               _sharingObject;
 }
 
 + (instancetype) newWithUTF16CharactersNoCopy:(mulle_utf16_t *) chars
-                             length:(NSUInteger) length
-                      sharingObject:(id) sharingObject;
+                                        length:(NSUInteger) length
+                                 sharingObject:(id) sharingObject;
 @end

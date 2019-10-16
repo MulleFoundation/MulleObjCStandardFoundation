@@ -40,7 +40,7 @@
 @class NSDictionary;
 
 
-@interface NSNotification : NSObject
+@interface NSNotification : NSObject < MulleObjCImmutable>
 
 @property(copy)   NSString      *name;
 @property(retain) id            object;

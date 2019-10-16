@@ -82,14 +82,16 @@
 
 - (instancetype) initWithBitmapRepresentation:(NSData *) data
 {
-   MulleObjCCharacterBitmapInitWithBitmapRepresentation( &self->_bitmap,data, MulleObjCObjectGetAllocator( self));
+   MulleObjCCharacterBitmapInitWithBitmapRepresentation( &self->_bitmap,data,
+                                                         MulleObjCObjectGetAllocator( self));
    return( self);
 }
 
 
 - (void) dealloc
 {
-   MulleObjCCharacterBitmapFreePlanes( &self->_bitmap, MulleObjCObjectGetAllocator( self));
+   MulleObjCCharacterBitmapFreePlanes( &self->_bitmap,
+                                       MulleObjCObjectGetAllocator( self));
    NSDeallocateObject( self);
 }
 
@@ -112,7 +114,9 @@
    NSMutableCharacterSet   *set;
 
    set = [[self new] autorelease];
-   MulleObjCCharacterBitmapSetBitsWithString( &set->_bitmap, s, MulleObjCObjectGetAllocator( set));
+   MulleObjCCharacterBitmapSetBitsWithString( &set->_bitmap,
+                                              s,
+                                              MulleObjCObjectGetAllocator( set));
    return( set);
 }
 

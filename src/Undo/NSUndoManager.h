@@ -30,12 +30,14 @@ enum _NSUndoManagerState
    _NSUndoManagerIsRedoing = 2
 };
 
+// INCOMPLETE!!
 @interface NSUndoManager : NSObject
 {
-   NSMutableArray   *_undoStack;
-   NSMutableArray   *_redoStack;
-   id               _target;
-   NSUInteger       _disabledCount;
+   NSMutableArray             *_undoStack;
+   NSMutableArray             *_redoStack;
+   id                         _target;
+   NSUInteger                 _disabledCount;
+   NSUInteger                 _groupingLevel;
    enum _NSUndoManagerState   _state;
 }
 
@@ -69,24 +71,18 @@ enum _NSUndoManagerState
                        object:(id) anObject;
 - (id) prepareWithInvocationTarget:(id) target;
 
-- (NSString *) undoActionName;
-- (NSString *) redoActionName;
-- (NSString *) undoMenuItemTitle;
-- (NSString *) redoMenuItemTitle;
-
-- (void) setActionName:(NSString *) actionName;
-
-- (NSString *) undoMenuTitleForUndoActionName:(NSString *)actionName;
-- (NSString *) redoMenuTitleForUndoActionName:(NSString *)actionName;
 
 @end
 
 NSString   *NSUndoManagerCheckpointNotification;
+
 NSString   *NSUndoManagerDidCloseUndoGroupNotification;
 NSString   *NSUndoManagerDidOpenUndoGroupNotification;
-NSString   *NSUndoManagerDidRedoChangeNotification;
-NSString   *NSUndoManagerDidUndoChangeNotification;
 NSString   *NSUndoManagerWillCloseUndoGroupNotification;
+
+NSString   *NSUndoManagerDidRedoChangeNotification;
 NSString   *NSUndoManagerWillRedoChangeNotification;
+
+NSString   *NSUndoManagerDidUndoChangeNotification;
 NSString   *NSUndoManagerWillUndoChangeNotification;
 

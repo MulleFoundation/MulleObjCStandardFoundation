@@ -13,11 +13,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 @interface NSScanner : NSObject <NSCopying>
 {
-   NSString *_string;
-   NSUInteger  _location;
-   NSCharacterSet *_skipSet;
-   BOOL _isCaseSensitive;
-   NSDictionary *_locale;
+   NSString           *_string;
+   NSUInteger         _location;
+   NSCharacterSet     *_skipSet;
+   BOOL               _isCaseSensitive;
+   NSDictionary       *_locale;
 }
 
 +scannerWithString:(NSString *)string;

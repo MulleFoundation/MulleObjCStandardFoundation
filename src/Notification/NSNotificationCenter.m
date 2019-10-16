@@ -491,6 +491,7 @@ static struct
    [super dealloc];
 }
 
+
 #ifdef DEBUG
 // for debugging only, not locking
 - (void) dump
@@ -580,9 +581,9 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
    value.imp      = [observer methodForSelector:sel];
    triplet        = triplet_copy( &value, allocator);
 
-   key.name   = name;
-   key.sender = sender;
-   pair       = pair_copy( NULL, &key, allocator);
+   key.name       = name;
+   key.sender     = sender;
+   pair           = pair_copy( NULL, &key, allocator);
 
    /* these own the triplet */
    mulle_thread_mutex_lock( &_lock);
@@ -773,6 +774,7 @@ static void   removePairFromQueues( NSNotificationCenter *self,
    mulle_thread_mutex_unlock( &_lock);
 }
 
+
 #pragma mark - send notifications
 //
 // It is important for MulleEOF that if observers a,b,c are registering in the
@@ -847,11 +849,10 @@ static void
          //
          n = _mulle_pointerqueue_get_count( queue);
          {
-            observer_sel_imp_triplet  tmp[ 64];
+            observer_sel_imp_triplet  tmp[ 32];
 
-            buf    = tmp;
-            tofree = NULL;
-            if( n > 64)
+            buf = tmp;
+            if( n > 32)
             {
                buf    = mulle_malloc( n * sizeof( observer_sel_imp_triplet));
                tofree = buf;
@@ -977,8 +978,6 @@ static void   NSNotificationCenterPostNotification( NSNotificationCenter  *self,
                                               userInfo:userInfo];
    NSNotificationCenterPostNotification( self, notification);
 }
-
-
 
 @end
 

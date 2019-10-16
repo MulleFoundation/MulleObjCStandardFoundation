@@ -34,6 +34,11 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "NSString.h"
+
+#include <mulle-utf/mulle-utf.h>
+
+
 #import "_MulleObjCUTF16String.h"
 
 // other files in this library
@@ -289,7 +294,7 @@ static void   grab_utf32( id self,
 {
    [_sharingObject release];
 
-   NSDeallocateObject( self);
+   [super dealloc];
 }
 
 @end

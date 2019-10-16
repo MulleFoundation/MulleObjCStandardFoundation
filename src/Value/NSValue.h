@@ -36,7 +36,7 @@
 #import "MulleObjCFoundationBase.h"
 
 
-@interface NSValue : NSObject < MulleObjCClassCluster>
+@interface NSValue : NSObject < MulleObjCClassCluster, MulleObjCValue>
 {
 }
 

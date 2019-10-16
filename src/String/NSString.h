@@ -87,7 +87,7 @@ typedef NSUInteger   NSStringCompareOptions;
 // in all other cases use UTF8String
 //
 
-@interface NSString : NSObject < MulleObjCClassCluster, NSCopying>
+@interface NSString : NSObject < MulleObjCClassCluster, NSCopying, MulleObjCValue>
 {
 }
 
@@ -214,13 +214,35 @@ typedef NSUInteger   NSStringCompareOptions;
 @end
 
 
-static inline NSRange   MulleObjCGetHashStringRange(NSUInteger length)
+static inline NSRange   MulleObjCGetHashStringRange( NSUInteger length)
 {
-   return( MulleObjCGetHashBytesRange( length));
+   NSUInteger   offset;
+
+   offset = 0;
+   if( length > 32)
+   {
+      offset = length - 32;
+      length = 32;
+   }
+   return( NSMakeRange( offset, length));
 }
+
+
+static inline NSUInteger   MulleObjCStringHashRange( void *buf, NSRange range)
+{
+   if( ! buf)
+      return( -1);
+   return( _mulle_objc_fnv1a( &((char *)buf)[ range.location], range.length));
+}
+
 
 
 static inline NSUInteger   MulleObjCStringHash( mulle_utf8_t *buf, NSUInteger length)
 {
-   return( MulleObjCBytesPartialHash( buf, length));
+   NSRange   range;
+
+   range = MulleObjCGetHashStringRange( length);
+   return( MulleObjCStringHashRange( buf, range));
 }
+
+

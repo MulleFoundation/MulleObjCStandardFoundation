@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#include "import.h"
+
 #import "NSString.h"
 
 #import "_MulleObjCASCIIString.h"
@@ -168,7 +170,6 @@ static void   grab_utf8( id self,
                                                                length:range.length
                                                         sharingObject:self] autorelease]);
 }
-
 
 @end
 
