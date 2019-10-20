@@ -85,20 +85,20 @@ static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t 
    p = buf;
    for( i = 0; i < nOffsets; i++)
    {
-      q   = &buf[ offsets[ i]];
+      q           = &buf[ offsets[ i]];
       NSCParameterAssert( q > p);
-      len = q - p - sepLen;
+      len         = q - p - sepLen;
       strings[ i] = makeUTF8String( p, len);
-      p = q;
+      p           = q;
    }
 
-   q   = &buf[ bufLen];
-   len = q - p;
+   q             = &buf[ bufLen];
+   len           = q - p;
    strings[ i++] = makeUTF8String( p, len);
 
    array = [[arrayCls alloc] mulleInitWithRetainedObjectStorage:strings
                                                           count:i
-                                                          size:i];
+                                                           size:i];
    return( array);
 }
 
