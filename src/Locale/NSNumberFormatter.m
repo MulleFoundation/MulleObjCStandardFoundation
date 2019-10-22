@@ -79,7 +79,11 @@ static inline void   SelfUnlock( void)
       Self._table = NSCreateMapTable( NSIntegerMapKeyCallBacks,
                                       NSObjectMapValueCallBacks,
                                       4);
-      mulle_thread_mutex_init( &Self._lock);
+      if( mulle_thread_mutex_init( &Self._lock))
+      {
+         fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
+         abort();
+      }
       Self._defaultBehavior = NSNumberFormatterBehavior10_0;
       NSMapInsertKnownAbsent( Self._table,
                               (void *) NSNumberFormatterBehavior10_0,

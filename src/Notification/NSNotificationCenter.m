@@ -454,6 +454,12 @@ static struct
    mulle_map_init( &_senderRegistry,    5, &sender_registry_callbacks, allocator);
    mulle_map_init( &_pairRegistry,    128, &pair_registry_callbacks, allocator);
 
+   if( mulle_thread_mutex_init( &_lock))
+   {
+      fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
+      abort();
+   }
+
    return( self);
 }
 
