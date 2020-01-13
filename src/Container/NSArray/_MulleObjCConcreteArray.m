@@ -144,7 +144,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( ! obj)
       return( NSNotFound);
 
-   MulleObjCValidateRangeWithLength( range, self->_count);
+   MulleObjCValidateRangeAgainstLength( range, self->_count);
    sentinelLength = range.location + range.length;
 
    sentinel = &self->_objects[ sentinelLength];

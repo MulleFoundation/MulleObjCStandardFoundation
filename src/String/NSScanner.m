@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 // other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
-#import <limits.h>
+#include <limits.h>
 
 
 @implementation NSScanner
@@ -145,11 +145,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    return YES;
 }
 
--(BOOL)scanLongLong:(long long *)valuep {
-// FIXME: this should use C99 LLONG_*, but switching has some link problems for Linux
-#define long_long_MAX 0x7fffffffffffffffLL
-#define long_long_MIN (-0x7fffffffffffffffLL-1)
 
+-(BOOL)scanLongLong:(long long *)valuep
+{
    NSUInteger length;
    int sign=1;
    BOOL hasSign=NO;
@@ -171,7 +169,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       int c=unicode-'0';
 
       // Inspired by http://www.math.utoledo.edu/~dbastos/overflow.html
-      if ((long_long_MAX-c)/10<value)
+      if ((LLONG_MAX-c)/10<value)
        hasOverflow=YES;
       else
        value=(value*10)+c;
@@ -185,9 +183,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
    if(hasOverflow){
     if(sign>0)
-     *valuep=long_long_MAX;
+     *valuep=LLONG_MAX;
     else
-     *valuep=long_long_MIN;
+     *valuep=LLONG_MIN;
     return YES;
    }
    else if(hasValue){

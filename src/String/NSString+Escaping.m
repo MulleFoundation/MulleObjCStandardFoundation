@@ -101,6 +101,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
       c = *s++;
       switch( c)
       {
+         // do octal escapes ???
          case '\a' : *dst++ = '\\'; *dst++ = 'a'; continue;
          case '\b' : *dst++ = '\\'; *dst++ = 'b'; continue;
          case '\e' : *dst++ = '\\'; *dst++ = 'e'; continue;

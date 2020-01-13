@@ -70,12 +70,49 @@ NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 
 @implementation NSError
 
+NSString   *MulleStringFromErrno( NSInteger errno)
+{
+   return( [NSString stringWithUTF8String:strerror( (int) errno)]);
+}
 
-static Class   nsErrorClass;
+
+static struct
+{
+   Class        _nsErrorClass;
+   NSMapTable   *_domains;
+} Self;
+
 
 + (void) load
 {
-   nsErrorClass = self;
+   Self._nsErrorClass = self;
+}
+
+
++ (void) initialize
+{
+   if( ! Self._domains)
+   {
+      Self._domains = NSCreateMapTable( NSObjectMapKeyCallBacks,
+                                        NSNonOwnedPointerMapValueCallBacks,
+                                        4);
+      NSMapInsertKnownAbsent( Self._domains, MulleErrnoErrorDomain, MulleStringFromErrno);
+   }
+}
+
+
++ (void) deinitialize
+{
+   NSFreeMapTable( Self._domains);
+}
+
+
+
++ (void) registerErrorDomain:(NSString *) domain
+         errorStringFunction:(NSString *(*)( NSInteger)) translator
+{
+   // should check that this called only during +load or +initialize
+   NSMapInsert( Self._domains, domain, translator);
 }
 
 
@@ -222,30 +259,39 @@ static Class   nsErrorClass;
 }
 
 
-+ (instancetype) mulleLazyError
+//
+// code must be in "errno", then we use the lazy stringification that
+// the various domain installed to produce the string, which is then
+// wrapped into an NSError
+//
++ (instancetype) mulleLazyErrorWithDomain:(NSString *) domain
 {
    NSString       *s;
    NSError        *error;
    NSDictionary   *info;
+   NSString       *(*f)( NSInteger);
 
    if( ! errno)
       return( nil);
 
-   //
-   // questionable!! Why is this UTF8
-   // if not then OS should overwrite this
-   //
-   s     = [NSString stringWithUTF8String:strerror( errno)];
-   info  = [NSDictionary dictionaryWithObject:s
-                                       forKey:NSLocalizedDescriptionKey];
-   error = [NSError errorWithDomain:[self mulleDefaultDomain]
+   info = nil;
+   f    = NSMapGet( Self._domains, domain);
+   if( f)
+   {
+      s = (*f)( errno);
+      if( s)
+         info  = [NSDictionary dictionaryWithObject:s
+                                             forKey:NSLocalizedDescriptionKey];
+   }
+
+   error = [NSError errorWithDomain:domain
                                code:errno
                            userInfo:info];
    return( error);
 }
 
 
-+ (instancetype) mulleCurrentError
++ (instancetype) mulleCurrentErrorWithDomain:(NSString *) domain
 {
    NSMutableDictionary   *threadDictionary;
    NSError               *error;
@@ -259,27 +305,40 @@ static Class   nsErrorClass;
    cls = [threadDictionary objectForKey:MulleErrorClassKey];
    if( ! cls)
       cls = self;
-   return( [cls mulleLazyError]);
+   return( [cls mulleLazyErrorWithDomain:domain]);
+}
+
+
++ (instancetype) mulleCurrentError
+{
+   return( [self mulleCurrentErrorWithDomain:[self mulleDefaultDomain]]);
 }
 
 
 void   MulleObjCErrorSetCurrentError( NSString *domain, NSInteger code, NSDictionary *userInfo)
 {
-   [nsErrorClass mulleSetCurrentErrorWithDomain:domain
-                                           code:code
-                                       userInfo:userInfo];
+   [Self._nsErrorClass mulleSetCurrentErrorWithDomain:domain
+                                                 code:code
+                                             userInfo:userInfo];
+}
+
+
+NSError  *MulleObjCErrorGetCurrentErrorWithDomain( NSString *domain)
+{
+   return( [Self._nsErrorClass mulleCurrentErrorWithDomain:domain]);
 }
 
 
 NSError  *MulleObjCErrorGetCurrentError( void)
 {
-   return( [nsErrorClass mulleCurrentError]);
+   return( [Self._nsErrorClass mulleCurrentError]);
 }
+
 
 
 void   MulleObjCErrorClearCurrentError( void)
 {
-   [nsErrorClass mulleClearCurrentError];
+   [Self._nsErrorClass mulleClearCurrentError];
 }
 
 

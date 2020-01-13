@@ -109,9 +109,12 @@
 }
 
 
-- (void) writeBytes:(void *) bytes
-             length:(NSUInteger) length
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) length
 {
+   if( length == -1)
+      length = strlen( bytes);
+
    [self appendBytes:bytes
               length:length];
 }

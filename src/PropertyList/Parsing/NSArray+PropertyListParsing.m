@@ -67,21 +67,18 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
       return( [reader->nsArrayClass new]);
    }
 
-   result = [NSMutableArray new];
+   result = [reader->nsArrayClass new];
    for(;;)
    {
       element = _MulleObjCNewFromPropertyListWithStreamReader( reader);
       if( ! element)
       {
-         [result release];  // NSParse already complained
+         [result autorelease];  // NSParse already complained
          return( nil);
       }
       // this is ,)  it happens with pbxproj...
-      if( element != [NSNull null])
-      {
-         [result addObject:element];
-         [element release];
-      }
+      if( element != reader->nsNull)
+         [result mulleAddRetainedObject:element];
 
       _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 ')'
@@ -97,7 +94,7 @@ NSArray   *_MulleObjCNewArrayFromPropertyListWithReader( _MulleObjCPropertyListR
          break;
       }
 
-      [result release];
+      [result autorelease];
       return( _MulleObjCPropertyListReaderFail( reader, x < 0
                                        ? @"array was not closed (expected ')')"
                                        : @"expected ')' or ',' after array element"));

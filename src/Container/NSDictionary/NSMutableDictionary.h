@@ -65,6 +65,8 @@
 // mulle addition:
 - (void) mulleSetRetainedObject:(id) anObject
                          forKey:(id <NSCopying>) aKey;
+- (void) mulleSetRetainedObject:(id) anObject
+                   forCopiedKey:(id <NSCopying>) aKey;
 @end
 
 

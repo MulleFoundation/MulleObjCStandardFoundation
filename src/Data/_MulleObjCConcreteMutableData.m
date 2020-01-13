@@ -222,7 +222,7 @@ static void   *validated_range_pointer( _MulleObjCConcreteMutableData *self, NSR
    len     = range.location + range.length;
    buf_len = mulle_buffer_get_length( &self->_storage);
 
-   MulleObjCValidateRangeWithLength( range, buf_len);
+   MulleObjCValidateRangeAgainstLength( range, buf_len);
    return( p);
 }
 

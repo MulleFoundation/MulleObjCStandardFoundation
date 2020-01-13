@@ -123,7 +123,7 @@ static Class   NSArrayClass;
    NSUInteger   count;
    id           *objects;
 
-   MulleObjCValidateRangeWithLength( range, [other count]);
+   MulleObjCValidateRangeAgainstLength( range, [other count]);
 
    count = range.length;
    if( ! count)
@@ -369,7 +369,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 
 static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) MulleObjCPerformSelector( (id) a, (SEL) ctxt, (id) b));
+   return( (int) MulleObjCObjectPerformSelector( (id) a, (SEL) ctxt, (id) b));
 }
 
 
@@ -621,7 +621,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    NSUInteger   count;
 
    count = [self count];
-   MulleObjCValidateRangeWithLength( range, count);
+   MulleObjCValidateRangeAgainstLength( range, count);
 
    return( findIndexWithRangeForEquality( self, range, obj));
 }
@@ -639,7 +639,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    NSUInteger   count;
 
    count = [self count];
-   MulleObjCValidateRangeWithLength( range, count);
+   MulleObjCValidateRangeAgainstLength( range, count);
 
    return( findIndexWithRange( self, range, obj));
 }

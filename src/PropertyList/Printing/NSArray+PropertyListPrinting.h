@@ -41,4 +41,7 @@
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
                                indent:(NSUInteger) indent;
 
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent;
+
 @end

@@ -130,3 +130,18 @@ static inline int   _ns_superquad_compare( _ns_superquad a, _ns_superquad b)
 - (long long) longLongValue;
 
 @end
+
+
+//
+// If you use initWithBOOL: then you get a MulleObjCBoolNumber
+// this can be useful when you want to serialize into true/false for JSON
+// when you add a -JSONdescription or some such method
+//
+@interface MulleObjCBoolNumber : NSNumber
+{
+   BOOL   _value;
+}
+
++ (instancetype) newWithBOOL:(BOOL) value;
+
+@end

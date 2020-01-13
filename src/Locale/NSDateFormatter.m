@@ -203,7 +203,7 @@ static inline void   SelfUnlock( void)
 
 
 - (instancetype) initWithDateFormat:(NSString *) format
-     allowNaturalLanguage:(BOOL) flag
+               allowNaturalLanguage:(BOOL) flag
 {
    [self setFormatterBehavior:NSDateFormatterBehavior10_0];
    return( [self _initWithDateFormat:format

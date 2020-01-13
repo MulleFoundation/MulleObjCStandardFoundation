@@ -170,8 +170,8 @@ static inline void   *get_bytes( id self)
 @implementation _MulleObjCSharedData
 
 + (instancetype) mulleNewWithBytesNoCopy:(void *) bytes
-                       length:(NSUInteger) length
-                        owner:(id) owner
+                                  length:(NSUInteger) length
+                                   owner:(id) owner
 {
    _MulleObjCSharedData   *data;
 
@@ -196,7 +196,7 @@ static inline void   *get_bytes( id self)
 @implementation _MulleObjCTinyData
 
 + (instancetype) mulleNewWithBytes:(void *) bytes
-             length:(NSUInteger) length
+                            length:(NSUInteger) length
 {
    _MulleObjCTinyData   *data;
    NSUInteger            extra;
@@ -230,7 +230,7 @@ static inline void   *get_bytes( id self)
 @implementation _MulleObjCMediumData
 
 + (instancetype) mulleNewWithBytes:(void *) bytes
-                       length:(NSUInteger) length
+                            length:(NSUInteger) length
 {
    _MulleObjCMediumData   *data;
 

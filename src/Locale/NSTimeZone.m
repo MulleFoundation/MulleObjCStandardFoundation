@@ -124,8 +124,8 @@ static inline void   SelfUnlock( void)
          abort();
       }
    }
-
 }
+
 
 + (void) deinitialize
 {

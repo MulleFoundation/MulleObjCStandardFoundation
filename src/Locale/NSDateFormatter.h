@@ -99,7 +99,7 @@ typedef NSUInteger   NSDateFormatterBehavior;
 @end
 
 
-@interface NSDateFormatter ( Future)
+@interface NSDateFormatter( Future)
 
 - (instancetype) _initWithDateFormat:(NSString *) format
                 allowNaturalLanguage:(BOOL) flag;

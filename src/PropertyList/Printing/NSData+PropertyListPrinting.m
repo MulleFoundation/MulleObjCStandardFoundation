@@ -51,7 +51,8 @@ static inline unsigned char   toHex( unsigned char c)
 }
 
 
-- (NSData *) newPropertyListUTF8DataWithIndent:(unsigned int) indent
+- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                               indent:(NSUInteger) indent
 {
    size_t          i, len;
    size_t          out_len;
@@ -61,7 +62,7 @@ static inline unsigned char   toHex( unsigned char c)
 
    len     = [self length];
    out_len = 1 + len * 2 + ((len + 3) / 4) - 1 + 1;
-   buffer   = [[NSMutableData alloc] initWithLength:out_len];
+   buffer  = [NSMutableData dataWithLength:out_len];
 
    p = (unsigned char *) [self bytes];
    q = (unsigned char *) [buffer bytes];
@@ -77,24 +78,42 @@ static inline unsigned char   toHex( unsigned char c)
    }
    *q = '>';
 
-   return( buffer);
+   [handle writeData:buffer];
 }
 
 
-- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
+
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
 {
-   return( [[self newPropertyListUTF8DataWithIndent:indent] autorelease]);
+   size_t          i, len;
+   size_t          out_len;
+   unsigned char   *p;
+   unsigned char   *q;
+   NSMutableData   *buffer;
+
+   len     = [self length];
+   out_len = 2 + 1 + len * 2 + ((len + 3) / 4) - 1 + 1;
+   buffer  = [NSMutableData dataWithLength:out_len];
+
+   p = (unsigned char *) [self bytes];
+   q = (unsigned char *) [buffer bytes];
+
+   *q++ = '"';
+   *q++ = '<';
+   for( i = 0; i < len; i++)
+   {
+      *q++ = toHex( *p >> 4);
+      *q++ = toHex( *p & 0xF);
+      ++p;
+      if( (i & 0x3) == 3 && i != len -1)
+         *q++ = ' ';
+   }
+   *q++ = '>';
+   *q++ = '"';
+
+   [handle writeData:buffer];
 }
 
-
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(NSUInteger) indent;
-{
-   NSData   *data;
-
-   data = [self newPropertyListUTF8DataWithIndent:indent];
-   [handle writeData:data];
-   [data release];
-}
 
 @end

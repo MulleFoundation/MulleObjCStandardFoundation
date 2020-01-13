@@ -65,8 +65,8 @@ NSString  *MulleObjCErrnoException          = @"MulleObjCErrnoException";
 
 __attribute__ ((noreturn))
 static void   _throw_errno_exception( NSString *exceptionName,
-                                     id format,
-                                     va_list args)
+                                      id format,
+                                      va_list args)
 {
    NSString  *s;
 
@@ -158,7 +158,7 @@ void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *ta
       universe = MulleObjCObjectGetUniverse( self);
       table    = mulle_objc_universe_get_foundationexceptionhandlertable( universe);
       _MulleObjCExceptionInitTable( table);
-      flag = YES;
+      flag     = YES;
    }
 }
 
@@ -187,11 +187,11 @@ void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *ta
    NSException   *exception;
    NSString      *reason;
 
-   reason     = [NSString stringWithFormat:format
-                                   arguments:args];
-   exception  = [self exceptionWithName:name
-                                 reason:reason
-                               userInfo:nil];
+   reason    = [NSString stringWithFormat:format
+                                arguments:args];
+   exception = [self exceptionWithName:name
+                                reason:reason
+                              userInfo:nil];
 
    [exception raise];
 }
@@ -204,11 +204,11 @@ mulleVarargList:(mulle_vararg_list) arguments
    NSException   *exception;
    NSString      *reason;
 
-   reason     = [NSString stringWithFormat:format
-                           mulleVarargList:arguments];
-   exception  = [self exceptionWithName:name
-                                 reason:reason
-                               userInfo:nil];
+   reason    = [NSString stringWithFormat:format
+                          mulleVarargList:arguments];
+   exception = [self exceptionWithName:name
+                                reason:reason
+                              userInfo:nil];
 
    [exception raise];
 }
@@ -278,16 +278,6 @@ mulleVarargList:(mulle_vararg_list) arguments
 
 @end
 
-//
-// maybe a bit too lazy...
-//
-void   MulleObjCValidateRangeWithLength( NSRange range,
-                                         NSUInteger length)
-{
-   if( ! MulleObjCRangeIsValidWithLength( range, length))
-      MulleObjCThrowInvalidRangeException( range);
-}
-
 
 MULLE_C_NO_RETURN void
    MulleObjCThrowInvalidArgumentException( NSString *format, ...)
@@ -348,4 +338,56 @@ MULLE_C_NO_RETURN void   _MulleObjCThrowErrnoException( NSString *exceptionName,
    _throw_errno_exception( exceptionName, format, args);
    va_end( args);
 }
+
+
+/*
+ * C String interface
+ */
+MULLE_C_NO_RETURN
+void   MulleObjCThrowInvalidArgumentExceptionCString( char *format, ...)
+{
+   va_list   args;
+
+   va_start( args, format);
+   throw_argument_exception( [NSString stringWithUTF8String:format], args);
+   va_end( args);
+}
+
+
+MULLE_C_NO_RETURN
+void   MulleObjCThrowInternalInconsistencyExceptionCString( char *format, ...)
+{
+   va_list   args;
+
+   va_start( args, format);
+   throw_inconsistency_exception( [NSString stringWithUTF8String:format], args);
+   va_end( args);
+}
+
+
+MULLE_C_NO_RETURN
+void   MulleObjCThrowErrnoExceptionCString( char *format, ...)
+{
+   va_list  args;
+
+   va_start( args, format);
+   throw_errno_exception( [NSString stringWithUTF8String:format], args);
+   va_end( args);
+}
+
+
+MULLE_C_NO_RETURN
+void   _MulleObjCThrowErrnoExceptionCString( char *exceptionName,
+                                             char *format,
+                                             ...)
+{
+   va_list  args;
+
+   va_start( args, format);
+   _throw_errno_exception( [NSString stringWithUTF8String:exceptionName],
+                           [NSString stringWithUTF8String:format],
+                           args);
+   va_end( args);
+}
+
 

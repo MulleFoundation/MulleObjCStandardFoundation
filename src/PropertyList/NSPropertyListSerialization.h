@@ -41,6 +41,12 @@
 @class NSError;
 
 
+//
+// These options are not really supported.
+// A format can specify, if the containers and leaves which are containers
+// are guaranteed to be returned mutable or not. By default
+// MulleFoundation will always produce mutable NSArray and NSMutableDictionary.
+//
 typedef enum
 {
     NSPropertyListImmutable,
@@ -49,16 +55,19 @@ typedef enum
 } NSPropertyListMutabilityOptions;
 
 
-typedef enum
+enum
 {
     NSPropertyListOpenStepFormat          = 1,   // with wily Apple extensions
     MullePropertyListStrictOpenStepFormat = 2,   // no comments, no unquoted $ _ /
 //    MullePropertyListGNUstepFormat        = 4, // future
 //    MullePropertyListFormat               = 5, // future
-//    MullePropertyListJSONFormat           = 6, // future
+    MullePropertyListJSONFormat           = 6,   // read, with jsmn
     NSPropertyListXMLFormat_v1_0          = 100, // read, support with expat
     NSPropertyListBinaryFormat_v1_0       = 200  // no support
-} NSPropertyListFormat;
+};
+
+
+typedef NSUInteger   NSPropertyListFormat;
 
 
 typedef NSUInteger   NSPropertyListReadOptions;
@@ -66,12 +75,14 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 
 
 @interface NSPropertyListSerialization : NSObject
-{
-@private
-   struct mulle_pointerpairarray   _stack;          // useful for XML
-   id                              _textStorage;    // useful for XML
-   id                              _dateFormatter;  // ephemeral usage in XML
-}
+
+// plist plugin support; call these only during +load/+initialize/+unload...
++ (void) mulleAddFormatDetector:(SEL) detector;
++ (void) mulleAddParserClass:(Class) parserClass
+                      method:(SEL) method
+       forPropertyListFormat:(NSPropertyListFormat) format;
++ (void) mulleAddPrintMethod:(SEL) method
+       forPropertyListFormat:(NSPropertyListFormat) format;
 
 + (NSData *) dataFromPropertyList:(id) plist
                            format:(NSPropertyListFormat) format
@@ -97,14 +108,5 @@ typedef NSUInteger   NSPropertyListWriteOptions;
                      format:(NSPropertyListFormat *) p_format
                       error:(NSError **) p_error;
 
-
-@end
-
-
-// supplied by expat.. (check OS specific Foundation)
-
-@interface NSPropertyListSerialization (Future)
-
-- (id) _parseXMLData:(NSData *) data;
 
 @end

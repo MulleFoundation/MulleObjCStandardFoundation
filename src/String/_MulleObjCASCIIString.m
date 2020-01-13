@@ -77,7 +77,7 @@ static void   grab_utf32( id self,
    mulle_utf8_t    *sentinel;
 
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, len);
+   MulleObjCValidateRangeAgainstLength( range, len);
 
    storage  = &storage[ range.location];
    sentinel = &storage[ range.length];
@@ -154,7 +154,7 @@ static void   grab_utf8( id self,
    length = [self length];
 
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    s = [self mulleFastUTF8Characters];
    assert( s);

@@ -42,7 +42,6 @@
 
 // std-c and dependencies
 
-
 @implementation _MulleObjCInt8Number : NSNumber
 
 + (instancetype) newWithInt8:(int8_t) value

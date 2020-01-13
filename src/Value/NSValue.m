@@ -106,7 +106,7 @@
           withObjCType:(char *) type
 {
    return( [[[self alloc] initWithBytes:bytes
-                              objCType:type] autorelease]);
+                               objCType:type] autorelease]);
 }
 
 
@@ -134,8 +134,10 @@
 
 + (instancetype) valueWithNonretainedObject:(id) obj
 {
+   static char   assign_obj[ 2] = { _C_ASSIGN_ID, 0 };
+
    return( [[[self alloc] initWithBytes:&obj
-                               objCType:@encode( id)] autorelease]);
+                               objCType:assign_obj] autorelease]);
 }
 
 
@@ -146,6 +148,7 @@
    NSGetSizeAndAlignment( [self objCType], &size, NULL);
    return( size);
 }
+
 
 - (void) getValue:(void *) bytes
              size:(NSUInteger) size
@@ -191,6 +194,7 @@
              size:sizeof( NSRange)];
    return( range);
 }
+
 
 - (id) copy
 {

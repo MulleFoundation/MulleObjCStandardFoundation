@@ -132,19 +132,7 @@ enum _NSNumberClassClusterNumberType
 static inline id   initWithBOOL( NSNumber *self,
                                  BOOL value)
 {
-#ifdef __MULLE_OBJC_TPS__
-   self = _MulleObjCTaggedPointerIntegerNumberWithInteger( value ? YES : NO);
-#else
-   {
-      struct _mulle_objc_universefoundationinfo   *config;
-      struct _mulle_objc_universe    *universe;
-
-      universe = _mulle_objc_object_get_universe( self);
-      _mulle_objc_universe_get_foundationspace( universe, (void **) &config, NULL);
-
-      self = [config->numbersubclasses[ _NSNumberClassClusterInt8Type] newWithInt8:value ? YES : NO];
-   }
-#endif
+   self = [MulleObjCBoolNumber newWithBOOL:value];
    return( self);
 }
 
@@ -351,7 +339,7 @@ static inline id   initWithChar( NSNumber *self, char value)
 
 
 #ifdef _C_BOOL
-static inline id   initWithBool( NSNumber *self, _Bool value)
+static inline id   initWith_Bool( NSNumber *self, _Bool value)
 {
    return( initWithChar( self, (char) value));
 }
@@ -568,7 +556,7 @@ static inline id   initWithLongLong( NSNumber *self,
    switch( type[ 0])
    {
 #ifdef _C_BOOL
-   case _C_BOOL     : return( initWithBool( self, *(_Bool *) value));
+   case _C_BOOL     : return( initWith_Bool( self, *(_Bool *) value));
 #endif
    case _C_CHR      : return( initWithChar( self, *(char *) value));
    case _C_UCHR     : return( initWithUnsignedChar( self, *(unsigned char *) value));
@@ -983,5 +971,86 @@ bail:
    return( @encode( void));
 }
 
+
+@end
+
+
+@implementation MulleObjCBoolNumber : NSNumber
+
+static struct
+{
+   MulleObjCBoolNumber   *_yes;
+   MulleObjCBoolNumber   *_no;
+} Self;
+
+
++ (void) initialize
+{
+   if( Self._yes)
+      return;
+
+   // could make these permanent, but possibly tricky
+   // due to possibly being deinitialized too early ?
+   Self._yes = NSAllocateObject( self, 0, NULL);
+   Self._yes->_value = YES;
+   Self._no  = NSAllocateObject( self, 0, NULL);
+   Self._no->_value  = NO;
+}
+
+
++ (void) deinitialize
+{
+   [Self._yes release];
+   [Self._no release];
+}
+
+
++ (instancetype) newWithBOOL:(BOOL) value
+{
+   MulleObjCBoolNumber   *nr;
+
+   nr = value ? Self._yes : Self._no;
+   assert( nr);
+   return( [nr retain]);
+}
+
+
+- (int32_t) _int32Value               { return( (int32_t) _value); }
+- (int64_t) _int64Value               { return( (int64_t) _value); }
+
+- (BOOL) boolValue                    { return( _value); }
+- (char) charValue                    { return( (char) _value); }
+- (short) shortValue                  { return( (short) _value); }
+- (int) intValue                      { return( (int) _value); }
+- (long) longValue                    { return( (long) _value); }
+- (NSInteger) integerValue            { return( (NSInteger) _value); }
+- (long long) longLongValue           { return( (long long) _value); }
+
+- (unsigned char) unsignedCharValue   { return( (unsigned char) _value); }
+- (unsigned short) unsignedShortValue { return( (unsigned short) _value); }
+- (unsigned int) unsignedIntValue     { return( (unsigned int) _value); }
+- (unsigned long) unsignedLongValue   { return( (unsigned long) _value); }
+- (NSUInteger) unsignedIntegerValue   { return( (NSUInteger) _value); }
+- (unsigned long long) unsignedLongLongValue { return( (unsigned long long) _value); }
+
+- (double) doubleValue                { return( (double) _value); }
+- (long double) longDoubleValue       { return( (long double) _value); }
+
+
+- (void) getValue:(void *) value
+{
+   *(BOOL *) value = _value;
+}
+
+
+- (char *) objCType
+{
+   return( @encode( BOOL));
+}
+
+- (NSUInteger) hash
+{
+   return( MulleObjCBytesHash( &_value, sizeof( _value)));
+}
 
 @end

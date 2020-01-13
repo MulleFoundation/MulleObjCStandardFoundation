@@ -224,6 +224,31 @@ static NSString  *MulleObjCNewUTF32StringWithUTF32Characters( mulle_utf32_t *s,
 }
 
 
+static NSString  *newStringOrNilWithUTF8Characters( mulle_utf8_t *buf,
+                                                    NSUInteger len,
+                                                    struct mulle_allocator *allocator)
+{
+   struct mulle_utf_information   info;
+
+   if( mulle_utf8_information( buf, len, &info))
+      return( nil);
+
+#ifdef __MULLE_OBJC_TPS__
+   if( info.is_ascii && info.utf8len <= mulle_char7_get_maxlength())
+      return( MulleObjCTaggedPointerChar7StringWithASCIICharacters( (char *) info.start, info.utf8len));
+   if( info.is_char5 && info.utf8len <= mulle_char5_get_maxlength())
+      return( MulleObjCTaggedPointerChar5StringWithASCIICharacters( (char *) info.start, info.utf8len));
+#endif
+
+   if( info.is_ascii)
+      return( MulleObjCNewASCIIStringWithASCIICharacters( (char *) info.start, info.utf8len));
+
+   if( info.is_utf15)
+      return( MulleObjCNewUTF16StringWithUTF8Characters( info.start, info.utf8len, allocator));
+
+   return( MulleObjCNewUTF32StringWithUTF8Characters( info.start, info.utf8len, allocator));
+}
+
 
 static NSString  *newStringWithUTF8Characters( mulle_utf8_t *buf,
                                                NSUInteger len,
@@ -334,6 +359,20 @@ static NSString  *newStringWithUTF32Characters( mulle_utf32_t *buf,
 
    allocator = MulleObjCObjectGetAllocator( self);
    self      = (id) newStringWithUTF8Characters( s, len, allocator);
+   return( self);
+}
+
+
+//
+// as above but will return nil, if UTF8 is wrong
+//
+- (instancetype) mulleInitOrNilWithUTF8Characters:(mulle_utf8_t *) s
+                                            length:(NSUInteger) len
+{
+   struct mulle_allocator  *allocator;
+
+   allocator = MulleObjCObjectGetAllocator( self);
+   self      = (id) newStringOrNilWithUTF8Characters( s, len, allocator);
    return( self);
 }
 

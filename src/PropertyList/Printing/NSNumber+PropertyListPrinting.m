@@ -47,17 +47,58 @@
 
 @implementation NSNumber ( PropertyListPrinting)
 
-- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
+- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                               indent:(NSUInteger) indent
 {
    NSString   *s;
+   NSData     *data;
 
-   s = [self descriptionWithLocale:_MulleObjCPropertyListCanonicalPrintingLocale];
-#ifdef MULLE_PLIST_DECODE_NSNUMBER
-   return( [s propertyListUTF8DataWithIndent:indent
-                               quoteIfNeeded:NO]);
-#else
-   return( [s propertyListUTF8DataWithIndent:indent]);
-#endif
+   s    = [self descriptionWithLocale:_MulleObjCPropertyListCanonicalPrintingLocale];
+   data = [s dataUsingEncoding:NSUTF8StringEncoding];
+   [handle writeData:data];
+}
+
+
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
+{
+   NSString   *s;
+   NSData     *data;
+
+   s    = [self descriptionWithLocale:_MulleObjCJSONCanonicalPrintingLocale];
+   data = [s dataUsingEncoding:NSUTF8StringEncoding];
+   [handle writeData:data];
 }
 
 @end
+
+
+
+@implementation MulleObjCBoolNumber ( PropertyListPrinting)
+
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
+{
+   if( [self boolValue])
+      [handle mulleWriteBytes:"true"
+                       length:4];
+   else
+      [handle mulleWriteBytes:"false"
+                       length:5];
+}
+
+@end
+
+
+@implementation NSNull ( PropertyListPrinting)
+
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
+{
+   [handle mulleWriteBytes:"null"
+                    length:4];
+}
+
+@end
+
+

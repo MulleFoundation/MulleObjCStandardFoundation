@@ -86,6 +86,15 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
                                                 (b), (p1), (p2), (p3), (p4), (p5)); \
    } while( 0)
 
+#define MulleObjCAssertV( a, ...)              \
+   do                                           \
+   {                                            \
+      if( ! (a))                                \
+         NSAssertionHandlerHandleMethodFailure( _cmd, self, __FILE__, __LINE__,     \
+                                                __VA_ARGS__); \
+   } while( 0)
+
+
 #define MulleObjCCAssert( a, b, p1, p2, p3, p4, p5)   \
    do                                           \
    {                                            \
@@ -94,22 +103,40 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
                                                    (b), (p1), (p2), (p3), (p4), (p5));     \
    } while( 0)
 
+#define MulleObjCCAssertV( a, ...)              \
+   do                                           \
+   {                                            \
+      if( ! (a))                                \
+         NSAssertionHandlerHandleFunctionFailure( (char *) __PRETTY_FUNCTION__, __FILE__, __LINE__, \
+                                                   __VA_ARGS__);     \
+   } while( 0)
+
+
 #else
 
 #define MulleObjCAssert( a, b, p1, p2, p3, p4, p5)
+#define MulleObjCAssertV( a, ...)
 #define MulleObjCCAssert( a, b, p1, p2, p3, p4, p5)
+#define MulleObjCCAssertV( a, ...)
 
 #endif
 
 
-#define NSAssert( a, b)                        NSAssert1( a, b, 0)
+#define PROTOCOLCLASS_INTERFACE( name, ...)  \
+_Pragma("clang diagnostic push")             \
+@class name;                                 \
+@protocol name < NSObject, __VA_ARGS__ >     \
+@optional
+
+
+#define NSAssert( a, ...)                      MulleObjCAssertV( a, __VA_ARGS__)
 #define NSAssert1( a, b, p1)                   NSAssert2( a, b, p1, 0)
 #define NSAssert2( a, b, p1, p2)               NSAssert3( a, b, p1, p2, 0)
 #define NSAssert3( a, b, p1, p2, p3)           NSAssert4( a, b, p1, p2, p3, 0)
 #define NSAssert4( a, b, p1, p2, p3, p4)       NSAssert5( a, b, p1, p2, p3, p4, 0)
 #define NSAssert5( a, b, p1, p2, p3, p4, p5)   MulleObjCAssert( a, b, p1, p2, p3, p4, p5)
 
-#define NSCAssert( a, b)                        NSCAssert1( a, b, 0)
+#define NSCAssert( a, ...)                      MulleObjCCAssertV( a, __VA_ARGS__)
 #define NSCAssert1( a, b, p1)                   NSCAssert2( a, b, p1, 0)
 #define NSCAssert2( a, b, p1, p2)               NSCAssert3( a, b, p1, p2, 0)
 #define NSCAssert3( a, b, p1, p2, p3)           NSCAssert4( a, b, p1, p2, p3, 0)

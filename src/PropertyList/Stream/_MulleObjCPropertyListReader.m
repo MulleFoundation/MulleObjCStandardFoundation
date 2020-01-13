@@ -46,6 +46,25 @@
 
 @implementation _MulleObjCPropertyListReader
 
+- (id) init
+{
+   nsArrayClass      = [NSMutableArray class];
+   nsSetClass        = [NSMutableSet class];
+   nsDictionaryClass = [NSMutableDictionary class];
+   nsStringClass     = [NSString class];
+   nsDataClass       = [NSData class];
+   nsNull            = [[NSNull null] retain];
+   return( self);
+}
+
+
+- (void) dealloc
+{
+   [nsNull release];
+   [super dealloc];
+}
+
+
 - (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
 {
    //
@@ -69,36 +88,6 @@
 //
 //   return( self);
 //}
-
-- (void) setMutableContainers:(BOOL) flag
-{
-   if( flag)
-   {
-      nsArrayClass      = [NSMutableArray class];
-      nsSetClass        = [NSMutableSet class];
-      nsDictionaryClass = [NSMutableDictionary class];
-      return;
-   }
-
-   nsArrayClass      = [NSArray class];
-   nsSetClass        = [NSSet class];
-   nsDictionaryClass = [NSDictionary class];
-}
-
-
-- (void) setMutableLeaves:(BOOL) flag
-{
-   if( flag)
-   {
-      nsStringClass = [NSMutableString class];
-      nsDataClass   = [NSMutableData class];
-      return;
-   }
-
-   nsStringClass = [NSString class];
-   nsDataClass   = [NSData class];
-}
-
 
 BOOL   _MulleObjCPropertyListReaderIsUnquotedStringEndChar(
             _MulleObjCPropertyListReader *reader, long _c)

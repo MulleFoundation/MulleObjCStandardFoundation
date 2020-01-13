@@ -42,7 +42,11 @@
 - (NSMutableDictionary *) threadDictionary
 {
    if( ! _userInfo)
-      _userInfo = [NSMutableDictionary new];
+   {
+      // if the object is finalized don't create lazy stuff
+      if( ! _mulle_objc_object_is_finalized( self))
+         _userInfo = [NSMutableDictionary new];
+   }
    return( _userInfo);
 }
 

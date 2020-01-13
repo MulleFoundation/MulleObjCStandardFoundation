@@ -56,6 +56,8 @@
 - (void *) pointerValue;
 - (id) nonretainedObjectValue;
 
+- (void) getValue:(void *) value 
+             size:(NSUInteger) size;
 @end
 
 
