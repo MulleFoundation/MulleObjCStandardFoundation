@@ -1,5 +1,7 @@
       { @selector( MulleObjCArchiver), MULLE_OBJC_NO_CATEGORYID },      // 6c636b4d;MulleObjCArchiver;;
       { @selector( MulleObjCArrayReverseEnumerator), MULLE_OBJC_NO_CATEGORYID },      // 1f04617c;MulleObjCArrayReverseEnumerator;;
+      { @selector( MulleObjCBoolNumber), @selector( PropertyListPrinting) },      // 0445791b;MulleObjCBoolNumber;91aeee11;PropertyListPrinting
+      { @selector( MulleObjCBoolNumber), MULLE_OBJC_NO_CATEGORYID },      // 0445791b;MulleObjCBoolNumber;;
       { @selector( MulleObjCPropertyListPrinting), MULLE_OBJC_NO_CATEGORYID },      // ae35af0f;MulleObjCPropertyListPrinting;;
       { @selector( MulleObjCUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 6c32efb0;MulleObjCUnarchiver;;
       { @selector( MulleObjCUnkeyedArchiver), MULLE_OBJC_NO_CATEGORYID },      // f57df630;MulleObjCUnkeyedArchiver;;
@@ -72,6 +74,7 @@
       { @selector( NSMutableString), MULLE_OBJC_NO_CATEGORYID },      // 63662493;NSMutableString;;
       { @selector( NSNotification), MULLE_OBJC_NO_CATEGORYID },      // 4cf6fadb;NSNotification;;
       { @selector( NSNotificationCenter), MULLE_OBJC_NO_CATEGORYID },      // 1c4865c0;NSNotificationCenter;;
+      { @selector( NSNull), @selector( PropertyListPrinting) },      // f0c42d79;NSNull;91aeee11;PropertyListPrinting
       { @selector( NSNull), MULLE_OBJC_NO_CATEGORYID },      // f0c42d79;NSNull;;
       { @selector( NSNumber), @selector( NSCoder) },      // 8ba34f39;NSNumber;100c54ba;NSCoder
       { @selector( NSNumber), @selector( NSLocale) },      // 8ba34f39;NSNumber;22b7d78c;NSLocale

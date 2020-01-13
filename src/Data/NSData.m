@@ -317,7 +317,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (void) getBytes:(void *) buf
            length:(NSUInteger) length
 {
-   MulleObjCValidateRangeWithLength( NSMakeRange( 0, length), [self length]);
+   MulleObjCValidateRangeAgainstLength( NSMakeRange( 0, length), [self length]);
    // need assert
    memcpy( buf, [self bytes], length);
 }
@@ -326,7 +326,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 - (void) getBytes:(void *) buf
             range:(NSRange) range
 {
-   MulleObjCValidateRangeWithLength( range, [self length]);
+   MulleObjCValidateRangeAgainstLength( range, [self length]);
 
    // need assert
    memcpy( buf, &((char *)[self bytes])[ range.location], range.length);
@@ -335,7 +335,7 @@ static NSData  *_newData( void *buf, NSUInteger length)
 
 - (NSData *) subdataWithRange:(NSRange) range
 {
-   MulleObjCValidateRangeWithLength( range, [self length]);
+   MulleObjCValidateRangeAgainstLength( range, [self length]);
 
    return( [NSData dataWithBytes:&((char *)[self bytes])[ range.location]
                            length:range.length]);
@@ -374,7 +374,7 @@ static void   *mulle_memrmem( unsigned char *a, size_t a_len,
    unsigned char   *start;
 
    length = [self length];
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    other_length = [other length];
    length       = range.length;

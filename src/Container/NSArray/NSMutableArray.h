@@ -83,6 +83,8 @@
 
 + (instancetype) arrayWithCapacity:(NSUInteger) capacity;
 
+// mulle additions
+- (void) mulleAddRetainedObject:(id) obj;
 - (void) mulleReverseObjects;
 
 @end

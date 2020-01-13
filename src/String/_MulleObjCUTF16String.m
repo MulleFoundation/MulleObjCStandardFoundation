@@ -116,7 +116,7 @@ static void   grab_utf32( id self,
    mulle_utf16_t    *sentinel;
 
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    storage  = &storage[ range.location];
    sentinel = &storage[ range.length];
@@ -154,7 +154,7 @@ static void   grab_utf32( id self,
 
    length = [self length];
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    if( range.length == length)
       return( self);

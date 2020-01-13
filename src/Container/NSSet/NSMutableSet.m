@@ -97,8 +97,8 @@
    removeObjectIMP = [self methodForSelector:removeObjectSEL];
 
    for( obj in self)
-      if( ! MulleObjCCallIMP( memberObjectIMP, other, memberObjectSEL, obj))
-         MulleObjCCallIMP( removeObjectIMP, self, removeObjectSEL, obj);
+      if( ! MulleObjCIMPCall( memberObjectIMP, other, memberObjectSEL, obj))
+         MulleObjCIMPCall( removeObjectIMP, self, removeObjectSEL, obj);
 }
 
 
@@ -112,7 +112,7 @@
    removeObjectIMP = [self methodForSelector:removeObjectSEL];
 
    for( obj in other)
-      MulleObjCCallIMP( removeObjectIMP, self, removeObjectSEL, obj);
+      MulleObjCIMPCall( removeObjectIMP, self, removeObjectSEL, obj);
 }
 
 
@@ -126,7 +126,7 @@
    addObjectIMP = [self methodForSelector:addObjectSEL];
 
    for( obj in other)
-      MulleObjCCallIMP( addObjectIMP, self, addObjectSEL, obj);
+      MulleObjCIMPCall( addObjectIMP, self, addObjectSEL, obj);
 }
 
 

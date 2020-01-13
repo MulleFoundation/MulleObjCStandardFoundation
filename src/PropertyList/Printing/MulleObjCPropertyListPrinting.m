@@ -49,20 +49,38 @@
 
 PROTOCOLCLASS_IMPLEMENTATION( MulleObjCPropertyListPrinting)
 
-int            _MulleObjCPropertyListUTF8DataIndentationPerLevel  = 1;
+// these globals are supposed to set up by the Foundation and never
+// to be changed hence after
+
+unsigned int   _MulleObjCPropertyListUTF8DataIndentationPerLevel  = 1;
 char           _MulleObjCPropertyListUTF8DataIndentationCharacter = '\t';
 NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
+
+unsigned int   _MulleObjCJSONUTF8DataIndentationPerLevel  = 1;
+char           _MulleObjCJSONUTF8DataIndentationCharacter = '\t';
+NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
 {
    [self propertyListUTF8DataToStream:handle
-                                  indent:0];
+                               indent:0];
 }
 
 
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+{
+   [self jsonUTF8DataToStream:handle
+                           indent:0];
+}
+
+
+//
+// default calls propertyListUTF8DataWithIndent and write that out
+// subclasses overide this
+//
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(NSUInteger) indent;
+                               indent:(NSUInteger) indent
 {
    NSData   *data;
 
@@ -71,23 +89,99 @@ NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
 }
 
 
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
+{
+   NSData   *data;
+
+   data = [self jsonUTF8DataWithIndent:indent];
+   [handle writeData:data];
+}
+
+
+//
+// Classes may be happy with just description (can't think of one :))
+//
 - (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
 {
    return( [[(NSObject *) self description] dataUsingEncoding:NSUTF8StringEncoding]);
 }
 
 
-- (NSData *) propertyListUTF8DataIndentation:(NSUInteger) level
+- (NSData *) jsonUTF8DataWithIndent:(NSUInteger) indent
+{
+   return( [[(NSObject *) self description] dataUsingEncoding:NSUTF8StringEncoding]);
+}
+
+
+/*
+ *
+ */
+static char   tabs[]   = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+static char   spaces[] = "                                                ";
+
+
+char   *MulleObjCPropertyListUTF8DataIndentation( NSUInteger level)
 {
    NSMutableData   *data;
    unsigned int    n;
+   size_t          size;
+   char            *s;
+
+   if( ! level)
+      return( "");
+
+   switch( _MulleObjCPropertyListUTF8DataIndentationCharacter)
+   {
+   case '\t' : s = tabs;   size = sizeof( tabs) - 1;   break;
+   case ' '  : s = spaces; size = sizeof( spaces) - 1; break;
+   default   : s = NULL;   size = 0;                   break;
+   }
 
    n = level * _MulleObjCPropertyListUTF8DataIndentationPerLevel;
-   data = [NSMutableData dataWithLength:n];
-   memset( [data mutableBytes],
-            _MulleObjCPropertyListUTF8DataIndentationCharacter,
-            n);
-   return( data);
+   // size is strlen
+   if( n <= size)
+      return( &s[ size - n]);
+
+   data = [NSMutableData dataWithLength:n + 1];
+   s    = [data mutableBytes];
+   memset( s,
+           _MulleObjCPropertyListUTF8DataIndentationCharacter,
+           n);
+   s[ n] = 0;
+   return( s);
+}
+
+
+char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level)
+{
+   NSMutableData   *data;
+   unsigned int    n;
+   size_t          size;
+   char            *s;
+
+   if( ! level)
+      return( "");
+
+   switch( _MulleObjCJSONUTF8DataIndentationCharacter)
+   {
+   case '\t' : s = tabs;   size = sizeof( tabs) - 1;   break;
+   case ' '  : s = spaces; size = sizeof( spaces) - 1; break;
+   default   : s = NULL;   size = 0;                   break;
+   }
+
+   n = level * _MulleObjCJSONUTF8DataIndentationPerLevel;
+   // size is strlen
+   if( n <= size)
+      return( &s[ size - n]);
+
+   data = [NSMutableData dataWithLength:n + 1];
+   s    = [data mutableBytes];
+   memset( s,
+           _MulleObjCJSONUTF8DataIndentationCharacter,
+           n);
+   s[ n] = 0;
+   return( s);
 }
 
 PROTOCOLCLASS_END()

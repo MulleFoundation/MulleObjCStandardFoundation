@@ -43,62 +43,140 @@
 // std-c and dependencies
 
 
+BOOL   _MulleObjCPropertyListSortedDictionary;
+BOOL   _MulleObjCJSONSortedDictionary;
+
+
 @implementation NSDictionary( PropertyListPrinting)
 
-- (void) _propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                           indentation:(NSData *) indentation
+struct format_info
 {
-   id        key, value;
-   NSData    *keyData;
-   NSData    *valueData;
-   NSArray   *keys;
+   char   empty[ 2];
+   char   separator[ 2];
+   char   separator2[ 1];
+   char   opener[ 2];
+   char   closer[ 1];
+   char   divider[ 3];
+   char   *(*indentFunction)(NSUInteger);
+   SEL    memberMethod;
+   SEL    keyMethod;
+};
 
+
+static struct format_info   plist_format_info =
+{
+   { '{', '}'      },  // empty
+   { ';', '\n'     },  // separator
+   { '\n'          },  // separator2
+   { '{', '\n'     },  // opener
+   { '}'           },  // closer
+   { ' ', '=', ' ' },  // divider
+   MulleObjCPropertyListUTF8DataIndentation,
+   @selector( propertyListUTF8DataToStream:indent:),
+   @selector( self)
+};
+
+
+static struct format_info   json_format_info =
+{
+   { '{', '}'    },    // empty
+   { ',', '\n'   },    // separator
+   { '\n'        },    // separator2
+   { '{', '\n'   },    // opener
+   { '}'         },    // closer
+   { ':', ' ', 0 },    // divider
+   MulleObjCJSONUTF8DataIndentation,
+  @selector( jsonUTF8DataToStream:indent:),
+  @selector( description)
+};
+
+
+//
+// driven by formatInfo to support propertyList and JSON format
+//
+- (void) _UTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                    indent:(NSUInteger) indent
+                formatInfo:(struct format_info *) info
+                      sort:(BOOL) sort
+{
+   char         *indentation;
+   id           key, value;
+   NSArray      *keys;
+   NSUInteger   n;
+   size_t       length;
+
+   n = [self count];
+   if( ! n)
+   {
+      [handle mulleWriteBytes:info->empty
+                       length:sizeof( info->empty)];
+      return;
+   }
+
+   [handle mulleWriteBytes:info->opener
+                    length:2];
+
+   ++indent; // inside '{'
+   indentation = (*info->indentFunction)( indent);
+   length      = strlen( indentation);
+
+   //
    // don't really care if sorted or not but WTF.. :)
-   keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
+   // + consistent output, easier to diff
+   // - obviously slower, possibly a bottleneck for huge plists
+   // thought: use plists for "huge" data ?
+   //
+   keys = [self allKeys];
+   if( sort)
+      keys = [keys sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
    for( key in keys)
    {
       value = [self objectForKey:key];
 
-      keyData   = [key propertyListUTF8DataWithIndent:0];
-      valueData = [value propertyListUTF8DataWithIndent:0];
-
-      [handle writeData:indentation];
-      [handle writeData:keyData];
-      [handle writeBytes:" = "
-                  length:3];
-      [handle writeData:valueData];
-      [handle writeBytes:";\n"
-                  length:2];
+      [handle mulleWriteBytes:indentation
+                       length:length];
+      //[key propertyListUTF8DataToStream:handle
+      //                           indent:0];
+      key = MulleObjCObjectPerformSelector0( key, info->keyMethod);
+      MulleObjCObjectPerformSelector2( key, info->memberMethod, handle, (id) (intptr_t) indent);
+      [handle mulleWriteBytes:info->divider
+                       length:info->divider[ 2] ? 3 : 2];
+      //[value propertyListUTF8DataToStream:handle
+      //                           indent:0];
+      MulleObjCObjectPerformSelector2( value, info->memberMethod, handle, (id) (intptr_t) indent);
+      if( --n)
+         [handle mulleWriteBytes:info->separator
+                          length:sizeof( info->separator)];
+      else
+         [handle mulleWriteBytes:info->separator2
+                          length:sizeof( info->separator2)];
    }
+
+   indentation = (*info->indentFunction)( indent - 1);
+   [handle mulleWriteBytes:indentation
+                    length:-1];
+   [handle mulleWriteBytes:info->closer
+                    length:sizeof( info->closer)];
 }
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
-                               indent:(NSUInteger) indent
+                                indent:(NSUInteger) indent
 {
-   NSData     *indentation1;
-   NSArray    *keys;
-   unsigned   indent1;
+   [self _UTF8DataToStream:handle
+                    indent:indent
+                formatInfo:&plist_format_info
+                      sort:_MulleObjCPropertyListSortedDictionary];
+}
 
-   indent1 = indent + 1;
 
-   if( ! [self count])
-   {
-      [handle writeBytes:"{}"
-                  length:2];
-      return;
-   }
-
-   [handle writeBytes:"{\n"
-               length:2];
-   indentation1 = [self propertyListUTF8DataIndentation:indent1];
-
-   [self _propertyListUTF8DataToStream:handle
-                           indentation:indentation1];
-
-   [handle writeData:[self propertyListUTF8DataIndentation:indent]];
-   [handle writeBytes:"}"
-               length:1];
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
+{
+   [self _UTF8DataToStream:handle
+                    indent:indent
+                formatInfo:&json_format_info
+                      sort:_MulleObjCJSONSortedDictionary];
 }
 
 @end

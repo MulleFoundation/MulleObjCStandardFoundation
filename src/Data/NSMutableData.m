@@ -202,7 +202,7 @@
    uint8_t      *bytes;
 
    length = [self length];
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    diff = (NSInteger) replacementLength - (NSInteger) range.length;
 

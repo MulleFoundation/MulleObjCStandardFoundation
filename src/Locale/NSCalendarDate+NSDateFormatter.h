@@ -27,4 +27,9 @@
                  calendarFormat:(NSString *) format;
 - (instancetype) initWithString:(NSString *) s;
 
+
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format;
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format
+                                      locale:(id) locale;
+
 @end

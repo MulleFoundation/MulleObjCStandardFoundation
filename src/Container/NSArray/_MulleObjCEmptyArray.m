@@ -74,7 +74,7 @@ Class  _MulleObjCEmptyArrayClass;
 - (void) getObjects:(id *) buf
               range:(NSRange) range
 {
-   MulleObjCValidateRangeWithLength( range, 0);
+   MulleObjCValidateRangeAgainstLength( range, 0);
 }
 
 

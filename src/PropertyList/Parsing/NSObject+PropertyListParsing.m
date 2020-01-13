@@ -50,6 +50,7 @@
 @interface NSObject( _NS)
 
 - (BOOL) __isNSString;
+- (BOOL) __isNSNumber;
 
 @end
 
@@ -264,7 +265,7 @@ id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader
       missingSlash = (x != _MulleObjCPropertyListReaderCurrentUTF32Character( reader));
       if( ! _MulleObjCPropertyListReaderIsUnquotedStringStartChar( reader, x))
          return( (id) _MulleObjCPropertyListReaderFail( reader,
-                     @"stray '%c'(%ld) in input (needs to be quoted)",
+                     @"stray '%c' (%ld) in input (needs to be quoted)",
                      (int) x, x));
 
       plist = _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( reader);
@@ -299,7 +300,7 @@ id   _MulleObjCNewFromPropertyListWithStreamReader( _MulleObjCPropertyListReader
    }
 
    // known to be a string, lets check if it really is "strings format"
-   NSCParameterAssert( [plist __isNSString]);
+   NSCParameterAssert( [plist __isNSString] || [plist __isNSNumber]);
 
    x = _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
    if( x != '=')

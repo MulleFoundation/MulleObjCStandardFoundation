@@ -39,6 +39,8 @@
 
 typedef double    NSTimeInterval;
 
+// This is the time interval to **add** to 1.1.1970 GMT.
+// to get to 1.1.2001 GMT.
 #define NSTimeIntervalSince1970  978307200.0
 
 // compatible values
@@ -47,15 +49,19 @@ typedef double    NSTimeInterval;
 
 
 //
-// NSDate is a container for UTC. UTC is a calendar time variant.
-// It is not a physical time. This means that if you asked on
-// 31.Dez.2016 23:59:59 for [NSDate date] and did this again in
-// the next physical second, you'd be getting a duplicate because
-// of the leap second being added.
+// NSDate is supposed to be a container for UTC. UTC is a calendar time
+// variant. It is not a physical time.
+//
+// This means that if you asked on 31.Dez.2016 23:59:59 for [NSDate date]
+// and did this again in the next physical second, you should be getting a
+// duplicate because of the leap second being added. But leap seconds are
+// generally ignored when doing calendrical calculations...
 //
 // Arithmetic on NSDate is useful in terms of seconds, minutes and
-// days, but is errorprone when extended to months or years due o
-// leap years with varyiing numbers of days.
+// days, but is errorprone when extended to months or years due to
+// leap years with varyiing numbers of days. When you use the proleptic
+// gregorian calendar, as pretty much everyone is doing, interval values
+// before 15.10.1582 will deviate by days from physical time!
 //
 // NSDate is floating point with all it's problems.
 //
@@ -71,7 +77,7 @@ typedef double    NSTimeInterval;
 + (instancetype) distantPast;
 
 - (instancetype) initWithTimeInterval:(NSTimeInterval) seconds
-                  sinceDate:(NSDate *) refDate;
+                            sinceDate:(NSDate *) refDate;
 - (instancetype) initWithTimeIntervalSince1970:(NSTimeInterval) seconds;
 - (instancetype) initWithTimeIntervalSinceReferenceDate:(NSTimeInterval) seconds;
 

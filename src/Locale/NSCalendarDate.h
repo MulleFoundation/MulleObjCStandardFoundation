@@ -107,7 +107,7 @@ struct mulle_mini_tm
 - (BOOL) isEqualToCalendarDate:(NSCalendarDate *) date;
 
 - (instancetype) mulleInitWithMiniTM:(struct mulle_mini_tm) tm
-                        timeZone:(NSTimeZone *) tz;
+                            timeZone:(NSTimeZone *) tz;
 @end
 
 

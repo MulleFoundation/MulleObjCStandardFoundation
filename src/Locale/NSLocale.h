@@ -55,6 +55,7 @@
                            value:(id) value;
 
 
+- (NSString *) localeIdentifier;
 - (NSString *) languageCode;
 - (NSString *) scriptCode;
 - (NSString *) variantCode;

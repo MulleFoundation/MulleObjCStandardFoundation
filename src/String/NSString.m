@@ -509,7 +509,10 @@ static void   grab_utf8( id self,
    if( ! range.location && range.length == length)
       return( self);
 
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
+
+   if( ! range.length)
+      return( @"");
 
    allocator = MulleObjCObjectGetAllocator( self);
    bytes     = mulle_allocator_malloc( allocator, range.length * sizeof( unichar));

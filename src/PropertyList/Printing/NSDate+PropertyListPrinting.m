@@ -50,6 +50,13 @@ NSString      *_MulleObjCPropertyListCanonicalPrintingCalendarFormat =  @"%Y.%m.
 NSTimeZone    *_MulleObjCPropertyListCanonicalPrintingTimeZone;
 
 
+
+NSString      *_MulleObjCJSONCanonicalPrintingCalendarFormat = @"%d.%m.%Y %H:%M:%S.%F";
+// always GMT!
+NSTimeZone    *_MulleObjCJSONCanonicalPrintingTimeZone;
+
+
+
 @implementation NSDate( PropertyListPrinting)
 
 
@@ -62,5 +69,17 @@ NSTimeZone    *_MulleObjCPropertyListCanonicalPrintingTimeZone;
                                     locale:_MulleObjCPropertyListCanonicalPrintingLocale];
    return( [s propertyListUTF8DataWithIndent:indent]);
 }
+
+
+- (NSData *) jsonUTF8DataWithIndent:(NSUInteger) indent
+{
+   NSString   *s;
+
+   s = [self descriptionWithCalendarFormat:_MulleObjCJSONCanonicalPrintingCalendarFormat
+                                  timeZone:_MulleObjCJSONCanonicalPrintingTimeZone
+                                    locale:_MulleObjCJSONCanonicalPrintingLocale];
+   return( [s propertyListUTF8DataWithIndent:indent]);
+}
+
 
 @end

@@ -77,6 +77,22 @@ NSString   *
          switch( x)
          {
          case -1   : return( (id) _MulleObjCPropertyListReaderFail( reader, @"escape in quoted string not finished !"));
+
+         // known escapes we don't handle (but don't clobber \\)
+         case '0'  :
+         case '1'  :
+         case '2'  :
+         case '3'  :
+         case '4'  :
+         case '5'  :
+         case '6'  :
+         case '7'  :
+         case 'u'  :
+         case 'U'  :
+         case 'x'  :
+            escaped--;
+            break;
+#if 0
          case 'a'  :
          case 'b'  :
          case 'f'  :
@@ -90,6 +106,7 @@ NSString   *
          case '0' :
 #endif
             break;
+#endif
          }
          escaped++;
       }
@@ -113,7 +130,7 @@ NSString   *
    if( ! escaped)
    {
       s = [[reader->nsStringClass alloc] mulleInitWithUTF8Characters:region.bytes
-                                                         length:region.length];
+                                                              length:region.length];
       _MulleObjCPropertyListReaderConsumeCurrentUTF32Character( reader); // skip '"'
       return( s);
    }
@@ -130,6 +147,19 @@ NSString   *
       if( (*dst++ = *src++) == '\\') // oldskool code
          switch( *src++)
          {
+         // copy known but unhandled escapes copied over verbatim
+         case '0'  : *dst++ = '0'; break;
+         case '1'  : *dst++ = '1'; break;
+         case '2'  : *dst++ = '2'; break;
+         case '3'  : *dst++ = '3'; break;
+         case '4'  : *dst++ = '4'; break;
+         case '5'  : *dst++ = '5'; break;
+         case '6'  : *dst++ = '6'; break;
+         case '7'  : *dst++ = '7'; break;
+         case 'u'  : *dst++ = 'u'; break;
+         case 'U'  : *dst++ = 'U'; break;
+         case 'x'  : *dst++ = 'x'; break;
+
          case 'a'  : dst[ -1] = '\a'; break;
          case 'b'  : dst[ -1] = '\b'; break;
          case 'e'  : dst[ -1] = '\e'; break;
@@ -140,6 +170,7 @@ NSString   *
          case 'v'  : dst[ -1] = '\v'; break;
          case '?'  : dst[ -1] = '?';  break;
          case '\\' : dst[ -1] = '\\'; break;
+         case '\'' : dst[ -1] = '\''; break;
          case '\"' : dst[ -1] = '\"'; break;
 #if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
          case '0' :

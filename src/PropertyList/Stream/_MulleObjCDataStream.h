@@ -40,10 +40,12 @@
 //
 // A _MulleObjCInputDataStream is basically an NSData
 // and a _MulleObjCOutputDataStream is basically (and maybe actually) an
-// NSMutableData
-//
+// NSMutableData. Conceivably you could use an NSFileHandle as a
+// _MulleObjCInputDataStream or _MulleObjCOutputDataStream
+
 @protocol _MulleObjCInputDataStream < NSObject>
 
+// named like NSFileHandle
 - (NSData *) readDataOfLength:(NSUInteger) length;
 
 @end
@@ -52,8 +54,8 @@
 @protocol _MulleObjCOutputDataStream  < NSObject>
 
 - (void) writeData:(NSData *) data;
-- (void) writeBytes:(void *) bytes
-             length:(NSUInteger) length;
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) length;
 
 @end
 
@@ -78,8 +80,8 @@
 @interface NSMutableData( _MulleObjCOutputDataStream) < _MulleObjCOutputDataStream >
 
 - (void) writeData:(NSData *) data;
-- (void) writeBytes:(void *) bytes
-             length:(NSUInteger) length;
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) length;
 @end
 
 

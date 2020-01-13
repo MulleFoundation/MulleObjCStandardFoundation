@@ -38,7 +38,4 @@
 
 
 @interface NSString( PropertyListPrinting) <MulleObjCPropertyListPrinting>
-
-- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
-
 @end

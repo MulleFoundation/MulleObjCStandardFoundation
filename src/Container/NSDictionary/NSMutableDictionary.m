@@ -103,8 +103,8 @@
 
    for( key in other)
    {
-      value = MulleObjCCallIMP( impObjectForKey, other, selObjectForKey, key);
-      MulleObjCCallIMP2( impSetObjectForKey, self, selSetObjectForKey, value, key);
+      value = MulleObjCIMPCall( impObjectForKey, other, selObjectForKey, key);
+      MulleObjCIMPCall2( impSetObjectForKey, self, selSetObjectForKey, value, key);
    }
 }
 

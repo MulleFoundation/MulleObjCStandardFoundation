@@ -128,7 +128,7 @@ static void   grab_utf8( id self,
    uintptr_t   value;
 
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, len);
+   MulleObjCValidateRangeAgainstLength( range, len);
 
    value = _MulleObjCTaggedPointerChar7ValueFromString( self);
    if( range.location)
@@ -231,7 +231,7 @@ static void   grab_utf32( id self,
    length = MulleObjCTaggedPointerChar7StringGetLength( self);
 
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    value = _MulleObjCTaggedPointerChar7ValueFromString( self);
    value = mulle_char7_substring( value,

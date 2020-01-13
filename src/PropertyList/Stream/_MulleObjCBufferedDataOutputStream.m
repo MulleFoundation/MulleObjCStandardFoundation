@@ -97,9 +97,12 @@
 }
 
 
-- (void) writeBytes:(void *) bytes
-             length:(NSUInteger) len
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) len
 {
+   if( len == -1)
+      len = strlen( bytes);
+
    if( _data && len < MaxToBuffer)
    {
       if( &self->_current[ len] >= self->_sentinel)
@@ -109,15 +112,15 @@
       self->_current += len;
       return;
    }
-   [_stream writeBytes:bytes
-                length:len];
+   [_stream mulleWriteBytes:bytes
+                     length:len];
 }
 
 
 - (void) writeData:(NSData *) data
 {
-   [self writeBytes:[data bytes]
-             length:[data length]];
+   [self mulleWriteBytes:[data bytes]
+                  length:[data length]];
 }
 
 

@@ -106,7 +106,7 @@ static void   grab_utf32( id self,
                           NSRange range)
 {
    // check both because of overflow range.length == (unsigned) -1 f.e.
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    memcpy( dst, &storage[ range.location], range.length * sizeof( mulle_utf32_t));
 }
@@ -139,7 +139,7 @@ static void   grab_utf32( id self,
    NSUInteger      length;
 
    length = [self length];
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    s = [self _fastUTF32Characters];
    assert( s);

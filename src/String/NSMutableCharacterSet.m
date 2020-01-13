@@ -316,7 +316,7 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
 
 - (void) addCharactersInRange:(NSRange) range
 {
-   MulleObjCValidateRangeWithLength( range, 0x110000);
+   MulleObjCValidateRangeAgainstLength( range, 0x110000);
 
    if( ! _invert)
       MulleObjCCharacterBitmapSetBitsInRange( &_bitmap, range, MulleObjCObjectGetAllocator( self));
@@ -327,7 +327,7 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
 
 - (void) removeCharactersInRange:(NSRange) range
 {
-   MulleObjCValidateRangeWithLength( range, 0x110000);
+   MulleObjCValidateRangeAgainstLength( range, 0x110000);
 
    if( ! _invert)
       MulleObjCCharacterBitmapClearBitsInRange( &_bitmap, range, MulleObjCObjectGetAllocator( self));

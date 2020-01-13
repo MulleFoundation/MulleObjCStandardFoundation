@@ -71,6 +71,10 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 @property( readonly)         NSInteger      code;
 @property( readonly, retain) NSDictionary   *userInfo;
 
+// call this during +load or +initialize to add your error domain
++ (void) registerErrorDomain:(NSString *) domain
+         errorStringFunction:(NSString *(*)( NSInteger)) translator;
+
 - (instancetype) initWithDomain:(NSString *) domain
                            code:(NSInteger) code
                            userInfo:(NSDictionary *) userInfo;
@@ -98,7 +102,11 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 + (void) mulleSetCurrentErrorWithDomain:(NSString *) domain
                                    code:(NSInteger) code
                                userInfo:(NSDictionary *) userInfo;
+
+// new principal way to get errors
 + (instancetype) mulleCurrentError;
++ (instancetype) mulleCurrentErrorWithDomain:(NSString *) domain;
+
 + (void) mulleClearCurrentError;
 
 // cheat :) function to just set an error quickly with localizedDescription

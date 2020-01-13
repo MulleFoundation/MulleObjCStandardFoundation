@@ -306,7 +306,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    case MullePreemptIfNotMatches :
          for( key in self)
          {
-            value = MulleObjCCallIMP( get, self, @selector( objectForKey:), key);
+            value = MulleObjCIMPCall( get, self, @selector( objectForKey:), key);
             if( ! (*f)( value, key, userInfo))
                return( key);
          }
@@ -315,7 +315,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    case MullePreemptIfMatches :
          for( key in self)
          {
-            value = MulleObjCCallIMP( get, self, @selector( objectForKey:), key);
+            value = MulleObjCIMPCall( get, self, @selector( objectForKey:), key);
             if( (*f)( value, key, userInfo))
                return( key);
          }
@@ -324,7 +324,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    default :
       for( key in self)
       {
-         value = MulleObjCCallIMP( get, self, @selector( objectForKey:), key);
+         value = MulleObjCIMPCall( get, self, @selector( objectForKey:), key);
           (*f)( value, key, userInfo);
       }
    }

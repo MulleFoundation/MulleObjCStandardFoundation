@@ -93,3 +93,16 @@
 }
 
 @end
+
+//
+// Not sure how compatible this is...
+//
+// @implementation MulleObjCBoolNumber( NSString)
+//
+//
+// - (NSString *) description
+// {
+//    return( _value ? @"YES" : @"NO");
+// }
+//
+// @end

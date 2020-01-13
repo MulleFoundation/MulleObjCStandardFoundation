@@ -296,6 +296,9 @@ PROTOCOLCLASS_END()
    _MulleObjCDictionaryKeyEnumerator   *obj;
 
    obj         = NSAllocateObject( self, 0, NULL);
+   _mulle_map_shrink_if_needed( table,
+                                NSDictionaryCallback,
+                                MulleObjCObjectGetAllocator( self));
    obj->_rover = _mulle_map_enumerate( table, NSDictionaryCallback);
    obj->_owner = [owner retain];
 

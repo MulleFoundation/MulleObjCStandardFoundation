@@ -38,5 +38,10 @@
 
 
 @interface NSNumber ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
+@end
 
+@interface MulleObjCBoolNumber ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
+@end
+
+@interface NSNull ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 @end

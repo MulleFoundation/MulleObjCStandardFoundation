@@ -44,70 +44,81 @@
 
 @implementation NSString ( PropertyListPrinting)
 
+
+- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                               indent:(NSUInteger) indent
+{
+   NSString  *s;
+   NSData    *data;
+
+   s      = [self mulleQuotedDescriptionIfNeeded];
+   data   = [s dataUsingEncoding:NSUTF8StringEncoding];
+   [handle writeData:data];
+}
+
+
 //
-// this is probably too slow.
+// always in double quotes, different kind of escapes
 //
-- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
-                              quoteIfNeeded:(BOOL) quoteIfNeeded
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
 {
    NSData          *data;
    unsigned char   *s, *start;
    unsigned char   *q, *sentinel;
-   NSString        *string;
    size_t          len;
    NSMutableData   *target;
-   BOOL            needsquote;
 
-   // don't do this for larger strings
-   // TODO: create a sharing data on UTF8 strings so dataUsingEncoding
-   // becomes cheaper
-   string = quoteIfNeeded ? [self mulleQuotedDescriptionIfNeeded] : self;
-   data   = [string dataUsingEncoding:NSUTF8StringEncoding];
-   if( ! indent)
-      return( data);
+   data     = [self dataUsingEncoding:NSUTF8StringEncoding];
 
    // do proper quoting and escaping
    len      = [data length];
    q        = (unsigned char *) [data bytes];
    sentinel = &q[ len];
 
-   target   = [NSMutableData dataWithLength:len * 2 + indent];
+   target   = [NSMutableData dataWithLength:2 + len * 6];
    start    = (unsigned char *) [target mutableBytes];
    s        = start;
 
-   while( indent--)
-      *s++ = ' ';
 
+   *s++ = '"';
    while( q < sentinel)
    {
       switch( *q)
       {
-      default   : *s++ = *q; break;
-      case '\a' : *s++ = '\\'; *s++ = 'a'; break;
       case '\b' : *s++ = '\\'; *s++ = 'b'; break;
       case '\f' : *s++ = '\\'; *s++ = 'f'; break;
       case '\n' : *s++ = '\\'; *s++ = 'n'; break;
       case '\r' : *s++ = '\\'; *s++ = 'r'; break;
       case '\t' : *s++ = '\\'; *s++ = 't'; break;
-      case '\v' : *s++ = '\\'; *s++ = 'v'; break;
       case '\\' : *s++ = '\\'; *s++ = '\\'; break;
       case '\"' : *s++ = '\\'; *s++ = '\"'; break;
 #if ESCAPED_ZERO_IN_UTF8_STRING_IS_A_GOOD_THING
       case 0    : *s++ = '\\'; *s++ = '0'; break;
 #endif
+      default   :
+                  if( *q < 0x20)
+                  {
+                     *s++ = '\\';
+                     *s++ = 'x';
+                     *s++ = '0';
+                     *s++ = '0';
+                     *s++ = '0' + (*q >= 0x10);
+                     *s++ = (*q < 0xa)
+                               ? ('0' + (*q & 0xF))
+                               : ('a' + (*q & 0xF) - 10);
+                  }
+                  else
+                     *s++ = *q;
+                  break;
       }
       ++q;
    }
+   *s++ = '"';
 
-   [target setLength:s - start];
-   return( target);
+   [handle mulleWriteBytes:start
+                    length:s - start];
 }
 
-
-- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent
-{
-   return( [self propertyListUTF8DataWithIndent:indent
-                                  quoteIfNeeded:YES]);
-}
 
 @end

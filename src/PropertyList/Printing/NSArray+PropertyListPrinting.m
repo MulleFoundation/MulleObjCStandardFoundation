@@ -45,44 +45,87 @@
 @implementation NSArray ( PropertyListPrinting)
 
 
-static char   separator[] = { ',', ' ' };
-static char   opener[]    = { '(', ' ' };
-static char   closer[]    = { ' ', ')' };
+struct format_info
+{
+   char   separator[ 2];
+   char   opener[ 2];
+   char   closer[ 2];
+};
+
+
+static struct format_info   plist_format_info =
+{
+   { ',', ' ' },
+   { '(', ' ' },
+   { ' ', ')' }
+};
+
+
+static struct format_info   json_format_info =
+{
+   { ',', ' ' },
+   { '[', ' ' },
+   { ' ', ']' }
+};
+
+
 //static char   empty[]     = { '(', ')' };
+
+
+- (void) _UTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                    indent:(NSUInteger) indent
+//            indentFunction:(char (*)(NSUInteger)) indentFunction
+              memberMethod:(SEL) memberMethod
+                formatInfo:(struct format_info *) info
+
+{
+   NSUInteger   n;
+   id           value;
+
+   n = [self count];
+   if( ! n)
+   {
+      [handle mulleWriteBytes:info->separator
+                       length:sizeof( info->separator)];
+      return;
+   }
+
+   [handle mulleWriteBytes:info->opener
+                    length:sizeof( info->opener)];
+   for( value in self)
+   {
+//      [value propertyListUTF8DataToStream:handle
+//                                   indent:indent1];
+      MulleObjCObjectPerformSelector2( value, memberMethod, handle, (id) (intptr_t) indent);
+      if( --n)
+         [handle mulleWriteBytes:info->separator
+                          length:sizeof( info->separator)];
+   }
+
+   [handle mulleWriteBytes:info->closer
+                    length:sizeof( info->closer)];
+}
 
 
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
                                indent:(NSUInteger) indent
 {
-   NSUInteger   i, n;
-   id           value;
-   unsigned     indent1;
+   [self _UTF8DataToStream:handle
+                    indent:indent
+//            indentFunction:MulleObjCPropertyListUTF8DataIndentation
+              memberMethod:_cmd
+                formatInfo:&plist_format_info];
+}
 
-   n = [self count];
-   if( ! n)
-   {
-      [handle writeBytes:separator
-                  length:sizeof( separator)];
-      return;
-   }
 
-   [handle writeBytes:opener
-               length:sizeof( opener)];
-
-   indent1 = indent + 1;
-
-   for( i = 0; i < n; i++)
-   {
-      if( i)
-         [handle writeBytes:separator
-                     length:sizeof( separator)];
-      value = [self objectAtIndex:i];
-      [value propertyListUTF8DataToStream:handle
-                                   indent:indent1];
-   }
-
-   [handle writeBytes:closer
-               length:sizeof( closer)];
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent
+{
+   [self _UTF8DataToStream:handle
+                    indent:indent
+//            indentFunction:MulleObjCJSONUTF8DataIndentation
+              memberMethod:_cmd
+                formatInfo:&json_format_info];
 }
 
 @end

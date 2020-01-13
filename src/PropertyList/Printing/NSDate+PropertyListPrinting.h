@@ -42,8 +42,9 @@
 extern NSString      *_MulleObjCPropertyListCanonicalPrintingCalendarFormat;
 extern NSTimeZone    *_MulleObjCPropertyListCanonicalPrintingTimeZone;
 
+extern NSString      *_MulleObjCJSONCanonicalPrintingCalendarFormat;
+extern NSTimeZone    *_MulleObjCJSONCanonicalPrintingTimeZone;
+
+
 @interface NSDate ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
-
-- (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
-
 @end

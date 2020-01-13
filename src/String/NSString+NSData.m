@@ -123,7 +123,7 @@ enum
       return( YES);
 
    length = [self length];
-   MulleObjCValidateRangeWithLength( range, length);
+   MulleObjCValidateRangeAgainstLength( range, length);
 
    // do leftover (in unichar)
    if( leftover)

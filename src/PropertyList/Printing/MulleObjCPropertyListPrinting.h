@@ -41,23 +41,55 @@
 #import "_MulleObjCDataStream.h"
 
 
-extern int    _MulleObjCPropertyListUTF8DataIndentationPerLevel;  //   = 1;
-extern char   _MulleObjCPropertyListUTF8DataIndentationCharacter; //  = '\t';
-extern NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
-
 
 PROTOCOLCLASS_INTERFACE0( MulleObjCPropertyListPrinting)
 
 // you need to implement some, but not all ... use the source
 
 @optional
+
+//
+// this is what is called at the top. the idea is that
+// _MulleObjCOutputDataStream can be a NSFileHandle or a NSMutableData
+// and that the plist or json is printed into
+//
+- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle;
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle;
+
+//
+// This is what participating classes should implement
+//
 - (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
                                indent:(NSUInteger) indent;
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle;
+- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+                       indent:(NSUInteger) indent;
 
+
+//
+// For some classes, it may be more convenient to convert into an intermediate
+// NSData first.
+//
 - (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
+- (NSData *) jsonUTF8DataWithIndent:(NSUInteger) indent;
 
-// provide indentation NSData (not plist data)
-- (NSData *) propertyListUTF8DataIndentation:(NSUInteger) level;
 
 PROTOCOLCLASS_END()
+
+
+// these helper methods produce indentation
+MULLE_C_NON_NULL_RETURN
+char   *MulleObjCPropertyListUTF8DataIndentation( NSUInteger level);
+
+MULLE_C_NON_NULL_RETURN
+char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level);
+
+
+extern unsigned int   _MulleObjCPropertyListUTF8DataIndentationPerLevel;  //   = 1;
+extern char           _MulleObjCPropertyListUTF8DataIndentationCharacter; //  = '\t';
+extern BOOL           _MulleObjCPropertyListSortedDictionary; //  = YES
+extern NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
+
+extern unsigned int   _MulleObjCJSONUTF8DataIndentationPerLevel;  //   = 1;
+extern char           _MulleObjCJSONUTF8DataIndentationCharacter; //  = '\t';
+extern BOOL           _MulleObjCJSONSortedDictionary; //  = YES
+extern NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;

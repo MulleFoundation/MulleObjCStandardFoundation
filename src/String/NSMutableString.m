@@ -446,7 +446,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSString     *s;
    NSUInteger   grab_len;
 
-   MulleObjCValidateRangeWithLength( range, _length);
+   MulleObjCValidateRangeAgainstLength( range, _length);
 
    p        = &_storage[ 0];
    sentinel = &p[ _count];
@@ -608,7 +608,7 @@ static void   shrinkWithStrings( NSMutableString *self, NSString **strings, unsi
    NSUInteger   r_length;
    NSUInteger   end;
 
-   MulleObjCValidateRangeWithLength( range, _length);
+   MulleObjCValidateRangeAgainstLength( range, _length);
 
    r_length = [replacement length];
    options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;

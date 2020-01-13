@@ -61,9 +61,12 @@
 - (instancetype) initWithString:(NSString *) s
                  calendarFormat:(NSString *) format
 {
+   NSLocale   *locale;
+
+   locale = [NSLocale currentLocale];
    return( [self initWithString:s
                           calendarFormat:format
-                                  locale:[NSLocale currentLocale]]);
+                                  locale:locale]);
 }
 
 
@@ -75,6 +78,30 @@
    return( [self initWithString:s
                   calendarFormat:[locale objectForKey:NSTimeDateFormatString]
                           locale:locale]);
+}
+
+
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format
+                                      locale:(id) locale
+{
+   NSDateFormatter   *formatter;
+
+   formatter = [[[NSDateFormatter alloc] initWithDateFormat:format
+                                       allowNaturalLanguage:YES] autorelease];
+   [formatter setGeneratesCalendarDates:YES];
+   [formatter setLocale:locale];
+
+   return( [formatter stringForObjectValue:self]);
+}
+
+
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format
+{
+   NSLocale   *locale;
+
+   locale = [NSLocale currentLocale];
+   return( [self descriptionWithCalendarFormat:format
+                                        locale:locale]);
 }
 
 

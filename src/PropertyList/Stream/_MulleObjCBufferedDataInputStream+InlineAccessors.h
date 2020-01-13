@@ -36,7 +36,6 @@
 
 #define _MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY  @public
 
-#import "_MulleObjCBufferedDataInputStream.h"
 
 
 // don't inline these and don't call'em yourself

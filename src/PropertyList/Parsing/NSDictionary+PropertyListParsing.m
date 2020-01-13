@@ -71,7 +71,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
       }
    }
 
-   result = [NSMutableDictionary new];
+   result = [reader->nsDictionaryClass new];
    for(;;)
    {
       key        = initialKey;
@@ -85,7 +85,7 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
             return( nil);
          }
 
-         if( key == [NSNull null])
+         if( key == reader->nsNull)
             break;
 
          _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
