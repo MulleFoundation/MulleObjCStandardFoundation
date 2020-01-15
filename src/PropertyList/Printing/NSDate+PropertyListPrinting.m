@@ -40,7 +40,7 @@
 #import "NSString+PropertyListPrinting.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationLocale.h"
+#import "MulleObjCStandardFoundationLocale.h"
 
 // std-c and dependencies
 

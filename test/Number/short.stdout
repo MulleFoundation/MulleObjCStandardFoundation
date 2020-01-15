@@ -1,0 +1,33 @@
+1: char Number FAIL -32768 vs. 0
+2: char Number FAIL -32768 vs. 0
+3: unsigned char Number FAIL -32768 vs. 0
+4: unsigned char Number FAIL -32768 vs. 0
+7: unsigned short Number FAIL -32768 vs. 32768
+8: unsigned short Number FAIL -32768 vs. 32768
+11: unsigned int Number FAIL -32768 vs. 4294934528
+12: unsigned int Number FAIL -32768 vs. 4294934528
+15: unsigned long Number FAIL -32768 vs. -32768
+16: unsigned long Number FAIL -32768 vs. -32768
+19: unsigned long long Number FAIL -32768 vs. -32768
+20: unsigned long long Number FAIL -32768 vs. -32768
+23: NSUInteger Number FAIL -32768 vs. -32768
+24: NSUInteger Number FAIL -32768 vs. -32768
+3: unsigned char Number FAIL -128 vs. 128
+4: unsigned char Number FAIL -128 vs. 128
+7: unsigned short Number FAIL -128 vs. 65408
+8: unsigned short Number FAIL -128 vs. 65408
+11: unsigned int Number FAIL -128 vs. 4294967168
+12: unsigned int Number FAIL -128 vs. 4294967168
+15: unsigned long Number FAIL -128 vs. -128
+16: unsigned long Number FAIL -128 vs. -128
+19: unsigned long long Number FAIL -128 vs. -128
+20: unsigned long long Number FAIL -128 vs. -128
+23: NSUInteger Number FAIL -128 vs. -128
+24: NSUInteger Number FAIL -128 vs. -128
+0 PASSED
+1 PASSED
+127 PASSED
+1: char Number FAIL 32767 vs. -1
+2: char Number FAIL 32767 vs. -1
+3: unsigned char Number FAIL 32767 vs. 255
+4: unsigned char Number FAIL 32767 vs. 255

@@ -8,11 +8,10 @@
 
 #import "NSUndoManager.h"
 
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationException.h"
-#import "MulleObjCFoundationNotification.h"
-#import "MulleObjCFoundationString.h"
-#import "MulleObjCFoundationValue.h"
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardFoundationNotification.h"
+#import "MulleObjCStandardFoundationString.h"
 
 
 @implementation NSUndoManager

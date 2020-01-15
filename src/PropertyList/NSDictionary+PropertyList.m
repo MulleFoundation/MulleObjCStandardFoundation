@@ -35,7 +35,7 @@
 //
 #import "NSDictionary+PropertyList.h"
 
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationString.h"
 
 #import "MulleObjCPropertyListPrinting.h"
 

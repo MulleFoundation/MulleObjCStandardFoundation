@@ -5,8 +5,7 @@
 //  Created by Nat! on 28.03.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
-#import "MulleObjCFoundationValue.h"
-
+#import "import.h"
 @class NSTimeZone;
 
 

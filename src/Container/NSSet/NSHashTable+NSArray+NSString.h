@@ -33,13 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationBase.h"
+#import "import.h"
 
-#import "ns-hash-table.h"
-
-
-@class NSArray;
-@class NSString;
 
 NSArray    *NSAllHashTableObjects( NSHashTable *table);
 NSString   *NSStringFromHashTable( NSHashTable *table);

@@ -38,13 +38,10 @@
 #import "NSArray+NSString.h"
 
 // other files in this library
-#import "NSEnumerator.h"
 #import "MulleObjCContainerDescription.h"
 
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationString.h"
-
 // std-c and dependencies
+#import "import-private.h"
 
 
 @implementation NSArray( NSString)

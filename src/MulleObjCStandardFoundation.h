@@ -41,11 +41,11 @@
 
 #import "MulleObjCFoundationCore.h"
 
-#import "MulleObjCFoundationArchiver.h"
-#import "MulleObjCFoundationLocale.h"
-#import "MulleObjCFoundationNotification.h"
-#import "MulleObjCFoundationPropertyList.h"
-#import "MulleObjCFoundationUndo.h"
+#import "MulleObjCStandardFoundationArchiver.h"
+#import "MulleObjCStandardFoundationLocale.h"
+#import "MulleObjCStandardFoundationNotification.h"
+#import "MulleObjCStandardFoundationPropertyList.h"
+#import "MulleObjCStandardFoundationUndo.h"
 
 
 #import "MulleObjCLoader+MulleObjCStandardFoundation.h"

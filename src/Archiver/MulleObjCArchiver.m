@@ -41,10 +41,9 @@
 #include "mulle_buffer_archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationException.h"
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardFoundationString.h"
 
 // std-c and dependencies
 
@@ -391,10 +390,8 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
    switch( *type)
    {
-#ifdef _C_BOOL
-   case _C_BOOL     : mulle_buffer_add_byte( &_buffer, *(_Bool *) p);
-                      return( (_Bool *) p + 1);
-#endif
+   case _C_BOOL     : mulle_buffer_add_byte( &_buffer, (char) *(BOOL *) p);
+                      return( (BOOL *) p + 1);
    case _C_CHR      : mulle_buffer_add_byte( &_buffer, *(char *) p);
                       return( (char *) p + 1);
    case _C_UCHR     : mulle_buffer_add_byte( &_buffer, *(unsigned char *) p);

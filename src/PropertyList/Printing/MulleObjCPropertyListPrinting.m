@@ -123,7 +123,6 @@ static char   spaces[] = "                                                ";
 
 char   *MulleObjCPropertyListUTF8DataIndentation( NSUInteger level)
 {
-   NSMutableData   *data;
    unsigned int    n;
    size_t          size;
    char            *s;
@@ -143,19 +142,16 @@ char   *MulleObjCPropertyListUTF8DataIndentation( NSUInteger level)
    if( n <= size)
       return( &s[ size - n]);
 
-   data = [NSMutableData dataWithLength:n + 1];
-   s    = [data mutableBytes];
+   s = MulleObjCAutoreleasedCalloc( n + 1, sizeof( char));
    memset( s,
            _MulleObjCPropertyListUTF8DataIndentationCharacter,
            n);
-   s[ n] = 0;
    return( s);
 }
 
 
 char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level)
 {
-   NSMutableData   *data;
    unsigned int    n;
    size_t          size;
    char            *s;
@@ -175,12 +171,10 @@ char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level)
    if( n <= size)
       return( &s[ size - n]);
 
-   data = [NSMutableData dataWithLength:n + 1];
-   s    = [data mutableBytes];
+   s = MulleObjCAutoreleasedCalloc( n + 1, sizeof( char));
    memset( s,
            _MulleObjCJSONUTF8DataIndentationCharacter,
            n);
-   s[ n] = 0;
    return( s);
 }
 

@@ -41,6 +41,18 @@
 #import "NSString+Search.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "MulleObjCStandardFoundationException.h"
+
+// std-c and dependencies
+#import "import-private.h"
+
+
+// what's the point of this warning, anyway ?
+#pragma clang diagnostic ignored "-Wparentheses"
+#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
+
+
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 
@@ -82,3 +94,4 @@
 }
 
 @end
+

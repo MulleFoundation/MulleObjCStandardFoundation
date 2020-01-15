@@ -104,7 +104,8 @@ BOOL   _MulleObjCPropertyListReaderIsUnquotedStringEndChar(
       )
       return( NO);
 
-   if( [reader decodesNumber] &&
+   // still want those but not as a number
+   if( /* [reader decodesNumber]  && */
          (
             _c == '+'  ||
             _c  == '-' ||

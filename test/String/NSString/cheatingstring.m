@@ -8,8 +8,8 @@
 
 
 #import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
-#import <MulleObjCStandardFoundation/_MulleObjCASCIIString.h>
-#import <MulleObjCStandardFoundation/_MulleObjCCheatingASCIIString.h>
+#import <MulleObjCValueFoundation/_MulleObjCASCIIString.h>
+#import <MulleObjCValueFoundation/_MulleObjCCheatingASCIIString.h>
 //#import "MulleStandaloneObjCFoundation.h"
 
 

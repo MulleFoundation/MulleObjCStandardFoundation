@@ -38,9 +38,10 @@
 // other files in this library
 
 // other libraries of MulleObjCPosixFoundation
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationString.h"
 
 // std-c and dependencies
+#import "import-private.h"
 
 
 NSString   *NSLocaleCollationIdentifier                 = @"collation";

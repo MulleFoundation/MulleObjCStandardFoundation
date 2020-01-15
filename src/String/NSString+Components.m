@@ -36,11 +36,11 @@
 #import "NSString+Components.h"
 
 // other files in this library
+#import "NSCharacterSet.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationException.h"
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationException.h"
 
 // std-c and other dependencies
 
@@ -57,11 +57,12 @@ static NSString   *makeUTF8String( mulle_utf8_t *s, NSUInteger len)
 }
 
 
-static NSArray  *newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t *buf,
-                                                                   NSUInteger bufLen,
-                                                                   NSUInteger *offsets,
-                                                                   NSUInteger nOffsets,
-                                                                   NSUInteger sepLen)
+static NSArray  *
+   newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t *buf,
+                                                     NSUInteger bufLen,
+                                                     NSUInteger *offsets,
+                                                     NSUInteger nOffsets,
+                                                     NSUInteger sepLen)
 {
    NSArray                  *array;
    NSString                 **strings;

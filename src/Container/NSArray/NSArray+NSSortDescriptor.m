@@ -38,9 +38,8 @@
 // other files in this library
 #import "NSSortDescriptor.h"
 
-// other libraries of MulleObjCStandardFoundation
-
 // std-c and dependencies
+#import "import-private.h"
 
 
 @implementation NSArray ( NSSortDescriptor)

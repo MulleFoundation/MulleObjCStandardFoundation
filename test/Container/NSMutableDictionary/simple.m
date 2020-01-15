@@ -11,9 +11,9 @@
 
 int main(int argc, const char * argv[])
 {
-   NSDictionary   *dict;
-   NSNumber       *nr;
-   NSString       *key;
+   NSMutableDictionary   *dict;
+   NSNumber              *nr;
+   NSString              *key;
 
    // simple basic test for leakage and key equality
    nr   = [NSNumber numberWithInt:1848];

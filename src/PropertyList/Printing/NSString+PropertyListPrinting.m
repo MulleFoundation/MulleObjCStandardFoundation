@@ -76,10 +76,8 @@
    q        = (unsigned char *) [data bytes];
    sentinel = &q[ len];
 
-   target   = [NSMutableData dataWithLength:2 + len * 6];
-   start    = (unsigned char *) [target mutableBytes];
+   start    = MulleObjCAutoreleasedCalloc( 2 + len * 6, sizeof( char));
    s        = start;
-
 
    *s++ = '"';
    while( q < sentinel)

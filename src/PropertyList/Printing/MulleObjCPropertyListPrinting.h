@@ -34,9 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 #import "MulleObjCFoundationCore.h"
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationString.h"
 
 #import "_MulleObjCDataStream.h"
 

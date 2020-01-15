@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationBase.h"
+#import "import.h"
 
 
 @class NSString;
@@ -93,7 +93,7 @@ mulleVarargList:(mulle_vararg_list) args;
 #define NS_VOIDRETURN         return
 
 void   MulleObjCValidateRangeAgainstLength( NSRange range,
-                                         NSUInteger length);
+                                            NSUInteger length);
 
 @class NSString;
 

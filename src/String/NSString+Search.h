@@ -33,9 +33,9 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "import.h"
 
-#import "NSString.h"
-
+@class NSCharacterSet;
 
 //
 // currently this just does literal searches.
@@ -60,9 +60,6 @@
                     range:(NSRange) range;
 
 - (NSRange) rangeOfString:(NSString *) other;
-
-- (BOOL) hasPrefix:(NSString *) prefix;
-- (BOOL) hasSuffix:(NSString *) suffix;
 
 - (NSComparisonResult) compare:(NSString *) other
                        options:(NSStringCompareOptions) options
@@ -92,4 +89,22 @@
                                   options:(NSStringCompareOptions) options
                                     range:(NSRange) range;
 
+
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
+                                         withString:(NSString *) replacement;
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
+                                         withString:(NSString *) replacement
+                                            options:(NSUInteger) options
+                                              range:(NSRange) range;
+- (NSString *) stringByReplacingCharactersInRange:(NSRange) range
+                                       withString:(NSString *) replacement;
+
 @end
+
+
+@interface NSObject( MulleCompareDescription)
+
+- (NSComparisonResult) mulleCompareDescription:(id) other;;
+
+@end
+

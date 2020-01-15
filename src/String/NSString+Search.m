@@ -5,23 +5,25 @@
 //  Created by Nat! on 19.03.16.
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
-#pragma clang diagnostic ignored "-Wparentheses"
 
 #import "NSString+Search.h"
 
 // other files in this library
+#import "NSMutableString+Search.h"
+#import "NSCharacterSet.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationException.h"
+#import "MulleObjCStandardFoundationException.h"
 
 // std-c and dependencies
-#include <mulle-utf/mulle-utf.h>
+#import "import-private.h"
 
 // what's the point of this warning, anyway ?
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
+#pragma clang diagnostic ignored "-Wparentheses"
 
 
-@implementation NSString (NSSearch)
+@implementation NSString( Search)
 
 //
 // an idea, to write c/unicode code that works with all character sizes
@@ -245,40 +247,6 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
    return( [self compare:other
                  options:NSLiteralSearch
                    range:NSMakeRange( 0, len)] == NSOrderedSame);
-}
-
-
-- (BOOL) hasPrefix:(NSString *) prefix
-{
-   size_t   prefix_len;
-   size_t   len;
-
-   prefix_len = [prefix length];
-   len        = [self length];
-
-   if( len < prefix_len)
-      return( NO);
-
-   return( [self compare:prefix
-                 options:NSLiteralSearch
-                   range:NSMakeRange( 0, prefix_len)] == NSOrderedSame);
-}
-
-
-- (BOOL) hasSuffix:(NSString *) suffix
-{
-   size_t   suffix_len;
-   size_t   len;
-
-   suffix_len = [suffix length];
-   len        = [self length];
-
-   if( len < suffix_len)
-      return( NO);
-
-   return( [self compare:suffix
-                 options:NSLiteralSearch
-                   range:NSMakeRange( len - suffix_len, suffix_len)] == NSOrderedSame);
 }
 
 
@@ -970,6 +938,70 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
    if( ! (options & NSBackwardsSearch))
       return( NSMakeRange( range.location, range.location + length));
    return( NSMakeRange( range.location + range.length - length, length));
+}
+
+
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
+                                         withString:(NSString *) replacement
+{
+   NSMutableString   *copy;
+   NSRange           found;
+
+   found = [self rangeOfString:s];
+   if( ! found.length)
+      return( self);
+
+   copy = [NSMutableString stringWithString:self];
+   [copy replaceOccurrencesOfString:s
+                         withString:replacement
+                            options:NSLiteralSearch
+                              range:NSMakeRange( 0, [copy length])];
+   return( copy);
+}
+
+
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
+                                         withString:(NSString *) replacement
+                                            options:(NSUInteger) options
+                                              range:(NSRange) range
+{
+   NSMutableString   *copy;
+   NSRange           found;
+
+   found = [self rangeOfString:s
+                       options:options
+                         range:range];
+   if( ! found.length)
+      return( self);
+
+   copy = [NSMutableString stringWithString:self];
+   [copy replaceOccurrencesOfString:s
+                         withString:replacement
+                            options:options
+                              range:range];
+   return( copy);
+}
+
+
+- (NSString *) stringByReplacingCharactersInRange:(NSRange) range
+                                       withString:(NSString *) replacement
+{
+   NSMutableString   *copy;
+
+   copy = [NSMutableString stringWithString:self];
+   [copy replaceCharactersInRange:range
+                         withString:replacement];
+   return( copy);
+}
+
+@end
+
+
+@implementation NSObject( MulleCompareDescription)
+
+- (NSComparisonResult) mulleCompareDescription:(id) other;
+{
+   return( [[self description] compare:[other description]]);
 }
 
 @end

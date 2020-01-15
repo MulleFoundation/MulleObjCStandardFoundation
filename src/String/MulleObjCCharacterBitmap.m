@@ -35,10 +35,7 @@
 //
 #import "MulleObjCCharacterBitmap.h"
 
-#import "NSString.h"
-
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationData.h"
 
 // std-c and dependencies
 

@@ -41,11 +41,9 @@
 #import "NSCalendarDate.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationException.h"
-#import "MulleObjCFoundationString.h"
-#import "MulleObjCFoundationValue.h"
-
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardFoundationString.h"
 // std-c and dependencies
 
 

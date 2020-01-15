@@ -1,0 +1,89 @@
+1: char Number FAIL -9223372036854775808 vs. 0
+2: char Number FAIL -9223372036854775808 vs. 0
+3: unsigned char Number FAIL -9223372036854775808 vs. 0
+4: unsigned char Number FAIL -9223372036854775808 vs. 0
+5: short Number FAIL -9223372036854775808 vs. 0
+6: short Number FAIL -9223372036854775808 vs. 0
+7: unsigned short Number FAIL -9223372036854775808 vs. 0
+8: unsigned short Number FAIL -9223372036854775808 vs. 0
+9: int Number FAIL -9223372036854775808 vs. 0
+10: int Number FAIL -9223372036854775808 vs. 0
+11: unsigned int Number FAIL -9223372036854775808 vs. 0
+12: unsigned int Number FAIL -9223372036854775808 vs. 0
+15: unsigned long Number FAIL -9223372036854775808 vs. -9223372036854775808
+16: unsigned long Number FAIL -9223372036854775808 vs. -9223372036854775808
+19: unsigned long long Number FAIL -9223372036854775808 vs. -9223372036854775808
+20: unsigned long long Number FAIL -9223372036854775808 vs. -9223372036854775808
+23: NSUInteger Number FAIL -9223372036854775808 vs. -9223372036854775808
+24: NSUInteger Number FAIL -9223372036854775808 vs. -9223372036854775808
+1: char Number FAIL -2147483648 vs. 0
+2: char Number FAIL -2147483648 vs. 0
+3: unsigned char Number FAIL -2147483648 vs. 0
+4: unsigned char Number FAIL -2147483648 vs. 0
+5: short Number FAIL -2147483648 vs. 0
+6: short Number FAIL -2147483648 vs. 0
+7: unsigned short Number FAIL -2147483648 vs. 0
+8: unsigned short Number FAIL -2147483648 vs. 0
+11: unsigned int Number FAIL -2147483648 vs. 2147483648
+12: unsigned int Number FAIL -2147483648 vs. 2147483648
+15: unsigned long Number FAIL -2147483648 vs. -2147483648
+16: unsigned long Number FAIL -2147483648 vs. -2147483648
+19: unsigned long long Number FAIL -2147483648 vs. -2147483648
+20: unsigned long long Number FAIL -2147483648 vs. -2147483648
+23: NSUInteger Number FAIL -2147483648 vs. -2147483648
+24: NSUInteger Number FAIL -2147483648 vs. -2147483648
+1: char Number FAIL -32768 vs. 0
+2: char Number FAIL -32768 vs. 0
+3: unsigned char Number FAIL -32768 vs. 0
+4: unsigned char Number FAIL -32768 vs. 0
+7: unsigned short Number FAIL -32768 vs. 32768
+8: unsigned short Number FAIL -32768 vs. 32768
+11: unsigned int Number FAIL -32768 vs. 4294934528
+12: unsigned int Number FAIL -32768 vs. 4294934528
+15: unsigned long Number FAIL -32768 vs. -32768
+16: unsigned long Number FAIL -32768 vs. -32768
+19: unsigned long long Number FAIL -32768 vs. -32768
+20: unsigned long long Number FAIL -32768 vs. -32768
+23: NSUInteger Number FAIL -32768 vs. -32768
+24: NSUInteger Number FAIL -32768 vs. -32768
+3: unsigned char Number FAIL -128 vs. 128
+4: unsigned char Number FAIL -128 vs. 128
+7: unsigned short Number FAIL -128 vs. 65408
+8: unsigned short Number FAIL -128 vs. 65408
+11: unsigned int Number FAIL -128 vs. 4294967168
+12: unsigned int Number FAIL -128 vs. 4294967168
+15: unsigned long Number FAIL -128 vs. -128
+16: unsigned long Number FAIL -128 vs. -128
+19: unsigned long long Number FAIL -128 vs. -128
+20: unsigned long long Number FAIL -128 vs. -128
+23: NSUInteger Number FAIL -128 vs. -128
+24: NSUInteger Number FAIL -128 vs. -128
+0 PASSED
+1 PASSED
+127 PASSED
+1: char Number FAIL 32767 vs. -1
+2: char Number FAIL 32767 vs. -1
+3: unsigned char Number FAIL 32767 vs. 255
+4: unsigned char Number FAIL 32767 vs. 255
+1: char Number FAIL 2147483647 vs. -1
+2: char Number FAIL 2147483647 vs. -1
+3: unsigned char Number FAIL 2147483647 vs. 255
+4: unsigned char Number FAIL 2147483647 vs. 255
+5: short Number FAIL 2147483647 vs. -1
+6: short Number FAIL 2147483647 vs. -1
+7: unsigned short Number FAIL 2147483647 vs. 65535
+8: unsigned short Number FAIL 2147483647 vs. 65535
+25: float Number FAIL 2147483647 vs. 2147483648
+26: float Number FAIL 2147483647 vs. 2147483648
+1: char Number FAIL 9223372036854775807 vs. -1
+2: char Number FAIL 9223372036854775807 vs. -1
+3: unsigned char Number FAIL 9223372036854775807 vs. 255
+4: unsigned char Number FAIL 9223372036854775807 vs. 255
+5: short Number FAIL 9223372036854775807 vs. -1
+6: short Number FAIL 9223372036854775807 vs. -1
+7: unsigned short Number FAIL 9223372036854775807 vs. 65535
+8: unsigned short Number FAIL 9223372036854775807 vs. 65535
+9: int Number FAIL 9223372036854775807 vs. -1
+10: int Number FAIL 9223372036854775807 vs. -1
+11: unsigned int Number FAIL 9223372036854775807 vs. 4294967295
+12: unsigned int Number FAIL 9223372036854775807 vs. 4294967295

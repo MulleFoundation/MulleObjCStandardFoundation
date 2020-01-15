@@ -38,13 +38,9 @@
 #import "NSHashTable+NSArray+NSString.h"
 
 // other files in this library
-#import "NSArray.h"
-#import "NSMutableArray.h"
-
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationString.h"
 
 // std-c and dependencies
+#import "import-private.h"
 
 
 NSArray   *NSAllHashTableObjects( NSHashTable *table)

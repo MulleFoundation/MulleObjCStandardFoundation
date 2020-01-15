@@ -36,8 +36,6 @@
 #import "NSDictionary+PropertyListPrinting.h"
 
 // other files in this library
-#import "NSArray.h"
-
 #import "MulleObjCPropertyListPrinting.h"
 
 // std-c and dependencies

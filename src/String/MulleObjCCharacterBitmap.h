@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationBase.h"
+#import "import.h"
 
 
 @class NSString;
@@ -41,7 +41,7 @@
 
 //
 // there are no planes where everything is 0
-// each plane is 65536 bits 
+// each plane is 65536 bits
 //
 struct MulleObjCCharacterBitmap
 {

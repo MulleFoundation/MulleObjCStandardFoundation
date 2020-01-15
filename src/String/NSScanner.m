@@ -13,8 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 // other files in this library
 #import "NSCharacterSet.h"
-#import "NSString.h"
-#import "NSString+Search.h"
+#import "NSString+NSCharacterSet.h"
 
 // other libraries of MulleObjCStandardFoundation
 

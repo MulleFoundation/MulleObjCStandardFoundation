@@ -34,11 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCFoundationBase.h"
+#import "import.h"
 
-@class NSString;
-@class NSData;
-@class NSSet;
 
 //
 // this class structure is historic ...

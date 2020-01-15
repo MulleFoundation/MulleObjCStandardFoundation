@@ -11,7 +11,7 @@
 
 
 
-static id    clone( id obj)
+static void    clone( id obj)
 {
    NSData   *data;
    id       copy;

@@ -33,13 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationBase.h"
-
-#include "ns-map-table.h"
-
-
-@class NSArray;
-@class NSString;
+#import "import.h"
 
 
 NSArray   *NSAllMapTableKeys( NSMapTable *table);

@@ -36,12 +36,9 @@
 #import "NSMutableCharacterSet.h"
 
 // other files in this library
-#import "NSString.h"
-#import "NSObject+NSString.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationException.h"
+#import "MulleObjCStandardFoundationException.h"
 
 // std-c and dependencies
 

@@ -42,10 +42,9 @@
 #include "mulle_buffer_archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationException.h"
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardFoundationString.h"
 
 // std-c and dependencies
 
@@ -626,10 +625,8 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
    switch( *type)
    {
-#ifdef _C_BOOL
-   case _C_BOOL     : *(_Bool *) p = (_Bool) mulle_buffer_next_byte( &_buffer);
-                      return( (_Bool *) p + 1);
-#endif
+   case _C_BOOL     : *(BOOL *) p = (BOOL) mulle_buffer_next_byte( &_buffer);
+                      return( (BOOL *) p + 1);
    case _C_CHR      : *(char *) p = (char) mulle_buffer_next_byte( &_buffer);
                       return( (char *) p + 1);
 

@@ -39,9 +39,9 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationBase.h"
-#import "MulleObjCFoundationContainer.h"
-#import "MulleObjCFoundationString.h"
+#import "import.h"
+#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardFoundationString.h"
 
 // std-c and dependencies
 
