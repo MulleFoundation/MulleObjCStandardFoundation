@@ -39,12 +39,9 @@
 // other files in this library
 #import "NSCharacterSet.h"
 #import "NSString+Components.h"
-#import "NSString+NSData.h"
-#import "NSMutableString.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationData.h"
-#import "MulleObjCFoundationException.h"
+#import "MulleObjCStandardFoundationException.h"
 
 // std-c and dependencies
 #include <ctype.h>
@@ -147,7 +144,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    if( ! length)
       return( self);
 
-   buf = (mulle_utf8_t *) [[NSMutableData dataWithLength:length] mutableBytes];
+   buf = (mulle_utf8_t *) MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
    [self mulleGetUTF8Characters:buf
                  maxLength:length];
 
@@ -171,7 +168,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 
       if( ! p)
       {
-         dst_buf    = [[NSMutableData dataWithLength:length * 3] mutableBytes];
+         dst_buf    = MulleObjCAutoreleasedCalloc( length * 3, sizeof( mulle_utf8_t));
          dst_length = s - buf - 1;
          memcpy( dst_buf, buf, dst_length);
          p          = &dst_buf[ dst_length];
@@ -246,7 +243,7 @@ static inline int   dehex( mulle_utf8_t c)
    if( ! length)
       return( self);
 
-   buf = (mulle_utf8_t *) [[NSMutableData dataWithLength:length] mutableBytes];
+   buf = (mulle_utf8_t *) MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
    [self mulleGetUTF8Characters:buf
                  maxLength:length];
 
@@ -288,10 +285,11 @@ static inline int   dehex( mulle_utf8_t c)
 
       if( ! p)
       {
-         dst_buf    = [[NSMutableData dataWithLength:length] mutableBytes];
+         dst_buf    = MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
          dst_length = s - buf - 1;
          memcpy( dst_buf, buf, dst_length);
-         p          = &dst_buf[ dst_length];
+
+         p = &dst_buf[ dst_length];
       }
 
       *p++ = c;

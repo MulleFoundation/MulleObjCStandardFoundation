@@ -12,15 +12,17 @@
 
 static void  code_decode( id value)
 {
-   NSData   *data;
-   id       decoded;
+   NSData                 *data;
+   id                     decoded;
+   NSPropertyListFormat   format;
 
    @try
    {
+      format  = NSPropertyListOpenStepFormat;
       data    = [value dataUsingEncoding:NSUTF8StringEncoding];
       decoded = [NSPropertyListSerialization propertyListFromData:data
                                                  mutabilityOption:0
-                                                           format:NULL
+                                                           format:&format
                                                  errorDescription:NULL];
       printf( "%s\n",
             [[decoded description] UTF8String]);

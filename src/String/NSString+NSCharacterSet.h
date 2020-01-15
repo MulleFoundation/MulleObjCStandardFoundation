@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSString.h"
+#import "import.h"
 
 
 @class NSCharacterSet;

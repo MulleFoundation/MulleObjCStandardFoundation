@@ -37,11 +37,9 @@
 #import "MulleObjCContainerDescription.h"
 
 // other files in this library
-#import "NSArray.h"
-#import "NSDictionary+NSArray.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationString.h"
 
 
 // std-c and dependencies

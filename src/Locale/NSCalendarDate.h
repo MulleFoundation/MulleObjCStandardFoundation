@@ -6,7 +6,7 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import "MulleObjCFoundationValue.h"
+#import "import.h"
 
 
 @class NSArray;

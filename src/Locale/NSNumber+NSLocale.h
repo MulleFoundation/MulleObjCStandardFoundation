@@ -34,8 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCFoundationValue.h"
-
+#import "import.h"
 
 @class NSLocale;
 

@@ -30,7 +30,7 @@ static void   test_uinteger( uint64_t value)
    if( read == value)
       printf( "passed\n");
   else
-      printf( "failed: %llu vs. %llu\n", value, read);
+      printf( "failed: %llu vs. %llu\n", (unsigned long long) value, (unsigned long long) read);
 
    mulle_buffer_done( &buffer);
 }
@@ -48,7 +48,7 @@ static void   test_integer( int64_t value)
    if( read == value)
       printf( "passed\n");
   else
-      printf( "failed: %lld vs. %lld\n", value, read);
+      printf( "failed: %lld vs. %lld\n", (long long) value, (long long) read);
 
    mulle_buffer_done( &buffer);
 }

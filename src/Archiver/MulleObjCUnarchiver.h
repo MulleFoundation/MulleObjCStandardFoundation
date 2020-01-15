@@ -36,10 +36,6 @@
 
 #import "NSCoder.h"
 
-#import "ns-map-table.h"
-#import "ns-hash-table.h"
-
-@class NSData;
 
 extern NSString  *NSInconsistentArchiveException;
 

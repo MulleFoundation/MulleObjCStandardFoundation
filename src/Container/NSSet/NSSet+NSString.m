@@ -38,14 +38,10 @@
 #import "NSSet+NSString.h"
 
 // other files in this library
-#import "NSArray.h"
-#import "NSSet+NSArray.h"
 #import "MulleObjCContainerDescription.h"
 
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationString.h"
-
 // std-c and dependencies
+#import "import-private.h"
 
 
 @implementation NSSet( NSString)

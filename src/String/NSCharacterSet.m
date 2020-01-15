@@ -42,10 +42,8 @@
 #import "_MulleObjCConcreteBitmapCharacterSet.h"
 #import "_MulleObjCConcreteRangeCharacterSet.h"
 #import "_MulleObjCConcreteInvertedCharacterSet.h"
-#import "NSString.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationData.h"
 
 // std-c and dependencies
 

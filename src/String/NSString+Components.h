@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationString.h"
+#import "import.h"
 
 
 // useful for moderately sized strings < 4K i guess
@@ -42,6 +42,7 @@
 // long seperator strings. This is used for keyPath decoding
 //
 @class NSArray;
+@class NSCharacterSet;
 
 
 @interface NSString ( Components)

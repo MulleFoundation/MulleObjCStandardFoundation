@@ -1,0 +1,15 @@
+3: unsigned char Number FAIL -128 vs. 128
+4: unsigned char Number FAIL -128 vs. 128
+7: unsigned short Number FAIL -128 vs. 65408
+8: unsigned short Number FAIL -128 vs. 65408
+11: unsigned int Number FAIL -128 vs. 4294967168
+12: unsigned int Number FAIL -128 vs. 4294967168
+15: unsigned long Number FAIL -128 vs. -128
+16: unsigned long Number FAIL -128 vs. -128
+19: unsigned long long Number FAIL -128 vs. -128
+20: unsigned long long Number FAIL -128 vs. -128
+23: NSUInteger Number FAIL -128 vs. -128
+24: NSUInteger Number FAIL -128 vs. -128
+0 PASSED
+1 PASSED
+127 PASSED

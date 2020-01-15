@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 //
-#import "MulleObjCFoundationBase.h"
+#import "import.h"
 
 
 @class NSString;

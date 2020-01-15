@@ -34,23 +34,18 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSDictionary.h"
+#import "import.h"
 
 // other files in this library
-#import "NSEnumerator.h"
-#import "NSArray.h"
-#import "NSDictionary+NSArray.h"
 #import "MulleObjCContainerDescription.h"
 
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationString.h"
-
 // std-c and dependencies
+#import "import-private.h"
 
 
 
 
-@implementation NSDictionary (NSString)
+@implementation NSDictionary( NSString)
 
 // it is convenient for testing to absolutely be
 // identical in output to Apple Foundation

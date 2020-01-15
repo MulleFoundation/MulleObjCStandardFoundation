@@ -223,7 +223,7 @@ struct
          return( format);
    }
    // always fallback to plist
-   return( NSPropertyListOpenStepFormat);
+   return( MullePropertyListStrictOpenStepFormat);
 }
 
 
@@ -287,15 +287,20 @@ NSString   *MulleStringFromPropertListFormatString(NSPropertyListFormat format)
    _MulleObjCBufferedDataInputStream   *stream;
    id                                  plist;
    NSPropertyListSerialization         *parser;
+   NSPropertyListFormat                preferred;
    struct {
       NSString                         *string;
       NSPropertyListFormat             format;
    } dummy;
 
+   preferred = MullePropertyListStrictOpenStepFormat;
+
    if( ! errorString)
       errorString = &dummy.string;
    if( ! format)
       format = &dummy.format;
+   else
+      preferred = *format;
 
    bom = [data _byteOrderMark];
    switch( bom)
@@ -330,6 +335,11 @@ NSString   *MulleStringFromPropertListFormatString(NSPropertyListFormat format)
    {
       *errorString = @"Can not parse this kind of data as a plist";
       return( nil);
+   }
+   if( *format == MullePropertyListStrictOpenStepFormat &&
+        preferred == NSPropertyListOpenStepFormat)
+   {
+      *format = NSPropertyListOpenStepFormat;
    }
 
    *errorString = nil;

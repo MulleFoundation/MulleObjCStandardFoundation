@@ -9,7 +9,7 @@
 
 #import "NSCoder.h"
 
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationString.h"
 
 
 @implementation NSSortDescriptor( NSCoder)

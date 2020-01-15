@@ -39,7 +39,7 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationException.h"
+#import "MulleObjCStandardFoundationException.h"
 
 // std-c and dependencies
 

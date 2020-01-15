@@ -12,13 +12,21 @@
 #ifndef _mulle_objc_standard_foundation_import_h__
 #define _mulle_objc_standard_foundation_import_h__
 
-// How to tweak the following MulleObjC #import
-//    remove:          `mulle-sourcetree mark MulleObjC no-header`
-//    rename:          `mulle-sourcetree mark MulleObjC set include whatever.h`
-//    toggle public:   `mulle-sourcetree mark MulleObjC [no-]public`
-//    toggle optional: `mulle-sourcetree mark MulleObjC [no-]require`
-//    remove for os:   `mulle-sourcetree mark MulleObjC no-os-<osname>`
-# import <MulleObjC/MulleObjC.h>   // MulleObjC
+// How to tweak the following MulleObjCValueFoundation #import
+//    remove:          `mulle-sourcetree mark MulleObjCValueFoundation no-header`
+//    rename:          `mulle-sourcetree mark MulleObjCValueFoundation set include whatever.h`
+//    toggle public:   `mulle-sourcetree mark MulleObjCValueFoundation [no-]public`
+//    toggle optional: `mulle-sourcetree mark MulleObjCValueFoundation [no-]require`
+//    remove for os:   `mulle-sourcetree mark MulleObjCValueFoundation no-os-<osname>`
+# import <MulleObjCValueFoundation/MulleObjCValueFoundation.h>   // MulleObjCValueFoundation
+
+// How to tweak the following MulleObjCContainerFoundation #import
+//    remove:          `mulle-sourcetree mark MulleObjCContainerFoundation no-header`
+//    rename:          `mulle-sourcetree mark MulleObjCContainerFoundation set include whatever.h`
+//    toggle public:   `mulle-sourcetree mark MulleObjCContainerFoundation [no-]public`
+//    toggle optional: `mulle-sourcetree mark MulleObjCContainerFoundation [no-]require`
+//    remove for os:   `mulle-sourcetree mark MulleObjCContainerFoundation no-os-<osname>`
+# import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>   // MulleObjCContainerFoundation
 
 #include "_MulleObjCStandardFoundation-include.h"
 

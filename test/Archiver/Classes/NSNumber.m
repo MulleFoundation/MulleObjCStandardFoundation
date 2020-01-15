@@ -19,7 +19,6 @@ static void   clone_bool( BOOL value)
    id       copy;
    id       obj;
 
-
    obj  = [NSNumber numberWithBool:value];
    data = [NSArchiver archivedDataWithRootObject:obj];
    copy = [NSUnarchiver unarchiveObjectWithData:data];
@@ -46,7 +45,7 @@ static void    clone_integer( NSInteger value)
    if( [obj isEqual:copy])
       printf( "passed\n");
    else
-      printf( "%s %ld failed: %s != %s\n",
+      printf( "%s failed: %s != %s\n",
           __PRETTY_FUNCTION__,
           [[obj description] UTF8String],
           [[copy description] UTF8String]);
@@ -64,7 +63,7 @@ static void    clone_unsigned_integer( NSUInteger value)
    data = [NSArchiver archivedDataWithRootObject:obj];
    copy = [NSUnarchiver unarchiveObjectWithData:data];
    if( [obj isEqual:copy])
-      printf( "passed\n", __PRETTY_FUNCTION__);
+      printf( "passed\n");
    else
       printf( "%s failed: %s != %s\n",
           __PRETTY_FUNCTION__,
@@ -93,7 +92,7 @@ static void    clone_double( double value)
 
 
 
-int main(int argc, const char * argv[])
+int   main( int argc, const char * argv[])
 {
   clone_bool( YES);
   clone_bool( NO);
@@ -110,7 +109,7 @@ int main(int argc, const char * argv[])
 
   clone_double( 0);
   clone_double( DBL_MIN);
-  clone_integer( DBL_MAX);
+  clone_double( DBL_MAX);
 
   return( 0);
 }

@@ -9,8 +9,8 @@
 
 static int   test_i_init_with_objects_( void)
 {
-   NSArray    *obj;
-   NSArray    *obj2;
+   NSSet    *obj;
+   NSSet    *obj2;
 
    @try
    {

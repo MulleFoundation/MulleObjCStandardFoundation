@@ -36,7 +36,7 @@
 
 #import "NSArchiver.h"
 
-#import "MulleObjCFoundationString.h"
+#import "MulleObjCStandardFoundationString.h"
 
 //
 // this is all static inline to share code w/o littering the namespace

@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCFoundationBase.h"
+#import "import.h"
 
 
 @class NSData;
@@ -86,7 +86,7 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 
 + (NSData *) dataFromPropertyList:(id) plist
                            format:(NSPropertyListFormat) format
-                 errorDescription:(NSString **)errorString;
+                 errorDescription:(NSString **) errorString;
 
 + (NSData *) dataWithPropertyList:(id) plist
                            format:(NSPropertyListFormat) format
@@ -97,7 +97,17 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 + (BOOL) propertyList:(id) plist
      isValidForFormat:(NSPropertyListFormat) format;
 
-// both convenience methods are bad, because of the legacy error handling
+//
+// you can force MullePropertyListStrictOpenStepFormat by passing this via
+// format. So if you pass something as format, initalize to zero to not
+// get a random preference!!
+// e.g. format = MullePropertyListStrictOpenStepFormat; ...
+//
+// [NSPropertyListSerialization propertyListFromData:data
+//                                  mutabilityOption:0
+//                                            format:&format
+//                                  errorDescription:NULL];
+//
 + (id) propertyListFromData:(NSData *) data
            mutabilityOption:(NSPropertyListMutabilityOptions) opt
                      format:(NSPropertyListFormat *) format

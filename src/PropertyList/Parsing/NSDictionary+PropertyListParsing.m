@@ -117,10 +117,8 @@ NSDictionary   *_MulleObjCNewDictionaryFromPropertyListWithReader( _MulleObjCPro
 
       NSCParameterAssert( ! [result objectForKey:key]);
 
-      [result setObject:value
-                 forKey:key];
-      [value release];
-      [key release];
+      [result mulleSetRetainedObject:value
+                       forCopiedKey:key];
 
       _MulleObjCPropertyListReaderSkipWhiteAndComments( reader);
       x = _MulleObjCPropertyListReaderCurrentUTF32Character( reader); // check 4 ';}'

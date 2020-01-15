@@ -9,11 +9,11 @@
 
 #import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 //#import "MulleStandaloneObjCFoundation.h"
-#import <MulleObjCStandardFoundation/_MulleObjCTaggedPointerChar5String.h>
-#import <MulleObjCStandardFoundation/_MulleObjCTaggedPointerChar7String.h>
-#import <MulleObjCStandardFoundation/_MulleObjCASCIIString.h>
-#import <MulleObjCStandardFoundation/_MulleObjCUTF16String.h>
-#import <MulleObjCStandardFoundation/_MulleObjCUTF32String.h>
+#import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar5String.h>
+#import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar7String.h>
+#import <MulleObjCValueFoundation/_MulleObjCASCIIString.h>
+#import <MulleObjCValueFoundation/_MulleObjCUTF16String.h>
+#import <MulleObjCValueFoundation/_MulleObjCUTF32String.h>
 
 
 int main( int argc, const char * argv[])
@@ -84,12 +84,20 @@ int main( int argc, const char * argv[])
    for( i = 0; i < n; i++)
       for( j = i + 1; j < n; j++)
          if( [strings[ i] hash] != [strings[ j] hash])
-            abort();
+         {
+            printf( "%s and %s hash fail\n",
+                    [NSStringFromClass( [strings[ i] class]) UTF8String],
+                    [NSStringFromClass( [strings[ j] class]) UTF8String]);
+         }
 
    // check string equality
    for( i = 0; i < n; i++)
       for( j = i + 1; j < n; j++)
          if( ! [strings[ i] isEqual:strings[ j]])
-            abort();
+         {
+            printf( "%s and %s isEqual: fail\n",
+                    [NSStringFromClass( [strings[ i] class]) UTF8String],
+                    [NSStringFromClass( [strings[ j] class]) UTF8String]);
+         }
    return( 0);
 }

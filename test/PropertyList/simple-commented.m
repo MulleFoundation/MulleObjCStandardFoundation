@@ -14,13 +14,15 @@ static void  decode( NSString *s)
 {
    NSData        *data;
    id            decoded;
-   
+   NSPropertyListFormat   format;
+
    @try
    {
+      format  = NSPropertyListOpenStepFormat;
       data    = [s dataUsingEncoding:NSUTF8StringEncoding];
       decoded = [NSPropertyListSerialization propertyListFromData:data
                                                  mutabilityOption:0
-                                                           format:NULL
+                                                           format:&format
                                                  errorDescription:NULL];
 
       printf( "%s->%s\n\n",
@@ -30,7 +32,7 @@ static void  decode( NSString *s)
    @catch( NSException *exception)
    {
       printf( "exception: %s\n", [[exception reason] UTF8String]);
-   }  
+   }
 }
 
 
@@ -40,7 +42,7 @@ int main(int argc, const char * argv[])
    decode( @"1848/* nothing */");
    decode( @"// nothing\n1848");
    decode( @"/* nothing */1848");
- 
+
    decode( @"/");
    decode( @"///");
    return( 0);

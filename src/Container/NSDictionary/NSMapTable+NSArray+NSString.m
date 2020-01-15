@@ -36,10 +36,10 @@
 
 #import "NSMapTable+NSArray+NSString.h"
 
-#include "NSArray.h"
-#include "NSMutableArray.h"
+// other files in this library
 
-#include "MulleObjCFoundationString.h"
+// std-c and dependencies
+#import "import-private.h"
 
 
 NSArray   *NSAllMapTableKeys( NSMapTable *table)

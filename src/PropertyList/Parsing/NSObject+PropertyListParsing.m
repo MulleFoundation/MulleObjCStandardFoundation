@@ -86,7 +86,7 @@ enum
 // does not allow .2
 // does allow 0.e10
 // does not allow e10
-// guarantees that int is <= 18 and double <= 24
+// guarantees that int chars are <= 19
 // of course this is a heuristic. on the bright side, we quote "dudes" on
 // output
 //
@@ -97,11 +97,14 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
    char   *sentinel;
    int    state;
    int    c;
+   int    sign;
 
-   state = has_nothing;
 
+   state    = has_nothing;
    sentinel = &buffer[ len];
-   do
+   sign     = 0;
+
+   while( buffer < sentinel)
    {
       c = *buffer++;
 
@@ -110,7 +113,7 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
       case has_nothing :
          switch( c)
          {
-         case '-' : state = has_sign; continue;
+         case '-' : state = has_sign; sign = 1; continue;
          case '0' : state = has_leading_zero; continue;
          default  : if( isdigit( c)) { state = has_integer; continue; }
          }
@@ -182,14 +185,19 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
          return( is_string);
       }
    }
-   while( buffer < sentinel);
 
+   //
+   // https://stackoverflow.com/questions/1701055/what-is-the-maximum-length-in-chars-needed-to-represent-any-double-value
+   // printed double values can be as large as 1080!
+   //
    switch( state)
    {
    case has_leading_zero :
-   case has_integer      : return( len <= 18 ? is_integer : is_string); break; // 9223372036854775808
-   case has_fractional   :
-   case has_exponent     : return( len <= 24 ? is_double : is_string); // 4.94065645841246544e-324
+   case has_integer      : if( len - sign <= 19)
+                              return( is_integer);  // 922,337,203,685,477,580
+                           return( is_string);
+   case has_fractional   : // fall thru
+   case has_exponent     : return( is_double);
    }
    return( is_string);
 }
@@ -202,9 +210,11 @@ int   _dude_looks_like_a_number( char *buffer, size_t len)
 id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCPropertyListReader *reader)
 {
    MulleObjCMemoryRegion  region;
-   char             buf[ 32];
-   int              type;
-
+   char                   buf[ 32];
+   char                   *end;
+   int                    type;
+   long long              ll_val;
+   double                 d_val;
    _MulleObjCPropertyListReaderBookmark( reader);
    _MulleObjCPropertyListReaderSkipUntilTrue( reader, _MulleObjCPropertyListReaderIsUnquotedStringEndChar);
    region = _MulleObjCPropertyListReaderBookmarkedRegion( reader);
@@ -218,10 +228,18 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
       case is_double  :
          memcpy( buf, region.bytes, region.length);
          buf[ region.length] = 0;
+
          if( type == is_integer)
-            return( [[NSNumber alloc] initWithLongLong:atoll( buf)]);
-         return( [[NSNumber alloc] initWithDouble:atof( buf)]);
+         {
+            ll_val = strtoll( buf, &end, 10);
+            if( *end == 0)
+               return( [[NSNumber alloc] initWithLongLong:ll_val]);
+         }
+         d_val = strtod( buf, &end);
+         if( *end == 0)
+            return( [[NSNumber alloc] initWithDouble:d_val]);
       }
+      // fall thru
    }
    return( [[reader->nsStringClass alloc] mulleInitWithUTF8Characters:region.bytes
                                                                length:region.length]);
