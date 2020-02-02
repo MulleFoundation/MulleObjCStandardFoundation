@@ -216,17 +216,17 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    struct mulle_allocator                 *allocator;
 
    allocator = MulleObjCObjectGetAllocator( self);
-   mulle_pointerarray_init( &_classcluster, 1024, NULL, allocator);
-   mulle_pointerarray_init( &regular, 1024, NULL, allocator);
+   _mulle_pointerarray_init( &_classcluster, 1024, NULL, allocator);
+   _mulle_pointerarray_init( &regular, 1024, NULL, allocator);
 
    rover = NSEnumerateMapTable( _objects);
    while( NSNextMapEnumeratorPair( &rover, &obj_index, (void **) &obj))
    {
       assert( obj_index);
       if( [obj respondsToSelector:@selector( decodeWithCoder:)])
-         mulle_pointerarray_add( &_classcluster, (void *) obj_index);
+         _mulle_pointerarray_add( &_classcluster, (void *) obj_index);
       else
-         mulle_pointerarray_add( &regular, (void *) obj_index);
+         _mulle_pointerarray_add( &regular, (void *) obj_index);
    }
    NSEndMapTableEnumeration( &rover);
 
@@ -238,8 +238,8 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
    _initClassCluster = YES;
 
-   enumerator = mulle_pointerarray_enumerate( &_classcluster);
-   while( obj_index =  mulle_pointerarrayenumerator_next( &enumerator))
+   enumerator = _mulle_pointerarray_enumerate( &_classcluster);
+   while( obj_index = _mulle_pointerarrayenumerator_next( &enumerator))
    {
       offset = (size_t) NSMapGet( _offsets, obj_index);
 
@@ -265,8 +265,8 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    _initClassCluster = 0;
 
    /* do regular objects, that must not change self */
-   enumerator = mulle_pointerarray_enumerate( &regular);
-   while( obj_index = (void *) mulle_pointerarrayenumerator_next( &enumerator))
+   enumerator = _mulle_pointerarray_enumerate( &regular);
+   while( obj_index = _mulle_pointerarrayenumerator_next( &enumerator))
    {
       offset = (size_t) NSMapGet( _offsets, obj_index);
 
@@ -285,8 +285,8 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    mulle_pointerarray_done( &regular);
 
    /* now call decodeWithCoder: on classclusters */
-   enumerator = mulle_pointerarray_enumerate( &_classcluster);
-   while( obj_index =  mulle_pointerarrayenumerator_next( &enumerator))
+   enumerator = _mulle_pointerarray_enumerate( &_classcluster);
+   while( obj_index = _mulle_pointerarrayenumerator_next( &enumerator))
    {
       offset = (size_t) NSMapGet( _offsets, obj_index);
 
@@ -298,7 +298,6 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
       [obj decodeWithCoder:self];
    }
    mulle_pointerarrayenumerator_done( &enumerator);
-
    mulle_pointerarray_done( &_classcluster);
 
 

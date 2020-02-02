@@ -57,8 +57,8 @@ typedef enum
 
 enum
 {
-    NSPropertyListOpenStepFormat          = 1,   // with wily Apple extensions
-    MullePropertyListStrictOpenStepFormat = 2,   // no comments, no unquoted $ _ /
+    NSPropertyListOpenStepFormat          = 1,   // no comments, no unquoted $ _ /
+    MullePropertyListLooseOpenStepFormat  = 2,   // with wily Apple extensions
 //    MullePropertyListGNUstepFormat        = 4, // future
 //    MullePropertyListFormat               = 5, // future
     MullePropertyListJSONFormat           = 6,   // read, with jsmn
@@ -98,10 +98,13 @@ typedef NSUInteger   NSPropertyListWriteOptions;
      isValidForFormat:(NSPropertyListFormat) format;
 
 //
-// you can force MullePropertyListStrictOpenStepFormat by passing this via
+// you can state a preference for MullePropertyListLooseOpenStepFormat by
+// passing this via. This will enable the parsing of numbers and dates in
+// their proper classes. (dates not yet)
+//
 // format. So if you pass something as format, initalize to zero to not
 // get a random preference!!
-// e.g. format = MullePropertyListStrictOpenStepFormat; ...
+// e.g. format = MullePropertyListLooseOpenStepFormat; ...
 //
 // [NSPropertyListSerialization propertyListFromData:data
 //                                  mutabilityOption:0

@@ -18,7 +18,7 @@ static void  code_decode( id value)
 
    @try
    {
-      format  = NSPropertyListOpenStepFormat;
+      format  = MullePropertyListLooseOpenStepFormat;
       data    = [value dataUsingEncoding:NSUTF8StringEncoding];
       decoded = [NSPropertyListSerialization propertyListFromData:data
                                                  mutabilityOption:0
