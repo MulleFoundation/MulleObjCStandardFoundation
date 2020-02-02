@@ -92,49 +92,7 @@ mulleVarargList:(mulle_vararg_list) args;
 #define NS_VALUERETURN( v,t)  return (v)
 #define NS_VOIDRETURN         return
 
-void   MulleObjCValidateRangeAgainstLength( NSRange range,
-                                            NSUInteger length);
-
-@class NSString;
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowInvalidIndexException( NSUInteger index);
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowInvalidRangeException( NSRange range);
-
-// vectored through mulle_allocator, don't throw yourself
 MULLE_C_NO_RETURN
 void   MulleObjCThrowMallocException( void *block, size_t size);
 
-MULLE_C_NO_RETURN
-void   MulleObjCThrowInvalidArgumentException( NSString *format, ...);
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowInternalInconsistencyException( NSString *format, ...);
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowErrnoException( NSString *format, ...);
-
-MULLE_C_NO_RETURN
-void   _MulleObjCThrowErrnoException( NSString *exceptionName,
-                                      NSString *format,
-                                      ...);
-
-/*
- * C String interface
- */
-MULLE_C_NO_RETURN
-void   MulleObjCThrowInvalidArgumentExceptionCString( char *format, ...);
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowInternalInconsistencyExceptionCString( char *format, ...);
-
-MULLE_C_NO_RETURN
-void   MulleObjCThrowErrnoExceptionCString( char *format, ...);
-
-MULLE_C_NO_RETURN
-void   _MulleObjCThrowErrnoExceptionCString( char *exceptionName,
-                                             char *format,
-                                             ...);
 

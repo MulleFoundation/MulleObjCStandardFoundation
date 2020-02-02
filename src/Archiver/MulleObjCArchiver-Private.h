@@ -97,14 +97,14 @@ static inline void   MulleObjCPointerHandleMapInit( struct MulleObjCPointerHandl
                                                     struct mulle_allocator *allocator)
 {
    mulle_map_init( &map->map, capacity, callback, allocator);
-   mulle_pointerarray_init( &map->array, capacity, NULL, allocator);
+   _mulle_pointerarray_init( &map->array, capacity, NULL, allocator);
 }
 
 
 static inline void   MulleObjCPointerHandleMapDone( struct MulleObjCPointerHandleMap *map)
 {
    mulle_map_done( &map->map);
-   mulle_pointerarray_done( &map->array);
+   _mulle_pointerarray_done( &map->array);
 }
 
 
@@ -119,7 +119,7 @@ static inline intptr_t  MulleObjCPointerHandleMapGetOrAdd( struct MulleObjCPoint
 
    handle      = mulle_map_get_count( &map->map) + 1;
    mulle_map_set( &map->map, p, (void *) handle);
-   mulle_pointerarray_add( &map->array, p);
+   _mulle_pointerarray_add( &map->array, p);
 
    return( handle);
 }

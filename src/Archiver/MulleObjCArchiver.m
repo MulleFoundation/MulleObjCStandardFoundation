@@ -155,7 +155,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
       for( i = start; i < curr; i++)
       {
-         obj = (id) mulle_pointerarray_get( &_objects.array, i);
+         obj = (id) _mulle_pointerarray_get( &_objects.array, i);
          NSMapInsertKnownAbsent( _offsets, obj, (void *) mulle_buffer_get_seek( &_buffer));
 
          [obj encodeWithCoder:self];
@@ -269,7 +269,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
       memcpy( blob->_storage, bytes, len);
 
       mulle_map_set( &_blobs.map, blob, (void *) handle);
-      mulle_pointerarray_add( &_blobs.array, blob);
+      _mulle_pointerarray_add( &_blobs.array, blob);
    }
 
    mulle_buffer_add_integer( &_buffer, handle);
@@ -346,7 +346,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
          mulle_map_remove( &_conditionalObjects.map, obj);
 
       mulle_map_set( &_objects.map, obj, (void *) handle);
-      mulle_pointerarray_add( &_objects.array, obj);
+      _mulle_pointerarray_add( &_objects.array, obj);
    }
 
    mulle_buffer_add_integer( &_buffer, handle);
@@ -541,7 +541,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
    for( i = 0; i < n; i++)
    {
-      obj = (id) mulle_pointerarray_get( &_objects.array, i);
+      obj = (id) _mulle_pointerarray_get( &_objects.array, i);
       cls = [obj classForCoder];
 
       [self _appendClass:cls];
@@ -566,7 +566,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
    for( i = 0; i < n; i++)
    {
-      cls = (Class) mulle_pointerarray_get( &_classes.array, i);
+      cls = (Class) _mulle_pointerarray_get( &_classes.array, i);
 
       // write down version
       mulle_buffer_add_integer( &_buffer, [cls version]);
@@ -596,7 +596,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
    mulle_buffer_add_integer( &_buffer, n);
    for( i = 0; i < n; i++)
    {
-      sel = (SEL) mulle_pointerarray_get( &_selectors.array, i);
+      sel = (SEL) _mulle_pointerarray_get( &_selectors.array, i);
 
       // get name for selector
       name = mulle_objc_universe_lookup_methodname( MulleObjCObjectGetUniverse( self),
@@ -620,7 +620,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
    mulle_buffer_add_integer( &_buffer, n);
    for( i = 0; i < n; i++)
    {
-      str = (struct blob *) mulle_pointerarray_get( &_blobs.array, i);
+      str = (struct blob *) _mulle_pointerarray_get( &_blobs.array, i);
       mulle_buffer_add_integer( &_buffer, str->_length);
       mulle_buffer_add_bytes( &_buffer, str->_storage, str->_length);
    }

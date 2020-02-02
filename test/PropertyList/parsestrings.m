@@ -22,11 +22,11 @@ static void  parse_strings( NSDictionary *dict, BOOL expect)
    s    = [dict descriptionInStringsFileFormat];
    data = [s dataUsingEncoding:NSUTF16StringEncoding];
 
-   format = MullePropertyListStrictOpenStepFormat;
-   check = [NSPropertyListSerialization propertyListWithData:data
-                                                     options:0
-                                                      format:&format
-                                                       error:NULL];
+   format = NSPropertyListOpenStepFormat;
+   check  = [NSPropertyListSerialization propertyListWithData:data
+                                                      options:0
+                                                       format:&format
+                                                        error:NULL];
 
    printf( "%s\n", [dict isEqual:check] == expect ? "PASS" : "FAIL");
    if( [dict isEqual:check] != expect)

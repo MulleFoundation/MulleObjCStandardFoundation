@@ -18,7 +18,7 @@ static void  decode( NSString *s)
 
    @try
    {
-      format  = NSPropertyListOpenStepFormat;
+      format  = MullePropertyListLooseOpenStepFormat;
       data    = [s dataUsingEncoding:NSUTF8StringEncoding];
       decoded = [NSPropertyListSerialization propertyListFromData:data
                                                  mutabilityOption:0

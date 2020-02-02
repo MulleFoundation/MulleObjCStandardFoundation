@@ -133,16 +133,16 @@ struct
    [self mulleAddFormatDetector:@selector( mulleDetectPropertyListFormat:)];
 
    [self mulleAddParserClass:self
+                      method:@selector( mulleLooselyParsePropertyListData:)
+       forPropertyListFormat:MullePropertyListLooseOpenStepFormat];
+   [self mulleAddParserClass:self
                       method:@selector( mulleParsePropertyListData:)
        forPropertyListFormat:NSPropertyListOpenStepFormat];
-   [self mulleAddParserClass:self
-                      method:@selector( mulleStrictParsePropertyListData:)
-       forPropertyListFormat:MullePropertyListStrictOpenStepFormat];
 
    [self mulleAddPrintMethod:@selector( propertyListUTF8DataToStream:)
-         forPropertyListFormat:NSPropertyListOpenStepFormat];
+         forPropertyListFormat:MullePropertyListLooseOpenStepFormat];
    [self mulleAddPrintMethod:@selector( propertyListUTF8DataToStream:)
-         forPropertyListFormat:MullePropertyListStrictOpenStepFormat];
+         forPropertyListFormat:NSPropertyListOpenStepFormat];
 
    [self mulleAddPrintMethod:@selector( jsonUTF8DataToStream:)
          forPropertyListFormat:MullePropertyListJSONFormat];
@@ -223,7 +223,7 @@ struct
          return( format);
    }
    // always fallback to plist
-   return( MullePropertyListStrictOpenStepFormat);
+   return( NSPropertyListOpenStepFormat);
 }
 
 
@@ -261,12 +261,12 @@ struct
 }
 
 
-NSString   *MulleStringFromPropertListFormatString(NSPropertyListFormat format)
+NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
 {
    switch( format)
    {
    case NSPropertyListOpenStepFormat         : return( @"OpenStep");
-   case MullePropertyListStrictOpenStepFormat: return( @"Strict OpenStep");
+   case MullePropertyListLooseOpenStepFormat : return( @"Loose OpenStep");
 //    MullePropertyListGNUstepFormat        = 4, // future
 //    MullePropertyListFormat               = 5, // future
    case MullePropertyListJSONFormat          : return( @"JSON");
@@ -293,7 +293,7 @@ NSString   *MulleStringFromPropertListFormatString(NSPropertyListFormat format)
       NSPropertyListFormat             format;
    } dummy;
 
-   preferred = MullePropertyListStrictOpenStepFormat;
+   preferred = NSPropertyListOpenStepFormat;
 
    if( ! errorString)
       errorString = &dummy.string;
@@ -336,10 +336,10 @@ NSString   *MulleStringFromPropertListFormatString(NSPropertyListFormat format)
       *errorString = @"Can not parse this kind of data as a plist";
       return( nil);
    }
-   if( *format == MullePropertyListStrictOpenStepFormat &&
-        preferred == NSPropertyListOpenStepFormat)
+   if( *format == NSPropertyListOpenStepFormat &&
+        preferred == MullePropertyListLooseOpenStepFormat)
    {
-      *format = NSPropertyListOpenStepFormat;
+      *format = MullePropertyListLooseOpenStepFormat;
    }
 
    *errorString = nil;
@@ -383,7 +383,7 @@ NS_ENDHANDLER
 //
 // what will eventually be called (yes it's not an instance method)
 //
-+ (id) mulleParsePropertyListData:(NSData *) data
++ (id) mulleLooselyParsePropertyListData:(NSData *) data
 {
    _MulleObjCPropertyListReader        *reader;
    _MulleObjCBufferedDataInputStream   *stream;
@@ -405,7 +405,7 @@ NS_ENDHANDLER
 //
 // what will eventually be called (yes it's not an instance method)
 //
-+ (id) mulleStrictParsePropertyListData:(NSData *) data
++ (id) mulleParsePropertyListData:(NSData *) data
 {
    _MulleObjCPropertyListReader        *reader;
    _MulleObjCBufferedDataInputStream   *stream;

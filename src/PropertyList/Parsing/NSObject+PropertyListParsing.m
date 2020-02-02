@@ -215,6 +215,7 @@ id   _MulleObjCNewObjectParsedUnquotedFromPropertyListWithReader( _MulleObjCProp
    int                    type;
    long long              ll_val;
    double                 d_val;
+
    _MulleObjCPropertyListReaderBookmark( reader);
    _MulleObjCPropertyListReaderSkipUntilTrue( reader, _MulleObjCPropertyListReaderIsUnquotedStringEndChar);
    region = _MulleObjCPropertyListReaderBookmarkedRegion( reader);
