@@ -1,0 +1,19 @@
+Nil CharacterSet:
+*nil* -> *nil* -> *nil*
+ -> *nil* -> *nil*
+a -> *nil* -> *nil* FAIL
+b -> *nil* -> *nil* FAIL
+abba -> *nil* -> *nil* FAIL
+
+Valid CharacterSet:
+*nil* -> *nil* -> *nil*
+ ->  -> 
+a -> a -> a
+b -> %62 -> b
+abba -> a%62%62a -> abba
+
+Decode broken stuff:
+%6 -> *nil*
+%00 -> *nil*
+%F0%A4%AD%A2 -> *nil*
+%F0  -> *nil*

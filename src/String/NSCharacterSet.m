@@ -345,13 +345,13 @@
 }
 
 
-static inline void    _mulle_buffer_add_unichar( struct _mulle_buffer *buffer,
-                                                 unichar c,
-                                                 struct mulle_allocator *allocator)
+static inline void    _mulle__buffer_add_unichar( struct mulle__buffer *buffer,
+                                                  unichar c,
+                                                  struct mulle_allocator *allocator)
 {
    unsigned char   *p;
 
-   if( _mulle_buffer_guarantee( buffer, 4, allocator))
+   if( _mulle__buffer_guarantee( buffer, 4, allocator))
       return;
 
    p = (unsigned char *) &c;
@@ -366,9 +366,12 @@ static inline void    _mulle_buffer_add_unichar( struct _mulle_buffer *buffer,
 static inline void    mulle_buffer_add_unichar( struct mulle_buffer *buffer,
                                                 unichar c)
 {
-   _mulle_buffer_add_unichar( (struct _mulle_buffer *) buffer,
-                              c,
-                              mulle_buffer_get_allocator( buffer));
+   if( ! buffer)
+      return;
+
+   _mulle__buffer_add_unichar( (struct mulle__buffer *) buffer,
+                               c,
+                               mulle_buffer_get_allocator( buffer));
 }
 
 

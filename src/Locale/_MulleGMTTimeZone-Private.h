@@ -1,5 +1,5 @@
 //
-//  _NSGMTTimeZone.h
+//  _MulleGMTTimeZone.h
 //  MulleObjCStandardFoundation
 //
 //  Created by Nat! on 14.05.17.
@@ -9,6 +9,6 @@
 // This is a private header
 // and private headers don't include or import
 
-@interface _NSGMTTimeZone : NSTimeZone < MulleObjCSingleton>
+@interface _MulleGMTTimeZone : NSTimeZone < MulleObjCSingleton>
 
 @end

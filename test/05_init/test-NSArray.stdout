@@ -190,15 +190,19 @@ Threw a NSInvalidArgumentException exception
 -initWithArray:range:
 ()
 Threw a NSRangeException exception
-Threw a NSRangeException exception
+()
 Threw a NSRangeException exception
 ()
 Threw a NSRangeException exception
-Threw a NSRangeException exception
+()
 Threw a NSRangeException exception
 ()
 Threw a NSRangeException exception
-Threw a NSRangeException exception
+(
+    1,
+    2,
+    1848
+)
 Threw a NSRangeException exception
 -initWithObject:mulleVarargList:
 (

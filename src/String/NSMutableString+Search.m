@@ -57,7 +57,7 @@
    NSUInteger   r_length;
    NSUInteger   end;
 
-   MulleObjCValidateRangeAgainstLength( range, _length);
+   range = MulleObjCValidateRangeAgainstLength( range, _length);
 
    r_length = [replacement length];
    options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;

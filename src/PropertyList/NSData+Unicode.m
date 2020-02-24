@@ -96,7 +96,7 @@ static _MulleObjCByteOrderMark  byteOrderMark( uint8_t *p, size_t len)
    if( length & 1)
       return( nil);
 
-   data = [NSMutableData _mulleNonZeroedDataWithLength:length];
+   data = [NSMutableData mulleNonZeroedDataWithLength:length];
    dst  = [data mutableBytes];
 
    src      = [self bytes];

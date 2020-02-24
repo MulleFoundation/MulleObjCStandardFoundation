@@ -123,6 +123,10 @@ static void   throw_range_exception( NSRange arg)
 __attribute__ ((noreturn))
 static void   throw_malloc_exception( void *block, size_t size)
 {
+   //
+   // this could be foolhardy, if we are really out of memory, because
+   // the exception will surely malloc something
+   //
    if( ! block)
       [NSException raise:NSMallocException
                   format:@"could not allocate %lu bytes", (unsigned long) size];

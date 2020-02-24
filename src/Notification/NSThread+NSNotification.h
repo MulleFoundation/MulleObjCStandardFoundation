@@ -12,8 +12,9 @@
 @class NSString;
 
 
-@interface NSThread (NSNotification)
-@end
+extern NSString  *NSWillBecomeMultiThreadedNotification; //  = @"NSWillBecomeMultiThreadedNotification";
 
-
-extern NSString  *NSWillBecomeMultiThreadedNotification;
+// this is only true, if the main thread isn't spawning a new NSThread
+// while this is sent, so it may not be really true
+extern NSString  *NSDidBecomeSingleThreadedNotification; //  = @"NSDidBecomeSingleThreadedNotification";
+extern NSString  *NSThreadWillExitNotification;          //  = @"NSThreadWillExitNotification";

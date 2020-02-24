@@ -87,7 +87,7 @@
 - (NSString *) description;
 
 // mulle addition
-+ (NSTimeZone *) _GMTTimeZone;
++ (NSTimeZone *) mulleGMTTimeZone;
 
 @end
 

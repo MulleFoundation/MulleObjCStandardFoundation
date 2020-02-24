@@ -4,9 +4,10 @@
 #include <stdlib.h>
 
 
-static void   MulleObjCStandardFoundationBang( struct _mulle_objc_universe *universe,
-                                               struct mulle_allocator *allocator,
-                                               struct _mulle_objc_universeconfiguration *config)
+static inline void
+   MulleObjCStandardFoundationBang( struct _mulle_objc_universe *universe,
+                                    struct mulle_allocator *allocator,
+                                    struct _mulle_objc_universeconfiguration *config)
 {
    MulleObjCBang( universe, allocator, config);
 }

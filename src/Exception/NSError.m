@@ -83,9 +83,12 @@ static struct
 } Self;
 
 
+MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
+
+
 + (void) load
 {
-   Self._nsErrorClass = self;
+   Self._nsErrorClass = [self class];
 }
 
 

@@ -19,7 +19,7 @@ if( NOT MULLE_BUFFER_LIBRARY)
    #
    if( MULLE_BUFFER_LIBRARY)
       #
-      # Add to MULLE_BUFFER_LIBRARY list.
+      # Add to MULLE_BUFFER_LIBRARY to DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-buffer no-cmakeadd`
       #
       set( DEPENDENCY_LIBRARIES
@@ -87,7 +87,7 @@ if( NOT MULLE_UTF_LIBRARY)
    #
    if( MULLE_UTF_LIBRARY)
       #
-      # Add to MULLE_UTF_LIBRARY list.
+      # Add to MULLE_UTF_LIBRARY to DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-utf no-cmakeadd`
       #
       set( DEPENDENCY_LIBRARIES
@@ -155,7 +155,7 @@ if( NOT MULLE_SPRINTF_LIBRARY)
    #
    if( MULLE_SPRINTF_LIBRARY)
       #
-      # Add to MULLE_SPRINTF_LIBRARY list.
+      # Add to MULLE_SPRINTF_LIBRARY to ALL_LOAD_DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-sprintf no-cmakeadd`
       #
       set( ALL_LOAD_DEPENDENCY_LIBRARIES
@@ -240,7 +240,7 @@ if( NOT MULLE_OBJC_VALUE_FOUNDATION_LIBRARY)
    #
    if( MULLE_OBJC_VALUE_FOUNDATION_LIBRARY)
       #
-      # Add to MULLE_OBJC_VALUE_FOUNDATION_LIBRARY list.
+      # Add to MULLE_OBJC_VALUE_FOUNDATION_LIBRARY to ALL_LOAD_DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark MulleObjCValueFoundation no-cmakeadd`
       #
       set( ALL_LOAD_DEPENDENCY_LIBRARIES
@@ -325,7 +325,7 @@ if( NOT MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY)
    #
    if( MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY)
       #
-      # Add to MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY list.
+      # Add to MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY to ALL_LOAD_DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark MulleObjCContainerFoundation no-cmakeadd`
       #
       set( ALL_LOAD_DEPENDENCY_LIBRARIES

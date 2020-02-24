@@ -76,10 +76,10 @@ PROTOCOLCLASS_END()
 
 
 // these helper methods produce indentation
-MULLE_C_NON_NULL_RETURN
+MULLE_C_NONNULL_RETURN
 char   *MulleObjCPropertyListUTF8DataIndentation( NSUInteger level);
 
-MULLE_C_NON_NULL_RETURN
+MULLE_C_NONNULL_RETURN
 char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level);
 
 

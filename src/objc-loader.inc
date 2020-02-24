@@ -71,6 +71,7 @@
       { @selector( NSTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 190d1ade;NSTimeZone;;
       { @selector( NSUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b47ff54;NSUnarchiver;;
       { @selector( NSUndoManager), MULLE_OBJC_NO_CATEGORYID },      // 0e5330bc;NSUndoManager;;
+      { @selector( _MulleGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // d6f534a3;_MulleGMTTimeZone;;
       { @selector( _MulleObjCBufferedDataInputStream), MULLE_OBJC_NO_CATEGORYID },      // 581653a8;_MulleObjCBufferedDataInputStream;;
       { @selector( _MulleObjCBufferedDataOutputStream), MULLE_OBJC_NO_CATEGORYID },      // a251e479;_MulleObjCBufferedDataOutputStream;;
       { @selector( _MulleObjCConcreteBitmapCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 0846adc2;_MulleObjCConcreteBitmapCharacterSet;;
@@ -81,4 +82,3 @@
       { @selector( _MulleObjCMemoryDataInputStream), MULLE_OBJC_NO_CATEGORYID },      // 0a00da66;_MulleObjCMemoryDataInputStream;;
       { @selector( _MulleObjCPropertyListReader), MULLE_OBJC_NO_CATEGORYID },      // a2dc8d79;_MulleObjCPropertyListReader;;
       { @selector( _MulleObjCUTF8StreamReader), MULLE_OBJC_NO_CATEGORYID },      // cbcbf81e;_MulleObjCUTF8StreamReader;;
-      { @selector( _NSGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 60527041;_NSGMTTimeZone;;

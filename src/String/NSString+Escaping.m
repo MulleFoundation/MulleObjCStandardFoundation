@@ -146,7 +146,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 
    buf = (mulle_utf8_t *) MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
    [self mulleGetUTF8Characters:buf
-                 maxLength:length];
+                      maxLength:length];
 
    characterIsMemberSEL = @selector( characterIsMember:);
    characterIsMemberIMP = [allowedCharacters methodForSelector:characterIsMemberSEL];;
@@ -183,7 +183,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
       return( self);
 
    return( [NSString mulleStringWithUTF8Characters:dst_buf
-                                        length:p - dst_buf]);
+                                            length:p - dst_buf]);
 }
 
 
@@ -236,9 +236,6 @@ static inline int   dehex( mulle_utf8_t c)
    mulle_utf8_t   c;
    int            hi, lo;
 
-   if( ! disallowedCharacters)
-      return( self);
-
    length = [self mulleUTF8StringLength];
    if( ! length)
       return( self);
@@ -268,7 +265,7 @@ static inline int   dehex( mulle_utf8_t c)
          continue;
       }
 
-      if( &s[ 2] >= sentinel)
+      if( &s[ 2] > sentinel)
          return( nil);
 
       hi = dehex( s[ 0]);
@@ -300,7 +297,7 @@ static inline int   dehex( mulle_utf8_t c)
       return( self);
 
    return( [NSString mulleStringWithUTF8Characters:dst_buf
-                                        length:p - dst_buf]);
+                                            length:p - dst_buf]);
 }
 
 
@@ -312,6 +309,7 @@ static inline int   dehex( mulle_utf8_t c)
    characterSet = [NSCharacterSet mulleNonPercentEscapeCharacterSet];
    return( [self stringByReplacingPercentEscapesWithDisallowedCharacters:characterSet]);
 }
+
 
 - (NSString *) stringByRemovingPercentEncoding
 {
