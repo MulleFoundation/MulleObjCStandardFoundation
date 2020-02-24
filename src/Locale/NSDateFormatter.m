@@ -176,8 +176,9 @@ static inline void   SelfUnlock( void)
                 allowNaturalLanguage:(BOOL) flag
 {
    _dateClass             = [NSDate class];
-   _dateFormat            = [format copy];
    _allowsNaturalLanguage = flag;
+
+   [self setDateFormat:format];
 
    return( self);
 }

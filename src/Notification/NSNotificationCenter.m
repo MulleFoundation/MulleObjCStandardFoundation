@@ -233,25 +233,25 @@ static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
                                     void *_queue,
                                     struct mulle_allocator **p_allocator)
 {
-   struct _mulle_pointerqueue             *queue = _queue;
+   struct mulle__pointerqueue             *queue = _queue;
    name_sender_pair                       *p;
    NSMutableString                        *s;
    NSString                               *sep;
-   struct _mulle_pointerqueueenumerator   rover;
+   struct mulle__pointerqueueenumerator   rover;
 
    *p_allocator = NULL;
 
    s   = [NSMutableString string];
    sep = @"";
 
-   rover = _mulle_pointerqueue_enumerate( queue);
-   while( p = _mulle_pointerqueueenumerator_next( &rover))
+   rover = mulle__pointerqueue_enumerate( queue);
+   while( p = _mulle__pointerqueueenumerator_next( &rover))
    {
       [s appendString:sep];
       sep = @", ";
       [s appendFormat:@"@selector(%@)/%p", p->name, p->sender];
    }
-   _mulle_pointerqueueenumerator_done( &rover);
+   mulle__pointerqueueenumerator_done( &rover);
    return( [s UTF8String]);
 }
 
@@ -260,19 +260,19 @@ static char   *tripletqueue_describe( struct mulle_container_valuecallback *tabl
                                       void *_queue,
                                       struct mulle_allocator **p_allocator)
 {
-   struct _mulle_pointerqueue             *queue = _queue;
+   struct mulle__pointerqueue             *queue = _queue;
    observer_sel_imp_triplet               *p;
    NSMutableString                        *s;
    NSString                               *sep;
-   struct _mulle_pointerqueueenumerator   rover;
+   struct mulle__pointerqueueenumerator   rover;
 
    *p_allocator = NULL;
 
    s   = [NSMutableString string];
    sep = @"";
 
-   rover = _mulle_pointerqueue_enumerate( queue);
-   while( p = _mulle_pointerqueueenumerator_next( &rover))
+   rover = mulle__pointerqueue_enumerate( queue);
+   while( p = _mulle__pointerqueueenumerator_next( &rover))
    {
       [s appendString:sep];
       sep = @", ";
@@ -280,28 +280,28 @@ static char   *tripletqueue_describe( struct mulle_container_valuecallback *tabl
                                    NSStringFromSelector( p->sel),
                                    p->imp];
    }
-   _mulle_pointerqueueenumerator_done( &rover);
+   mulle__pointerqueueenumerator_done( &rover);
    return( [s UTF8String]);
 }
 
 
 static void    queue_destroy( struct mulle_container_keycallback *table,
-                              struct _mulle_pointerqueue *a,
+                              struct mulle__pointerqueue *a,
                               struct mulle_allocator *allocator)
 {
-   _mulle_pointerqueue_destroy( a, allocator);
+   _mulle__pointerqueue_destroy( a, allocator);
 }
 
 
 static void    free_queue_and_contents( struct mulle_container_keycallback *table,
-                                        struct _mulle_pointerqueue *queue,
+                                        struct mulle__pointerqueue *queue,
                                         struct mulle_allocator *allocator)
 {
    void   *value;
 
-   while( value = _mulle_pointerqueue_pop( queue, allocator))
+   while( value = _mulle__pointerqueue_pop( queue, allocator))
       mulle_allocator_free( allocator, value);
-   _mulle_pointerqueue_destroy( queue, allocator);
+   _mulle__pointerqueue_destroy( queue, allocator);
 }
 
 
@@ -477,20 +477,20 @@ static struct
 
    callbacks = sender_registry_callbacks;
    callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
-   _mulle_map_done( (struct _mulle_map *) &_senderRegistry, &callbacks, allocator);
+   _mulle__map_done( (struct mulle__map *) &_senderRegistry, &callbacks, allocator);
 
    callbacks = name_registry_callbacks;
    callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
-   _mulle_map_done( (struct _mulle_map *) &_nameRegistry, &callbacks, allocator);
+   _mulle__map_done( (struct mulle__map *) &_nameRegistry, &callbacks, allocator);
 
    callbacks = pair_registry_callbacks;
    callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
-   _mulle_map_done( (struct _mulle_map *) &_pairRegistry, &callbacks, allocator);
+   _mulle__map_done( (struct mulle__map *) &_pairRegistry, &callbacks, allocator);
 
    // this one last
    callbacks = observer_registry_callbacks;
    callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
-   _mulle_map_done( (struct _mulle_map *) &_observerRegistry, &callbacks, allocator);
+   _mulle__map_done( (struct mulle__map *) &_observerRegistry, &callbacks, allocator);
 
    mulle_thread_mutex_done( &_lock);
 
@@ -507,19 +507,19 @@ static struct
 
    allocator = MulleObjCObjectGetAllocator( self);
 
-   s = _mulle_map_describe( (struct _mulle_map *) &_observerRegistry, &observer_registry_callbacks, allocator);
+   s = _mulle__map_describe( (struct mulle__map *) &_observerRegistry, &observer_registry_callbacks, allocator);
    fprintf( stderr, "Observers: %s\n", s);
    mulle_allocator_free( allocator, s);
 
-   s = _mulle_map_describe( (struct _mulle_map *) &_pairRegistry, &pair_registry_callbacks, allocator);
+   s = _mulle__map_describe( (struct mulle__map *) &_pairRegistry, &pair_registry_callbacks, allocator);
    fprintf( stderr, "Pairs: %s\n", s);
    mulle_allocator_free( allocator, s);
 
-   s = _mulle_map_describe( (struct _mulle_map *) &_nameRegistry, &name_registry_callbacks, allocator);
+   s = _mulle__map_describe( (struct mulle__map *) &_nameRegistry, &name_registry_callbacks, allocator);
    fprintf( stderr, "Names: %s\n", s);
    mulle_allocator_free( allocator, s);
 
-   s = _mulle_map_describe( (struct _mulle_map *) &_senderRegistry, &sender_registry_callbacks, allocator);
+   s = _mulle__map_describe( (struct mulle__map *) &_senderRegistry, &sender_registry_callbacks, allocator);
    fprintf( stderr, "Senders: %s\n", s);
    mulle_allocator_free( allocator, s);
 }
@@ -542,17 +542,17 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
                                   void *key,
                                   observer_sel_imp_triplet *triplet)
 {
-   struct _mulle_pointerqueue   *triplet_queue;
+   struct mulle__pointerqueue   *triplet_queue;
    struct mulle_allocator       *allocator;
 
    allocator     = mulle_map_get_allocator( table);
    triplet_queue = mulle_map_get( table, key);
    if( ! triplet_queue)
    {
-      triplet_queue = _mulle_pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
+      triplet_queue = _mulle__pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
       mulle_map_insert( table, key, triplet_queue);
    }
-   _mulle_pointerqueue_push( triplet_queue, triplet, allocator);
+   _mulle__pointerqueue_push( triplet_queue, triplet, allocator);
 }
 
 
@@ -565,7 +565,7 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
    name_sender_pair             key;
    observer_sel_imp_triplet     *triplet;
    observer_sel_imp_triplet     value;
-   struct _mulle_pointerqueue   *pair_queue;
+   struct mulle__pointerqueue   *pair_queue;
    struct mulle_allocator       *allocator;
 
    // guess
@@ -610,10 +610,10 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
       pair_queue = mulle_map_get( &_observerRegistry, observer);
       if( ! pair_queue)
       {
-         pair_queue = _mulle_pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
+         pair_queue = _mulle__pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
          mulle_map_insert( &_observerRegistry, observer, pair_queue);
       }
-      _mulle_pointerqueue_push( pair_queue, pair, allocator);
+      _mulle__pointerqueue_push( pair_queue, pair, allocator);
       _mulle_atomic_pointer_increment( &_generationCount);
    }
    mulle_thread_mutex_unlock( &_lock);
@@ -629,10 +629,10 @@ static void    dequeueObserverForKey( struct mulle_map *table,
                                       struct mulle_allocator *allocator)
 {
    observer_sel_imp_triplet               *triplet;
-   struct _mulle_pointerqueue             *remaining;
-   struct _mulle_pointerqueue             *triplet_queue;
-   struct _mulle_pointerqueue             tmp;
-   struct _mulle_pointerqueueenumerator   rover;
+   struct mulle__pointerqueue             *remaining;
+   struct mulle__pointerqueue             *triplet_queue;
+   struct mulle__pointerqueue             tmp;
+   struct mulle__pointerqueueenumerator   rover;
    unsigned int                           bucketsize;
 
    triplet_queue = mulle_map_get( table, key);
@@ -640,7 +640,7 @@ static void    dequeueObserverForKey( struct mulle_map *table,
       return;
 
    remaining = NULL;
-   while( triplet = _mulle_pointerqueue_pop( triplet_queue, allocator))
+   while( triplet = _mulle__pointerqueue_pop( triplet_queue, allocator))
    {
       if( triplet->observer == observer)
       {
@@ -652,12 +652,12 @@ static void    dequeueObserverForKey( struct mulle_map *table,
       if( ! remaining)
       {
          remaining  = &tmp;
-         bucketsize = _mulle_pointerqueue_get_bucketsize( triplet_queue);
-         _mulle_pointerqueue_init( remaining, bucketsize, 0);
+         bucketsize = _mulle__pointerqueue_get_bucketsize( triplet_queue);
+         _mulle__pointerqueue_init( remaining, bucketsize, 0);
       }
-      _mulle_pointerqueue_push( remaining, triplet, allocator);
+      _mulle__pointerqueue_push( remaining, triplet, allocator);
    }
-   _mulle_pointerqueueenumerator_done( &rover);
+   mulle__pointerqueueenumerator_done( &rover);
 
    //
    //
@@ -670,10 +670,10 @@ static void    dequeueObserverForKey( struct mulle_map *table,
       return;
    }
 
-   assert( _mulle_pointerqueue_get_count( triplet_queue) == 0);
+   assert( _mulle__pointerqueue_get_count( triplet_queue) == 0);
 
    // make remaining triplets the contents of the queue
-   _mulle_pointerqueue_done( triplet_queue, allocator);
+   _mulle__pointerqueue_done( triplet_queue, allocator);
    *triplet_queue = *remaining;
 }
 
@@ -700,8 +700,8 @@ static void   removePairFromQueues( NSNotificationCenter *self,
 
 - (void) removeObserver:(id) observer
 {
-   struct _mulle_pointerqueueenumerator   rover;
-   struct _mulle_pointerqueue             *pair_queue;
+   struct mulle__pointerqueueenumerator   rover;
+   struct mulle__pointerqueue             *pair_queue;
    struct mulle_allocator                 *allocator;
    name_sender_pair                       *pair;
 
@@ -713,18 +713,18 @@ static void   removePairFromQueues( NSNotificationCenter *self,
 
          allocator = mulle_map_get_allocator( &_observerRegistry);
 
-         _mulle_map_remove( (struct _mulle_map *) &_observerRegistry,
+         _mulle__map_remove( (struct mulle__map *) &_observerRegistry,
                             observer,
                             &observer_no_free_registry_callbacks,
                             allocator);
 
-         while( pair = _mulle_pointerqueue_pop( pair_queue, allocator))
+         while( pair = _mulle__pointerqueue_pop( pair_queue, allocator))
          {
             removePairFromQueues( self, pair, observer, allocator);
             pair_destroy( NULL, pair, allocator);
          }
 
-         _mulle_pointerqueue_destroy( pair_queue, allocator);
+         _mulle__pointerqueue_destroy( pair_queue, allocator);
          _mulle_atomic_pointer_increment( &_generationCount);
       }
    }
@@ -736,9 +736,9 @@ static void   removePairFromQueues( NSNotificationCenter *self,
                    name:(NSString *) name
                  object:(id) sender
 {
-   struct _mulle_pointerqueueenumerator   rover;
-   struct _mulle_pointerqueue             *pair_queue;
-   struct _mulle_pointerqueue             *new_queue;
+   struct mulle__pointerqueueenumerator   rover;
+   struct mulle__pointerqueue             *pair_queue;
+   struct mulle__pointerqueue             *new_queue;
    struct mulle_allocator                 *allocator;
    name_sender_pair                       *pair;
    unsigned int                           bucketsize;
@@ -749,30 +749,30 @@ static void   removePairFromQueues( NSNotificationCenter *self,
       if( pair_queue)
       {
          allocator  = mulle_map_get_allocator( &self->_observerRegistry);
-         bucketsize = _mulle_pointerqueue_get_bucketsize( pair_queue);
-         new_queue  = _mulle_pointerqueue_create( bucketsize, 0, allocator);
+         bucketsize = _mulle__pointerqueue_get_bucketsize( pair_queue);
+         new_queue  = _mulle__pointerqueue_create( bucketsize, 0, allocator);
 
-         rover = _mulle_pointerqueue_enumerate( pair_queue);
-         while( pair = _mulle_pointerqueueenumerator_next( &rover))
+         rover = mulle__pointerqueue_enumerate( pair_queue);
+         while( pair = _mulle__pointerqueueenumerator_next( &rover))
          {
             if( (sender && sender != pair->sender) ||
                 (name && ! (name == pair->name || [name isEqualToString:pair->name])))
             {
-               _mulle_pointerqueue_push( new_queue, pair, allocator);
+               _mulle__pointerqueue_push( new_queue, pair, allocator);
                continue;
             }
 
             removePairFromQueues( self, pair, observer, allocator);
             pair_destroy( NULL, pair, allocator);
          }
-         _mulle_pointerqueueenumerator_done( &rover);
+         mulle__pointerqueueenumerator_done( &rover);
 
          // reap old one, don't insert new one if empty
          mulle_map_remove( &_observerRegistry, observer);
-         if( _mulle_pointerqueue_get_count( new_queue))
+         if( _mulle__pointerqueue_get_count( new_queue))
             mulle_map_insert( &_observerRegistry, observer, new_queue);
          else
-            _mulle_pointerqueue_destroy( new_queue, allocator);
+            _mulle__pointerqueue_destroy( new_queue, allocator);
 
          _mulle_atomic_pointer_increment( &_generationCount);
       }
@@ -793,8 +793,8 @@ BOOL   NSNotificationCenterObserverStillPresentInQueue( NSNotificationCenter *se
                                                         void *key,
                                                         id observer)
 {
-   struct _mulle_pointerqueueenumerator   rover;
-   struct _mulle_pointerqueue             *queue;
+   struct mulle__pointerqueueenumerator   rover;
+   struct mulle__pointerqueue             *queue;
    observer_sel_imp_triplet               *p;
    BOOL                                   isPresent;
 
@@ -807,8 +807,8 @@ BOOL   NSNotificationCenterObserverStillPresentInQueue( NSNotificationCenter *se
          //
          // need to copy, to allow modifications
          //
-         rover = _mulle_pointerqueue_enumerate( queue);
-         while( p = _mulle_pointerqueueenumerator_next( &rover))
+         rover = mulle__pointerqueue_enumerate( queue);
+         while( p = _mulle__pointerqueueenumerator_next( &rover))
          {
             if( p->observer == observer)
             {
@@ -816,7 +816,7 @@ BOOL   NSNotificationCenterObserverStillPresentInQueue( NSNotificationCenter *se
                break;
             }
          }
-         _mulle_pointerqueueenumerator_done( &rover);
+         mulle__pointerqueueenumerator_done( &rover);
       }
    }
    mulle_thread_mutex_unlock( &self->_lock);
@@ -830,12 +830,12 @@ static void
                                               void *key,
                                               NSNotification *notification)
 {
-   struct _mulle_pointerqueueenumerator   rover;
+   struct mulle__pointerqueueenumerator   rover;
    observer_sel_imp_triplet               *p;
    observer_sel_imp_triplet               *sentinel;
    observer_sel_imp_triplet               *buf;
    observer_sel_imp_triplet               *tofree;
-   struct _mulle_pointerqueue             *queue;
+   struct mulle__pointerqueue             *queue;
    NSUInteger                             i, n;
    intptr_t                               generationCount;
 
@@ -853,7 +853,7 @@ static void
          //
          // need to copy, to allow modifications
          //
-         n = _mulle_pointerqueue_get_count( queue);
+         n = _mulle__pointerqueue_get_count( queue);
          {
             observer_sel_imp_triplet  tmp[ 32];
 
@@ -865,14 +865,14 @@ static void
             }
 
             i = 0;
-            rover = _mulle_pointerqueue_enumerate( queue);
-            while( p = _mulle_pointerqueueenumerator_next( &rover))
+            rover = mulle__pointerqueue_enumerate( queue);
+            while( p = _mulle__pointerqueueenumerator_next( &rover))
             {
                buf[ i] = *p;
                [[buf[ i].observer retain] autorelease];  // observer pointer remains stable
                ++i;
             }
-            _mulle_pointerqueueenumerator_done( &rover);
+            mulle__pointerqueueenumerator_done( &rover);
 
             assert( i = n);
          }

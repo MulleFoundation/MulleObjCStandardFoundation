@@ -25,7 +25,7 @@ src/Undo
 
 set( PRIVATE_HEADERS
 src/Archiver/MulleObjCArchiver-Private.h
-src/Locale/_NSGMTTimeZone-Private.h
+src/Locale/_MulleGMTTimeZone-Private.h
 src/import-private.h
 src/include-private.h
 src/mulle-foundation-startup-private.inc

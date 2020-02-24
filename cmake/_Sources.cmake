@@ -28,6 +28,7 @@ src/Exception/NSError+String.m
 src/Exception/NSError.m
 src/Exception/NSException+String.m
 src/Exception/NSException.m
+src/Locale/_MulleGMTTimeZone.m
 src/Locale/NSArray+NSLocale.m
 src/Locale/NSCalendarDate+NSDateFormatter.m
 src/Locale/NSCalendarDate.m
@@ -35,7 +36,6 @@ src/Locale/NSDateFormatter.m
 src/Locale/NSDate+NSCalendarDate.m
 src/Locale/NSDate+NSDateFormatter.m
 src/Locale/NSDictionary+NSLocale.m
-src/Locale/_NSGMTTimeZone.m
 src/Locale/NSLocale.m
 src/Locale/NSNumberFormatter.m
 src/Locale/NSNumber+NSLocale.m
@@ -80,13 +80,10 @@ src/String/NSString+Escaping.m
 src/String/NSString+NSCharacterSet.m
 src/String/NSString+Search.m
 src/Undo/NSUndoManager.m
+src/mulle-foundation-standalone.m
 src/mulle-foundation-universeconfiguration.m
 )
 
 set( STAGE2_SOURCES
 src/MulleObjCLoader+MulleObjCStandardFoundation.m
-)
-
-set( STANDALONE_SOURCES
-src/mulle-foundation-standalone.m
 )

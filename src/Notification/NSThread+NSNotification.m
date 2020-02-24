@@ -15,13 +15,30 @@
 
 
 NSString  *NSWillBecomeMultiThreadedNotification = @"NSWillBecomeMultiThreadedNotification";
+NSString  *NSDidBecomeSingleThreadedNotification = @"NSDidBecomeSingleThreadedNotification";
+NSString  *NSThreadWillExitNotification          = @"NSThreadWillExitNotification";
 
-@implementation NSThread (NSNotification)
 
-+ (void) _isGoingMultiThreaded
+@implementation NSThread( NSNotification)
+
+- (void) _isGoingMultiThreaded
 {
    [[NSNotificationCenter defaultCenter] postNotificationName:NSWillBecomeMultiThreadedNotification
     object:nil];
+}
+
+
+- (void) _isProbablyGoingSingleThreaded
+{
+   [[NSNotificationCenter defaultCenter] postNotificationName:NSDidBecomeSingleThreadedNotification
+    object:nil];
+}
+
+
+- (void) _threadWillExit
+{
+   [[NSNotificationCenter defaultCenter] postNotificationName:NSThreadWillExitNotification
+                                                       object:self];
 }
 
 @end

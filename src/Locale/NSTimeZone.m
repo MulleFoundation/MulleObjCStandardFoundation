@@ -36,7 +36,7 @@
 #import "NSTimeZone.h"
 
 // other files in this library
-#import "_NSGMTTimeZone-Private.h"
+#import "_MulleGMTTimeZone-Private.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardFoundationContainer.h"
@@ -256,9 +256,9 @@ static inline void   SelfUnlock( void)
 }
 
 
-+ (NSTimeZone *) _GMTTimeZone
++ (NSTimeZone *) mulleGMTTimeZone
 {
-   return( [_NSGMTTimeZone sharedInstance]);
+   return( [_MulleGMTTimeZone sharedInstance]);
 }
 
 

@@ -17,15 +17,15 @@
 
 static void   test( NSRange range, NSUInteger length)
 {
-   printf( "%ld:%ld : %ld = ", (long) range.location, (long) range.length, (long) length);
+   printf( "{ %ld %ld } : %ld = ", (long) range.location, (long) range.length, (long) length);
    @try
    {
-      MulleObjCValidateRangeAgainstLength( range, length);
-      printf( "OK\n");
+      range = MulleObjCValidateRangeAgainstLength( range, length);
+      printf( "{ %ld, %ld } OK\n", (long) range.location, (long) range.length);
    }
    @catch( NSException *exception)
    {
-      printf( "FAIL\n");
+      printf( "{ %ld, %ld } FAIL\n", (long) range.location, (long) range.length);
    }
 }
 

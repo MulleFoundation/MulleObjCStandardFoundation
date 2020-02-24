@@ -109,23 +109,27 @@ void   mulle_foundation_teardown_objc( struct _mulle_objc_universe *universe)
 }
 
 
-
 MULLE_C_NO_RETURN
 static void   uncaught_exception( void *exception)
 {
-   fprintf( stderr, "uncaught exception: %s",
-                    [[(id) exception description] UTF8String]);
+   struct _mulle_objc_universe   *universe;
+
+   universe = mulle_objc_global_get_universe( __MULLE_OBJC_UNIVERSEID__);
+   mulle_objc_universe_fprintf( universe,
+                                stderr,
+                                "uncaught exception: %s",
+                                [[(id) exception description] UTF8String]);
    abort();
 }
 
 
 void  mulle_foundation_universeconfiguration_set_defaults( struct _mulle_objc_universeconfiguration *config)
 {
-   *config                              = *mulle_objc_global_get_default_universeconfiguration();
-   config->universe.versionassert       = versionassert;
-   config->universe.uncaughtexception   = uncaught_exception;
-   config->callbacks.postcreate         = mulle_foundation_postcreate_objc;
-   config->callbacks.teardown           = mulle_foundation_teardown_objc;
+   *config                            = *mulle_objc_global_get_default_universeconfiguration();
+   config->universe.versionassert     = versionassert;
+   config->universe.uncaughtexception = uncaught_exception;
+   config->callbacks.postcreate       = mulle_foundation_postcreate_objc;
+   config->callbacks.teardown         = mulle_foundation_teardown_objc;
 
    _MulleObjCExceptionInitTable( &config->foundation.exceptiontable);
 }
