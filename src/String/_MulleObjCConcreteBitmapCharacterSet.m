@@ -53,7 +53,7 @@
    struct mulle_allocator                 *allocator;
 
    obj       = NSAllocateObject( self, 0, NULL);
-   allocator = MulleObjCObjectGetAllocator( obj);
+   allocator = MulleObjCInstanceGetAllocator( obj);
    if( MulleObjCCharacterBitmapInitWithBitmapRepresentation( &obj->_bitmap, data, allocator))
    {
       [obj release];
@@ -68,7 +68,7 @@
    _MulleObjCConcreteBitmapCharacterSet   *obj;
 
    obj = NSAllocateObject( self, 0, NULL);
-   MulleObjCCharacterBitmapSetBitsWithString( &obj->_bitmap, s, MulleObjCObjectGetAllocator( obj));
+   MulleObjCCharacterBitmapSetBitsWithString( &obj->_bitmap, s, MulleObjCInstanceGetAllocator( obj));
 
    return( obj);
 }
@@ -76,7 +76,7 @@
 
 - (void) dealloc
 {
-   MulleObjCCharacterBitmapFreePlanes( &self->_bitmap, MulleObjCObjectGetAllocator( self));
+   MulleObjCCharacterBitmapFreePlanes( &self->_bitmap, MulleObjCInstanceGetAllocator( self));
 
    [super dealloc];
 }

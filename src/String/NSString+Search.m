@@ -732,7 +732,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
    NSInteger                             location;
    NSRange                               result;
 
-   NSCParameterAssert( [other isKindOfClass:[NSString class]]);
+   NSCParameterAssert( ! other || [other isKindOfClass:[NSString class]]);
    NSCParameterAssert( (options & (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
 
    len_self  = [self length];
@@ -776,7 +776,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 {
    return( [self rangeOfString:other
                        options:0
-                         range:NSMakeRange( 0, [self length])]);
+                         range:NSMakeRange( 0, -1)]);
 }
 
 
@@ -785,7 +785,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 {
    return( [self rangeOfString:other
                        options:mask
-                         range:NSMakeRange( 0, [self length])]);
+                         range:NSMakeRange( 0, -1)]);
 }
 
 
@@ -881,32 +881,30 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
 #pragma mark range search
 
 //
-// search until chars don't match set, return length of matches
+// search until a char doesn't match anymore, returns length of matches
 //
 static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_rover,
-                                          NSCharacterSet *set,
-                                          NSUInteger invert)
+                                          NSCharacterSet *set)
 {
    unichar   c;
    size_t    i;
    size_t    len;
    SEL       selMember;
    IMP       impMember;
-   BOOL      matches;
 
    len = get_length( self_rover);
    if( ! set)
       return( len);
 
-   matches   = invert ? NO : YES;
    selMember = @selector( characterIsMember:);
    impMember = [set methodForSelector:selMember];
 
    for( i = 0; i < len; ++i)
    {
       c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
-      if( (BOOL) (*impMember)( set, selMember, (void *) c) != matches)
-         break;
+      if( (BOOL) (*impMember)( set, selMember, (void *) c) == YES)
+         continue;
+      break;
    }
 
    return( i);
@@ -924,7 +922,6 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
    NSCParameterAssert( (options & (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch)) == options);
 
    range = MulleObjCValidateRangeAgainstLength( range, [self length]);
-
    if( ! range.length)
       return( NSMakeRange( NSNotFound, 0));
 
@@ -934,7 +931,7 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
                          options:options
                            range:range];
 
-   length = charset_length_search( &self_rover, set, options & MulleInvertedCharacterSetSearch);
+   length = charset_length_search( &self_rover, set);
    if( ! length)
       return( NSMakeRange( NSNotFound, 0));
 

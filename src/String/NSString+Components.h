@@ -53,13 +53,19 @@
 #pragma mark -
 #pragma mark mulle additions
 
+- (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) s;
+- (NSMutableArray *) mulleMutableComponentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
+
 // these two will return nil, if no separator is found
 - (NSArray *) _componentsSeparatedByString:(NSString *) separator;
 - (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators;
 
-
+- (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
+                                                      simplifyDots:(BOOL) simplifyDots;
 @end
 
 // this returns nil, if no separator is found
 NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator);
 NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self, NSString *separator);
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);

@@ -72,7 +72,7 @@
 
    _scope = _NSCreateMapTableWithAllocator( callback,
                               NSIntegerMapValueCallBacks,
-                              16, MulleObjCObjectGetAllocator( self));
+                              16, MulleObjCInstanceGetAllocator( self));
    return( [super initForReadingWithData:data]);
 }
 

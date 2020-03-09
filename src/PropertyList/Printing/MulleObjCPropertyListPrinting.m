@@ -114,6 +114,37 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
 }
 
 
+
+- (NSString *) mullePropertyListDescription
+{
+   NSMutableData  *data;
+   NSString       *s;
+
+   data = [NSMutableData data];
+   [self propertyListUTF8DataToStream:data
+                               indent:0];
+
+   s = [[[NSString alloc] initWithData:data
+                              encoding:NSUTF8StringEncoding] autorelease];
+   return( s);
+}
+
+
+- (NSString *) mulleJSONDescription
+{
+   NSMutableData  *data;
+   NSString       *s;
+
+   data = [NSMutableData data];
+   [self jsonUTF8DataToStream:data
+                       indent:0];
+
+   s = [[[NSString alloc] initWithData:data
+                              encoding:NSUTF8StringEncoding] autorelease];
+   return( s);
+}
+
+
 /*
  *
  */
@@ -142,7 +173,7 @@ char   *MulleObjCPropertyListUTF8DataIndentation( NSUInteger level)
    if( n <= size)
       return( &s[ size - n]);
 
-   s = MulleObjCAutoreleasedCalloc( n + 1, sizeof( char));
+   s = MulleObjCCallocAutoreleased( n + 1, sizeof( char));
    memset( s,
            _MulleObjCPropertyListUTF8DataIndentationCharacter,
            n);
@@ -171,7 +202,7 @@ char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level)
    if( n <= size)
       return( &s[ size - n]);
 
-   s = MulleObjCAutoreleasedCalloc( n + 1, sizeof( char));
+   s = MulleObjCCallocAutoreleased( n + 1, sizeof( char));
    memset( s,
            _MulleObjCJSONUTF8DataIndentationCharacter,
            n);

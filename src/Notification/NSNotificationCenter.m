@@ -447,7 +447,7 @@ static struct
 {
    struct mulle_allocator   *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
 
    mulle_map_init( &_observerRegistry, 64, &observer_registry_callbacks, allocator);
    mulle_map_init( &_nameRegistry,      5, &name_registry_callbacks, allocator);
@@ -469,7 +469,7 @@ static struct
    struct mulle_container_keyvaluecallback   callbacks;
    struct mulle_allocator                    *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
 
    // in "day to day" operations the queue contents are moved to another
    // queue, and we only destroy the old queue but not the contents
@@ -505,7 +505,7 @@ static struct
    struct mulle_allocator    *allocator;
    char                      *s;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
 
    s = _mulle__map_describe( (struct mulle__map *) &_observerRegistry, &observer_registry_callbacks, allocator);
    fprintf( stderr, "Observers: %s\n", s);

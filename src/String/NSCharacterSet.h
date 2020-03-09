@@ -77,6 +77,7 @@ typedef mulle_utf32_t  unichar;
 + (instancetype) URLUserAllowedCharacterSet;
 
 // mulle addition
++ (instancetype) mulleURLAllowedCharacterSet;
 + (instancetype) mulleURLSchemeAllowedCharacterSet;
 + (instancetype) mulleNonPercentEscapeCharacterSet;
 

@@ -80,7 +80,7 @@
 - (instancetype) initWithBitmapRepresentation:(NSData *) data
 {
    MulleObjCCharacterBitmapInitWithBitmapRepresentation( &self->_bitmap,data,
-                                                         MulleObjCObjectGetAllocator( self));
+                                                         MulleObjCInstanceGetAllocator( self));
    return( self);
 }
 
@@ -88,7 +88,7 @@
 - (void) dealloc
 {
    MulleObjCCharacterBitmapFreePlanes( &self->_bitmap,
-                                       MulleObjCObjectGetAllocator( self));
+                                       MulleObjCInstanceGetAllocator( self));
    NSDeallocateObject( self);
 }
 
@@ -106,14 +106,14 @@
 
 /* sucks so much to reimplement all this */
 
-+ (NSCharacterSet *) characterSetWithCharactersInString:(NSString *) s
++ (instancetype) characterSetWithCharactersInString:(NSString *) s
 {
    NSMutableCharacterSet   *set;
 
    set = [[self new] autorelease];
    MulleObjCCharacterBitmapSetBitsWithString( &set->_bitmap,
                                               s,
-                                              MulleObjCObjectGetAllocator( set));
+                                              MulleObjCInstanceGetAllocator( set));
    return( set);
 }
 
@@ -131,132 +131,140 @@ static id   construct( SEL _cmd)
 }
 
 
-+ (NSCharacterSet *) capitalizedLetterCharacterSet
++ (instancetype) capitalizedLetterCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) controlCharacterSet
++ (instancetype) controlCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) decimalDigitCharacterSet
++ (instancetype) decimalDigitCharacterSet
 {
    return( construct( _cmd));
 
 }
 
 
-+ (NSCharacterSet *) decomposableCharacterSet
++ (instancetype) decomposableCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) illegalCharacterSet
++ (instancetype) illegalCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) letterCharacterSet
++ (instancetype) letterCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) lowercaseLetterCharacterSet
++ (instancetype) lowercaseLetterCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) nonBaseCharacterSet
++ (instancetype) nonBaseCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) punctuationCharacterSet
++ (instancetype) punctuationCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) symbolCharacterSet
++ (instancetype) symbolCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) uppercaseLetterCharacterSet
++ (instancetype) uppercaseLetterCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) whitespaceAndNewlineCharacterSet
++ (instancetype) whitespaceAndNewlineCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) whitespaceCharacterSet
++ (instancetype) whitespaceCharacterSet
 {
    return( construct( _cmd));
 }
 
  // move this to INetFoundtion
 
-+ (NSCharacterSet *) URLFragmentAllowedCharacterSet
++ (instancetype) URLFragmentAllowedCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) URLHostAllowedCharacterSet
++ (instancetype) URLHostAllowedCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) URLPasswordAllowedCharacterSet
++ (instancetype) URLPasswordAllowedCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) URLPathAllowedCharacterSet
++ (instancetype) URLPathAllowedCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) URLQueryAllowedCharacterSet
++ (instancetype) URLQueryAllowedCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) mulleURLSchemeAllowedCharacterSet
++ (instancetype) URLUserAllowedCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) URLUserAllowedCharacterSet
++ (instancetype) mulleNonPercentEscapeCharacterSet
 {
    return( construct( _cmd));
 }
 
 
-+ (NSCharacterSet *) mulleNonPercentEscapeCharacterSet
++ (instancetype) mulleURLAllowedCharacterSet
 {
    return( construct( _cmd));
 }
+
+
++ (instancetype) mulleURLSchemeAllowedCharacterSet
+{
+   return( construct( _cmd));
+}
+
+
 
 
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
@@ -316,9 +324,9 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
    range = MulleObjCValidateRangeAgainstLength( range, 0x110000);
 
    if( ! _invert)
-      MulleObjCCharacterBitmapSetBitsInRange( &_bitmap, range, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapSetBitsInRange( &_bitmap, range, MulleObjCInstanceGetAllocator( self));
    else
-      MulleObjCCharacterBitmapClearBitsInRange( &_bitmap, range, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapClearBitsInRange( &_bitmap, range, MulleObjCInstanceGetAllocator( self));
 }
 
 
@@ -327,27 +335,27 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
    range = MulleObjCValidateRangeAgainstLength( range, 0x110000);
 
    if( ! _invert)
-      MulleObjCCharacterBitmapClearBitsInRange( &_bitmap, range, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapClearBitsInRange( &_bitmap, range, MulleObjCInstanceGetAllocator( self));
    else
-      MulleObjCCharacterBitmapSetBitsInRange( &_bitmap, range, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapSetBitsInRange( &_bitmap, range, MulleObjCInstanceGetAllocator( self));
 }
 
 
 - (void) addCharactersInString:(NSString *) s
 {
    if( ! _invert)
-      MulleObjCCharacterBitmapSetBitsWithString( &_bitmap, s, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapSetBitsWithString( &_bitmap, s, MulleObjCInstanceGetAllocator( self));
    else
-      MulleObjCCharacterBitmapClearBitsWithString( &_bitmap, s, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapClearBitsWithString( &_bitmap, s, MulleObjCInstanceGetAllocator( self));
 }
 
 
 - (void) removeCharactersInString:(NSString *) s
 {
    if( ! _invert)
-      MulleObjCCharacterBitmapClearBitsWithString( &_bitmap, s, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapClearBitsWithString( &_bitmap, s, MulleObjCInstanceGetAllocator( self));
    else
-      MulleObjCCharacterBitmapSetBitsWithString( &_bitmap, s, MulleObjCObjectGetAllocator( self));
+      MulleObjCCharacterBitmapSetBitsWithString( &_bitmap, s, MulleObjCInstanceGetAllocator( self));
 }
 
 
@@ -358,7 +366,7 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
    struct mulle_allocator            *allocator;
 
    data      = [other bitmapRepresentation];
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    MulleObjCCharacterBitmapInitWithBitmapRepresentation( &tmp, data, allocator);
 
    if( ! _invert)
@@ -377,7 +385,7 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
    struct mulle_allocator            *allocator;
 
    data      = [other bitmapRepresentation];
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    MulleObjCCharacterBitmapInitWithBitmapRepresentation( &tmp, data, allocator);
 
    if( ! _invert)

@@ -59,7 +59,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 - (instancetype) init
 {
-   _allocator = *MulleObjCObjectGetAllocator( self);
+   _allocator = *MulleObjCInstanceGetAllocator( self);
 
    mulle_buffer_init( &_buffer, &_allocator);
 

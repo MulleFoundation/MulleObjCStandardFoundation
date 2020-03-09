@@ -83,8 +83,11 @@
 //
 // finds longest ranges from the start,
 // use NSBackwardsSearch to find Suffix
-// cheaper than using an inverted set
 // It's always NSAnchoredSearch implicitly!
+//
+// hint: to find characters not in set, compare returned range.length with
+// input range.length. If it doesn't match, there you are
+//
 - (NSRange) mulleRangeOfCharactersFromSet:(NSCharacterSet *) set
                                   options:(NSStringCompareOptions) options
                                     range:(NSRange) range;

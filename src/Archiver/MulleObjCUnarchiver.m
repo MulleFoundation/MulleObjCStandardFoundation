@@ -215,7 +215,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    void                                   *obj_index;
    struct mulle_allocator                 *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    _mulle_pointerarray_init( &_classcluster, 1024, NULL, allocator);
    _mulle_pointerarray_init( &regular, 1024, NULL, allocator);
 
@@ -347,7 +347,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
    if( ! check_header_8( &_buffer, "**blb**"))
       return( NO);
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
 
    n = (unsigned int) mulle_buffer_next_integer( &_buffer);
    for( i = 0; i < n; i++)
@@ -444,7 +444,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
    [super init];
 
-   allocator  = MulleObjCObjectGetAllocator( self);
+   allocator  = MulleObjCInstanceGetAllocator( self);
    _objects   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, NSNonRetainedObjectMapValueCallBacks, 16, allocator);
    _offsets   = _NSCreateMapTableWithAllocator( NSIntegerMapKeyCallBacks, mulle_container_valuecallback_intptr, 16, allocator);
 

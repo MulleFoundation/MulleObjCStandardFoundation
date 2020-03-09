@@ -123,3 +123,6 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 
 
 @end
+
+NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format);
+

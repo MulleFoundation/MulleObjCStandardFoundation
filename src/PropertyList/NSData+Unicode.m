@@ -115,7 +115,7 @@ static _MulleObjCByteOrderMark  byteOrderMark( uint8_t *p, size_t len)
    mulle_utf16_t            *srcBytes;
    mulle_utf8_t             *dstBytes;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    mulle_buffer_init( &buf, allocator);
    srcBytes  = [self bytes];
    length    = [self length] / sizeof( mulle_utf16_t);
