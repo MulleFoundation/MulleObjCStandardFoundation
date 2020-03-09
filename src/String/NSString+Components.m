@@ -37,12 +37,14 @@
 
 // other files in this library
 #import "NSCharacterSet.h"
+#import "NSString+Search.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardFoundationContainer.h"
 #import "MulleObjCStandardFoundationException.h"
 
 // std-c and other dependencies
+#import "import-private.h"
 
 
 @implementation NSString ( Components)
@@ -58,7 +60,8 @@ static NSString   *makeUTF8String( mulle_utf8_t *s, NSUInteger len)
 
 
 static NSArray  *
-   newArrayFromOffsetsAndUnicharBufWithSeperatorLen( mulle_utf8_t *buf,
+   newArrayFromOffsetsAndUnicharBufWithSeperatorLen( Class arrayCls,
+                                                     mulle_utf8_t *buf,
                                                      NSUInteger bufLen,
                                                      NSUInteger *offsets,
                                                      NSUInteger nOffsets,
@@ -70,13 +73,11 @@ static NSArray  *
    mulle_utf8_t             *p;
    mulle_utf8_t             *q;
    NSUInteger               len;
-   Class                    arrayCls;
    struct mulle_allocator   *allocator;
 
    NSCParameterAssert( bufLen >= 1);
    NSCParameterAssert( sepLen >= 1);
 
-   arrayCls  = [NSArray class];
    allocator = MulleObjCClassGetAllocator( arrayCls);
    strings   = mulle_allocator_malloc( allocator, (nOffsets + 1) * sizeof( NSString *));
 
@@ -104,7 +105,9 @@ static NSArray  *
 }
 
 
-NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator)
+id   _MulleObjCComponentsSeparatedByString( NSString *self,
+                                            NSString *separator,
+                                            Class arrayCls)
 {
    NSUInteger        i, n;
    NSUInteger        m;
@@ -207,10 +210,25 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
       // 95% of all cases, there is no separator in self
       array = nil;
       if( i)
-         array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( buf, n, offsets, i, m);
+         array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( arrayCls, buf, n, offsets, i, m);
       mulle_free( tofree);
    }
    return( [array autorelease]);
+}
+
+
+
+NSArray  *MulleObjCComponentsSeparatedByString( NSString *self,
+                                                NSString *separator)
+{
+   return( _MulleObjCComponentsSeparatedByString( self, separator, [NSArray class]));
+}
+
+
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
+                                                              NSString *separator)
+{
+   return( _MulleObjCComponentsSeparatedByString( self, separator, [NSMutableArray class]));
 }
 
 
@@ -228,26 +246,42 @@ NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separa
 }
 
 
+- (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) separator
+{
+   NSMutableArray  *components;
+
+   if( ! separator)
+      MulleObjCThrowInvalidArgumentException( @"separator can't be nil");
+
+   components = MulleObjCMutableComponentsSeparatedByString( self, separator);
+   if( ! components)
+      components = [NSMutableArray arrayWithObject:self];
+   return( components);
+}
+
+
 - (NSArray *) _componentsSeparatedByString:(NSString *) separator
 {
    return( MulleObjCComponentsSeparatedByString( self, separator));
 }
 
 
-NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators)
+id   _MulleObjCComponentsSeparatedByCharacterSet( NSString *self,
+                                                  NSCharacterSet *separators,
+                                                  Class arrayCls)
 {
+   IMP               isMember;
+   mulle_utf8_t      *buf;
+   mulle_utf8_t      *p;
+   mulle_utf8_t      *sentinel;
+   mulle_utf8_t      *sep;
+   NSArray           *array;
+   NSUInteger        *offsets;
+   NSUInteger        *tofree;
    NSUInteger        i, n;
    NSUInteger        m;
    NSUInteger        max;
-   NSArray           *array;
-   mulle_utf8_t      *buf;
-   mulle_utf8_t      *sep;
-   mulle_utf8_t      *sentinel;
-   mulle_utf8_t      *p;
-   NSUInteger        *offsets;
-   NSUInteger        *tofree;
    size_t            size;
-   IMP               isMember;
 
    n = [self mulleUTF8StringLength];
    if( ! n)
@@ -292,11 +326,24 @@ NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacte
       // 95% of all cases, there is no separator in self
       array = nil;
       if( i)
-         array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( buf, n, offsets, i, m);
+         array = newArrayFromOffsetsAndUnicharBufWithSeperatorLen( arrayCls, buf, n, offsets, i, m);
       mulle_free( tofree);
    }
    return( [array autorelease]);
 }
+
+
+NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators)
+{
+   return( _MulleObjCComponentsSeparatedByCharacterSet( self, separators, [NSArray class]));
+}
+
+
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators)
+{
+   return( _MulleObjCComponentsSeparatedByCharacterSet( self, separators, [NSMutableArray class]));
+}
+
 
 // will return nil, if not separated! (to be compatible)
 - (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators
@@ -313,6 +360,166 @@ NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacte
    if( ! array)
       array = [NSArray arrayWithObject:self];
    return( array);
+}
+
+- (NSMutableArray *) mulleMutableComponentsSeparatedByCharactersInSet:(NSCharacterSet *) separators
+{
+   NSMutableArray   *array;
+
+   array = MulleObjCMutableComponentsSeparatedByCharacterSet( self, separators);
+   if( ! array)
+      array = [NSMutableArray arrayWithObject:self];
+   return( array);
+}
+
+
+static NSMutableArray  *arrayWithComponents( NSArray *components, NSRange range, BOOL includeFirst)
+{
+   NSMutableArray   *array;
+
+   array = [NSMutableArray array];
+   if( includeFirst && range.location != 0)
+      [array addObject:[components objectAtIndex:0]];
+   [array addObjectsFromArray:[components subarrayWithRange:range]];
+   return( array);
+}
+
+
+- (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
+                                                      simplifyDots:(BOOL) simplifyDots
+{
+   enum
+   {
+      isUnknown,
+      isAbsolute,
+      isDot,
+      isDotDot
+   } pathtype;
+
+   BOOL         skipping;
+   id           result;
+   NSArray      *components;
+   NSString     *prev;
+   NSString     *s;
+   NSUInteger   i, n;
+   NSUInteger   len;
+   NSUInteger   start;
+
+   //
+   // if this is nil, path has no @"/" anywhere
+   //
+   components = [self _componentsSeparatedByString:separator];
+   if( ! components)
+      return( self);
+
+   pathtype = isUnknown;
+   skipping = YES;
+   result   = nil;
+   start    = 0;
+
+   n = [components count];
+   for( i = 0; i < n; i++)
+   {
+      s   = [components objectAtIndex:i];
+      len = [s length];
+
+         // if path starts with '/' or '.' we can collapse '..'
+      if( ! len || (simplifyDots && [@"." isEqualToString:s]))
+      {
+         if( ! i)
+            pathtype = ! len ? isAbsolute : isDot;
+
+         // skip over '//' and '/./'
+         if( skipping)
+            ++start;
+         continue;
+      }
+
+      // convert "/foo/../" to "foo"
+      // though symlinks should be resolved now
+
+      if( simplifyDots && [@".." isEqualToString:s])
+      {
+         if( ! i)
+         {
+            pathtype = isDotDot;
+            ++start;    // still update this for later output
+            skipping = NO;
+            continue;
+         }
+
+         if( skipping && isAbsolute)
+         {
+            if( skipping)
+               ++start;    // collapse /.. to /
+            continue;
+         }
+
+         if( ! result)
+            result = arrayWithComponents( components, NSMakeRange( start, i - start), YES);
+
+         prev = [result lastObject];
+         if( ! [@".." isEqualToString:prev])
+         {
+            if( ! [prev length])
+               continue;
+
+            [result removeLastObject];
+            if( ! [result count])
+            {
+               result = nil;
+               start  = i;
+            }
+            continue;
+         }
+      }
+
+      // keep adding to nil, if there was nothing to collapse
+      if( ! result && start)
+         result = arrayWithComponents( components, NSMakeRange( start, i - start), YES);
+      [result addObject:s];
+      skipping = NO;
+   }
+
+   if( start == i)
+   {
+      switch( pathtype)
+      {
+         case isAbsolute : return( separator);
+         case isDot      : return( @".");
+         case isDotDot   : return( @"..");
+         default         : break;
+      }
+   }
+   if( ! result && ! start)
+      return( self);
+
+   if( ! result)
+      result = arrayWithComponents( components, NSMakeRange( start, i - start), YES);
+
+   // remove trailing '/' if any
+   len = [result count];
+   while( len)
+   {
+      s = [result lastObject];
+      if( [s length] && (! simplifyDots || ! [s isEqualToString:@"."]))
+         break;
+      [result removeLastObject];
+      --len;
+   }
+
+   if( ! len)
+   {
+      switch( pathtype)
+      {
+         case isAbsolute : return( separator);
+         case isDot      : return( @".");
+         case isDotDot   : return( @"..");
+         default         : break;
+      }
+   }
+
+   return( [result componentsJoinedByString:separator]);
 }
 
 @end

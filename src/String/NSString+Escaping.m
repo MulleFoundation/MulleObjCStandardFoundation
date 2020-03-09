@@ -80,7 +80,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    if( ! length)
       return( @"\"\"");
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    buf       = (mulle_utf8_t *) mulle_allocator_malloc( allocator, length * 3 + 3);
 
    // place source in the back of our buffer
@@ -144,7 +144,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    if( ! length)
       return( self);
 
-   buf = (mulle_utf8_t *) MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
+   buf = (mulle_utf8_t *) MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
    [self mulleGetUTF8Characters:buf
                       maxLength:length];
 
@@ -168,7 +168,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 
       if( ! p)
       {
-         dst_buf    = MulleObjCAutoreleasedCalloc( length * 3, sizeof( mulle_utf8_t));
+         dst_buf    = MulleObjCCallocAutoreleased( length * 3, sizeof( mulle_utf8_t));
          dst_length = s - buf - 1;
          memcpy( dst_buf, buf, dst_length);
          p          = &dst_buf[ dst_length];
@@ -240,7 +240,7 @@ static inline int   dehex( mulle_utf8_t c)
    if( ! length)
       return( self);
 
-   buf = (mulle_utf8_t *) MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
+   buf = (mulle_utf8_t *) MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
    [self mulleGetUTF8Characters:buf
                  maxLength:length];
 
@@ -282,7 +282,7 @@ static inline int   dehex( mulle_utf8_t c)
 
       if( ! p)
       {
-         dst_buf    = MulleObjCAutoreleasedCalloc( length, sizeof( mulle_utf8_t));
+         dst_buf    = MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
          dst_length = s - buf - 1;
          memcpy( dst_buf, buf, dst_length);
 
@@ -421,7 +421,7 @@ enum quoteState
    if( ! length)
       return( self);
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    buf       = mulle_allocator_malloc( allocator, length * sizeof( unichar));
    [self getCharacters:buf];
 

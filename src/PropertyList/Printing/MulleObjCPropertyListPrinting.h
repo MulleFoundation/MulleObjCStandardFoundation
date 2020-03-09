@@ -40,12 +40,18 @@
 #import "_MulleObjCDataStream.h"
 
 
+// TODO: prefix with mulle, this is all incompatible
 
 PROTOCOLCLASS_INTERFACE0( MulleObjCPropertyListPrinting)
 
 // you need to implement some, but not all ... use the source
 
 @optional
+
+// simple conveniences to just get a list or json
+
+- (NSString *) mullePropertyListDescription;
+- (NSString *) mulleJSONDescription;
 
 //
 // this is what is called at the top. the idea is that
@@ -70,6 +76,7 @@ PROTOCOLCLASS_INTERFACE0( MulleObjCPropertyListPrinting)
 //
 - (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
 - (NSData *) jsonUTF8DataWithIndent:(NSUInteger) indent;
+
 
 
 PROTOCOLCLASS_END()

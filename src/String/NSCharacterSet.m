@@ -202,14 +202,6 @@
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlquery
                                                     planeFunction:mulle_utf_is_validurlqueryplane
-                                                          invert:NO] autorelease]);
-}
-
-
-+ (instancetype) mulleURLSchemeAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlscheme
-                                                    planeFunction:mulle_utf_is_validurlschemeplane
                                                            invert:NO] autorelease]);
 }
 
@@ -218,6 +210,26 @@
 {
    return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurluser
                                                     planeFunction:mulle_utf_is_validurluserplane
+                                                           invert:NO] autorelease]);
+}
+
+
+// be sure to duplicate these in NSMutableCharacterSet
+
++ (instancetype) mulleURLAllowedCharacterSet
+{
+   // https://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters
+   return( [self characterSetWithCharactersInString:@"!*'();:@&=+$,/?#[]"
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      "abcdefghijklmnopqrstuvwxyz"
+      "0123456789-_.~" ]);
+}
+
+
++ (instancetype) mulleURLSchemeAllowedCharacterSet
+{
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlscheme
+                                                    planeFunction:mulle_utf_is_validurlschemeplane
                                                            invert:NO] autorelease]);
 }
 
@@ -237,6 +249,9 @@
 }
 
 
+/*
+ *
+ */
 - (instancetype) invertedSet
 {
    return( [[_MulleObjCConcreteInvertedCharacterSet newWithCharacterSet:self] autorelease]);

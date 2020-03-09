@@ -6,6 +6,7 @@ NSInvalidArgumentException
 "0,1,,2,,,,3,,,,4" seperated by ",,": "0,1" "2" "" "3" "" "4"
 "," seperated by ",": "" ""
 "0," seperated by ",": "0" ""
+",0," seperated by ",": "" "0" ""
 "0,," seperated by ",": "0" "" ""
 ",0" seperated by ",": "" "0"
 ",,0" seperated by ",": "" "" "0"

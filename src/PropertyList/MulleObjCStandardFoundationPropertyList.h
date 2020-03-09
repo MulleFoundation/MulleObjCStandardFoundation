@@ -41,7 +41,16 @@
 #import "NSString+PropertyList.h"
 #import "NSDictionary+PropertyList.h"
 
+#import "NSArray+PropertyListPrinting.h"
+#import "NSData+PropertyListPrinting.h"
+#import "NSDate+PropertyListPrinting.h"
+#import "NSDictionary+PropertyListPrinting.h"
+#import "NSNumber+PropertyListPrinting.h"
+#import "NSString+PropertyListPrinting.h"
+
 // export everything with MulleObjC
+#import "MulleObjCPropertyListPrinting.h"
+
 
 
 // export nothing with _MulleObjC

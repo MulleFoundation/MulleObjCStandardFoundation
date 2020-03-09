@@ -6,9 +6,18 @@
 
 extern void  sleep( int);
 
+//#define N_OBJECTS    1
+//#define N_OBSERVERS  1
+//#define N_THREADS    16
 
+// #define N_OBJECTS    100
+// #define N_OBSERVERS  10
+// #define N_THREADS    256
+
+#define N_THREADS    16
 #define N_OBJECTS    1000
 #define N_OBSERVERS  1000
+
 
 @interface Foo : NSObject
 @end
@@ -92,12 +101,12 @@ static void   add_observer( NSNotificationCenter *center, id observer, int type,
 
 int  main( int argc, char  *argv[])
 {
-   NSMutableArray         *objects;
-   NSUInteger             i;
-   NSUInteger             n_threads;
-   Foo                    *foo;
+   NSMutableArray   *objects;
+   NSUInteger       i;
+   NSUInteger       n_threads;
+   Foo              *foo;
 
-   n_threads = (argc == 2) ? atoi( argv[ 1]) : 16;
+   n_threads = (argc == 2) ? atoi( argv[ 1]) : N_THREADS;
 
    objects = [NSMutableArray array];
    for( i = 0; i < N_OBJECTS; i++)
@@ -113,8 +122,11 @@ int  main( int argc, char  *argv[])
                              withObject:objects];
    }
 
+   fprintf( stderr, "WAITING\n");
    while( [NSThread mulleIsMultiThreaded])
       sleep( 1);
+
+   fprintf( stderr, "DONE\n");
    return( 0);
 }
 

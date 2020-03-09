@@ -76,7 +76,7 @@
    q        = (unsigned char *) [data bytes];
    sentinel = &q[ len];
 
-   start    = MulleObjCAutoreleasedCalloc( 2 + len * 6, sizeof( char));
+   start    = MulleObjCCallocAutoreleased( 2 + len * 6, sizeof( char));
    s        = start;
 
    *s++ = '"';
