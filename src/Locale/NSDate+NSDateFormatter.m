@@ -32,7 +32,7 @@ static NSString   *NSDateDefaultFormat = @"%Y-%m-%d %H:%M:%S %z";
 
 
 - (instancetype) initWithTimeintervalSince1970:(NSTimeInterval) interval
-                            timeZone:(NSTimeZone *) timeZone
+                                      timeZone:(NSTimeZone *) timeZone
 {
    interval -= [timeZone secondsFromGMT];
    return( [self initWithTimeIntervalSince1970:interval]);

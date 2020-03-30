@@ -1,5 +1,5 @@
 //
-//  _MulleObjCBufferedDataInputStream.h
+//  MulleObjCBufferedInputStream.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
@@ -34,11 +34,11 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "_MulleObjCDataStream.h"
+#import "MulleObjCStream.h"
 
 
 //
-// _MulleObjCBufferedDataInputStream is an abstraction to be used if reading
+// MulleObjCBufferedInputStream is an abstraction to be used if reading
 // or writing to NSFilehandles
 //
 typedef struct
@@ -49,12 +49,12 @@ typedef struct
 
 
 
-@interface _MulleObjCBufferedDataInputStream : NSObject < _MulleObjCInputDataStream>
+@interface MulleObjCBufferedInputStream : NSObject < MulleObjCInputStream>
 {
-#ifdef _MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY
-_MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY      // allow public access for internal use
+#ifdef MULLE_OBJC_BUFFERED_INPUT_STREAM_IVAR_VISIBILITY
+MULLE_OBJC_BUFFERED_INPUT_STREAM_IVAR_VISIBILITY      // allow public access for internal use
 #endif
-   id <_MulleObjCInputDataStream >  _stream;
+   id <MulleObjCInputStream >  _stream;
 
    NSData          *_data;
    unsigned char   *_current;
@@ -65,7 +65,7 @@ _MULLE_OBJC_BUFFERED_DATA_INPUT_STREAM_IVAR_VISIBILITY      // allow public acce
 }
 
 - (instancetype) initWithData:(NSData *) data;
-- (instancetype) initWithInputStream:(id <_MulleObjCInputDataStream>) stream;
+- (instancetype) initWithInputStream:(id <MulleObjCInputStream>) stream;
 
 - (NSData *) readDataOfLength:(NSUInteger) size;
 

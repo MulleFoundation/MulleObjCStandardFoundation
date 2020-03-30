@@ -2,7 +2,12 @@
       { @selector( MulleObjCLoader), @selector( MulleObjCValueFoundation) },      // 47a9beb6;MulleObjCLoader;535d5103;MulleObjCValueFoundation
       { @selector( MulleObjCArchiver), MULLE_OBJC_NO_CATEGORYID },      // 6c636b4d;MulleObjCArchiver;;
       { @selector( MulleObjCBoolNumber), @selector( PropertyListPrinting) },      // 0445791b;MulleObjCBoolNumber;91aeee11;PropertyListPrinting
+      { @selector( MulleObjCBufferedInputStream), MULLE_OBJC_NO_CATEGORYID },      // 0d289418;MulleObjCBufferedInputStream;;
+      { @selector( MulleObjCBufferedOutputStream), MULLE_OBJC_NO_CATEGORYID },      // f919266f;MulleObjCBufferedOutputStream;;
+      { @selector( MulleObjCInMemoryInputStream), MULLE_OBJC_NO_CATEGORYID },      // c11e0f43;MulleObjCInMemoryInputStream;;
+      { @selector( MulleObjCOutputStream), MULLE_OBJC_NO_CATEGORYID },      // 94c18dd3;MulleObjCOutputStream;;
       { @selector( MulleObjCPropertyListPrinting), MULLE_OBJC_NO_CATEGORYID },      // ae35af0f;MulleObjCPropertyListPrinting;;
+      { @selector( MulleObjCUTF8StreamReader), MULLE_OBJC_NO_CATEGORYID },      // 1570378d;MulleObjCUTF8StreamReader;;
       { @selector( MulleObjCUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 6c32efb0;MulleObjCUnarchiver;;
       { @selector( MulleObjCUnkeyedArchiver), MULLE_OBJC_NO_CATEGORYID },      // f57df630;MulleObjCUnkeyedArchiver;;
       { @selector( MulleObjCUnkeyedUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b124a0f;MulleObjCUnkeyedUnarchiver;;
@@ -40,7 +45,7 @@
       { @selector( NSLocale), MULLE_OBJC_NO_CATEGORYID },      // 22b7d78c;NSLocale;;
       { @selector( NSMutableArray), @selector( NSSortDescriptor) },      // f5e6dbdd;NSMutableArray;38a79ab2;NSSortDescriptor
       { @selector( NSMutableCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // a5cef654;NSMutableCharacterSet;;
-      { @selector( NSMutableData), @selector( _MulleObjCOutputDataStream) },      // 5d7fdc81;NSMutableData;2ac26786;_MulleObjCOutputDataStream
+      { @selector( NSMutableData), @selector( MulleObjCOutputStream) },      // 5d7fdc81;NSMutableData;94c18dd3;MulleObjCOutputStream
       { @selector( NSMutableString), @selector( Search) },      // 63662493;NSMutableString;646a2c9c;Search
       { @selector( NSNotification), MULLE_OBJC_NO_CATEGORYID },      // 4cf6fadb;NSNotification;;
       { @selector( NSNotificationCenter), MULLE_OBJC_NO_CATEGORYID },      // 1c4865c0;NSNotificationCenter;;
@@ -72,13 +77,9 @@
       { @selector( NSUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b47ff54;NSUnarchiver;;
       { @selector( NSUndoManager), MULLE_OBJC_NO_CATEGORYID },      // 0e5330bc;NSUndoManager;;
       { @selector( _MulleGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // d6f534a3;_MulleGMTTimeZone;;
-      { @selector( _MulleObjCBufferedDataInputStream), MULLE_OBJC_NO_CATEGORYID },      // 581653a8;_MulleObjCBufferedDataInputStream;;
-      { @selector( _MulleObjCBufferedDataOutputStream), MULLE_OBJC_NO_CATEGORYID },      // a251e479;_MulleObjCBufferedDataOutputStream;;
       { @selector( _MulleObjCConcreteBitmapCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 0846adc2;_MulleObjCConcreteBitmapCharacterSet;;
       { @selector( _MulleObjCConcreteCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // ba1004b2;_MulleObjCConcreteCharacterSet;;
       { @selector( _MulleObjCConcreteInvertedCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 91ba9925;_MulleObjCConcreteInvertedCharacterSet;;
       { @selector( _MulleObjCConcreteRangeCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 09c86c6e;_MulleObjCConcreteRangeCharacterSet;;
       { @selector( _MulleObjCLocalTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 5813d6fc;_MulleObjCLocalTimeZone;;
-      { @selector( _MulleObjCMemoryDataInputStream), MULLE_OBJC_NO_CATEGORYID },      // 0a00da66;_MulleObjCMemoryDataInputStream;;
       { @selector( _MulleObjCPropertyListReader), MULLE_OBJC_NO_CATEGORYID },      // a2dc8d79;_MulleObjCPropertyListReader;;
-      { @selector( _MulleObjCUTF8StreamReader), MULLE_OBJC_NO_CATEGORYID },      // cbcbf81e;_MulleObjCUTF8StreamReader;;

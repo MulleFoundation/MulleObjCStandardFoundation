@@ -1564,7 +1564,7 @@ static void   test_i_property_list_utf8_data_to_stream_indent_()
    @autoreleasepool
    {
       NSArray *obj;
-      id <_MulleObjCOutputDataStream> params_1[] =
+      id <MulleObjCOutputStream> params_1[] =
       {
          0
       };

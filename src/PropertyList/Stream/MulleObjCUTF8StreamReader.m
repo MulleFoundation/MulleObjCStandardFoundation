@@ -1,5 +1,5 @@
 //
-//  _MulleObjCUTF8StreamReader.m
+//  MulleObjCUTF8StreamReader.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
@@ -33,8 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "_MulleObjCUTF8StreamReader+InlineAccessors.h"
-#import "_MulleObjCUTF8StreamReader.h"
+#import "MulleObjCUTF8StreamReader+InlineAccessors.h"
+#import "MulleObjCUTF8StreamReader.h"
 
 // other files in this library
 
@@ -43,21 +43,21 @@
 // std-c and dependencies
 
 
-const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
+const size_t   MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 
-@implementation _MulleObjCUTF8StreamReader
+@implementation MulleObjCUTF8StreamReader
 
-- (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
+- (instancetype) initWithBufferedInputStream:(MulleObjCBufferedInputStream *) stream
 {
-   NSCParameterAssert( [stream isKindOfClass:[_MulleObjCBufferedDataInputStream class]]);
+   NSCParameterAssert( [stream isKindOfClass:[MulleObjCBufferedInputStream class]]);
 
    [self init];
 
    _stream = [stream retain];
 
    // get first character loaded in
-   __NSUTF8StreamReaderFirstUTF32Character( self);
+   __MulleObjCUTF8StreamReaderFirstUTF32Character( self);
    // set first lineNr
    self->_lineNr = 1;
 
@@ -67,13 +67,13 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 
 - (instancetype) initWithString:(NSString *) s
 {
-   _MulleObjCBufferedDataInputStream  *stream;
+   MulleObjCBufferedInputStream  *stream;
    NSData                            *data;
 
    [self init];
 
    data   = [s dataUsingEncoding:NSUTF8StringEncoding];
-   stream = [[[_MulleObjCBufferedDataInputStream alloc] initWithData:data] autorelease];
+   stream = [[[MulleObjCBufferedInputStream alloc] initWithData:data] autorelease];
 
    return( [self initWithBufferedInputStream:stream]);
 }
@@ -129,14 +129,14 @@ const size_t   _MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
    11111000-11111011 	F8-FB 	248-251 	Restricted by RFC 3629: start of 5-byte sequence
    11111100-11111101 	FC-FD 	252-253 	Restricted by RFC 3629: start of 6-byte sequence
    11111110-11111111 	FE-FF 	254-255 	Invalid: not defined by original UTF-8 specification
+   sigh... bits are not very cleverly ordered in UTF8...
 */
 
 //
-// sigh... bits are not very cleverly ordered in UTF8...
 // what happened before this call, someone peaked at the current character
 // and saw that top bit was set
 //
-long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *self, unsigned char x)
+long   __MulleObjCUTF8StreamReaderComposeUTF32Character( MulleObjCUTF8StreamReader *self, unsigned char x)
 {
    int    i;
    long   value;
@@ -150,7 +150,7 @@ long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *
 
    do
    {
-      c = _MulleObjCBufferedDataInputStreamNextCharacter( self->_stream);
+      c = MulleObjCBufferedInputStreamNextCharacter( self->_stream);
 
       if( c < 0)
          return( 0xFFFD);  // replacement character for corrupted stuff at end of file
@@ -166,11 +166,11 @@ long   __NSUTF8StreamReaderDecomposeUTF32Character( _MulleObjCUTF8StreamReader *
 }
 
 
-void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *_self,
-                                        NSString *format,
-                                        va_list args)
+void   MulleObjCUTF8StreamReaderFailV( MulleObjCUTF8StreamReader *_self,
+                                       NSString *format,
+                                       va_list args)
 {
-   struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
+   struct { @defs( MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
    NSString   *prefixed;
 
@@ -179,21 +179,21 @@ void   _MulleObjCUTF8StreamReaderFailV( _MulleObjCUTF8StreamReader *_self,
       [_self logFailure:prefixed
               arguments:args];
    else
-      [NSException raise:@"_MulleObjCUTF8StreamReaderException"
+      [NSException raise:@"MulleObjCUTF8StreamReaderException"
                   format:prefixed
                arguments:args];
 }
 
 
 // written like it belonged to +InlineAccessors.h
-long   _MulleObjCUTF8StreamReaderSkipWhiteAndComments( _MulleObjCUTF8StreamReader *_self)
+long   MulleObjCUTF8StreamReaderSkipWhiteAndComments( MulleObjCUTF8StreamReader *_self)
 {
-   struct { @defs( _MulleObjCUTF8StreamReader); }  *self = (void *) _self;
+   struct { @defs( MulleObjCUTF8StreamReader); }  *self = (void *) _self;
 
    for(;;)
    {
       while( isspace( (int) self->_current))
-         _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+         MulleObjCUTF8StreamReaderNextUTF32Character( _self);
 
       if( ! self->_decodesComments || self->_current != '/')
          return( self->_current);
@@ -202,10 +202,10 @@ long   _MulleObjCUTF8StreamReaderSkipWhiteAndComments( _MulleObjCUTF8StreamReade
       // we don't allow stray '/' anyway, so we can safely grab the next
       // and can bail if we don't see // or /*
       //
-      _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+      MulleObjCUTF8StreamReaderNextUTF32Character( _self);
       if( self->_current == '/')
       {
-         _MulleObjCUTF8StreamReaderSkipUntil( _self, '\n');
+         MulleObjCUTF8StreamReaderSkipUntil( _self, '\n');
          continue;
       }
       if( self->_current != '*')
@@ -213,11 +213,11 @@ long   _MulleObjCUTF8StreamReaderSkipWhiteAndComments( _MulleObjCUTF8StreamReade
 
       for(;;)
       {
-         _MulleObjCUTF8StreamReaderSkipUntil( _self, '*');
-         _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+         MulleObjCUTF8StreamReaderSkipUntil( _self, '*');
+         MulleObjCUTF8StreamReaderNextUTF32Character( _self);
          if( self->_current == '/')
          {
-            _MulleObjCUTF8StreamReaderNextUTF32Character( _self);
+            MulleObjCUTF8StreamReaderNextUTF32Character( _self);
             break;
          }
          if( self->_current == -1)

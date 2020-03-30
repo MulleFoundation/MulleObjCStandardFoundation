@@ -55,3 +55,8 @@
                                        withCharacter:(unichar) c;
 
 @end
+
+struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src, 
+                                                    NSCharacterSet *disallowedCharacters);
+NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self, 
+                                                     NSCharacterSet *disallowedCharacters);

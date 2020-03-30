@@ -1,5 +1,5 @@
 //
-//  _MulleObjCBufferedDataOutputStream.h
+//  MulleObjCStream.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
@@ -33,28 +33,62 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "_MulleObjCDataStream.h"
+
+#import "MulleObjCFoundationCore.h"
 
 
-@interface _MulleObjCBufferedDataOutputStream : NSObject < _MulleObjCOutputDataStream>
+//
+// A MulleObjCInputStream is basically an NSData
+// and a MulleObjCOutputStream is basically (and maybe actually) an
+// NSMutableData. Conceivably you could use an NSFileHandle as a
+// MulleObjCInputStream or MulleObjCOutputStream
+
+@protocol MulleObjCInputStream < NSObject>
+
+// named like NSFileHandle
+- (NSData *) readDataOfLength:(NSUInteger) length;
+
+@end
+
+
+PROTOCOLCLASS_INTERFACE( MulleObjCOutputStream, NSObject)
+
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) length;
+
+@optional
+- (void) writeData:(NSData *) data;
+
+PROTOCOLCLASS_END();
+
+
+#pragma mark -
+#pragma mark Concrete helper
+
+
+@interface MulleObjCInMemoryInputStream : NSObject < MulleObjCInputStream >
 {
-#ifdef _MULLE_OBJC_BUFFERED_DATA_OUTPUT_STREAM_IVAR_VISIBILITY
-_MULLE_OBJC_BUFFERED_DATA_OUTPUT_STREAM_IVAR_VISIBILITY      // allow public access for internal use
-#endif
-   id <_MulleObjCOutputDataStream >  _stream;
-
-   NSMutableData   *_data;
-   unsigned char   *_start;
+   NSData          *_data;
    unsigned char   *_current;
    unsigned char   *_sentinel;
 }
 
-//
-// DO NOT DO THAT, JUST USE NSMutableData as stream!
-//
-//- (instancetype) initWithMutableData:(NSMutableData *) data;
-- (instancetype) initWithOutputStream:(id <_MulleObjCOutputDataStream>) stream;
-
-- (void) writeData:(NSData *) data;
+- (instancetype) initWithData:(NSData *) data;
+- (NSData *) readDataOfLength:(NSUInteger) length;
 
 @end
+
+
+@interface NSMutableData( MulleObjCOutputStream) < MulleObjCOutputStream >
+
+- (void) writeData:(NSData *) data;
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) length;
+@end
+
+
+#define _MulleObjCMemoryOutputDataStream    NSMutableData
+
+// make it known, that NSFileHandle nicely supports streams as is
+//@interface NSFileHandle( MulleObjCOutputStream) < MulleObjCInputStream, MulleObjCOutputStream >
+//@end

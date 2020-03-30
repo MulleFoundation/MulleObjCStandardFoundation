@@ -1,3 +1,16 @@
+## 0.17.0
+
+* expose MulleObjCStream and family
+* added `mullePropertyListDescription` and `mulleJSONDescription` to property list classes
+* added `mulleURLAllowedCharacterSet` to NSCharacterSet
+* there exist now functions and methods to create mutable arrays from string components such as `mulleMutableComponentsSeparatedByString:`
+* declare some NSCharacterSet methods as returning `instancetype` now
+* adapt to changes in MulleObjC
+* renamed ``_GMTTimeZone`` to `mulleGMTTimeZone`
+* exception functions like MulleObjCThrowErrnoException are now vectored via MulleObjC
+* NSPropertyListOpenStepFormat is now MullePropertyListLooseOpenStepFormat and MullePropertyListStrictOpenStepFormat is NSPropertyListOpenStepFormat, which should make the behaviour somewhat less surprising
+
+
 ## 0.16.0
 
 * extracted startup code into seperate project

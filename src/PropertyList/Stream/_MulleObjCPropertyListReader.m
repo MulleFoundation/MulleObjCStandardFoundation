@@ -37,7 +37,7 @@
 
 // other files in this library
 #import "_MulleObjCPropertyListReader+InlineAccessors.h"
-#import "_MulleObjCBufferedDataInputStream.h"
+#import "MulleObjCBufferedInputStream.h"
 
 // other libraries of MulleObjCStandardFoundation
 
@@ -65,7 +65,7 @@
 }
 
 
-- (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream
+- (instancetype) initWithBufferedInputStream:(MulleObjCBufferedInputStream *) stream
 {
    //
    // this will consume first character

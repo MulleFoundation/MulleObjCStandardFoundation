@@ -222,27 +222,22 @@ static inline int   dehex( mulle_utf8_t c)
 }
 
 
-- (NSString *) stringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters
+//
+// returns NULL of string has invalid percentescapes 
+// otherwise returns converted string in mulle_utf8_data
+// may not be \0 terminated though
+//
+struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src, 
+                                                    NSCharacterSet *disallowedCharacters)
 {
-   IMP            characterIsMemberIMP;
-   NSUInteger     dst_length;
-   NSUInteger     length;
-   SEL            characterIsMemberSEL;
-   mulle_utf8_t   *buf;
-   mulle_utf8_t   *dst_buf;
-   mulle_utf8_t   *p;
-   mulle_utf8_t   *s;
-   mulle_utf8_t   *sentinel;
-   mulle_utf8_t   c;
-   int            hi, lo;
-
-   length = [self mulleUTF8StringLength];
-   if( ! length)
-      return( self);
-
-   buf = (mulle_utf8_t *) MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
-   [self mulleGetUTF8Characters:buf
-                 maxLength:length];
+   IMP                      characterIsMemberIMP;
+   SEL                      characterIsMemberSEL;
+   mulle_utf8_t             *p;
+   mulle_utf8_t             *s;
+   mulle_utf8_t             *sentinel;
+   mulle_utf8_t             c;
+   struct mulle_utf8_data   *dst;
+   int                      hi, lo;
 
    characterIsMemberSEL = @selector( characterIsMember:);
    if( disallowedCharacters)
@@ -250,10 +245,13 @@ static inline int   dehex( mulle_utf8_t c)
    else
       characterIsMemberIMP = (IMP) always_no;
 
-   dst_buf  = NULL;
-   p        = dst_buf;
-   s        = buf;
-   sentinel = &s[ length];
+   if( src->length == (size_t) -1)
+      src->length = mulle_utf8_strlen( src->characters) + 1; // keep the \0
+
+   dst      = NULL;
+   p        = NULL;
+   s        = src->characters;
+   sentinel = &s[ src->length];
 
    while( s < sentinel)
    {
@@ -266,38 +264,71 @@ static inline int   dehex( mulle_utf8_t c)
       }
 
       if( &s[ 2] > sentinel)
-         return( nil);
+         return( NULL);
 
       hi = dehex( s[ 0]);
       lo = dehex( s[ 1]);
 
       if( hi < 0 || lo < 0)
-         return( nil);
+         return( NULL);
       c = (mulle_utf8_t) (hi << 4 | lo);
       if( ! c)
-         return( nil);
+         return( NULL);
 
       if( (*characterIsMemberIMP)( disallowedCharacters, characterIsMemberSEL, (void *) c))
-         return( nil);
+         return( NULL);
 
       if( ! p)
       {
-         dst_buf    = MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
-         dst_length = s - buf - 1;
-         memcpy( dst_buf, buf, dst_length);
+         dst             = MulleObjCCallocAutoreleased( 1, sizeof( *dst) + src->length * sizeof( mulle_utf8_t));
+         dst->characters = (mulle_utf8_t *) (dst + 1);
+         dst->length     = s - src->characters - 1;
 
-         p = &dst_buf[ dst_length];
+         memcpy( dst->characters, src->characters, dst->length);
+         p = &dst->characters[ dst->length];
       }
 
       *p++ = c;
       s   += 2;
    }
 
-   if( ! dst_buf)
+   if( ! dst)
+      return( src);
+
+   dst->length = p - dst->characters;
+   return( dst);
+}
+
+
+NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self, 
+                                                     NSCharacterSet *disallowedCharacters)
+{
+
+   struct mulle_utf8_data   src;
+   struct mulle_utf8_data   *dst;
+
+   src.length = [self mulleUTF8StringLength];
+   if( ! src.length)
       return( self);
 
-   return( [NSString mulleStringWithUTF8Characters:dst_buf
-                                            length:p - dst_buf]);
+   src.characters = (mulle_utf8_t *) MulleObjCCallocAutoreleased( src.length, sizeof( mulle_utf8_t));
+   [self mulleGetUTF8Characters:src.characters
+                      maxLength:src.length];
+   dst            = MulleReplacePercentEscape( &src, disallowedCharacters);
+
+   if( dst == &src)
+      return( self);
+   if( ! dst)
+      return( nil);
+
+   return( [NSString mulleStringWithUTF8Characters:dst->characters
+                                            length:dst->length]);
+}
+
+
+- (NSString *) stringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters
+{
+   return( MulleObjCStringByReplacingPercentEscapes( self, disallowedCharacters));
 }
 
 
