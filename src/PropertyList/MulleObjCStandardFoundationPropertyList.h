@@ -51,6 +51,13 @@
 // export everything with MulleObjC
 #import "MulleObjCPropertyListPrinting.h"
 
+#import "MulleObjCStream.h"
+#import "MulleObjCUTF8StreamReader.h"
+#import "MulleObjCBufferedInputStream.h"
+#import "MulleObjCBufferedInputStream+InlineAccessors.h"
+#import "MulleObjCBufferedOutputStream.h"
+#import "MulleObjCBufferedOutputStream+InlineAccessors.h"
+
 
 
 // export nothing with _MulleObjC

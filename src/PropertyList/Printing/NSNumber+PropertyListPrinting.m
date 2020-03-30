@@ -47,7 +47,7 @@
 
 @implementation NSNumber ( PropertyListPrinting)
 
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent
 {
    NSString   *s;
@@ -59,7 +59,7 @@
 }
 
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    NSString   *s;
@@ -76,7 +76,7 @@
 
 @implementation MulleObjCBoolNumber ( PropertyListPrinting)
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    if( [self boolValue])
@@ -92,7 +92,7 @@
 
 @implementation NSNull ( PropertyListPrinting)
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    [handle mulleWriteBytes:"null"

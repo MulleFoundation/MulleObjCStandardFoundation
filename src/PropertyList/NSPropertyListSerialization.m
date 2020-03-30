@@ -284,7 +284,7 @@ NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
 {
    _MulleObjCByteOrderMark             bom;
    _MulleObjCPropertyListReader        *reader;
-   _MulleObjCBufferedDataInputStream   *stream;
+   MulleObjCBufferedInputStream   *stream;
    id                                  plist;
    NSPropertyListSerialization         *parser;
    NSPropertyListFormat                preferred;
@@ -386,12 +386,12 @@ NS_ENDHANDLER
 + (id) mulleLooselyParsePropertyListData:(NSData *) data
 {
    _MulleObjCPropertyListReader        *reader;
-   _MulleObjCBufferedDataInputStream   *stream;
+   MulleObjCBufferedInputStream   *stream;
    id                                  plist;
    NSPropertyListSerialization         *parser;
    NSString                            *dummy;
 
-   stream = [[[_MulleObjCBufferedDataInputStream alloc] initWithData:data] autorelease];
+   stream = [[[MulleObjCBufferedInputStream alloc] initWithData:data] autorelease];
    reader = [[[_MulleObjCPropertyListReader alloc] initWithBufferedInputStream:stream] autorelease];
 
    [reader setDecodesComments:YES];
@@ -408,12 +408,12 @@ NS_ENDHANDLER
 + (id) mulleParsePropertyListData:(NSData *) data
 {
    _MulleObjCPropertyListReader        *reader;
-   _MulleObjCBufferedDataInputStream   *stream;
+   MulleObjCBufferedInputStream   *stream;
    id                                  plist;
    NSPropertyListSerialization         *parser;
    NSString                            *dummy;
 
-   stream = [[[_MulleObjCBufferedDataInputStream alloc] initWithData:data] autorelease];
+   stream = [[[MulleObjCBufferedInputStream alloc] initWithData:data] autorelease];
    reader = [[[_MulleObjCPropertyListReader alloc] initWithBufferedInputStream:stream] autorelease];
 
    [reader setDecodesComments:NO];

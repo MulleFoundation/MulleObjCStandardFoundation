@@ -72,7 +72,7 @@ static struct format_info   json_format_info =
 //static char   empty[]     = { '(', ')' };
 
 
-- (void) _UTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) _UTF8DataToStream:(id <MulleObjCOutputStream>) handle
                     indent:(NSUInteger) indent
 //            indentFunction:(char (*)(NSUInteger)) indentFunction
               memberMethod:(SEL) memberMethod
@@ -107,7 +107,7 @@ static struct format_info   json_format_info =
 }
 
 
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent
 {
    [self _UTF8DataToStream:handle
@@ -118,7 +118,7 @@ static struct format_info   json_format_info =
 }
 
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    [self _UTF8DataToStream:handle

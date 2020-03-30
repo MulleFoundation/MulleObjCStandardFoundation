@@ -1,5 +1,5 @@
 //
-//  _MulleObjCBufferedDataOutputStream.m
+//  MulleObjCStream.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
@@ -33,89 +33,18 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "_MulleObjCBufferedDataOutputStream.h"
+
+#import "MulleObjCStream.h"
 
 // other files in this library
-#import "_MulleObjCBufferedDataOutputStream+InlineAccessors.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "MulleObjCStandardFoundationException.h"
 
 // std-c and dependencies
 
 
-@implementation _MulleObjCBufferedDataOutputStream
-
-#define Buffersize      0x2000
-#define MaxToBuffer     (Buffersize - (Buffersize / 4))
-
-- (instancetype) initWithOutputStream:(id <_MulleObjCOutputDataStream>) stream
-{
-   _stream = [stream retain];
-   _data   = [[NSMutableData alloc] initWithLength:Buffersize];
-
-   self->_start    = (unsigned char *) [_data bytes];
-   self->_current  = self->_start;
-   self->_sentinel = &self->_current[ Buffersize];
-
-   return( self);
-}
-
-
-- (instancetype) initWithMutableData:(NSMutableData *) data
-{
-   _stream = [data retain];
-
-   return( self);
-}
-
-
-- (void) flush
-{
-   NSData   *data;
-
-   if( _data)
-   {
-      data = [[NSData alloc] initWithBytesNoCopy:self->_start
-                                          length:self->_current - self->_start
-                                    freeWhenDone:NO];
-      [_stream writeData:data];
-      [data release];
-   }
-
-   self->_current = self->_start;
-}
-
-
-- (void) dealloc
-{
-   [self flush];
-
-   [_stream release];
-   [_data release];
-
-   [super dealloc];
-}
-
-
-- (void) mulleWriteBytes:(void *) bytes
-                  length:(NSUInteger) len
-{
-   if( len == -1)
-      len = strlen( bytes);
-
-   if( _data && len < MaxToBuffer)
-   {
-      if( &self->_current[ len] >= self->_sentinel)
-         [self flush];
-
-      memcpy( self->_current, bytes, len);
-      self->_current += len;
-      return;
-   }
-   [_stream mulleWriteBytes:bytes
-                     length:len];
-}
-
+PROTOCOLCLASS_IMPLEMENTATION( MulleObjCOutputStream)
 
 - (void) writeData:(NSData *) data
 {
@@ -123,12 +52,89 @@
                   length:[data length]];
 }
 
+PROTOCOLCLASS_END();
 
-void   _MulleObjCBufferedDataOutputStreamExtendBuffer( _MulleObjCBufferedDataOutputStream *self)
+
+@implementation MulleObjCInMemoryInputStream : NSObject
+
+- (instancetype) initWithData:(NSData *) data
 {
-   NSCParameterAssert( self->_current == self->_sentinel);
+   _data = [data retain];
 
-   [self flush];
+   return( self);
+}
+
+
+- (void) dealloc
+{
+   [_data release];
+
+   [super dealloc];
+}
+
+
+- (NSData *) readDataOfLength:(NSUInteger) length
+{
+   unsigned char   *dst;
+   NSData          *data;
+
+   if( ! _current)
+   {
+      _current  = (unsigned char *) [_data bytes];
+      _sentinel = &_current[ [_data length]];
+   }
+
+   //
+   // if isa is NSMutableData and you changed something, then reading will
+   // fail miserably. Could reimplement this in NSMutableData or so, to
+   // use an integer index instead...
+   //
+   NSParameterAssert( _current >= (unsigned char *) [_data bytes]);
+   NSParameterAssert( _current <= &((unsigned char *)[_data bytes])[ [_data length]]);
+
+   dst = &_current[ length];
+   if( dst > _sentinel)
+   {
+      length -= (dst - _sentinel);
+      dst     = _sentinel;
+   }
+
+   if( ! length)
+      return( nil);
+
+   data = [NSData dataWithBytes:_current
+                         length:length];
+   _current = dst;
+   return( data);
 }
 
 @end
+
+
+
+@implementation NSMutableData( MulleObjCOutputStream)
+
+- (void) writeData:(NSData *) data
+{
+   [self appendData:data];
+}
+
+
+- (void) mulleWriteBytes:(void *) bytes
+                  length:(NSUInteger) length
+{
+   if( length == -1)
+      length = strlen( bytes);
+
+   [self appendBytes:bytes
+              length:length];
+}
+
+@end
+
+
+//@implementation NSFileHandle( MulleObjCDataStream)
+
+// all done in original class
+
+//@end

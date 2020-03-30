@@ -37,7 +37,7 @@
 #import "MulleObjCStandardFoundationContainer.h"
 #import "MulleObjCStandardFoundationString.h"
 
-#import "_MulleObjCDataStream.h"
+#import "MulleObjCStream.h"
 
 
 // TODO: prefix with mulle, this is all incompatible
@@ -55,18 +55,18 @@ PROTOCOLCLASS_INTERFACE0( MulleObjCPropertyListPrinting)
 
 //
 // this is what is called at the top. the idea is that
-// _MulleObjCOutputDataStream can be a NSFileHandle or a NSMutableData
+// MulleObjCOutputStream can be a NSFileHandle or a NSMutableData
 // and that the plist or json is printed into
 //
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle;
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle;
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle;
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle;
 
 //
 // This is what participating classes should implement
 //
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent;
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent;
 
 
@@ -76,8 +76,6 @@ PROTOCOLCLASS_INTERFACE0( MulleObjCPropertyListPrinting)
 //
 - (NSData *) propertyListUTF8DataWithIndent:(NSUInteger) indent;
 - (NSData *) jsonUTF8DataWithIndent:(NSUInteger) indent;
-
-
 
 PROTOCOLCLASS_END()
 

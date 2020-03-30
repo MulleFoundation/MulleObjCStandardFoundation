@@ -33,10 +33,10 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "_MulleObjCUTF8StreamReader.h"
+#import "MulleObjCUTF8StreamReader.h"
 
 
-@interface _MulleObjCPropertyListReader : _MulleObjCUTF8StreamReader
+@interface _MulleObjCPropertyListReader : MulleObjCUTF8StreamReader
 {
 @public
    Class   nsArrayClass;

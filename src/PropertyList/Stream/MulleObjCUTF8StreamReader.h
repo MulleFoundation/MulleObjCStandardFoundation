@@ -1,9 +1,9 @@
 //
-//  _MulleObjCDataStream.h
+//  MulleObjCUTF8StreamReader.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2009 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2009 Codeon GmbH.
+//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,60 +33,28 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-
-#import "MulleObjCFoundationCore.h"
-
-
-//
-// A _MulleObjCInputDataStream is basically an NSData
-// and a _MulleObjCOutputDataStream is basically (and maybe actually) an
-// NSMutableData. Conceivably you could use an NSFileHandle as a
-// _MulleObjCInputDataStream or _MulleObjCOutputDataStream
-
-@protocol _MulleObjCInputDataStream < NSObject>
-
-// named like NSFileHandle
-- (NSData *) readDataOfLength:(NSUInteger) length;
-
-@end
+#import "MulleObjCBufferedInputStream.h"
 
 
-@protocol _MulleObjCOutputDataStream  < NSObject>
-
-- (void) writeData:(NSData *) data;
-- (void) mulleWriteBytes:(void *) bytes
-                  length:(NSUInteger) length;
-
-@end
-
-
-#pragma mark -
-#pragma mark Concrete helper
-
-
-@interface _MulleObjCMemoryDataInputStream : NSObject < _MulleObjCInputDataStream >
+// only can deal with UTF8 but returns UTF32
+@interface MulleObjCUTF8StreamReader : NSObject
 {
-   NSData          *_data;
-   unsigned char   *_current;
-   unsigned char   *_sentinel;
+#ifdef MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
+MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
+#endif
+   MulleObjCBufferedInputStream  *_stream;
+   long                          _current;
+   long                          _lineNr;
 }
 
-- (instancetype) initWithData:(NSData *) data;
-- (NSData *) readDataOfLength:(NSUInteger) length;
+@property( assign) BOOL  decodesComments;
+@property( assign) BOOL  throwsException; // if failing
+
+- (instancetype) initWithString:(NSString *) s;
+- (instancetype) initWithBufferedInputStream:(MulleObjCBufferedInputStream *) stream;
+
+- (void) bookmark;
+- (NSData *) bookmarkedData;
+- (MulleObjCMemoryRegion) bookmarkedRegion;
 
 @end
-
-
-@interface NSMutableData( _MulleObjCOutputDataStream) < _MulleObjCOutputDataStream >
-
-- (void) writeData:(NSData *) data;
-- (void) mulleWriteBytes:(void *) bytes
-                  length:(NSUInteger) length;
-@end
-
-
-#define _MulleObjCMemoryOutputDataStream    NSMutableData
-
-// make it known, that NSFileHandle nicely supports streams as is
-//@interface NSFileHandle( _MulleObjCOutputDataStream) < _MulleObjCInputDataStream, _MulleObjCOutputDataStream >
-//@end

@@ -51,7 +51,7 @@ static inline unsigned char   toHex( unsigned char c)
 }
 
 
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent
 {
    size_t          i, len;
@@ -83,7 +83,7 @@ static inline unsigned char   toHex( unsigned char c)
 
 
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    size_t          i, len;

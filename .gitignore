@@ -10,6 +10,7 @@ var/
 *.old
 tmp.*
 *.apple
+.gdb_history
 
 build/
 kitchen/

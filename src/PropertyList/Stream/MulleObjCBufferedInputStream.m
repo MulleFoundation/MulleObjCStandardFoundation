@@ -1,5 +1,5 @@
 //
-//  _MulleObjCBufferedDataInputStream.m
+//  MulleObjCBufferedInputStream.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2009 Nat! - Mulle kybernetiK.
@@ -33,9 +33,9 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "_MulleObjCDataStream.h"
+#import "MulleObjCStream.h"
 
-#import "_MulleObjCBufferedDataInputStream.h"
+#import "MulleObjCBufferedInputStream.h"
 
 // other files in this library
 
@@ -43,21 +43,21 @@
 
 // std-c and dependencies
 
-#import "_MulleObjCBufferedDataInputStream+InlineAccessors.h"
+#import "MulleObjCBufferedInputStream+InlineAccessors.h"
 
 #import "MulleObjCStandardFoundationContainer.h"
 
 
-static void   _MulleObjCBufferedDataInputStreamFillBuffer( _MulleObjCBufferedDataInputStream *self);
-const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x1000;
+static void   MulleObjCBufferedInputStreamFillBuffer( MulleObjCBufferedInputStream *self);
+const static size_t   MulleObjCBufferedInputStreamDefaultBufferSize = 0x1000;
 
 
-@implementation _MulleObjCBufferedDataInputStream
+@implementation MulleObjCBufferedInputStream
 
-- (instancetype) initWithInputStream:(id <_MulleObjCInputDataStream>) stream
+- (instancetype) initWithInputStream:(id <MulleObjCInputStream>) stream
 {
    _stream = [stream retain];
-   _MulleObjCBufferedDataInputStreamFillBuffer( self);  // need to have a notion of "_current" immediately
+   MulleObjCBufferedInputStreamFillBuffer( self);  // need to have a notion of "_current" immediately
    if( self->_current == self->_sentinel)           // we can't have nothing
       return( nil);
    return( self);
@@ -66,9 +66,9 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
 
 - (instancetype) initWithData:(NSData *) data
 {
-   _MulleObjCMemoryDataInputStream  *stream;
+   MulleObjCInMemoryInputStream  *stream;
 
-   stream = [[_MulleObjCMemoryDataInputStream alloc] initWithData:data];
+   stream = [[MulleObjCInMemoryInputStream alloc] initWithData:data];
    self   = [self initWithInputStream:stream];
    [stream release];
    return( self);
@@ -90,7 +90,7 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
    id       data;
    size_t   available;
 
-   available = _MulleObjCBufferedDataInputStreamBytesAvailable( self);
+   available = MulleObjCBufferedInputStreamBytesAvailable( self);
 
    if( size >= available)
    {
@@ -100,7 +100,7 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
       return( data);
    }
 
-   if( ! available && size >= _MulleObjCBufferedDataInputStreamDefaultBufferSize / 2)
+   if( ! available && size >= MulleObjCBufferedInputStreamDefaultBufferSize / 2)
       return( [_stream readDataOfLength:size]);
 
    data = [NSMutableData dataWithCapacity:size];
@@ -109,14 +109,14 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
    _current += available;
 
    //
-   if( size >= _MulleObjCBufferedDataInputStreamDefaultBufferSize)
+   if( size >= MulleObjCBufferedInputStreamDefaultBufferSize)
    {
       [data appendData:[_stream readDataOfLength:size]];
       return( data);
    }
 
-   _MulleObjCBufferedDataInputStreamFillBuffer( self);
-   available = _MulleObjCBufferedDataInputStreamBytesAvailable( self);
+   MulleObjCBufferedInputStreamFillBuffer( self);
+   available = MulleObjCBufferedInputStreamBytesAvailable( self);
 
    if( size >= available)
       size = available;
@@ -132,18 +132,18 @@ const static size_t   _MulleObjCBufferedDataInputStreamDefaultBufferSize = 0x100
 {
    NSParameterAssert( self->_current);
 
-   _MulleObjCBufferedDataInputStreamBookmark( self);
+   MulleObjCBufferedInputStreamBookmark( self);
 }
 
 
-MulleObjCMemoryRegion   _MulleObjCBufferedDataInputStreamBookmarkedRegion( _MulleObjCBufferedDataInputStream *self)
+MulleObjCMemoryRegion   MulleObjCBufferedInputStreamBookmarkedRegion( MulleObjCBufferedInputStream *self)
 {
    MulleObjCMemoryRegion  region;
    NSMutableData      *bookmarkData;
    unsigned char      *start;
    long               length;
 
-   NSCParameterAssert( [self isKindOfClass:[_MulleObjCBufferedDataInputStream class]]);
+   NSCParameterAssert( [self isKindOfClass:[MulleObjCBufferedInputStream class]]);
 
    if( ! self->_bookmark)
    {
@@ -178,7 +178,7 @@ MulleObjCMemoryRegion   _MulleObjCBufferedDataInputStreamBookmarkedRegion( _Mull
 
 - (MulleObjCMemoryRegion) bookmarkedRegion
 {
-   return( _MulleObjCBufferedDataInputStreamBookmarkedRegion( self));
+   return( MulleObjCBufferedInputStreamBookmarkedRegion( self));
 }
 
 
@@ -215,20 +215,20 @@ MulleObjCMemoryRegion   _MulleObjCBufferedDataInputStreamBookmarkedRegion( _Mull
 }
 
 
-int   _MulleObjCBufferedDataInputStreamFillBufferAndNextCharacter( _MulleObjCBufferedDataInputStream *self)
+int   MulleObjCBufferedInputStreamFillBufferAndNextCharacter( MulleObjCBufferedInputStream *self)
 {
-   NSCParameterAssert( [self isKindOfClass:[_MulleObjCBufferedDataInputStream class]]);
+   NSCParameterAssert( [self isKindOfClass:[MulleObjCBufferedInputStream class]]);
 
-   _MulleObjCBufferedDataInputStreamFillBuffer( self);
+   MulleObjCBufferedInputStreamFillBuffer( self);
    if( self->_current == self->_sentinel)
       return( -1);
    return( *self->_current);
 }
 
 
-static void   _MulleObjCBufferedDataInputStreamFillBuffer( _MulleObjCBufferedDataInputStream *self)
+static void   MulleObjCBufferedInputStreamFillBuffer( MulleObjCBufferedInputStream *self)
 {
-   NSCParameterAssert( [self isKindOfClass:[_MulleObjCBufferedDataInputStream class]]);
+   NSCParameterAssert( [self isKindOfClass:[MulleObjCBufferedInputStream class]]);
    NSCParameterAssert( self->_current == self->_sentinel);
 
    //
@@ -245,10 +245,9 @@ static void   _MulleObjCBufferedDataInputStreamFillBuffer( _MulleObjCBufferedDat
 
    [self->_data release];
 
-   self->_data     = [[self->_stream readDataOfLength:_MulleObjCBufferedDataInputStreamDefaultBufferSize] retain];
+   self->_data     = [[self->_stream readDataOfLength:MulleObjCBufferedInputStreamDefaultBufferSize] retain];
    self->_current  = (void *) [self->_data bytes];
    self->_sentinel = &self->_current[ [self->_data length]];
 }
-
 
 @end

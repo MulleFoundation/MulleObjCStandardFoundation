@@ -45,7 +45,7 @@
 @implementation NSString ( PropertyListPrinting)
 
 
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent
 {
    NSString  *s;
@@ -60,7 +60,7 @@
 //
 // always in double quotes, different kind of escapes
 //
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    NSData          *data;

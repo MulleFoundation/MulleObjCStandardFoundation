@@ -1,9 +1,9 @@
 //
-//  _MulleObjCUTF8StreamReader.h
+//  MulleObjCBufferedOutputStream.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2011 Codeon GmbH.
+//  Copyright (c) 2009 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2009 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,28 +33,32 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "_MulleObjCBufferedDataInputStream.h"
+#import "MulleObjCStream.h"
 
 
-// only can deal with UTF8 but returns UTF32
-@interface _MulleObjCUTF8StreamReader : NSObject
+@interface MulleObjCBufferedOutputStream : NSObject < MulleObjCOutputStream>
 {
-#ifdef MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
-MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
+#ifdef MULLE_OBJC_BUFFERED_OUTPUT_STREAM_IVAR_VISIBILITY
+MULLE_OBJC_BUFFERED_OUTPUT_STREAM_IVAR_VISIBILITY      // allow public access for internal use
 #endif
-   _MulleObjCBufferedDataInputStream  *_stream;
-   long                                _current;
-   long                                _lineNr;
+   id <MulleObjCOutputStream >  _stream;
+
+   NSMutableData   *_data;
+   unsigned char   *_start;
+   unsigned char   *_current;
+   unsigned char   *_sentinel;
 }
 
-@property( assign) BOOL  decodesComments;
-@property( assign) BOOL  throwsException; // if failing
+//
+// No - (instancetype) initWithMutableData:(NSMutableData *) data;
+// use NSMutableData as stream
+//
+- (instancetype) initWithOutputStream:(id <MulleObjCOutputStream>) stream;
 
-- (instancetype) initWithString:(NSString *) s;
-- (instancetype) initWithBufferedInputStream:(_MulleObjCBufferedDataInputStream *) stream;
+- (instancetype) initWithOutputStream:(id <MulleObjCOutputStream>) stream
+                          flushLength:(NSUInteger) length;
 
-- (void) bookmark;
-- (NSData *) bookmarkedData;
-- (MulleObjCMemoryRegion) bookmarkedRegion;
+// use this at the end to flush remaining bytes out (or finalize the stream)
+- (void) flush;
 
 @end

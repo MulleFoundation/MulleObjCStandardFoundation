@@ -92,7 +92,7 @@ static struct format_info   json_format_info =
 //
 // driven by formatInfo to support propertyList and JSON format
 //
-- (void) _UTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) _UTF8DataToStream:(id <MulleObjCOutputStream>) handle
                     indent:(NSUInteger) indent
                 formatInfo:(struct format_info *) info
                       sort:(BOOL) sort
@@ -158,7 +158,7 @@ static struct format_info   json_format_info =
 }
 
 
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                 indent:(NSUInteger) indent
 {
    [self _UTF8DataToStream:handle
@@ -168,7 +168,7 @@ static struct format_info   json_format_info =
 }
 
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    [self _UTF8DataToStream:handle

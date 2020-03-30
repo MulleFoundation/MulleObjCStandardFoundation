@@ -36,7 +36,7 @@
 #import "MulleObjCPropertyListPrinting.h"
 
 // other files in this library
-#import "_MulleObjCDataStream.h"
+#import "MulleObjCStream.h"
 
 // std-c and dependencies
 
@@ -61,17 +61,17 @@ char           _MulleObjCJSONUTF8DataIndentationCharacter = '\t';
 NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
 
 
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
 {
    [self propertyListUTF8DataToStream:handle
                                indent:0];
 }
 
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
 {
    [self jsonUTF8DataToStream:handle
-                           indent:0];
+                       indent:0];
 }
 
 
@@ -79,7 +79,7 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
 // default calls propertyListUTF8DataWithIndent and write that out
 // subclasses overide this
 //
-- (void) propertyListUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent
 {
    NSData   *data;
@@ -89,7 +89,7 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
 }
 
 
-- (void) jsonUTF8DataToStream:(id <_MulleObjCOutputDataStream>) handle
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
    NSData   *data;

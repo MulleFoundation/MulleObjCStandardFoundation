@@ -60,11 +60,11 @@ src/PropertyList/Printing/NSDate+PropertyListPrinting.m
 src/PropertyList/Printing/NSDictionary+PropertyListPrinting.m
 src/PropertyList/Printing/NSNumber+PropertyListPrinting.m
 src/PropertyList/Printing/NSString+PropertyListPrinting.m
-src/PropertyList/Stream/_MulleObjCBufferedDataInputStream.m
-src/PropertyList/Stream/_MulleObjCBufferedDataOutputStream.m
-src/PropertyList/Stream/_MulleObjCDataStream.m
+src/PropertyList/Stream/MulleObjCBufferedInputStream.m
+src/PropertyList/Stream/MulleObjCBufferedOutputStream.m
 src/PropertyList/Stream/_MulleObjCPropertyListReader.m
-src/PropertyList/Stream/_MulleObjCUTF8StreamReader.m
+src/PropertyList/Stream/MulleObjCStream.m
+src/PropertyList/Stream/MulleObjCUTF8StreamReader.m
 src/String/MulleObjCCharacterBitmap.m
 src/String/_MulleObjCConcreteBitmapCharacterSet.m
 src/String/_MulleObjCConcreteCharacterSet.m
