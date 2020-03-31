@@ -1,5 +1,23 @@
 # Fill it with mulle-env envirionment --scope  set <key> <value>
 #
+# MulleObjCValueFoundation nodetype: ${MULLE_OBJC_VALUE_FOUNDATION_NODETYPE:-tar}
+#
+export MULLE_OBJC_VALUE_FOUNDATION_NODETYPE="git"
+
+
+#
+# MulleObjCValueFoundation url: ${MULLE_OBJC_VALUE_FOUNDATION_URL:-https://github.com/MulleFoundation/MulleObjCValueFoundation/archive/${MULLE_TAG}.tar.gz}
+#
+export MULLE_OBJC_VALUE_FOUNDATION_URL="https://github.com/MulleFoundation/MulleObjCValueFoundation.git"
+
+
+#
+# MulleObjCValueFoundation branch: ${MULLE_OBJC_VALUE_FOUNDATION_BRANCH}
+#
+export MULLE_OBJC_VALUE_FOUNDATION_BRANCH="prerelease"
+
+
+#
 # MulleObjC nodetype: ${MULLE_OBJC_NODETYPE:-tar}
 #
 export MULLE_OBJC_NODETYPE="git"
@@ -303,5 +321,23 @@ export MULLE_SPRINTF_URL="https://github.com/mulle-c/mulle-sprintf.git"
 # mulle-sprintf branch: ${MULLE_SPRINTF_BRANCH}
 #
 export MULLE_SPRINTF_BRANCH="prerelease"
+
+
+#
+# MulleObjCContainerFoundation nodetype: ${MULLE_OBJC_CONTAINER_FOUNDATION_NODETYPE:-tar}
+#
+export MULLE_OBJC_CONTAINER_FOUNDATION_NODETYPE="git"
+
+
+#
+# MulleObjCContainerFoundation url: ${MULLE_OBJC_CONTAINER_FOUNDATION_URL:-https://github.com/MulleFoundation/MulleObjCContainerFoundation/archive/${MULLE_TAG}.tar.gz}
+#
+export MULLE_OBJC_CONTAINER_FOUNDATION_URL="https://github.com/MulleFoundation/MulleObjCContainerFoundation.git"
+
+
+#
+# MulleObjCContainerFoundation branch: ${MULLE_OBJC_CONTAINER_FOUNDATION_BRANCH}
+#
+export MULLE_OBJC_CONTAINER_FOUNDATION_BRANCH="prerelease"
 
 
