@@ -42,15 +42,15 @@
 @class NSString;
 
 
-extern NSString   *NSErrorKey;
 extern NSString   *MulleErrorClassKey;  // class to produce lazy error
 
-extern NSString   *NSOSStatusErrorDomain;
+
+extern NSString   *NSOSStatusErrorDomain;  // unused
 extern NSString   *NSMachErrorDomain;
 extern NSString   *MulleErrnoErrorDomain;
 
 extern NSString   *NSFilePathErrorKey;
-extern NSString   *NSStringEncodingErrorKey;// NSNumber containing NSStringEncoding
+extern NSString   *NSStringEncodingErrorKey;    // NSNumber containing NSStringEncoding
 extern NSString   *NSURLErrorKey;
 extern NSString   *NSUnderlyingErrorKey;
 
@@ -61,6 +61,10 @@ extern NSString   *NSLocalizedRecoveryOptionsErrorKey;
 extern NSString   *NSLocalizedRecoverySuggestionErrorKey;
 extern NSString   *NSRecoveryAttempterErrorKey;
 
+
+// keys for threadInfo dict
+extern NSString   *NSErrorKey;
+extern NSString   *NSErrorDomainKey;
 
 //
 // domain is just a way to categorize error numbers
@@ -74,6 +78,7 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 // call this during +load or +initialize to add your error domain
 + (void) registerErrorDomain:(NSString *) domain
          errorStringFunction:(NSString *(*)( NSInteger)) translator;
++ (void) removeErrorDomain:(NSString *) domain;
 
 - (instancetype) initWithDomain:(NSString *) domain
                            code:(NSInteger) code
@@ -91,23 +96,25 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 
 
 // mulle addition:  the default ways are tedious and lame
+//                  use this and errno, preferably
++ (void) mulleSetErrorDomain:(NSString *) domain;
++ (NSString *) mulleErrorDomain;
+
 
 // if you use errno or some other threadlocal error state, you can
-// set the errordomain to a constant only and create mulleCurrentError lazily
+// set the errordomain to a constant only and create mulleExtract lazily
 
 
-+ (void) mulleResetCurrentErrorClass; // set to self
-
-+ (void) mulleSetCurrentError:(NSError *) error;
-+ (void) mulleSetCurrentErrorWithDomain:(NSString *) domain
-                                   code:(NSInteger) code
-                               userInfo:(NSDictionary *) userInfo;
++ (void) mulleSetError:(NSError *) error;
++ (void) mulleSetErrorCode:(NSInteger) code
+                    domain:(NSString *) domain
+                  userInfo:(NSDictionary *) userInfo;
 
 // new principal way to get errors
-+ (instancetype) mulleCurrentError;
-+ (instancetype) mulleCurrentErrorWithDomain:(NSString *) domain;
++ (instancetype) mulleExtract;
 
-+ (void) mulleClearCurrentError;
+// reset to errno
++ (void) mulleClear;
 
 // cheat :) function to just set an error quickly with localizedDescription
 + (instancetype) mulleGenericErrorWithDomain:( NSString *) domain
@@ -115,14 +122,16 @@ extern NSString   *NSRecoveryAttempterErrorKey;
 @end
 
 
-
 // shortcuts
-void      MulleObjCErrorSetCurrentError( NSString *domain, NSInteger code, NSDictionary *userInfo);
-NSError  *MulleObjCErrorGetCurrentError( void);
-void      MulleObjCErrorClearCurrentError( void);
+void      MulleObjCSetErrorCode( NSInteger code, NSString *domain, NSDictionary *userInfo);
+void      MulleObjCSetErrorDomain( NSString *domain);
+NSString  *MulleObjCGetErrorDomain( void);
+NSError   *MulleObjCExtractError( void);
+void      MulleObjCClearError( void);
 
 
 
+// declared, but unused so far
 @interface NSObject( RecoveryAttempting)
 
 - (void) attemptRecoveryFromError:(NSError *) error

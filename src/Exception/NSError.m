@@ -46,18 +46,17 @@
 #import "NSException.h"
 
 
-NSString   *NSErrorKey          = @"NSError";
-NSString   *MulleErrorClassKey  = @"MulleErrorClass";
 
+NSString   *MulleErrorClassKey                    = @"MulleErrorClass";
 
-NSString   *NSOSStatusErrorDomain    = @"NSOSStatusError";
-NSString   *NSMachErrorDomain        = @"NSMachError";
-NSString   *MulleErrnoErrorDomain    = @"MulleErrnoError";
+NSString   *NSOSStatusErrorDomain                 = @"NSOSStatusError";
+NSString   *NSMachErrorDomain                     = @"NSMachError";
+NSString   *MulleErrnoErrorDomain                 = @"MulleErrnoError";
 
-NSString   *NSFilePathErrorKey       = @"NSFilePathError";
-NSString   *NSStringEncodingErrorKey = @"NSStringEncodingError";
-NSString   *NSURLErrorKey            = @"NSURLError";
-NSString   *NSUnderlyingErrorKey     = @"NSUnderlyingError";
+NSString   *NSFilePathErrorKey                    = @"NSFilePathError";
+NSString   *NSStringEncodingErrorKey              = @"NSStringEncodingError";
+NSString   *NSURLErrorKey                         = @"NSURLError";
+NSString   *NSUnderlyingErrorKey                  = @"NSUnderlyingError";
 
 NSString   *NSHelpAnchorErrorKey                  = @"NSHelpAnchorError";
 NSString   *NSLocalizedDescriptionKey             = @"NSLocalizedDescription";
@@ -67,28 +66,28 @@ NSString   *NSLocalizedRecoverySuggestionErrorKey = @"NSLocalizedRecoverySuggest
 NSString   *NSRecoveryAttempterErrorKey           = @"NSRecoveryAttempterError";
 
 
+NSString   *NSErrorKey       = @"NSError";
+NSString   *NSErrorDomainKey = @"NSErrorDomain";
+
 
 @implementation NSError
-
-NSString   *MulleStringFromErrno( NSInteger errno)
-{
-   return( [NSString stringWithUTF8String:strerror( (int) errno)]);
-}
 
 
 static struct
 {
-   Class        _nsErrorClass;
    NSMapTable   *_domains;
 } Self;
 
 
-MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
-
-
-+ (void) load
++ (mulle_objc_dependency_t *) dependencies
 {
-   Self._nsErrorClass = [self class];
+   static mulle_objc_dependency_t   dependencies[] =
+   {
+      MULLE_OBJC_LIBRARY_DEPENDENCY( MulleObjCValueFoundation),
+      MULLE_OBJC_LIBRARY_DEPENDENCY( MulleObjCContainerFoundation),
+      MULLE_OBJC_NO_DEPENDENCY
+   };
+   return( dependencies);
 }
 
 
@@ -99,7 +98,6 @@ MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
       Self._domains = NSCreateMapTable( NSObjectMapKeyCallBacks,
                                         NSNonOwnedPointerMapValueCallBacks,
                                         4);
-      NSMapInsertKnownAbsent( Self._domains, MulleErrnoErrorDomain, MulleStringFromErrno);
    }
 }
 
@@ -119,6 +117,16 @@ MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
 }
 
 
++ (void) removeErrorDomain:(NSString *) domain
+{
+   // should check that this called only during +load or +initialize
+   NSMapRemove( Self._domains, domain);
+}
+
+
+/*
+ *
+ */
 - (instancetype) initWithDomain:(NSString *) domain
                            code:(NSInteger) code
                        userInfo:(NSDictionary *) userInfo
@@ -139,6 +147,12 @@ MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
    _userInfo = 0;
 
    [super finalize];
+}
+
+
+- (id) copy
+{
+   return( [self retain]);
 }
 
 
@@ -202,17 +216,7 @@ MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
 //
 // mulle additions:  the default ways are tedious and lame
 //
-+ (void) mulleResetCurrentErrorClass
-{
-   NSMutableDictionary   *threadDictionary;
-
-   threadDictionary = [[NSThread currentThread] threadDictionary];
-   [threadDictionary setObject:self
-                        forKey:MulleErrorClassKey];
-}
-
-
-+ (void) mulleSetCurrentError:(NSError *) error
++ (void) mulleSetError:(NSError *) error
 {
    if( ! error)
       MulleObjCThrowInvalidArgumentException( @"error must not be nil");
@@ -222,132 +226,172 @@ MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCValueFoundation);
 }
 
 
-+ (void) mulleSetCurrentErrorWithDomain:(NSString *) domain
-                                   code:(NSInteger) code
-                               userInfo:(NSDictionary *) userInfo
++ (void) mulleSetErrorCode:(NSInteger) code
+                    domain:(NSString *) domain
+                  userInfo:(NSDictionary *) userInfo
 {
    NSError  *error;
 
    error = [NSError errorWithDomain:domain
                                code:code
                            userInfo:userInfo];
-   [self mulleSetCurrentError:error];
+   [self mulleSetError:error];
 }
 
 
-+ (void) mulleClearErrorState
+static inline NSString  *MulleStringFromErrorCode( NSInteger  code)
 {
-   errno = 0;
-}
-
-
-+ (void) mulleClearCurrentError
-{
-   NSMutableDictionary   *threadDictionary;
-   Class                 cls;
-
-   threadDictionary = [[NSThread currentThread] threadDictionary];
-   [threadDictionary removeObjectForKey:NSErrorKey];
-
-   cls = [threadDictionary objectForKey:MulleErrorClassKey];
-   if( ! cls)
-      cls  = self;
-   return( [cls mulleClearErrorState]);
-}
-
-
-+ (NSString *) mulleDefaultDomain
-{
-   return( MulleErrnoErrorDomain);
+   return( [NSString stringWithUTF8String:strerror( (int) errno)]);
 }
 
 
 //
-// code must be in "errno", then we use the lazy stringification that
-// the various domain installed to produce the string, which is then
-// wrapped into an NSError
+// We use the lazy stringification that the various domains installed to
+// produce the string, which is then wrapped into an NSError
 //
-+ (instancetype) mulleLazyErrorWithDomain:(NSString *) domain
++ (instancetype) mulleLazyErrorWithCode:(NSInteger) code
+                                 domain:(NSString *) domain
 {
    NSString       *s;
    NSError        *error;
    NSDictionary   *info;
    NSString       *(*f)( NSInteger);
 
-   if( ! errno)
+   if( ! code)
       return( nil);
 
    info = nil;
-   f    = NSMapGet( Self._domains, domain);
-   if( f)
+   s    = nil;
+   if( domain)
    {
-      s = (*f)( errno);
-      if( s)
-         info  = [NSDictionary dictionaryWithObject:s
-                                             forKey:NSLocalizedDescriptionKey];
+      f = NSMapGet( Self._domains, domain);
+      if( f)
+      {
+         s = (*f)( code);
+         goto have_domain;
+      }
+
+      // NSPosixErrorDomain and MulleErrnoErrorDomain don't install anything,
+      // so just use strerror
    }
+   s = MulleStringFromErrorCode( code);
+
+have_domain:
+   if( s)
+      info = [NSDictionary dictionaryWithObject:s
+                                         forKey:NSLocalizedDescriptionKey];
 
    error = [NSError errorWithDomain:domain
-                               code:errno
+                               code:code
                            userInfo:info];
    return( error);
 }
 
 
-+ (instancetype) mulleCurrentErrorWithDomain:(NSString *) domain
+
+
++ (NSString *) mulleErrorDomain
+{
+   NSMutableDictionary   *threadDictionary;
+   int                   preserve;
+
+   preserve = errno;
+   threadDictionary = [[NSThread currentThread] threadDictionary];
+   errno    = preserve;
+
+   return( [threadDictionary objectForKey:NSErrorDomainKey]);
+}
+
+
+
++ (void) mulleSetErrorDomain:(NSString *) domain
 {
    NSMutableDictionary   *threadDictionary;
    NSError               *error;
-   Class                 cls;
+   int                   preserve;
+
+   preserve = errno;
 
    threadDictionary = [[NSThread currentThread] threadDictionary];
+   [threadDictionary removeObjectForKey:NSErrorKey];
+   if( ! domain)
+      [threadDictionary removeObjectForKey:NSErrorDomainKey];
+   else
+      [threadDictionary setObject:domain
+                           forKey:NSErrorDomainKey];
+
+   errno = preserve;
+}
+
+
++ (void) mulleClear
+{
+   [self mulleSetErrorDomain:nil];
+
+   errno = 0;
+}
+
+
+//
+// the runtime protect errno from changing during a [] call
+//
++ (instancetype) mulleExtract
+{
+   NSMutableDictionary   *threadDictionary;
+   NSError               *error;
+   NSString              *domain;
+   int                   preserve;
+
+   preserve         = errno;
+   threadDictionary = [[NSThread currentThread] threadDictionary];
    error            = [threadDictionary objectForKey:NSErrorKey];
-   if( error)
-      return( error);
+   if( ! error)
+   {
+      domain = [threadDictionary objectForKey:NSErrorDomainKey];
+      error  = [self mulleLazyErrorWithCode:preserve
+                                     domain:domain];
+   }
 
-   cls = [threadDictionary objectForKey:MulleErrorClassKey];
-   if( ! cls)
-      cls = self;
-   return( [cls mulleLazyErrorWithDomain:domain]);
+   [self mulleClear];
+   return( error);
 }
 
 
-+ (instancetype) mulleCurrentError
+/*
+ * C shortcuts
+ */
+
+NSString   *MulleObjCGetErrorDomain( void)
 {
-   return( [self mulleCurrentErrorWithDomain:[self mulleDefaultDomain]]);
+   return( [NSError mulleErrorDomain]);
+
 }
 
 
-void   MulleObjCErrorSetCurrentError( NSString *domain, NSInteger code, NSDictionary *userInfo)
+void   MulleObjCSetErrorDomain( NSString *domain)
 {
-   [Self._nsErrorClass mulleSetCurrentErrorWithDomain:domain
-                                                 code:code
-                                             userInfo:userInfo];
+   [NSError mulleSetErrorDomain:domain];
 }
 
 
-NSError  *MulleObjCErrorGetCurrentErrorWithDomain( NSString *domain)
+void   MulleObjCSetErrorCode( NSInteger code, NSString *domain, NSDictionary *userInfo)
 {
-   return( [Self._nsErrorClass mulleCurrentErrorWithDomain:domain]);
+   [NSError mulleSetErrorCode:code
+                       domain:domain
+                     userInfo:userInfo];
 }
 
 
-NSError  *MulleObjCErrorGetCurrentError( void)
+NSError   *MulleObjCExtractError( void)
 {
-   return( [Self._nsErrorClass mulleCurrentError]);
+   return( [NSError mulleExtract]);
 }
 
 
-
-void   MulleObjCErrorClearCurrentError( void)
+void   MulleObjCClearError( void)
 {
-   [Self._nsErrorClass mulleClearCurrentError];
+   [NSError mulleClear];
 }
 
-
-- (id) copy
-{
-   return( [self retain]);
-}
 
 @end
