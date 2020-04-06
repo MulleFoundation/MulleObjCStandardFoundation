@@ -105,6 +105,7 @@ static struct
 + (void) deinitialize
 {
    NSFreeMapTable( Self._domains);
+   Self._domains = nil;
 }
 
 
@@ -120,7 +121,8 @@ static struct
 + (void) removeErrorDomain:(NSString *) domain
 {
    // should check that this called only during +load or +initialize
-   NSMapRemove( Self._domains, domain);
+   if( Self._domains)
+      NSMapRemove( Self._domains, domain);
 }
 
 
