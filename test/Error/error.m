@@ -19,27 +19,33 @@ int   main( int argc, char *argv[])
          mulle_objc_universe_is_ok)
       _exit( 1);
 #endif
-   [NSError mulleClear];
-   error = [NSError mulleExtract];
-   if( error != nil)
-      return( 1);
-
-   s    = @"a";
-   dict =  @{ @"foo": @"bar"};
-   MulleObjCSetErrorCode( 1848, s, dict);
-   error = [NSError mulleExtract];
-   if( error == nil)
-      return( 1);
 
    [NSError mulleClear];
+
+   // check fallback to errno
+   [NSError mulleSetErrorDomain:@"Whatever"];
+   errno = ENOENT;
+
    error = [NSError mulleExtract];
-   if( error != nil)
+   if( ! error)
       return( 1);
 
-   // should be reclaimed
-   s    = @"b";
-   dict =  @{ @"Foo": @"bie"};
-   MulleObjCSetErrorCode( 1849, s, dict);
+   error = [NSError mulleExtract];
+   if( error)
+      return( 2);
+
+   // other way around should work too
+   errno = ENOENT;
+   [NSError mulleSetErrorDomain:@"Whatever"];
+
+
+   error = [NSError mulleExtract];
+   if( ! error)
+      return( 3);
+
+   error = [NSError mulleExtract];
+   if( error)
+      return( 4);
 
    return( 0);
 }

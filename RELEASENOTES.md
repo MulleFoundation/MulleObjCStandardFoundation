@@ -6,10 +6,12 @@
 * there exist now functions and methods to create mutable arrays from string components such as `mulleMutableComponentsSeparatedByString:`
 * declare some NSCharacterSet methods as returning `instancetype` now
 * adapt to changes in MulleObjC
-* renamed ``_GMTTimeZone`` to `mulleGMTTimeZone`
+* renamed `_GMTTimeZone` to `mulleGMTTimeZone`
 * exception functions like MulleObjCThrowErrnoException are now vectored via MulleObjC
 * NSPropertyListOpenStepFormat is now MullePropertyListLooseOpenStepFormat and MullePropertyListStrictOpenStepFormat is NSPropertyListOpenStepFormat, which should make the behaviour somewhat less surprising
-
+* split off parts to MulleObjCStandardFoundation
+* split off parts to MulleObjCValueFoundation
+* rewrote and fixes the mulle-specific parts of `NSError` and the lazy generation of errors
 
 ## 0.16.0
 
@@ -25,7 +27,7 @@
 * redid NSDateFormatter, NSNumberFormatter, NSTimeZone class variable handling
 * improved NSLocale a bit (for the benefit of NSBundle)
 * bugfixed NSNotificationCenter and reversed the call order
-* improved propertyList parsing with /* */ comments
+* improved propertyList parsing with `/* */` comments
 * added `mulle_unichar_strlen` and family
 * added mulleAppendCharacters:length: to NSMutableString
 * added mulleStringByReplacingCharactersInSet:withCharacter: to NSString
