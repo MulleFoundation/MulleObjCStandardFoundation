@@ -91,13 +91,14 @@ static inline void   SelfUnlock( void)
 
 }
 
+
 + (void) deinitialize
 {
    @autoreleasepool
    {
       NSFreeMapTable( Self._table);
+      Self._table = NULL;
    }
-   Self._table = NULL;
    mulle_thread_mutex_done( &Self._lock);
 #ifdef DEBUG
    memset( &Self, 0xEE, sizeof( Self));
