@@ -80,10 +80,13 @@ src/String/NSString+Escaping.m
 src/String/NSString+NSCharacterSet.m
 src/String/NSString+Search.m
 src/Undo/NSUndoManager.m
-src/mulle-foundation-standalone.m
 src/mulle-foundation-universeconfiguration.m
 )
 
 set( STAGE2_SOURCES
 src/MulleObjCLoader+MulleObjCStandardFoundation.m
+)
+
+set( STANDALONE_SOURCES
+src/mulle-foundation-standalone.m
 )
