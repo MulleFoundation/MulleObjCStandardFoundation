@@ -46,199 +46,98 @@
 // other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
+#include <ctype.h>
 
 
 @implementation NSCharacterSet
 
 + (instancetype) alphanumericCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_alphanumeric
-                                                    planeFunction:mulle_utf_is_alphanumericplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isalnum
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
-}
-
-
-+ (instancetype) capitalizedLetterCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_capitalized
-                                                   planeFunction:(int (*)(unsigned int)) mulle_utf_is_capitalizedplane
-                                                          invert:NO] autorelease]);
 }
 
 
 + (instancetype) controlCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_control
-                                                    planeFunction:mulle_utf_is_controlplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:iscntrl
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
 + (instancetype) decimalDigitCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decimaldigit
-                                                    planeFunction:mulle_utf_is_decimaldigitplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isdigit
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
-}
-
-
-+ (instancetype) decomposableCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_decomposable
-                                                    planeFunction:mulle_utf_is_decomposableplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) illegalCharacterSet
-{
-   NSCharacterSet  *characterSet;
-
-   characterSet = [_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_legalcharacter
-                                                          planeFunction:mulle_utf_is_legalcharacterplane
-                                                                 invert:NO];
-   return( [characterSet invertedSet]);
 }
 
 
 + (instancetype) letterCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_letter
-                                                    planeFunction:mulle_utf_is_letterplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isalpha
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
 + (instancetype) lowercaseLetterCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_lowercase
-                                                    planeFunction:mulle_utf_is_lowercaseplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) nonBaseCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonbase
-                                                    planeFunction:mulle_utf_is_nonbaseplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:islower
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
 + (instancetype) punctuationCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_punctuation
-                                                    planeFunction:mulle_utf_is_punctuationplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:ispunct
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
 + (instancetype) symbolCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_symbol
-                                                    planeFunction:mulle_utf_is_symbolplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isgraph
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
 + (instancetype) uppercaseLetterCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_uppercase
-                                                    planeFunction:mulle_utf_is_uppercaseplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isupper
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
 + (instancetype) whitespaceAndNewlineCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespaceornewline
-                                                    planeFunction:mulle_utf_is_whitespaceornewlineplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isspace
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
+}
+
+static int  x_iswhite( int c)
+{
+   switch( c)
+   {
+   case ' '  :
+   case '\t' :
+      return( 1);
+   }
+   return( 0);
 }
 
 
 + (instancetype) whitespaceCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_whitespace
-                                                    planeFunction:mulle_utf_is_whitespaceplane
-                                                           invert:NO] autorelease]);
-}
-
-
-
-+ (instancetype) URLFragmentAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlfragment
-                                                    planeFunction:mulle_utf_is_validurlfragmentplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) URLHostAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlhost
-                                                    planeFunction:mulle_utf_is_validurlhostplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) URLPasswordAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpassword
-                                                    planeFunction:mulle_utf_is_validurlpasswordplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) URLPathAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlpath
-                                                    planeFunction:mulle_utf_is_validurlpathplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) URLQueryAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlquery
-                                                    planeFunction:mulle_utf_is_validurlqueryplane
-                                                           invert:NO] autorelease]);
-}
-
-
-+ (instancetype) URLUserAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurluser
-                                                    planeFunction:mulle_utf_is_validurluserplane
-                                                           invert:NO] autorelease]);
-}
-
-
-// be sure to duplicate these in NSMutableCharacterSet
-
-+ (instancetype) mulleURLAllowedCharacterSet
-{
-   // https://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters
-   return( [self characterSetWithCharactersInString:@"!*'();:@&=+$,/?#[]"
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-      "abcdefghijklmnopqrstuvwxyz"
-      "0123456789-_.~" ]);
-}
-
-
-+ (instancetype) mulleURLSchemeAllowedCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_validurlscheme
-                                                    planeFunction:mulle_utf_is_validurlschemeplane
-                                                           invert:NO] autorelease]);
-}
-
-
-
-+ (instancetype) mulleNonPercentEscapeCharacterSet
-{
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:mulle_utf32_is_nonpercentescape
-                                                    planeFunction:mulle_utf_is_nonpercentescapeplane
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:x_iswhite
+                                                    planeFunction:0
                                                            invert:NO] autorelease]);
 }
 

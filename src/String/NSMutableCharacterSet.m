@@ -155,13 +155,6 @@ static id   construct( SEL _cmd)
    return( construct( _cmd));
 }
 
-
-+ (instancetype) illegalCharacterSet
-{
-   return( construct( _cmd));
-}
-
-
 + (instancetype) letterCharacterSet
 {
    return( construct( _cmd));
@@ -242,12 +235,6 @@ static id   construct( SEL _cmd)
 
 
 + (instancetype) URLUserAllowedCharacterSet
-{
-   return( construct( _cmd));
-}
-
-
-+ (instancetype) mulleNonPercentEscapeCharacterSet
 {
    return( construct( _cmd));
 }
