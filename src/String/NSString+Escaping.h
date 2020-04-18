@@ -42,10 +42,8 @@
 
 @interface NSString (Escaping)
 
-- (NSString *) stringByAddingPercentEscapesUsingEncoding:(NSStringEncoding) encoding;
 - (NSString *) stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet *) allowedCharacters;
 
-- (NSString *) stringByReplacingPercentEscapesUsingEncoding:(NSStringEncoding) encoding;
 - (NSString *) stringByRemovingPercentEncoding;
 
 - (NSString *) mulleQuotedString;
@@ -53,10 +51,11 @@
 // useful for converting non-printables to '.' for example
 - (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
                                        withCharacter:(unichar) c;
+- (NSString *) mulleStringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters;
 
 @end
 
-struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src, 
+struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src,
                                                     NSCharacterSet *disallowedCharacters);
-NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self, 
+NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
                                                      NSCharacterSet *disallowedCharacters);

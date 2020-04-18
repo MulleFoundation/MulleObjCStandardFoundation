@@ -187,15 +187,6 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 }
 
 
-- (NSString *) stringByAddingPercentEscapesUsingEncoding:(NSStringEncoding) encoding
-{
-   NSCharacterSet   *characterSet;
-
-   NSAssert( encoding == NSUTF8StringEncoding, @"only suppports NSUTF8StringEncoding");
-   characterSet = [NSCharacterSet mulleNonPercentEscapeCharacterSet];
-   return( [self stringByAddingPercentEncodingWithAllowedCharacters:characterSet]);
-}
-
 
 #pragma mark -
 #pragma mark unescape
@@ -223,11 +214,11 @@ static inline int   dehex( mulle_utf8_t c)
 
 
 //
-// returns NULL of string has invalid percentescapes 
+// returns NULL of string has invalid percentescapes
 // otherwise returns converted string in mulle_utf8_data
 // may not be \0 terminated though
 //
-struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src, 
+struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src,
                                                     NSCharacterSet *disallowedCharacters)
 {
    IMP                      characterIsMemberIMP;
@@ -300,7 +291,7 @@ struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src,
 }
 
 
-NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self, 
+NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
                                                      NSCharacterSet *disallowedCharacters)
 {
 
@@ -326,25 +317,16 @@ NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
 }
 
 
-- (NSString *) stringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters
+- (NSString *) mulleStringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters
 {
    return( MulleObjCStringByReplacingPercentEscapes( self, disallowedCharacters));
 }
 
 
-- (NSString *) stringByReplacingPercentEscapesUsingEncoding:(NSStringEncoding) encoding
-{
-   NSCharacterSet   *characterSet;
-
-   NSAssert( encoding == NSUTF8StringEncoding, @"only suppports NSUTF8StringEncoding");
-   characterSet = [NSCharacterSet mulleNonPercentEscapeCharacterSet];
-   return( [self stringByReplacingPercentEscapesWithDisallowedCharacters:characterSet]);
-}
-
 
 - (NSString *) stringByRemovingPercentEncoding
 {
-   return( [self stringByReplacingPercentEscapesWithDisallowedCharacters:nil]);
+   return( [self mulleStringByReplacingPercentEscapesWithDisallowedCharacters:nil]);
 }
 
 

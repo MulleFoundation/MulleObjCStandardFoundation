@@ -55,31 +55,17 @@ typedef mulle_utf32_t  unichar;
 + (instancetype) characterSetWithCharactersInString:(NSString *) s;
 
 + (instancetype) alphanumericCharacterSet;
-+ (instancetype) capitalizedLetterCharacterSet;
 + (instancetype) controlCharacterSet;
 + (instancetype) decimalDigitCharacterSet;
-+ (instancetype) decomposableCharacterSet;
-+ (instancetype) illegalCharacterSet;
 + (instancetype) letterCharacterSet;
 + (instancetype) lowercaseLetterCharacterSet;
-+ (instancetype) nonBaseCharacterSet;
 + (instancetype) punctuationCharacterSet;
 + (instancetype) symbolCharacterSet;
 + (instancetype) uppercaseLetterCharacterSet;
 + (instancetype) whitespaceAndNewlineCharacterSet;
 + (instancetype) whitespaceCharacterSet;
 
-+ (instancetype) URLFragmentAllowedCharacterSet;
-+ (instancetype) URLHostAllowedCharacterSet;
-+ (instancetype) URLPasswordAllowedCharacterSet;
-+ (instancetype) URLPathAllowedCharacterSet;
-+ (instancetype) URLQueryAllowedCharacterSet;
-+ (instancetype) URLUserAllowedCharacterSet;
-
-// mulle addition
 + (instancetype) mulleURLAllowedCharacterSet;
-+ (instancetype) mulleURLSchemeAllowedCharacterSet;
-+ (instancetype) mulleNonPercentEscapeCharacterSet;
 
 - (void) mulleGetBitmapBytes:(unsigned char *) bytes
                        plane:(NSUInteger) plane;

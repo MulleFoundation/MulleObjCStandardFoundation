@@ -37,12 +37,27 @@
 
 @class NSCharacterSet;
 
+
+struct MulleStringCharacterFunctions
+{
+   int        (*isdigit)( unichar);
+   int        (*iszero)( unichar);
+   int        (*isspace)( unichar);
+   unichar    (*tolower)( unichar);
+   unichar    (*toupper)( unichar);
+};
+
+
 //
 // currently this just does literal searches.
 // TODO: create a hook for non-literal searches and use a proper unicode
 // library for that.
 //
-@interface NSString (Search)
+@interface NSString( Search)
+
+// install during +load or +initialize only
++ (void) setStringCharacterFunctions:(struct MulleStringCharacterFunctions *) converters;
++ (struct MulleStringCharacterFunctions *) stringCharacterFunctions;
 
 - (BOOL) isEqualToString:(NSString *) other;
 
@@ -76,6 +91,9 @@
 
 - (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set;
 
+- (NSString *) uppercaseString;
+- (NSString *) lowercaseString;
+- (NSString *) capitalizedString;
 
 #pragma mark -
 #pragma mark mulle additions
@@ -88,6 +106,8 @@
 // hint: to find characters not in set, compare returned range.length with
 // input range.length. If it doesn't match, there you are
 //
+- (NSString *) mulleDecapitalizedString;
+
 - (NSRange) mulleRangeOfCharactersFromSet:(NSCharacterSet *) set
                                   options:(NSStringCompareOptions) options
                                     range:(NSRange) range;
@@ -101,6 +121,7 @@
 - (NSString *) stringByReplacingCharactersInRange:(NSRange) range
                                        withString:(NSString *) replacement;
 
+// for MulleObjCUnicode to use
 @end
 
 

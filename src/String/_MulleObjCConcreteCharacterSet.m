@@ -45,6 +45,13 @@
 
 @implementation _MulleObjCConcreteCharacterSet
 
+
+static int   first_plane_only( unsigned int plane)
+{
+   return( plane == 0);
+}
+
+
 + (instancetype) newWithMemberFunction:(int (*)( unichar)) f
                          planeFunction:(int (*)( unsigned int)) plane_f
                                 invert:(BOOL) invert
@@ -54,7 +61,7 @@
    // known to be all zeroed out(!) important!
    obj            = NSAllocateObject( self, 0, NULL);
    obj->_f        = f;
-   obj->_plane_f  = plane_f;
+   obj->_plane_f  = plane_f ? plane_f : first_plane_only;
    obj->_invert   = invert;
    return( obj);
 }

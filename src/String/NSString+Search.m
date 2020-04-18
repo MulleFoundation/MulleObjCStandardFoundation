@@ -17,10 +17,16 @@
 
 // std-c and dependencies
 #import "import-private.h"
+#include <ctype.h>
 
 // what's the point of this warning, anyway ?
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
 #pragma clang diagnostic ignored "-Wparentheses"
+
+static int   iszero( unichar c)
+{
+   return( c == '0');
+}
 
 
 @implementation NSString( Search)
@@ -29,6 +35,35 @@
 // an idea, to write c/unicode code that works with all character sizes
 // can also manage compound characters if needed.
 //
+static struct
+{
+   struct MulleStringCharacterFunctions   functions;
+} Self =
+{
+   isdigit,
+   iszero,
+   isspace,
+   tolower,
+   toupper
+};
+
+
++ (void) setStringCharacterFunctions:(struct MulleStringCharacterFunctions *) functions
+{
+   assert( functions->isdigit &&
+           functions->iszero &&
+           functions->isspace &&
+           functions->tolower &&
+           functions->toupper);
+   assert( sizeof( int) == sizeof( unichar));
+
+   Self.functions = *functions;
+}
+
++ (struct MulleStringCharacterFunctions *) stringCharacterFunctions
+{
+   return( &Self.functions);
+}
 
 enum
 {
@@ -134,9 +169,9 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 }
 
 
-- (void) _setLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
-                                options:(NSStringCompareOptions) options
-                                  range:(NSRange) range
+- (void) mulleSetLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
+                                    options:(NSStringCompareOptions) options
+                                      range:(NSRange) range
 {
    NSUInteger   start;
    NSUInteger   end;
@@ -152,8 +187,8 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 
    rover->utfrover.get_length = (size_t (*)()) get_length;
    rover->utfrover.unget      = (int (*)()) unget_some;
-   rover->utfrover.tolower    = mulle_utf32_tolower;
-   rover->utfrover.toupper    = mulle_utf32_toupper;
+   rover->utfrover.tolower    = Self.functions.tolower;
+   rover->utfrover.toupper    = Self.functions.toupper;
 
    if( rover->direction >= 0)
    {
@@ -198,31 +233,31 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 //
 // there is no difference in the MulleFoundation we only serve Literals
 //
-- (void) _setNonLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
-                                   options:(NSStringCompareOptions) options
-                                     range:(NSRange) range
+- (void) mulleSetNonLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
+                                       options:(NSStringCompareOptions) options
+                                         range:(NSRange) range
 {
-   [self _setLiteralCharacterEnumerator:rover
-                                options:options|NSLiteralSearch
-                                  range:range];
+   [self mulleSetLiteralCharacterEnumerator:rover
+                                    options:options|NSLiteralSearch
+                                     range:range];
 }
 
 
-- (void) _setCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
-                         options:(NSStringCompareOptions) options
-                           range:(NSRange) range
+- (void) mulleSetCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
+                             options:(NSStringCompareOptions) options
+                               range:(NSRange) range
 {
    if( options & NSLiteralSearch)
    {
-      [self _setLiteralCharacterEnumerator:rover
-                                   options:options
-                                     range:range];
+      [self mulleSetLiteralCharacterEnumerator:rover
+                                       options:options
+                                        range:range];
       return;
    }
 
-   [self _setNonLiteralCharacterEnumerator:rover
-                                   options:options
-                                     range:range];
+   [self mulleSetNonLiteralCharacterEnumerator:rover
+                                       options:options
+                                         range:range];
 }
 
 
@@ -291,7 +326,8 @@ static NSComparisonResult   compare_strings( struct mulle_unichar_enumerator *se
 //
 // same goes for q with o_buf
 //
-static void   move_to_start_of_digits( struct mulle_unichar_enumerator *rover)
+static void   move_to_start_of_digits( struct mulle_unichar_enumerator *rover,
+                                       int (*isdigit)( unichar))
 {
    unichar   c;
 
@@ -307,26 +343,27 @@ static void   move_to_start_of_digits( struct mulle_unichar_enumerator *rover)
       if( ! (*rover->unget)( rover, 1))
          break;
       c = (*rover->get_character)( rover);
-      if( ! mulle_utf32_is_decimaldigit( c))
+      if( ! (*isdigit)( c))
          break;
       (*rover->unget)( rover, 1);
    }
 }
 
 
-static void   skip_leading_zeroes( struct mulle_unichar_enumerator *rover)
+static void   skip_leading_zeroes( struct mulle_unichar_enumerator *rover, int (*iszero)(unichar ))
 {
    unichar   c;
 
    do
       c = (*rover->get_character)( rover);
-   while( c != '0');
+   while( (*iszero)(c));  // hmm, not so unicode-like is it
 
    (*rover->unget)( rover, 1);
 }
 
 
-static size_t   skip_remaining_digits( struct mulle_unichar_enumerator *rover)
+static size_t   skip_remaining_digits( struct mulle_unichar_enumerator *rover,
+                                       int  (*isdigit)( unichar))
 {
    unichar   c;
    size_t    count;
@@ -337,7 +374,7 @@ static size_t   skip_remaining_digits( struct mulle_unichar_enumerator *rover)
    {
       if( ! c)
          break;
-      if( ! mulle_utf32_is_decimaldigit( c))
+      if( ! (*isdigit)( c))
       {
          (*rover->unget)( rover, 1);
          break;
@@ -357,12 +394,15 @@ static NSComparisonResult  digits_compare( struct mulle_unichar_enumerator *self
    NSComparisonResult  result;
    size_t              self_count;
    size_t              other_count;
+   int                 (*isdigit)( unichar);
 
-   move_to_start_of_digits( self_rover);
-   move_to_start_of_digits( other_rover);
+   isdigit = Self.functions.isdigit;
 
-   skip_leading_zeroes( self_rover);
-   skip_leading_zeroes( other_rover);
+   move_to_start_of_digits( self_rover, isdigit);
+   move_to_start_of_digits( other_rover, isdigit);
+
+   skip_leading_zeroes( self_rover, Self.functions.iszero);
+   skip_leading_zeroes( other_rover, Self.functions.iszero);
    // advance over leading zeroes
 
    diff = 0;
@@ -381,9 +421,9 @@ static NSComparisonResult  digits_compare( struct mulle_unichar_enumerator *self
       if( ! d)
          return( NSOrderedDescending);
 
-      if( mulle_utf32_is_decimaldigit( c))
+      if( (*isdigit)( c))
       {
-         if( ! mulle_utf32_is_decimaldigit( d))
+         if( ! (*isdigit)( d))
          {
             (*other_rover->unget)( other_rover, 1);
             result = NSOrderedDescending;
@@ -399,7 +439,7 @@ static NSComparisonResult  digits_compare( struct mulle_unichar_enumerator *self
          continue;
       }
 
-      if( mulle_utf32_is_decimaldigit( d))
+      if( (*isdigit)( d))
       {
          (*self_rover->unget)( self_rover, 1);
          result = NSOrderedAscending;
@@ -411,8 +451,8 @@ static NSComparisonResult  digits_compare( struct mulle_unichar_enumerator *self
    }
 
    // skip over remainder of p and q
-   self_count  = skip_remaining_digits( self_rover);
-   other_count = skip_remaining_digits( other_rover);
+   self_count  = skip_remaining_digits( self_rover, isdigit);
+   other_count = skip_remaining_digits( other_rover, isdigit);
 
    if( diff == 0)
       return( result);
@@ -430,7 +470,9 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
    unichar               d;
    unichar               diff;
    NSComparisonResult    result;
+   int                   (*isdigit)( unichar);
 
+   isdigit = Self.functions.isdigit;
    for(;;)
    {
       c    = (unichar) self_rover->get_character( self_rover);
@@ -441,7 +483,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
       diff = c - d;
       if( diff)
       {
-         if( ! mulle_utf32_is_decimaldigit( c) || ! mulle_utf32_is_decimaldigit( d))
+         if( ! (*isdigit)( c) || ! (*isdigit)( d))
             return( diff < 0 ? NSOrderedAscending : NSOrderedDescending);
 
          //
@@ -458,7 +500,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
       }
    }
 
-   if( mulle_utf32_is_decimaldigit( c) && mulle_utf32_is_decimaldigit( d))
+   if( (*isdigit)( c) && (*isdigit)( d))
       return( digits_compare( self_rover, other_rover));
 
    if( ! c)
@@ -523,12 +565,12 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 
    options &= (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
 
-   [self _setCharacterEnumerator:&self_rover
-                         options:options
-                           range:range];
-   [other _setCharacterEnumerator:&other_rover
-                          options:options
-                            range:NSMakeRange( 0, len_other)];
+   [self mulleSetCharacterEnumerator:&self_rover
+                             options:options
+                              range:range];
+   [other mulleSetCharacterEnumerator:&other_rover
+                              options:options
+                                range:NSMakeRange( 0, len_other)];
 
    if( options & NSNumericSearch)
       return( numeric_compare( (void *) &self_rover, (void *) &other_rover));
@@ -686,7 +728,6 @@ static NSInteger  _kmp_search( struct _ns_unichar_enumerator *self_rover,
 }
 
 
-
 static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
                                   struct _ns_unichar_enumerator *other_rover)
 {
@@ -725,12 +766,12 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
                   options:(NSStringCompareOptions) options
                     range:(NSRange) range
 {
-   NSUInteger                            len_self;
-   NSUInteger                            len_other;
+   NSUInteger                     len_self;
+   NSUInteger                     len_other;
    struct _ns_unichar_enumerator  self_rover;
    struct _ns_unichar_enumerator  other_rover;
-   NSInteger                             location;
-   NSRange                               result;
+   NSInteger                      location;
+   NSRange                        result;
 
    NSCParameterAssert( ! other || [other isKindOfClass:[NSString class]]);
    NSCParameterAssert( (options & (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
@@ -748,12 +789,12 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 
    options &= (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
 
-   [self _setCharacterEnumerator:&self_rover
-                         options:options
-                           range:range];
-   [other _setCharacterEnumerator:&other_rover
-                          options:options
-                            range:NSMakeRange( 0, len_other)];
+   [self mulleSetCharacterEnumerator:&self_rover
+                             options:options
+                               range:range];
+   [other mulleSetCharacterEnumerator:&other_rover
+                              options:options
+                                range:NSMakeRange( 0, len_other)];
 
    location = normal_search( &self_rover, &other_rover);
    if( location == NSNotFound)
@@ -837,9 +878,9 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
 
    options &= (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
 
-   [self _setCharacterEnumerator:&self_rover
-                         options:options
-                           range:range];
+   [self mulleSetCharacterEnumerator:&self_rover
+                             options:options
+                               range:range];
 
    // location is relative to start of search
    location = charset_location_search( &self_rover, set);
@@ -927,9 +968,9 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
 
    options &= (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
 
-   [self _setCharacterEnumerator:&self_rover
-                         options:options
-                           range:range];
+   [self mulleSetCharacterEnumerator:&self_rover
+                             options:options
+                               range:range];
 
    length = charset_length_search( &self_rover, set);
    if( ! length)
@@ -992,6 +1033,114 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
    [copy replaceCharactersInRange:range
                          withString:replacement];
    return( copy);
+}
+
+
+#pragma mark - case conversion MulleObjCUnicodeFoundation
+
+
+- (NSString *) lowercaseString
+{
+   mulle_utf8_t             *s;
+   NSUInteger               len;
+   struct mulle_allocator   *allocator;
+   struct mulle_utf8_data   buf;
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+
+   len = [self mulleUTF8StringLength];
+   s   = [self mulleFastUTF8Characters];
+   if( ! s)
+      s = (mulle_utf8_t *) [self UTF8String];
+
+   buf = mulle_utf8_character_convert( s, len, Self.functions.tolower, allocator);
+   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
+                                                  length:buf.length
+                                               allocator:allocator]);
+}
+
+
+- (NSString *) uppercaseString
+{
+   mulle_utf8_t             *s;
+   NSUInteger               len;
+   struct mulle_allocator   *allocator;
+   struct mulle_utf8_data   buf;
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+
+   len = [self mulleUTF8StringLength];
+   s   = [self mulleFastUTF8Characters];
+   if( ! s)
+      s = (mulle_utf8_t *) [self UTF8String];
+
+   buf = mulle_utf8_character_convert( s, len, Self.functions.toupper, allocator);
+   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
+                                                  length:buf.length
+                                               allocator:allocator]);
+}
+
+
+//
+// this should do:
+// a fOO bar -> A Foo Bar
+//
+- (NSString *) capitalizedString
+{
+   NSUInteger               len;
+   mulle_utf8_t             *s;
+   struct mulle_allocator   *allocator;
+   struct mulle_utf8_data   buf;
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+
+   len = [self mulleUTF8StringLength];
+   s   = [self mulleFastUTF8Characters];
+   if( ! s)
+      s = (mulle_utf8_t *) [self UTF8String];
+   buf = mulle_utf8_word_convert( s, len,
+                                  Self.functions.toupper,
+                                  Self.functions.tolower,
+                                  Self.functions.isspace,
+                                  allocator);
+   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
+                                                  length:buf.length
+                                               allocator:allocator]);
+}
+
+
+static unichar   nop( unichar c)
+{
+   return( c);
+}
+
+
+//
+// this should do:
+// A fOO BaR -> a fOO baR
+// Why ? because otherwise it's just like lowercase
+//
+- (NSString *) mulleDecapitalizedString
+{
+   NSUInteger               len;
+   mulle_utf8_t             *s;
+   struct mulle_allocator   *allocator;
+   struct mulle_utf8_data   buf;
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+
+   len = [self mulleUTF8StringLength];
+   s   = [self mulleFastUTF8Characters];
+   if( ! s)
+      s = (mulle_utf8_t *) [self UTF8String];
+   buf = mulle_utf8_word_convert( s, len,
+                                  Self.functions.tolower,
+                                  nop,
+                                  Self.functions.isspace,
+                                  allocator);
+   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
+                                                  length:buf.length
+                                               allocator:allocator]);
 }
 
 @end
