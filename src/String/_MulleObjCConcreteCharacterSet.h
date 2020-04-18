@@ -44,6 +44,7 @@
    int   _invert;
 }
 
+// function 'f' must return 0 or 1!
 + (instancetype) newWithMemberFunction:(int (*)( unichar)) f
                          planeFunction:(int (*)( unsigned int)) plane_f
                                 invert:(BOOL) invert;

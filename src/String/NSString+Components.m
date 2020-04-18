@@ -109,21 +109,21 @@ id   _MulleObjCComponentsSeparatedByString( NSString *self,
                                             NSString *separator,
                                             Class arrayCls)
 {
-   NSUInteger        i, n;
-   NSUInteger        m;
-   NSUInteger        max;
-   NSUInteger        remain;
-   NSArray           *array;
-   mulle_utf8_t      *buf;
-   mulle_utf8_t      *sep;
-   mulle_utf8_t      sepChar;
-   mulle_utf8_t      *sentinel;
-   mulle_utf8_t      *p;
-   mulle_utf8_t      *q;
-   NSUInteger        *offsets;
-   NSUInteger        *tofree;
-   int               diff;
-   size_t            size;
+   NSUInteger     i, n;
+   NSUInteger     m;
+   NSUInteger     max;
+   NSUInteger     remain;
+   NSArray        *array;
+   mulle_utf8_t   *buf;
+   mulle_utf8_t   *sep;
+   mulle_utf8_t   sepChar;
+   mulle_utf8_t   *sentinel;
+   mulle_utf8_t   *p;
+   mulle_utf8_t   *q;
+   NSUInteger     *offsets;
+   NSUInteger     *tofree;
+   int            diff;
+   size_t         size;
 
    n = [self mulleUTF8StringLength];
    if( ! n)
@@ -234,7 +234,7 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
 
 - (NSArray *) componentsSeparatedByString:(NSString *) separator
 {
-   NSArray  *components;
+   NSArray   *components;
 
    if( ! separator)
       MulleObjCThrowInvalidArgumentException( @"separator can't be nil");
@@ -248,7 +248,7 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
 
 - (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) separator
 {
-   NSMutableArray  *components;
+   NSMutableArray   *components;
 
    if( ! separator)
       MulleObjCThrowInvalidArgumentException( @"separator can't be nil");
@@ -270,18 +270,18 @@ id   _MulleObjCComponentsSeparatedByCharacterSet( NSString *self,
                                                   NSCharacterSet *separators,
                                                   Class arrayCls)
 {
-   IMP               isMember;
-   mulle_utf8_t      *buf;
-   mulle_utf8_t      *p;
-   mulle_utf8_t      *sentinel;
-   mulle_utf8_t      *sep;
-   NSArray           *array;
-   NSUInteger        *offsets;
-   NSUInteger        *tofree;
-   NSUInteger        i, n;
-   NSUInteger        m;
-   NSUInteger        max;
-   size_t            size;
+   IMP            isMember;
+   mulle_utf8_t   *buf;
+   mulle_utf8_t   *p;
+   mulle_utf8_t   *sentinel;
+   mulle_utf8_t   *sep;
+   NSArray        *array;
+   NSUInteger     *offsets;
+   NSUInteger     *tofree;
+   NSUInteger     i, n;
+   NSUInteger     m;
+   NSUInteger     max;
+   size_t         size;
 
    n = [self mulleUTF8StringLength];
    if( ! n)

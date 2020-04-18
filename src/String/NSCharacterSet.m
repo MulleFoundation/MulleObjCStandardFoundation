@@ -51,78 +51,166 @@
 
 @implementation NSCharacterSet
 
+
+//
+// funtion taking two function pointers, returning one function pointer
+// if int happens to be compatible to unichar then then the casted int
+// parameter version
+//
+static inline int  (*PICK( int (*a)( unichar), int (*b)( int)))( unichar)
+{
+   return( a);  // always pick a now
+//   return( sizeof( unichar) != sizeof( int) ? a : (int (*)( unichar)) b);
+}
+
+
+static int   ascii_isalnum( unichar c)
+{
+   if( c < 0x100)
+      return( isalnum( (int) c));
+   return( 0);
+}
+
+
 + (instancetype) alphanumericCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isalnum
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_isalnum, isalnum)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
+}
+
+
++ (instancetype) capitalizedLetterCharacterSet
+{
+   return( [self characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZ"]);
+}
+
+
+static int   ascii_iscntrl( unichar c)
+{
+   if( c < 0x100)
+      return( iscntrl( (int) c));
+   return( 0);
 }
 
 
 + (instancetype) controlCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:iscntrl
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_iscntrl, iscntrl)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
+}
+
+
+static int   ascii_isdigit( unichar c)
+{
+   if( c < 0x100)
+      return( isdigit( (int) c));
+   return( 0);
 }
 
 
 + (instancetype) decimalDigitCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isdigit
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_isdigit, isdigit)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
+}
+
+
+static int   ascii_isalpha( unichar c)
+{
+   if( c < 0x100)
+      return( isalpha( (int) c));
+   return( 0);
 }
 
 
 + (instancetype) letterCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isalpha
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_isalpha, isalpha)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
+}
+
+
+static int   ascii_islower( unichar c)
+{
+   if( c < 0x100)
+      return( islower( (int) c));
+   return( 0);
 }
 
 
 + (instancetype) lowercaseLetterCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:islower
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_islower, islower)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
 
+static int   ascii_ispunct( unichar c)
+{
+   if( c < 0x100)
+      return( ispunct( (int) c));
+   return( 0);
+}
+
 + (instancetype) punctuationCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:ispunct
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_ispunct, ispunct)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
+}
+
+
+static int   ascii_isgraph( unichar c)
+{
+   if( c < 0x100)
+      return( isgraph( (int) c));
+   return( 0);
 }
 
 
 + (instancetype) symbolCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isgraph
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_isgraph, isgraph)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
+
+static int   ascii_isupper( unichar c)
+{
+   if( c < 0x100)
+      return( isupper( (int) c));
+   return( 0);
+}
 
 + (instancetype) uppercaseLetterCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isupper
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_isupper, isupper)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
+
+static int   ascii_isspace( unichar c)
+{
+   if( c < 0x100)
+      return( isspace( (int) c));
+   return( 0);
+}
 
 + (instancetype) whitespaceAndNewlineCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:isspace
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:PICK( ascii_isspace, isspace)
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
 }
 
-static int  x_iswhite( int c)
+static int  ascii_iswhite( unichar c)
 {
    switch( c)
    {
@@ -136,7 +224,7 @@ static int  x_iswhite( int c)
 
 + (instancetype) whitespaceCharacterSet
 {
-   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:x_iswhite
+   return( [[_MulleObjCConcreteCharacterSet newWithMemberFunction:ascii_iswhite
                                                     planeFunction:0
                                                            invert:NO] autorelease]);
 }
