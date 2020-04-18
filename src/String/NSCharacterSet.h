@@ -56,6 +56,7 @@ typedef mulle_utf32_t  unichar;
 
 + (instancetype) alphanumericCharacterSet;
 + (instancetype) controlCharacterSet;
++ (instancetype) capitalizedLetterCharacterSet;
 + (instancetype) decimalDigitCharacterSet;
 + (instancetype) letterCharacterSet;
 + (instancetype) lowercaseLetterCharacterSet;
@@ -64,8 +65,6 @@ typedef mulle_utf32_t  unichar;
 + (instancetype) uppercaseLetterCharacterSet;
 + (instancetype) whitespaceAndNewlineCharacterSet;
 + (instancetype) whitespaceCharacterSet;
-
-+ (instancetype) mulleURLAllowedCharacterSet;
 
 - (void) mulleGetBitmapBytes:(unsigned char *) bytes
                        plane:(NSUInteger) plane;
