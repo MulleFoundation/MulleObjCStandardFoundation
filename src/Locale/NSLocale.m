@@ -97,7 +97,7 @@ NSString   *NSCurrencySymbol = @"$";
 NSString   *NSThousandsSeparator = @",";
 NSString   *NSDecimalDigits = @"0123456789"; // ?? check with macos
 NSString   *NSInternationalCurrencyString = @"USD";
-NSString   *NSNegativeCurrencyFormatString = @"–$9,999.00";
+NSString   *NSNegativeCurrencyFormatString = @"-$9,999.00";
 NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
 
 // most of the code is OS Specific, so not much here

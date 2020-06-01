@@ -16,6 +16,8 @@
 #import "MulleObjCStandardFoundationException.h"
 
 // std-c and dependencies
+#import <MulleObjCValueFoundation/_MulleObjCUTF16String.h>
+#import <MulleObjCValueFoundation/_MulleObjCUTF32String.h>
 #import "import-private.h"
 #include <ctype.h>
 
@@ -261,11 +263,12 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 }
 
 
+#if 0
 - (BOOL) isEqualToString:(NSString *) other
 {
-   NSUInteger     len;
-   mulle_utf8_t   *ours;
-   mulle_utf8_t   *theirs;
+   NSUInteger               len;
+   struct mulle_utf8_data   ourData;
+   struct mulle_utf8_data   otherData;
 
    if( self == other)
       return( YES);
@@ -274,15 +277,17 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
    if( len != [other length])
       return( NO);
 
-   ours   = [self mulleFastUTF8Characters];
-   theirs = [other mulleFastUTF8Characters];
-   if( ours && theirs)
-      return( ! memcmp( ours, theirs, len));
+   if( [self mulleFastGetUTF8Data:&ourData] && [other mulleFastGetUTF8Data:&otherData])
+   {
+      assert( ourData.length == otherData.length);
+      return( ! memcmp( ourData.characters, otherData.characters, ourData.length));
+   }
 
    return( [self compare:other
                  options:NSLiteralSearch
                    range:NSMakeRange( 0, len)] == NSOrderedSame);
 }
+#endif
 
 
 #pragma mark - compare:
@@ -1039,45 +1044,144 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
 #pragma mark - case conversion MulleObjCUnicodeFoundation
 
 
-- (NSString *) lowercaseString
+
+struct NSStringMogrifyInfo
 {
-   mulle_utf8_t             *s;
-   NSUInteger               len;
-   struct mulle_allocator   *allocator;
-   struct mulle_utf8_data   buf;
+   mulle_utf8_mogrifier_function_t      *mogrify_utf8;
+   mulle_utf32_mogrifier_function_t     *mogrify_utf32;
+   struct mulle_utf_mogrification_info  info;
+};
+
+
+
+- (NSString *) stringByCharacterMogrificationWithInfo:(struct NSStringMogrifyInfo *) info
+{
+   struct mulle_allocator    *allocator;
+   struct mulle_utf8_data    buf;
+   struct mulle_utf8_data    data;
+   struct mulle_utf32_data   unibuf;
+   struct mulle_utf32_data   unidata;
+   union
+   {
+      unichar        utf32[ 16];
+      mulle_utf8_t   utf8[ 64];
+   } tmp;
 
    allocator = MulleObjCInstanceGetAllocator( self);
 
-   len = [self mulleUTF8StringLength];
-   s   = [self mulleFastUTF8Characters];
-   if( ! s)
-      s = (mulle_utf8_t *) [self UTF8String];
+   /*
+    * Quick UTF8 case. The output buffer must be 4 times size of input
+    * if all characters are converted from 1 byte to 4 byte representation
+    */
+   if( [self mulleFastGetUTF8Data:&data])
+   {
+      if( data.length <= 64 / 4)
+      {
+         buf.length     = 64;
+         buf.characters = tmp.utf8;
+      }
+      else
+      {
+         buf.length     = 4 * data.length;
+         buf.characters = mulle_allocator_malloc( allocator, buf.length);
+      }
 
-   buf = mulle_utf8_character_convert( s, len, Self.functions.tolower, allocator);
-   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
-                                                  length:buf.length
-                                               allocator:allocator]);
+      switch( (*info->mogrify_utf8)( &buf, &data, &info->info))
+      {
+      case -1 : abort();
+      case  0 :
+         if( buf.characters != tmp.utf8)
+            mulle_allocator_free( allocator, buf.characters);
+         return( self);
+      }
+
+      if( buf.characters == tmp.utf8)
+         return( [NSString mulleStringWithUTF8Characters:buf.characters
+                                                  length:buf.length]);
+
+      return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
+                                                     length:buf.length
+                                                  allocator:allocator]);
+   }
+
+   /*
+    * UTF32 and non-fast UTF8 case. Get characters first, preferably in local
+    * tmp if it fits.
+    * As UTF32 can convert inplace, use this feature and don't malloc twice.
+    */
+   unibuf.characters = NULL;
+   unibuf.length     = 0;
+
+   unidata.length = [self length];
+   if( unidata.length <= 16)
+   {
+      if( ! unidata.length)
+         return( self);
+
+      unidata.characters = tmp.utf32;
+   }
+   else
+   {
+      unidata.characters = mulle_allocator_malloc( allocator,
+                                                   sizeof( unichar) * unidata.length);
+      /* inplace conversion is possible */
+      unibuf.characters  = unidata.characters;
+      unibuf.length      = unidata.length;
+   }
+
+   [self getCharacters:unidata.characters];
+
+   if( ! unibuf.characters)
+   {
+      unibuf.length     = unidata.length;
+      unibuf.characters = mulle_allocator_malloc( allocator,
+                                                  sizeof( unichar) * unibuf.length);
+   }
+
+   switch( (*info->mogrify_utf32)( &unibuf, &unidata, &info->info))
+   {
+   case -1 : abort();
+   case  0 : // no conversion took place
+      if( unibuf.characters != tmp.utf32)
+         mulle_allocator_free( allocator, unibuf.characters);
+      return( self);
+   }
+
+   if( unibuf.characters == tmp.utf32)
+      return( [NSString stringWithCharacters:unibuf.characters
+                                      length:unibuf.length]);
+   return( [NSString mulleStringWithCharactersNoCopy:unibuf.characters
+                                              length:unibuf.length
+                                           allocator:allocator]);
+}
+
+
+- (NSString *) lowercaseString
+{
+   struct NSStringMogrifyInfo  tolower =
+   {
+      _mulle_utf8_character_mogrify,
+      _mulle_utf32_character_mogrify,
+      {
+         Self.functions.tolower // variable
+      }
+   };
+
+   return( [self stringByCharacterMogrificationWithInfo:&tolower]);
 }
 
 
 - (NSString *) uppercaseString
 {
-   mulle_utf8_t             *s;
-   NSUInteger               len;
-   struct mulle_allocator   *allocator;
-   struct mulle_utf8_data   buf;
-
-   allocator = MulleObjCInstanceGetAllocator( self);
-
-   len = [self mulleUTF8StringLength];
-   s   = [self mulleFastUTF8Characters];
-   if( ! s)
-      s = (mulle_utf8_t *) [self UTF8String];
-
-   buf = mulle_utf8_character_convert( s, len, Self.functions.toupper, allocator);
-   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
-                                                  length:buf.length
-                                               allocator:allocator]);
+   struct NSStringMogrifyInfo  toupper =
+   {
+      _mulle_utf8_character_mogrify,
+      _mulle_utf32_character_mogrify,
+      {
+         Self.functions.toupper // variable
+      }
+   };
+   return( [self stringByCharacterMogrificationWithInfo:&toupper]);
 }
 
 
@@ -1087,25 +1191,17 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
 //
 - (NSString *) capitalizedString
 {
-   NSUInteger               len;
-   mulle_utf8_t             *s;
-   struct mulle_allocator   *allocator;
-   struct mulle_utf8_data   buf;
-
-   allocator = MulleObjCInstanceGetAllocator( self);
-
-   len = [self mulleUTF8StringLength];
-   s   = [self mulleFastUTF8Characters];
-   if( ! s)
-      s = (mulle_utf8_t *) [self UTF8String];
-   buf = mulle_utf8_word_convert( s, len,
-                                  Self.functions.toupper,
-                                  Self.functions.tolower,
-                                  Self.functions.isspace,
-                                  allocator);
-   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
-                                                  length:buf.length
-                                               allocator:allocator]);
+   struct NSStringMogrifyInfo  capitalize =
+   {
+      _mulle_utf8_word_mogrify,
+      _mulle_utf32_word_mogrify,
+      {
+         Self.functions.toupper, // variable
+         Self.functions.tolower, // variable
+         Self.functions.isspace  // variable
+      }
+   };
+   return( [self stringByCharacterMogrificationWithInfo:&capitalize]);
 }
 
 
@@ -1122,25 +1218,17 @@ static unichar   nop( unichar c)
 //
 - (NSString *) mulleDecapitalizedString
 {
-   NSUInteger               len;
-   mulle_utf8_t             *s;
-   struct mulle_allocator   *allocator;
-   struct mulle_utf8_data   buf;
-
-   allocator = MulleObjCInstanceGetAllocator( self);
-
-   len = [self mulleUTF8StringLength];
-   s   = [self mulleFastUTF8Characters];
-   if( ! s)
-      s = (mulle_utf8_t *) [self UTF8String];
-   buf = mulle_utf8_word_convert( s, len,
-                                  Self.functions.tolower,
-                                  nop,
-                                  Self.functions.isspace,
-                                  allocator);
-   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
-                                                  length:buf.length
-                                               allocator:allocator]);
+   struct NSStringMogrifyInfo  decapitalize =
+   {
+      _mulle_utf8_word_mogrify,
+      _mulle_utf32_word_mogrify,
+      {
+         Self.functions.tolower, // variable
+         nop,
+         Self.functions.isspace, // variable
+      }
+   };
+   return( [self stringByCharacterMogrificationWithInfo:&decapitalize]);
 }
 
 @end
@@ -1151,6 +1239,76 @@ static unichar   nop( unichar c)
 - (NSComparisonResult) mulleCompareDescription:(id) other;
 {
    return( [[self description] compare:[other description]]);
+}
+
+@end
+
+
+
+@implementation _MulleObjCUTF16String( Search)
+
+- (NSString *) stringByUTF16CharacterMogrificationWithInfo:(struct mulle_utf_mogrification_info *) info
+{
+   struct mulle_allocator    *allocator;
+   struct mulle_utf16_data   unibuf;
+   struct mulle_utf16_data   unidata;
+   BOOL                      flag;
+   union
+   {
+      mulle_utf16_t          utf32[ 32];
+   } tmp;
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+
+   /*
+    * Quick UTF8 case. The output buffer must be 4 times size of input
+    * if all characters are converted from 1 byte to 4 byte representation
+    */
+   flag = [self mulleFastGetUTF16Data:&unidata];
+   assert( flag);
+
+   unibuf.length = unidata.length;
+   if( unibuf.length <= 32)
+      unibuf.characters = tmp.utf32;
+   else
+      unibuf.characters = mulle_allocator_malloc( allocator,
+                                                  sizeof( mulle_utf16_t) * unidata.length);
+
+   switch( _mulle_utf16_character_mogrify_unsafe( &unibuf, &unidata, info))
+   {
+   case -1 : abort();
+   case  0 : // no conversion took place
+      if( unibuf.characters != tmp.utf32)
+         mulle_allocator_free( allocator, unibuf.characters);
+      return( self);
+   }
+
+   if( unibuf.characters == tmp.utf32)
+      return( [[[NSString alloc] mulleInitWithUTF16Characters:unibuf.characters
+                                                       length:unibuf.length] autorelease]);
+   return( [[_MulleObjCAllocatorUTF16String newWithUTF16CharactersNoCopy:unibuf.characters
+                                                                  length:unibuf.length
+                                                               allocator:allocator] autorelease]);
+}
+
+
+- (NSString *) lowercaseString
+{
+   struct mulle_utf_mogrification_info  info =
+   {
+      Self.functions.tolower // variable
+   };
+   return( [self stringByUTF16CharacterMogrificationWithInfo:&info]);
+}
+
+
+- (NSString *) uppercaseString
+{
+   struct mulle_utf_mogrification_info  info =
+   {
+      Self.functions.toupper // variable
+   };
+   return( [self stringByUTF16CharacterMogrificationWithInfo:&info]);
 }
 
 @end

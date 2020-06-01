@@ -49,6 +49,8 @@
 
 #import "NSMutableString+Search.h"
 
+#import "NSArray+StringComponents.h"
+
 
 
 #if MULLE_UTF_VERSION < ((0 << 20) | (4 << 8) | 0)

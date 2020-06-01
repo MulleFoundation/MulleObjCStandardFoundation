@@ -25,49 +25,65 @@ SOFTWARE. */
 
 
 //
-// NSScanner is here for compatibility. I find it useless.
-// For character level parsing, convert to UTF8 and parse it in C.
+// NSScanner is a tokenizer. Where you use strtok in C, you can use
+// NSScanners scanCharactersFromSet:intoString:
 //
 @interface NSScanner : NSObject <NSCopying>
 {
-   NSString           *_string;
-   NSUInteger         _location;
-   NSCharacterSet     *_skipSet;
-   BOOL               _isCaseSensitive;
-   NSDictionary       *_locale;
+   NSString     *_string;
+   NSUInteger   _location;
+   NSUInteger   _length;
+
+@private
+   IMP          _impAtIndex;
+   IMP          _impIsMember;
 }
 
-+scannerWithString:(NSString *)string;
+@property( retain) NSCharacterSet                                *charactersToBeSkipped;
+@property( retain) NSDictionary                                  *locale;
+@property( getter=caseSensitive,setter=setCaseSensitive:) BOOL   isCaseSensitive;
+@property() NSUInteger                                           scanLocation;
+
++ (instancetype) scannerWithString:(NSString *)string;
 //+localizedScannerWithString:(NSString *)string;
 
--initWithString:(NSString *)string;
+- (instancetype) initWithString:(NSString *)string;
+- (NSString *) string;
 
--(NSString *)string;
+- (BOOL) isAtEnd;
 
--(NSCharacterSet *)charactersToBeSkipped;
--(BOOL)caseSensitive;
--(NSDictionary *)locale;
 
--(void)setCharactersToBeSkipped:(NSCharacterSet *)set;
--(void)setCaseSensitive:(BOOL)flag;
--(void)setLocale:(NSDictionary *)locale;
+// grab all characters matching charset
+- (BOOL) scanCharactersFromSet:(NSCharacterSet *) charset
+                    intoString:(NSString **) stringp;
 
--(BOOL)isAtEnd;
--(NSUInteger)scanLocation;
--(void)setScanLocation:(NSUInteger)location;
+// grab all characters not matching charset
+- (BOOL) scanUpToCharactersFromSet:(NSCharacterSet *)charset
+                        intoString:(NSString **)stringp;
 
--(BOOL)scanInt:(int *)valuep;
--(BOOL)scanInteger:(NSInteger *)valuep;
--(BOOL)scanLongLong:(long long *)valuep;
--(BOOL)scanFloat:(float *)valuep;
--(BOOL)scanDouble:(double *)valuep;
+
+/*
+ * search for a string, gobbling up all inbetween characters in stringp
+ * (except leading characters in charactersToBeSkipped)
+ */
+- (BOOL) scanUpToString:(NSString *) string
+             intoString:(NSString **) stringp;
+
+/*
+ * rarely useful to set intoString: to anything else than NULL
+ */
+- (BOOL) scanString:(NSString *) string
+         intoString:(NSString **) stringp;
+
+
+/* DONT USE THESE, THEY ARE PROBABLY BROKEN */
+
+- (BOOL) scanInt:(int *)valuep;
+- (BOOL) scanInteger:(NSInteger *)valuep;
+- (BOOL) scanLongLong:(long long *)valuep;
+- (BOOL) scanFloat:(float *)valuep;
+- (BOOL) scanDouble:(double *)valuep;
 //-(BOOL)scanDecimal:(NSDecimal *)valuep;
--(BOOL)scanHexInt:(unsigned *)valuep;
-
--(BOOL)scanString:(NSString *)string intoString:(NSString **)stringp;
--(BOOL)scanUpToString:(NSString *)string intoString:(NSString **)stringp;
-
--(BOOL)scanCharactersFromSet:(NSCharacterSet *)charset intoString:(NSString **)stringp;
--(BOOL)scanUpToCharactersFromSet:(NSCharacterSet *)charset intoString:(NSString **)stringp;
+- (BOOL) scanHexInt:(unsigned *)valuep;
 
 @end

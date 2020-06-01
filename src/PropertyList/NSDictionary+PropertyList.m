@@ -83,4 +83,28 @@
    return( s);
 }
 
+
+// - (NSString *) mulleDescriptionInUnixFileFormat
+// {
+//    NSMutableString   *s;
+//    NSArray           *keys;
+//    id                key, value;
+//
+//    s    = [NSMutableString string];
+//    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
+//    for( key in keys)
+//    {
+//       value = [self objectForKey:key];
+//       if( ! [value conformsToProtocol:@protocol( MulleObjCPropertyListPrinting)])
+//          return( nil);
+//
+//       [s appendString:[key description]];
+//       [s appendString:@":"];
+//       [s appendString:[value description]];
+//       [s appendString:@"\n"];
+//    }
+//
+//    return( s);
+// }
+
 @end

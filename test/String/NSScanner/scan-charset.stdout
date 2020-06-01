@@ -1,0 +1,20 @@
+decimalDigitCharacterSet (skip white: NO)
+	Scanning "1848" :: scanSet:"1848" scanNotInSet:""
+	Scanning " 18 48 " :: scanSet:"" scanNotInSet:" ", scanSet:"18" scanNotInSet:" ", scanSet:"48" scanNotInSet:" "
+	Scanning "11a2bb" :: scanSet:"11" scanNotInSet:"a", scanSet:"2" scanNotInSet:"bb"
+	Scanning "" :: 
+letterCharacterSet (skip white: NO)
+	Scanning "1848" :: scanSet:"" scanNotInSet:"1848"
+	Scanning " 18 48 " :: scanSet:"" scanNotInSet:" 18 48 "
+	Scanning "11a2bb" :: scanSet:"" scanNotInSet:"11", scanSet:"a" scanNotInSet:"2", scanSet:"bb" scanNotInSet:""
+	Scanning "" :: 
+decimalDigitCharacterSet (skip white: YES)
+	Scanning "1848" :: scanSet:"1848" scanNotInSet:""
+	Scanning " 18 48 " :: scanSet:"18" scanNotInSet:"", scanSet:"48" scanNotInSet:""
+	Scanning "11a2bb" :: scanSet:"11" scanNotInSet:"a", scanSet:"2" scanNotInSet:"bb"
+	Scanning "" :: 
+letterCharacterSet (skip white: YES)
+	Scanning "1848" :: scanSet:"" scanNotInSet:"1848"
+	Scanning " 18 48 " :: scanSet:"" scanNotInSet:"18 48 "
+	Scanning "11a2bb" :: scanSet:"" scanNotInSet:"11", scanSet:"a" scanNotInSet:"2", scanSet:"bb" scanNotInSet:""
+	Scanning "" :: 

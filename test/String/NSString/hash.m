@@ -85,9 +85,11 @@ int main( int argc, const char * argv[])
       for( j = i + 1; j < n; j++)
          if( [strings[ i] hash] != [strings[ j] hash])
          {
-            printf( "%s and %s hash fail\n",
+            printf( "%s and %s hash fail (%lx <> %lx)\n",
                     [NSStringFromClass( [strings[ i] class]) UTF8String],
-                    [NSStringFromClass( [strings[ j] class]) UTF8String]);
+                    [NSStringFromClass( [strings[ j] class]) UTF8String],
+                    (unsigned long) [strings[ i] hash],
+                    (unsigned long) [strings[ j] hash]);
          }
 
    // check string equality

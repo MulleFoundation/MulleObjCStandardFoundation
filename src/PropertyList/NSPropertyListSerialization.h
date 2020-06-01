@@ -98,12 +98,12 @@ typedef NSUInteger   NSPropertyListWriteOptions;
      isValidForFormat:(NSPropertyListFormat) format;
 
 //
-// you can state a preference for MullePropertyListLooseOpenStepFormat by
-// passing this via. This will enable the parsing of numbers and dates in
-// their proper classes. (dates not yet)
+// You can state a preference for MullePropertyListLooseOpenStepFormat by
+// passing this via format. This will enable the parsing of numbers and dates in
+// their proper classes. (dates not yet).
 //
-// format. So if you pass something as format, initalize to zero to not
-// get a random preference!!
+// So if you pass something as format, initialize to zero to not get a random
+//  preference!!
 // e.g. format = MullePropertyListLooseOpenStepFormat; ...
 //
 // [NSPropertyListSerialization propertyListFromData:data

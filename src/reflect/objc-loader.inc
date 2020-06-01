@@ -17,6 +17,7 @@
       { @selector( NSArray), @selector( NSSortDescriptor) },      // 233490fe;NSArray;38a79ab2;NSSortDescriptor
       { @selector( NSArray), @selector( NSString) },      // 233490fe;NSArray;1994a171;NSString
       { @selector( NSArray), @selector( PropertyListPrinting) },      // 233490fe;NSArray;91aeee11;PropertyListPrinting
+      { @selector( NSArray), @selector( StringComponents) },      // 233490fe;NSArray;6e3b19c0;StringComponents
       { @selector( NSAssertionHandler), MULLE_OBJC_NO_CATEGORYID },      // a1951b2b;NSAssertionHandler;;
       { @selector( NSCalendarDate), @selector( NSDateFormatter) },      // b8742fcb;NSCalendarDate;6d2cd542;NSDateFormatter
       { @selector( NSCalendarDate), MULLE_OBJC_NO_CATEGORYID },      // b8742fcb;NSCalendarDate;;
@@ -25,7 +26,6 @@
       { @selector( NSCoder), MULLE_OBJC_NO_CATEGORYID },      // 100c54ba;NSCoder;;
       { @selector( NSData), @selector( NSPropertyListParsing) },      // 8fce7861;NSData;060a8c9c;NSPropertyListParsing
       { @selector( NSData), @selector( PropertyListPrinting) },      // 8fce7861;NSData;91aeee11;PropertyListPrinting
-      { @selector( NSData), @selector( _Unicode) },      // 8fce7861;NSData;ac921392;_Unicode
       { @selector( NSDate), @selector( NSCalendarDate) },      // cfcedd21;NSDate;b8742fcb;NSCalendarDate
       { @selector( NSDate), @selector( NSDateFormatter) },      // cfcedd21;NSDate;6d2cd542;NSDateFormatter
       { @selector( NSDate), @selector( PropertyListPrinting) },      // cfcedd21;NSDate;91aeee11;PropertyListPrinting
@@ -77,9 +77,15 @@
       { @selector( NSUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b47ff54;NSUnarchiver;;
       { @selector( NSUndoManager), MULLE_OBJC_NO_CATEGORYID },      // 0e5330bc;NSUndoManager;;
       { @selector( _MulleGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // d6f534a3;_MulleGMTTimeZone;;
+      { @selector( _MulleObjCASCIIString), @selector( Components) },      // b82142dd;_MulleObjCASCIIString;c6c03895;Components
       { @selector( _MulleObjCConcreteBitmapCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 0846adc2;_MulleObjCConcreteBitmapCharacterSet;;
       { @selector( _MulleObjCConcreteCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // ba1004b2;_MulleObjCConcreteCharacterSet;;
       { @selector( _MulleObjCConcreteInvertedCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 91ba9925;_MulleObjCConcreteInvertedCharacterSet;;
       { @selector( _MulleObjCConcreteRangeCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 09c86c6e;_MulleObjCConcreteRangeCharacterSet;;
       { @selector( _MulleObjCLocalTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 5813d6fc;_MulleObjCLocalTimeZone;;
       { @selector( _MulleObjCPropertyListReader), MULLE_OBJC_NO_CATEGORYID },      // a2dc8d79;_MulleObjCPropertyListReader;;
+      { @selector( _MulleObjCTaggedPointerChar5String), @selector( Components) },      // 2a6d1009;_MulleObjCTaggedPointerChar5String;c6c03895;Components
+      { @selector( _MulleObjCTaggedPointerChar7String), @selector( Components) },      // d68ecb24;_MulleObjCTaggedPointerChar7String;c6c03895;Components
+      { @selector( _MulleObjCUTF16String), @selector( Components) },      // d817650f;_MulleObjCUTF16String;c6c03895;Components
+      { @selector( _MulleObjCUTF16String), @selector( Search) },      // d817650f;_MulleObjCUTF16String;646a2c9c;Search
+      { @selector( _MulleObjCUTF32String), @selector( Components) },      // 318d8f60;_MulleObjCUTF32String;c6c03895;Components

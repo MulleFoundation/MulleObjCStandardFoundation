@@ -89,7 +89,6 @@ src/Notification/NSNotificationCenter.h
 src/Notification/NSNotification.h
 src/Notification/NSThread+NSNotification.h
 src/PropertyList/MulleObjCStandardFoundationPropertyList.h
-src/PropertyList/NSData+Unicode.h
 src/PropertyList/NSDictionary+PropertyList.h
 src/PropertyList/NSPropertyListSerialization.h
 src/PropertyList/NSString+PropertyList.h
@@ -120,6 +119,7 @@ src/String/_MulleObjCConcreteCharacterSet.h
 src/String/_MulleObjCConcreteInvertedCharacterSet.h
 src/String/_MulleObjCConcreteRangeCharacterSet.h
 src/String/MulleObjCStandardFoundationString.h
+src/String/NSArray+StringComponents.h
 src/String/NSCharacterSet.h
 src/String/NSFormatter.h
 src/String/NSMutableCharacterSet.h

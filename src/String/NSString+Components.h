@@ -39,7 +39,7 @@
 // useful for moderately sized strings < 4K i guess
 // and short separator strings
 // for really large strings use some smarter algorithm or one that can exploit
-// long seperator strings. This is used for keyPath decoding
+// long separator strings. This is used for keyPath decoding
 //
 @class NSArray;
 @class NSCharacterSet;
