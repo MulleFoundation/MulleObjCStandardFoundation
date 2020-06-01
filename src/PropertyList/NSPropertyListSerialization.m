@@ -39,7 +39,6 @@
 #import "_MulleObjCPropertyListReader.h"
 #import "NSObject+PropertyListParsing.h"
 #import "NSData+PropertyListParsing.h"
-#import "NSData+Unicode.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "NSError.h"
@@ -311,15 +310,15 @@ NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
 
    case _MulleObjCUTF16LittleEndianByteOrderMark :
       if( NSHostByteOrder() != NS_LittleEndian)
-         data = [data swappedUTF16Data];
-      data = [data UTF8DataFromUTF16];
+         data = [data mulleSwappedUTF16CharacterData];
+      data = [data mulleConvertedUTF16ToUTF8Data];
       // convert to UTF8
       break;
 
    case _MulleObjCUTF16BigEndianByteOrderMark :
       if( NSHostByteOrder() != NS_BigEndian)
-         data = [data swappedUTF16Data];
-      data = [data UTF8DataFromUTF16];
+         data = [data mulleSwappedUTF16CharacterData];
+      data = [data mulleConvertedUTF16ToUTF8Data];
       break;
    }
 

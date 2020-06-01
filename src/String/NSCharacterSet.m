@@ -64,11 +64,14 @@ static inline int  (*PICK( int (*a)( unichar), int (*b)( int)))( unichar)
 }
 
 
+// isalnum and friends return a non-null value if true, but we have to
+// convert to YES, because otherwise code that expects to match with YES
+// fails
 static int   ascii_isalnum( unichar c)
 {
    if( c < 0x100)
-      return( isalnum( (int) c));
-   return( 0);
+      return( isalnum( (int) c) ? YES : NO);
+   return( NO);
 }
 
 
@@ -89,8 +92,8 @@ static int   ascii_isalnum( unichar c)
 static int   ascii_iscntrl( unichar c)
 {
    if( c < 0x100)
-      return( iscntrl( (int) c));
-   return( 0);
+      return( iscntrl( (int) c) ? YES : NO);
+   return( NO);
 }
 
 
@@ -105,8 +108,8 @@ static int   ascii_iscntrl( unichar c)
 static int   ascii_isdigit( unichar c)
 {
    if( c < 0x100)
-      return( isdigit( (int) c));
-   return( 0);
+      return( isdigit( (int) c) ? YES : NO);
+   return( NO);
 }
 
 
@@ -121,8 +124,8 @@ static int   ascii_isdigit( unichar c)
 static int   ascii_isalpha( unichar c)
 {
    if( c < 0x100)
-      return( isalpha( (int) c));
-   return( 0);
+      return( isalpha( (int) c) ? YES : NO);
+   return( NO);
 }
 
 
@@ -137,8 +140,8 @@ static int   ascii_isalpha( unichar c)
 static int   ascii_islower( unichar c)
 {
    if( c < 0x100)
-      return( islower( (int) c));
-   return( 0);
+      return( islower( (int) c) ? YES : NO);
+   return( NO);
 }
 
 
@@ -153,8 +156,8 @@ static int   ascii_islower( unichar c)
 static int   ascii_ispunct( unichar c)
 {
    if( c < 0x100)
-      return( ispunct( (int) c));
-   return( 0);
+      return( ispunct( (int) c) ? YES : NO);
+   return( NO);
 }
 
 + (instancetype) punctuationCharacterSet
@@ -168,8 +171,8 @@ static int   ascii_ispunct( unichar c)
 static int   ascii_isgraph( unichar c)
 {
    if( c < 0x100)
-      return( isgraph( (int) c));
-   return( 0);
+      return( isgraph( (int) c) ? YES : NO);
+   return( NO);
 }
 
 
@@ -184,9 +187,10 @@ static int   ascii_isgraph( unichar c)
 static int   ascii_isupper( unichar c)
 {
    if( c < 0x100)
-      return( isupper( (int) c));
-   return( 0);
+      return( isupper( (int) c) ? YES : NO);
+   return( NO);
 }
+
 
 + (instancetype) uppercaseLetterCharacterSet
 {
@@ -199,8 +203,8 @@ static int   ascii_isupper( unichar c)
 static int   ascii_isspace( unichar c)
 {
    if( c < 0x100)
-      return( isspace( (int) c));
-   return( 0);
+      return( isspace( (int) c) ? YES : NO);
+   return( NO);
 }
 
 + (instancetype) whitespaceAndNewlineCharacterSet

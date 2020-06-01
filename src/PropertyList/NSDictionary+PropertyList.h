@@ -39,5 +39,6 @@
 @interface NSDictionary( PropertyList)
 
 - (NSString *) descriptionInStringsFileFormat;
+//- (NSString *) mulleDescriptionInUnixFileFormat;
 
 @end

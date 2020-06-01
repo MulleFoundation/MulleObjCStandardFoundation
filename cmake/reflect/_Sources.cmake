@@ -44,7 +44,6 @@ src/Locale/NSTimeZone.m
 src/Notification/NSNotificationCenter.m
 src/Notification/NSNotification.m
 src/Notification/NSThread+NSNotification.m
-src/PropertyList/NSData+Unicode.m
 src/PropertyList/NSDictionary+PropertyList.m
 src/PropertyList/NSPropertyListSerialization.m
 src/PropertyList/NSString+PropertyList.m
@@ -70,6 +69,7 @@ src/String/_MulleObjCConcreteBitmapCharacterSet.m
 src/String/_MulleObjCConcreteCharacterSet.m
 src/String/_MulleObjCConcreteInvertedCharacterSet.m
 src/String/_MulleObjCConcreteRangeCharacterSet.m
+src/String/NSArray+StringComponents.m
 src/String/NSCharacterSet.m
 src/String/NSFormatter.m
 src/String/NSMutableCharacterSet.m

@@ -23,7 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 @implementation NSScanner
 
-+scannerWithString:(NSString *)string {
++ (instancetype) scannerWithString:(NSString *)string {
     return [[[self alloc] initWithString:string] autorelease];
 }
 
@@ -49,68 +49,259 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 
--initWithString:(NSString *)string {
+- (instancetype) initWithString:(NSString *)string
+{
+   if( ! string)
+   {
+      [self release];
+      return( nil);
+   }
 
-   self=[self init];
-   if(self!=nil){
-    _string=[string copy];
-    _location=0;
-    _skipSet=[[NSCharacterSet whitespaceCharacterSet] retain];
-    _isCaseSensitive=YES;
-    _locale=nil;
+   self = [self init];
+   if( self)
+   {
+      _string                = [string copy];
+      _impAtIndex            = [_string methodForSelector:@selector( characterAtIndex:)];
+      _length                = [_string length];
+
+      [self setCharactersToBeSkipped:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+      _isCaseSensitive       = YES;
    }
 
    return self;
 }
 
--(void)dealloc {
+
+- (void) dealloc
+{
    [_string release];
-   [_skipSet release];
+   [_charactersToBeSkipped release];
    [_locale release];
    [super dealloc];
 }
 
--(NSString *)string {
-    return _string;
+
+- (NSString *) string
+{
+   return( _string);
 }
 
--(NSCharacterSet *)charactersToBeSkipped {
-    return _skipSet;
+
+- (BOOL) isAtEnd
+{
+   return( _location >= _length);
 }
 
--(BOOL)caseSensitive {
-    return _isCaseSensitive;
+
+- (void) setCharactersToBeSkipped:(NSCharacterSet *) set
+{
+   [_charactersToBeSkipped autorelease];
+   _charactersToBeSkipped = [set retain];
+   _impIsMember           = [set methodForSelector:@selector( characterIsMember:)];
 }
 
--(NSDictionary *)locale {
-    return _locale;
+
+- (void) setScanLocation:(NSUInteger) pos
+{
+   if( pos > _length)
+      MulleObjCThrowInvalidArgumentExceptionCString("out of range");
+   _location = pos;
 }
 
--(void)setCharactersToBeSkipped:(NSCharacterSet *)set {
-    [_skipSet autorelease];
-    _skipSet = [set retain];
+
+static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
+                                                      NSCharacterSet *set,
+                                                      IMP impMember,
+                                                      BOOL match)
+{
+   NSRange       range;
+   unichar       c;
+   NSUInteger    i;
+
+   range.location = self->_location;
+   if( ! impMember)
+      impMember = [set methodForSelector:@selector( characterIsMember:)];
+
+   for( i = range.location; i < self->_length; i++)
+   {
+      c = (unichar) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
+      if( match != (BOOL) MulleObjCIMPCall( impMember, set, @selector( characterIsMember:), (id) (intptr_t) c))
+         break;
+   }
+   self->_location = i;
+   range.length    = i - range.location;
+
+   return( range);
 }
 
--(void)setCaseSensitive:(BOOL)flag {
-    _isCaseSensitive = flag;
+
+static BOOL   NSScannerScanCharactersMatchingSet( NSScanner *self,
+                                                  NSCharacterSet *set,
+                                                  NSString **stringp,
+                                                  BOOL match)
+{
+   NSRange   range;
+
+   if( self->_charactersToBeSkipped)
+      NSScannerScanRangeOfCharactersInSet( self, self->_charactersToBeSkipped, self->_impIsMember, YES);
+
+   range = NSScannerScanRangeOfCharactersInSet( self, set, 0, match);
+   if( stringp)
+      *stringp = [self->_string substringWithRange:range];
+   return( range.length != 0);
 }
 
--(void)setLocale:(NSDictionary *)locale {
-    [_locale autorelease];
-    _locale = [locale retain];
+
+- (BOOL) scanCharactersFromSet:(NSCharacterSet *) charset
+                    intoString:(NSString **) stringp
+{
+   assert( [charset isKindOfClass:[NSCharacterSet class]]);
+
+   return( NSScannerScanCharactersMatchingSet( self, charset, stringp, YES));
 }
 
--(BOOL)isAtEnd {
-    return _location == [_string length];
+
+- (BOOL) scanUpToCharactersFromSet:(NSCharacterSet *) charset
+                        intoString:(NSString **) stringp
+{
+   assert( [charset isKindOfClass:[NSCharacterSet class]]);
+
+   return( NSScannerScanCharactersMatchingSet( self, charset, stringp, NO));
 }
 
--(NSUInteger)scanLocation {
-    return _location;
+
+static NSRange   NSScannerScanRangeOfString( NSScanner *self,
+                                             NSString *s,
+                                             IMP impAtIndex)
+{
+   NSRange       range;
+   unichar       c;
+   unichar       d;
+   NSUInteger    i;
+   NSUInteger    j;
+   NSUInteger    n;
+   NSUInteger    m;
+
+   range.location = self->_location;
+   range.length   = 0;
+
+   n = self->_length - range.location;
+   m = [s length];
+   if( ! m || m > n)
+      return( range);
+
+   if( ! impAtIndex)
+      impAtIndex = [s methodForSelector:@selector( characterAtIndex:)];
+
+   for( j = 0, i = range.location; j < m; i++, j++)
+   {
+      c = (unichar) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
+      d = (unichar) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
+      if( c != d)
+         return( range);
+   }
+   range.length = m;
+
+   self->_location = i;
+
+   return( range);
 }
 
--(void)setScanLocation:(NSUInteger)pos {
-   _location=pos;
+
+static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
+                                                NSString *s,
+                                                IMP impAtIndex)
+{
+   NSRange       range;
+   unichar       c;
+   unichar       d;
+   NSUInteger    i;
+   NSUInteger    j;
+   NSUInteger    n;
+   NSUInteger    m;
+
+   range.location = self->_location;
+   range.length   = self->_length - range.location;
+
+   n = range.length;
+   m = [s length];
+   if( ! m || m > n)
+   {
+      self->_location = self->_length;
+      return( range);
+   }
+
+   if( ! impAtIndex)
+      impAtIndex = [s methodForSelector:@selector( characterAtIndex:)];
+
+   for( j = 0, i = range.location; i < range.length; i++)
+   {
+      c = (unichar) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
+      d = (unichar) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
+      if( c != d)
+      {
+         j = 0;
+         continue;
+      }
+
+      if( ++j == m)  // matched whole string
+      {
+         // reset location to start of string
+         self->_location = (i + 1) - m;
+         range.length    = self->_location - range.location;
+         return( range);
+      }
+   }
+
+   self->_location = self->_length;
+   return( range);
 }
+
+
+- (BOOL) scanString:(NSString *) string
+         intoString:(NSString **) stringp
+{
+   NSRange   range;
+   BOOL      flag;
+
+   assert( [string isKindOfClass:[NSString class]]);
+
+   if( self->_charactersToBeSkipped)
+      NSScannerScanRangeOfCharactersInSet( self,
+                                           self->_charactersToBeSkipped,
+                                           self->_impIsMember,
+                                           YES);
+
+   range = NSScannerScanRangeOfString( self, string, 0);
+   flag  = range.length != 0;
+
+   if( stringp )
+      *stringp = flag ? string : @"";
+   return( flag);
+}
+
+
+- (BOOL) scanUpToString:(NSString *) string
+             intoString:(NSString **) stringp
+{
+   NSRange   range;
+
+   assert( [string isKindOfClass:[NSString class]]);
+
+   if( self->_charactersToBeSkipped)
+      NSScannerScanRangeOfCharactersInSet( self, self->_charactersToBeSkipped, self->_impIsMember, YES);
+
+   range = NSScannerScanRangeOfNotString( self, string, 0);
+   if( stringp)
+      *stringp = [self->_string substringWithRange:range];
+
+   return( range.length != 0);
+}
+
+/*
+ * Old Cocotron code
+ */
 
 -(BOOL)scanInt:(int *)valuep {
    long long scanValue=0;
@@ -145,7 +336,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 
--(BOOL)scanLongLong:(long long *)valuep
+-(BOOL) scanLongLong:(long long *)valuep
 {
    NSUInteger length;
    int sign=1;
@@ -154,12 +345,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    BOOL hasValue=NO;
    BOOL hasOverflow=NO;
 
+   if( _charactersToBeSkipped)
+      NSScannerScanRangeOfCharactersInSet( self, _charactersToBeSkipped, _impIsMember, YES);
+
    for(length=[_string length];_location<length;_location++){
     unichar unicode=[_string characterAtIndex:_location];
 
-    if(!hasValue && [_skipSet characterIsMember:unicode])
-     continue;
-    else if(!hasSign && unicode=='-'){
+    if(!hasSign && unicode=='-'){
      sign=-1;
      hasSign=YES;
     }
@@ -249,7 +441,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         switch(state){
             case STATE_SPACE:
-                if([_skipSet characterIsMember:unicode])
+                if([_charactersToBeSkipped characterIsMember:unicode])
                     state=STATE_SPACE;
                 else if(unicode=='-') {
                     sign=-1;
@@ -339,7 +531,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     switch(state){
 
      case STATE_SPACE:
-      if([_skipSet characterIsMember:unicode])
+      if([_charactersToBeSkipped characterIsMember:unicode])
        state=STATE_SPACE;
       else if(unicode == '0'){
        state=STATE_ZERO;
@@ -424,125 +616,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    return NO;
 }
 
-
--(BOOL)scanString:(NSString *)string intoString:(NSString **)stringp {
-    NSUInteger length=[_string length];
-
-    for(;_location<length;_location++) {
-        unichar unicode=[_string characterAtIndex:_location];
-
-        if ([[_string substringFromIndex:_location] hasPrefix:string]) {
-            if (stringp != NULL)
-                *stringp = string;
-
-            _location += [string length];
-            return YES;
-        }
-        else if (![_skipSet characterIsMember:unicode])
-            return NO;
-    }
-
-    return NO;
-}
-
--(BOOL)scanUpToString:(NSString *)string intoString:(NSString **)stringp {
-    NSUInteger length=[_string length];
-    unichar result[length];
-    int resultLength = 0;
-    BOOL scanStarted = NO;
-
-    for(;_location<length;_location++) {
-        unichar unicode=[_string characterAtIndex:_location];
-        if ([[_string substringFromIndex:_location] hasPrefix:string]) {
-            if (stringp != NULL)
-                *stringp = [NSString stringWithCharacters:result length:resultLength];
-
-            return YES;
-        }
-        else if ([_skipSet characterIsMember:unicode] && scanStarted == NO)
-            ;
-        else {
-            scanStarted = YES;
-            result[resultLength++] = unicode;
-        }
-    }
-
-    if (resultLength > 0) {
-        if (stringp != NULL)
-            *stringp = [NSString stringWithCharacters:result length:resultLength];
-
-        return YES;
-    }
-    else
-        return NO;
-}
-
--(BOOL)scanCharactersFromSet:(NSCharacterSet *)charset intoString:(NSString **)stringp
-{
-    NSUInteger length=[_string length];
-    unichar result[length];
-    int resultLength = 0;
-    BOOL scanStarted = NO;
-
-    for(;_location<length;_location++)
-		{
-		unichar unicode=[_string characterAtIndex:_location];
-
-		if ([_skipSet characterIsMember:unicode] && (scanStarted == NO))
-			{
-			// do nothing
-			}
-		else
-			{
-			if ([charset characterIsMember: unicode])
-				{
-				scanStarted = YES;
-				result[resultLength++] = unicode;
-				}
-			else
-				{
-				break; // used to be "return NO";
-				}
-			}
-		}
-
-    if (scanStarted)
-		{
-                if (stringp != NULL)
-			{
-			*stringp = [NSString stringWithCharacters:result length:resultLength];
-			}
-		}
-	return scanStarted;
-}
-
--(BOOL)scanUpToCharactersFromSet:(NSCharacterSet *)charset intoString:(NSString **)stringp {
-    NSUInteger length=[_string length];
-    unichar result[length];
-    int resultLength = 0;
-    BOOL scanStarted = NO;
-
-    for(;_location<length;_location++) {
-        unichar unicode=[_string characterAtIndex:_location];
-
-        if ([charset characterIsMember:unicode])
-            break;
-        else if ([_skipSet characterIsMember:unicode] && scanStarted == NO)
-            ;
-        else {
-            scanStarted = YES;
-            result[resultLength++] = unicode;
-        }
-    }
-
-    if (resultLength > 0) {
-        if (stringp != NULL)
-            *stringp = [NSString stringWithCharacters:result length:resultLength];
-
-        return YES;
-    }
-    else
-        return NO;
-}
 
 @end

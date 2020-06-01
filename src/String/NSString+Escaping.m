@@ -341,20 +341,30 @@ enum quoteState
 
 - (enum quoteState) mulleNeedsQuotes
 {
-   mulle_utf8_t      *s;
-   mulle_utf8_t      *sentinel;
-   NSUInteger        len;
-   enum quoteState   state;
+   mulle_utf8_t             *s;
+   mulle_utf8_t             *sentinel;
+   NSUInteger               len;
+   enum quoteState          state;
+   struct mulle_utf8_data   data;
 
-   len = [self mulleUTF8StringLength];
+   s = NULL;
+   if( [self mulleFastGetUTF8Data:&data])
+   {
+      s   = data.characters;
+      len = data.length;
+   }
+   else
+   {
+      len = [self mulleUTF8StringLength];
+   }
+
    if( ! len)
       return( NeedsQuotes);
 
-   state = NeedsNothing;
-
-   s  = [self mulleFastUTF8Characters];
    if( ! s)
       s = (mulle_utf8_t *) [self UTF8String];
+
+   state = NeedsNothing;
 #ifdef MULLE_PLIST_DECODE_NSNUMBER
    if( isdigit( *s))
       state = NeedsQuotes;
