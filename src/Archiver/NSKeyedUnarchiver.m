@@ -113,8 +113,7 @@
 }
 
 
-#pragma mark -
-#pragma mark xxx
+#pragma mark - xxx
 
 
 - (instancetype) _initObject:(id) obj

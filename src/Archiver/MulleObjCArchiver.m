@@ -523,8 +523,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 
 
-#pragma mark -
-#pragma mark uniqueing mechanisms
+#pragma mark - uniqueing mechanisms
 
 
 - (void) _appendObjectTable
@@ -628,8 +627,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 
 
-#pragma mark -
-#pragma mark hackish
+#pragma mark - hackish
 
 - (NSString *) classNameEncodedForTrueClassName:(NSString *) trueName
 {

@@ -68,8 +68,7 @@ NSString  *NSAssertionHandlerKey = @"NSAssertionHandler";
 }
 
 
-#pragma mark -
-#pragma mark mechanics
+#pragma mark - mechanics
 //
 // try to keep the output compatible with Mac OS X, although good grief
 // it's not very telling... is it ?

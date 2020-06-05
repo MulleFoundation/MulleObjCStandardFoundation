@@ -54,8 +54,7 @@
 @implementation NSString (Escaping)
 
 
-#pragma mark -
-#pragma mark escape
+#pragma mark - escape
 
 static inline mulle_utf8_t   hex( mulle_utf8_t c)
 {
@@ -188,8 +187,7 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
 
 
 
-#pragma mark -
-#pragma mark unescape
+#pragma mark - unescape
 
 
 static id   always_no( id obj, SEL sel, void *param)

@@ -47,8 +47,8 @@ static void    clone_integer( NSInteger value)
    else
       printf( "%s failed: %s != %s\n",
           __PRETTY_FUNCTION__,
-          [[obj description] UTF8String],
-          [[copy description] UTF8String]);
+          [[obj debugDescription] UTF8String],
+          [[copy debugDescription] UTF8String]);
 }
 
 

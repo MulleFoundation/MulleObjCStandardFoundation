@@ -69,19 +69,19 @@ static int   first_plane_only( unsigned int plane)
 
 - (BOOL) characterIsMember:(unichar) c
 {
-   return( (*_f)( c) == ! _invert);
+   return( (*_f)( c) != _invert);
 }
 
 
 - (BOOL) longCharacterIsMember:(long) c
 {
-   return( (*_f)( (unichar) c) == ! _invert);
+   return( (*_f)( (unichar) c) != _invert);
 }
 
 
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
 {
-   return( (*_plane_f)( (unsigned int) plane) == ! _invert);
+   return( (*_plane_f)( (unsigned int) plane) != _invert);
 }
 
 
@@ -98,22 +98,24 @@ static int   first_plane_only( unsigned int plane)
 {
    mulle_utf32_t   c;
    mulle_utf32_t   end;
+   unsigned char   value;
 
    c   = plane * 0x10000;
    end = c + 0x10000;
    for( ; c < end; c += 8)
    {
-      // some functions return other than 0/1
-      *bytes++ = (unsigned char)
-       (((*_f)(c + 0) ? (1 << 0) : 0) |
-        ((*_f)(c + 1) ? (1 << 1) : 0) |
-        ((*_f)(c + 2) ? (1 << 2) : 0) |
-        ((*_f)(c + 3) ? (1 << 3) : 0) |
-        ((*_f)(c + 4) ? (1 << 4) : 0) |
-        ((*_f)(c + 5) ? (1 << 5) : 0) |
-        ((*_f)(c + 6) ? (1 << 6) : 0) |
-        ((*_f)(c + 7) ? (1 << 7) : 0));
+      value = (unsigned char)
+       (((*_f)(c + 0) != _invert ? (1 << 0) : 0) |
+        ((*_f)(c + 1) != _invert ? (1 << 1) : 0) |
+        ((*_f)(c + 2) != _invert ? (1 << 2) : 0) |
+        ((*_f)(c + 3) != _invert ? (1 << 3) : 0) |
+        ((*_f)(c + 4) != _invert ? (1 << 4) : 0) |
+        ((*_f)(c + 5) != _invert ? (1 << 5) : 0) |
+        ((*_f)(c + 6) != _invert ? (1 << 6) : 0) |
+        ((*_f)(c + 7) != _invert ? (1 << 7) : 0));
+      *bytes++ = value;
    }
 }
+
 
 @end

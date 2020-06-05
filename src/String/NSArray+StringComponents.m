@@ -2,6 +2,9 @@
 
 #import "import-private.h"
 
+#import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar5String.h>
+#import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar7String.h>
+#import <MulleObjCValueFoundation/_MulleObjCASCIIString.h>
 #import <MulleObjCValueFoundation/_MulleObjCUTF16String.h>
 #import <MulleObjCValueFoundation/_MulleObjCUTF32String.h>
 
@@ -21,6 +24,7 @@ struct string_context
 typedef NSString   *(*MakeStringFunction)( void *start,
                                            void **end,
                                            struct string_context *ctxt);
+
 
 static NSString   *makeUTF8String( mulle_utf8_t *start,
                                    mulle_utf8_t *end,
@@ -42,6 +46,35 @@ static NSString   *makeUTF8String( mulle_utf8_t *start,
 }
 
 
+//
+// src must be known to be ASCII, and contain no zeroes
+//
+static enum mulle_utf_charinfo    _mulle_ascii_quickinfo( char *src, size_t len)
+{
+   char   _c;
+   char   *start;
+   char   *sentinel;
+
+   assert( len);
+
+   if( len <= mulle_char7_get_maxlength())
+      return( mulle_utf_is_char7);
+
+   if( len > mulle_char5_get_maxlength())
+      return( mulle_utf_is_not_char5_or_char7);
+
+   start    = src;
+   sentinel = &start[ len];
+   for( ; src < sentinel; src++)
+   {
+      _c = *src;
+      if( ! mulle_utf16_is_char5character( _c))
+         return( mulle_utf_is_not_char5_or_char7);
+   }
+   return( mulle_utf_is_char5);
+}
+
+
 static NSString   *makeASCIIString( char *start,
                                     char *end,
                                     struct string_context *ctxt)
@@ -53,8 +86,26 @@ static NSString   *makeASCIIString( char *start,
    length = end - start;
    if( ! length)
       return( @"");
-   return( [[ctxt->stringClass alloc] mulleInitWithUTF8Characters:(mulle_utf8_t *) start
-                                                           length:length]);
+
+#ifdef __MULLE_OBJC_TPS__
+   switch( _mulle_ascii_quickinfo( start, length))
+   {
+   case mulle_utf_is_char7 :
+      return( MulleObjCTaggedPointerChar7StringWithASCIICharacters( start,
+                                                                    length));
+   case mulle_utf_is_char5 :
+      return( MulleObjCTaggedPointerChar5StringWithASCIICharacters( start,
+                                                                    length));
+   default :
+      break;
+   }
+#endif
+   if( ctxt->sharingObject)
+      return( [_MulleObjCSharedASCIIString newWithASCIICharactersNoCopy:start
+                                                                 length:length
+                                                          sharingObject:ctxt->sharingObject]);
+   return( [_MulleObjCGenericASCIIString newWithASCIICharacters:start
+                                                         length:length]);
 }
 
 
@@ -67,11 +118,23 @@ static NSString   *makeUTF16String( mulle_utf16_t *start,
    end -= ctxt->sepLen;
    assert( start <= end);
    length = end - start;
-
+   if( ! length)
+      return( @"");
    // try to benefit from TPS
-   if( length <= mulle_char5_get_maxlength())
-      return( [[ctxt->stringClass alloc] mulleInitWithUTF16Characters:start
-                                                              length:length]);
+
+#ifdef __MULLE_OBJC_TPS__
+   switch( _mulle_utf16_charinfo( start, length))
+   {
+   case mulle_utf_is_char7 :
+      return( MulleObjCTaggedPointerChar7StringWithUTF16Characters( start,
+                                                                    length));
+   case mulle_utf_is_char5 :
+      return( MulleObjCTaggedPointerChar5StringWithUTF16Characters( start,
+                                                                    length));
+   default :
+      break;
+   }
+#endif
 
    if( ctxt->sharingObject)
       return( [_MulleObjCSharedUTF16String newWithUTF16CharactersNoCopy:start
@@ -91,11 +154,24 @@ static NSString   *makeUTF32String( mulle_utf32_t *start,
    end -= ctxt->sepLen;
    assert( start <= end);
    length = end - start;
-
+   if( ! length)
+      return( @"");
    // try to benefit from TPS
-   if( length <= mulle_char5_get_maxlength())
-      return( [[ctxt->stringClass alloc] initWithCharacters:start
-                                                     length:length]);
+
+#ifdef __MULLE_OBJC_TPS__
+   switch( _mulle_utf32_charinfo( start, length))
+   {
+   case mulle_utf_is_char7 :
+      return( MulleObjCTaggedPointerChar7StringWithCharacters( start,
+                                                               length));
+   case mulle_utf_is_char5 :
+      return( MulleObjCTaggedPointerChar5StringWithCharacters( start,
+                                                               length));
+   default :
+      break;
+   }
+#endif
+
    if( ctxt->sharingObject)
       return( [_MulleObjCSharedUTF32String newWithUTF32CharactersNoCopy:start
                                                                  length:length

@@ -14,8 +14,7 @@
 
 @implementation NSSortDescriptor( NSCoder)
 
-#pragma mark -
-#pragma mark NSCoding
+#pragma mark - NSCoding
 
 
 /**/

@@ -584,8 +584,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 }
 
 
-#pragma mark -
-#pragma mark rangeOfString:
+#pragma mark - rangeOfString:
 
 //
 // boyer moore is not so good for utf32, so i use Knuth Morris Pratt
@@ -764,8 +763,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 }
 
 
-#pragma mark -
-#pragma mark string search
+#pragma mark - string search
 
 - (NSRange) rangeOfString:(NSString *) other
                   options:(NSStringCompareOptions) options
@@ -835,8 +833,7 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 }
 
 
-#pragma mark -
-#pragma mark character search
+#pragma mark - character search
 
 //
 // search until first time a char is matched
@@ -865,6 +862,10 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
 }
 
 
+//
+// TODO: use special subclass code, if NSNumericSearch|NSCaseInsensitiveSearch
+//       is undefined and NSLiteralSearch is defined (?)
+//
 - (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set
                             options:(NSStringCompareOptions) options
                               range:(NSRange) range
@@ -922,9 +923,7 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
 }
 
 
-
-#pragma mark -
-#pragma mark range search
+#pragma mark - range search
 
 //
 // search until a char doesn't match anymore, returns length of matches
