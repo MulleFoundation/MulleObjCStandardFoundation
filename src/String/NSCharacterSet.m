@@ -123,8 +123,13 @@ static int   ascii_isdigit( unichar c)
 
 static int   ascii_isalpha( unichar c)
 {
+   int   rval;
+
    if( c < 0x100)
-      return( isalpha( (int) c) ? YES : NO);
+   {
+      rval = isalpha( (int) c);
+      return( rval ? YES : NO);
+   }
    return( NO);
 }
 
@@ -292,14 +297,14 @@ static int  ascii_iswhite( unichar c)
    for( ; c < end; c += 8)
    {
       *bytes++ = (unsigned char)
-      (([self longCharacterIsMember:c] << 0) |
-       ([self longCharacterIsMember:c + 1] << 1) |
-       ([self longCharacterIsMember:c + 2] << 2) |
-       ([self longCharacterIsMember:c + 3] << 3) |
-       ([self longCharacterIsMember:c + 4] << 4) |
-       ([self longCharacterIsMember:c + 5] << 5) |
-       ([self longCharacterIsMember:c + 6] << 6) |
-       ([self longCharacterIsMember:c + 7] << 7));
+      (((unsigned char) [self longCharacterIsMember:c + 0] << 0) |
+       ((unsigned char) [self longCharacterIsMember:c + 1] << 1) |
+       ((unsigned char) [self longCharacterIsMember:c + 2] << 2) |
+       ((unsigned char) [self longCharacterIsMember:c + 3] << 3) |
+       ((unsigned char) [self longCharacterIsMember:c + 4] << 4) |
+       ((unsigned char) [self longCharacterIsMember:c + 5] << 5) |
+       ((unsigned char) [self longCharacterIsMember:c + 6] << 6) |
+       ((unsigned char) [self longCharacterIsMember:c + 7] << 7));
    }
 }
 

@@ -100,8 +100,7 @@
 }
 
 
-#pragma mark -
-#pragma mark NSCopying
+#pragma mark - NSCopying
 
 - (id) copy
 {
@@ -109,8 +108,7 @@
 }
 
 
-#pragma mark -
-#pragma mark petty accessors
+#pragma mark - petty accessors
 
 - (NSString *) key
 {
@@ -130,8 +128,7 @@
 }
 
 
-#pragma mark -
-#pragma mark operations
+#pragma mark - operations
 
 
 // maximally naive implementation for now

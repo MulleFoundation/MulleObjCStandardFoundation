@@ -101,8 +101,7 @@
 }
 
 
-#pragma mark -
-#pragma mark reading
+#pragma mark - reading
 
 static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 {
@@ -497,8 +496,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
 
 
 
-#pragma mark -
-#pragma mark reading code
+#pragma mark - reading code
 
 - (struct blob *) _nextBlob
 {

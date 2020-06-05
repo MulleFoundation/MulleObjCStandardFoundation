@@ -62,8 +62,7 @@ PROTOCOLCLASS_INTERFACE( MulleObjCOutputStream, NSObject)
 PROTOCOLCLASS_END();
 
 
-#pragma mark -
-#pragma mark Concrete helper
+#pragma mark - Concrete helper
 
 
 @interface MulleObjCInMemoryInputStream : NSObject < MulleObjCInputStream >

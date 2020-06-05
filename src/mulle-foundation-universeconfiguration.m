@@ -53,8 +53,7 @@
 // setup is what will be used by "startup" to initialize the runtime
 //
 
-#pragma mark -
-#pragma mark versioning
+#pragma mark - versioning
 
 //
 // this version assert is probably not used, but supplanted with
@@ -74,14 +73,12 @@ static void   versionassert( struct _mulle_objc_universe *universe,
 }
 
 
-#pragma mark -
-#pragma mark exception (mishandling)
+#pragma mark - exception (mishandling)
 
 extern void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlertable *table);
 
 
-#pragma mark -
-#pragma mark setup and teardown ObjC
+#pragma mark - setup and teardown ObjC
 
 
 void   mulle_foundation_postcreate_objc( struct _mulle_objc_universe *universe)

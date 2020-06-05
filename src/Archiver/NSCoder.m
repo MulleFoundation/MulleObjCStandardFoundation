@@ -160,8 +160,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 
-#pragma mark -
-#pragma mark coding / decoding
+#pragma mark - coding / decoding
 
 static void   codecValuesOfObjCTypes( NSCoder< NSObject> *self,
                                       char *types,
@@ -205,8 +204,7 @@ static void   codecValuesOfObjCTypes( NSCoder< NSObject> *self,
 
 
 
-#pragma mark -
-#pragma mark MulleObjCUnkeyedUnarchiver Protocol with default implementations
+#pragma mark - MulleObjCUnkeyedUnarchiver Protocol with default implementations
 
 @interface MulleObjCUnkeyedUnarchiver < MulleObjCUnkeyedUnarchiver>
 @end
@@ -243,8 +241,7 @@ static void   codecValuesOfObjCTypes( NSCoder< NSObject> *self,
 }
 
 
-#pragma mark -
-#pragma mark decoding
+#pragma mark - decoding
 
 - (id) decodeObject
 {

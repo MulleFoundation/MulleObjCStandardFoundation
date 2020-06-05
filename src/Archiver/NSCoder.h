@@ -159,8 +159,7 @@
 
 
 
-#pragma mark -
-#pragma mark Default methods for sublasses to pick
+#pragma mark - Default methods for sublasses to pick
 
 //
 // these protocols supply implementations

@@ -92,8 +92,7 @@ struct MulleStringCharacterFunctions
 - (NSString *) lowercaseString;
 - (NSString *) capitalizedString;
 
-#pragma mark -
-#pragma mark mulle additions
+#pragma mark - mulle additions
 
 //
 // finds longest ranges from the start,

@@ -86,8 +86,7 @@ static inline char   *blob_describe( struct mulle_container_keycallback *ignore,
 
 
 
-#pragma mark -
-#pragma mark MulleObjCPointerHandleMap
+#pragma mark - MulleObjCPointerHandleMap
 
 
 

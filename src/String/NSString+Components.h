@@ -50,8 +50,7 @@
 - (NSArray *) componentsSeparatedByString:(NSString *) s;
 - (NSArray *) componentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
 
-#pragma mark -
-#pragma mark mulle additions
+#pragma mark - mulle additions
 
 - (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) s;
 - (NSMutableArray *) mulleMutableComponentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
