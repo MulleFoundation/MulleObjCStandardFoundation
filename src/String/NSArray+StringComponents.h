@@ -1,12 +1,9 @@
-#import "import.h"
-
-
 //
 // Routines specifically written for componentsSeparatedBy...
 //
 @interface NSArray( StringComponents)
 
-+ (instancetype) _mulleArrayFromASCIIData:(struct mulle_utf8_data) buf
++ (instancetype) _mulleArrayFromASCIIData:(struct mulle_ascii_data) buf
                              pointerQueue:(struct mulle__pointerqueue *) offsets
                                    stride:(NSUInteger) sepLen
                             sharingObject:(id) object;
@@ -34,3 +31,4 @@
                            sharingObject:(id) object;
 
 @end
+

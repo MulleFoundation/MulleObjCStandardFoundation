@@ -48,11 +48,6 @@ struct MulleStringCharacterFunctions
 };
 
 
-//
-// currently this just does literal searches.
-// TODO: create a hook for non-literal searches and use a proper unicode
-// library for that.
-//
 @interface NSString( Search)
 
 // install during +load or +initialize only

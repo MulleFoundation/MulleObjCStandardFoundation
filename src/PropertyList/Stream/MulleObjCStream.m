@@ -133,6 +133,97 @@ PROTOCOLCLASS_END();
 @end
 
 
+@implementation NSString( MulleObjCOutputStream)
+
+- (void) mulleWriteToStream:(id <MulleObjCOutputStream>) handle
+              usingEncoding:(NSStringEncoding) encoding
+{
+   NSData                    *data;
+   struct mulle_utf8_data    utf8data;
+   struct mulle_utf16_data   utf16data;
+   struct mulle_utf32_data   utf32data;
+   struct mulle_ascii_data   asciidata;
+
+   switch( encoding)
+   {
+   default :
+      MulleObjCThrowInvalidArgumentExceptionCString( "encoding %s (%ld) is not supported",
+         MulleStringEncodingCStringDescription( encoding),
+         (long) encoding);
+
+   case NSASCIIStringEncoding  :
+      if( [self mulleFastGetASCIIData:&asciidata])
+      {
+         [handle mulleWriteBytes:asciidata.characters
+                          length:asciidata.length];
+         return;
+      }
+      data = [self _asciiData];
+      if( ! data)
+         MulleObjCThrowInvalidArgumentExceptionCString( "Can not convert this string to ASCII");
+      break;
+
+   case NSUTF8StringEncoding  :
+   {
+      mulle_utf8_t             tmp[ 64];
+      struct mulle_utf8_data   utf8data;
+
+      utf8data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp, 64));
+      [handle mulleWriteBytes:utf8data.characters
+                       length:utf8data.length];
+      return;
+   }
+
+   case NSUTF16StringEncoding :
+      if( [self mulleFastGetUTF16Data:&utf16data])
+      {
+         [handle mulleWriteBytes:utf16data.characters
+                          length:utf16data.length];
+         return;
+      }
+      data = [self _utf16DataWithEndianness:native_end_first
+                              prefixWithBOM:NO
+                          terminateWithZero:NO];
+      break;
+
+   case NSUTF16LittleEndianStringEncoding :
+      data = [self _utf16DataWithEndianness:little_end_first
+                              prefixWithBOM:NO
+                          terminateWithZero:NO];
+      break;
+   case NSUTF16BigEndianStringEncoding :
+      data = [self _utf16DataWithEndianness:big_end_first
+                              prefixWithBOM:NO
+                          terminateWithZero:NO];
+      break;
+
+   case NSUTF32StringEncoding :
+      if( [self mulleFastGetUTF32Data:&utf32data])
+      {
+         [handle mulleWriteBytes:utf32data.characters
+                          length:utf32data.length];
+         return;
+      }
+      data = [self _utf32DataWithEndianness:native_end_first
+                              prefixWithBOM:NO
+                          terminateWithZero:NO];
+      break;
+   case NSUTF32LittleEndianStringEncoding :
+      data = [self _utf32DataWithEndianness:little_end_first
+                              prefixWithBOM:NO
+                          terminateWithZero:NO];
+      break;
+   case NSUTF32BigEndianStringEncoding :
+      data = [self _utf32DataWithEndianness:big_end_first
+                              prefixWithBOM:NO
+                          terminateWithZero:NO];
+      break;
+   }
+   [handle writeData:data];
+}
+
+@end
+
 //@implementation NSFileHandle( MulleObjCDataStream)
 
 // all done in original class

@@ -42,10 +42,15 @@
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardFoundationLocale.h"
 
+// private classes of MulleObjCValueFoundation
+#import <MulleObjCValueFoundation/_MulleObjCConcreteNumber.h>
+#import <MulleObjCValueFoundation/_MulleObjCTaggedPointerIntegerNumber.h>
+#import <MulleObjCValueFoundation/private/NSNumber-Private.h>
+
 // std-c and dependencies
 
 
-@implementation NSNumber ( PropertyListPrinting)
+@implementation NSNumber( PropertyListPrinting)
 
 - (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                                indent:(NSUInteger) indent
@@ -53,9 +58,9 @@
    NSString   *s;
    NSData     *data;
 
-   s    = [self descriptionWithLocale:_MulleObjCPropertyListCanonicalPrintingLocale];
-   data = [s dataUsingEncoding:NSUTF8StringEncoding];
-   [handle writeData:data];
+   s  = [self descriptionWithLocale:_MulleObjCPropertyListCanonicalPrintingLocale];
+   [s mulleWriteToStream:handle
+           usingEncoding:NSUTF8StringEncoding];
 }
 
 
@@ -63,18 +68,28 @@
                        indent:(NSUInteger) indent
 {
    NSString   *s;
-   NSData     *data;
 
-   s    = [self descriptionWithLocale:_MulleObjCJSONCanonicalPrintingLocale];
-   data = [s dataUsingEncoding:NSUTF8StringEncoding];
-   [handle writeData:data];
+   s = [self descriptionWithLocale:_MulleObjCJSONCanonicalPrintingLocale];
+   [s mulleWriteToStream:handle
+           usingEncoding:NSUTF8StringEncoding];
 }
 
 @end
 
 
 
-@implementation MulleObjCBoolNumber ( PropertyListPrinting)
+@implementation _MulleObjCBoolNumber( PropertyListPrinting)
+
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                               indent:(NSUInteger) indent
+{
+   if( [self boolValue])
+      [handle mulleWriteBytes:"YES"
+                       length:3];
+   else
+      [handle mulleWriteBytes:"NO"
+                       length:2];
+}
 
 - (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
@@ -90,7 +105,7 @@
 @end
 
 
-@implementation NSNull ( PropertyListPrinting)
+@implementation NSNull( PropertyListPrinting)
 
 - (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
@@ -101,4 +116,104 @@
 
 @end
 
+
+//
+// integer values are not dependent on locale so...
+//
+static void   printNumberToStream( NSNumber *self, id <MulleObjCOutputStream> handle)
+{
+   char                      tmp[ 64];
+   struct mulle_ascii_data   data;
+   struct mulle_ascii_data   string;
+
+   string = [self _mulleConvertToASCIICharacters:mulle_ascii_data_make( tmp, sizeof( tmp))];
+   [handle mulleWriteBytes:string.characters
+                    length:string.length];
+}
+
+
+@implementation _MulleObjCUInt64Number( PropertyListPrinting)
+
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                               indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                       indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+@end
+
+
+@implementation _MulleObjCUInt32Number( PropertyListPrinting)
+
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                               indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                       indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+@end
+
+
+@implementation _MulleObjCInt32Number( PropertyListPrinting)
+
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                               indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                       indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+@end
+
+
+@implementation _MulleObjCInt64Number( PropertyListPrinting)
+
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                               indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                       indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+@end
+
+
+
+@implementation _MulleObjCTaggedPointerIntegerNumber( PropertyListPrinting)
+
+- (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                               indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+- (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
+                       indent:(NSUInteger) indent
+{
+   printNumberToStream( self, handle);
+}
+
+@end
 

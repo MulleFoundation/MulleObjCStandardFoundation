@@ -74,6 +74,14 @@ typedef NSUInteger   NSPropertyListReadOptions;
 typedef NSUInteger   NSPropertyListWriteOptions;
 
 
+enum MullePropertyListFormatOption
+{
+   MullePropertyListFormatOptionDetect = 0,
+   MullePropertyListFormatOptionPrefer = 1,  // used to prefer MullePropertyListLooseOpenStepFormat over NSPropertyListOpenStepFormat
+   MullePropertyListFormatOptionForce  = 2   // will only load of that type (or preference)
+};
+
+
 @interface NSPropertyListSerialization : NSObject
 
 // plist plugin support; call these only during +load/+initialize/+unload...
@@ -111,6 +119,13 @@ typedef NSUInteger   NSPropertyListWriteOptions;
 //                                            format:&format
 //                                  errorDescription:NULL];
 //
+
+// TODO: FIX ERROR HANDLING, USE NSERROR OR NSEXCEPTION exlusively
++ (id) mullePropertyListFromData:(NSData *) data
+                mutabilityOption:(NSPropertyListMutabilityOptions) opt
+                          format:(NSPropertyListFormat *) format
+                    formatOption:(enum MullePropertyListFormatOption) formatOption;
+
 + (id) propertyListFromData:(NSData *) data
            mutabilityOption:(NSPropertyListMutabilityOptions) opt
                      format:(NSPropertyListFormat *) format
@@ -120,6 +135,7 @@ typedef NSUInteger   NSPropertyListWriteOptions;
                     options:(NSPropertyListMutabilityOptions) opt
                      format:(NSPropertyListFormat *) p_format
                       error:(NSError **) p_error;
+
 
 
 @end

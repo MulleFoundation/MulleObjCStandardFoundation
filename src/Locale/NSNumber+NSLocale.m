@@ -50,12 +50,16 @@
 
 - (NSString *) descriptionWithLocale:(id) locale
 {
-   NSNumberFormatter    *formatter;
+   NSNumberFormatter   *formatter;
 
    // if this is too slow, put a default formatter into class vars
-
-   formatter = [[NSNumberFormatter new] autorelease];
-   [formatter setLocale:locale];
+   if( locale)
+   {
+      formatter = [[NSNumberFormatter new] autorelease];
+      [formatter setLocale:locale];
+   }
+   else
+      formatter = [NSNumberFormatter mulleDefaultFormatter];
    return( [formatter stringFromNumber:self]);
 }
 

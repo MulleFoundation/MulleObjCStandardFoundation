@@ -40,7 +40,7 @@
 
 
 
-@implementation NSDictionary (NSLocale)
+@implementation NSDictionary( NSLocale)
 
 - (NSString *) descriptionWithLocale:(NSLocale *) locale
                               indent:(NSUInteger) level

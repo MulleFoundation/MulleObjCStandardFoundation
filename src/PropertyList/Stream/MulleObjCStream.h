@@ -91,3 +91,11 @@ PROTOCOLCLASS_END();
 // make it known, that NSFileHandle nicely supports streams as is
 //@interface NSFileHandle( MulleObjCOutputStream) < MulleObjCInputStream, MulleObjCOutputStream >
 //@end
+
+
+@interface NSString( MulleObjCOutputStream)
+
+- (void) mulleWriteToStream:(id <MulleObjCOutputStream>) bytes
+              usingEncoding:(NSStringEncoding) encoding;
+
+@end

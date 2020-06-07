@@ -276,30 +276,25 @@ NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
 }
 
 
-+ (instancetype) propertyListFromData:(NSData *) data
-                     mutabilityOption:(NSPropertyListMutabilityOptions) opt
-                               format:(NSPropertyListFormat *) format
-                     errorDescription:(NSString **) errorString
++ (id) mullePropertyListFromData:(NSData *) data
+                mutabilityOption:(NSPropertyListMutabilityOptions) opt
+                          format:(NSPropertyListFormat *) format
+                    formatOption:(enum MullePropertyListFormatOption) formatOption
 {
-   _MulleObjCByteOrderMark             bom;
-   _MulleObjCPropertyListReader        *reader;
-   MulleObjCBufferedInputStream   *stream;
-   id                                  plist;
-   NSPropertyListSerialization         *parser;
-   NSPropertyListFormat                preferred;
-   struct {
-      NSString                         *string;
-      NSPropertyListFormat             format;
-   } dummy;
+   _MulleObjCByteOrderMark        bom;
+   id                             plist;
+   NSPropertyListSerialization    *parser;
+   NSPropertyListFormat           dummy;
 
-   preferred = NSPropertyListOpenStepFormat;
-
-   if( ! errorString)
-      errorString = &dummy.string;
    if( ! format)
-      format = &dummy.format;
-   else
-      preferred = *format;
+   {
+      if( formatOption == MullePropertyListFormatOptionForce)
+         [NSException raise:NSInvalidArgumentException
+                     format:@"format cant be NULL with force option"];
+
+      dummy  = 0;
+      format = &dummy;
+   }
 
    bom = [data _byteOrderMark];
    switch( bom)
@@ -329,30 +324,44 @@ NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
    // TODO: make this more plug and play via lookup table
 
    // default error
-   *format = [self mulleDetectPropertListFormatWithData:data];
+   if( formatOption != MullePropertyListFormatOptionForce)
+      *format = [self mulleDetectPropertListFormatWithData:data];
    if( ! *format)
-   {
-      *errorString = @"Can not parse this kind of data as a plist";
-      return( nil);
-   }
-   if( *format == NSPropertyListOpenStepFormat &&
-        preferred == MullePropertyListLooseOpenStepFormat)
+      [NSException raise:NSInvalidArgumentException
+                  format:@"Can not parse this kind of data as a plist"];
+
+   if( formatOption == MullePropertyListFormatOptionPrefer &&
+      *format == NSPropertyListOpenStepFormat)
    {
       *format = MullePropertyListLooseOpenStepFormat;
    }
 
-   *errorString = nil;
-NS_DURING
    plist = [self parsePropertyListData:data
                       mutabilityOption:opt
                                 format:*format];
+   return( plist);
+
+}
+
+
++ (id) propertyListFromData:(NSData *) data
+           mutabilityOption:(NSPropertyListMutabilityOptions) opt
+                     format:(NSPropertyListFormat *) format
+           errorDescription:(NSString **) errorString
+{
+   id   plist;
+
+NS_DURING
+   plist = [self mullePropertyListFromData:data
+                          mutabilityOption:opt
+                                    format:format
+                              formatOption:MullePropertyListFormatOptionDetect];
 NS_HANDLER
    *errorString = [localException reason];
 NS_ENDHANDLER
    if( ! plist && ! *errorString)
       *errorString = [NSString stringWithFormat:@"Can not parse this %@ plist",
                         MulleStringFromPropertListFormatString( *format)];
-
    return( plist);
 }
 
@@ -384,11 +393,11 @@ NS_ENDHANDLER
 //
 + (id) mulleLooselyParsePropertyListData:(NSData *) data
 {
-   _MulleObjCPropertyListReader        *reader;
+   _MulleObjCPropertyListReader   *reader;
    MulleObjCBufferedInputStream   *stream;
-   id                                  plist;
-   NSPropertyListSerialization         *parser;
-   NSString                            *dummy;
+   id                             plist;
+   NSPropertyListSerialization    *parser;
+   NSString                       *dummy;
 
    stream = [[[MulleObjCBufferedInputStream alloc] initWithData:data] autorelease];
    reader = [[[_MulleObjCPropertyListReader alloc] initWithBufferedInputStream:stream] autorelease];
@@ -400,6 +409,7 @@ NS_ENDHANDLER
    plist = [_MulleObjCNewFromPropertyListWithStreamReader( reader) autorelease];
    return( plist);
 }
+
 
 //
 // what will eventually be called (yes it's not an instance method)
@@ -432,7 +442,6 @@ NS_ENDHANDLER
 
    return( [plist _propertyListIsValidForFormat:format]);
 }
-
 
 
 // a heuristic

@@ -91,6 +91,9 @@ typedef NSUInteger NSNumberFormatterBehavior;
 - (NSNumber *) numberFromString:(NSString *) string;
 - (NSString *) stringFromNumber:(NSNumber *) number;
 
+// use for locale == nil
++ (instancetype) mulleDefaultFormatter;
+
 @end
 
 
