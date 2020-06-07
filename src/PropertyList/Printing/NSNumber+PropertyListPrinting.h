@@ -37,11 +37,9 @@
 #import "MulleObjCPropertyListPrinting.h"
 
 
-@interface NSNumber ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
+@interface NSNumber( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 @end
 
-@interface MulleObjCBoolNumber ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
-@end
 
-@interface NSNull ( PropertyListPrinting) <MulleObjCPropertyListPrinting>
+@interface NSNull( PropertyListPrinting) <MulleObjCPropertyListPrinting>
 @end

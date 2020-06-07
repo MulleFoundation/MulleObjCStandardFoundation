@@ -56,6 +56,7 @@ static struct
    mulle_thread_mutex_t        _lock;
    NSMapTable                  *_table;
    NSNumberFormatterBehavior   _defaultBehavior;
+   NSNumberFormatter           *_defaultFormatter;  // used for locale = nil
 } Self;
 
 
@@ -83,12 +84,12 @@ static inline void   SelfUnlock( void)
          fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
          abort();
       }
-      Self._defaultBehavior = NSNumberFormatterBehavior10_0;
+      Self._defaultBehavior  = NSNumberFormatterBehavior10_0;
+      Self._defaultFormatter = [NSNumberFormatter new];
       NSMapInsertKnownAbsent( Self._table,
                               (void *) NSNumberFormatterBehavior10_0,
                               self);
    }
-
 }
 
 
@@ -98,6 +99,7 @@ static inline void   SelfUnlock( void)
    {
       NSFreeMapTable( Self._table);
       Self._table = NULL;
+      [Self._defaultFormatter release];
    }
    mulle_thread_mutex_done( &Self._lock);
 #ifdef DEBUG
@@ -262,6 +264,21 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 - (BOOL) localizesFormat
 {
    return( _flags.localizesFormat);
+}
+
+
+- (void) setLocale:(NSLocale *) locale
+{
+   NSParameterAssert( self != Self._defaultFormatter);
+
+   [_locale autorelease];
+   _locale = [locale retain];
+}
+
+
++ (instancetype) mulleDefaultFormatter
+{
+   return( Self._defaultFormatter);
 }
 
 @end

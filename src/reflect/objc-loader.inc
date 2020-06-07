@@ -1,7 +1,6 @@
       { @selector( MulleObjCLoader), @selector( MulleObjCContainerFoundation) },      // 47a9beb6;MulleObjCLoader;2132102f;MulleObjCContainerFoundation
       { @selector( MulleObjCLoader), @selector( MulleObjCValueFoundation) },      // 47a9beb6;MulleObjCLoader;535d5103;MulleObjCValueFoundation
       { @selector( MulleObjCArchiver), MULLE_OBJC_NO_CATEGORYID },      // 6c636b4d;MulleObjCArchiver;;
-      { @selector( MulleObjCBoolNumber), @selector( PropertyListPrinting) },      // 0445791b;MulleObjCBoolNumber;91aeee11;PropertyListPrinting
       { @selector( MulleObjCBufferedInputStream), MULLE_OBJC_NO_CATEGORYID },      // 0d289418;MulleObjCBufferedInputStream;;
       { @selector( MulleObjCBufferedOutputStream), MULLE_OBJC_NO_CATEGORYID },      // f919266f;MulleObjCBufferedOutputStream;;
       { @selector( MulleObjCInMemoryInputStream), MULLE_OBJC_NO_CATEGORYID },      // c11e0f43;MulleObjCInMemoryInputStream;;
@@ -67,6 +66,7 @@
       { @selector( NSString), @selector( Components) },      // 1994a171;NSString;c6c03895;Components
       { @selector( NSString), @selector( Escaping) },      // 1994a171;NSString;742c5512;Escaping
       { @selector( NSString), @selector( Locale) },      // 1994a171;NSString;d6e5bb7d;Locale
+      { @selector( NSString), @selector( MulleObjCOutputStream) },      // 1994a171;NSString;94c18dd3;MulleObjCOutputStream
       { @selector( NSString), @selector( NSCharacterSet) },      // 1994a171;NSString;bb258d72;NSCharacterSet
       { @selector( NSString), @selector( NSPropertyListParsing) },      // 1994a171;NSString;060a8c9c;NSPropertyListParsing
       { @selector( NSString), @selector( PropertyList) },      // 1994a171;NSString;827edd0f;PropertyList
@@ -78,14 +78,20 @@
       { @selector( NSUndoManager), MULLE_OBJC_NO_CATEGORYID },      // 0e5330bc;NSUndoManager;;
       { @selector( _MulleGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // d6f534a3;_MulleGMTTimeZone;;
       { @selector( _MulleObjCASCIIString), @selector( Components) },      // b82142dd;_MulleObjCASCIIString;c6c03895;Components
+      { @selector( _MulleObjCBoolNumber), @selector( PropertyListPrinting) },      // 263c5445;_MulleObjCBoolNumber;91aeee11;PropertyListPrinting
       { @selector( _MulleObjCConcreteBitmapCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 0846adc2;_MulleObjCConcreteBitmapCharacterSet;;
       { @selector( _MulleObjCConcreteCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // ba1004b2;_MulleObjCConcreteCharacterSet;;
       { @selector( _MulleObjCConcreteInvertedCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 91ba9925;_MulleObjCConcreteInvertedCharacterSet;;
       { @selector( _MulleObjCConcreteRangeCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 09c86c6e;_MulleObjCConcreteRangeCharacterSet;;
+      { @selector( _MulleObjCInt32Number), @selector( PropertyListPrinting) },      // d69971a0;_MulleObjCInt32Number;91aeee11;PropertyListPrinting
+      { @selector( _MulleObjCInt64Number), @selector( PropertyListPrinting) },      // 8b4d5e19;_MulleObjCInt64Number;91aeee11;PropertyListPrinting
       { @selector( _MulleObjCLocalTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 5813d6fc;_MulleObjCLocalTimeZone;;
       { @selector( _MulleObjCPropertyListReader), MULLE_OBJC_NO_CATEGORYID },      // a2dc8d79;_MulleObjCPropertyListReader;;
       { @selector( _MulleObjCTaggedPointerChar5String), @selector( Components) },      // 2a6d1009;_MulleObjCTaggedPointerChar5String;c6c03895;Components
       { @selector( _MulleObjCTaggedPointerChar7String), @selector( Components) },      // d68ecb24;_MulleObjCTaggedPointerChar7String;c6c03895;Components
+      { @selector( _MulleObjCTaggedPointerIntegerNumber), @selector( PropertyListPrinting) },      // 1f557819;_MulleObjCTaggedPointerIntegerNumber;91aeee11;PropertyListPrinting
+      { @selector( _MulleObjCUInt32Number), @selector( PropertyListPrinting) },      // 92030c9c;_MulleObjCUInt32Number;91aeee11;PropertyListPrinting
+      { @selector( _MulleObjCUInt64Number), @selector( PropertyListPrinting) },      // c62e3ae1;_MulleObjCUInt64Number;91aeee11;PropertyListPrinting
       { @selector( _MulleObjCUTF16String), @selector( Components) },      // d817650f;_MulleObjCUTF16String;c6c03895;Components
       { @selector( _MulleObjCUTF16String), @selector( Search) },      // d817650f;_MulleObjCUTF16String;646a2c9c;Search
       { @selector( _MulleObjCUTF32String), @selector( Components) },      // 318d8f60;_MulleObjCUTF32String;c6c03895;Components

@@ -40,7 +40,6 @@
 #import "NSString+Search.h"
 #import "NSArray+StringComponents.h"
 
-
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar7String.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar5String.h>
 #import <MulleObjCValueFoundation/_MulleObjCASCIIString.h>
@@ -239,7 +238,7 @@ static void
 @implementation _MulleObjCTaggedPointerChar7String( Components)
 
 static id
-   separateASCIICharacterDataByString( struct mulle_utf8_data data,
+   separateASCIICharacterDataByString( struct mulle_ascii_data data,
                                        NSString *separator,
                                        Class arrayClass)
 {
@@ -267,7 +266,7 @@ static id
 
 
 static id
-   separateASCIICharacterDataByCharacterSet( struct mulle_utf8_data data,
+   separateASCIICharacterDataByCharacterSet( struct mulle_ascii_data data,
                                              NSCharacterSet *separators,
                                              Class arrayClass)
 {
@@ -296,12 +295,12 @@ static id
 - (id) _mulleComponentsSeparatedByString:(NSString *) separator
                               arrayClass:(Class) arrayClass
 {
-   mulle_utf8_t             tmp[ mulle_char7_maxlength64];  // known ascii max 8
-   struct mulle_utf8_data   data;
+   char                      tmp[ mulle_char7_maxlength64];  // known ascii max 8
+   struct mulle_ascii_data   data;
 
    data.characters = tmp;
-   data.length     = [self mulleGetUTF8Characters:data.characters
-                                        maxLength:mulle_char7_maxlength64];
+   data.length     = [self mulleGetASCIICharacters:data.characters
+                                         maxLength:mulle_char7_maxlength64];
 
    return( separateASCIICharacterDataByString( data, separator, arrayClass));
 }
@@ -310,12 +309,12 @@ static id
 - (id) _mulleComponentsSeparatedByCharacterSet:(NSCharacterSet *) separators
                                     arrayClass:(Class) arrayClass
 {
-   mulle_utf8_t             tmp[ mulle_char7_maxlength64];  // known ascii max 8
-   struct mulle_utf8_data   data;
+   char                      tmp[ mulle_char7_maxlength64];  // known ascii max 8
+   struct mulle_ascii_data   data;
 
    data.characters = tmp;
-   data.length     = [self mulleGetUTF8Characters:data.characters
-                                        maxLength:mulle_char7_maxlength64];
+   data.length     = [self mulleGetASCIICharacters:data.characters
+                                         maxLength:mulle_char7_maxlength64];
 
    return( separateASCIICharacterDataByCharacterSet( data, separators, arrayClass));
 }
@@ -328,16 +327,16 @@ static id
 - (id) _mulleComponentsSeparatedByString:(NSString *) separator
                               arrayClass:(Class) arrayClass
 {
-   mulle_utf8_t                 tmp[ mulle_char5_maxlength64];  // known ascii max 8
+   char                         tmp[ mulle_char5_maxlength64];  // known ascii max 8
    NSArray                      *array;
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf8_data       data;
+   struct mulle_ascii_data      data;
 
    data.characters = tmp;
-   data.length     = [self mulleGetUTF8Characters:data.characters
-                                        maxLength:mulle_char5_maxlength64];
+   data.length     = [self mulleGetASCIICharacters:data.characters
+                                         maxLength:mulle_char5_maxlength64];
    return( separateASCIICharacterDataByString( data, separator, arrayClass));
 }
 
@@ -345,12 +344,12 @@ static id
 - (id) _mulleComponentsSeparatedByCharacterSet:(NSCharacterSet *) separators
                                     arrayClass:(Class) arrayClass
 {
-   mulle_utf8_t             tmp[ mulle_char5_maxlength64];  // known ascii max 8
-   struct mulle_utf8_data   data;
+   char                      tmp[ mulle_char5_maxlength64];  // known ascii max 8
+   struct mulle_ascii_data   data;
 
    data.characters = tmp;
-   data.length     = [self mulleGetUTF8Characters:data.characters
-                                        maxLength:mulle_char5_maxlength64];
+   data.length     = [self mulleGetASCIICharacters:data.characters
+                                         maxLength:mulle_char5_maxlength64];
 
    return( separateASCIICharacterDataByCharacterSet( data, separators, arrayClass));
 }
@@ -369,8 +368,8 @@ static id
 - (id) _mulleComponentsSeparatedByString:(NSString *) separator
                               arrayClass:(Class) arrayClass
 {
-   struct mulle_utf8_data   data;
-   BOOL                     flag;
+   struct mulle_ascii_data   data;
+   BOOL                      flag;
 
    flag = [self mulleFastGetASCIIData:&data];
    assert( flag);
@@ -382,8 +381,8 @@ static id
 - (id) _mulleComponentsSeparatedByCharacterSet:(NSCharacterSet *) separators
                                     arrayClass:(Class) arrayClass
 {
-   struct mulle_utf8_data   data;
-   BOOL                     flag;
+   struct mulle_ascii_data   data;
+   BOOL                      flag;
 
    flag = [self mulleFastGetASCIIData:&data];
    assert( flag);
@@ -541,8 +540,9 @@ static id
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
    struct mulle_utf8_data       data;
+   mulle_utf8_t                 tmp[ 64];
 
-   data = NSStringGetUTF8Data( self);
+   data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp, sizeof( tmp)));
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    sepLen = _mulleDataSeparateComponentsByString( mulle_data_make( data.characters,
@@ -631,8 +631,9 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
    NSArray                      *array;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
+   mulle_utf8_t                 tmp[ 64];
 
-   data = NSStringGetUTF8Data( self);
+   data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp, sizeof( tmp)));
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    _mulleDataSeparateComponentsByCharacterSet( mulle_data_make( data.characters,

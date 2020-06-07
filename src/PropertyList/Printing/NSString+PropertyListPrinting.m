@@ -51,9 +51,9 @@
    NSString  *s;
    NSData    *data;
 
-   s      = [self mulleQuotedDescriptionIfNeeded];
-   data   = [s dataUsingEncoding:NSUTF8StringEncoding];
-   [handle writeData:data];
+   s = [self mulleQuotedDescriptionIfNeeded];
+   [s mulleWriteToStream:handle
+           usingEncoding:NSUTF8StringEncoding];
 }
 
 
@@ -63,20 +63,26 @@
 - (void) jsonUTF8DataToStream:(id <MulleObjCOutputStream>) handle
                        indent:(NSUInteger) indent
 {
-   NSData          *data;
-   unsigned char   *s, *start;
-   unsigned char   *q, *sentinel;
-   size_t          len;
-   NSMutableData   *target;
+   mulle_utf8_t             *s, *start;
+   mulle_utf8_t             *q, *sentinel;
+   size_t                    len;
+   size_t                    size;
+   NSMutableData             *target;
+   struct mulle_utf8_data    data;
+   mulle_utf8_t              tmp1[ 32];
+   mulle_utf8_t              tmp2[ 64];
 
-   data     = [self dataUsingEncoding:NSUTF8StringEncoding];
+   data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp1, sizeof( tmp1)));
 
    // do proper quoting and escaping
-   len      = [data length];
-   q        = (unsigned char *) [data bytes];
+   len      = data.length;
+   q        = data.characters;
    sentinel = &q[ len];
 
-   start    = MulleObjCCallocAutoreleased( 2 + len * 6, sizeof( char));
+   start    = tmp2;
+   size     = 2 + len * 6;
+   if( size > sizeof( tmp2))
+      start = MulleObjCCallocAutoreleased( size, sizeof( char));
    s        = start;
 
    *s++ = '"';
