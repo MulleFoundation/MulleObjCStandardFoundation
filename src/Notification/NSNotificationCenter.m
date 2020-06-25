@@ -241,7 +241,7 @@ static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
 
    *p_allocator = NULL;
 
-   s   = [NSMutableString string];
+   s   = [NSMutableString object];
    sep = @"";
 
    rover = mulle__pointerqueue_enumerate( queue);
@@ -268,7 +268,7 @@ static char   *tripletqueue_describe( struct mulle_container_valuecallback *tabl
 
    *p_allocator = NULL;
 
-   s   = [NSMutableString string];
+   s   = [NSMutableString object];
    sep = @"";
 
    rover = mulle__pointerqueue_enumerate( queue);

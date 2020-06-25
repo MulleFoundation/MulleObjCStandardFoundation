@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
    NSMutableString     *s;
    NSRange             range;
 
-   s = [NSMutableString string];
+   s = [NSMutableString object];
 
    [s appendString:@"VfL"];
    [s appendString:@" "];

@@ -81,7 +81,7 @@ mulleVarargList:(mulle_vararg_list) args;
 
 - (NSString *) name;
 - (NSString *) reason;
-- (NSDictionary *) userInfo;
+- (id) userInfo;
 
 @end
 

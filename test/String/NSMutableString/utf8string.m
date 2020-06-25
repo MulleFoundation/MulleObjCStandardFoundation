@@ -18,7 +18,7 @@ int main( int argc, const char * argv[])
 
    emojis = [[[NSString alloc] initWithBytes:"\xe2\x98\x84\xef\xb8\x8f\xe2\x98\x83\xef\xb8\x8f\xf0\x9f\x91\x8d\xf0\x9f\x8f\xbe" /* emoji comet, snowman, thumbs-up brown */ length:20 encoding:NSUTF8StringEncoding] autorelease];
 
-   s = [NSMutableString string];
+   s = [NSMutableString object];
    [s appendString:@"VfL"];
    [s appendString:@" "];
    [s appendString:@"Bochum"];
