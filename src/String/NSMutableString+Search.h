@@ -1,6 +1,5 @@
-
 //
-//  NSMutableString.m
+//  NSMutableString+Search.m
 //  MulleObjCValueFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.

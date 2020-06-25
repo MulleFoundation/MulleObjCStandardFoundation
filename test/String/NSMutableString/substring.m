@@ -17,7 +17,7 @@ int main(int argc, const char * argv[])
    NSString            *other;
    NSMutableString     *clone;
 
-   s = [NSMutableString string];
+   s = [NSMutableString object];
 
    [s appendString:@"VfL"];
    [s appendString:@" "];

@@ -248,7 +248,7 @@ static int  ascii_iswhite( unichar c)
 /*
  *
  */
-- (instancetype) invertedSet
+- (NSCharacterSet *) invertedSet
 {
    return( [[_MulleObjCConcreteInvertedCharacterSet newWithCharacterSet:self] autorelease]);
 }

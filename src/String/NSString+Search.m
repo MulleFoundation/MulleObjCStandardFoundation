@@ -518,7 +518,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 }
 
 
-- (NSComparisonResult) compare:(NSString *) other
+- (NSComparisonResult) compare:(id) other
 {
    return( [self compare:other
                  options:0
@@ -526,7 +526,7 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 }
 
 
-- (NSComparisonResult) compare:(NSString *) other
+- (NSComparisonResult) compare:(id) other
                        options:(NSStringCompareOptions) mask
 {
    return( [self compare:other

@@ -275,7 +275,7 @@ mulleVarargList:(mulle_vararg_list) arguments
 }
 
 
-- (NSDictionary *) userInfo
+- (id) userInfo
 {
    return( _userInfo);
 }

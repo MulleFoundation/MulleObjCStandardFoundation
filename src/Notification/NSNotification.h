@@ -42,15 +42,15 @@
 
 @interface NSNotification : NSObject < MulleObjCImmutable>
 
-@property(copy)   NSString      *name;
-@property(retain) id            object;
-@property(retain) NSDictionary  *userInfo;
+@property( copy)   NSString      *name;
+@property( retain) id            object;
+@property( retain) id            userInfo; /* -userInfo is untyped  */
 
 + (instancetype) notificationWithName:(NSString *) aName
                      object:(id) anObject;
 
 + (instancetype) notificationWithName:(NSString *) aName
-                     object:(id) anObject
-                   userInfo:(NSDictionary *) userInfo;
+                               object:(id) anObject
+                             userInfo:(NSDictionary *) userInfo;
 
 @end

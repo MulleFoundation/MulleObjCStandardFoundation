@@ -54,7 +54,7 @@ struct MulleStringCharacterFunctions
 + (void) setStringCharacterFunctions:(struct MulleStringCharacterFunctions *) converters;
 + (struct MulleStringCharacterFunctions *) stringCharacterFunctions;
 
-- (NSComparisonResult) compare:(NSString *) other;
+- (NSComparisonResult) compare:(id) other;
 - (NSComparisonResult) compare:(id) other
                        options:(NSStringCompareOptions) mask;
 

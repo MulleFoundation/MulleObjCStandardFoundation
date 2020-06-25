@@ -44,6 +44,13 @@
 BOOL   _MulleObjCPropertyListSortedDictionary;
 BOOL   _MulleObjCJSONSortedDictionary;
 
+@interface NSObject( _NS)
+
+- (BOOL) __isNSString;
+- (BOOL) __isNSNull;
+
+@end
+
 
 @implementation NSDictionary( PropertyListPrinting)
 
@@ -58,6 +65,7 @@ struct format_info
    char   *(*indentFunction)(NSUInteger);
    SEL    memberMethod;
    SEL    keyMethod;
+   BOOL   ignoreNSNull;
 };
 
 
@@ -71,7 +79,8 @@ static struct format_info   plist_format_info =
    { ' ', '=', ' ' },  // divider
    MulleObjCPropertyListUTF8DataIndentation,
    @selector( propertyListUTF8DataToStream:indent:),
-   @selector( self)
+   @selector( self),
+   YES
 };
 
 
@@ -84,8 +93,9 @@ static struct format_info   json_format_info =
    { '}'         },    // closer
    { ':', ' ', 0 },    // divider
    MulleObjCJSONUTF8DataIndentation,
-  @selector( jsonUTF8DataToStream:indent:),
-  @selector( description)
+   @selector( jsonUTF8DataToStream:indent:),
+   @selector( description),
+   NO
 };
 
 
@@ -130,6 +140,8 @@ static struct format_info   json_format_info =
    for( key in keys)
    {
       value = [self objectForKey:key];
+      if( info->ignoreNSNull && [value __isNSNull])
+         continue;
 
       [handle mulleWriteBytes:indentation
                        length:length];

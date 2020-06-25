@@ -73,7 +73,7 @@ extern NSString   *NSErrorDomainKey;
 
 @property( readonly, copy)   NSString       *domain;
 @property( readonly)         NSInteger      code;
-@property( readonly, retain) NSDictionary   *userInfo;
+@property( readonly, retain) id             userInfo;
 
 // call this during +load or +initialize to add your error domain
 + (void) registerErrorDomain:(NSString *) domain
@@ -82,7 +82,7 @@ extern NSString   *NSErrorDomainKey;
 
 - (instancetype) initWithDomain:(NSString *) domain
                            code:(NSInteger) code
-                           userInfo:(NSDictionary *) userInfo;
+                       userInfo:(NSDictionary *) userInfo;
 + (instancetype) errorWithDomain:(NSString *) domain
                             code:(NSInteger) code
                         userInfo:(NSDictionary *) userInfo;

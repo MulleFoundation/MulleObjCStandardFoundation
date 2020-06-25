@@ -44,6 +44,7 @@
 @interface NSObject( _NS)
 
 - (BOOL) __isNSString;
+- (BOOL) __isNSNull;
 
 @end
 
@@ -62,13 +63,15 @@
    NSArray           *keys;
    NSString          *valueDescription;
 
-   s    = [NSMutableString string];
+   s    = [NSMutableString object];
    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
    for( key in keys)
    {
       value = [self objectForKey:key];
       if( ! [value conformsToProtocol:@protocol( MulleObjCPropertyListPrinting)])
          return( nil);
+      if( [value __isNSNull])
+         continue;
       if( [value __isNSString])
          valueDescription = [value mulleQuotedString];
       else
@@ -90,7 +93,7 @@
 //    NSArray           *keys;
 //    id                key, value;
 //
-//    s    = [NSMutableString string];
+//    s    = [NSMutableString object];
 //    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
 //    for( key in keys)
 //    {

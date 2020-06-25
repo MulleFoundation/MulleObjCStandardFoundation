@@ -120,7 +120,7 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
    NSMutableData  *data;
    NSString       *s;
 
-   data = [NSMutableData data];
+   data = [NSMutableData object];
    [self propertyListUTF8DataToStream:data
                                indent:0];
 
@@ -135,7 +135,7 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
    NSMutableData  *data;
    NSString       *s;
 
-   data = [NSMutableData data];
+   data = [NSMutableData object];
    [self jsonUTF8DataToStream:data
                        indent:0];
 

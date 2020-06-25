@@ -48,7 +48,7 @@
 
 @implementation NSNumber (NSLocale)
 
-- (NSString *) descriptionWithLocale:(id) locale
+- (NSString *) descriptionWithLocale:(NSLocale *) locale
 {
    NSNumberFormatter   *formatter;
 
