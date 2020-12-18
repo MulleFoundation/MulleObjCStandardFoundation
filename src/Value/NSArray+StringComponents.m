@@ -14,6 +14,7 @@
 
 @implementation NSArray( StringComponents)
 
+
 typedef NSString   *(*MakeStringFunction)( void *start,
                                            void **end,
                                            struct _MulleStringContext *ctxt);
@@ -63,7 +64,7 @@ typedef NSString   *(*MakeStringFunction)( void *start,
      */
    p     = buf.bytes;
    rover = mulle__pointerqueue_enumerate( pointers);
-   while( (q = _mulle__pointerqueueenumerator_next( &rover)))
+   while( _mulle__pointerqueueenumerator_next( &rover, &q))
    {
       assert( (char *) q >= (char *) p);
       *dst++ = (*makeString)( p, q, &ctxt);
@@ -84,10 +85,10 @@ typedef NSString   *(*MakeStringFunction)( void *start,
 }
 
 
-+ (instancetype) _mulleArrayFromASCIIData:(struct mulle_ascii_data) buf
++ (instancetype) _mulleArrayFromASCIIData:(struct mulle_asciidata) buf
                              pointerQueue:(struct mulle__pointerqueue *) pointers
                                    stride:(NSUInteger) stride
-                             sharingObject:(id) object
+                            sharingObject:(id) object
 {
    struct mulle_data   data;
 
@@ -99,7 +100,7 @@ typedef NSString   *(*MakeStringFunction)( void *start,
 }
 
 
-+ (instancetype) mulleArrayFromUTF8Data:(struct mulle_utf8_data) buf
++ (instancetype) mulleArrayFromUTF8Data:(struct mulle_utf8data) buf
                            pointerQueue:(struct mulle__pointerqueue *) pointers
                                  stride:(NSUInteger) stride
                           sharingObject:(id) object
@@ -114,10 +115,10 @@ typedef NSString   *(*MakeStringFunction)( void *start,
 
 
 // just the same for utf16, but must be utf_15 bit clean
-+ (instancetype) _mulleArrayFromUTF16Data:(struct mulle_utf16_data) buf
++ (instancetype) _mulleArrayFromUTF16Data:(struct mulle_utf16data) buf
                              pointerQueue:(struct mulle__pointerqueue *) pointers
                                    stride:(NSUInteger) stride
-                           sharingObject:(id) object
+                            sharingObject:(id) object
 {
    return( [self mulleArrayFromData:mulle_data_make( buf.characters,
                                                      buf.length * sizeof( mulle_utf16_t))
@@ -128,7 +129,7 @@ typedef NSString   *(*MakeStringFunction)( void *start,
 }
 
 
-+ (instancetype) mulleArrayFromUTF32Data:(struct mulle_utf32_data) buf
++ (instancetype) mulleArrayFromUTF32Data:(struct mulle_utf32data) buf
                             pointerQueue:(struct mulle__pointerqueue *) pointers
                                   stride:(NSUInteger) stride
                            sharingObject:(id) object

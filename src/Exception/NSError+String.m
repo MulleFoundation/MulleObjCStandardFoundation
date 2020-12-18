@@ -39,7 +39,7 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 
 @implementation NSError( String)

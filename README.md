@@ -1,6 +1,6 @@
 # MulleObjCStandardFoundation
 
-🚤  Platform-independent Objective-C classes, like NSString, NSArray, NSNotificationCenter
+#### 🚤 Platform-independent Objective-C classes, like NSString, NSArray, NSNotificationCenter
 
 These classes build on **MulleObjC** and **mulle-core** to provide the usual
 classes expected in a Foundation library, that require no more than the

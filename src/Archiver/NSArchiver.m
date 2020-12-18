@@ -57,8 +57,7 @@
 
 @implementation NSArchiver
 
-# pragma mark -
-# pragma mark NSCoder
+# pragma mark - NSCoder
 
 - (void) encodeValueOfObjCType:(char *) type
                             at:(void *) p

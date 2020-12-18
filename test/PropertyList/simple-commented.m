@@ -12,18 +12,18 @@
 
 static void  decode( NSString *s)
 {
-   NSData        *data;
-   id            decoded;
+   NSData                 *data;
+   id                     decoded;
    NSPropertyListFormat   format;
 
    @try
    {
       format  = MullePropertyListLooseOpenStepFormat;
       data    = [s dataUsingEncoding:NSUTF8StringEncoding];
-      decoded = [NSPropertyListSerialization propertyListFromData:data
-                                                 mutabilityOption:0
-                                                           format:&format
-                                                 errorDescription:NULL];
+      decoded = [NSPropertyListSerialization mullePropertyListFromData:data
+                                                      mutabilityOption:0
+                                                                format:&format
+                                                          formatOption:MullePropertyListFormatOptionPrefer];
 
       printf( "%s->%s\n\n",
                  [[s description] UTF8String],

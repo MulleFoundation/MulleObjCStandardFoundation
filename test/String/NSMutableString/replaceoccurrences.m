@@ -35,7 +35,7 @@ int   main(int argc, const char * argv[])
                            range:NSMakeRange( 0, [s length])];
    printf( "%s\n", [s UTF8String]);
 
-   s = [NSMutableString object];
+   s = [NSMutableString string];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch

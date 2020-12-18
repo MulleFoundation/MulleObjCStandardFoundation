@@ -41,8 +41,8 @@
 #import "NSNotification.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationString.h"
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardValueFoundation.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 #import <mulle-container/mulle-container.h>
@@ -241,11 +241,11 @@ static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
 
    *p_allocator = NULL;
 
-   s   = [NSMutableString object];
+   s   = [NSMutableString string];
    sep = @"";
 
    rover = mulle__pointerqueue_enumerate( queue);
-   while( p = _mulle__pointerqueueenumerator_next( &rover))
+   while( _mulle__pointerqueueenumerator_next( &rover, (void **) &p))
    {
       [s appendString:sep];
       sep = @", ";
@@ -268,11 +268,11 @@ static char   *tripletqueue_describe( struct mulle_container_valuecallback *tabl
 
    *p_allocator = NULL;
 
-   s   = [NSMutableString object];
+   s   = [NSMutableString string];
    sep = @"";
 
    rover = mulle__pointerqueue_enumerate( queue);
-   while( p = _mulle__pointerqueueenumerator_next( &rover))
+   while( _mulle__pointerqueueenumerator_next( &rover, (void **) &p))
    {
       [s appendString:sep];
       sep = @", ";
@@ -449,10 +449,10 @@ static struct
 
    allocator = MulleObjCInstanceGetAllocator( self);
 
-   mulle_map_init( &_observerRegistry, 64, &observer_registry_callbacks, allocator);
-   mulle_map_init( &_nameRegistry,      5, &name_registry_callbacks, allocator);
-   mulle_map_init( &_senderRegistry,    5, &sender_registry_callbacks, allocator);
-   mulle_map_init( &_pairRegistry,    128, &pair_registry_callbacks, allocator);
+   _mulle_map_init( &_observerRegistry, 64, &observer_registry_callbacks, allocator);
+   _mulle_map_init( &_nameRegistry,      5, &name_registry_callbacks, allocator);
+   _mulle_map_init( &_senderRegistry,    5, &sender_registry_callbacks, allocator);
+   _mulle_map_init( &_pairRegistry,    128, &pair_registry_callbacks, allocator);
 
    if( mulle_thread_mutex_init( &_lock))
    {
@@ -549,7 +549,7 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
    triplet_queue = mulle_map_get( table, key);
    if( ! triplet_queue)
    {
-      triplet_queue = _mulle__pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
+      triplet_queue = mulle__pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
       mulle_map_insert( table, key, triplet_queue);
    }
    _mulle__pointerqueue_push( triplet_queue, triplet, allocator);
@@ -610,7 +610,7 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
       pair_queue = mulle_map_get( &_observerRegistry, observer);
       if( ! pair_queue)
       {
-         pair_queue = _mulle__pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
+         pair_queue = mulle__pointerqueue_create( QUEUE_BUCKETSIZE, 0, allocator);  // spare allowance MUST be zero
          mulle_map_insert( &_observerRegistry, observer, pair_queue);
       }
       _mulle__pointerqueue_push( pair_queue, pair, allocator);
@@ -750,10 +750,10 @@ static void   removePairFromQueues( NSNotificationCenter *self,
       {
          allocator  = mulle_map_get_allocator( &self->_observerRegistry);
          bucketsize = _mulle__pointerqueue_get_bucketsize( pair_queue);
-         new_queue  = _mulle__pointerqueue_create( bucketsize, 0, allocator);
+         new_queue  = mulle__pointerqueue_create( bucketsize, 0, allocator);
 
          rover = mulle__pointerqueue_enumerate( pair_queue);
-         while( pair = _mulle__pointerqueueenumerator_next( &rover))
+         while( _mulle__pointerqueueenumerator_next( &rover, (void **) &pair))
          {
             if( (sender && sender != pair->sender) ||
                 (name && ! (name == pair->name || [name isEqualToString:pair->name])))
@@ -808,7 +808,7 @@ BOOL   NSNotificationCenterObserverStillPresentInQueue( NSNotificationCenter *se
          // need to copy, to allow modifications
          //
          rover = mulle__pointerqueue_enumerate( queue);
-         while( p = _mulle__pointerqueueenumerator_next( &rover))
+         while( _mulle__pointerqueueenumerator_next( &rover, (void **) &p))
          {
             if( p->observer == observer)
             {
@@ -866,7 +866,7 @@ static void
 
             i = 0;
             rover = mulle__pointerqueue_enumerate( queue);
-            while( p = _mulle__pointerqueueenumerator_next( &rover))
+            while( _mulle__pointerqueueenumerator_next( &rover, (void **) &p))
             {
                buf[ i] = *p;
                [[buf[ i].observer retain] autorelease];  // observer pointer remains stable

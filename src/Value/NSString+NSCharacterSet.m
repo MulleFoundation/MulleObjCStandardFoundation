@@ -1,9 +1,9 @@
 //
-//  NSMutableString.m
-//  MulleObjCValueFoundation
+//  NSString+NSCharacterSet.m
+//  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2011 Codeon GmbH.
+//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,54 +33,65 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSMutableString+Search.h"
+
+#import "NSString+NSCharacterSet.h"
 
 // other files in this library
+#import "NSCharacterSet.h"
 #import "NSString+Search.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 #import "import-private.h"
-#include <ctype.h>
 
 
-@implementation NSMutableString( Search)
+// what's the point of this warning, anyway ?
+#pragma clang diagnostic ignored "-Wparentheses"
+#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
 
-- (void) replaceOccurrencesOfString:(NSString *) s
-                         withString:(NSString *) replacement
-                            options:(NSStringCompareOptions) options
-                              range:(NSRange) range
+
+// other libraries of MulleObjCStandardFoundation
+
+// std-c and dependencies
+
+@implementation NSString (NSCharacterSet)
+
+- (NSString *) stringByTrimmingCharactersInSet:(NSCharacterSet *) set
 {
-   NSRange      found;
-   NSUInteger   r_length;
-   NSUInteger   end;
+   NSRange   startRange;
+   NSRange   endRange;
+   NSRange   range;
+   NSRange   originalRange;
 
-   range = MulleObjCValidateRangeAgainstLength( range, _length);
+   originalRange = NSMakeRange( 0, [self length]);
 
-   r_length = [replacement length];
-   options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;
+   startRange = [self mulleRangeOfCharactersFromSet:set
+                                            options:0
+                                              range:originalRange];
+   endRange   = [self mulleRangeOfCharactersFromSet:set
+                                            options:NSBackwardsSearch
+                                              range:originalRange];
 
-   for(;;)
+   if( startRange.length)
    {
-      found = [self rangeOfString:s
-                          options:options
-                            range:range];
-      if( ! found.length)
-         return;
-
-      [self replaceCharactersInRange:found
-                          withString:replacement];
-
-      // mover over to end for next check
-      end             = range.location + range.length;
-      range.location  = found.location + found.length;
-      range.length    = end - range.location;
-
-      // adjust for change in length due to replacement
-      range.location += r_length - found.length;
+      range.location = startRange.length;
+      if( endRange.length)
+         range.length = endRange.location;
+      else
+         range.length = originalRange.length - range.location;
    }
+   else
+   {
+      if( ! endRange.length)
+         return( self);
+
+      range.location = 0;
+      range.length   = endRange.location;
+   }
+   return( [self substringWithRange:range]);
 }
 
 @end
+

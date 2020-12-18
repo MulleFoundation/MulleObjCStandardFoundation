@@ -85,7 +85,10 @@ SOFTWARE. */
 //+localizedScannerWithString:(NSString *)string;
 
 - (instancetype) initWithString:(NSString *)string;
-- (NSString *) string;  // it's an id so the type doesn't conflict with +[NSString string]
+
+// Conflicts by type with +[NSString string], this will be solved eventually
+// but not now
+- (NSString *) string;
 
 - (BOOL) isAtEnd;
 

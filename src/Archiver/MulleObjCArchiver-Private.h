@@ -36,7 +36,7 @@
 
 #import "NSArchiver.h"
 
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 //
 // this is all static inline to share code w/o littering the namespace
@@ -57,7 +57,7 @@ static inline  uintptr_t   blob_hash( struct mulle_container_keycallback *ignore
    len = blob->_length;
    if( len > 256)
       len = 256;
-   return( mulle_hash( blob->_storage, len));
+   return( mulle_data_hash( mulle_data_make( blob->_storage, len)));
 }
 
 
@@ -89,35 +89,37 @@ static inline char   *blob_describe( struct mulle_container_keycallback *ignore,
 #pragma mark - MulleObjCPointerHandleMap
 
 
-
+MULLE_C_NONNULL_FIRST_THIRD
 static inline void   MulleObjCPointerHandleMapInit( struct MulleObjCPointerHandleMap *map,
                                                     unsigned int capacity,
                                                     struct mulle_container_keyvaluecallback *callback,
                                                     struct mulle_allocator *allocator)
 {
-   mulle_map_init( &map->map, capacity, callback, allocator);
-   _mulle_pointerarray_init( &map->array, capacity, NULL, allocator);
+   _mulle_map_init( &map->map, capacity, callback, allocator);
+   _mulle_pointerarray_init( &map->array, capacity, allocator);
 }
 
 
+MULLE_C_NONNULL_FIRST
 static inline void   MulleObjCPointerHandleMapDone( struct MulleObjCPointerHandleMap *map)
 {
-   mulle_map_done( &map->map);
+   _mulle_map_done( &map->map);
    _mulle_pointerarray_done( &map->array);
 }
 
 
+MULLE_C_NONNULL_FIRST
 static inline intptr_t  MulleObjCPointerHandleMapGetOrAdd( struct MulleObjCPointerHandleMap *map,
                                                            void *p)
 {
    intptr_t   handle;
 
-   handle = (intptr_t) mulle_map_get( &map->map, p);
+   handle = (intptr_t) _mulle_map_get( &map->map, p);
    if( handle)
       return( handle);
 
-   handle      = mulle_map_get_count( &map->map) + 1;
-   mulle_map_set( &map->map, p, (void *) handle);
+   handle      = _mulle_map_get_count( &map->map) + 1;
+   _mulle_map_set( &map->map, p, (void *) handle);
    _mulle_pointerarray_add( &map->array, p);
 
    return( handle);

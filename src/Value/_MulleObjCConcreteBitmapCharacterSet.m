@@ -1,5 +1,5 @@
 //
-//  NSString+NSCharacterSet.m
+//  _MulleObjCConcreteBitmapCharacterSet.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -34,64 +34,88 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSString+NSCharacterSet.h"
+#import "_MulleObjCConcreteBitmapCharacterSet.h"
 
 // other files in this library
-#import "NSCharacterSet.h"
-#import "NSString+Search.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationException.h"
-
-// std-c and dependencies
-#import "import-private.h"
-
-
-// what's the point of this warning, anyway ?
-#pragma clang diagnostic ignored "-Wparentheses"
-#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
-
-
-// other libraries of MulleObjCStandardFoundation
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 
-@implementation NSString (NSCharacterSet)
 
-- (NSString *) stringByTrimmingCharactersInSet:(NSCharacterSet *) set
+@implementation _MulleObjCConcreteBitmapCharacterSet
+
+
++ (instancetype) newWithBitmapRepresentation:(NSData *) data
 {
-   NSRange   startRange;
-   NSRange   endRange;
-   NSRange   range;
-   NSRange   originalRange;
+   _MulleObjCConcreteBitmapCharacterSet   *obj;
+   struct mulle_allocator                 *allocator;
 
-   originalRange = NSMakeRange( 0, [self length]);
-
-   startRange = [self mulleRangeOfCharactersFromSet:set
-                                            options:0
-                                              range:originalRange];
-   endRange   = [self mulleRangeOfCharactersFromSet:set
-                                            options:NSBackwardsSearch
-                                              range:originalRange];
-
-   if( startRange.length)
+   obj       = NSAllocateObject( self, 0, NULL);
+   allocator = MulleObjCInstanceGetAllocator( obj);
+   if( MulleObjCCharacterBitmapInitWithBitmapRepresentation( &obj->_bitmap, data, allocator))
    {
-      range.location = startRange.length;
-      if( endRange.length)
-         range.length = endRange.location;
-      else
-         range.length = originalRange.length - range.location;
+      [obj release];
+      return( nil);
    }
+   return( obj);
+}
+
+
++ (instancetype) newWithString:(NSString *) s
+{
+   _MulleObjCConcreteBitmapCharacterSet   *obj;
+
+   obj = NSAllocateObject( self, 0, NULL);
+   MulleObjCCharacterBitmapSetBitsWithString( &obj->_bitmap, s, MulleObjCInstanceGetAllocator( obj));
+
+   return( obj);
+}
+
+
+- (void) dealloc
+{
+   MulleObjCCharacterBitmapFreePlanes( &self->_bitmap, MulleObjCInstanceGetAllocator( self));
+
+   [super dealloc];
+}
+
+
+- (BOOL) characterIsMember:(unichar) c
+{
+   int   bit;
+
+   if( c >= 0x110000)
+      return( NO);
+
+   bit = MulleObjCCharacterBitmapGetBit( &self->_bitmap, c);
+   return( bit);
+}
+
+
+- (BOOL) hasMemberInPlane:(NSUInteger) plane
+{
+   if( plane >= 0x11)
+      return( NO);
+
+   return( _bitmap.planes[ plane] != NULL);
+}
+
+
+- (void) mulleGetBitmapBytes:(unsigned char *) bytes
+                       plane:(NSUInteger) plane
+{
+   if( ! bytes)
+      MulleObjCThrowInvalidArgumentException( @"empty bytes");
+   if( plane >= 0x11
+)
+      MulleObjCThrowInvalidArgumentException( @"excessive plane index");
+
+   if( _bitmap.planes[ plane])
+      memcpy( bytes, _bitmap.planes[ plane], 8192);
    else
-   {
-      if( ! endRange.length)
-         return( self);
-
-      range.location = 0;
-      range.length   = endRange.location;
-   }
-   return( [self substringWithRange:range]);
+      memset( bytes, 0, 8192);
 }
 
 @end
-

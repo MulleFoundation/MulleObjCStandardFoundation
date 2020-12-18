@@ -18,7 +18,7 @@
 //
 int main( int argc, const char * argv[])
 {
-   [[NSCharacterSet letterCharacterSet] mullePrintBitmapData:stdout];
+   printf( "%s", [[[NSCharacterSet letterCharacterSet] mulleTestDescription] UTF8String]);
 
    return( 0);
 }

@@ -41,9 +41,9 @@
 #include "mulle_buffer_archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationException.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardExceptionFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 // std-c and dependencies
 
@@ -194,8 +194,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 }
 
 
-# pragma mark -
-# pragma mark conveniences
+# pragma mark - conveniences
 
 + (NSData *) archivedDataWithRootObject:(id) rootObject
 {
@@ -220,8 +219,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 }
 
-# pragma mark -
-# pragma mark accessor
+# pragma mark - accessor
 
 - (NSMutableData *) archiverData
 {
@@ -240,8 +238,7 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 }
 
 
-# pragma mark -
-# pragma mark output
+# pragma mark - output
 
 - (void) _appendBytes:(void *) bytes
                length:(size_t) len
@@ -528,10 +525,10 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 - (void) _appendObjectTable
 {
-   id             obj;
-   unsigned int   i, n;
-   size_t         offset;
    Class          cls;
+   id             obj;
+   size_t         offset;
+   unsigned int   i, n;
 
    mulle_buffer_add_bytes( &_buffer, "**obj**", 8);
 
@@ -585,9 +582,9 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
 
 - (void) _appendSelectorTable
 {
+   char           *name;
    SEL            sel;
    unsigned int   i, n;
-   char           *name;
 
    mulle_buffer_add_bytes( &_buffer, "**sel**", 8);
 
@@ -595,14 +592,15 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
    mulle_buffer_add_integer( &_buffer, n);
    for( i = 0; i < n; i++)
    {
-      sel = (SEL) _mulle_pointerarray_get( &_selectors.array, i);
+      sel = (SEL)(intptr_t) _mulle_pointerarray_get( &_selectors.array, i);
 
       // get name for selector
       name = mulle_objc_universe_lookup_methodname( MulleObjCObjectGetUniverse( self),
                                                     (mulle_objc_methodid_t) sel);
       if( ! name)
          [NSException raise:NSInconsistentArchiveException
-                     format:@"can't archive selector \"%p\" that is not registered in the runtime", sel];
+                     format:@"can't archive selector \"%p\" that is "
+                             "not registered in the runtime", sel];
       [self _appendCString:name];
    }
 }
@@ -624,7 +622,6 @@ NSString  *NSInvalidArchiveOperationException = @"NSInvalidArchiveOperationExcep
       mulle_buffer_add_bytes( &_buffer, str->_storage, str->_length);
    }
 }
-
 
 
 #pragma mark - hackish

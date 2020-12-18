@@ -37,15 +37,15 @@
 #import "import.h"
 
 // keep this in sync with MULLE_OBJC_VERSION, else pain! (why ?)
-#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   ((0 << 20) | (17 << 8) | 2)
+#define MULLE_OBJC_STANDARD_FOUNDATION_VERSION   ((0 << 20) | (18 << 8) | 0)
 
 #import "MulleObjCFoundationCore.h"
 
-#import "MulleObjCStandardFoundationArchiver.h"
-#import "MulleObjCStandardFoundationLocale.h"
-#import "MulleObjCStandardFoundationNotification.h"
-#import "MulleObjCStandardFoundationPropertyList.h"
-#import "MulleObjCStandardFoundationUndo.h"
+#import "MulleObjCStandardArchiverFoundation.h"
+#import "MulleObjCStandardLocaleFoundation.h"
+#import "MulleObjCStandardNotificationFoundation.h"
+#import "MulleObjCStandardPropertyListFoundation.h"
+#import "MulleObjCStandardUndoFoundation.h"
 
 
 #import "MulleObjCLoader+MulleObjCStandardFoundation.h"

@@ -39,7 +39,7 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 
 // std-c and dependencies
@@ -89,9 +89,10 @@ NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
 }
 
 
-NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
-                                                               SEL sel,
-                                                               struct MulleObjCObjectContainerDescriptionInfo *info)
+NSString   *
+   MulleObjCKeyValueContainerDescriptionWithSelector( id self,
+                                                      SEL sel,
+                                                      struct MulleObjCObjectContainerDescriptionInfo *info)
 {
    id                value;
    NSArray           *keys;
@@ -99,6 +100,7 @@ NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
    NSMutableString   *s;
    NSString          *key;
    NSString          *line;
+   NSString          *keyString;
    NSString          *valueString;
    NSUInteger        count;
    NSUInteger        i;
@@ -117,7 +119,8 @@ NSString   *MulleObjCKeyValueContainerDescriptionWithSelector( id self,
       [s appendString:@"    "]; // 4 spaces for MulleScion tests
 
       /**/
-      [s appendString:[key performSelector:sel]];
+      keyString   = [key performSelector:sel];
+      [s appendString:keyString];
       [s appendString:@" = "];
 
       valueString = [value performSelector:sel];

@@ -126,7 +126,7 @@ int   main( int argc, const char * argv[])
       }
       @catch( NSException *localException)
       {
-         printf( "Exception: %s", [[localException description] UTF8Data]);
+         printf( "Exception: %s", [[localException description] UTF8String]);
          return( 1);
       }
 

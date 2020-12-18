@@ -16,7 +16,7 @@
 #import "NSDateFormatter.h"
 
 //
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 

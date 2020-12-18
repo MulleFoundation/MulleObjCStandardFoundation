@@ -36,7 +36,7 @@
 
 #import "NSDictionary+NSLocale.h"
 
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 
 

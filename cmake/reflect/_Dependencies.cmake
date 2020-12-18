@@ -8,7 +8,7 @@ endif()
 
 #
 # Generated from sourcetree: MulleObjCValueFoundation;no-singlephase;
-# Disable with: `mulle-sourcetree mark MulleObjCValueFoundation no-link`
+# Disable with: `mulle-sourcetree mark MulleObjCValueFoundation no-header`
 #
 if( NOT MULLE_OBJC_VALUE_FOUNDATION_LIBRARY)
    find_library( MULLE_OBJC_VALUE_FOUNDATION_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCValueFoundation${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjCValueFoundation NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
@@ -93,7 +93,7 @@ endif()
 
 #
 # Generated from sourcetree: MulleObjCContainerFoundation;no-singlephase;
-# Disable with: `mulle-sourcetree mark MulleObjCContainerFoundation no-link`
+# Disable with: `mulle-sourcetree mark MulleObjCContainerFoundation no-header`
 #
 if( NOT MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY)
    find_library( MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCContainerFoundation${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjCContainerFoundation NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)

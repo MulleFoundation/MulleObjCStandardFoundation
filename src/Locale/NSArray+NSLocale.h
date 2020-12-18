@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardContainerFoundation.h"
 
 @class NSLocale;
 

@@ -40,8 +40,8 @@
 
 // other libraries of MulleObjCStandardFoundation
 #import "import.h"
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 // std-c and dependencies
 

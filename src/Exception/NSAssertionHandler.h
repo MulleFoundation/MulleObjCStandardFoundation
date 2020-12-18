@@ -73,8 +73,7 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
                                                 NSString *format, ...);
 
 
-# pragma mark -
-# pragma mark various assert helpers
+# pragma mark - various assert helpers
 
 #ifndef NS_BLOCK_ASSERTIONS
 

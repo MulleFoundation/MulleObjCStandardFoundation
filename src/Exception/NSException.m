@@ -43,7 +43,7 @@
 #import <MulleObjC/private/mulle-objc-universefoundationinfo-private.h>
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 // std-c and dependencies
 
@@ -168,8 +168,7 @@ void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *ta
 
 
 
-# pragma mark -
-# pragma mark conveniences
+# pragma mark - conveniences
 
 + (void) raise:(NSString *) name
         format:(NSString *) format, ...
@@ -217,8 +216,7 @@ mulleVarargList:(mulle_vararg_list) arguments
    [exception raise];
 }
 
-# pragma mark -
-# pragma mark init/dealloc
+# pragma mark - init/dealloc
 
 + (NSException *) exceptionWithName:(NSString *) name
                              reason:(NSString *) reason
@@ -260,8 +258,7 @@ mulleVarargList:(mulle_vararg_list) arguments
 }
 
 
-# pragma mark -
-# pragma mark petty accessors
+# pragma mark - petty accessors
 
 - (NSString *) name
 {

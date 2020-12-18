@@ -33,16 +33,16 @@ static void  check( NSString *s, char *buf, size_t len)
 
 int main( int argc, const char * argv[])
 {
-   auto char   buf[ 1024];
+   auto char   buf[ 1024];  // 1024
    NSString    *s;
    int         i;
 
-
    memset( buf, 0, sizeof( buf));
+/*
    s = [NSString stringWithUTF8String:buf];
    check( s, buf, 0);
-
-   for( i = 1; i < 1023; i++)
+*/
+   for( i = 1; i < sizeof( buf) - 1; i++)
    {
       buf[ i - 1] = ' ' + (i & 0x5F);
 
@@ -50,7 +50,6 @@ int main( int argc, const char * argv[])
       {
          s = [NSString stringWithUTF8String:buf];
          check( s, buf, i);
-
          if( i >= 2)
          {
             s = [s substringWithRange:NSMakeRange( 1, i - 2)];

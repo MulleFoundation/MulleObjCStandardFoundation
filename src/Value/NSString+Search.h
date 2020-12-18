@@ -99,6 +99,10 @@ struct MulleStringCharacterFunctions
 //
 - (NSString *) mulleDecapitalizedString;
 
+//
+// match until a character matches no more
+// so "bbaa" should return range of bb for set of 'b'
+//
 - (NSRange) mulleRangeOfCharactersFromSet:(NSCharacterSet *) set
                                   options:(NSStringCompareOptions) options
                                     range:(NSRange) range;

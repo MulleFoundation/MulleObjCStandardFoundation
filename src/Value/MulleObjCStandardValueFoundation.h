@@ -1,5 +1,5 @@
 //
-//  MulleObjCStandardFoundationException.h
+//  MulleObjCFoundationString.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -33,13 +33,24 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "import.h"
 // export everything with NS
 
-#import "NSAssertionHandler.h"
-#import "NSError.h"
-#import "NSException.h"
+#import "NSCharacterSet.h"
+#import "NSScanner.h"
+#import "NSFormatter.h"
 
-// export everything with MulleObjC
+#import "NSMutableCharacterSet.h"
+
+#import "NSData+Components.h"
+#import "NSString+Components.h"
+#import "NSString+Escaping.h"
+#import "NSString+NSCharacterSet.h"
+#import "NSString+Search.h"
+
+#import "NSMutableString+Search.h"
 
 
-// export nothing with _MulleObjC
+#if MULLE_UTF_VERSION < ((0 << 20) | (4 << 8) | 0)
+# error "mulle_utf is too old"
+#endif

@@ -37,7 +37,7 @@
 
 #import "NSException.h"
 
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 
 @implementation NSNotification

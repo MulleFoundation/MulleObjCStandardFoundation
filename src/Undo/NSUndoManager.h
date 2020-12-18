@@ -74,15 +74,15 @@ enum _NSUndoManagerState
 
 @end
 
-NSString   *NSUndoManagerCheckpointNotification;
+extern NSString   *NSUndoManagerCheckpointNotification;
 
-NSString   *NSUndoManagerDidCloseUndoGroupNotification;
-NSString   *NSUndoManagerDidOpenUndoGroupNotification;
-NSString   *NSUndoManagerWillCloseUndoGroupNotification;
+extern NSString   *NSUndoManagerDidCloseUndoGroupNotification;
+extern NSString   *NSUndoManagerDidOpenUndoGroupNotification;
+extern NSString   *NSUndoManagerWillCloseUndoGroupNotification;
 
-NSString   *NSUndoManagerDidRedoChangeNotification;
-NSString   *NSUndoManagerWillRedoChangeNotification;
+extern NSString   *NSUndoManagerDidRedoChangeNotification;
+extern NSString   *NSUndoManagerWillRedoChangeNotification;
 
-NSString   *NSUndoManagerDidUndoChangeNotification;
-NSString   *NSUndoManagerWillUndoChangeNotification;
+extern NSString   *NSUndoManagerDidUndoChangeNotification;
+extern NSString   *NSUndoManagerWillUndoChangeNotification;
 

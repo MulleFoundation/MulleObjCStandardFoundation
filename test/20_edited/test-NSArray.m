@@ -851,7 +851,10 @@ static void   test_i_index_of_object_identical_to_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [obj indexOfObjectIdenticalTo:params_1[ i_1]];
-         printf( "%llu\n", value);
+         if( value == NSNotFound)
+            printf( "NSNotFound\n");
+         else
+            printf( "%llu\n", value);
       }
       [obj release];
    }
@@ -939,7 +942,10 @@ static void   test_i_index_of_object_identical_to_in_range_()
             {
                value = [obj indexOfObjectIdenticalTo:params_1[ i_1]
                             inRange:params_2[ i_2]];
-               printf( "%llu\n", value);
+               if( value == NSNotFound)
+                  printf( "NSNotFound\n");
+               else
+                  printf( "%llu\n", value);
             }
             @catch( NSException *localException)
             {
@@ -1125,7 +1131,10 @@ static void   test_i_index_of_object_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [obj indexOfObject:params_1[ i_1]];
-         printf( "%llu\n", value);
+         if( value == NSNotFound)
+            printf( "NSNotFound\n");
+         else
+            printf( "%llu\n", value);
       }
       [obj release];
    }
@@ -1410,11 +1419,14 @@ static void   test_i_index_of_object_in_range_()
          {
             @try
             {
-               other = [obj :params_1[ i_1]];
-               printf( "%s\n", [other cStringDescription]);
-               value = [obj indexOfObject:params_1[ i_1]
+               other = params_1[ i_1];
+               printf( "%s\n", other ? [other cStringDescription] : "*nil*");
+               value = [obj indexOfObject:other
                                   inRange:params_2[ i_2]];
-               printf( "%llu\n", value);
+               if( value == NSNotFound)
+                  printf( "NSNotFound\n");
+               else
+                  printf( "%llu\n", value);
             }
             @catch( NSException *localException)
             {
@@ -1557,7 +1569,7 @@ static void   test_i_description_with_locale_()
 }
 
 /*
-static void   test_i_property_list_utf8_data_to_stream_indent_()
+static void   test_i_property_list_utf8data_to_stream_indent_()
 {
    printf( "%s\n", __PRETTY_FUNCTION__);
 
@@ -1659,7 +1671,7 @@ int   main( int argc, char *argv[])
    run_test( test_i_mutable_copy);
    run_test( test_i_description_with_locale_indent_);
    run_test( test_i_description_with_locale_);
-//   run_test( test_i_property_list_utf8_data_to_stream_indent_);
+//   run_test( test_i_property_list_utf8data_to_stream_indent_);
    // universe should not leak check now
    mulle_testallocator_cancel();  // will
 

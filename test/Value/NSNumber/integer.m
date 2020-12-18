@@ -7,6 +7,7 @@
 #include <limits.h>
 #include <float.h>
 
+// #define FLOAT_VALGRIND_PROBLEM
 
 #ifndef LONG_LONG_MAX
 # define LONG_LONG_MAX   ((long long) (~0ULL >> 1))
@@ -39,10 +40,14 @@ void   check_long_long( NSNumber *value, long long expect)
 
 void   check_double( NSNumber *value, double expect)
 {
+#ifndef FLOAT_VALGRIND_PROBLEM
    print_bool( "integerValue", [value integerValue] == (NSInteger) expect);
    print_bool( "longLongValue", [value longLongValue] == (long long) expect);
+#endif
    print_bool( "floatValue", [value floatValue] == (float) expect);
+#ifndef FLOAT_VALGRIND_PROBLEM
    print_bool( "doubleValue", [value doubleValue] == (double) expect);
+#endif
 }
 
 
@@ -50,6 +55,7 @@ main()
 {
    NSNumber   *value;
 
+#ifndef FLOAT_VALGRIND_PROBLEM
    printf( "bool\n");
    value = [NSNumber numberWithBool:YES];
    check_long_long( value, YES);
@@ -130,11 +136,13 @@ main()
    check_long_long( value, NSIntegerMax);
    value = [NSNumber numberWithUnsignedInteger:NSIntegerMin];
    check_long_long( value, NSIntegerMin);
-
+#endif
 
    printf( "\nfloat\n");
    value = [NSNumber numberWithFloat:FLT_MAX];
    check_double( value, FLT_MAX);
+
+#ifndef FLOAT_VALGRIND_PROBLEM
    value = [NSNumber numberWithFloat:FLT_MIN];
    check_double( value, FLT_MIN);
 
@@ -143,5 +151,5 @@ main()
    check_double( value, DBL_MAX);
    value = [NSNumber numberWithDouble:DBL_MIN];
    check_double( value, DBL_MIN);
-
+#endif
 }

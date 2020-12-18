@@ -171,18 +171,30 @@ void   MulleObjCUTF8StreamReaderFailV( MulleObjCUTF8StreamReader *_self,
                                        va_list args)
 {
    struct { @defs( MulleObjCUTF8StreamReader); }  *self = (void *) _self;
-
-   NSString   *prefixed;
+   NSString     *prefixed;
+   NSString     *description;
+   NSUInteger   errorHandling;
 
    prefixed = [NSString stringWithFormat:@"error:%ld:%@", self->_lineNr, format];
-   if( ! [_self throwsException])
-      [_self logFailure:prefixed
-              arguments:args];
-   else
+
+   errorHandling = [_self errorHandling];
+   if( errorHandling == MulleObjCThrowsException)
       [NSException raise:@"MulleObjCUTF8StreamReaderException"
                   format:prefixed
                arguments:args];
-}
+
+   if( errorHandling >= MulleObjCSetsAndLogsError)
+      [_self logFailure:prefixed
+              arguments:args];
+
+   if( errorHandling < MulleObjCSetsError)
+   {
+      description = [NSString stringWithFormat:prefixed
+                                     arguments:args];
+      [NSError mulleSetGenericErrorWithDomain:@"MulleObjCUTF8StreamReader"
+                         localizedDescription:description];
+   }
+ }
 
 
 // written like it belonged to +InlineAccessors.h

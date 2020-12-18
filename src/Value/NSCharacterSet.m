@@ -362,7 +362,7 @@ static inline void    _mulle__buffer_add_unichar( struct mulle__buffer *buffer,
 {
    unsigned char   *p;
 
-   if( _mulle__buffer_guarantee( buffer, 4, allocator))
+   if( ! _mulle__buffer_guarantee( buffer, 4, allocator))
       return;
 
    p = (unsigned char *) &c;
@@ -399,9 +399,10 @@ static NSString *
    unichar                  c;
    unichar                  *characters;
    size_t                   length;
+   struct mulle_data        data;
 
    allocator = MulleObjCClassGetAllocator( [NSString class]);
-   mulle_buffer_init( &buffer, allocator);
+   mulle_buffer_init_with_capacity( &buffer, 8192, allocator);
 
    bitmap = mulle_malloc( 8192);
    for( i = 0; i < 0x11; i++)
@@ -410,7 +411,7 @@ static NSString *
          continue;
 
       [self mulleGetBitmapBytes:bitmap
-                     plane:i];
+                          plane:i];
 
       for( j = 0; j < 8192; j++)
       {
@@ -433,12 +434,12 @@ static NSString *
    }
    mulle_free( bitmap);
 
-   length     = mulle_buffer_get_length( &buffer) / sizeof( unichar);
-   characters = mulle_buffer_extract_all( &buffer);
+   mulle_buffer_size_to_fit( &buffer);
+   data = mulle_buffer_extract_data( &buffer);
    mulle_buffer_done( &buffer);
 
-   return( [NSString mulleStringWithCharactersNoCopy:characters
-                                              length:length
+   return( [NSString mulleStringWithCharactersNoCopy:data.bytes
+                                              length:data.length / sizeof( unichar)
                                            allocator:allocator]);
 }
 

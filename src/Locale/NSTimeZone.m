@@ -39,8 +39,8 @@
 #import "_MulleGMTTimeZone-Private.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 // std-c and dependencies
 
 

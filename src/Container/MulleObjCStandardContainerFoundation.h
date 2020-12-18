@@ -1,9 +1,9 @@
 //
-//  NSFormatter.m
+//  MulleObjCStandardContainerFoundation.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2011 Codeon GmbH.
+//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,55 +33,14 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSFormatter.h"
+#import "MulleObjCContainerDescription.h"
 
-// other files in this library
+#import "NSSortDescriptor.h"
 
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationString.h"
+#import "NSArray+NSString.h"
+#import "NSArray+NSSortDescriptor.h"
+#import "NSSet+NSString.h"
+#import "NSSortDescriptor+NSCoder.h"
 
-// std-c and dependencies
-
-
-
-@implementation NSFormatter
-
-- (NSString *) editingStringForObjectValue:(id) obj
-{
-   return( [obj description]);
-}
-
-
-- (BOOL) getObjectValue:(id *) obj
-              forString:(NSString *) s
-       errorDescription:(NSString **) error
-{
-   return( NO);
-}
-
-
-- (BOOL) isPartialStringValid:(NSString *) s
-             newEditingString:(NSString **) newString
-             errorDescription:(NSString **) error
-{
-   return( NO);
-}
-
-
-- (BOOL) isPartialStringValid:(NSString **) s_p
-        proposedSelectedRange:(NSRange *) range_p
-               originalString:(NSString *) origString
-        originalSelectedRange:(NSRange) origSelRange
-             errorDescription:(NSString **) error
-{
-   *error = NULL;
-   return( NO);
-}
-
-
-- (NSString *) stringForObjectValue:(id) obj
-{
-   return( [obj description]);
-}
-
-@end
+#import "NSHashTable+NSArray+NSString.h"
+#import "NSMapTable+NSArray+NSString.h"

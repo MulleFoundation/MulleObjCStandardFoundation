@@ -40,7 +40,7 @@
 #import "NSString+PropertyListPrinting.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationLocale.h"
+#import "MulleObjCStandardLocaleFoundation.h"
 
 // private classes of MulleObjCValueFoundation
 #import <MulleObjCValueFoundation/_MulleObjCConcreteNumber.h>
@@ -123,12 +123,12 @@
 static void   printNumberToStream( NSNumber *self, id <MulleObjCOutputStream> handle)
 {
    char                      tmp[ 64];
-   struct mulle_ascii_data   data;
-   struct mulle_ascii_data   string;
+   struct mulle_asciidata   data;
 
-   string = [self _mulleConvertToASCIICharacters:mulle_ascii_data_make( tmp, sizeof( tmp))];
-   [handle mulleWriteBytes:string.characters
-                    length:string.length];
+   data = mulle_asciidata_make( tmp, sizeof( tmp));
+   [self _mulleConvertToASCIICharacters:&data];
+   [handle mulleWriteBytes:data.characters
+                    length:data.length];
 }
 
 

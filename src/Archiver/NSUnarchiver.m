@@ -41,9 +41,9 @@
 #include "mulle_buffer_archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationException.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardExceptionFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 // std-c and dependencies
 

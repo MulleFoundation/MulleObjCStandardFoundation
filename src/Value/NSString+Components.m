@@ -48,8 +48,8 @@
 
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and other dependencies
 #import "import-private.h"
@@ -98,6 +98,81 @@ static unichar   UTF32NextCharacter( void **p)
 }
 
 
+static void
+   _mulleDataSeparateComponentsByCharacter( struct mulle_data  data,
+                                            unichar (*nextCharacter)( void **),
+                                            unichar sepChar,
+                                            struct mulle__pointerqueue *pointers)
+{
+   unichar   c;
+   void      *p;
+   void      *sentinel;
+
+   sentinel = &((char *) data.bytes)[ data.length];
+   for( p = data.bytes; p < sentinel;)
+   {
+      c = (*nextCharacter)( &p);
+      if( c != sepChar)
+         continue;
+
+      _mulle__pointerqueue_push( pointers, p, NULL);
+   }
+}
+
+
+
+static NSUInteger
+   _mulleDataSeparateComponentsByUTF32Data( struct mulle_data  data,
+                                            unichar (*nextCharacter)( void **),
+                                            struct mulle_utf32data sepData,
+                                            struct mulle__pointerqueue *pointers)
+{
+   NSUInteger   remain;
+   unichar      *q;
+   unichar      c;
+   unichar      d;
+   void         *memo;
+   void         *p;
+   void         *sentinel;
+
+   if( ! sepData.length)
+      return( 0);
+
+   sentinel = &((char *) data.bytes)[ data.length];
+   // Degenerate case @"." -> ( @"", @"")
+
+   remain = sepData.length;
+   memo   = data.bytes;      // unused, but compilers...
+   q      = sepData.characters;
+
+   for( p = data.bytes; p < sentinel;)
+   {
+      c = (*nextCharacter)( &p);
+      d = *q++;
+
+      // dial back to first char after first char match, if fails
+      if( remain == sepData.length)
+         memo = p;
+
+      if( c == d)
+      {
+         if( --remain)
+            continue;
+
+         // matched whole string
+         // memorize that
+         _mulle__pointerqueue_push( pointers, p, NULL);
+      }
+      else
+         p = memo;
+
+      remain = sepData.length;
+      q      = sepData.characters;
+   }
+
+   return( sepData.length);
+}
+
 
 static NSUInteger
    _mulleDataSeparateComponentsByString( struct mulle_data  data,
@@ -106,43 +181,25 @@ static NSUInteger
                                          struct mulle__pointerqueue *pointers)
 {
    mulle_utf32_t             sepChar;
-   NSUInteger                remain;
-   NSUInteger                sepLen;
-   struct mulle_utf32_data   sepData;
-   unichar                   *q;
-   unichar                   c;
-   unichar                   d;
-   unichar                   space[ 32];
-   void                      *memo;
-   void                      *p;
-   void                      *sentinel;
+   mulle_utf32_t             space[ 32];
+   NSUInteger                rval;
+   struct mulle_utf32data   sepData;
 
    sepData.length = [separator length];
    if( ! sepData.length)
       return( 0);
 
-   sentinel = &((char *) data.bytes)[ data.length];
-   // Degenerate case @"." -> ( @"", @"")
-
-   // simpler algorithm, if m is just a character
-   sepData.length = [separator length];
    if( sepData.length == 1)
    {
-      sepChar = [separator characterAtIndex:0];
-      for( p = data.bytes; p < sentinel;)
-      {
-         c = (*nextCharacter)( &p);
-         if( c != sepChar)
-            continue;
-
-         _mulle__pointerqueue_push( pointers, p, NULL);
-      }
-
+      _mulleDataSeparateComponentsByCharacter( data,
+                                               nextCharacter,
+                                               [separator characterAtIndex:0],
+                                               pointers);
       // hackish
       if( nextCharacter == UTF8NextCharacter)
-         sepLen = -1;
+         rval = [separator mulleUTF8StringLength];
       else
-         sepLen = 1;
+         rval = 1;
    }
    else
    {
@@ -152,45 +209,19 @@ static NSUInteger
          sepData.characters = mulle_malloc( sizeof( unichar) * sepData.length);
       [separator getCharacters:sepData.characters];
 
-      remain = sepData.length;
-      memo   = data.bytes;      // unused, but compilers...
-      q      = sepData.characters;
-
-      // hackish
-      if( nextCharacter == UTF8NextCharacter)
-         sepLen = [separator mulleUTF8StringLength];
-      else
-         sepLen = sepData.length;
-
-      for( p = data.bytes; p < sentinel;)
-      {
-         c = (*nextCharacter)( &p);
-         d = *q++;
-         // dial back to first char after first char match, if fails
-         if( remain == sepData.length)
-            memo = p;
-
-         if( c == d)
-         {
-            if( --remain)
-               continue;
-
-            // matched whole string
-            // memorize that
-            _mulle__pointerqueue_push( pointers, p, NULL);
-         }
-         else
-            p = memo;
-
-         remain = sepData.length;
-         q      = sepData.characters;
-      }
+      rval =_mulleDataSeparateComponentsByUTF32Data( data, nextCharacter, sepData, pointers);
 
       if( sepData.characters != space)
          mulle_free( sepData.characters);
+
+      // hackish
+      if( nextCharacter == UTF8NextCharacter)
+         rval = [separator mulleUTF8StringLength];
    }
-   return( sepLen);
+
+   return( rval);
 }
+
 
 
 static void
@@ -238,7 +269,7 @@ static void
 @implementation _MulleObjCTaggedPointerChar7String( Components)
 
 static id
-   separateASCIICharacterDataByString( struct mulle_ascii_data data,
+   separateASCIICharacterDataByString( struct mulle_asciidata data,
                                        NSString *separator,
                                        Class arrayClass)
 {
@@ -246,7 +277,7 @@ static id
    NSArray                      *array;
    NSUInteger                   sepLen;
 
-   _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
+   _mulle__pointerqueue_init( &pointers, 0x1000, 0);
    sepLen = _mulleDataSeparateComponentsByString( mulle_data_make( data.characters,
                                                                    data.length),
                                                   ASCIINextCharacter,
@@ -266,7 +297,7 @@ static id
 
 
 static id
-   separateASCIICharacterDataByCharacterSet( struct mulle_ascii_data data,
+   separateASCIICharacterDataByCharacterSet( struct mulle_asciidata data,
                                              NSCharacterSet *separators,
                                              Class arrayClass)
 {
@@ -296,7 +327,7 @@ static id
                               arrayClass:(Class) arrayClass
 {
    char                      tmp[ mulle_char7_maxlength64];  // known ascii max 8
-   struct mulle_ascii_data   data;
+   struct mulle_asciidata   data;
 
    data.characters = tmp;
    data.length     = [self mulleGetASCIICharacters:data.characters
@@ -310,7 +341,7 @@ static id
                                     arrayClass:(Class) arrayClass
 {
    char                      tmp[ mulle_char7_maxlength64];  // known ascii max 8
-   struct mulle_ascii_data   data;
+   struct mulle_asciidata   data;
 
    data.characters = tmp;
    data.length     = [self mulleGetASCIICharacters:data.characters
@@ -332,7 +363,7 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_ascii_data      data;
+   struct mulle_asciidata      data;
 
    data.characters = tmp;
    data.length     = [self mulleGetASCIICharacters:data.characters
@@ -345,7 +376,7 @@ static id
                                     arrayClass:(Class) arrayClass
 {
    char                      tmp[ mulle_char5_maxlength64];  // known ascii max 8
-   struct mulle_ascii_data   data;
+   struct mulle_asciidata   data;
 
    data.characters = tmp;
    data.length     = [self mulleGetASCIICharacters:data.characters
@@ -368,7 +399,7 @@ static id
 - (id) _mulleComponentsSeparatedByString:(NSString *) separator
                               arrayClass:(Class) arrayClass
 {
-   struct mulle_ascii_data   data;
+   struct mulle_asciidata   data;
    BOOL                      flag;
 
    flag = [self mulleFastGetASCIIData:&data];
@@ -381,7 +412,7 @@ static id
 - (id) _mulleComponentsSeparatedByCharacterSet:(NSCharacterSet *) separators
                                     arrayClass:(Class) arrayClass
 {
-   struct mulle_ascii_data   data;
+   struct mulle_asciidata   data;
    BOOL                      flag;
 
    flag = [self mulleFastGetASCIIData:&data];
@@ -402,7 +433,7 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf16_data      data;
+   struct mulle_utf16data      data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF16Data:&data];
@@ -433,7 +464,7 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf16_data      data;
+   struct mulle_utf16data      data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF16Data:&data];
@@ -468,7 +499,7 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf32_data      data;
+   struct mulle_utf32data      data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF32Data:&data];
@@ -499,7 +530,7 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf32_data      data;
+   struct mulle_utf32data      data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF32Data:&data];
@@ -539,10 +570,11 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf8_data       data;
+   struct mulle_utf8data       data;
    mulle_utf8_t                 tmp[ 64];
 
-   data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp, sizeof( tmp)));
+   data = MulleStringGetUTF8Data( self,
+                                  mulle_utf8data_make( tmp, sizeof( tmp)));
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    sepLen = _mulleDataSeparateComponentsByString( mulle_data_make( data.characters,
@@ -627,14 +659,14 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
 - (id) _mulleComponentsSeparatedByCharacterSet:(NSCharacterSet *)separators
                                     arrayClass:(Class) arrayClass
 {
-   struct mulle_utf8_data       data;
+   struct mulle_utf8data       data;
    NSArray                      *array;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
    mulle_utf8_t                 tmp[ 64];
 
-   data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp, sizeof( tmp)));
-
+   data = MulleStringGetUTF8Data( self, mulle_utf8data_make( tmp,
+                                                              sizeof( tmp)));
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    _mulleDataSeparateComponentsByCharacterSet( mulle_data_make( data.characters,
                                                                 data.length),

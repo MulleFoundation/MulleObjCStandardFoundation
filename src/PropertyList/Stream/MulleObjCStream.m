@@ -39,7 +39,7 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 
@@ -139,10 +139,10 @@ PROTOCOLCLASS_END();
               usingEncoding:(NSStringEncoding) encoding
 {
    NSData                    *data;
-   struct mulle_utf8_data    utf8data;
-   struct mulle_utf16_data   utf16data;
-   struct mulle_utf32_data   utf32data;
-   struct mulle_ascii_data   asciidata;
+   struct mulle_utf8data    utf8data;
+   struct mulle_utf16data   utf16data;
+   struct mulle_utf32data   utf32data;
+   struct mulle_asciidata   asciidata;
 
    switch( encoding)
    {
@@ -166,9 +166,11 @@ PROTOCOLCLASS_END();
    case NSUTF8StringEncoding  :
    {
       mulle_utf8_t             tmp[ 64];
-      struct mulle_utf8_data   utf8data;
+      struct mulle_utf8data   utf8data;
 
-      utf8data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp, 64));
+      utf8data = MulleStringGetUTF8Data( self,
+                                         mulle_utf8data_make( tmp,
+                                                               sizeof( tmp)));
       [handle mulleWriteBytes:utf8data.characters
                        length:utf8data.length];
       return;

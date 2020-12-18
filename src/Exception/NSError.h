@@ -101,10 +101,10 @@ extern NSString   *NSErrorDomainKey;
 + (NSString *) mulleErrorDomain;
 
 
+//
 // if you use errno or some other threadlocal error state, you can
 // set the errordomain to a constant only and create mulleExtract lazily
-
-
+//
 + (void) mulleSetError:(NSError *) error;
 + (void) mulleSetErrorCode:(NSInteger) code
                     domain:(NSString *) domain
@@ -117,7 +117,10 @@ extern NSString   *NSErrorDomainKey;
 + (void) mulleClear;
 
 // cheat :) function to just set an error quickly with localizedDescription
-+ (instancetype) mulleGenericErrorWithDomain:( NSString *) domain
++ (void) mulleSetGenericErrorWithDomain:(NSString *) domain
+                   localizedDescription:(NSString *) s;
+
++ (instancetype) mulleGenericErrorWithDomain:(NSString *) domain
                         localizedDescription:(NSString *) s;
 @end
 
