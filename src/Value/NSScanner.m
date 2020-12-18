@@ -130,8 +130,8 @@ static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
 
    for( i = range.location; i < self->_length; i++)
    {
-      c = (unichar) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
-      if( match != (BOOL) MulleObjCIMPCall( impMember, set, @selector( characterIsMember:), (id) (intptr_t) c))
+      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
+      if( match != (BOOL) (intptr_t) MulleObjCIMPCall( impMember, set, @selector( characterIsMember:), (id) (intptr_t) c))
          break;
    }
    self->_location = i;
@@ -201,8 +201,8 @@ static NSRange   NSScannerScanRangeOfString( NSScanner *self,
 
    for( j = 0, i = range.location; j < m; i++, j++)
    {
-      c = (unichar) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
-      d = (unichar) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
+      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
+      d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
       if( c != d)
          return( range);
    }
@@ -242,8 +242,8 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
 
    for( j = 0, i = range.location; i < range.length; i++)
    {
-      c = (unichar) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
-      d = (unichar) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
+      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
+      d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
       if( c != d)
       {
          j = 0;

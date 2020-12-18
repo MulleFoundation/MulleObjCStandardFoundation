@@ -41,7 +41,7 @@
 #import "NSString+Components.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 #include <ctype.h>
@@ -61,6 +61,77 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    assert( c >= 0 && c <= 0xf);
    return( c >= 0xa ? c + 'a' - 0xa : c + '0');
 }
+
+
+// move to mulle-utf
+mulle_utf8_t   *MulleUTF8StringEscape( struct mulle_utf8data src,
+                                       mulle_utf8_t *dst)
+{
+   mulle_utf8_t   c;
+   mulle_utf8_t   *s;
+   mulle_utf8_t   *sentinel;
+
+   s        = src.characters;
+   sentinel = &s[ src.length];
+   while( s < sentinel)
+   {
+      c = *s++;
+      switch( c)
+      {
+         // do octal escapes ???
+         case '\a' : *dst++ = '\\'; *dst++ = 'a'; continue;
+         case '\b' : *dst++ = '\\'; *dst++ = 'b'; continue;
+         case '\e' : *dst++ = '\\'; *dst++ = 'e'; continue;
+         case '\f' : *dst++ = '\\'; *dst++ = 'f'; continue;
+         case '\n' : *dst++ = '\\'; *dst++ = 'n'; continue;
+         case '\r' : *dst++ = '\\'; *dst++ = 'r'; continue;
+         case '\t' : *dst++ = '\\'; *dst++ = 't'; continue;
+         case '\v' : *dst++ = '\\'; *dst++ = 'v'; continue;
+         case '?'  : *dst++ = '\\'; *dst++ = '?'; continue;  // trigraph
+         case '\\' : *dst++ = '\\'; *dst++ = '\\'; continue;
+         case '"'  : *dst++ = '\\'; *dst++ = '"'; continue;
+         default   : *dst++ = c;
+      }
+   }
+   return( dst);
+}
+
+
+// C escaped but not quotes added
+- (NSString *) mulleEscapedString
+{
+   struct mulle_allocator   *allocator;
+   NSUInteger               dst_length;
+   NSUInteger               length;
+   mulle_utf8_t             *buf;
+   mulle_utf8_t             *dst;
+   mulle_utf8_t             *s;
+   mulle_utf8_t             c;
+
+   length = [self mulleUTF8StringLength];
+   if( ! length)
+      return( @"");
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+   buf       = (mulle_utf8_t *) mulle_allocator_malloc( allocator, length * 3 + 1);
+
+   // place source in the back of our buffer
+   // then quote from the start
+   s        = &buf[ length * 2 + 1];
+   dst      = buf;
+
+   [self mulleGetUTF8Characters:s
+                      maxLength:length];
+   dst    = MulleUTF8StringEscape( mulle_utf8data_make( s, length), dst);
+   *dst++ = 0;
+
+   dst_length = dst - buf;
+   buf        = mulle_allocator_realloc( allocator, buf, dst_length);
+   return( [NSString mulleStringWithUTF8CharactersNoCopy:buf
+                                                  length:dst_length
+                                               allocator:allocator]);
+}
+
 
 
 // C escape quoting
@@ -85,33 +156,13 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    // place source in the back of our buffer
    // then quote from the start
    s        = &buf[ length * 2 + 3];
-   sentinel = &s[ length];
    dst      = buf;
 
    [self mulleGetUTF8Characters:s
                       maxLength:length];
 
    *dst++ = '\"';
-   while( s < sentinel)
-   {
-      c = *s++;
-      switch( c)
-      {
-         // do octal escapes ???
-         case '\a' : *dst++ = '\\'; *dst++ = 'a'; continue;
-         case '\b' : *dst++ = '\\'; *dst++ = 'b'; continue;
-         case '\e' : *dst++ = '\\'; *dst++ = 'e'; continue;
-         case '\f' : *dst++ = '\\'; *dst++ = 'f'; continue;
-         case '\n' : *dst++ = '\\'; *dst++ = 'n'; continue;
-         case '\r' : *dst++ = '\\'; *dst++ = 'r'; continue;
-         case '\t' : *dst++ = '\\'; *dst++ = 't'; continue;
-         case '\v' : *dst++ = '\\'; *dst++ = 'v'; continue;
-         case '?'  : *dst++ = '\\'; *dst++ = '?'; continue;  // trigraph
-         case '\\' : *dst++ = '\\'; *dst++ = '\\'; continue;
-         case '"'  : *dst++ = '\\'; *dst++ = '"'; continue;
-         default   : *dst++ = c;
-      }
-   }
+   dst    = MulleUTF8StringEscape( mulle_utf8data_make( s, length), dst);
    *dst++ = '\"';
    *dst++ = 0;
 
@@ -120,6 +171,12 @@ static inline mulle_utf8_t   hex( mulle_utf8_t c)
    return( [NSString mulleStringWithUTF8CharactersNoCopy:buf
                                                   length:dst_length
                                                allocator:allocator]);
+}
+
+
+- (NSString *) mulleDebugContentsDescription
+{
+   return( [self mulleQuotedString]);
 }
 
 
@@ -213,10 +270,10 @@ static inline int   dehex( mulle_utf8_t c)
 
 //
 // returns NULL of string has invalid percentescapes
-// otherwise returns converted string in mulle_utf8_data
+// otherwise returns converted string in mulle_utf8data
 // may not be \0 terminated though
 //
-struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src,
+struct mulle_utf8data  *MulleReplacePercentEscape( struct mulle_utf8data *src,
                                                     NSCharacterSet *disallowedCharacters)
 {
    IMP                      characterIsMemberIMP;
@@ -225,7 +282,7 @@ struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src,
    mulle_utf8_t             *s;
    mulle_utf8_t             *sentinel;
    mulle_utf8_t             c;
-   struct mulle_utf8_data   *dst;
+   struct mulle_utf8data   *dst;
    int                      hi, lo;
 
    characterIsMemberSEL = @selector( characterIsMember:);
@@ -293,8 +350,8 @@ NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
                                                      NSCharacterSet *disallowedCharacters)
 {
 
-   struct mulle_utf8_data   src;
-   struct mulle_utf8_data   *dst;
+   struct mulle_utf8data   src;
+   struct mulle_utf8data   *dst;
 
    src.length = [self mulleUTF8StringLength];
    if( ! src.length)
@@ -343,7 +400,7 @@ enum quoteState
    mulle_utf8_t             *sentinel;
    NSUInteger               len;
    enum quoteState          state;
-   struct mulle_utf8_data   data;
+   struct mulle_utf8data   data;
 
    s = NULL;
    if( [self mulleFastGetUTF8Data:&data])

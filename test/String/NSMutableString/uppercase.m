@@ -15,7 +15,7 @@ int main( int argc, const char * argv[])
 {
    NSMutableString     *s;
 
-   s = [NSMutableString object];
+   s = [NSMutableString string];
    printf( "%s\n", [[s uppercaseString] UTF8String]);
 
    [s appendString:@"VfL"];

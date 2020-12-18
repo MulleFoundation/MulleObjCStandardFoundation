@@ -34,10 +34,13 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 #import "MulleObjCFoundationCore.h"
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 #import "MulleObjCStream.h"
+
+
+@class NSLocale;
 
 
 // TODO: prefix with mulle, this is all incompatible
@@ -91,9 +94,9 @@ char   *MulleObjCJSONUTF8DataIndentation( NSUInteger level);
 extern unsigned int   _MulleObjCPropertyListUTF8DataIndentationPerLevel;  //   = 1;
 extern char           _MulleObjCPropertyListUTF8DataIndentationCharacter; //  = '\t';
 extern BOOL           _MulleObjCPropertyListSortedDictionary; //  = YES
-extern NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
+extern NSLocale       *_MulleObjCPropertyListCanonicalPrintingLocale;
 
 extern unsigned int   _MulleObjCJSONUTF8DataIndentationPerLevel;  //   = 1;
 extern char           _MulleObjCJSONUTF8DataIndentationCharacter; //  = '\t';
 extern BOOL           _MulleObjCJSONSortedDictionary; //  = YES
-extern NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
+extern NSLocale       *_MulleObjCJSONCanonicalPrintingLocale;

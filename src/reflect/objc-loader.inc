@@ -11,6 +11,7 @@
       { @selector( MulleObjCUnkeyedArchiver), MULLE_OBJC_NO_CATEGORYID },      // f57df630;MulleObjCUnkeyedArchiver;;
       { @selector( MulleObjCUnkeyedUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b124a0f;MulleObjCUnkeyedUnarchiver;;
       { @selector( NSArchiver), MULLE_OBJC_NO_CATEGORYID },      // 2a2e712f;NSArchiver;;
+      { @selector( NSArray), @selector( DataComponents) },      // 233490fe;NSArray;486bf892;DataComponents
       { @selector( NSArray), @selector( NSLocale) },      // 233490fe;NSArray;22b7d78c;NSLocale
       { @selector( NSArray), @selector( NSPropertyListParsing) },      // 233490fe;NSArray;060a8c9c;NSPropertyListParsing
       { @selector( NSArray), @selector( NSSortDescriptor) },      // 233490fe;NSArray;38a79ab2;NSSortDescriptor
@@ -23,6 +24,7 @@
       { @selector( NSCharacterSet), @selector( MutableCopy) },      // bb258d72;NSCharacterSet;78d7050b;MutableCopy
       { @selector( NSCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // bb258d72;NSCharacterSet;;
       { @selector( NSCoder), MULLE_OBJC_NO_CATEGORYID },      // 100c54ba;NSCoder;;
+      { @selector( NSData), @selector( Components) },      // 8fce7861;NSData;c6c03895;Components
       { @selector( NSData), @selector( NSPropertyListParsing) },      // 8fce7861;NSData;060a8c9c;NSPropertyListParsing
       { @selector( NSData), @selector( PropertyListPrinting) },      // 8fce7861;NSData;91aeee11;PropertyListPrinting
       { @selector( NSDate), @selector( NSCalendarDate) },      // cfcedd21;NSDate;b8742fcb;NSCalendarDate

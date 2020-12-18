@@ -1,9 +1,9 @@
 //
-//  MulleObjCStandardFoundationContainer.h
-//  MulleObjCStandardFoundation
+//  NSMutableString.m
+//  MulleObjCValueFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,14 +33,54 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "MulleObjCContainerDescription.h"
+#import "NSMutableString+Search.h"
 
-#import "NSSortDescriptor.h"
+// other files in this library
+#import "NSString+Search.h"
 
-#import "NSArray+NSString.h"
-#import "NSArray+NSSortDescriptor.h"
-#import "NSSet+NSString.h"
-#import "NSSortDescriptor+NSCoder.h"
+// other libraries of MulleObjCStandardFoundation
+#import "MulleObjCStandardExceptionFoundation.h"
 
-#import "NSHashTable+NSArray+NSString.h"
-#import "NSMapTable+NSArray+NSString.h"
+// std-c and dependencies
+#import "import-private.h"
+#include <ctype.h>
+
+
+@implementation NSMutableString( Search)
+
+- (void) replaceOccurrencesOfString:(NSString *) s
+                         withString:(NSString *) replacement
+                            options:(NSStringCompareOptions) options
+                              range:(NSRange) range
+{
+   NSRange      found;
+   NSUInteger   r_length;
+   NSUInteger   end;
+
+   range = MulleObjCValidateRangeAgainstLength( range, _length);
+
+   r_length = [replacement length];
+   options &= NSLiteralSearch|NSCaseInsensitiveSearch|NSNumericSearch;
+
+   for(;;)
+   {
+      found = [self rangeOfString:s
+                          options:options
+                            range:range];
+      if( ! found.length)
+         return;
+
+      [self replaceCharactersInRange:found
+                          withString:replacement];
+
+      // mover over to end for next check
+      end             = range.location + range.length;
+      range.location  = found.location + found.length;
+      range.length    = end - range.location;
+
+      // adjust for change in length due to replacement
+      range.location += r_length - found.length;
+   }
+}
+
+@end

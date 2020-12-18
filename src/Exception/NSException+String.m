@@ -39,18 +39,33 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 
 @implementation NSException (String)
 
 - (NSString *) description
 {
-   return( [NSString stringWithFormat:@"%@: %@ { %@ }",
-               [self name],
-               [self reason],
-               [self userInfo]]);;
+   NSMutableString   *result;
+   id                s;
+
+   result = [NSMutableString string];
+
+   s = [self name];
+   if( s)
+      [result appendString:s];
+
+   s = [self reason];
+   if( s)
+      [result appendFormat:@": %@", s];
+
+   s = [self userInfo];
+   if( [s count])
+      [result appendFormat:@" { %@ }", s];
+
+   return( result);
 }
+
 
 - (char *) cStringDescription
 {

@@ -39,8 +39,8 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 // std-c and dependencies
 #import "NSException.h"
@@ -180,6 +180,17 @@ static struct
                             code:-1
                         userInfo:@{ NSLocalizedDescriptionKey: s }]);
 }
+
++ (void) mulleSetGenericErrorWithDomain:(NSString *) domain
+                   localizedDescription:(NSString *) s
+{
+   NSError   *error;
+
+   error = [self mulleGenericErrorWithDomain:domain
+                        localizedDescription:s];
+   [self mulleSetError:error];
+}
+
 
 
 - (NSString *) localizedDescription

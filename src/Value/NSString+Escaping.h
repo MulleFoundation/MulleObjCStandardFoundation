@@ -1,5 +1,5 @@
 //
-//  _MulleObjCConcreteBitmapCharacterSet.m
+//  NSString+Escaping.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -34,91 +34,34 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "_MulleObjCConcreteInvertedCharacterSet.h"
-
-// other files in this library
-
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationException.h"
-
-// std-c and dependencies
+#import "import.h"
 
 
-@implementation _MulleObjCConcreteInvertedCharacterSet
+@class NSCharacterSet;
 
 
-+ (instancetype) newWithCharacterSet:(NSCharacterSet *) other
-{
-   _MulleObjCConcreteInvertedCharacterSet   *obj;
+@interface NSString (Escaping)
 
-   obj = NSAllocateObject( self, 0, NULL);
-   obj->_original = [other copy];
+- (NSString *) stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet *) allowedCharacters;
 
-   return( obj);
-}
+- (NSString *) stringByRemovingPercentEncoding;
 
+// escaped C-string with " " added, does not do octal escapes though (yet)
+- (NSString *) mulleQuotedString;
 
-- (void) dealloc
-{
-   [_original release];
+// as above but no " " added
+- (NSString *) mulleEscapedString;
 
-   [super dealloc];
-}
-
-
-- (BOOL) characterIsMember:(unichar) c
-{
-   if( c >= 0x110000)
-      return( NO);
-   return( ! [_original characterIsMember:c]);
-}
-
-
-- (BOOL) hasMemberInPlane:(NSUInteger) plane
-{
-   if( plane >= 0x11)
-      return( NO);
-   return( ! [_original hasMemberInPlane:plane]);
-}
-
-
-static int   mulle_meminvert_8( uint8_t *buf, size_t length)
-{
-   uint8_t   *p;
-   uint8_t   *sentinel;
-   uint8_t   bits;
-
-   bits     = 0;
-   p        = buf;
-   sentinel = &p[ length];
-   while( p < sentinel)
-   {
-      bits |= (*p = ~*p);
-      ++p;
-   }
-
-   return( (int) bits);
-}
-
-
-- (void) mulleGetBitmapBytes:(unsigned char *) bytes
-                       plane:(NSUInteger) plane
-{
-   if( ! bytes)
-      MulleObjCThrowInvalidArgumentException( @"empty bytes");
-   if( plane >= 0x11)
-      MulleObjCThrowInvalidArgumentException( @"excessive plane index");
-
-   [_original mulleGetBitmapBytes:bytes
-                            plane:plane];
-
-   mulle_meminvert_8( bytes, 8192);
-}
-
-
-- (NSCharacterSet *) invertedSet
-{
-   return( _original);
-}
+// useful for converting non-printables to '.' for example
+- (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
+                                       withCharacter:(unichar) c;
+- (NSString *) mulleStringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters;
 
 @end
+
+mulle_utf8_t   *MulleUTF8StringEscape( struct mulle_utf8data src, mulle_utf8_t *dst);
+
+struct mulle_utf8data  *MulleReplacePercentEscape( struct mulle_utf8data *src,
+                                                    NSCharacterSet *disallowedCharacters);
+NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
+                                                     NSCharacterSet *disallowedCharacters);

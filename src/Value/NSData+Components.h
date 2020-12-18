@@ -1,9 +1,9 @@
 //
-//  NSString+Components.h
+//  NSData+Components.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2006 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2006 Codeon GmbH.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -36,35 +36,13 @@
 #import "import.h"
 
 
-// useful for moderately sized strings < 4K i guess
-// and short separator strings
-// for really large strings use some smarter algorithm or one that can exploit
-// long separator strings. This is used for keyPath decoding
-//
 @class NSArray;
-@class NSCharacterSet;
 
 
-@interface NSString ( Components)
+@interface NSData ( Components)
 
-- (NSArray *) componentsSeparatedByString:(NSString *) s;
-- (NSArray *) componentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
+- (NSArray *) mulleComponentsSeparatedByData:(NSData *) separator;
 
-#pragma mark - mulle additions
-
-- (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) s;
-- (NSMutableArray *) mulleMutableComponentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
-
-// these two will return nil, if no separator is found
-- (NSArray *) _componentsSeparatedByString:(NSString *) separator;
-- (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators;
-
-- (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
-                                                      simplifyDots:(BOOL) simplifyDots;
 @end
 
-// this returns nil, if no separator is found
-NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator);
-NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
-NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self, NSString *separator);
-NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
+

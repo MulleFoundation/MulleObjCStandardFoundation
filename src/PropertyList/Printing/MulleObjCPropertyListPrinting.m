@@ -38,6 +38,8 @@
 // other files in this library
 #import "MulleObjCStream.h"
 
+#import "NSLocale.h"
+
 // std-c and dependencies
 
 
@@ -54,11 +56,11 @@ PROTOCOLCLASS_IMPLEMENTATION( MulleObjCPropertyListPrinting)
 
 unsigned int   _MulleObjCPropertyListUTF8DataIndentationPerLevel  = 1;
 char           _MulleObjCPropertyListUTF8DataIndentationCharacter = '\t';
-NSDictionary  *_MulleObjCPropertyListCanonicalPrintingLocale;
+NSLocale       *_MulleObjCPropertyListCanonicalPrintingLocale;
 
 unsigned int   _MulleObjCJSONUTF8DataIndentationPerLevel  = 1;
 char           _MulleObjCJSONUTF8DataIndentationCharacter = '\t';
-NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
+NSLocale       *_MulleObjCJSONCanonicalPrintingLocale;
 
 
 - (void) propertyListUTF8DataToStream:(id <MulleObjCOutputStream>) handle
@@ -120,7 +122,7 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
    NSMutableData  *data;
    NSString       *s;
 
-   data = [NSMutableData object];
+   data = [NSMutableData data];
    [self propertyListUTF8DataToStream:data
                                indent:0];
 
@@ -135,7 +137,7 @@ NSDictionary  *_MulleObjCJSONCanonicalPrintingLocale;
    NSMutableData  *data;
    NSString       *s;
 
-   data = [NSMutableData object];
+   data = [NSMutableData data];
    [self jsonUTF8DataToStream:data
                        indent:0];
 

@@ -15,7 +15,7 @@ static void    clone_array( int n)
    NSData         *data;
    id             copy;
    id             obj;
-   id             *objects[ n];
+   id             objects[ n];
    unsigned int   i;
 
    for( i = 0; i < n; ++i)

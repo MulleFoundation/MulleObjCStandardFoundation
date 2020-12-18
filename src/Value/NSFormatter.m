@@ -1,9 +1,9 @@
 //
-//  NSString+Escaping.h
+//  NSFormatter.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,29 +33,55 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "NSFormatter.h"
 
-#import "import.h"
+// other files in this library
+
+// other libraries of MulleObjCStandardFoundation
+#import "MulleObjCStandardValueFoundation.h"
+
+// std-c and dependencies
 
 
-@class NSCharacterSet;
+
+@implementation NSFormatter
+
+- (NSString *) editingStringForObjectValue:(id) obj
+{
+   return( [obj description]);
+}
 
 
-@interface NSString (Escaping)
+- (BOOL) getObjectValue:(id *) obj
+              forString:(NSString *) s
+       errorDescription:(NSString **) error
+{
+   return( NO);
+}
 
-- (NSString *) stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet *) allowedCharacters;
 
-- (NSString *) stringByRemovingPercentEncoding;
+- (BOOL) isPartialStringValid:(NSString *) s
+             newEditingString:(NSString **) newString
+             errorDescription:(NSString **) error
+{
+   return( NO);
+}
 
-- (NSString *) mulleQuotedString;
 
-// useful for converting non-printables to '.' for example
-- (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
-                                       withCharacter:(unichar) c;
-- (NSString *) mulleStringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters;
+- (BOOL) isPartialStringValid:(NSString **) s_p
+        proposedSelectedRange:(NSRange *) range_p
+               originalString:(NSString *) origString
+        originalSelectedRange:(NSRange) origSelRange
+             errorDescription:(NSString **) error
+{
+   *error = NULL;
+   return( NO);
+}
+
+
+- (NSString *) stringForObjectValue:(id) obj
+{
+   return( [obj description]);
+}
 
 @end
-
-struct mulle_utf8_data  *MulleReplacePercentEscape( struct mulle_utf8_data *src,
-                                                    NSCharacterSet *disallowedCharacters);
-NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
-                                                     NSCharacterSet *disallowedCharacters);

@@ -85,21 +85,21 @@ void test_c_array_with_array_()
 )
 void test_c_array_with_array_range_()
 ()
-NSRangeException: range 18446744073709551615/1 doesn't fit { (nil) }
+NSRangeException: range 18446744073709551615/1 doesn't fit
 ()
-NSRangeException: range 2147483647/2147483647 doesn't fit { (nil) }
+NSRangeException: range 2147483647/2147483647 doesn't fit
 ()
-NSRangeException: range 18446744073709551615/1 doesn't fit { (nil) }
+NSRangeException: range 18446744073709551615/1 doesn't fit
 ()
-NSRangeException: range 2147483647/2147483647 doesn't fit { (nil) }
+NSRangeException: range 2147483647/2147483647 doesn't fit
 ()
-NSRangeException: range 18446744073709551615/1 doesn't fit { (nil) }
+NSRangeException: range 18446744073709551615/1 doesn't fit
 (
     1,
     2,
     1848
 )
-NSRangeException: range 2147483647/2147483647 doesn't fit { (nil) }
+NSRangeException: range 2147483647/2147483647 doesn't fit
 void test_i_init_with_objects_()
 (
     whatever,
@@ -314,11 +314,11 @@ void test_i_init_with_array_copy_items_()
     1848
 )
 void test_i_index_of_object_identical_to_()
-9223372036854775807
-9223372036854775807
-9223372036854775807
-9223372036854775807
-9223372036854775807
+NSNotFound
+NSNotFound
+NSNotFound
+NSNotFound
+NSNotFound
 void test_i_init_with_array_range_()
 ()
 NSRangeException
@@ -337,25 +337,25 @@ NSRangeException
 )
 NSRangeException
 void test_i_index_of_object_identical_to_in_range_()
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
-9223372036854775807
+NSNotFound
 NSRangeException
 void test_i_make_objects_perform_selector_with_object_()
 void test_i_subarray_with_range_()
@@ -372,11 +372,11 @@ value isnot 0
 value isnot 0
 value is 0
 void test_i_index_of_object_()
-9223372036854775807
-9223372036854775807
-9223372036854775807
-9223372036854775807
-9223372036854775807
+NSNotFound
+NSNotFound
+NSNotFound
+NSNotFound
+NSNotFound
 void test_i_is_equal_()
 value is 0
 value is 0
@@ -395,30 +395,62 @@ void test_i__()
 NSIndexException
 NSIndexException
 void test_i_index_of_object_in_range_()
+*nil*
+NSNotFound
+*nil*
+NSNotFound
+*nil*
+NSNotFound
+*nil*
+NSNotFound
+whatever
+NSNotFound
+whatever
+NSNotFound
+whatever
+NSRangeException
+whatever
+NSNotFound
 1
-9223372036854775807
+NSNotFound
 1
-9223372036854775807
+NSNotFound
 1
-9223372036854775807
+NSRangeException
 1
-9223372036854775807
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
-NSIndexException
+0
+{
+    a = 1;
+}
+NSNotFound
+{
+    a = 1;
+}
+NSNotFound
+{
+    a = 1;
+}
+NSRangeException
+{
+    a = 1;
+}
+NSNotFound
+(
+    a
+)
+NSNotFound
+(
+    a
+)
+NSNotFound
+(
+    a
+)
+NSRangeException
+(
+    a
+)
+NSNotFound
 void test_i_sorted_array_using_selector_()
 (
     1,

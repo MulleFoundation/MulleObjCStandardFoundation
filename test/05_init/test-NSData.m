@@ -203,7 +203,7 @@ static int   test_i_init_with_bytes_no_copy_length_owner_( void)
                s = mulle_allocator_strdup( &mulle_stdlib_allocator, s);
             obj = [[[NSData alloc] mulleInitWithBytesNoCopy:s
                                                      length:s ? strlen( s) : 0
-                                                      owner:params_3[ i_3]] autorelease];
+                                              sharingObject:params_3[ i_3]] autorelease];
             printf( "%s\n", [obj cStringDescription]);
             if( s)
                mulle_allocator_free( &mulle_stdlib_allocator, s);

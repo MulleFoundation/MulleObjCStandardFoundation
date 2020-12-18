@@ -36,6 +36,16 @@
 #import "MulleObjCBufferedInputStream.h"
 
 
+// TODO: move to a common place
+enum MulleObjCErrorHandling
+{
+   MulleObjCLogsError        = 0x0, // default (historical reasons)
+   MulleObjCThrowsException  = 0x1,
+   MulleObjCSetsAndLogsError = 0x2,
+   MulleObjCSetsError        = 0x3
+};
+
+
 // only can deal with UTF8 but returns UTF32
 @interface MulleObjCUTF8StreamReader : NSObject
 {
@@ -47,8 +57,9 @@ MULLE_OBJC_UTF8_STREAM_READER_IVAR_VISIBILITY
    long                          _lineNr;
 }
 
-@property( assign) BOOL  decodesComments;
-@property( assign) BOOL  throwsException; // if failing
+@property( assign) BOOL         decodesComments;
+@property( assign) NSUInteger   errorHandling;     // if failing
+
 
 - (instancetype) initWithString:(NSString *) s;
 - (instancetype) initWithBufferedInputStream:(MulleObjCBufferedInputStream *) stream;

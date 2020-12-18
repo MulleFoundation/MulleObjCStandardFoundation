@@ -68,11 +68,12 @@
    size_t                    len;
    size_t                    size;
    NSMutableData             *target;
-   struct mulle_utf8_data    data;
+   struct mulle_utf8data    data;
    mulle_utf8_t              tmp1[ 32];
    mulle_utf8_t              tmp2[ 64];
 
-   data = MulleStringGetUTF8Data( self, mulle_utf8_data_make( tmp1, sizeof( tmp1)));
+   data = MulleStringGetUTF8Data( self, mulle_utf8data_make( tmp1,
+                                                              sizeof( tmp1)));
 
    // do proper quoting and escaping
    len      = data.length;

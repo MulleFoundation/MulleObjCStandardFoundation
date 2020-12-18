@@ -35,7 +35,7 @@
 //
 #import "NSString+PropertyList.h"
 
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 #import "NSPropertyListSerialization.h"
 

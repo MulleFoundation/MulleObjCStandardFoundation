@@ -38,9 +38,9 @@
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationException.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardExceptionFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 // std-c and dependencies
 
@@ -95,11 +95,18 @@ static inline void   SelfUnlock( void)
 
 + (void) deinitialize
 {
+   NSNumberFormatter   *formatter;
+   NSMapTable          *table;
+
    @autoreleasepool
    {
-      NSFreeMapTable( Self._table);
+      table       = Self._table;
       Self._table = NULL;
-      [Self._defaultFormatter release];
+      NSFreeMapTable( table);
+
+      formatter              = Self._defaultFormatter;
+      Self._defaultFormatter = NULL;
+      [formatter release];
    }
    mulle_thread_mutex_done( &Self._lock);
 #ifdef DEBUG

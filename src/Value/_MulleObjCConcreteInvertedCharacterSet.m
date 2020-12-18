@@ -34,41 +34,25 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "_MulleObjCConcreteBitmapCharacterSet.h"
+#import "_MulleObjCConcreteInvertedCharacterSet.h"
 
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardFoundationException.h"
+#import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
 
 
-@implementation _MulleObjCConcreteBitmapCharacterSet
+@implementation _MulleObjCConcreteInvertedCharacterSet
 
 
-+ (instancetype) newWithBitmapRepresentation:(NSData *) data
++ (instancetype) newWithCharacterSet:(NSCharacterSet *) other
 {
-   _MulleObjCConcreteBitmapCharacterSet   *obj;
-   struct mulle_allocator                 *allocator;
-
-   obj       = NSAllocateObject( self, 0, NULL);
-   allocator = MulleObjCInstanceGetAllocator( obj);
-   if( MulleObjCCharacterBitmapInitWithBitmapRepresentation( &obj->_bitmap, data, allocator))
-   {
-      [obj release];
-      return( nil);
-   }
-   return( obj);
-}
-
-
-+ (instancetype) newWithString:(NSString *) s
-{
-   _MulleObjCConcreteBitmapCharacterSet   *obj;
+   _MulleObjCConcreteInvertedCharacterSet   *obj;
 
    obj = NSAllocateObject( self, 0, NULL);
-   MulleObjCCharacterBitmapSetBitsWithString( &obj->_bitmap, s, MulleObjCInstanceGetAllocator( obj));
+   obj->_original = [other copy];
 
    return( obj);
 }
@@ -76,7 +60,7 @@
 
 - (void) dealloc
 {
-   MulleObjCCharacterBitmapFreePlanes( &self->_bitmap, MulleObjCInstanceGetAllocator( self));
+   [_original release];
 
    [super dealloc];
 }
@@ -84,13 +68,9 @@
 
 - (BOOL) characterIsMember:(unichar) c
 {
-   int   bit;
-
    if( c >= 0x110000)
       return( NO);
-
-   bit = MulleObjCCharacterBitmapGetBit( &self->_bitmap, c);
-   return( bit);
+   return( ! [_original characterIsMember:c]);
 }
 
 
@@ -98,8 +78,26 @@
 {
    if( plane >= 0x11)
       return( NO);
+   return( ! [_original hasMemberInPlane:plane]);
+}
 
-   return( _bitmap.planes[ plane] != NULL);
+
+static int   mulle_meminvert_8( uint8_t *buf, size_t length)
+{
+   uint8_t   *p;
+   uint8_t   *sentinel;
+   uint8_t   bits;
+
+   bits     = 0;
+   p        = buf;
+   sentinel = &p[ length];
+   while( p < sentinel)
+   {
+      bits |= (*p = ~*p);
+      ++p;
+   }
+
+   return( (int) bits);
 }
 
 
@@ -108,14 +106,19 @@
 {
    if( ! bytes)
       MulleObjCThrowInvalidArgumentException( @"empty bytes");
-   if( plane >= 0x11
-)
+   if( plane >= 0x11)
       MulleObjCThrowInvalidArgumentException( @"excessive plane index");
 
-   if( _bitmap.planes[ plane])
-      memcpy( bytes, _bitmap.planes[ plane], 8192);
-   else
-      memset( bytes, 0, 8192);
+   [_original mulleGetBitmapBytes:bytes
+                            plane:plane];
+
+   mulle_meminvert_8( bytes, 8192);
+}
+
+
+- (NSCharacterSet *) invertedSet
+{
+   return( _original);
 }
 
 @end

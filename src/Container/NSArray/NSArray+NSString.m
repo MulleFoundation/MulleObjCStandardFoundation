@@ -60,7 +60,7 @@
    case 1 : return( [self lastObject]);
    }
 
-   buffer    = [NSMutableString object];
+   buffer    = [NSMutableString string];
    selAppend = @selector( appendString:);
    impAppend = [buffer methodForSelector:selAppend];
 

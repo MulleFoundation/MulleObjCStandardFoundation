@@ -35,7 +35,7 @@
 //
 #import "NSDictionary+PropertyList.h"
 
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardValueFoundation.h"
 
 #import "MulleObjCPropertyListPrinting.h"
 
@@ -63,7 +63,7 @@
    NSArray           *keys;
    NSString          *valueDescription;
 
-   s    = [NSMutableString object];
+   s    = [NSMutableString string];
    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
    for( key in keys)
    {
@@ -93,7 +93,7 @@
 //    NSArray           *keys;
 //    id                key, value;
 //
-//    s    = [NSMutableString object];
+//    s    = [NSMutableString string];
 //    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
 //    for( key in keys)
 //    {

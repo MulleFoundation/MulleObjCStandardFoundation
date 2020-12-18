@@ -38,7 +38,9 @@ static void  test( NSString *s, NSCharacterSet *set)
 
 int main( int argc, const char * argv[])
 {
+   static unichar  _UTF32Unichar[] = { 0x0001f463, 0x00000023, 'A', 'B', 'C', 0x000020ac, 0x0001f3b2 };   /* UTF32 feet, hash, euro, dice */
    NSCharacterSet   *charSet;
+   NSString         *strings[ 2];
 
    charSet = [NSCharacterSet characterSetWithCharactersInString:@"ABC"];
 
@@ -46,6 +48,16 @@ int main( int argc, const char * argv[])
    test( @"xAxB", charSet);
    test( @"AxBy", charSet);
    test( @"xAxBx", charSet);
+   test( @"xxxABCxxxABCxxxABCxxx", charSet); // longish ascii
+
+   strings[ 0] = @"AxBy";
+   strings[ 1] = @"xxxABCxxxABCxxxABCxxx";
+
+   test( [[[NSMutableString alloc] initWithStrings:strings
+                                             count:2] autorelease], charSet);
+   test( [[[NSString alloc] initWithUTF8String:"xxx\303\266ABCxxxABCxxxABCxxx"] autorelease], charSet); // utf15 with '&ouml;'
+   test( [[[NSString alloc] initWithCharacters:_UTF32Unichar
+                                        length:7] autorelease], charSet);
 
    return( 0);
 }

@@ -43,7 +43,6 @@
 #include <ctype.h>
 
 
-// always returns 0
 void   MulleObjCUTF8StreamReaderFailV( MulleObjCUTF8StreamReader *self, NSString *format, va_list args);
 
 long   __MulleObjCUTF8StreamReaderComposeUTF32Character( MulleObjCUTF8StreamReader *self, unsigned char x);
@@ -199,10 +198,9 @@ static inline long
 }
 
 
-
-static inline void   *
+static inline void *
    MulleObjCUTF8StreamReaderFail( MulleObjCUTF8StreamReader *self,
-                                   NSString *format, ...)
+                                  NSString *format, ...)
 {
    va_list   args;
 

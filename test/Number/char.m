@@ -43,7 +43,7 @@ static void   test( char value)
    NSNumber  *nr;
    int       fails;
 
-   nr = [NSNumber numberWithChar:value];
+   nr     = [NSNumber numberWithChar:value];
    fails  = 0;
    fails += check( "char",               nr, [NSNumber numberWithChar:value], &index);
    fails += check( "unsigned char",      nr, [NSNumber numberWithUnsignedChar:value], &index);

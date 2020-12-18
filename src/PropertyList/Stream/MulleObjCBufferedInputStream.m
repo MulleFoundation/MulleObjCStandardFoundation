@@ -45,7 +45,7 @@
 
 #import "MulleObjCBufferedInputStream+InlineAccessors.h"
 
-#import "MulleObjCStandardFoundationContainer.h"
+#import "MulleObjCStandardContainerFoundation.h"
 
 
 static void   MulleObjCBufferedInputStreamFillBuffer( MulleObjCBufferedInputStream *self);

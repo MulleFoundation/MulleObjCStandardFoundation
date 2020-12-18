@@ -8,10 +8,24 @@
 
 #import "NSUndoManager.h"
 
-#import "MulleObjCStandardFoundationContainer.h"
-#import "MulleObjCStandardFoundationException.h"
-#import "MulleObjCStandardFoundationNotification.h"
-#import "MulleObjCStandardFoundationString.h"
+#import "MulleObjCStandardContainerFoundation.h"
+#import "MulleObjCStandardExceptionFoundation.h"
+#import "MulleObjCStandardNotificationFoundation.h"
+#import "MulleObjCStandardValueFoundation.h"
+
+
+NSString   *NSUndoManagerCheckpointNotification = @"NSUndoManagerCheckpoint";
+
+NSString   *NSUndoManagerDidCloseUndoGroupNotification  = @"NSUndoManagerDidCloseUndoGroup";
+NSString   *NSUndoManagerDidOpenUndoGroupNotification   = @"NSUndoManagerDidOpenUndoGroup";
+NSString   *NSUndoManagerWillCloseUndoGroupNotification = @"NSUndoManagerWillCloseUndoGroup";
+
+NSString   *NSUndoManagerDidRedoChangeNotification  = @"NSUndoManagerDidRedoChange";
+NSString   *NSUndoManagerWillRedoChangeNotification = @"NSUndoManagerWillRedoChange";
+
+NSString   *NSUndoManagerDidUndoChangeNotification  = @"NSUndoManagerDidUndoChange";
+NSString   *NSUndoManagerWillUndoChangeNotification = @"NSUndoManagerWillUndoChange";
+
 
 
 @implementation NSUndoManager

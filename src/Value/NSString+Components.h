@@ -1,9 +1,9 @@
 //
-//  MulleObjCFoundationString.h
+//  NSString+Components.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2006 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2006 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -34,22 +34,39 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 #import "import.h"
-// export everything with NS
-
-#import "NSCharacterSet.h"
-#import "NSScanner.h"
-#import "NSFormatter.h"
-
-#import "NSMutableCharacterSet.h"
-
-#import "NSString+Components.h"
-#import "NSString+Escaping.h"
-#import "NSString+NSCharacterSet.h"
-#import "NSString+Search.h"
-
-#import "NSMutableString+Search.h"
 
 
-#if MULLE_UTF_VERSION < ((0 << 20) | (4 << 8) | 0)
-# error "mulle_utf is too old"
-#endif
+// useful for moderately sized strings < 4K i guess
+// and short separator strings
+// for really large strings use some smarter algorithm or one that can exploit
+// long separator strings. This is used for keyPath decoding
+//
+@class NSArray;
+@class NSCharacterSet;
+
+
+@interface NSString ( Components)
+
+- (NSArray *) componentsSeparatedByString:(NSString *) s;
+- (NSArray *) componentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
+
+#pragma mark - mulle additions
+
+- (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) s;
+- (NSMutableArray *) mulleMutableComponentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
+
+// these two will return nil, if no separator is found
+- (NSArray *) _componentsSeparatedByString:(NSString *) separator;
+- (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators;
+
+- (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
+                                                      simplifyDots:(BOOL) simplifyDots;
+@end
+
+// this returns nil, if no separator is found
+NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator);
+NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self, NSString *separator);
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
+
+

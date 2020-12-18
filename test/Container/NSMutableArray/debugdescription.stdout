@@ -1,4 +1,4 @@
-<NSMutableArray <address> "(
-    <_MulleObjCTaggedPointerIntegerNumber <address> "1848">,
-    <_MulleObjCTinyASCIIString <address> "not-a-tps-pointer">
-)">
+<NSMutableArray (
+    <_MulleObjCTaggedPointerIntegerNumber 1848>,
+    <_MulleObjCTinyASCIIString "not-a-tps-pointer">
+)>

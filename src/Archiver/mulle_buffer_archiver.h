@@ -39,8 +39,7 @@
 #include <MulleObjC/minimal.h>
 
 
-# pragma mark -
-# pragma mark mulle_buffer extended reading
+# pragma mark - mulle_buffer extended reading
 //
 // output format:
 //  c x x x x x x x
@@ -105,8 +104,7 @@ static inline long double
 }
 
 
-# pragma mark -
-# pragma mark mulle_buffer extended writing
+# pragma mark - mulle_buffer extended writing
 
 //
 // output format:
