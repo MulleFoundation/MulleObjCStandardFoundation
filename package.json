@@ -1,0 +1,17 @@
+{
+   "name" : "MulleObjCStandardFoundation",
+   "version" : "0.18.0",
+   "description" : "🚤 Platform-independent Objective-C classes, like NSString, NSArray, NSNotificationCenter",
+   "homepage" : "https://github.com/MulleFoundation/MulleObjCStandardFoundation",
+   "bugs" : "https://github.com/MulleFoundation/MulleObjCStandardFoundation/issues",
+   "keywords" : [],
+   "license" : "UNLICENSED",
+   "repository" : {
+      "type" : "git",
+      "url" : "MulleFoundation/MulleObjCStandardFoundation"
+   },
+   "dependencies" : {
+      "MulleObjCValueFoundation" : "MulleFoundation/MulleObjCValueFoundation",
+      "MulleObjCContainerFoundation" : "MulleFoundation/MulleObjCContainerFoundation"
+   }
+}
