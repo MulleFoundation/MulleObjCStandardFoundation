@@ -353,13 +353,19 @@ NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
                      format:(NSPropertyListFormat *) p_format
            errorDescription:(NSString **) p_errorString
 {
-   id         plist;
-   NSError    *error;
+   id                                   plist;
+   NSError                              *error;
+   enum MullePropertyListFormatOption   formatOption;
+
+   // this is for backwards compatibility with older test code
+   formatOption = MullePropertyListFormatOptionDetect;
+   if( p_format && *p_format == MullePropertyListLooseOpenStepFormat)
+      formatOption = MullePropertyListFormatOptionPrefer;
 
    plist = [self mullePropertyListFromData:data
                           mutabilityOption:opt
                                     format:p_format
-                              formatOption:MullePropertyListFormatOptionDetect];
+                              formatOption:formatOption];
    if( ! plist && p_errorString)
    {
       error = MulleObjCExtractError();
@@ -377,12 +383,18 @@ NSString   *MulleStringFromPropertListFormatString( NSPropertyListFormat format)
                      format:(NSPropertyListFormat *) p_format
                       error:(NSError **) p_error
 {
-   id   plist;
+   id                                   plist;
+   enum MullePropertyListFormatOption   formatOption;
+
+   // this is for backwards compatibility with older test code
+   formatOption = MullePropertyListFormatOptionDetect;
+   if( p_format && *p_format == MullePropertyListLooseOpenStepFormat)
+      formatOption = MullePropertyListFormatOptionPrefer;
 
    plist = [self mullePropertyListFromData:data
                           mutabilityOption:opt
                                     format:p_format
-                              formatOption:MullePropertyListFormatOptionDetect];
+                              formatOption:formatOption];
    if( ! plist && p_error)
    {
       *p_error = MulleObjCExtractError();
