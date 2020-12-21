@@ -1,3 +1,20 @@
+## 0.18.0
+
+* +`[NSError mulleSetGenericErrorWithDomain:localizedDescription]` and `+mulleGenericErrorWithDomain:localizedDescription:` added
+* fix bugs in backward characterSet search
+* fix ``_mulleDataSeparateComponentsByString:``
+* improve property list serialization
+* NSPropertyListSerialization gains a mullePropertyListFromData:mutabilityOption:format:formatOption: method
+* greatly improved property list printing (serialization)
+* moved some internal string creation code to MulleObjCValueFoundation
+* moved NSData+Unicode to MulleObjCValueFoundation
+* much improved NSScanner code (but not complete yet)
+* much improved `lowercaseString` and `uppercaseString`
+* much improved component separation code
+* use ``mulleFastGetUTF8Data_:`` and family instead of `mulleFastUTF8Characters` and family
+* fix non-unicode characterset routines to only return true BOOL values
+
+
 ### 0.17.2
 
 * remove duplicate objc-loader.inc
