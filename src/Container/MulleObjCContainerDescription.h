@@ -46,6 +46,7 @@ struct MulleObjCObjectContainerDescriptionInfo
    NSString  *empty;
    NSString  *separator;
    NSString  *lastSeparator;
+   NSString  *indent;
 };
 
 NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,

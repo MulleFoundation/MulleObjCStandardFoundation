@@ -147,3 +147,10 @@ struct mulle_mini_tm
 @end
 
 
+@interface NSCalendarDate( NSDate)
+
+- (NSTimeInterval) timeIntervalSinceDate:(NSDate *) other;
+
+@end
+
+

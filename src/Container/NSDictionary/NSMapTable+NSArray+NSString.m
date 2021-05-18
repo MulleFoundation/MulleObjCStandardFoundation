@@ -86,7 +86,7 @@ NSArray   *NSAllMapTableValues( NSMapTable *table)
 
 NSString   *NSStringFromMapTable( NSMapTable *table)
 {
-   char                     *cStringDescription;
+   NSString                 *description;
    NSMapEnumerator          rover;
    NSMutableString          *s;
    NSString                 *separator;
@@ -99,28 +99,24 @@ NSString   *NSStringFromMapTable( NSMapTable *table)
 
    s         = [NSMutableString stringWithString:@"{\n   "];
    separator = @"";
-
+   allocator = NULL;
+   
    rover = NSEnumerateMapTable( table);
    while( NSNextMapEnumeratorPair( &rover, &key, &value))
    {
       [s appendString:separator];
-
-      allocator          = table->_allocator;
-      cStringDescription = (*table->_callback.keycallback.describe)( &table->_callback.keycallback,
-                                                                     key,
-                                                                     &allocator);
-      [s appendFormat:@"%s", cStringDescription];
+      description = (*table->_callback.keycallback.describe)( &table->_callback.keycallback,
+                                                              key,
+                                                              &allocator);
+      [s appendString:description];
       if( allocator)
          mulle_allocator_free( allocator, s);
       [s appendString:@" = "];
 
-      allocator          = table->_allocator;
-      cStringDescription = (*table->_callback.valuecallback.describe)( &table->_callback.valuecallback,
-                                                                       value,
-                                                                       &allocator);
-      [s appendFormat:@"%s", cStringDescription];
-      if( allocator)
-         mulle_allocator_free( allocator, s);
+      description = (*table->_callback.valuecallback.describe)( &table->_callback.valuecallback,
+                                                                value,
+                                                                &allocator);
+      [s appendString:description];
 
       separator = @";\n   ";
    }

@@ -116,7 +116,7 @@ typedef struct
 
 
 
-static inline name_sender_pair   *pair_copy( void *unused,
+static inline name_sender_pair   *pair_copy( void *callback,
                                              name_sender_pair *pair,
                                              struct mulle_allocator *allocator)
 {
@@ -129,7 +129,7 @@ static inline name_sender_pair   *pair_copy( void *unused,
 }
 
 
-static inline void   pair_destroy( void *unused,
+static inline void   pair_destroy( void *callback,
                                    name_sender_pair *pair,
                                    struct mulle_allocator *allocator)
 {
@@ -209,7 +209,7 @@ static int   pair_is_equal( struct mulle_container_keycallback *table,
 }
 
 
-static char   *object_describe( struct mulle_container_keycallback *table,
+static void   *object_describe( struct mulle_container_keycallback *table,
                                 void *a,
                                 struct mulle_allocator **p_allocator)
 {
@@ -218,18 +218,18 @@ static char   *object_describe( struct mulle_container_keycallback *table,
 }
 
 
-static char   *pair_describe( struct mulle_container_keycallback *table,
+static void   *pair_describe( struct mulle_container_keycallback *table,
                               void *_a,
                               struct mulle_allocator **p_allocator)
 {
    name_sender_pair *a = _a;
 
    *p_allocator = NULL;
-   return( [[NSString stringWithFormat:@"@selector(%@)/%p", a->name, a->sender] UTF8String]);
+   return( [NSString stringWithFormat:@"@selector(%@)/%p", a->name, a->sender]);
 }
 
 
-static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
+static void   *pairqueue_describe( struct mulle_container_valuecallback *table,
                                     void *_queue,
                                     struct mulle_allocator **p_allocator)
 {
@@ -252,11 +252,11 @@ static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
       [s appendFormat:@"@selector(%@)/%p", p->name, p->sender];
    }
    mulle__pointerqueueenumerator_done( &rover);
-   return( [s UTF8String]);
+   return( s);
 }
 
 
-static char   *tripletqueue_describe( struct mulle_container_valuecallback *table,
+static void   *tripletqueue_describe( struct mulle_container_valuecallback *table,
                                       void *_queue,
                                       struct mulle_allocator **p_allocator)
 {
@@ -281,7 +281,7 @@ static char   *tripletqueue_describe( struct mulle_container_valuecallback *tabl
                                    p->imp];
    }
    mulle__pointerqueueenumerator_done( &rover);
-   return( [s UTF8String]);
+   return( s);
 }
 
 
@@ -315,10 +315,10 @@ static void    free_queue_and_contents( struct mulle_container_keycallback *tabl
 static struct mulle_container_keyvaluecallback   pair_registry_callbacks =
 {
    {
-      (uintptr_t (*)()) pair_hash,
-      (int (*)()) pair_is_equal,
-      (void *(*)(struct mulle_container_keycallback *, void *, struct mulle_allocator *)) pair_copy,
-      (void (*)(struct mulle_container_keycallback *, void *, struct mulle_allocator *)) pair_destroy,
+      (mulle_container_keycallback_hash_t *)      pair_hash,
+      (mulle_container_keycallback_is_equal_t *)  pair_is_equal,
+      (mulle_container_keycallback_retain_t *)    pair_copy,
+      (mulle_container_keycallback_release_t *)   pair_destroy,
       pair_describe,
       NULL,
       NULL
@@ -357,8 +357,8 @@ static struct mulle_container_keyvaluecallback   sender_registry_callbacks =
 static struct mulle_container_keyvaluecallback   name_registry_callbacks =
 {
    {
-      (uintptr_t (*)()) mulle_container_keycallback_object_hash,
-      (int (*)()) mulle_container_keycallback_object_is_equal,
+      mulle_container_keycallback_object_hash,
+      mulle_container_keycallback_object_is_equal,
       mulle_container_keycallback_self,
       mulle_container_keycallback_nop,
       object_describe,

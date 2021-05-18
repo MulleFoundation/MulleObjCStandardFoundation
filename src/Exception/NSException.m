@@ -70,8 +70,8 @@ static void   _throw_errno_exception( NSString *exceptionName,
 {
    NSString  *s;
 
-   s = [NSString stringWithFormat:format
-                          arguments:args];
+   s = [NSString mulleStringWithFormat:format
+                             arguments:args];
    [NSException raise:exceptionName
                format:@"%@: %s", s, strerror( errno)];
 }
@@ -190,8 +190,8 @@ void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *ta
    NSException   *exception;
    NSString      *reason;
 
-   reason    = [NSString stringWithFormat:format
-                                arguments:args];
+   reason    = [NSString mulleStringWithFormat:format
+                                     arguments:args];
    exception = [self exceptionWithName:name
                                 reason:reason
                               userInfo:nil];

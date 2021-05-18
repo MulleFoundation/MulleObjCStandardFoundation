@@ -39,7 +39,7 @@
 
 // other files in this library
 #import "MulleObjCArchiver-Private.h"
-#include "mulle_buffer_archiver.h"
+#include "mulle-buffer-archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardContainerFoundation.h"
@@ -66,8 +66,8 @@
    struct mulle_container_keycallback   callback;
 
    callback          = NSNonOwnedPointerMapKeyCallBacks;
-   callback.hash     = (uintptr_t (*)()) blob_hash;
-   callback.is_equal = (int (*)()) blob_is_equal;
+   callback.hash     = (mulle_container_keycallback_hash_t *) blob_hash;
+   callback.is_equal = (mulle_container_keycallback_is_equal_t *) blob_is_equal;
    callback.describe = blob_describe;
 
    _scope = _NSCreateMapTableWithAllocator( callback,

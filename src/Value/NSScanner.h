@@ -79,10 +79,9 @@ SOFTWARE. */
 @property( retain) NSCharacterSet                                *charactersToBeSkipped;
 @property( retain) NSLocale                                      *locale;
 @property( getter=caseSensitive,setter=setCaseSensitive:) BOOL   isCaseSensitive;
-@property() NSUInteger                                           scanLocation;
+@property( assign) NSUInteger                                    scanLocation;
 
 + (instancetype) scannerWithString:(NSString *)string;
-//+localizedScannerWithString:(NSString *)string;
 
 - (instancetype) initWithString:(NSString *)string;
 

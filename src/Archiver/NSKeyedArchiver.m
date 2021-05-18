@@ -38,7 +38,7 @@
 
 // other files in this library
 #import "MulleObjCArchiver-Private.h"
-#include "mulle_buffer_archiver.h"
+#include "mulle-buffer-archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardExceptionFoundation.h"

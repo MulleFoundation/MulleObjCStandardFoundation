@@ -39,15 +39,15 @@
    printf( "%s -> %s\n",
       _str ? _str : "*null*",
        s ? s : "*null*");
-   MulleObjCObjectDeallocateMemory( self, _str);
-   _str = s ? MulleObjCObjectDuplicateCString( self, s) : NULL;
+   MulleObjCInstanceDeallocateMemory( self, _str);
+   _str = s ? MulleObjCInstanceDuplicateCString( self, s) : NULL;
 }
 
 @end
 
 
 // this test demonstrates:
-//  MulleObjCObjectDuplicateCString
+//  MulleObjCInstanceDuplicateCString
 // and its being released properly during  dealloc
 // since it's a property
 
@@ -57,7 +57,7 @@ int   main( int argc, const char * argv[])
 
    // the automatic autoreleasepool is optimized away
    // when test_allocator is not set, which is confusing
-   
+
    @autoreleasepool
    {
       foo = [[Foo new] autorelease];

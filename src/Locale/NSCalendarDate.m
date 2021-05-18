@@ -197,3 +197,14 @@
 }
 
 @end
+
+
+
+@implementation NSCalendarDate( NSDate)
+
+- (NSTimeInterval) timeIntervalSinceDate:(NSDate *) other
+{
+   return( [self timeIntervalSinceReferenceDate] - [other timeIntervalSinceReferenceDate]);
+}
+
+@end

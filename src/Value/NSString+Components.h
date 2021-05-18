@@ -61,6 +61,11 @@
 
 - (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
                                                       simplifyDots:(BOOL) simplifyDots;
+
+
+- (NSString *) mulleStringByAppendingComponent:(NSString *) other
+                             separatedByString:(NSString *) separator;
+
 @end
 
 // this returns nil, if no separator is found

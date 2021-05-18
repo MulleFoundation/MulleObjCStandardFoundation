@@ -123,7 +123,7 @@ PROTOCOLCLASS_END();
 - (void) mulleWriteBytes:(void *) bytes
                   length:(NSUInteger) length
 {
-   if( length == -1)
+   if( length == (NSUInteger) -1)
       length = strlen( bytes);
 
    [self appendBytes:bytes
@@ -135,8 +135,23 @@ PROTOCOLCLASS_END();
 
 @implementation NSString( MulleObjCOutputStream)
 
-- (void) mulleWriteToStream:(id <MulleObjCOutputStream>) handle
-              usingEncoding:(NSStringEncoding) encoding
+void   MulleStringWriteToStreamUsingUTF8Encoding( NSString *self,
+                                                  id <MulleObjCOutputStream> handle)
+{
+   mulle_utf8_t            tmp[ 128];
+   struct mulle_utf8data   utf8data;
+
+   utf8data = MulleStringGetUTF8Data( self,
+                                      mulle_utf8data_make( tmp,
+                                                            sizeof( tmp)));
+   [handle mulleWriteBytes:utf8data.characters
+                    length:utf8data.length];
+}
+
+
+void   MulleStringWriteToStreamUsingEncoding( NSString *self,
+                                              id <MulleObjCOutputStream> handle,
+                                              NSStringEncoding encoding)
 {
    NSData                    *data;
    struct mulle_utf8data    utf8data;
@@ -164,17 +179,8 @@ PROTOCOLCLASS_END();
       break;
 
    case NSUTF8StringEncoding  :
-   {
-      mulle_utf8_t             tmp[ 64];
-      struct mulle_utf8data   utf8data;
-
-      utf8data = MulleStringGetUTF8Data( self,
-                                         mulle_utf8data_make( tmp,
-                                                               sizeof( tmp)));
-      [handle mulleWriteBytes:utf8data.characters
-                       length:utf8data.length];
+      MulleStringWriteToStreamUsingUTF8Encoding( self, handle);
       return;
-   }
 
    case NSUTF16StringEncoding :
       if( [self mulleFastGetUTF16Data:&utf16data])
@@ -222,6 +228,19 @@ PROTOCOLCLASS_END();
       break;
    }
    [handle writeData:data];
+}
+
+
+- (void) mulleWriteToStream:(id <MulleObjCOutputStream>) stream
+              usingEncoding:(NSStringEncoding) encoding
+{
+   MulleStringWriteToStreamUsingEncoding( self, stream, encoding);
+}
+
+
+- (void) mulleWriteAsUTF8ToStream:(id <MulleObjCOutputStream>) stream
+{
+   MulleStringWriteToStreamUsingUTF8Encoding( self, stream);
 }
 
 @end

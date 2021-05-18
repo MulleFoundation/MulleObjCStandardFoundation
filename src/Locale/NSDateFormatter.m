@@ -186,7 +186,7 @@ static inline void   SelfUnlock( void)
 
 - (void) dealloc
 {
-   MulleObjCObjectDeallocateMemory( self, _cformat);
+   MulleObjCInstanceDeallocateMemory( self, _cformat);
    [_dateFormat release];
 
    [super dealloc];

@@ -45,22 +45,22 @@
 
 @interface NSArray( DataComponents)
 
-+ (instancetype) mulleArrayFromMulleData:(struct mulle_data) buf
-                            pointerQueue:(struct mulle__pointerqueue *) pointers
-                                  stride:(NSUInteger) sepLen
-                            factoryClass:(Class) factory
-                           sharingObject:(id) sharingObject;
++ (instancetype) mulleArrayFromCData:(struct mulle_data) buf
+                        pointerQueue:(struct mulle__pointerqueue *) pointers
+                              stride:(NSUInteger) sepLen
+                        factoryClass:(Class) factory
+                       sharingObject:(id) sharingObject;
 
 @end
 
 
 @implementation NSArray( DataComponents)
 
-+ (instancetype) mulleArrayFromMulleData:(struct mulle_data) buf
-                            pointerQueue:(struct mulle__pointerqueue *) pointers
-                                  stride:(NSUInteger) sepLen
-                            factoryClass:(Class) factory
-                           sharingObject:(id) sharingObject
++ (instancetype) mulleArrayFromCData:(struct mulle_data) buf
+                        pointerQueue:(struct mulle__pointerqueue *) pointers
+                              stride:(NSUInteger) sepLen
+                        factoryClass:(Class) factory
+                       sharingObject:(id) sharingObject
 {
    NSArray                                *array;
    id                                     *dst;
@@ -117,9 +117,9 @@
 @implementation NSData ( Components)
 
 static void
-   _mulleDataSeparateComponentsByMulleData( struct mulle_data data,
-                                            struct mulle_data sepData,
-                                            struct mulle__pointerqueue *pointers)
+   _mulleDataSeparateComponentsByCData( struct mulle_data data,
+                                        struct mulle_data sepData,
+                                        struct mulle__pointerqueue *pointers)
 {
    char   *q;
    char   *found;
@@ -168,15 +168,15 @@ static void
    struct mulle_data            data;
    struct mulle_data            sepData;
 
-   data    = [self mulleData];
-   sepData = [separator mulleData];
+   data    = [self cData];
+   sepData = [separator cData];
    _mulle__pointerqueue_init( &pointers, 0x1000, 0);
-   _mulleDataSeparateComponentsByMulleData( data,
+   _mulleDataSeparateComponentsByCData( data,
                                             sepData,
                                             &pointers);
    array = nil;
    if( _mulle__pointerqueue_get_count( &pointers))
-      array = [NSArray mulleArrayFromMulleData:data
+      array = [NSArray mulleArrayFromCData:data
                                   pointerQueue:&pointers
                                         stride:sepData.length
                                   factoryClass:[NSData class]
