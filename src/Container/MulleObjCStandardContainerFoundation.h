@@ -34,6 +34,9 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 #import "MulleObjCContainerDescription.h"
+#import "MulleObjCContainerIntegerCallback.h"
+#import "MulleObjCContainerPointerCallback.h"
+#import "MulleObjCContainerSELCallback.h"
 
 #import "NSSortDescriptor.h"
 
@@ -44,3 +47,4 @@
 
 #import "NSHashTable+NSArray+NSString.h"
 #import "NSMapTable+NSArray+NSString.h"
+

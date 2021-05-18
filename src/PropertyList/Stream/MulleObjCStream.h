@@ -95,7 +95,9 @@ PROTOCOLCLASS_END();
 
 @interface NSString( MulleObjCOutputStream)
 
-- (void) mulleWriteToStream:(id <MulleObjCOutputStream>) bytes
+- (void) mulleWriteToStream:(id <MulleObjCOutputStream>) stream
               usingEncoding:(NSStringEncoding) encoding;
+
+- (void) mulleWriteAsUTF8ToStream:(id <MulleObjCOutputStream>) stream;
 
 @end

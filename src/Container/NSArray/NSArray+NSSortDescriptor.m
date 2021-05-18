@@ -46,7 +46,7 @@
 
 - (NSArray *) sortedArrayUsingDescriptors:(NSArray *) orderings
 {
-   return( [self sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) MulleObjCSortDescriptorArrayCompare
+   return( [self sortedArrayUsingFunction:(NSComparisonResult (*)(id, id, void *)) MulleObjCSortDescriptorArrayCompare
                                   context:orderings]);
 }
 
@@ -57,7 +57,7 @@
 
 - (void) sortUsingDescriptors:(NSArray *) orderings
 {
-   [self sortUsingFunction:(NSInteger (*)(id, id, void *)) MulleObjCSortDescriptorArrayCompare
+   [self sortUsingFunction:(NSComparisonResult (*)(id, id, void *)) MulleObjCSortDescriptorArrayCompare
                    context:orderings];
 }
 

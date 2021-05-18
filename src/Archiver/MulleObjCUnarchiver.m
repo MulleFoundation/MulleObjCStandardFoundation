@@ -39,7 +39,7 @@
 
 // other files in this library
 #import "MulleObjCArchiver-Private.h"
-#include "mulle_buffer_archiver.h"
+#include "mulle-buffer-archiver.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardContainerFoundation.h"
@@ -688,7 +688,7 @@ static int   check_header_8( struct mulle_buffer *buffer, char *expect)
                       return( (long double *) p + 1);
 
    case _C_CHARPTR  : //assert( ! *(char **) p);  // leak protection
-                      *(char **) p = MulleObjCObjectDuplicateCString( self, [self _nextCString]); /* BUG! #1# */
+                      *(char **) p = MulleObjCInstanceDuplicateCString( self, [self _nextCString]); /* BUG! #1# */
                       return( (char *) p + 1);
 
    case _C_COPY_ID  :

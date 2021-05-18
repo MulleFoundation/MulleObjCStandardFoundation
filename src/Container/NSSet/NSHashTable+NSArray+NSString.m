@@ -63,7 +63,7 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
 
 NSString   *NSStringFromHashTable( NSHashTable *table)
 {
-   char                     *cStringDescription;
+   NSString                 *description;
    NSHashEnumerator         rover;
    NSMutableString          *s;
    NSString                 *separator;
@@ -72,19 +72,17 @@ NSString   *NSStringFromHashTable( NSHashTable *table)
 
    s         = [NSMutableString stringWithString:@"<[\n"];
    separator = @"";
+   allocator = NULL;
 
    rover = NSEnumerateHashTable( table);
    while( item = NSNextHashEnumeratorItem( &rover))
    {
       [s appendString:separator];
 
-      allocator           = mulle_set_get_allocator( &table->_set);
-      cStringDescription = (*table->_callback.describe)( &table->_callback,
-                                                         item,
-                                                         &allocator);
-      [s appendFormat:@"%s", cStringDescription];
-      if( allocator)
-         mulle_allocator_free( allocator, cStringDescription);
+      description = (*table->_callback.describe)( &table->_callback,
+                                                  item,
+                                                  &allocator);
+      [s appendString:description];
 
       separator = @",\n   ";
    }

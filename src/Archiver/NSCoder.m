@@ -285,7 +285,7 @@ static void   codecValuesOfObjCTypes( NSCoder< NSObject> *self,
    [self decodeValueOfObjCType:@encode(NSUInteger)
                             at:len_p];
 
-   buf = MulleObjCObjectAllocateMemory( self, *len_p);
+   buf = MulleObjCInstanceAllocateMemory( self, *len_p);
 
    sprintf( typeBuf, "[%luc]", (unsigned long) *len_p);
    [self decodeValueOfObjCType:typeBuf

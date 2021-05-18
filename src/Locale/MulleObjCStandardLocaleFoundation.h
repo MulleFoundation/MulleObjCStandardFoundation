@@ -49,4 +49,5 @@
 #import "NSArray+NSLocale.h"
 #import "NSDictionary+NSLocale.h"
 #import "NSNumber+NSLocale.h"
+#import "NSScanner+NSLocale.h"
 #import "NSString+NSLocale.h"

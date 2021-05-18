@@ -56,7 +56,12 @@ BOOL   NSSetCompatibleDescription = YES;
 
 static struct MulleObjCObjectContainerDescriptionInfo  info =
 {
-   @"{(", @")}", @"{()}", @",\n", @"\n"
+   .opener        = @"{(",
+   .closer        = @")}",
+   .empty         = @"{()}",
+   .separator     = @",\n",
+   .lastSeparator = @"\n",
+   .indent        = @"\n    " // 4 spaces for mulle test
 };
 
 

@@ -65,8 +65,14 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
 
 static struct MulleObjCObjectContainerDescriptionInfo  info =
 {
-   @"{", @"}", @"{}", @";\n", @";\n"
+   .opener        = @"{",
+   .closer        = @"}",
+   .empty         = @"{}",
+   .separator     = @";\n",
+   .lastSeparator = @";\n",
+   .indent        = @"\n    " // 4 spaces for mulle test
 };
+
 
 
 - (NSString *) mulleDescriptionWithSelector:(SEL) sel

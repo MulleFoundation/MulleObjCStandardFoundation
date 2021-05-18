@@ -63,11 +63,9 @@ NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
       return( info->empty);
 
    s = [NSMutableString stringWithString:info->opener];
-   [s appendString:@"\n"];
-
    for( value in self)
    {
-     [s appendString:@"    "];   // 4 spaces for MulleScion tests
+      [s appendString:info->indent]; // 4 spaces for MulleScion tests
 
       /**/
       valueString = [value performSelector:sel];
@@ -76,7 +74,8 @@ NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
       i = 0;
       for( line in lines)
       {
-         [s appendString:! i++ ? @"" : @"\n    "]; // 4 spaces for MulleScion tests
+         if( i++)
+            [s appendString:info->indent]; // 4 spaces for MulleScion tests
          [s appendString:line];
       }
 
@@ -110,13 +109,12 @@ NSString   *
       return( info->empty);
 
    s = [NSMutableString stringWithString:info->opener];
-   [s appendString:@"\n"];
 
    keys = [[self allKeys] sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
    for( key in keys)
    {
       value = [self objectForKey:key];
-      [s appendString:@"    "]; // 4 spaces for MulleScion tests
+      [s appendString:info->indent]; // 4 spaces for MulleScion tests
 
       /**/
       keyString   = [key performSelector:sel];
@@ -129,7 +127,8 @@ NSString   *
       i = 0;
       for( line in lines)
       {
-         [s appendString:! i++ ? @"" : @"\n    "]; // 4 spaces for MulleScion tests
+         if( i++)
+            [s appendString:info->indent]; // 4 spaces for MulleScion tests
          [s appendString:line];
       }
       [s appendString:info->separator];  // no lastSeparator here

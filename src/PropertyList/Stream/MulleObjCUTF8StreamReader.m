@@ -112,8 +112,8 @@ const size_t   MulleObjCUTF8StreamReaderDefaultBufferSize = 0x1000;
 {
    NSString   *s;
 
-   s = [NSString stringWithFormat:format
-                          arguments:args];
+   s = [NSString mulleStringWithFormat:format
+                             arguments:args];
    fprintf( stderr, "%s\n", [s UTF8String]);
 }
 
@@ -189,8 +189,8 @@ void   MulleObjCUTF8StreamReaderFailV( MulleObjCUTF8StreamReader *_self,
 
    if( errorHandling < MulleObjCSetsError)
    {
-      description = [NSString stringWithFormat:prefixed
-                                     arguments:args];
+      description = [NSString mulleStringWithFormat:prefixed
+                                          arguments:args];
       [NSError mulleSetGenericErrorWithDomain:@"MulleObjCUTF8StreamReader"
                          localizedDescription:description];
    }

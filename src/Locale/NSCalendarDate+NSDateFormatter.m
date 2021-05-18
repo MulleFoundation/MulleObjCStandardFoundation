@@ -96,6 +96,22 @@
 
 
 - (NSString *) descriptionWithCalendarFormat:(NSString *) format
+                                    timezone:(NSTimeZone *) timezone
+                                      locale:(id) locale
+{
+   NSDateFormatter   *formatter;
+
+   formatter = [[[NSDateFormatter alloc] initWithDateFormat:format
+                                       allowNaturalLanguage:YES] autorelease];
+   [formatter setGeneratesCalendarDates:YES];
+   [formatter setLocale:locale];
+   [formatter setTimeZone:timezone];
+
+   return( [formatter stringForObjectValue:self]);
+}
+
+
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format
 {
    NSLocale   *locale;
 

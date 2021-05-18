@@ -207,7 +207,8 @@ static NSUInteger
          sepData.characters = space;
       else
          sepData.characters = mulle_malloc( sizeof( unichar) * sepData.length);
-      [separator getCharacters:sepData.characters];
+      [separator getCharacters:sepData.characters
+                         range:NSMakeRange( 0, sepData.length)];
 
       rval =_mulleDataSeparateComponentsByUTF32Data( data, nextCharacter, sepData, pointers);
 
@@ -874,6 +875,58 @@ static NSMutableArray  *arrayWithComponents( NSArray *components, NSRange range,
    }
 
    return( [result componentsJoinedByString:separator]);
+}
+
+
+
+- (NSString *) mulleStringByAppendingComponent:(NSString *) other
+                             separatedByString:(NSString *) separator
+{
+   BOOL        hasSuffix;
+   BOOL        otherHasPrefix;
+   BOOL        otherHasSuffix;
+   NSUInteger  len;
+   NSUInteger  other_len;
+
+   len = [self length];
+   if( ! len)  // "" + "b" -> "b"
+      return( other);
+
+   other_len      = [other length];
+   otherHasSuffix = [other hasSuffix:separator];
+   if( otherHasSuffix)
+   {
+      --other_len;
+      other = [other substringWithRange:NSMakeRange( 0, other_len)];
+   }
+
+   hasSuffix = [self hasSuffix:separator];
+   if( ! hasSuffix && ! other_len)
+      return( self);
+
+   otherHasPrefix = [other hasPrefix:separator];
+
+
+   //    S  P
+   //  ---+----
+   //    0  0     add '/'
+   //    0  1     just concat
+   //    1  0     just concat
+   //    1  1     remove '/'
+
+   if( ! (otherHasPrefix ^ hasSuffix))
+   {
+      if( hasSuffix) // case 1 1
+      {
+         if( other_len == 1)
+            return( [self substringWithRange:NSMakeRange( 0, len - 1)]);
+         other = [other substringFromIndex:1];
+      }
+      else          // case 0 0
+         other = [separator stringByAppendingString:other];
+   }
+
+   return( [self stringByAppendingString:other]);
 }
 
 @end
