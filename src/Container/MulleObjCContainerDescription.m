@@ -131,7 +131,7 @@ NSString   *
             [s appendString:info->indent]; // 4 spaces for MulleScion tests
          [s appendString:line];
       }
-      [s appendString:info->separator];  // no lastSeparator here
+      [s appendString:--count ? info->separator : info->lastSeparator];
    }
 
    [s appendString:info->closer];

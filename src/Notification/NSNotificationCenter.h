@@ -60,7 +60,8 @@
 //
 // currently, this is "app-wide" but shouldn't this be thread local ?
 // It would a) reduce complexity b) reduce surprise by being called from
-// a different thread.
+// a different thread. Negative: +load can't setup a plugin mechanism
+// with NSNotificatioCenter.
 // Possible fix: tie observer to thread, and raise on mismatch ?
 //
 + (instancetype) defaultCenter;

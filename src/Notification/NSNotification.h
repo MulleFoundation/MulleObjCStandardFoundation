@@ -47,7 +47,7 @@
 @property( retain) id            userInfo; /* -userInfo is untyped  */
 
 + (instancetype) notificationWithName:(NSString *) aName
-                     object:(id) anObject;
+                               object:(id) anObject;
 
 + (instancetype) notificationWithName:(NSString *) aName
                                object:(id) anObject

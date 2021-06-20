@@ -1,14 +1,3 @@
-void test_i_encode_decode()
-(
-    1,
-    2,
-    3
-)
-(
-    1,
-    2,
-    3
-)
 void test_i_class_for_coder()
 NSArray
 void test_i_sorted_array_using_descriptors_()

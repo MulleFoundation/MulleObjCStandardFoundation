@@ -12,14 +12,6 @@ endif()
 # contents selected with patternfile ??-source--sources
 #
 set( SOURCES
-src/Archiver/MulleObjCArchiver.m
-src/Archiver/MulleObjCUnarchiver.m
-src/Archiver/NSArchiver.m
-src/Archiver/NSCoder.m
-src/Archiver/NSKeyedArchiver.m
-src/Archiver/NSKeyedUnarchiver.m
-src/Archiver/NSObject+NSCoder.m
-src/Archiver/NSUnarchiver.m
 src/Container/MulleObjCContainerDescription.m
 src/Container/MulleObjCContainerIntegerCallback.m
 src/Container/MulleObjCContainerPointerCallback.m
@@ -54,26 +46,6 @@ src/Locale/NSTimeZone.m
 src/Notification/NSNotificationCenter.m
 src/Notification/NSNotification.m
 src/Notification/NSThread+NSNotification.m
-src/PropertyList/NSDictionary+PropertyList.m
-src/PropertyList/NSPropertyListSerialization.m
-src/PropertyList/NSString+PropertyList.m
-src/PropertyList/Parsing/NSArray+PropertyListParsing.m
-src/PropertyList/Parsing/NSData+PropertyListParsing.m
-src/PropertyList/Parsing/NSDictionary+PropertyListParsing.m
-src/PropertyList/Parsing/NSObject+PropertyListParsing.m
-src/PropertyList/Parsing/NSString+PropertyListParsing.m
-src/PropertyList/Printing/MulleObjCPropertyListPrinting.m
-src/PropertyList/Printing/NSArray+PropertyListPrinting.m
-src/PropertyList/Printing/NSData+PropertyListPrinting.m
-src/PropertyList/Printing/NSDate+PropertyListPrinting.m
-src/PropertyList/Printing/NSDictionary+PropertyListPrinting.m
-src/PropertyList/Printing/NSNumber+PropertyListPrinting.m
-src/PropertyList/Printing/NSString+PropertyListPrinting.m
-src/PropertyList/Stream/MulleObjCBufferedInputStream.m
-src/PropertyList/Stream/MulleObjCBufferedOutputStream.m
-src/PropertyList/Stream/_MulleObjCPropertyListReader.m
-src/PropertyList/Stream/MulleObjCStream.m
-src/PropertyList/Stream/MulleObjCUTF8StreamReader.m
 src/Undo/NSUndoManager.m
 src/Value/MulleObjCCharacterBitmap.m
 src/Value/_MulleObjCConcreteBitmapCharacterSet.m
