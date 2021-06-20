@@ -168,8 +168,8 @@ static void
    struct mulle_data            data;
    struct mulle_data            sepData;
 
-   data    = [self cData];
-   sepData = [separator cData];
+   data    = [self mulleCData];
+   sepData = [separator mulleCData];
    _mulle__pointerqueue_init( &pointers, 0x1000, 0);
    _mulleDataSeparateComponentsByCData( data,
                                             sepData,

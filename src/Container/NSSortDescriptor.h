@@ -44,7 +44,7 @@
 {
    SEL        _selector;
    NSString   *_key;
-   BOOL       _ascending;
+   BOOL        _ascending;
 }
 
 + (NSSortDescriptor *) sortDescriptorWithKey:(NSString *) key

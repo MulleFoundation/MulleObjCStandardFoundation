@@ -7,8 +7,6 @@
 //
 #import "NSSortDescriptor+NSCoder.h"
 
-#import "NSCoder.h"
-
 #import "MulleObjCStandardValueFoundation.h"
 
 
@@ -18,7 +16,7 @@
 
 
 /**/
-- (instancetype) initWithCoder:(NSCoder *) coder
+- (instancetype) initWithCoder:(id <NSCoding>) coder
 {
    NSString   *s;
 
@@ -26,19 +24,24 @@
    if( ! self)
       return( self);
 
-   [coder decodeValuesOfObjCTypes:"@@c", &_key, &s, &_ascending];
+   _key = [[coder decodeObject] copy];
+   s    = [coder decodeObject];
    _selector = NSSelectorFromString( s);
-
+   [coder decodeValueOfObjCType:@encode( BOOL)
+                             at:&_ascending];
    return( self);
 }
 
 
-- (void) encodeWithCoder:(NSCoder *) coder
+- (void) encodeWithCoder:(id <NSCoding>) coder
 {
    NSString   *s;
 
    s = NSStringFromSelector( _selector);
-   [coder encodeValuesOfObjCTypes:"@@c", &_key, &s, &_ascending];
+   [coder encodeObject:_key];
+   [coder encodeObject:s];
+   [coder encodeValueOfObjCType:@encode( BOOL)
+                             at:&_ascending];
 }
 
 @end

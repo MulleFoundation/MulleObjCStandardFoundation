@@ -13,7 +13,6 @@ endif()
 
 set( INCLUDE_DIRS
 src
-src/Archiver
 src/Container
 src/Container/NSArray
 src/Container/NSDictionary
@@ -21,10 +20,6 @@ src/Container/NSSet
 src/Exception
 src/Locale
 src/Notification
-src/PropertyList
-src/PropertyList/Parsing
-src/PropertyList/Printing
-src/PropertyList/Stream
 src/Undo
 src/Value
 src/reflect
@@ -50,7 +45,6 @@ src/include-private.h
 # contents selected with patternfile ??-header--private-headers
 #
 set( PRIVATE_HEADERS
-src/Archiver/MulleObjCArchiver-Private.h
 src/Locale/_MulleGMTTimeZone-Private.h
 src/mulle-foundation-startup-private.inc
 src/mulle-foundation-universeconfiguration-private.h
@@ -76,16 +70,6 @@ src/include.h
 # contents selected with patternfile ??-header--public-headers
 #
 set( PUBLIC_HEADERS
-src/Archiver/MulleObjCArchiver.h
-src/Archiver/MulleObjCStandardArchiverFoundation.h
-src/Archiver/MulleObjCUnarchiver.h
-src/Archiver/NSArchiver.h
-src/Archiver/NSCoder.h
-src/Archiver/NSKeyedArchiver.h
-src/Archiver/NSKeyedUnarchiver.h
-src/Archiver/NSObject+NSCoder.h
-src/Archiver/NSUnarchiver.h
-src/Archiver/mulle-buffer-archiver.h
 src/Container/MulleObjCContainerDescription.h
 src/Container/MulleObjCContainerIntegerCallback.h
 src/Container/MulleObjCContainerPointerCallback.h
@@ -124,31 +108,6 @@ src/Notification/MulleObjCStandardNotificationFoundation.h
 src/Notification/NSNotificationCenter.h
 src/Notification/NSNotification.h
 src/Notification/NSThread+NSNotification.h
-src/PropertyList/MulleObjCStandardPropertyListFoundation.h
-src/PropertyList/NSDictionary+PropertyList.h
-src/PropertyList/NSPropertyListSerialization.h
-src/PropertyList/NSString+PropertyList.h
-src/PropertyList/Parsing/NSArray+PropertyListParsing.h
-src/PropertyList/Parsing/NSData+PropertyListParsing.h
-src/PropertyList/Parsing/NSDictionary+PropertyListParsing.h
-src/PropertyList/Parsing/NSObject+PropertyListParsing.h
-src/PropertyList/Parsing/NSString+PropertyListParsing.h
-src/PropertyList/Printing/MulleObjCPropertyListPrinting.h
-src/PropertyList/Printing/NSArray+PropertyListPrinting.h
-src/PropertyList/Printing/NSData+PropertyListPrinting.h
-src/PropertyList/Printing/NSDate+PropertyListPrinting.h
-src/PropertyList/Printing/NSDictionary+PropertyListPrinting.h
-src/PropertyList/Printing/NSNumber+PropertyListPrinting.h
-src/PropertyList/Printing/NSString+PropertyListPrinting.h
-src/PropertyList/Stream/MulleObjCBufferedInputStream+InlineAccessors.h
-src/PropertyList/Stream/MulleObjCBufferedInputStream.h
-src/PropertyList/Stream/MulleObjCBufferedOutputStream+InlineAccessors.h
-src/PropertyList/Stream/MulleObjCBufferedOutputStream.h
-src/PropertyList/Stream/_MulleObjCPropertyListReader+InlineAccessors.h
-src/PropertyList/Stream/_MulleObjCPropertyListReader.h
-src/PropertyList/Stream/MulleObjCStream.h
-src/PropertyList/Stream/MulleObjCUTF8StreamReader+InlineAccessors.h
-src/PropertyList/Stream/MulleObjCUTF8StreamReader.h
 src/Undo/MulleObjCStandardUndoFoundation.h
 src/Undo/NSUndoManager.h
 src/Value/MulleObjCCharacterBitmap.h

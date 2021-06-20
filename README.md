@@ -1,16 +1,55 @@
 # MulleObjCStandardFoundation
 
-#### 🚤 Platform-independent Objective-C classes, like NSString, NSArray, NSNotificationCenter
+#### 🚤 Objective-C classes based on the C standard library
 
-These classes build on **MulleObjC** and **mulle-core** to provide the usual
-classes expected in a Foundation library, that require no more than the
-standard C libraries.
+This library builds on [MulleObjCValueFoundation](/MulleObjCValueFoundation) and [MulleObjCContainerFoundation](/MulleObjCContainerFoundation) and introduces a lot of additional classes.
+
+#### Classes
+
+Class                  | Description
+-----------------------|-----------------
+`NSAssertionHandler`   | Used by `NSAssert()`
+`NSCalendarDate`       | A composition of `NSDate` and `NSTimeZone`
+`NSCharacterSet`       | Character classification like `<ctype.h>`
+`NSDateFormatter`      | `NSDate` to `NSString` representation
+`NSError`              | A wrapper for `<errno.h>`
+`NSException`          | Exceptions for @throw
+`NSFormatter`          | Object to `NSString` representation
+`NSLocale`             | Localization support
+`NSNotification`       | Message encapsulation for `NSNotificationCenter`
+`NSNotificationCenter` | Publish/subscribe message sending
+`NSNumberFormatter`    | `NSNumber` to `NSString` representation
+`NSScanner`            | Parse from `NSString` into `NSNumber`
+`NSSortDescriptor`     |
+`NSTimeZone`           |
+`NSUndoManager`        |
 
 
+### You are here
 
-Build Status | Release Version
--------------|-----------------------------------
-[![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCStandardFoundation.svg) [![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation)
+```
+   .-------------------------------------------------------------------.
+   | MulleFoundation                                                   |
+   '-------------------------------------------------------------------'
+   .----------------------------.
+   | Calendar                   |
+   '----------------------------'
+   .----------------------------.
+   | OS                         |
+   '----------------------------'
+           .--------------------..----------..-----..---------.
+           | Plist              || Archiver || KVC || Unicode |
+           '--------------------''----------''-----''---------'
+           .==================================================..-------.
+           | Standard                                         || Math  |
+           '==================================================''-------'
+   .------..-----------------------------..----------------------------.
+   | Lock || Container                   || Value                      |
+   '------''-----------------------------''----------------------------'
+   .-------------------------------------------------------------------.
+   | MulleObjC                                                         |
+   '-------------------------------------------------------------------'
+```
 
 
 ## Install
@@ -22,6 +61,7 @@ installation instructions.
 
 Parts of this library:
 
+```
 Copyright (c) 2006-2007 Christopher J. W. Lloyd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -39,7 +79,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
+```
 
 ## Author
 

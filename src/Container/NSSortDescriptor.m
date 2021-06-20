@@ -85,7 +85,7 @@
 
 
 - (instancetype) initWithKey:(NSString *) key
-         ascending:(BOOL) ascending
+                   ascending:(BOOL) ascending
 {
    return( [self initWithKey:key
                   ascending:ascending

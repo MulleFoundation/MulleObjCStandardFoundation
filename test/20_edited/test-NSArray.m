@@ -30,33 +30,6 @@ static void   test_noleak()
 }
 
 
-static void   test_i_encode_decode()
-{
-   printf( "%s\n", __PRETTY_FUNCTION__);
-
-   @autoreleasepool
-   {
-      NSArray *obj;
-      NSArray *obj2;
-      NSData  *data;
-
-      @try
-      {
-         obj  = [[NSArray alloc] initWithArray:@[ @"1", @"2", @"3"]];
-         data = [NSArchiver archivedDataWithRootObject:obj];
-         obj2 = [NSUnarchiver unarchiveObjectWithData:data];
-         printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
-         printf( "%s\n", [obj2 cStringDescription]);
-         [obj release];
-      }
-      @catch( NSException *exception)
-      {
-         printf( "Threw a %s exception\n", [[exception name] UTF8String]);
-      }
-   }
-}
-
-
 static void   test_i_class_for_coder()
 {
    printf( "%s\n", __PRETTY_FUNCTION__);
@@ -1622,7 +1595,6 @@ int   main( int argc, char *argv[])
       return( 1);
 #endif
    run_test( test_noleak);
-   run_test( test_i_encode_decode);
    run_test( test_i_class_for_coder);
    run_test( test_i_sorted_array_using_descriptors_);
    run_test( test_i_description);

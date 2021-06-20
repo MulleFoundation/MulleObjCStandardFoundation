@@ -80,7 +80,7 @@ static struct MulleObjCObjectContainerDescriptionInfo  info =
    .opener        = @"(",
    .closer        = @")",
    .empty         = @"()",
-   .separator     = @",\n",
+   .separator     = @",",
    .lastSeparator = @"\n",
    .indent        = @"\n    " // 4 spaces for mulle test
 };

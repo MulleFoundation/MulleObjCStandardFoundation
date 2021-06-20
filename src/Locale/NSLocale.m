@@ -141,7 +141,7 @@ NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
 
 - (id) :(id) key;
 {
-   return( [_keyValues :key]);
+   return( [(NSDictionary *)_keyValues :key]);
 }
 
 
