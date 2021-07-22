@@ -151,7 +151,7 @@ static inline void   SelfUnlock( void)
    SelfUnlock();
 
    if( ! cls)
-      MulleObjCThrowInternalInconsistencyException( @"no class for NSDateFormatterBehavior %d loaded", formatterBehavior);
+      MulleObjCThrowInternalInconsistencyException( @"No class for NSDateFormatterBehavior %d loaded", formatterBehavior);
 
    MulleObjCObjectSetClass( self, cls);
 }
