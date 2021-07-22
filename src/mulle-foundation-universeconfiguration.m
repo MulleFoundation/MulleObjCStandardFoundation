@@ -80,12 +80,29 @@ extern void  _MulleObjCExceptionInitTable ( struct _mulle_objc_exceptionhandlert
 
 #pragma mark - setup and teardown ObjC
 
+static void   *objectfromchars( char *s)
+{
+   return( [NSString stringWithUTF8String:s]);
+}
+
+
+static char   *charsfromobject( void *obj)
+{
+   return( [(id) obj UTF8String]);
+}
+
 
 void   mulle_foundation_postcreate_objc( struct _mulle_objc_universe *universe)
 {
-   struct mulle_allocator   *allocator;
+   struct _mulle_objc_universefoundationinfo   *rootconfig;
+   struct mulle_allocator                      *allocator;
 
    mulle_objc_postcreate_universe( universe);
+
+   rootconfig = _mulle_objc_universe_get_foundationdata( universe);
+   // will be overwritten by foundation to convert to NSString
+   rootconfig->string.charsfromobject = charsfromobject;
+   rootconfig->string.objectfromchars = objectfromchars;
 
    allocator = _mulle_objc_universe_get_foundationallocator( universe);
    mulle_allocator_set_fail( allocator,

@@ -14,25 +14,16 @@
 
 int main(int argc, const char * argv[])
 {
-   NSString  *fileName;
-   NSString  *reason;
-   long      lineNumber;
-
-   fileName  = [[[NSString alloc] mulleInitWithUTF8CharactersNoCopy:"commands/filter/filter-html.scion"
-                                                            length:NSIntegerMax
-                                                      freeWhenDone:NO] autorelease];
-
-   reason   = [[[NSString alloc] mulleInitWithUTF8CharactersNoCopy:"at 'h' near \"{% filter htmlEscapedString, (output) %} <html> {{ \"\\\"html>\\\" }} {% endfilter %} {% filter htmlEscapedString %} <html\", unknown keyword \"filter\" (did you mean \"filter\" ?)"
-                                                            length:NSIntegerMax
-                                                      freeWhenDone:NO] autorelease];
-   lineNumber = 1;
-
    @try
    {
     [NSException raise:NSInvalidArgumentException
-                format:@"%@,%lu: %@", fileName ? fileName : @"template", (long) lineNumber, reason];
+                format:@"%@,%lu: %@", @"filename", (long) 1234, @"whatever"];
    }
    @catch( NSException *localException)
    {
+      printf( "%s: %s\n", [[localException name] UTF8String],
+                          [[localException reason] UTF8String]);
+      return( 0);
    }
+   return( 1);
 }
