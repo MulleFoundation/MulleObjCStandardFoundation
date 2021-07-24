@@ -1,6 +1,10 @@
 ## 0.19.0
 
-* Various small improvements
+* split off MulleObjCArchiverFoundation and MulleObjCPlistFoundation
+* changed propertylist formatting a bit for compatibility and ease of reuse
+* changed property list output to match newer Apple output
+* added `-[NSString - (NSString *) mulleStringByAppendingComponent:  separatedByString:]`
+* renamed "MulleData" methods and functions to "CData"
 
 
 ## 0.18.0
