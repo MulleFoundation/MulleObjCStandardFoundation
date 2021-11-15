@@ -33,11 +33,11 @@ static int   test_i_init_with_objects_for_keys_( void)
          {
             obj = [[[NSDictionary alloc] initWithObjects:params_1[ i_1]
                                                  forKeys:params_2[ i_2]] autorelease];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -54,11 +54,11 @@ static int   test_i_init_with_objects_and_keys_( void)
                                                           @[ @"a" ],
                                                           @1,
                                                           nil] autorelease];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }
@@ -80,11 +80,11 @@ static int   test_i_init_with_dictionary_( void)
       @try
       {
          obj = [[[NSDictionary alloc] initWithDictionary:params_1[ i_1]] autorelease];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -98,11 +98,11 @@ static int   test_i_init( void)
    @try
    {
       obj = [[[NSDictionary alloc] init] autorelease];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }
@@ -130,12 +130,12 @@ static int   test_i_init( void)
       mulle_vararg_start( args, first);
       obj = [[[NSDictionary alloc] initWithObject:first
                                  mulleVarargList:args] autorelease];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
       mulle_vararg_end( args);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
 }
 
@@ -176,11 +176,11 @@ static int   test_i_init_with_dictionary_copy_items_( void)
          {
             obj = [[[NSDictionary alloc] initWithDictionary:params_1[ i_1]
                                                   copyItems:params_2[ i_2]] autorelease];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -218,11 +218,11 @@ static int   test_i_init_with_objects_for_keys_count_( void)
          obj = [[[NSDictionary alloc] initWithObjects:params_1[ i_1]
                                               forKeys:params_1[ i_1]
                                                 count:params_3[ i_1]] autorelease];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

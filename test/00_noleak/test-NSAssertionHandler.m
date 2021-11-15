@@ -29,7 +29,7 @@ static void   test_noleak( void)
       }
       @catch( NSException *localException)
       {
-         fprintf( stderr, "Threw a %s exception\n", [[localException name] cStringDescription]);
+         fprintf( stderr, "Threw a %s exception\n", [[localException name] UTF8String]);
          _exit( 1);
       }
    }

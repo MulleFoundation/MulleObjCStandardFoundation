@@ -29,12 +29,12 @@
       mulle_vararg_start( args, first);
       obj = [[[NSSet alloc] initWithObject:first
                                   mulleVarargList:args] autorelease];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
       mulle_vararg_end( args);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
 }
 

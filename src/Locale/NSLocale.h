@@ -55,6 +55,10 @@
                            value:(id) value;
 
 
+// these are currently hard cached on +intitialize
++ (instancetype) systemLocale;
++ (instancetype) currentLocale;
+
 - (NSString *) localeIdentifier;
 - (NSString *) languageCode;
 - (NSString *) scriptCode;
@@ -79,8 +83,8 @@
 
 @interface NSLocale( Future)
 
-+ (instancetype) systemLocale;
-+ (instancetype) currentLocale;
++ (instancetype) _systemLocale;
++ (instancetype) _currentLocale;
 
 + (NSArray *) availableLocaleIdentifiers;
 + (NSArray *) ISOLanguageCodes;

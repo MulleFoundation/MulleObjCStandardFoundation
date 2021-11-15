@@ -15,7 +15,7 @@ int main(int argc, const char * argv[])
    id   obj;
 
    for( obj in @[ @"a", @"b", @"c", @"d"])
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
 
    return( 0);
 }

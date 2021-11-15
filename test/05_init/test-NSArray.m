@@ -13,10 +13,10 @@ static int   test_i_init_with_objects_( void)
    NSArray    *obj2;
 
    obj  = [[[NSArray alloc] initWithObjects:nil] autorelease];
-   printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+   printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
 
    obj2 = [[[NSArray alloc] initWithObjects:@1, @2, @3, nil] autorelease];
-   printf( "%s\n", obj2 ? [obj2 cStringDescription] : "*nil*");
+   printf( "%s\n", obj2 ? [obj2 UTF8String] : "*nil*");
    return( 0);
 }
 
@@ -48,11 +48,11 @@ static int   test_i_init_with_array_and_array_( void)
          {
             obj = [[[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                               andArray:params_2[ i_2]] autorelease];
-            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -70,7 +70,7 @@ static void   _test_i_init_with_object_vararg_list_( id first, ...)
    va_start( args, first);
    obj = [[[NSArray alloc] initWithObject:first
                                arguments:args] autorelease];
-   printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+   printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
    va_end( args);
 }
 
@@ -90,11 +90,11 @@ static int   test_i_init( void)
    @try
    {
       obj = [[[NSArray alloc] init] autorelease];
-      printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+      printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }
@@ -126,11 +126,11 @@ static int   test_i_init_with_objects_count_( void)
          {
             obj = [[[NSArray alloc] initWithObjects:params_1[ i_1]
                                               count:params_2[ i_2]] autorelease];
-            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -166,11 +166,11 @@ static int   test_i_init_with_array_and_object_( void)
          {
             obj = [[[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                              andObject:params_2[ i_2]] autorelease];
-            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -194,11 +194,11 @@ static int   test_i_init_with_array_( void)
       @try
       {
          obj = [[[NSArray alloc] initWithArray:params_1[ i_1]] autorelease];
-         printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+         printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -236,11 +236,11 @@ static int   test_i_init_with_array_copy_items_( void)
          {
             obj = [[[NSArray alloc] initWithArray:params_1[ i_1]
                                         copyItems:params_2[ i_2]] autorelease];
-            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -275,11 +275,11 @@ static int   test_i_init_with_array_range_( void)
          {
             obj = [[[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                                  range:params_2[ i_2]] autorelease];
-            printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -306,7 +306,7 @@ static int   test_i_init_with_array_range_( void)
    mulle_vararg_start( args, first);
    obj = [[[NSArray alloc] initWithObject:first
                                mulleVarargList:args] autorelease];
-   printf( "%s\n", obj ? [obj cStringDescription] : "*nil*");
+   printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
    mulle_vararg_end( args);
 }
 

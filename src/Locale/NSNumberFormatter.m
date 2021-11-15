@@ -210,7 +210,7 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 - (BOOL) isLenient                 { return( _flags.isLenient); }
 
 
-- (void) setFormat:(NSString *) s
+- (void) _setFormat:(NSString *) s
 {
    NSArray    *components;
    NSString   *zero;
@@ -238,21 +238,42 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
             MulleObjCThrowInvalidArgumentException( @"malformed");
    }
 
+   [_format autorelease];
    _format = [zero copy];
    [self setPositiveFormat:plus];
    [self setNegativeFormat:minus];
 }
 
 
+- (void) setFormat:(NSString *) s
+{
+   [self _setFormat:s];
+   [self setNumberStyle:NSNumberFormatterNoStyle];
+}
+
+
+// TODO: not well coded at all
 - (NSNumber *) numberFromString:(NSString *) s
 {
-   id  value;
+   id       value;
+   Class    cls;
+   IMP      imp;
+   SEL      sel;
 
    value = nil;
-   [self getObjectValue:&value
-              forString:s
-       errorDescription:NULL];
-   return( value);
+   if( _flags.generatesDecimalNumbers)
+   {
+      // weak foward link
+      cls = MulleObjCLookupClassByNameCString( "NSDecimalNumber");
+      sel = @selector( decimalNumberWithString:);
+      imp = [cls methodForSelector:sel];
+      if( imp)
+         return( MulleObjCIMPCall( imp, cls, sel, s));
+
+      [NSException raise:NSInternalInconsistencyException
+                  format:@"There is no compatible NSDecimalNumber class in the runtime"];
+   }
+   return( [[[NSNumber alloc] mulleInitWithString:s] autorelease]);
 }
 
 
@@ -288,4 +309,44 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
    return( Self._defaultFormatter);
 }
 
+
+// TODO; code more
+- (void) setNumberStyle:(NSNumberFormatterStyle) style
+{
+   if( _numberStyle == style)
+      return;
+
+   _numberStyle = style;
+   switch( style)
+   {
+   case NSNumberFormatterNoStyle :
+      [self _initDefaultValues];
+      break;
+
+   case NSNumberFormatterDecimalStyle :
+      [self _setFormat:@"#.##"];
+      break;
+
+   case NSNumberFormatterPercentStyle :
+      [self _setFormat:@"#.##%%"];
+      break;
+
+   case NSNumberFormatterScientificStyle :
+      abort();
+   case NSNumberFormatterSpellOutStyle :
+      abort();
+   case NSNumberFormatterOrdinalStyle :
+      abort();
+
+   case NSNumberFormatterCurrencyStyle :
+      [self _setFormat:@"$#,##0.00"];
+      break;
+   case NSNumberFormatterCurrencyAccountingStyle :
+      abort();
+   case NSNumberFormatterCurrencyISOCodeStyle :
+      abort();
+   case NSNumberFormatterCurrencyPluralStyle :
+      abort();
+   }
+}
 @end

@@ -51,6 +51,7 @@
 {
    NSString   *_name;
    NSData     *_data;
+   NSInteger   _secondsFromGMT;  // if NSIntegerMax unset
 }
 
 // Primary creation method is +timeZoneWithName:; the
@@ -58,7 +59,7 @@
 
 + (instancetype) timeZoneWithName:(NSString *) name;
 + (instancetype) timeZoneWithName:(NSString *) name
-                   data:(NSData *) data;
+                             data:(NSData *) data;
 
 - (instancetype) initWithName:(NSString *) name
                          data:(NSData *) data;
@@ -67,6 +68,7 @@
 // offset is constant no matter the date; the name and abbreviation
 // do NOT follow the Posix convention (of minutes-west).
 + (instancetype) timeZoneWithAbbreviation:(NSString *) abbreviation;
++ (NSTimeZone *) timeZoneForSecondsFromGMT:(NSInteger) seconds;
 
 - (NSString *) name;
 - (NSData *) data;
@@ -101,6 +103,7 @@
 + (NSArray *) knownTimeZoneNames;
 + (NSDictionary *) abbreviationDictionary;
 
+- (NSInteger) mulleSecondsFromGMTForTimeIntervalSince1970:(NSTimeInterval) interval;
 - (NSInteger) secondsFromGMTForDate:(NSDate *) date;
 - (NSString *) abbreviationForDate:(NSDate *) aDate;
 - (BOOL) isDaylightSavingTimeForDate:(NSDate *) aDate;

@@ -31,15 +31,6 @@ static NSString   *NSDateDefaultFormat = @"%Y-%m-%d %H:%M:%S %z";
 }
 
 
-- (instancetype) initWithTimeintervalSince1970:(NSTimeInterval) interval
-                                      timeZone:(NSTimeZone *) timeZone
-{
-   interval -= [timeZone secondsFromGMT];
-   return( [self initWithTimeIntervalSince1970:interval]);
-}
-
-
-
 + (instancetype) dateWithString:(NSString *) s
 {
    NSDateFormatter   *formatter;
@@ -70,7 +61,7 @@ static NSString   *NSDateDefaultFormat = @"%Y-%m-%d %H:%M:%S %z";
 {
    NSDateFormatter  *formatter;
 
-   formatter = [[[NSDateFormatter alloc] init] autorelease];
+   formatter = [[NSDateFormatter new] autorelease];
    return( [formatter stringFromDate:self]);
 }
 
@@ -84,6 +75,12 @@ static NSString   *NSDateDefaultFormat = @"%Y-%m-%d %H:%M:%S %z";
    formatter = [[NSDateFormatter new] autorelease];
    [formatter setLocale:locale];
    return( [formatter stringFromDate:self]);
+}
+
+
+- (NSString *) stringValue
+{
+   return( [self descriptionWithLocale:nil]);
 }
 
 @end

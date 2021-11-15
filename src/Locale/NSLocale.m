@@ -114,6 +114,48 @@ NSString   *NSPositiveCurrencyFormatString = @"$9,999.00";
 
 @implementation NSLocale
 
+static struct
+{
+   NSLocale  *_systemLocale;
+   NSLocale  *_currentLocale;
+} Self;
+
+
+// scheme breaks down if categories aren't loaded yet and some one
+// calls the first NSLocale method
++ (void) initialize
+{
+   if( ! Self._systemLocale)
+   {
+      if( [self respondsToSelector:@selector( _systemLocale)])
+         Self._systemLocale  = [[self _systemLocale] retain];
+      if( [self respondsToSelector:@selector( _currentLocale)])
+         Self._currentLocale = [[self _currentLocale] retain];
+   }
+}
+
+
++ (void) deinitialize
+{
+   [Self._systemLocale release];
+   Self._systemLocale = nil;
+   [Self._currentLocale release];
+   Self._systemLocale = nil;
+}
+
+
++ (instancetype) systemLocale
+{
+   return( Self._systemLocale ? Self._systemLocale : [self _systemLocale]);
+}
+
+
++ (instancetype) currentLocale
+{
+   return( Self._currentLocale ? Self._systemLocale : [self _systemLocale]);
+}
+
+
 
 + (instancetype) localeWithLocaleIdentifier:(NSString *) s
 {

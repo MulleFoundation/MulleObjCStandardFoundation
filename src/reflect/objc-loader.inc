@@ -6,7 +6,6 @@
       { @selector( NSArray), @selector( NSString) },      // 233490fe;NSArray;1994a171;NSString
       { @selector( NSArray), @selector( StringComponents) },      // 233490fe;NSArray;6e3b19c0;StringComponents
       { @selector( NSAssertionHandler), MULLE_OBJC_NO_CATEGORYID },      // a1951b2b;NSAssertionHandler;;
-      { @selector( NSCalendarDate), @selector( NSDate) },      // b8742fcb;NSCalendarDate;cfcedd21;NSDate
       { @selector( NSCalendarDate), @selector( NSDateFormatter) },      // b8742fcb;NSCalendarDate;6d2cd542;NSDateFormatter
       { @selector( NSCalendarDate), MULLE_OBJC_NO_CATEGORYID },      // b8742fcb;NSCalendarDate;;
       { @selector( NSCharacterSet), @selector( MutableCopy) },      // bb258d72;NSCharacterSet;78d7050b;MutableCopy
@@ -50,6 +49,7 @@
       { @selector( _MulleGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // d6f534a3;_MulleGMTTimeZone;;
       { @selector( _MulleObjCASCIIString), @selector( Components) },      // b82142dd;_MulleObjCASCIIString;c6c03895;Components
       { @selector( _MulleObjCConcreteBitmapCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 0846adc2;_MulleObjCConcreteBitmapCharacterSet;;
+      { @selector( _MulleObjCConcreteCalendarDate), MULLE_OBJC_NO_CATEGORYID },      // a2be208e;_MulleObjCConcreteCalendarDate;;
       { @selector( _MulleObjCConcreteCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // ba1004b2;_MulleObjCConcreteCharacterSet;;
       { @selector( _MulleObjCConcreteInvertedCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 91ba9925;_MulleObjCConcreteInvertedCharacterSet;;
       { @selector( _MulleObjCConcreteRangeCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 09c86c6e;_MulleObjCConcreteRangeCharacterSet;;

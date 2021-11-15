@@ -45,4 +45,17 @@
 
 @implementation NSString( Locale)
 
+- (instancetype) initWithFormat:(NSString *) format
+                         locale:(NSLocale *) locale, ...
+{
+   mulle_vararg_list   args;
+
+   // [locale set]
+   mulle_vararg_start( args, locale);
+   self = [self initWithFormat:format
+               mulleVarargList:args];
+   mulle_vararg_end( args);
+   return( self);
+}
+
 @end

@@ -2,7 +2,13 @@
 
 #### 🚤 Objective-C classes based on the C standard library
 
-This library builds on [MulleObjCValueFoundation](/MulleObjCValueFoundation) and [MulleObjCContainerFoundation](/MulleObjCContainerFoundation) and introduces a lot of additional classes.
+This library builds on [MulleObjCValueFoundation](/MulleObjCValueFoundation) 
+and [MulleObjCContainerFoundation](/MulleObjCContainerFoundation) and 
+introduces a lot of additional classes.
+
+But it does not I/O (not even `stdio`). I/O is provided by 
+MulleObjCOSFoundation.
+
 
 #### Classes
 

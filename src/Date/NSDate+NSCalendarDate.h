@@ -12,7 +12,7 @@
 @class NSTimeZone;
 
 
-@interface NSDate (NSCalendarDate)
+@interface NSDate ( NSCalendarDate)
 
 - (NSCalendarDate *) calendarDateWithTimeZone:(NSTimeZone *) tz;
 

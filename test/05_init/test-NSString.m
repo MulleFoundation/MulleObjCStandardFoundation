@@ -38,11 +38,11 @@ static int   test_i_init_with_characters_length_( void)
 
          obj = [[[NSString alloc] initWithCharacters:s
                                               length:length] autorelease];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -69,11 +69,11 @@ static int   test_i_init_with_utf8_string_( void)
       @try
       {
          obj = [[[NSString alloc] initWithUTF8String:params_1[ i_1]] autorelease];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -113,11 +113,11 @@ static int   test_i_init_with_characters_no_copy_length_free_when_done_( void)
          obj    = [[[NSString alloc] initWithCharactersNoCopy:s
                                                        length:length
                                                  freeWhenDone:NO] autorelease];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -178,11 +178,11 @@ static int   test_i_init_with_bytes_no_copy_length_encoding_free_when_done_( voi
                                                         length:s ? strlen( s) : 0
                                                       encoding:params_3[ i_3]
                                                   freeWhenDone:params_4[ i_4]] autorelease];
-                  printf( "%s\n", [obj cStringDescription]);
+                  printf( "%s\n", [obj UTF8String]);
                }
                @catch( NSException *localException)
                {
-                  printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+                  printf( "Threw a %s exception\n", [[localException name] UTF8String]);
                }
             }
    return( 0);
@@ -217,11 +217,11 @@ static int   test_i_init_with_data_encoding_( void)
          {
             obj = [[[NSString alloc] initWithData:params_1[ i_1]
                                          encoding:params_2[ i_2]] autorelease];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -259,11 +259,11 @@ static int   test_i_init_with_bytes_length_encoding_( void)
             obj = [[[NSString alloc] initWithBytes:params_1[ i_1]
                          length:params_1[ i_1] ? strlen( params_1[ i_1]) : 0
                          encoding:params_3[ i_3]] autorelease];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -293,11 +293,11 @@ static int   test_i_init_with_format_vararg_list_( void)
          {
             obj = [[[NSString alloc] initWithFormat:params_1[ i_1]
                          arguments:params_2[ i_2]] autorelease];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -328,11 +328,11 @@ static int   test_i_init_with_format_mulle_vararg_list_( void)
          {
             obj = [[[NSString alloc] initWithFormat:params_1[ i_1]
                          mulleVarargList:params_2[ i_2]] autorelease];
-            printf( "%s\n", [obj cStringDescription]);
+            printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -359,11 +359,11 @@ static int   test_i_init_with_string_( void)
       @try
       {
          obj = [[[NSString alloc] initWithString:params_1[ i_1]] autorelease];
-         printf( "%s\n", [obj cStringDescription]);
+         printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

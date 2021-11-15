@@ -39,6 +39,7 @@
 #import "NSLocale.h"
 #import "NSTimeZone.h"
 #import "NSCalendarDate.h"
+#import "NSError.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardContainerFoundation.h"
@@ -80,6 +81,7 @@ static inline void   SelfUnlock( void)
       Self._table = NSCreateMapTable( NSIntegerMapKeyCallBacks,
                                       NSObjectMapValueCallBacks,
                                       4);
+      // _NSPosixDateFormatter will supply 10_0
       if( mulle_thread_mutex_init( &Self._lock))
       {
          fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
@@ -178,6 +180,7 @@ static inline void   SelfUnlock( void)
    _dateClass             = [NSDate class];
    _allowsNaturalLanguage = flag;
 
+   // don't set timeZone by default
    [self setDateFormat:format];
 
    return( self);
@@ -193,10 +196,13 @@ static inline void   SelfUnlock( void)
 }
 
 
+NSString  *MulleDateFormatISOWithMilliseconds = @"%Y-%m-%dT%H:%M:%S:%F%z";
+NSString  *MulleDateFormatISO                 = @"%Y-%m-%dT%H:%M:%S%z";
+
 - (instancetype) init
 {
    // this is incompatible, os x uses an empty date format
-   return( [self initWithDateFormat:@"%y-%m-%dT%H:%M:%SZ%z"
+   return( [self initWithDateFormat:MulleDateFormatISO // changed to %Y from %y
                allowNaturalLanguage:NO]);
 }
 
@@ -227,6 +233,29 @@ static inline void   SelfUnlock( void)
 - (void) setGeneratesCalendarDates:(BOOL) flag
 {
    _dateClass = flag ? [NSCalendarDate class] : [NSDate class];
+}
+
+
+- (BOOL) getObjectValue:(id *) obj
+              forString:(NSString *) string
+       errorDescription:(NSString **) errorDescription
+{
+   NSError   *error;
+   BOOL      flag;
+
+   flag = [self getObjectValue:obj
+                     forString:string
+                         range:NULL
+                         error:&error];
+   if( errorDescription)
+      *errorDescription = flag ? nil : [error description];
+   return( flag);
+}
+
+
+- (NSString *) stringForObjectValue:(id) obj
+{
+   return( [self stringFromDate:obj]);
 }
 
 @end

@@ -1,9 +1,9 @@
 //
-//  NSDate+NSDateFormatter.h
+//  _MulleObjCConcreteCalendarDate.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2017 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2017 Codeon GmbH.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,22 +33,23 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "import.h"
-#import "NSLocalizedDateFactory.h"
-
-@class NSDateFormatter;
-@class NSTimeZone;
-@class NSLocale;
+#import "NSCalendarDate.h"
 
 
-@interface NSDate( NSDateFormatter) < NSLocalizedDateFactory>
+@interface _MulleObjCConcreteCalendarDate : NSCalendarDate
+{
+   union
+   {
+      uint64_t               bits;
+      struct mulle_mini_tm   values;
+   } _tm;
+   NSTimeZone                *_timeZone; // 4 categories
+   //  NSUInteger                _hash;  // is it worth it ?
+}
 
-+ (instancetype) dateWithString:(NSString *) aString;
-- (instancetype) initWithString:(NSString *) description;
++ (instancetype) newWithMiniTM:(struct mulle_mini_tm) tm
+                      timeZone:(NSTimeZone *) tz;
 
-- (NSString *) descriptionWithLocale:(NSLocale *) locale;
+- (NSTimeZone *) timeZone;
 
-- (NSString *) descriptionWithCalendarFormat:(NSString *) format
-                                    timeZone:(NSTimeZone *) aTimeZone
-                                      locale:(id) locale;
 @end

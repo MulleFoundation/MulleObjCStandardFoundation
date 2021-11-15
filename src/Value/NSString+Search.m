@@ -552,6 +552,9 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
    struct _ns_unichar_enumerator  self_rover;
    struct _ns_unichar_enumerator  other_rover;
 
+   if( ! other)
+      return( NSOrderedSame);  // stabilize
+
    NSCParameterAssert( [other isKindOfClass:[NSString class]]);
    NSCParameterAssert( (options & (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch)) == options);
 
@@ -848,17 +851,12 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
    unichar   c;
    size_t    i;
    size_t    len;
-   SEL       selMember;
-   IMP       impMember;
 
-   len       = get_length( self_rover);
-   selMember = @selector( characterIsMember:);
-   impMember = [set methodForSelector:selMember];
-
+   len = get_length( self_rover);
    for( i = 0; i < len; ++i)
    {
       c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
-      if( (BOOL)(intptr_t) (*impMember)( set, selMember, (void *) c))
+      if( [set characterIsMember:c])
          return( i);
    }
 
@@ -866,9 +864,30 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
 }
 
 
+//static NSInteger   charset_location_isearch( struct _ns_unichar_enumerator *self_rover,
+//                                            NSCharacterSet *set)
+//{
+//   unichar   c;
+//   size_t    i;
+//   size_t    len;
+//
+//   len = get_length( self_rover);
+//   for( i = 0; i < len; ++i)
+//   {
+//      c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
+//      if( ! [set characterIsMember:c])
+//         break;
+//   }
+//
+//   return( i);
+//}
+//
+
+
 //
 // TODO: use special subclass code, if NSNumericSearch|NSCaseInsensitiveSearch
 //       is undefined and NSLiteralSearch is defined (?)
+//       The range in the receiver of the **first** character found from aSet
 //
 - (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set
                             options:(NSStringCompareOptions) options
