@@ -86,7 +86,7 @@ NSArray   *NSAllMapTableValues( NSMapTable *table)
 
 NSString   *NSStringFromMapTable( NSMapTable *table)
 {
-   NSString                 *description;
+   char                     *description;
    NSMapEnumerator          rover;
    NSMutableString          *s;
    NSString                 *separator;
@@ -108,7 +108,7 @@ NSString   *NSStringFromMapTable( NSMapTable *table)
       description = (*table->_callback.keycallback.describe)( &table->_callback.keycallback,
                                                               key,
                                                               &allocator);
-      [s appendString:description];
+      [s mulleAppendUTF8String:description];
       if( allocator)
          mulle_allocator_free( allocator, s);
       [s appendString:@" = "];
@@ -116,7 +116,7 @@ NSString   *NSStringFromMapTable( NSMapTable *table)
       description = (*table->_callback.valuecallback.describe)( &table->_callback.valuecallback,
                                                                 value,
                                                                 &allocator);
-      [s appendString:description];
+      [s mulleAppendUTF8String:description];
 
       separator = @";\n   ";
    }

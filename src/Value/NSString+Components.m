@@ -571,7 +571,7 @@ static id
    NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf8data       data;
+   struct mulle_utf8data        data;
    mulle_utf8_t                 tmp[ 64];
 
    data = MulleStringGetUTF8Data( self,

@@ -63,7 +63,7 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
 
 NSString   *NSStringFromHashTable( NSHashTable *table)
 {
-   NSString                 *description;
+   char                     *description;
    NSHashEnumerator         rover;
    NSMutableString          *s;
    NSString                 *separator;
@@ -82,7 +82,7 @@ NSString   *NSStringFromHashTable( NSHashTable *table)
       description = (*table->_callback.describe)( &table->_callback,
                                                   item,
                                                   &allocator);
-      [s appendString:description];
+      [s mulleAppendUTF8String:description];
 
       separator = @",\n   ";
    }

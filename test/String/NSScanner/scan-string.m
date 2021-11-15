@@ -50,6 +50,8 @@ void  test( BOOL flag)
          string = strings[ j];
          sep    = "";
          printf( "\tScanning \"%s\" :: ", [string UTF8String]);
+         fflush( stdout);
+
          scanner = [NSScanner scannerWithString:string];
          if( flag)
             [scanner setCharactersToBeSkipped:nil];
@@ -61,6 +63,7 @@ void  test( BOOL flag)
             [scanner scanUpToString:search
                         intoString:&s2];
             printf( "%sscanString:\"%s\" scanUptoString:\"%s\"", sep, [s1 UTF8String], [s2 UTF8String]);
+            fflush( stdout);
             sep =", ";
          }
          printf( "\n");

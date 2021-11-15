@@ -50,6 +50,22 @@ enum
 typedef NSUInteger NSNumberFormatterBehavior;
 
 
+enum NSNumberFormatterStyle
+{
+   NSNumberFormatterNoStyle,
+   NSNumberFormatterDecimalStyle,
+   NSNumberFormatterPercentStyle,
+   NSNumberFormatterScientificStyle,
+   NSNumberFormatterSpellOutStyle,
+   NSNumberFormatterOrdinalStyle,
+   NSNumberFormatterCurrencyStyle,
+   NSNumberFormatterCurrencyAccountingStyle,
+   NSNumberFormatterCurrencyISOCodeStyle,
+   NSNumberFormatterCurrencyPluralStyle
+};
+typedef NSUInteger NSNumberFormatterStyle;
+
+
 @interface NSNumberFormatter : NSFormatter
 {
    id         _roundingBehavior;
@@ -66,15 +82,15 @@ typedef NSUInteger NSNumberFormatterBehavior;
 
 @property( assign) NSNumberFormatterBehavior  formatterBehavior;
 
-@property( retain) NSLocale          *locale;
-@property( copy, nonnull) NSString   *format;
-@property( copy) NSString            *negativeFormat;
-@property( copy) NSString            *positiveFormat;
-@property( copy) NSString            *decimalSeparator;
-@property( copy) NSString            *thousandSeparator;
-@property( retain) NSNumber          *minimum;
-@property( retain) NSNumber          *maximum;
-
+@property( retain) NSLocale                 *locale;
+@property( copy, nonnull) NSString          *format;
+@property( copy) NSString                   *negativeFormat;
+@property( copy) NSString                   *positiveFormat;
+@property( copy) NSString                   *decimalSeparator;
+@property( copy) NSString                   *thousandSeparator;
+@property( retain) NSNumber                 *minimum;
+@property( retain) NSNumber                 *maximum;
+@property( assign) NSNumberFormatterStyle   numberStyle;
 
 + (NSNumberFormatterBehavior) defaultFormatterBehavior;
 + (void) setDefaultFormatterBehavior:(NSNumberFormatterBehavior) behavior;

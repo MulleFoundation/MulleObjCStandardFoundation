@@ -66,11 +66,4 @@
    return( result);
 }
 
-
-- (char *) cStringDescription
-{
-   return( [[self description] cStringDescription]);
-}
-
-
 @end

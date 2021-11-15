@@ -40,13 +40,13 @@
 #import "MulleObjCStandardValueFoundation.h"
 
 
-static void *
+static char *
    pointer_describe( struct mulle_container_valuecallback  *callback,
                      void *p,
                      struct mulle_allocator **p_allocator)
 {
    *p_allocator = NULL;
-   return( [NSString stringWithFormat:@"%p", p]);
+   return( [[NSString stringWithFormat:@"%p", p] UTF8String]);
 }
 
 

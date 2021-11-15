@@ -14,12 +14,12 @@
 #import "NSTimeZone.h"
 #import "NSLocale.h"
 #import "NSDateFormatter.h"
+#import "_MulleObjCConcreteCalendarDate.h"
 
 //
 #import "MulleObjCStandardExceptionFoundation.h"
 
 // std-c and dependencies
-
 
 @implementation NSObject( _NSCalendarDate)
 
@@ -41,9 +41,6 @@
 
 + (instancetype) calendarDate
 {
-   NSTimeInterval   seconds;
-
-   seconds = time( NULL) + NSTimeIntervalSince1970;
    return( [[self new] autorelease]);
 }
 
@@ -57,22 +54,8 @@
 - (instancetype) mulleInitWithMiniTM:(struct mulle_mini_tm) tm
                             timeZone:(NSTimeZone *) tz
 {
-   // don't call self init!
-   _tm.values = tm;
-
-   if( ! tz)
-      tz = [NSTimeZone defaultTimeZone];
-
-   _timeZone = [tz retain];
-   assert( _timeZone);
-
-   return( self);
-}
-
-
-- (struct mulle_mini_tm) mulleMiniTM
-{
-   return( _tm.values);
+   return( [_MulleObjCConcreteCalendarDate newWithMiniTM:tm
+                                                timeZone:tz]);
 }
 
 
@@ -93,7 +76,6 @@
    NSParameterAssert( minute >= 0 && minute <= 59);
    NSParameterAssert( second >= 0 && second <= 60);
 
-
    tm.type   = 0;
    tm.year   = (int) year;
    tm.month  = (int) month;
@@ -101,7 +83,6 @@
    tm.hour   = (int) hour;
    tm.minute = (int) minute;
    tm.second = (int) second;
-   tm.ns     = 0;
 
    return( [self mulleInitWithMiniTM:tm
                             timeZone:tz]);
@@ -125,86 +106,5 @@
                               timeZone:tz] autorelease]);
 }
 
-
-#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
-
-- (void) dealloc
-{
-   [_timeZone release];
-   NSDeallocateObject( self);
-}
-
-
-#pragma mark - accessors
-
-- (NSInteger) secondOfMinute
-{
-   return( self->_tm.values.second);
-}
-
-
-- (NSInteger) minuteOfHour
-{
-   return( self->_tm.values.minute);
-}
-
-
-- (NSInteger) hourOfDay
-{
-   return( self->_tm.values.hour);
-}
-
-
-- (NSInteger) dayOfMonth
-{
-   return( self->_tm.values.day);
-}
-
-
-- (NSInteger) monthOfYear
-{
-   return( self->_tm.values.month);
-}
-
-
-- (NSInteger) yearOfCommonEra
-{
-   return( self->_tm.values.year);
-}
-
-
-#pragma mark - hash and equality
-
-- (NSUInteger) hash
-{
-   return( self->_tm.bits ^ [self->_timeZone hash]);
-}
-
-
-- (BOOL) isEqual:(id) other
-{
-   if( ! [other __isNSCalendarDate])
-      return( NO);
-   return( [self isEqualToCalendarDate:other]);
-}
-
-
-- (BOOL) isEqualToCalendarDate:(NSCalendarDate *) date
-{
-   if( ! [date->_timeZone isEqualToTimeZone:self->_timeZone])
-      return( NO);
-   return( date->_tm.bits != self->_tm.bits);
-}
-
 @end
 
-
-
-@implementation NSCalendarDate( NSDate)
-
-- (NSTimeInterval) timeIntervalSinceDate:(NSDate *) other
-{
-   return( [self timeIntervalSinceReferenceDate] - [other timeIntervalSinceReferenceDate]);
-}
-
-@end

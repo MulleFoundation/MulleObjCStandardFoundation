@@ -24,7 +24,7 @@ static void   test_noleak()
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
 }

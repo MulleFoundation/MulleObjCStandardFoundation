@@ -154,13 +154,32 @@ static inline void   SelfUnlock( void)
 }
 
 
-- (instancetype) initWithName:(NSString *) name
-                         data:(NSData *) data;
+- (instancetype) init
 {
-   [self init];
+   _secondsFromGMT = NSIntegerMax;
+   return( self);
+}
 
-   _name = [name copy];
-   _data = [_data copy];
+
+- (instancetype) _initWithName:(NSString *) name
+                secondsFromGMT:(NSInteger) seconds
+{
+   assert( seconds != NSIntegerMax);
+
+   _name           = [name copy];
+   _secondsFromGMT = seconds;
+
+   return( self);
+}
+
+
+
+- (instancetype) initWithName:(NSString *) name
+                         data:(NSData *) data
+{
+   _name           = [name copy];
+   _data           = [data copy];
+   _secondsFromGMT = NSIntegerMax;
 
    return( self);
 }
@@ -205,6 +224,48 @@ static inline void   SelfUnlock( void)
 - (NSData *) data
 {
    return( _data);
+}
+
+
+static NSString   *NSTimeZoneSecondsFromGMTDescription( NSInteger seconds)
+{
+   NSUInteger   absSeconds;
+   NSUInteger   hours;
+   NSUInteger   minutes;
+   char         sign;
+
+   if( seconds < 0)
+   {
+      sign       = '-';
+      absSeconds = -seconds;
+   }
+   else
+   {
+      sign       = '+';
+      absSeconds = seconds;
+   }
+
+   absSeconds %= 24 * 60 * 60;
+   minutes     = absSeconds / 60;
+   hours       = minutes / 60;
+   minutes     = minutes - hours * 60;
+
+   return( [NSString stringWithFormat:@"%c%02ld%02ld", sign, hours, minutes]);
+}
+
+
+
++ (NSTimeZone *) timeZoneForSecondsFromGMT:(NSInteger) seconds
+{
+   NSString     *name;
+
+   if( ! seconds)
+      return( [self mulleGMTTimeZone]);
+
+   name = NSTimeZoneSecondsFromGMTDescription( seconds);
+   name = [@"GMT " stringByAppendingString:name];
+   return( [[[self alloc] _initWithName:name
+                         secondsFromGMT:seconds] autorelease]);
 }
 
 
@@ -282,6 +343,9 @@ static inline void   SelfUnlock( void)
 
 - (NSInteger) secondsFromGMT
 {
+   if( _secondsFromGMT != NSIntegerMax)
+      return( _secondsFromGMT);
+
    return( [self secondsFromGMTForDate:[NSDate date]]);
 }
 
@@ -300,10 +364,10 @@ static inline void   SelfUnlock( void)
 
 - (NSString *) description
 {
-   return( [NSString stringWithFormat:@"%@ (%@) offset %ld%s",
+   return( [NSString stringWithFormat:@"%@ (%@) offset %@%s",
                                  _name,
                                  [self abbreviation],
-                                 [self secondsFromGMT],
+                                 NSTimeZoneSecondsFromGMTDescription( [self secondsFromGMT]),
                                  [self isDaylightSavingTime] ? " (Daylight)" : ""]);
 }
 
@@ -326,6 +390,9 @@ static inline void   SelfUnlock( void)
 
 - (BOOL) isEqualToTimeZone:(NSTimeZone *) other
 {
+   if( _secondsFromGMT != NSIntegerMax)
+      return( _secondsFromGMT == [other secondsFromGMT]);
+
    return( [self->_name isEqualToString:[other name]]);
 }
 

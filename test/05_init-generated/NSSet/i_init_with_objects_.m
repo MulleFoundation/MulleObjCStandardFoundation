@@ -15,21 +15,21 @@ static int   test_i_init_with_objects_( void)
    @try
    {
       obj  = [[[NSSet alloc] initWithObjects:nil] autorelease];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
 
    @try
    {
       obj2 = [[[NSSet alloc] initWithObjects:@1, @2, @3, nil] autorelease];
-      printf( "%s\n", [obj2 cStringDescription]);
+      printf( "%s\n", [obj2 UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }

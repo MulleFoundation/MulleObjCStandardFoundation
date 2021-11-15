@@ -209,7 +209,7 @@ static int   pair_is_equal( struct mulle_container_keycallback *table,
 }
 
 
-static void   *object_describe( struct mulle_container_keycallback *table,
+static char   *object_describe( struct mulle_container_keycallback *table,
                                 void *a,
                                 struct mulle_allocator **p_allocator)
 {
@@ -218,20 +218,20 @@ static void   *object_describe( struct mulle_container_keycallback *table,
 }
 
 
-static void   *pair_describe( struct mulle_container_keycallback *table,
+static char   *pair_describe( struct mulle_container_keycallback *table,
                               void *_a,
                               struct mulle_allocator **p_allocator)
 {
    name_sender_pair *a = _a;
 
    *p_allocator = NULL;
-   return( [NSString stringWithFormat:@"@selector(%@)/%p", a->name, a->sender]);
+   return( [[NSString stringWithFormat:@"@selector(%@)/%p", a->name, a->sender] UTF8String]);
 }
 
 
-static void   *pairqueue_describe( struct mulle_container_valuecallback *table,
-                                    void *_queue,
-                                    struct mulle_allocator **p_allocator)
+static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
+                                   void *_queue,
+                                   struct mulle_allocator **p_allocator)
 {
    struct mulle__pointerqueue             *queue = _queue;
    name_sender_pair                       *p;
@@ -252,11 +252,11 @@ static void   *pairqueue_describe( struct mulle_container_valuecallback *table,
       [s appendFormat:@"@selector(%@)/%p", p->name, p->sender];
    }
    mulle__pointerqueueenumerator_done( &rover);
-   return( s);
+   return( [s UTF8String]);
 }
 
 
-static void   *tripletqueue_describe( struct mulle_container_valuecallback *table,
+static char   *tripletqueue_describe( struct mulle_container_valuecallback *table,
                                       void *_queue,
                                       struct mulle_allocator **p_allocator)
 {
@@ -281,7 +281,7 @@ static void   *tripletqueue_describe( struct mulle_container_valuecallback *tabl
                                    p->imp];
    }
    mulle__pointerqueueenumerator_done( &rover);
-   return( s);
+   return( [s UTF8String]);
 }
 
 
@@ -471,10 +471,22 @@ static struct
 
    allocator = MulleObjCInstanceGetAllocator( self);
 
+   // it's not easy to get the notification center to die after the observers
+   // so this can give false positives
+#if defined( DEBUG) & 0
+   if( mulle_map_get_count( &_senderRegistry) ||
+       mulle_map_get_count( &_nameRegistry)   ||
+       mulle_map_get_count( &_pairRegistry)   ||
+       mulle_map_get_count( &_observerRegistry))
+   {
+      fprintf( stderr, "Some NSNotificationCenter (%p) observers haven't unregistered yet!", self);
+      [self dump];
+   }
+#endif
+
    // in "day to day" operations the queue contents are moved to another
    // queue, and we only destroy the old queue but not the contents
    // but here we kill all
-
    callbacks = sender_registry_callbacks;
    callbacks.valuecallback.release = (void (*)()) free_queue_and_contents;
    _mulle__map_done( (struct mulle__map *) &_senderRegistry, &callbacks, allocator);
@@ -508,19 +520,23 @@ static struct
    allocator = MulleObjCInstanceGetAllocator( self);
 
    s = _mulle__map_describe( (struct mulle__map *) &_observerRegistry, &observer_registry_callbacks, allocator);
-   fprintf( stderr, "Observers: %s\n", s);
+   if( s && *s)
+      fprintf( stderr, "Observers: %s\n", s);
    mulle_allocator_free( allocator, s);
 
    s = _mulle__map_describe( (struct mulle__map *) &_pairRegistry, &pair_registry_callbacks, allocator);
-   fprintf( stderr, "Pairs: %s\n", s);
+   if( s && *s)
+      fprintf( stderr, "Pairs: %s\n", s);
    mulle_allocator_free( allocator, s);
 
    s = _mulle__map_describe( (struct mulle__map *) &_nameRegistry, &name_registry_callbacks, allocator);
-   fprintf( stderr, "Names: %s\n", s);
+   if( s && *s)
+      fprintf( stderr, "Names: %s\n", s);
    mulle_allocator_free( allocator, s);
 
    s = _mulle__map_describe( (struct mulle__map *) &_senderRegistry, &sender_registry_callbacks, allocator);
-   fprintf( stderr, "Senders: %s\n", s);
+   if( s && *s)
+      fprintf( stderr, "Senders: %s\n", s);
    mulle_allocator_free( allocator, s);
 }
 #endif

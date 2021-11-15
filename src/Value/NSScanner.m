@@ -110,11 +110,12 @@
 - (void) setScanLocation:(NSUInteger) pos
 {
    if( pos > _length)
-      MulleObjCThrowInvalidArgumentExceptionCString("out of range");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String("out of range");
    _location = pos;
 }
 
 
+MULLE_C_NEVER_INLINE
 static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
                                                       NSCharacterSet *set,
                                                       IMP impMember,
@@ -127,11 +128,18 @@ static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
    range.location = self->_location;
    if( ! impMember)
       impMember = [set methodForSelector:@selector( characterIsMember:)];
+   assert( impMember);
 
    for( i = range.location; i < self->_length; i++)
    {
-      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
-      if( match != (BOOL) (intptr_t) MulleObjCIMPCall( impMember, set, @selector( characterIsMember:), (id) (intptr_t) c))
+      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex,
+                                                 self->_string,
+                                                 @selector( characterAtIndex:),
+                                                 (id) i);
+      if( match != (BOOL) (intptr_t) MulleObjCIMPCall( impMember,
+                                                       set,
+                                                       @selector( characterIsMember:),
+                                                       (id) (intptr_t) c))
          break;
    }
    self->_location = i;
@@ -141,6 +149,7 @@ static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
 }
 
 
+MULLE_C_NEVER_INLINE
 static BOOL   NSScannerScanCharactersMatchingSet( NSScanner *self,
                                                   NSCharacterSet *set,
                                                   NSString **stringp,
@@ -149,7 +158,10 @@ static BOOL   NSScannerScanCharactersMatchingSet( NSScanner *self,
    NSRange   range;
 
    if( self->_charactersToBeSkipped)
-      NSScannerScanRangeOfCharactersInSet( self, self->_charactersToBeSkipped, self->_impIsMember, YES);
+      NSScannerScanRangeOfCharactersInSet( self,
+                                           self->_charactersToBeSkipped,
+                                           self->_impIsMember,
+                                           YES);
 
    range = NSScannerScanRangeOfCharactersInSet( self, set, 0, match);
    if( stringp)
@@ -176,6 +188,7 @@ static BOOL   NSScannerScanCharactersMatchingSet( NSScanner *self,
 }
 
 
+MULLE_C_NEVER_INLINE
 static NSRange   NSScannerScanRangeOfString( NSScanner *self,
                                              NSString *s,
                                              IMP impAtIndex)
@@ -201,8 +214,14 @@ static NSRange   NSScannerScanRangeOfString( NSScanner *self,
 
    for( j = 0, i = range.location; j < m; i++, j++)
    {
-      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
-      d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
+      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex,
+                                                 self->_string,
+                                                 @selector( characterAtIndex:),
+                                                 (id) i);
+      d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex,
+                                                 s,
+                                                 @selector( characterAtIndex:),
+                                                 (id) j);
       if( c != d)
          return( range);
    }
@@ -214,6 +233,7 @@ static NSRange   NSScannerScanRangeOfString( NSScanner *self,
 }
 
 
+MULLE_C_NEVER_INLINE
 static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
                                                 NSString *s,
                                                 IMP impAtIndex)
@@ -242,8 +262,14 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
 
    for( j = 0, i = range.location; i < range.length; i++)
    {
-      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex, self->_string, @selector( characterAtIndex:), (id) i);
-      d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex, s, @selector( characterAtIndex:), (id) j);
+      c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex,
+                                                 self->_string,
+                                                 @selector( characterAtIndex:),
+                                                 (id) i);
+      d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex,
+                                                 s,
+                                                 @selector( characterAtIndex:),
+                                                 (id) j);
       if( c != d)
       {
          j = 0;
@@ -295,7 +321,10 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
    assert( [string isKindOfClass:[NSString class]]);
 
    if( self->_charactersToBeSkipped)
-      NSScannerScanRangeOfCharactersInSet( self, self->_charactersToBeSkipped, self->_impIsMember, YES);
+      NSScannerScanRangeOfCharactersInSet( self,
+                                           self->_charactersToBeSkipped,
+                                           self->_impIsMember,
+                                           YES);
 
    range = NSScannerScanRangeOfNotString( self, string, 0);
    if( stringp)

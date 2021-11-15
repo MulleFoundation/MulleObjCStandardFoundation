@@ -52,10 +52,4 @@
                [self userInfo]]);
 }
 
-- (char *) cStringDescription
-{
-   return( [[self description] cStringDescription]);
-}
-
-
 @end

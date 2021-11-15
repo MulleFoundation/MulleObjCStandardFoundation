@@ -40,14 +40,14 @@
       _str ? _str : "*null*",
        s ? s : "*null*");
    MulleObjCInstanceDeallocateMemory( self, _str);
-   _str = s ? MulleObjCInstanceDuplicateCString( self, s) : NULL;
+   _str = s ? MulleObjCInstanceDuplicateUTF8String( self, s) : NULL;
 }
 
 @end
 
 
 // this test demonstrates:
-//  MulleObjCInstanceDuplicateCString
+//  MulleObjCInstanceDuplicateUTF8String
 // and its being released properly during  dealloc
 // since it's a property
 

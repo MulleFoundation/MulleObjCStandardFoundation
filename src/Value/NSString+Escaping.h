@@ -48,9 +48,11 @@
 
 // escaped C-string with " " added, does not do octal escapes though (yet)
 - (NSString *) mulleQuotedString;
+- (NSString *) mulleUnquotedString;
 
 // as above but no " " added
 - (NSString *) mulleEscapedString;
+- (NSString *) mulleUnescapedString;
 
 // useful for converting non-printables to '.' for example
 - (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
@@ -59,9 +61,20 @@
 
 @end
 
-mulle_utf8_t   *MulleUTF8StringEscape( struct mulle_utf8data src, mulle_utf8_t *dst);
 
-struct mulle_utf8data  *MulleReplacePercentEscape( struct mulle_utf8data *src,
+//
+// TODO: move to C library
+//
+
+// make dst at least 4 * src.length for octal escape worst case
+char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst);
+
+// make dst at least src.length for no-escape worst case
+char   *MulleUTF8StringUnescape( char *src, NSUInteger length, char *dst);
+
+
+// underscore because of struct mulle_utf8data
+struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
                                                     NSCharacterSet *disallowedCharacters);
 NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
                                                      NSCharacterSet *disallowedCharacters);

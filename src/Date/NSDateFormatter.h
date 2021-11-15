@@ -35,13 +35,13 @@
 //
 #import "NSFormatter.h"
 
-#import "NSLocalizedDateFactory.h"
-
 
 @class NSDate;
 @class NSLocale;
 @class NSString;
 @class NSTimeZone;
+@class NSError;
+
 
 //
 enum
@@ -54,6 +54,12 @@ enum
 typedef NSUInteger   NSDateFormatterBehavior;
 
 
+extern NSString  *MulleDateFormatISOWithMilliseconds; // = @"%Y-%m-%dT%H:%M:%S:%F%z";
+
+// this is the default
+extern NSString  *MulleDateFormatISO;                 //  = @"%Y-%m-%dT%H:%M:%S:%z";
+
+
 //
 // formatters are not re-entrant!
 // For historical reasons, there is only a NSDateFormatter and
@@ -64,7 +70,7 @@ typedef NSUInteger   NSDateFormatterBehavior;
 //
 @interface NSDateFormatter : NSFormatter
 {
-   Class< NSLocalizedDateFactory>   _dateClass;
+   Class    _dateClass;
 
    // for 1000 formatter
    char     *_cformat;
@@ -107,4 +113,8 @@ typedef NSUInteger   NSDateFormatterBehavior;
 - (NSDate *) dateFromString:(NSString *) s;
 - (NSString *) stringFromDate:(NSDate *) date;
 
+- (BOOL) getObjectValue:(id *) obj
+              forString:(NSString *) string
+                  range:(NSRange *) rangep
+                  error:(NSError **) error;
 @end

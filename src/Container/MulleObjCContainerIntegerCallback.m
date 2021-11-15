@@ -40,23 +40,23 @@
 #import "MulleObjCStandardValueFoundation.h"
 
 
-static void *
+static char *
    int_describe( struct mulle_container_valuecallback *callback,
                  void *p,
                  struct mulle_allocator **p_allocator)
 {
    *p_allocator = NULL;
-   return( [NSString stringWithFormat:@"%d", (int) (intptr_t) p]);
+   return( [[NSString stringWithFormat:@"%d", (int) (intptr_t) p] UTF8String]);
 }
 
 
-static void *
+static char *
    integer_describe( struct mulle_container_valuecallback *callback,
                      void *p,
                      struct mulle_allocator **p_allocator)
 {
    *p_allocator = NULL;
-   return( [NSString stringWithFormat:@"%lld", (long long) (NSInteger) p]);
+   return( [[NSString stringWithFormat:@"%td", (NSInteger) p] UTF8String]);
 }
 
 

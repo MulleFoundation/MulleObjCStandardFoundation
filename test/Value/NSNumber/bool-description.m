@@ -17,9 +17,9 @@ main()
    NSNumber   *value;
 
    value = [NSNumber numberWithBool:YES];
-   printf( "%s\n", [value cStringDescription]);
+   printf( "%s\n", [value UTF8String]);
 
    value = [NSNumber numberWithBool:NO];
-   printf( "%s\n", [value cStringDescription]);
+   printf( "%s\n", [value UTF8String]);
    return( 0);
 }

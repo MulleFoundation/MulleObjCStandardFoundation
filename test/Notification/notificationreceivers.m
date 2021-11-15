@@ -12,7 +12,7 @@
    printf( "-[%s receiveNameNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
-                  [[notification object] cStringDescription]);
+                  [[notification object] UTF8String]);
 }
 
 
@@ -21,7 +21,7 @@
    printf( "-[%s receiveObjectNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
-                  [[notification object] cStringDescription]);
+                  [[notification object] UTF8String]);
 }
 
 
@@ -30,7 +30,7 @@
    printf( "-[%s receiveNameObjectNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
-                  [[notification object] cStringDescription]);
+                  [[notification object] UTF8String]);
 }
 
 
@@ -39,7 +39,7 @@
    printf( "-[%s receiveAnyNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
-                  [[notification object] cStringDescription]);
+                  [[notification object] UTF8String]);
 }
 
 
@@ -61,7 +61,7 @@
 
 void   post_notifications( NSNotificationCenter *center, id object, id other)
 {
-   printf( "%s %s\n", __FUNCTION__, [other cStringDescription]);
+   printf( "%s %s\n", __FUNCTION__, [other UTF8String]);
 
    [center postNotificationName:@"Blender"
                          object:other

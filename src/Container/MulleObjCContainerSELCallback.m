@@ -47,13 +47,13 @@ static uintptr_t   sel_hash( struct mulle_container_keycallback *callback, void 
 }
 
 
-static void *
+static char *
    sel_describe( struct mulle_container_valuecallback *callback,
                  void *p,
                  struct mulle_allocator **p_allocator)
 {
    *p_allocator = NULL;
-   return( NSStringFromSelector( (SEL) (NSInteger) p));
+   return( [NSStringFromSelector( (SEL) (NSInteger) p) UTF8String]);
 }
 
 

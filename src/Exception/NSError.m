@@ -349,7 +349,7 @@ have_domain:
 
 
 //
-// the runtime protect errno from changing during a [] call
+// the runtime protects errno from changing during a [] call
 //
 + (instancetype) mulleExtract
 {

@@ -41,6 +41,7 @@
 // other libraries of MulleObjCStandardFoundation
 #import "NSLocale.h"
 #import "NSNumberFormatter.h"
+#import "NSString+NSLocale.h"
 
 
 // std-c and dependencies
@@ -48,19 +49,77 @@
 
 @implementation NSNumber (NSLocale)
 
+
+//
+// compatibly implemented, but NSString initWithFormat:locale is missing
+//
 - (NSString *) descriptionWithLocale:(NSLocale *) locale
 {
-   NSNumberFormatter   *formatter;
+   char  *type;
 
-   // if this is too slow, put a default formatter into class vars
-   if( locale)
+   type = [self objCType];
+   switch( *type)
    {
-      formatter = [[NSNumberFormatter new] autorelease];
-      [formatter setLocale:locale];
+   default :
+      return( [[[NSString alloc] initWithFormat:@"%ld"
+                                         locale:locale,
+                                                 [self longValue]] autorelease]);
+
+   case _C_CHR :
+      return( [[[NSString alloc] initWithFormat:@"%i"
+                                         locale:locale,
+                                                 [self unsignedCharValue]] autorelease]);
+   case _C_UCHR :
+      return( [[[NSString alloc] initWithFormat:@"%u"
+                                         locale:locale,
+                                                 [self unsignedCharValue]] autorelease]);
+   case _C_SHT :
+      return( [[[NSString alloc] initWithFormat:@"%hi"
+                                         locale:locale,
+                                                 [self shortValue]] autorelease]);
+   case _C_USHT :
+      return( [[[NSString alloc] initWithFormat:@"%hu"
+                                         locale:locale,
+                                                 [self unsignedShortValue]] autorelease]);
+   case _C_INT :
+      return( [[[NSString alloc] initWithFormat:@"%d"
+                                         locale:locale,
+                                                 [self intValue]] autorelease]);
+   case _C_UINT :
+      return( [[[NSString alloc] initWithFormat:@"%u"
+                                         locale:locale,
+                                                 [self unsignedIntValue]] autorelease]);
+   case _C_LNG :
+      return( [[[NSString alloc] initWithFormat:@"%ld"
+                                         locale:locale,
+                                                 [self longValue]] autorelease]);
+   case _C_ULNG :
+      return( [[[NSString alloc] initWithFormat:@"%lu"
+                                         locale:locale,
+                                                 [self unsignedLongValue]] autorelease]);
+   case _C_LNG_LNG :
+      return( [[[NSString alloc] initWithFormat:@"%lld"
+                                         locale:locale,
+                                                 [self longLongValue]] autorelease]);
+   case _C_ULNG_LNG :
+      return( [[[NSString alloc] initWithFormat:@"%llu"
+                                         locale:locale,
+                                                 [self unsignedLongLongValue]] autorelease]);
+
+   case _C_FLT :
+      return( [[[NSString alloc] initWithFormat:@"%0.8g"
+                                         locale:locale,
+                                                 [self floatValue]] autorelease]);
+   case _C_DBL :
+      return( [[[NSString alloc] initWithFormat:@"%0.17g"
+                                         locale:locale,
+                                                 [self doubleValue]] autorelease]);
+   case _C_LNG_DBL :
+      return( [[[NSString alloc] initWithFormat:@"%0.21Lg"
+                                         locale:locale,
+                                                 [self longDoubleValue]] autorelease]);
    }
-   else
-      formatter = [NSNumberFormatter mulleDefaultFormatter];
-   return( [formatter stringFromNumber:self]);
 }
+
 
 @end

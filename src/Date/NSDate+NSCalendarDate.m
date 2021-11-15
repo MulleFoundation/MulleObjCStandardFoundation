@@ -18,8 +18,8 @@
 
 - (NSCalendarDate *) calendarDateWithTimeZone:(NSTimeZone *) tz
 {
-   return( [[[NSCalendarDate alloc] initWithDate:self
-                                        timeZone:tz] autorelease]);
+   return( [[[NSCalendarDate alloc] mulleInitWithDate:self
+                                             timeZone:tz] autorelease]);
 }
 
 - (NSCalendarDate *) dateWithCalendarFormat:(NSString *) format

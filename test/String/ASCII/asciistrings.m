@@ -22,7 +22,7 @@ static void  check( NSString *s, char *buf, size_t len)
       abort();
    }
 
-   utf8 = [s UTF8String];
+   utf8 = (char *) [s UTF8String];
    if( strncmp( utf8, buf, len))
    {
       printf( "%d failed strcmp\n", (int) len);

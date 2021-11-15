@@ -1,0 +1,22 @@
+C        : TAB:	
+\1:
+\f:
+\e:
+DEL:
+?
+☄️☃️👍🏾
+Original : TAB:	
+\1:
+\f:
+\e:
+DEL:
+?
+☄️☃️👍🏾
+Quoted   : "TAB:\t\n\\1:\001\n\\f:\f\n\\e:\e\nDEL:\177\n\?\n☄️☃️👍🏾"
+Unquoted : TAB:	
+\1:
+\f:
+\e:
+DEL:
+?
+☄️☃️👍🏾

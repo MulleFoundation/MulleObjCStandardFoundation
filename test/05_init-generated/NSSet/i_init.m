@@ -14,11 +14,11 @@ static int   test_i_init( void)
    @try
    {
       obj = [[[NSSet alloc] init] autorelease];
-      printf( "%s\n", [obj cStringDescription]);
+      printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }

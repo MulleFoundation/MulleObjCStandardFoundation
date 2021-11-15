@@ -24,6 +24,13 @@
 - (NSString *) abbreviationForDate:(NSDate *) aDate   { return( @"GMT"); }
 - (BOOL) isDaylightSavingTimeForDate:(NSDate *) aDate { return( NO); }
 
+- (BOOL) isEqualToTimeZone:(NSTimeZone *) other
+{
+   if( ! other)
+      return( YES);
+   return( [super isEqualToTimeZone:other]);
+}
+
 @end
 
 

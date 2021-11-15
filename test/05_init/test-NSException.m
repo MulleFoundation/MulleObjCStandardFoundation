@@ -50,11 +50,11 @@ static int   test_i_init_with_name_reason_user_info_( void)
                obj = [[[NSException alloc] initWithName:params_1[ i_1]
                             reason:params_2[ i_2]
                             userInfo:params_3[ i_3]] autorelease];
-               printf( "%s\n", [obj cStringDescription]);
+               printf( "%s\n", [obj UTF8String]);
             }
             @catch( NSException *localException)
             {
-               printf( "Threw a %s exception\n", [[localException name] cStringDescription]);
+               printf( "Threw a %s exception\n", [[localException name] UTF8String]);
             }
          }
    return( 0);

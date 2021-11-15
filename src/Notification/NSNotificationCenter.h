@@ -50,8 +50,8 @@
    struct mulle_map         _pairRegistry;
    struct mulle_map         _nameRegistry;
    struct mulle_map         _senderRegistry;
-
    struct mulle_map         _observerRegistry;
+
    mulle_atomic_pointer_t   _isNotifying;    // for debugging
    mulle_atomic_pointer_t   _generationCount;
 }
