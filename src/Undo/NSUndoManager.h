@@ -74,15 +74,15 @@ enum _NSUndoManagerState
 
 @end
 
-extern NSString   *NSUndoManagerCheckpointNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerCheckpointNotification;
 
-extern NSString   *NSUndoManagerDidCloseUndoGroupNotification;
-extern NSString   *NSUndoManagerDidOpenUndoGroupNotification;
-extern NSString   *NSUndoManagerWillCloseUndoGroupNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerDidCloseUndoGroupNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerDidOpenUndoGroupNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerWillCloseUndoGroupNotification;
 
-extern NSString   *NSUndoManagerDidRedoChangeNotification;
-extern NSString   *NSUndoManagerWillRedoChangeNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerDidRedoChangeNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerWillRedoChangeNotification;
 
-extern NSString   *NSUndoManagerDidUndoChangeNotification;
-extern NSString   *NSUndoManagerWillUndoChangeNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerDidUndoChangeNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUndoManagerWillUndoChangeNotification;
 

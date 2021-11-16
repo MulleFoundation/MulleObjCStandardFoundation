@@ -77,4 +77,5 @@
 
 
 
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
 NSComparisonResult   MulleObjCSortDescriptorArrayCompare( id a, id b, NSArray *descriptors);

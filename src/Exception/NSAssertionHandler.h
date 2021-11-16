@@ -39,7 +39,8 @@
 @class NSString;
 
 
-extern NSString  *NSAssertionHandlerKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+NSString  *NSAssertionHandlerKey;
 
 
 @interface NSAssertionHandler : NSObject

@@ -1,6 +1,3 @@
-#ifndef mulle_objc_standard_foundation_import_h__
-#define mulle_objc_standard_foundation_import_h__
-
 /* This is a central include file to keep dependencies out of the library
    Objective-C files. It is usally imported by Objective-C .h files only.
    .m and .aam use import-private.h.
@@ -20,4 +17,3 @@
 
 /* You can add some more import statements here */
 
-#endif

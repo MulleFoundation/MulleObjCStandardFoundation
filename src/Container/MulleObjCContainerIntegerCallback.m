@@ -64,7 +64,7 @@ static char *
 
 #pragma mark - Int
 
-struct mulle_container_keycallback      NSIntMapKeyCallBacks =
+struct mulle_container_keycallback   NSIntMapKeyCallBacks =
 {
    mulle_container_keycallback_pointer_hash,
    mulle_container_keycallback_pointer_is_equal,
@@ -75,7 +75,7 @@ struct mulle_container_keycallback      NSIntMapKeyCallBacks =
    NULL
 };
 
-struct mulle_container_keycallback      NSIntegerMapKeyCallBacks =
+struct mulle_container_keycallback   NSIntegerMapKeyCallBacks =
 {
    mulle_container_keycallback_pointer_hash,
    mulle_container_keycallback_pointer_is_equal,
@@ -87,7 +87,8 @@ struct mulle_container_keycallback      NSIntegerMapKeyCallBacks =
 };
 
 
-static uintptr_t   mulle_objc_keycallback_no_hash( struct mulle_container_keycallback *callback, void *p)
+static uintptr_t   mulle_objc_keycallback_no_hash( struct mulle_container_keycallback *callback,
+                                                   void *p)
 {
    return( (uintptr_t) p);
 }

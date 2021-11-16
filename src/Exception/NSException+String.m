@@ -66,4 +66,10 @@
    return( result);
 }
 
+
+- (char *) UTF8String
+{
+   return( [[self description] UTF8String]);
+}
+
 @end

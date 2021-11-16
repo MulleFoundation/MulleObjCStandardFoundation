@@ -14,7 +14,7 @@ endif()
 #
 # Generated from sourcetree: 9FAAB213-E770-4E96-91E2-905F49E6E05E;MulleObjCValueFoundation;no-singlephase;
 # Disable with : `mulle-sourcetree mark MulleObjCValueFoundation no-link`
-# Disable for this platform: `mulle-sourcetree mark MulleObjCValueFoundation no-cmake-platform-linux`
+# Disable for this platform: `mulle-sourcetree mark MulleObjCValueFoundation no-cmake-platform-${MULLE_UNAME}`
 #
 if( NOT MULLE_OBJC_VALUE_FOUNDATION_LIBRARY)
    find_library( MULLE_OBJC_VALUE_FOUNDATION_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCValueFoundation${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjCValueFoundation NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
@@ -94,7 +94,7 @@ endif()
 #
 # Generated from sourcetree: 0EA8C659-7636-43CA-A6BF-53243EE134B0;MulleObjCContainerFoundation;no-singlephase;
 # Disable with : `mulle-sourcetree mark MulleObjCContainerFoundation no-link`
-# Disable for this platform: `mulle-sourcetree mark MulleObjCContainerFoundation no-cmake-platform-linux`
+# Disable for this platform: `mulle-sourcetree mark MulleObjCContainerFoundation no-cmake-platform-${MULLE_UNAME}`
 #
 if( NOT MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY)
    find_library( MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCContainerFoundation${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjCContainerFoundation NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
@@ -174,7 +174,7 @@ endif()
 #
 # Generated from sourcetree: BA519C41-BB27-4DA5-AF0D-40CFDB888C8E;mulle-unicode;no-all-load,no-cmake-loader,no-cmake-searchpath,no-import,no-singlephase;
 # Disable with : `mulle-sourcetree mark mulle-unicode no-link`
-# Disable for this platform: `mulle-sourcetree mark mulle-unicode no-cmake-platform-linux`
+# Disable for this platform: `mulle-sourcetree mark mulle-unicode no-cmake-platform-${MULLE_UNAME}`
 #
 if( NOT MULLE_UNICODE_LIBRARY)
    find_library( MULLE_UNICODE_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-unicode${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-unicode NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)

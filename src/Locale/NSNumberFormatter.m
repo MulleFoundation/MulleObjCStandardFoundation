@@ -264,7 +264,7 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
    if( _flags.generatesDecimalNumbers)
    {
       // weak foward link
-      cls = MulleObjCLookupClassByNameCString( "NSDecimalNumber");
+      cls = MulleObjCLookupClassByNameUTF8String( "NSDecimalNumber");
       sel = @selector( decimalNumberWithString:);
       imp = [cls methodForSelector:sel];
       if( imp)

@@ -43,11 +43,20 @@
 
 #include <mulle-container/mulle-container.h>
 
-extern struct mulle_container_keycallback     NSNonOwnedPointerMapKeyCallBacks;
-extern struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks;
-extern struct mulle_container_keycallback     NSOwnedPointerMapKeyCallBacks;
-extern struct mulle_container_valuecallback   NSOwnedPointerMapValueCallBacks;
-extern struct mulle_container_keycallback     NSNonOwnedPointerOrNullMapKeyCallBacks;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_keycallback     NSNonOwnedPointerMapKeyCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_keycallback     NSOwnedPointerMapKeyCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_valuecallback   NSOwnedPointerMapValueCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_keycallback     NSNonOwnedPointerOrNullMapKeyCallBacks;
 
 
 #define NSNotAPointerMapKey      mulle_not_a_pointer

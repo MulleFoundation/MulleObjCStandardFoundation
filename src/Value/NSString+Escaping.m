@@ -51,7 +51,7 @@
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
 
 
-#define MULLE_PLIST_DECODE_NSNUMBER  // needed for "loose"
+// #define MULLE_PLIST_DECODE_NSNUMBER  // needed for "loose"
 
 
 @implementation NSString (Escaping)
@@ -100,17 +100,16 @@ static int   dehexbyte( mulle_utf8_t c, mulle_utf8_t d)
 //
 char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst)
 {
-   mulle_utf8_t            c;
-   mulle_utf8_t            *start;
-   mulle_utf8_t            *s;
-   mulle_utf8_t            *sentinel;
+   int                     c;
+   char                    *start;
+   char                    *s;
+   char                    *sentinel;
    mulle_utf32_t           utf32;
    ptrdiff_t               i;
    ptrdiff_t               len;
    struct mulle_utf8data   rover;
-
 #ifndef NDEBUG
-   mulle_utf8_t            *dst_sentinel;
+   char                    *dst_sentinel;
 
    dst_sentinel = &dst[ length * 4];
 #endif
@@ -146,7 +145,7 @@ char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst)
       //
       start            = &s[ -1];
 
-      rover.characters = start;
+      rover.characters = (mulle_utf8_t*) start;
       rover.length     = sentinel - start;
 
       utf32 = _mulle_utf8data_next_utf32character( &rover);
@@ -163,7 +162,7 @@ char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst)
       if( mulle_unicode_is_control( utf32))
       {
          // escape them all
-         len = rover.characters - start;
+         len = (char *) rover.characters - start;
          for( i = 0; i < len; i++)
          {
             c      = start[ i];
@@ -175,11 +174,11 @@ char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst)
       }
       else
       {
-         dst = mulle_utf32_as_utf8( utf32, dst);
+         dst = (char *) mulle_utf32_as_utf8( utf32, (mulle_utf8_t *) dst);
       }
 
       // dial forwards
-      s = rover.characters;
+      s = (char *) rover.characters;
    }
    assert( dst <= dst_sentinel);
 
@@ -194,12 +193,12 @@ char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst)
 //
 char   *MulleUTF8StringUnescape( char *src, NSUInteger length, char *dst)
 {
-   mulle_utf8_t            c;
-   mulle_utf8_t            d;
-   mulle_utf8_t            e;
-   mulle_utf8_t            *start;
-   mulle_utf8_t            *s;
-   mulle_utf8_t            *sentinel;
+   int                     c;
+   int                     d;
+   int                     e;
+   char                    *start;
+   char                    *s;
+   char                    *sentinel;
    mulle_utf32_t           utf32;
    ptrdiff_t               i;
    ptrdiff_t               len;
@@ -299,11 +298,10 @@ fail:
    struct mulle_allocator   *allocator;
    NSUInteger               dst_length;
    NSUInteger               length;
-   mulle_utf8_t             *buf;
-   mulle_utf8_t             *dst;
-   mulle_utf8_t             *s;
-   mulle_utf8_t             c;
-   size_t                   size;
+   NSUInteger               size;
+   char                     *buf;
+   char                     *dst;
+   char                     *s;
 
    length = [self mulleUTF8StringLength];
    if( ! length)
@@ -311,7 +309,7 @@ fail:
 
    allocator = MulleObjCInstanceGetAllocator( self);
    size      = length * 4 + 1;
-   buf       = (mulle_utf8_t *) mulle_allocator_malloc( allocator, size);
+   buf       = mulle_allocator_malloc( allocator, size);
 
    // place source in the back of our buffer
    // then quote from the start
@@ -338,10 +336,9 @@ fail:
    struct mulle_allocator   *allocator;
    NSUInteger               dst_length;
    NSUInteger               length;
-   mulle_utf8_t             *buf;
-   mulle_utf8_t             *dst;
-   mulle_utf8_t             *s;
-   mulle_utf8_t             c;
+   char                     *buf;
+   char                     *dst;
+   char                     *s;
    size_t                   size;
 
    length = [self mulleUTF8StringLength];
@@ -350,7 +347,7 @@ fail:
 
    allocator = MulleObjCInstanceGetAllocator( self);
    size      = length * 2 + 1;
-   buf       = (mulle_utf8_t *) mulle_allocator_malloc( allocator, size);
+   buf       = mulle_allocator_malloc( allocator, size);
 
    // place source in the back of our buffer
    s        = &buf[ length + 1];
@@ -376,12 +373,11 @@ fail:
    struct mulle_allocator   *allocator;
    NSUInteger               dst_length;
    NSUInteger               length;
-   mulle_utf8_t             *buf;
-   mulle_utf8_t             *dst;
-   mulle_utf8_t             *s;
-   mulle_utf8_t             *sentinel;
-   mulle_utf8_t             c;
    NSUInteger               size;
+   char                     *buf;
+   char                     *dst;
+   char                     *s;
+   char                     *sentinel;
 
    length = [self mulleUTF8StringLength];
    if( ! length)
@@ -391,7 +387,7 @@ fail:
 
    // as we octal escape, worstcase is 4 times explosion
    size   = length * 4 + 3;
-   buf    = (mulle_utf8_t *) mulle_allocator_malloc( allocator, size);
+   buf    = mulle_allocator_malloc( allocator, size);
    dst    = buf;
 
    // place source in the back of our buffer
@@ -419,10 +415,10 @@ fail:
    NSUInteger               dst_length;
    NSUInteger               length;
    NSUInteger               size;
-   mulle_utf8_t             *buf;
-   mulle_utf8_t             *dst;
-   mulle_utf8_t             *s;
-   mulle_utf8_t             c;
+   char                     *buf;
+   char                     *dst;
+   char                     *s;
+   char                     c;
 
    length = [self mulleUTF8StringLength];
    if( length < 2)
@@ -430,7 +426,7 @@ fail:
 
    allocator = MulleObjCInstanceGetAllocator( self);
    size      = length * 2 + 1;
-   buf       = (mulle_utf8_t *) mulle_allocator_malloc( allocator, size);
+   buf       = mulle_allocator_malloc( allocator, size);
 
    // place source in the back of our buffer
    s        = &buf[ size - length];
@@ -469,12 +465,12 @@ fail:
    NSUInteger     dst_length;
    NSUInteger     length;
    SEL            characterIsMemberSEL;
-   mulle_utf8_t   *buf;
-   mulle_utf8_t   *dst_buf;
-   mulle_utf8_t   *p;
-   mulle_utf8_t   *s;
-   mulle_utf8_t   *sentinel;
-   mulle_utf8_t   c;
+   char           *buf;
+   char           *dst_buf;
+   char           *p;
+   char           *s;
+   char           *sentinel;
+   int            c;
 
    if( ! allowedCharacters)
       return( nil);
@@ -483,7 +479,7 @@ fail:
    if( ! length)
       return( self);
 
-   buf = (mulle_utf8_t *) MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
+   buf = MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
    [self mulleGetUTF8Characters:buf
                       maxLength:length];
 
@@ -498,7 +494,7 @@ fail:
    while( s < sentinel)
    {
       c = *s++;
-      if( (*characterIsMemberIMP)( allowedCharacters, characterIsMemberSEL, (void *) c))
+      if( (*characterIsMemberIMP)( allowedCharacters, characterIsMemberSEL, (void *) (intptr_t) c))
       {
          if( p)
             *p++ = c;
@@ -507,7 +503,7 @@ fail:
 
       if( ! p)
       {
-         dst_buf    = MulleObjCCallocAutoreleased( length * 3, sizeof( mulle_utf8_t));
+         dst_buf    = MulleObjCCallocAutoreleased( length * 3, sizeof( char));
          dst_length = s - buf - 1;
          memcpy( dst_buf, buf, dst_length);
          p          = &dst_buf[ dst_length];
@@ -559,14 +555,14 @@ static inline int   dehex( mulle_utf8_t c)
 struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
                                                     NSCharacterSet *disallowedCharacters)
 {
-   IMP                      characterIsMemberIMP;
-   SEL                      characterIsMemberSEL;
-   mulle_utf8_t             *p;
-   mulle_utf8_t             *s;
-   mulle_utf8_t             *sentinel;
-   mulle_utf8_t             c;
+   IMP                     characterIsMemberIMP;
+   SEL                     characterIsMemberSEL;
+   char                    *p;
+   char                    *s;
+   char                    *sentinel;
+   char                    c;
    struct mulle_utf8data   *dst;
-   int                      hi, lo;
+   int                     hi, lo;
 
    characterIsMemberSEL = @selector( characterIsMember:);
    if( disallowedCharacters)
@@ -579,7 +575,7 @@ struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
 
    dst      = NULL;
    p        = NULL;
-   s        = src->characters;
+   s        = (char *) src->characters;
    sentinel = &s[ src->length];
 
    while( s < sentinel)
@@ -600,21 +596,21 @@ struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
 
       if( hi < 0 || lo < 0)
          return( NULL);
-      c = (mulle_utf8_t) (hi << 4 | lo);
+      c = (hi << 4 | lo);
       if( ! c)
          return( NULL);
 
-      if( (*characterIsMemberIMP)( disallowedCharacters, characterIsMemberSEL, (void *) c))
+      if( (*characterIsMemberIMP)( disallowedCharacters, characterIsMemberSEL, (void *) (intptr_t) c))
          return( NULL);
 
       if( ! p)
       {
-         dst             = MulleObjCCallocAutoreleased( 1, sizeof( *dst) + src->length * sizeof( mulle_utf8_t));
+         dst             = MulleObjCCallocAutoreleased( 1, sizeof( *dst) + src->length);
          dst->characters = (mulle_utf8_t *) (dst + 1);
-         dst->length     = s - src->characters - 1;
+         dst->length     = (mulle_utf8_t *) s - src->characters - 1;
 
          memcpy( dst->characters, src->characters, dst->length);
-         p = &dst->characters[ dst->length];
+         p = (char *) &dst->characters[ dst->length];
       }
 
       *p++ = c;
@@ -624,7 +620,7 @@ struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
    if( ! dst)
       return( src);
 
-   dst->length = p - dst->characters;
+   dst->length = p - (char *) dst->characters;
    return( dst);
 }
 
@@ -640,8 +636,9 @@ NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
    if( ! src.length)
       return( self);
 
-   src.characters = (mulle_utf8_t *) MulleObjCCallocAutoreleased( src.length, sizeof( mulle_utf8_t));
-   [self mulleGetUTF8Characters:src.characters
+   src.characters = (mulle_utf8_t *) MulleObjCCallocAutoreleased( src.length,
+                                                                  sizeof( mulle_utf8_t));
+   [self mulleGetUTF8Characters:(char *) src.characters
                       maxLength:src.length];
    dst = _MulleReplacePercentEscape( &src, disallowedCharacters);
 
@@ -650,7 +647,7 @@ NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
    if( ! dst)
       return( nil);
 
-   return( [NSString mulleStringWithUTF8Characters:dst->characters
+   return( [NSString mulleStringWithUTF8Characters:(char *) dst->characters
                                             length:dst->length]);
 }
 
@@ -706,13 +703,14 @@ enum quoteState
    // some specialties for property lists (need not be zero terminated)
    // we want to preserve the "stringness" of @"YES" (not @(YES))
    //
+   state = NeedsNothing;
+
 #ifdef MULLE_PLIST_DECODE_NSNUMBER
    if( len == 2 && ! memcmp( s, "NO", 2))
       return( NeedsQuotes);
    if( len == 3 && ! memcmp( s, "YES", 3))
       return( NeedsQuotes);
 
-   state = NeedsNothing;
    if( isdigit( *s))
       state = NeedsQuotes;
 #endif
