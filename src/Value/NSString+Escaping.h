@@ -54,6 +54,8 @@
 - (NSString *) mulleEscapedString;
 - (NSString *) mulleUnescapedString;
 
+- (NSString *) mulleQuotedDescriptionIfNeeded;
+
 // useful for converting non-printables to '.' for example
 - (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
                                        withCharacter:(unichar) c;

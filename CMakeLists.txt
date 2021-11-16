@@ -1,6 +1,8 @@
 cmake_minimum_required( VERSION 3.1)
 
 project( MulleObjCStandardFoundation C)
+add_definitions( -DMULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL=extern)
+
 
 set( CMAKE_C_DEBUG_FLAGS "${CMAKE_C_DEBUG_FLAGS} -Wuninitialized")
 

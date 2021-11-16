@@ -44,10 +44,17 @@
 #include <mulle-container/mulle-container.h>
 
 
-extern struct mulle_container_keycallback     NSIntMapKeyCallBacks;
-extern struct mulle_container_valuecallback   NSIntMapValueCallBacks;
-extern struct mulle_container_keycallback     NSIntegerMapKeyCallBacks;
-extern struct mulle_container_valuecallback   NSIntegerMapValueCallBacks;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_keycallback     NSIntMapKeyCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_valuecallback   NSIntMapValueCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_keycallback     NSIntegerMapKeyCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_valuecallback   NSIntegerMapValueCallBacks;
 
 
 #define NSNotAnIntMapKey         mulle_not_an_int

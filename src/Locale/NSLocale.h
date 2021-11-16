@@ -107,51 +107,51 @@
 @end
 
 
-extern NSString   *NSLocaleAlternateQuotationBeginDelimiterKey;
-extern NSString   *NSLocaleAlternateQuotationEndDelimiterKey;
-extern NSString   *NSLocaleCalendar;
-extern NSString   *NSLocaleCollationIdentifier;
-extern NSString   *NSLocaleCollatorIdentifier;
-extern NSString   *NSLocaleCountryCode;
-extern NSString   *NSLocaleCurrencyCode;
-extern NSString   *NSLocaleCurrencySymbol;
-extern NSString   *NSLocaleDecimalSeparator;
-extern NSString   *NSLocaleExemplarCharacterSet;
-extern NSString   *NSLocaleGroupingSeparator;
-extern NSString   *NSLocaleIdentifier;
-extern NSString   *NSLocaleLanguageCode;
-extern NSString   *NSLocaleMeasurementSystem;
-extern NSString   *NSLocaleQuotationBeginDelimiterKey;
-extern NSString   *NSLocaleQuotationEndDelimiterKey;
-extern NSString   *NSLocaleScriptCode;
-extern NSString   *NSLocaleUsesMetricSystem;
-extern NSString   *NSLocaleVariantCode;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleAlternateQuotationBeginDelimiterKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleAlternateQuotationEndDelimiterKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleCalendar;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleCollationIdentifier;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleCollatorIdentifier;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleCountryCode;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleCurrencyCode;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleCurrencySymbol;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleDecimalSeparator;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleExemplarCharacterSet;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleGroupingSeparator;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleIdentifier;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleLanguageCode;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleMeasurementSystem;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleQuotationBeginDelimiterKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleQuotationEndDelimiterKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleScriptCode;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleUsesMetricSystem;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocaleVariantCode;
 
 
-extern NSString   *NSAMPMDesignation;
-extern NSString   *NSDateFormatString;
-extern NSString   *NSDateTimeOrdering;
-extern NSString   *NSEarlierTimeDesignations;
-extern NSString   *NSHourNameDesignations;
-extern NSString   *NSLaterTimeDesignations;
-extern NSString   *NSMonthNameArray;
-extern NSString   *NSNextDayDesignations;
-extern NSString   *NSNextNextDayDesignations;
-extern NSString   *NSPriorDayDesignations;
-extern NSString   *NSShortDateFormatString;
-extern NSString   *NSShortMonthNameArray;
-extern NSString   *NSShortTimeDateFormatString;
-extern NSString   *NSShortWeekDayNameArray;
-extern NSString   *NSThisDayDesignations;
-extern NSString   *NSTimeDateFormatString;
-extern NSString   *NSTimeFormatString;
-extern NSString   *NSWeekDayNameArray;
-extern NSString   *NSYearMonthWeekDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSAMPMDesignation;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSDateFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSDateTimeOrdering;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSEarlierTimeDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSHourNameDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLaterTimeDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSMonthNameArray;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSNextDayDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSNextNextDayDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSPriorDayDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSShortDateFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSShortMonthNameArray;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSShortTimeDateFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSShortWeekDayNameArray;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSThisDayDesignations;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSTimeDateFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSTimeFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSWeekDayNameArray;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSYearMonthWeekDesignations;
 
-extern NSString   *NSCurrencySymbol;
-extern NSString   *NSDecimalDigits; // ?? check with macos
-extern NSString   *NSDecimalSeparator;
-extern NSString   *NSInternationalCurrencyString;
-extern NSString   *NSNegativeCurrencyFormatString;
-extern NSString   *NSPositiveCurrencyFormatString;
-extern NSString   *NSThousandsSeparator;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSCurrencySymbol;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSDecimalDigits; // ?? check with macos
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSDecimalSeparator;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSInternationalCurrencyString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSNegativeCurrencyFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSPositiveCurrencyFormatString;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSThousandsSeparator;

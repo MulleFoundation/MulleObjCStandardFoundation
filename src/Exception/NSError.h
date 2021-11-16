@@ -42,29 +42,28 @@
 @class NSString;
 
 
-extern NSString   *MulleErrorClassKey;  // class to produce lazy error
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *MulleErrorClassKey;  // class to produce lazy error
 
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSOSStatusErrorDomain;  // unused
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSMachErrorDomain;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *MulleErrnoErrorDomain;
 
-extern NSString   *NSOSStatusErrorDomain;  // unused
-extern NSString   *NSMachErrorDomain;
-extern NSString   *MulleErrnoErrorDomain;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSFilePathErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSStringEncodingErrorKey;    // NSNumber containing NSStringEncoding
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSURLErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSUnderlyingErrorKey;
 
-extern NSString   *NSFilePathErrorKey;
-extern NSString   *NSStringEncodingErrorKey;    // NSNumber containing NSStringEncoding
-extern NSString   *NSURLErrorKey;
-extern NSString   *NSUnderlyingErrorKey;
-
-extern NSString   *NSHelpAnchorErrorKey;
-extern NSString   *NSLocalizedDescriptionKey;
-extern NSString   *NSLocalizedFailureReasonErrorKey;
-extern NSString   *NSLocalizedRecoveryOptionsErrorKey;
-extern NSString   *NSLocalizedRecoverySuggestionErrorKey;
-extern NSString   *NSRecoveryAttempterErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSHelpAnchorErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocalizedDescriptionKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocalizedFailureReasonErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocalizedRecoveryOptionsErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSLocalizedRecoverySuggestionErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSRecoveryAttempterErrorKey;
 
 
 // keys for threadInfo dict
-extern NSString   *NSErrorKey;
-extern NSString   *NSErrorDomainKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSErrorKey;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL NSString   *NSErrorDomainKey;
 
 //
 // domain is just a way to categorize error numbers
@@ -126,10 +125,19 @@ extern NSString   *NSErrorDomainKey;
 
 
 // shortcuts
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
 void      MulleObjCSetErrorCode( NSInteger code, NSString *domain, NSDictionary *userInfo);
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
 void      MulleObjCSetErrorDomain( NSString *domain);
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
 NSString  *MulleObjCGetErrorDomain( void);
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
 NSError   *MulleObjCExtractError( void);
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
 void      MulleObjCClearError( void);
 
 

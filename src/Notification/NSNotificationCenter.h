@@ -86,4 +86,5 @@
 @end
 
 
-extern NSString   *MulleObjCUniverseWillFinalizeNotification; // @"MulleObjCUniverseWillFinalizeNotification";
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+NSString   *MulleObjCUniverseWillFinalizeNotification; // @"MulleObjCUniverseWillFinalizeNotification";

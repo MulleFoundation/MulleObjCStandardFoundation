@@ -36,7 +36,10 @@
 #ifndef mulle_objc_container_sel_callback_h__
 #define mulle_objc_container_sel_callback_h__
 
-extern struct mulle_container_keycallback     MulleSELMapKeyCallBacks;
-extern struct mulle_container_valuecallback   MulleSELMapValueCallBacks;
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_keycallback     MulleSELMapKeyCallBacks;
+
+MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+struct mulle_container_valuecallback   MulleSELMapValueCallBacks;
 
 #endif

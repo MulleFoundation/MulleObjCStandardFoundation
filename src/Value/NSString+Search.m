@@ -1124,10 +1124,10 @@ struct NSStringMogrifyInfo
       }
 
       if( buf.characters == tmp.utf8)
-         return( [NSString mulleStringWithUTF8Characters:buf.characters
+         return( [NSString mulleStringWithUTF8Characters:(char *) buf.characters
                                                   length:buf.length]);
 
-      return( [NSString mulleStringWithUTF8CharactersNoCopy:buf.characters
+      return( [NSString mulleStringWithUTF8CharactersNoCopy:(char *) buf.characters
                                                      length:buf.length
                                                   allocator:allocator]);
    }

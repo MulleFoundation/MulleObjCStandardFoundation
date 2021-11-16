@@ -53,7 +53,7 @@ static char *
                  struct mulle_allocator **p_allocator)
 {
    *p_allocator = NULL;
-   return( [NSStringFromSelector( (SEL) (NSInteger) p) UTF8String]);
+   return( MulleObjCSelectorGetNameUTF8String( (SEL) (NSInteger) p));
 }
 
 

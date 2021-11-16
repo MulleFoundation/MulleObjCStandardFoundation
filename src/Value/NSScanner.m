@@ -121,9 +121,9 @@ static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
                                                       IMP impMember,
                                                       BOOL match)
 {
-   NSRange       range;
-   unichar       c;
-   NSUInteger    i;
+   NSRange      range;
+   unichar      c;
+   NSUInteger   i;
 
    range.location = self->_location;
    if( ! impMember)
