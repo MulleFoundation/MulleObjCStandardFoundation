@@ -9,6 +9,7 @@ var/
 *~.*
 *.old
 tmp.*
+*.tmp
 *.apple
 .gdb_history
 
