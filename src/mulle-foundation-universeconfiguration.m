@@ -131,7 +131,7 @@ static void   uncaught_exception( void *exception)
    universe = mulle_objc_global_get_universe( __MULLE_OBJC_UNIVERSEID__);
    mulle_objc_universe_fprintf( universe,
                                 stderr,
-                                "uncaught exception: %s",
+                                "uncaught exception: %s\n",
                                 [[(id) exception description] UTF8String]);
    abort();
 }
