@@ -65,6 +65,13 @@
                                          locale:locale,
                                                  [self longValue]] autorelease]);
 
+   // MEMO: this is actually being used by NSNumber numberWithBool:
+   // not sure how to localize this properly, as we do want to write YES/NO
+   // or so
+   case _C_BOOL :
+      return( [self stringValue]);
+
+
    case _C_CHR :
       return( [[[NSString alloc] initWithFormat:@"%i"
                                          locale:locale,
