@@ -1,7 +1,8 @@
 ## 0.20.0
 
-* Various small improvements
-
+* **breaking** the container callbacks for -describe now return a UTF8 string not a NSString. This is incompatible with legacy Foundation!
+* improvements in NSNumberFormatter
+* improvements in escaping and unescaping strings
 
 ## 0.19.0
 
