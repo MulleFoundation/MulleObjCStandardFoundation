@@ -41,19 +41,19 @@
 #ifndef mulle_objc_container_integer_callback_h__
 #define mulle_objc_container_integer_callback_h__
 
-#include <mulle-container/mulle-container.h>
+#include "include.h"
 
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_keycallback     NSIntMapKeyCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_valuecallback   NSIntMapValueCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_keycallback     NSIntegerMapKeyCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_valuecallback   NSIntegerMapValueCallBacks;
 
 

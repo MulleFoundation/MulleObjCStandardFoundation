@@ -48,10 +48,8 @@
 // std-c and dependencies
 
 
-MULLE_C_GLOBAL
-NSString  *MulleDateFormatISOWithMilliseconds = @"%Y-%m-%dT%H:%M:%S:%F%z";
 
-MULLE_C_GLOBAL
+NSString  *MulleDateFormatISOWithMilliseconds = @"%Y-%m-%dT%H:%M:%S:%F%z";
 NSString  *MulleDateFormatISO                 = @"%Y-%m-%dT%H:%M:%S%z";
 
 

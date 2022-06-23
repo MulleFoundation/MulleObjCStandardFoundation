@@ -41,21 +41,22 @@
 #ifndef mulle_objc_container_pointer_callback_h__
 #define mulle_objc_container_pointer_callback_h__
 
-#include <mulle-container/mulle-container.h>
+#include "include.h"
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_keycallback     NSNonOwnedPointerMapKeyCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_keycallback     NSOwnedPointerMapKeyCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_valuecallback   NSOwnedPointerMapValueCallBacks;
 
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_keycallback     NSNonOwnedPointerOrNullMapKeyCallBacks;
 
 

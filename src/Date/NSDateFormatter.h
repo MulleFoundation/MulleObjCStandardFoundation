@@ -54,11 +54,11 @@ enum
 typedef NSUInteger   NSDateFormatterBehavior;
 
 // MEMO: this vanished. why ?
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 NSString  *MulleDateFormatISOWithMilliseconds; // = @"%Y-%m-%dT%H:%M:%S:%F%z";
 
 // this is the default
-MULLE_OBJC_STANDARD_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 NSString  *MulleDateFormatISO;                 //  = @"%Y-%m-%dT%H:%M:%S:%z";
 
 
