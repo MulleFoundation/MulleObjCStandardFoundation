@@ -23,6 +23,7 @@ src/Notification
 src/TimeZone
 src/Undo
 src/Value
+src/generic
 src/reflect
 )
 
@@ -38,8 +39,8 @@ src/reflect/_MulleObjCStandardFoundation-include-private.h
 # contents selected with patternfile ??-header--private-generic-headers
 #
 set( PRIVATE_GENERIC_HEADERS
-src/import-private.h
-src/include-private.h
+src/generic/import-private.h
+src/generic/include-private.h
 )
 
 #
@@ -63,8 +64,8 @@ src/reflect/_MulleObjCStandardFoundation-include.h
 # contents selected with patternfile ??-header--public-generic-headers
 #
 set( PUBLIC_GENERIC_HEADERS
-src/import.h
-src/include.h
+src/generic/import.h
+src/generic/include.h
 )
 
 #

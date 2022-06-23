@@ -1,3 +1,7 @@
+### 0.20.1
+
+* change GLOBAL for Windows
+
 ## 0.20.0
 
 * **breaking** the container callbacks for -describe now return a UTF8 string not a NSString. This is incompatible with legacy Foundation!
