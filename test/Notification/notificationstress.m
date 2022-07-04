@@ -4,6 +4,7 @@
 # import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 #endif
 
+// if we use gmalloc this can run for 30 minutes or so
 
 #define N_OBJECTS    1000
 #define N_OBSERVERS  1000
