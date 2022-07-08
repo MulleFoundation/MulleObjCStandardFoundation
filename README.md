@@ -2,8 +2,8 @@
 
 #### 🚤 Objective-C classes based on the C standard library
 
-This library builds on [MulleObjCValueFoundation](/MulleObjCValueFoundation) 
-and [MulleObjCContainerFoundation](/MulleObjCContainerFoundation) and 
+This library builds on [MulleObjCValueFoundation](//github.com/MulleFoundation/MulleObjCValueFoundation)
+and [MulleObjCContainerFoundation](//github.com/MulleFoundation/MulleObjCContainerFoundation) and
 introduces a lot of additional classes.
 
 But it does not I/O (not even `stdio`). I/O is provided by 
@@ -39,7 +39,7 @@ Class                  | Description
 
 ## Install
 
-See [foundation-developer](//github.com//foundation-developer) for
+See [foundation-developer](//github.com/MulleFoundation/foundation-developer) for
 installation instructions.
 
 ## License
@@ -71,4 +71,4 @@ THE SOFTWARE.
 [Nat!](//www.mulle-kybernetik.com/weblog) for
 [Mulle kybernetiK](//www.mulle-kybernetik.com) and
 [Codeon GmbH](//www.codeon.de)
-[Christoper LLoyd](https://github.com/cjwl)
+[Christoper LLoyd](//www.objc.net/cjwl)
