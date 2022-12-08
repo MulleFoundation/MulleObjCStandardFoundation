@@ -254,9 +254,8 @@ void   MulleObjCCharacterBitmapClearBitsWithString( struct MulleObjCCharacterBit
                                                     NSString *s,
                                                     struct mulle_allocator *allocator)
 {
-   NSUInteger     i, n;
-   unichar        c;
-   unsigned int   plane;
+   NSUInteger   i, n;
+   unichar      c;
 
    assert( p);
    assert( allocator);

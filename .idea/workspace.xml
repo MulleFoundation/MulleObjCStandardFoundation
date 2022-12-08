@@ -1,8 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="MulleObjCStandardFoundation" targetName="MulleObjCStandardFoundation" />
+      <config projectName="MulleObjCStandardFoundation" targetName="_3_MulleObjCStandardFoundation" />
+      <config projectName="MulleObjCStandardFoundation" targetName="_1_MulleObjCStandardFoundation" />
+      <config projectName="MulleObjCStandardFoundation" targetName="_2_MulleObjCStandardFoundation" />
+      <config projectName="MulleObjCStandardFoundation" targetName="__objc_loader_inc__" />
+    </generated>
+  </component>
   <component name="CMakeSettings">
     <configurations>
       <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
     </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="631c6cdc-e97e-4a32-8692-702fec6d6745" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/MulleObjCStandardFoundation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MulleObjCStandardFoundation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mulle/share/env/environment-plugin.sh" beforeDir="false" afterPath="$PROJECT_DIR$/.mulle/share/env/environment-plugin.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mulle/share/env/tool-extension" beforeDir="false" afterPath="$PROJECT_DIR$/.mulle/share/env/tool-extension" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mulle/share/sde/extension" beforeDir="false" afterPath="$PROJECT_DIR$/.mulle/share/sde/extension" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mulle/share/sourcetree/config" beforeDir="false" afterPath="$PROJECT_DIR$/.mulle/share/sourcetree/config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/AllLoadC.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/AllLoadC.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/CreateLoaderIncObjC.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/CreateLoaderIncObjC.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/Executable.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/Executable.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/ExecutableAux.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/ExecutableAux.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/ExecutableObjC.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/ExecutableObjC.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/Framework.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/Framework.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/Library.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/Library.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake/share/PostStandaloneAuxC.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake/share/PostStandaloneAuxC.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dox/HOWTO_DEPENDENCIES.md" beforeDir="false" afterPath="$PROJECT_DIR$/dox/HOWTO_DEPENDENCIES.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Container/MulleObjCContainerIntegerCallback.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/MulleObjCContainerIntegerCallback.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Container/NSDictionary/NSDictionary+NSString.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Container/NSDictionary/NSDictionary+NSString.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/NSError.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/NSError.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/NSException.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/NSException.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/NSException.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/NSException.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Locale/NSNumberFormatter.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Locale/NSNumberFormatter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Locale/NSNumberFormatter.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Locale/NSNumberFormatter.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Notification/NSNotificationCenter.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Notification/NSNotificationCenter.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TimeZone/NSTimeZone.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/TimeZone/NSTimeZone.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/MulleObjCCharacterBitmap.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/MulleObjCCharacterBitmap.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSArray+StringComponents.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSArray+StringComponents.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSCharacterSet.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSCharacterSet.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSData+Components.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSData+Components.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSScanner.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSScanner.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSString+Components.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSString+Components.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSString+Escaping.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSString+Escaping.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSString+Search.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSString+Search.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Value/NSString+Search.m" beforeDir="false" afterPath="$PROJECT_DIR$/src/Value/NSString+Search.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reflect/_MulleObjCStandardFoundation-import.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/reflect/_MulleObjCStandardFoundation-import.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reflect/_MulleObjCStandardFoundation-include.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/reflect/_MulleObjCStandardFoundation-include.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/.mulle/share/env/environment-plugin.sh" beforeDir="false" afterPath="$PROJECT_DIR$/test/.mulle/share/env/environment-plugin.sh" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/dependency/include/mulle-allocator/mulle-allocator.h" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GGW1sm4z089UXKQGMp6WO96evm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/src/srcO/MulleFoundation/MulleObjCStandardFoundation&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  }
+}</component>
+  <component name="RunManager" selected="CMake Application._1_MulleObjCStandardFoundation">
+    <configuration name="MulleObjCStandardFoundation" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MulleObjCStandardFoundation" TARGET_NAME="MulleObjCStandardFoundation" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="_1_MulleObjCStandardFoundation" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MulleObjCStandardFoundation" TARGET_NAME="_1_MulleObjCStandardFoundation" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="_2_MulleObjCStandardFoundation" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MulleObjCStandardFoundation" TARGET_NAME="_2_MulleObjCStandardFoundation" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="_3_MulleObjCStandardFoundation" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MulleObjCStandardFoundation" TARGET_NAME="_3_MulleObjCStandardFoundation" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="__objc_loader_inc__" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MulleObjCStandardFoundation" TARGET_NAME="__objc_loader_inc__" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application._1_MulleObjCStandardFoundation" />
+      <item itemvalue="CMake Application._2_MulleObjCStandardFoundation" />
+      <item itemvalue="CMake Application._3_MulleObjCStandardFoundation" />
+      <item itemvalue="CMake Application.__objc_loader_inc__" />
+      <item itemvalue="CMake Application.MulleObjCStandardFoundation" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="631c6cdc-e97e-4a32-8692-702fec6d6745" name="Changes" comment="" />
+      <created>1666015188857</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666015188857</updated>
+      <workItem from="1666015190075" duration="1134000" />
+      <workItem from="1666016392748" duration="113000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

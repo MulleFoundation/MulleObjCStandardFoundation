@@ -159,6 +159,7 @@ static inline void   SelfUnlock( void)
       MulleObjCThrowInternalInconsistencyException( @"no class for NSNumberFormatterBehavior %d loaded", formatterBehavior);
 
    MulleObjCObjectSetClass( self, cls);
+   // _formatterBehavior = formatterBehavior; // not sure
 }
 
 
@@ -167,13 +168,13 @@ static inline void   SelfUnlock( void)
    return( NSNumberFormatterBehavior10_0);
 }
 
-
+#if 0 // UNUSED
 static void   validate_behavior( NSNumberFormatterBehavior behavior)
 {
    if( behavior != NSNumberFormatterBehaviorDefault && behavior != NSNumberFormatterBehavior10_0)
       MulleObjCThrowInvalidArgumentException( @"unsupported behavior");
 }
-
+#endif
 
 - (void) _initDefaultValues
 {
@@ -255,12 +256,10 @@ static void   validate_behavior( NSNumberFormatterBehavior behavior)
 // TODO: not well coded at all
 - (NSNumber *) numberFromString:(NSString *) s
 {
-   id       value;
    Class    cls;
    IMP      imp;
    SEL      sel;
 
-   value = nil;
    if( _flags.generatesDecimalNumbers)
    {
       // weak foward link

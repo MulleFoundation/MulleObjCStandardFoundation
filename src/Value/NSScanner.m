@@ -111,7 +111,7 @@
 {
    if( pos > _length)
       MulleObjCThrowInvalidArgumentExceptionUTF8String("out of range");
-   _location = pos;
+   _scanLocation = pos;
 }
 
 

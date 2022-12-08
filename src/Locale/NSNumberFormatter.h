@@ -80,7 +80,7 @@ typedef NSUInteger NSNumberFormatterStyle;
    } _flags;
 }
 
-@property( assign) NSNumberFormatterBehavior  formatterBehavior;
+@property( dynamic, assign) NSNumberFormatterBehavior  formatterBehavior;
 
 @property( retain) NSLocale                 *locale;
 @property( copy, nonnull) NSString          *format;

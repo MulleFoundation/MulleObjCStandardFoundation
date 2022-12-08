@@ -87,13 +87,6 @@ struct mulle_container_keycallback   NSIntegerMapKeyCallBacks =
 };
 
 
-static uintptr_t   mulle_objc_keycallback_no_hash( struct mulle_container_keycallback *callback,
-                                                   void *p)
-{
-   return( (uintptr_t) p);
-}
-
-
 struct mulle_container_valuecallback    NSIntMapValueCallBacks =
 {
    mulle_container_valuecallback_self,

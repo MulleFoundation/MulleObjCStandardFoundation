@@ -121,7 +121,6 @@ static void
                                         struct mulle_data sepData,
                                         struct mulle__pointerqueue *pointers)
 {
-   char   *q;
    char   *found;
    char   *p;
    char   *sentinel;
@@ -164,7 +163,6 @@ static void
 {
    struct mulle__pointerqueue   pointers;
    NSArray                      *array;
-   NSUInteger                   sepLen;
    struct mulle_data            data;
    struct mulle_data            sepData;
 

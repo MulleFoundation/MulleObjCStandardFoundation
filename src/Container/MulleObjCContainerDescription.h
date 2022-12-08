@@ -39,6 +39,8 @@
 
 @class NSString;
 
+// TODO: rename header to MulleObjCObjectContainer...
+
 struct MulleObjCObjectContainerDescriptionInfo
 {
    NSString  *opener;
