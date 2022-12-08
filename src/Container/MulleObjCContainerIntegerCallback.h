@@ -44,6 +44,8 @@
 #include "include.h"
 
 
+// TODO: should be obsolete and/or moved to MulleObjC
+
 MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_container_keycallback     NSIntMapKeyCallBacks;
 

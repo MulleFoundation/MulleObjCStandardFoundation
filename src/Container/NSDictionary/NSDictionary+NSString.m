@@ -50,7 +50,7 @@
 // it is convenient for testing to absolutely be
 // identical in output to Apple Foundation
 
-
+#if 0 // UNUSED
 static BOOL   allKeysRespondToCompare( NSArray *keys)
 {
    id   key;
@@ -60,7 +60,7 @@ static BOOL   allKeysRespondToCompare( NSArray *keys)
          return( NO);
     return( YES);
 }
-
+#endif
 
 
 static struct MulleObjCObjectContainerDescriptionInfo  info =

@@ -86,7 +86,7 @@
 
 static NSString   *NSSystemTimeZoneKey  = @"System";
 static NSString   *NSDefaultTimeZoneKey = @"Default";
-static NSString   *NSGMTTimeZoneKey     = @"GMT";
+//static NSString   *NSGMTTimeZoneKey     = @"GMT";
 
 
 static struct

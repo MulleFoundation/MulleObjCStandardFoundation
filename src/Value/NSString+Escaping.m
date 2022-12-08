@@ -193,17 +193,12 @@ char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst)
 //
 char   *MulleUTF8StringUnescape( char *src, NSUInteger length, char *dst)
 {
-   int                     c;
-   int                     d;
-   int                     e;
-   char                    *start;
-   char                    *s;
-   char                    *sentinel;
-   mulle_utf32_t           utf32;
-   ptrdiff_t               i;
-   ptrdiff_t               len;
-   int                     value;
-   struct mulle_utf8data   rover;
+   int    c;
+   int    d;
+   int    e;
+   char   *s;
+   char   *sentinel;
+   int    value;
 
    s        = src;
    sentinel = &s[ length];
@@ -377,7 +372,6 @@ fail:
    char                     *buf;
    char                     *dst;
    char                     *s;
-   char                     *sentinel;
 
    length = [self mulleUTF8StringLength];
    if( ! length)
@@ -418,7 +412,6 @@ fail:
    char                     *buf;
    char                     *dst;
    char                     *s;
-   char                     c;
 
    length = [self mulleUTF8StringLength];
    if( length < 2)
@@ -778,7 +771,6 @@ enum quoteState
    unichar                   *buf;
    unichar                   *s;
    unichar                   *sentinel;
-   unichar                   c;
    int                       replaced;
    struct mulle_allocator   *allocator;
 

@@ -39,8 +39,6 @@ typedef NSString   *(*MakeStringFunction)( void *start,
    NSArray                                *array;
    NSString                               **dst;
    NSString                               **strings;
-   NSUInteger                             i;
-   NSUInteger                             len;
    NSUInteger                             nStrings;
    struct _MulleStringContext             ctxt;
    struct mulle__pointerqueueenumerator   rover;
@@ -90,8 +88,6 @@ typedef NSString   *(*MakeStringFunction)( void *start,
                                    stride:(NSUInteger) stride
                             sharingObject:(id) object
 {
-   struct mulle_data   data;
-
    return( [self mulleArrayFromData:mulle_data_make( buf.characters, buf.length)
                createStringFunction:(MakeStringFunction) _mulleNewASCIIStringWithStringContext
                        pointerQueue:pointers

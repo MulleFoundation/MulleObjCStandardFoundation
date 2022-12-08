@@ -3,12 +3,12 @@
 
 MulleObjCFoundation depends on
 
-* [MulleObjC](//github.com/mulle-nat/MulleObjC)
-* [mulle_allocator](//github.com/mulle-nat/mulle-allocator)
-* [mulle_buffer](//github.com/mulle-nat/mulle-buffer)
-* [mulle_container](//github.com/mulle-nat/mulle-container)
-* [mulle_sprintf](//github.com/mulle-nat/mulle-sprintf)
-* [mulle_utf](//github.com/mulle-nat/mulle-utf)
+* [MulleObjC](/mulle-nat/MulleObjC)
+* [mulle_allocator](/mulle-nat/mulle-allocator)
+* [mulle_buffer](/mulle-nat/mulle-buffer)
+* [mulle_container](/mulle-nat/mulle-container)
+* [mulle_sprintf](/mulle-nat/mulle-sprintf)
+* [mulle_utf](/mulle-nat/mulle-utf)
 * standard C libraries (but for example no `<unistd.h>`)
 
 MulleObjCFoundation should not depend on ICU, `<unistd.h>` or any POSIX headers.

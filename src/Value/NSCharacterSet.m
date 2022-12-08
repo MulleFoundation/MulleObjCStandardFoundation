@@ -397,8 +397,6 @@ static NSString *
    unsigned int             i, j, k;
    uint8_t                  bit;
    unichar                  c;
-   unichar                  *characters;
-   size_t                   length;
    struct mulle_data        data;
 
    allocator = MulleObjCClassGetAllocator( [NSString class]);

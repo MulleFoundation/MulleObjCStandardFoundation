@@ -716,10 +716,9 @@ static void   removePairFromQueues( NSNotificationCenter *self,
 
 - (void) removeObserver:(id) observer
 {
-   struct mulle__pointerqueueenumerator   rover;
-   struct mulle__pointerqueue             *pair_queue;
-   struct mulle_allocator                 *allocator;
-   name_sender_pair                       *pair;
+   struct mulle__pointerqueue   *pair_queue;
+   struct mulle_allocator       *allocator;
+   name_sender_pair             *pair;
 
    mulle_thread_mutex_lock( &_lock);
    {

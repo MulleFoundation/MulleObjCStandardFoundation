@@ -840,6 +840,17 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 }
 
 
+- (BOOL) containsString:(NSString *) other
+{
+   NSRange   range;
+
+   range = [self rangeOfString:other
+                       options:0
+                         range:NSMakeRange( 0, -1)];
+   return( range.location != NSNotFound);
+}
+
+
 #pragma mark - character search
 
 //

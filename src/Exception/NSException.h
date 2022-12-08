@@ -88,7 +88,7 @@ mulleVarargList:(mulle_vararg_list) args;
 
 MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 MULLE_C_NO_RETURN
-void   MulleObjCThrowMallocException( void *block, size_t size);
+void   MulleObjCThrowMallocException( struct mulle_allocator *allocator, void *block, size_t size);
 
 
 MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL NSString   *NSInternalInconsistencyException;

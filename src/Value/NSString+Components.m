@@ -180,7 +180,6 @@ static NSUInteger
                                          NSString *separator,
                                          struct mulle__pointerqueue *pointers)
 {
-   mulle_utf32_t             sepChar;
    mulle_utf32_t             space[ 32];
    NSUInteger                rval;
    struct mulle_utf32data   sepData;
@@ -359,12 +358,8 @@ static id
 - (id) _mulleComponentsSeparatedByString:(NSString *) separator
                               arrayClass:(Class) arrayClass
 {
-   char                         tmp[ mulle_char5_maxlength64];  // known ascii max 8
-   NSArray                      *array;
-   NSUInteger                   c;
-   NSUInteger                   sepLen;
-   struct mulle__pointerqueue   pointers;
-   struct mulle_asciidata      data;
+   char                     tmp[ mulle_char5_maxlength64];  // known ascii max 8
+   struct mulle_asciidata   data;
 
    data.characters = tmp;
    data.length     = [self mulleGetASCIICharacters:data.characters
@@ -431,10 +426,9 @@ static id
                               arrayClass:(Class) arrayClass
 {
    NSArray                      *array;
-   NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf16data      data;
+   struct mulle_utf16data       data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF16Data:&data];
@@ -462,10 +456,8 @@ static id
                                     arrayClass:(Class) arrayClass
 {
    NSArray                      *array;
-   NSUInteger                   c;
-   NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf16data      data;
+   struct mulle_utf16data       data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF16Data:&data];
@@ -497,10 +489,9 @@ static id
                               arrayClass:(Class) arrayClass
 {
    NSArray                      *array;
-   NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf32data      data;
+   struct mulle_utf32data       data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF32Data:&data];
@@ -528,10 +519,8 @@ static id
                                     arrayClass:(Class) arrayClass
 {
    NSArray                      *array;
-   NSUInteger                   c;
-   NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
-   struct mulle_utf32data      data;
+   struct mulle_utf32data       data;
    BOOL                         flag;
 
    flag = [self mulleFastGetUTF32Data:&data];
@@ -568,7 +557,6 @@ static id
                               arrayClass:(Class) arrayClass
 {
    NSArray                      *array;
-   NSUInteger                   c;
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
    struct mulle_utf8data        data;
@@ -660,9 +648,8 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
 - (id) _mulleComponentsSeparatedByCharacterSet:(NSCharacterSet *)separators
                                     arrayClass:(Class) arrayClass
 {
-   struct mulle_utf8data       data;
+   struct mulle_utf8data        data;
    NSArray                      *array;
-   NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
    mulle_utf8_t                 tmp[ 64];
 

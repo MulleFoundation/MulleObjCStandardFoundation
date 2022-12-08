@@ -323,7 +323,6 @@ have_domain:
 + (void) mulleSetErrorDomain:(NSString *) domain
 {
    NSMutableDictionary   *threadDictionary;
-   NSError               *error;
    int                   preserve;
 
    preserve = errno;

@@ -40,11 +40,11 @@
 
 struct MulleStringCharacterFunctions
 {
-   int        (*isdigit)( unichar);
-   int        (*iszero)( unichar);
-   int        (*isspace)( unichar);
-   unichar    (*tolower)( unichar);
-   unichar    (*toupper)( unichar);
+   int       (*isdigit)( unichar);
+   int       (*iszero)( unichar);
+   int       (*isspace)( unichar);
+   unichar   (*tolower)( unichar);
+   unichar   (*toupper)( unichar);
 };
 
 
@@ -68,6 +68,8 @@ struct MulleStringCharacterFunctions
                     range:(NSRange) range;
 
 - (NSRange) rangeOfString:(NSString *) other;
+
+- (BOOL) containsString:(NSString *) s;
 
 - (NSComparisonResult) compare:(NSString *) other
                        options:(NSStringCompareOptions) options

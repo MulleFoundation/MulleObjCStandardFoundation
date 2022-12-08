@@ -282,7 +282,9 @@ mulleVarargList:(mulle_vararg_list) arguments
 
 // not vectored
 MULLE_C_NO_RETURN
-void   MulleObjCThrowMallocException( void *block, size_t size)
+void   MulleObjCThrowMallocException( struct mulle_allocator *allocator,
+                                      void *block,
+                                      size_t size)
 {
    throw_malloc_exception( block, size);
 }
