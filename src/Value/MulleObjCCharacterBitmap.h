@@ -95,3 +95,44 @@ void   MulleObjCCharacterBitmapLogicOperation( struct MulleObjCCharacterBitmap *
                                                struct MulleObjCCharacterBitmap *q,
                                                enum MulleObjCCharacterBitmapLogicOpcode opcode,
                                                struct mulle_allocator *allocator);
+
+
+static inline void  _mulle_uint32_bitmap_set( uint32_t *bitmap, uint16_t d)
+{
+   unsigned int   index;
+   unsigned int   bindex;
+   uint32_t       bit;
+
+   index           = d >> 5;
+   bindex          = d & 0x1F;
+   bit             = (1U << bindex);
+   bitmap[ index] |= bit;
+}
+
+
+static inline void  _mulle_uint32_bitmap_clr( uint32_t *bitmap, uint16_t d)
+{
+   unsigned int   index;
+   unsigned int   bindex;
+   uint32_t       bit;
+
+   index           = d >> 5;
+   bindex          = d & 0x1F;
+   bit             = (1U << bindex);
+   bitmap[ index] &= ~bit;
+}
+
+
+static inline int  _mulle_uint32_bitmap_get( uint32_t *bitmap, uint16_t d)
+{
+   unsigned int   index;
+   unsigned int   bindex;
+   uint32_t       bit;
+
+   index  = d >> 5;
+   bindex = d & 0x1F;
+   bit    = (1U << bindex);
+   bit    = bitmap[ index] & bit;
+
+   return( bit ? 1 : 0);
+}

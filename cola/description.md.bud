@@ -1,0 +1,6 @@
+This library builds on [MulleObjCValueFoundation](//github.com/MulleFoundation/MulleObjCValueFoundation)
+and [MulleObjCContainerFoundation](//github.com/MulleFoundation/MulleObjCContainerFoundation) and
+introduces a lot of additional classes.
+
+But it does not I/O (not even `stdio`). I/O is provided by 
+MulleObjCOSFoundation.

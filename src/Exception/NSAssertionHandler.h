@@ -129,12 +129,12 @@ _Pragma("clang diagnostic push")             \
 @optional
 
 
-#define NSAssert( a, ...)                      MulleObjCAssertV( a, __VA_ARGS__)
-#define NSAssert1( a, b, p1)                   NSAssert2( a, b, p1, 0)
-#define NSAssert2( a, b, p1, p2)               NSAssert3( a, b, p1, p2, 0)
-#define NSAssert3( a, b, p1, p2, p3)           NSAssert4( a, b, p1, p2, p3, 0)
-#define NSAssert4( a, b, p1, p2, p3, p4)       NSAssert5( a, b, p1, p2, p3, p4, 0)
-#define NSAssert5( a, b, p1, p2, p3, p4, p5)   MulleObjCAssert( a, b, p1, p2, p3, p4, p5)
+#define NSAssert( a, ...)                       MulleObjCAssertV( a, __VA_ARGS__)
+#define NSAssert1( a, b, p1)                    NSAssert2( a, b, p1, 0)
+#define NSAssert2( a, b, p1, p2)                NSAssert3( a, b, p1, p2, 0)
+#define NSAssert3( a, b, p1, p2, p3)            NSAssert4( a, b, p1, p2, p3, 0)
+#define NSAssert4( a, b, p1, p2, p3, p4)        NSAssert5( a, b, p1, p2, p3, p4, 0)
+#define NSAssert5( a, b, p1, p2, p3, p4, p5)    MulleObjCAssert( a, b, p1, p2, p3, p4, p5)
 
 #define NSCAssert( a, ...)                      MulleObjCCAssertV( a, __VA_ARGS__)
 #define NSCAssert1( a, b, p1)                   NSCAssert2( a, b, p1, 0)

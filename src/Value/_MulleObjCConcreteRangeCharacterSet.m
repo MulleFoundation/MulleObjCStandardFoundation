@@ -46,7 +46,7 @@
 @implementation _MulleObjCConcreteRangeCharacterSet
 
 + (instancetype) newWithRange:(NSRange) range
-             invert:(BOOL) invert;
+                       invert:(BOOL) invert;
 {
    _MulleObjCConcreteRangeCharacterSet   *obj;
 
@@ -57,15 +57,26 @@
    return( obj);
 }
 
+- (id) copy
+{
+   return( [self retain]);
+}
+
 
 - (BOOL) characterIsMember:(unichar) c
 {
+   if( (uint32_t) c >= 0x110000)
+      return( NO);
+
    return( NSLocationInRange( c, _range) == ! _invert);
 }
 
 
 - (BOOL) longCharacterIsMember:(long) c
 {
+   if( (uint32_t) c >= 0x110000)
+      return( NO);
+
    return( NSLocationInRange( c, _range)  == ! _invert);
 }
 
@@ -74,8 +85,7 @@
 {
    NSRange   planeRange;
 
-   if( plane >= 0x11
-)
+   if( plane >= 0x11)
       return( 0);
 
    planeRange.location = plane * 0x10000;

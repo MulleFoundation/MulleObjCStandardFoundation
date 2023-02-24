@@ -1,6 +1,6 @@
 //
-//  _MulleObjCConcreteBitmapCharacterSet.m
-//  MulleObjCStandardFoundation
+//  _MulleObjCCheatingASCIICharacterSet.m
+//  MulleObjCValueFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
@@ -33,100 +33,98 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#import "NSCharacterSet.h"
+#import "MulleObjCCharacterBitmap.h"
 
+#import "_MulleObjCCheatingASCIICharacterSet.h"
 #import "_MulleObjCConcreteInvertedCharacterSet.h"
 
-// other files in this library
 
-// other libraries of MulleObjCStandardFoundation
-#import "MulleObjCStandardExceptionFoundation.h"
-
-// std-c and dependencies
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
 
-@implementation _MulleObjCConcreteInvertedCharacterSet
+@implementation _MulleObjCCheatingASCIICharacterSet
 
 
-+ (instancetype) newWithCharacterSet:(NSCharacterSet *) other
-{
-   _MulleObjCConcreteInvertedCharacterSet   *obj;
-
-   obj = NSAllocateObject( self, 0, NULL);
-   obj->_original = [other copy];
-
-   return( obj);
-}
-
-
-- (void) dealloc
-{
-   [_original release];
-
-   [super dealloc];
-}
++ (instancetype) alloc       { abort(); }
+- (void) dealloc             { abort(); }
+- (instancetype) autorelease { abort(); }
+- (instancetype) retain      { abort(); }
+- (void) release             { abort(); }
 
 
 - (BOOL) characterIsMember:(unichar) c
 {
+   uint64_t   bit;
+
    if( (uint32_t) c >= 0x110000)
       return( NO);
 
-   return( ! [_original characterIsMember:c]);
+   if( c >= 0x100)
+      bit = 0;
+   else
+      bit = (_bits[ c >> 6] & 1ULL << (c & 0x3F));
+
+   return( (bit != 0) ^ _invert);
+}
+
+
+- (BOOL) longCharacterIsMember:(long) c
+{
+   uint64_t   bit;
+
+   if( c >= 0x110000)
+      return( NO);
+
+   if( (unsigned long) c >= 0x100)
+      bit = 0;
+   else
+      bit = (_bits[ c >> 6] & 1ULL << (c & 0x3F));
+
+   return( (bit != 0) ^ _invert);
 }
 
 
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
 {
+   BOOL   flag;
+
    if( plane >= 0x11)
       return( NO);
 
-   return( ! [_original hasMemberInPlane:plane]);
-}
-
-
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
-static int   mulle_meminvert_8( uint8_t *buf, size_t length)
-{
-   uint8_t   *p;
-   uint8_t   *sentinel;
-   uint8_t   bits;
-
-   bits     = 0;
-   p        = buf;
-   sentinel = &p[ length];
-   while( p < sentinel)
-   {
-      bits |= (*p = ~*p);
-      ++p;
-   }
-
-   return( (int) bits);
+   flag = plane == 0x0;
+   return( flag ^ _invert);
 }
 
 
 - (void) mulleGetBitmapBytes:(unsigned char *) bytes
                        plane:(NSUInteger) plane
 {
+   unsigned int  c;
+
    if( ! bytes)
       MulleObjCThrowInvalidArgumentException( @"empty bytes");
    if( plane >= 0x11)
       MulleObjCThrowInvalidArgumentException( @"excessive plane index");
 
-   [_original mulleGetBitmapBytes:bytes
-                            plane:plane];
-
-   mulle_meminvert_8( bytes, 8192);
+   memset( bytes, _invert ? 0xFF : 0x00, 8192);
+   if( plane == 0)
+      for( c = 0; c < 0x100; c++)
+         if( (_bits[ c >> 6] & 1ULL << (c & 0x3F)))
+         {
+            if( _invert)
+               _mulle_uint32_bitmap_clr( (uint32_t *) bytes, c);
+            else
+               _mulle_uint32_bitmap_set( (uint32_t *) bytes, c);
+         }
 }
 
 
 - (NSCharacterSet *) invertedSet
 {
-   return( _original);
+   // copy into "real" set then invert
+   return( [[_MulleObjCConcreteInvertedCharacterSet newWithCharacterSet:[[self copy] autorelease]] autorelease]);
 }
+
 
 @end

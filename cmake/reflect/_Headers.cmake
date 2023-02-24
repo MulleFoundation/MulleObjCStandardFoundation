@@ -115,6 +115,7 @@ src/TimeZone/NSTimeZone.h
 src/Undo/MulleObjCStandardUndoFoundation.h
 src/Undo/NSUndoManager.h
 src/Value/MulleObjCCharacterBitmap.h
+src/Value/_MulleObjCCheatingASCIICharacterSet.h
 src/Value/_MulleObjCConcreteBitmapCharacterSet.h
 src/Value/_MulleObjCConcreteCharacterSet.h
 src/Value/_MulleObjCConcreteInvertedCharacterSet.h

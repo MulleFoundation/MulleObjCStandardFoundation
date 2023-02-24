@@ -21,5 +21,8 @@ int main(int argc, const char * argv[])
    other = [s substringWithRange:NSMakeRange( 0, 0)];
    printf( "%s\n", [other UTF8String]);
 
+   other = [s substringWithRange:NSMakeRange( 4, 6)];
+   printf( "%s\n", [other UTF8String]);
+
    return( 0);
 }

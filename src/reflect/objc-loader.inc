@@ -49,6 +49,7 @@
       { @selector( NSUndoManager), MULLE_OBJC_NO_CATEGORYID },      // 0e5330bc;NSUndoManager;;
       { @selector( _MulleGMTTimeZone), MULLE_OBJC_NO_CATEGORYID },      // d6f534a3;_MulleGMTTimeZone;;
       { @selector( _MulleObjCASCIIString), @selector( Components) },      // b82142dd;_MulleObjCASCIIString;c6c03895;Components
+      { @selector( _MulleObjCCheatingASCIICharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 32889ba3;_MulleObjCCheatingASCIICharacterSet;;
       { @selector( _MulleObjCConcreteBitmapCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 0846adc2;_MulleObjCConcreteBitmapCharacterSet;;
       { @selector( _MulleObjCConcreteCalendarDate), MULLE_OBJC_NO_CATEGORYID },      // a2be208e;_MulleObjCConcreteCalendarDate;;
       { @selector( _MulleObjCConcreteCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // ba1004b2;_MulleObjCConcreteCharacterSet;;

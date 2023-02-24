@@ -454,9 +454,17 @@ static NSString *
 }
 
 
+
+// copy here for cheating set, subclasses just retain
 - (id) copy
 {
-   return( [self retain]);
+   NSCharacterSet   *set;
+   NSData           *data;
+
+   data = [self bitmapRepresentation];
+   set  = [[NSCharacterSet alloc] initWithBitmapRepresentation:data];
+   return( set);
 }
+
 
 @end

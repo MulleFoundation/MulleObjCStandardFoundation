@@ -48,6 +48,7 @@ src/TimeZone/_MulleGMTTimeZone.m
 src/TimeZone/NSTimeZone.m
 src/Undo/NSUndoManager.m
 src/Value/MulleObjCCharacterBitmap.m
+src/Value/_MulleObjCCheatingASCIICharacterSet.m
 src/Value/_MulleObjCConcreteBitmapCharacterSet.m
 src/Value/_MulleObjCConcreteCharacterSet.m
 src/Value/_MulleObjCConcreteInvertedCharacterSet.m
