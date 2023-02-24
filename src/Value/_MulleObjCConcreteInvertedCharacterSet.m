@@ -68,8 +68,9 @@
 
 - (BOOL) characterIsMember:(unichar) c
 {
-   if( c >= 0x110000)
+   if( (uint32_t) c >= 0x110000)
       return( NO);
+
    return( ! [_original characterIsMember:c]);
 }
 
@@ -78,7 +79,14 @@
 {
    if( plane >= 0x11)
       return( NO);
+
    return( ! [_original hasMemberInPlane:plane]);
+}
+
+
+- (id) copy
+{
+   return( [self retain]);
 }
 
 

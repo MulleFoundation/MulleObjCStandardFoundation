@@ -1,0 +1,180 @@
+ASCII "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
+ASCII \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
+ASCII BOM "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
+ASCII BOM \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
+
+UTF8 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
+UTF8 \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
+UTF8 BOM "VfL Bochum 1848" : <efbbbc56 664c2042 6f636875 6d203138 3438>
+UTF8 BOM \0 "VfL Bochum 1848" : <efbbbc56 664c2042 6f636875 6d203138 343800>
+
+ISOLatin1 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
+ISOLatin1 \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
+ISOLatin1 BOM "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
+ISOLatin1 BOM \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
+
+UTF16BigEndian "VfL Bochum 1848" : <00560066 004c0020 0042006f 00630068 0075006d 00200031 00380034 0038>
+UTF16BigEndian \0 "VfL Bochum 1848" : <00560066 004c0020 0042006f 00630068 0075006d 00200031 00380034 00380000>
+UTF16BigEndian BOM "VfL Bochum 1848" : <feff0056 0066004c 00200042 006f0063 00680075 006d0020 00310038 00340038>
+UTF16BigEndian BOM \0 "VfL Bochum 1848" : <feff0056 0066004c 00200042 006f0063 00680075 006d0020 00310038 00340038 0000>
+
+UTF16LittleEndian "VfL Bochum 1848" : <56006600 4c002000 42006f00 63006800 75006d00 20003100 38003400 3800>
+UTF16LittleEndian \0 "VfL Bochum 1848" : <56006600 4c002000 42006f00 63006800 75006d00 20003100 38003400 38000000>
+UTF16LittleEndian BOM "VfL Bochum 1848" : <fffe5600 66004c00 20004200 6f006300 68007500 6d002000 31003800 34003800>
+UTF16LittleEndian BOM \0 "VfL Bochum 1848" : <fffe5600 66004c00 20004200 6f006300 68007500 6d002000 31003800 34003800 0000>
+
+UTF32BigEndian "VfL Bochum 1848" : <00000056 00000066 0000004c 00000020 00000042 0000006f 00000063 00000068 00000075 0000006d 00000020 00000031 00000038 00000034 00000038>
+UTF32BigEndian \0 "VfL Bochum 1848" : <00000056 00000066 0000004c 00000020 00000042 0000006f 00000063 00000068 00000075 0000006d 00000020 00000031 00000038 00000034 00000038 00000000>
+UTF32BigEndian BOM "VfL Bochum 1848" : <0000feff 00000056 00000066 0000004c 00000020 00000042 0000006f 00000063 00000068 00000075 0000006d 00000020 00000031 00000038 00000034 00000038>
+UTF32BigEndian BOM \0 "VfL Bochum 1848" : <0000feff 00000056 00000066 0000004c 00000020 00000042 0000006f 00000063 00000068 00000075 0000006d 00000020 00000031 00000038 00000034 00000038 00000000>
+
+UTF32LittleEndian "VfL Bochum 1848" : <56000000 66000000 4c000000 20000000 42000000 6f000000 63000000 68000000 75000000 6d000000 20000000 31000000 38000000 34000000 38000000>
+UTF32LittleEndian \0 "VfL Bochum 1848" : <56000000 66000000 4c000000 20000000 42000000 6f000000 63000000 68000000 75000000 6d000000 20000000 31000000 38000000 34000000 38000000 00000000>
+UTF32LittleEndian BOM "VfL Bochum 1848" : <fffe0000 56000000 66000000 4c000000 20000000 42000000 6f000000 63000000 68000000 75000000 6d000000 20000000 31000000 38000000 34000000 38000000>
+UTF32LittleEndian BOM \0 "VfL Bochum 1848" : <fffe0000 56000000 66000000 4c000000 20000000 42000000 6f000000 63000000 68000000 75000000 6d000000 20000000 31000000 38000000 34000000 38000000 00000000>
+
+
+ASCII "롉瓲䡁" : conversion not possible
+ASCII \0 "롉瓲䡁" : conversion not possible
+ASCII BOM "롉瓲䡁" : conversion not possible
+ASCII BOM \0 "롉瓲䡁" : conversion not possible
+
+UTF8 "롉瓲䡁" : <eba189e7 93b2e4a1 81>
+UTF8 \0 "롉瓲䡁" : <eba189e7 93b2e4a1 8100>
+UTF8 BOM "롉瓲䡁" : <efbbbceb a189e793 b2e4a181>
+UTF8 BOM \0 "롉瓲䡁" : <efbbbceb a189e793 b2e4a181 00>
+
+ISOLatin1 "롉瓲䡁" : conversion not possible
+ISOLatin1 \0 "롉瓲䡁" : conversion not possible
+ISOLatin1 BOM "롉瓲䡁" : conversion not possible
+ISOLatin1 BOM \0 "롉瓲䡁" : conversion not possible
+
+UTF16BigEndian "롉瓲䡁" : <b84974f2 4841>
+UTF16BigEndian \0 "롉瓲䡁" : <b84974f2 48410000>
+UTF16BigEndian BOM "롉瓲䡁" : <feffb849 74f24841>
+UTF16BigEndian BOM \0 "롉瓲䡁" : <feffb849 74f24841 0000>
+
+UTF16LittleEndian "롉瓲䡁" : <49b8f274 4148>
+UTF16LittleEndian \0 "롉瓲䡁" : <49b8f274 41480000>
+UTF16LittleEndian BOM "롉瓲䡁" : <fffe49b8 f2744148>
+UTF16LittleEndian BOM \0 "롉瓲䡁" : <fffe49b8 f2744148 0000>
+
+UTF32BigEndian "롉瓲䡁" : <0000b849 000074f2 00004841>
+UTF32BigEndian \0 "롉瓲䡁" : <0000b849 000074f2 00004841 00000000>
+UTF32BigEndian BOM "롉瓲䡁" : <0000feff 0000b849 000074f2 00004841>
+UTF32BigEndian BOM \0 "롉瓲䡁" : <0000feff 0000b849 000074f2 00004841 00000000>
+
+UTF32LittleEndian "롉瓲䡁" : <49b80000 f2740000 41480000>
+UTF32LittleEndian \0 "롉瓲䡁" : <49b80000 f2740000 41480000 00000000>
+UTF32LittleEndian BOM "롉瓲䡁" : <fffe0000 49b80000 f2740000 41480000>
+UTF32LittleEndian BOM \0 "롉瓲䡁" : <fffe0000 49b80000 f2740000 41480000 00000000>
+
+
+ASCII "" : <>
+ASCII \0 "" : <00>
+ASCII BOM "" : <>
+ASCII BOM \0 "" : <00>
+
+UTF8 "" : <>
+UTF8 \0 "" : <00>
+UTF8 BOM "" : <efbbbc>
+UTF8 BOM \0 "" : <efbbbc00>
+
+ISOLatin1 "" : <>
+ISOLatin1 \0 "" : <00>
+ISOLatin1 BOM "" : <>
+ISOLatin1 BOM \0 "" : <00>
+
+UTF16BigEndian "" : <>
+UTF16BigEndian \0 "" : <0000>
+UTF16BigEndian BOM "" : <feff>
+UTF16BigEndian BOM \0 "" : <feff0000>
+
+UTF16LittleEndian "" : <>
+UTF16LittleEndian \0 "" : <0000>
+UTF16LittleEndian BOM "" : <fffe>
+UTF16LittleEndian BOM \0 "" : <fffe0000>
+
+UTF32BigEndian "" : <>
+UTF32BigEndian \0 "" : <00000000>
+UTF32BigEndian BOM "" : <0000feff>
+UTF32BigEndian BOM \0 "" : <0000feff 00000000>
+
+UTF32LittleEndian "" : <>
+UTF32LittleEndian \0 "" : <00000000>
+UTF32LittleEndian BOM "" : <fffe0000>
+UTF32LittleEndian BOM \0 "" : <fffe0000 00000000>
+
+
+ASCII "尥唛㭅㸥" : conversion not possible
+ASCII \0 "尥唛㭅㸥" : conversion not possible
+ASCII BOM "尥唛㭅㸥" : conversion not possible
+ASCII BOM \0 "尥唛㭅㸥" : conversion not possible
+
+UTF8 "尥唛㭅㸥" : <e5b0a5e5 949be3ad 85e3b8a5>
+UTF8 \0 "尥唛㭅㸥" : <e5b0a5e5 949be3ad 85e3b8a5 00>
+UTF8 BOM "尥唛㭅㸥" : <efbbbce5 b0a5e594 9be3ad85 e3b8a5>
+UTF8 BOM \0 "尥唛㭅㸥" : <efbbbce5 b0a5e594 9be3ad85 e3b8a500>
+
+ISOLatin1 "尥唛㭅㸥" : conversion not possible
+ISOLatin1 \0 "尥唛㭅㸥" : conversion not possible
+ISOLatin1 BOM "尥唛㭅㸥" : conversion not possible
+ISOLatin1 BOM \0 "尥唛㭅㸥" : conversion not possible
+
+UTF16BigEndian "尥唛㭅㸥" : <5c25551b 3b453e25>
+UTF16BigEndian \0 "尥唛㭅㸥" : <5c25551b 3b453e25 0000>
+UTF16BigEndian BOM "尥唛㭅㸥" : <feff5c25 551b3b45 3e25>
+UTF16BigEndian BOM \0 "尥唛㭅㸥" : <feff5c25 551b3b45 3e250000>
+
+UTF16LittleEndian "尥唛㭅㸥" : <255c1b55 453b253e>
+UTF16LittleEndian \0 "尥唛㭅㸥" : <255c1b55 453b253e 0000>
+UTF16LittleEndian BOM "尥唛㭅㸥" : <fffe255c 1b55453b 253e>
+UTF16LittleEndian BOM \0 "尥唛㭅㸥" : <fffe255c 1b55453b 253e0000>
+
+UTF32BigEndian "尥唛㭅㸥" : <00005c25 0000551b 00003b45 00003e25>
+UTF32BigEndian \0 "尥唛㭅㸥" : <00005c25 0000551b 00003b45 00003e25 00000000>
+UTF32BigEndian BOM "尥唛㭅㸥" : <0000feff 00005c25 0000551b 00003b45 00003e25>
+UTF32BigEndian BOM \0 "尥唛㭅㸥" : <0000feff 00005c25 0000551b 00003b45 00003e25 00000000>
+
+UTF32LittleEndian "尥唛㭅㸥" : <255c0000 1b550000 453b0000 253e0000>
+UTF32LittleEndian \0 "尥唛㭅㸥" : <255c0000 1b550000 453b0000 253e0000 00000000>
+UTF32LittleEndian BOM "尥唛㭅㸥" : <fffe0000 255c0000 1b550000 453b0000 253e0000>
+UTF32LittleEndian BOM \0 "尥唛㭅㸥" : <fffe0000 255c0000 1b550000 453b0000 253e0000 00000000>
+
+
+ASCII "왼󤧕󃅔󓀽" : conversion not possible
+ASCII \0 "왼󤧕󃅔󓀽" : conversion not possible
+ASCII BOM "왼󤧕󃅔󓀽" : conversion not possible
+ASCII BOM \0 "왼󤧕󃅔󓀽" : conversion not possible
+
+UTF8 "왼󤧕󃅔󓀽" : <ec99bcf3 a4a795f3 838594f3 9380bd>
+UTF8 \0 "왼󤧕󃅔󓀽" : <ec99bcf3 a4a795f3 838594f3 9380bd00>
+UTF8 BOM "왼󤧕󃅔󓀽" : <efbbbcec 99bcf3a4 a795f383 8594f393 80bd>
+UTF8 BOM \0 "왼󤧕󃅔󓀽" : <efbbbcec 99bcf3a4 a795f383 8594f393 80bd00>
+
+ISOLatin1 "왼󤧕󃅔󓀽" : conversion not possible
+ISOLatin1 \0 "왼󤧕󃅔󓀽" : conversion not possible
+ISOLatin1 BOM "왼󤧕󃅔󓀽" : conversion not possible
+ISOLatin1 BOM \0 "왼󤧕󃅔󓀽" : conversion not possible
+
+UTF16BigEndian "왼󤧕󃅔󓀽" : <c67cdb52 ddd5dacc dd54db0c dc3d>
+UTF16BigEndian \0 "왼󤧕󃅔󓀽" : <c67cdb52 ddd5dacc dd54db0c dc3d0000>
+UTF16BigEndian BOM "왼󤧕󃅔󓀽" : <feffc67c db52ddd5 daccdd54 db0cdc3d>
+UTF16BigEndian BOM \0 "왼󤧕󃅔󓀽" : <feffc67c db52ddd5 daccdd54 db0cdc3d 0000>
+
+UTF16LittleEndian "왼󤧕󃅔󓀽" : <7cc652db d5ddccda 54dd0cdb 3ddc>
+UTF16LittleEndian \0 "왼󤧕󃅔󓀽" : <7cc652db d5ddccda 54dd0cdb 3ddc0000>
+UTF16LittleEndian BOM "왼󤧕󃅔󓀽" : <fffe7cc6 52dbd5dd ccda54dd 0cdb3ddc>
+UTF16LittleEndian BOM \0 "왼󤧕󃅔󓀽" : <fffe7cc6 52dbd5dd ccda54dd 0cdb3ddc 0000>
+
+UTF32BigEndian "왼󤧕󃅔󓀽" : <0000c67c 000e49d5 000c3154 000d303d>
+UTF32BigEndian \0 "왼󤧕󃅔󓀽" : <0000c67c 000e49d5 000c3154 000d303d 00000000>
+UTF32BigEndian BOM "왼󤧕󃅔󓀽" : <0000feff 0000c67c 000e49d5 000c3154 000d303d>
+UTF32BigEndian BOM \0 "왼󤧕󃅔󓀽" : <0000feff 0000c67c 000e49d5 000c3154 000d303d 00000000>
+
+UTF32LittleEndian "왼󤧕󃅔󓀽" : <7cc60000 d5490e00 54310c00 3d300d00>
+UTF32LittleEndian \0 "왼󤧕󃅔󓀽" : <7cc60000 d5490e00 54310c00 3d300d00 00000000>
+UTF32LittleEndian BOM "왼󤧕󃅔󓀽" : <fffe0000 7cc60000 d5490e00 54310c00 3d300d00>
+UTF32LittleEndian BOM \0 "왼󤧕󃅔󓀽" : <fffe0000 7cc60000 d5490e00 54310c00 3d300d00 00000000>
+
+

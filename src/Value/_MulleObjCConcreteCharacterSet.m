@@ -66,21 +66,36 @@ static int   first_plane_only( unsigned int plane)
    return( obj);
 }
 
+- (id) copy
+{
+   return( [self retain]);
+}
+
 
 - (BOOL) characterIsMember:(unichar) c
 {
+   // unichar is signed
+   if( (uint32_t) c >= 0x110000)
+      return( NO);
+
    return( (*_f)( c) != _invert);
 }
 
 
 - (BOOL) longCharacterIsMember:(long) c
 {
+   if( c >= 0x110000)
+      return( NO);
+
    return( (*_f)( (unichar) c) != _invert);
 }
 
 
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
 {
+   if( plane >= 0x11)
+      return( NO);
+
    return( (*_plane_f)( (unsigned int) plane) != _invert);
 }
 

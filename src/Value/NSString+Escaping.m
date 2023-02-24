@@ -311,8 +311,8 @@ fail:
    s        = &buf[ length * 3 + 1];
    dst      = buf;
 
-   [self mulleGetUTF8Characters:s
-                      maxLength:length];
+   length = [self mulleGetUTF8Characters:s
+                               maxLength:length];
    dst    = MulleUTF8StringEscape( s, length, dst);
    *dst++ = 0;
    assert( dst <= &buf[ size]);
@@ -348,8 +348,8 @@ fail:
    s        = &buf[ length + 1];
    dst      = buf;
 
-   [self mulleGetUTF8Characters:s
-                      maxLength:length];
+   length = [self mulleGetUTF8Characters:s
+                               maxLength:length];
    dst    = MulleUTF8StringUnescape( s, length, dst);
    *dst++ = 0;
 
@@ -387,8 +387,8 @@ fail:
    // place source in the back of our buffer
    // then quote from the start
    s      = &buf[ size - length];
-   [self mulleGetUTF8Characters:s
-                      maxLength:length];
+   length = [self mulleGetUTF8Characters:s
+                               maxLength:length];
 
    *dst++ = '\"';
    dst    = MulleUTF8StringEscape( s, length, dst);
@@ -425,8 +425,8 @@ fail:
    s        = &buf[ size - length];
    dst      = buf;
 
-   [self mulleGetUTF8Characters:s
-                      maxLength:length];
+   length   = [self mulleGetUTF8Characters:s
+                                 maxLength:length];
    if( *s != '"' || s[ length - 1] != '"')
    {
       mulle_allocator_free( allocator, buf);
@@ -472,9 +472,9 @@ fail:
    if( ! length)
       return( self);
 
-   buf = MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
-   [self mulleGetUTF8Characters:buf
-                      maxLength:length];
+   buf    = MulleObjCCallocAutoreleased( length, sizeof( mulle_utf8_t));
+   length = [self mulleGetUTF8Characters:buf
+                               maxLength:length];
 
    characterIsMemberSEL = @selector( characterIsMember:);
    characterIsMemberIMP = [allowedCharacters methodForSelector:characterIsMemberSEL];;
@@ -631,8 +631,8 @@ NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
 
    src.characters = (mulle_utf8_t *) MulleObjCCallocAutoreleased( src.length,
                                                                   sizeof( mulle_utf8_t));
-   [self mulleGetUTF8Characters:(char *) src.characters
-                      maxLength:src.length];
+   src.length     = [self mulleGetUTF8Characters:(char *) src.characters
+                                       maxLength:src.length];
    dst = _MulleReplacePercentEscape( &src, disallowedCharacters);
 
    if( dst == &src)

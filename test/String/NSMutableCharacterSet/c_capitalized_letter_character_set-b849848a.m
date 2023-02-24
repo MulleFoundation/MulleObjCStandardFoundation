@@ -32,6 +32,8 @@ int   main( int argc, char *argv[])
 {
    int   rval;
 
+//   mulle_fprintf( stderr, "immutable : %@\n\n", [[NSCharacterSet capitalizedLetterCharacterSet] mulleTestDescription]);
+//   mulle_fprintf( stderr, "mutable   : %@\n\n", [[NSMutableCharacterSet capitalizedLetterCharacterSet] mulleTestDescription]);
    rval = test_c_capitalized_letter_character_set();
    return( rval);
 }

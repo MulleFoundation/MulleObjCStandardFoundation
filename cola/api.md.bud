@@ -1,0 +1,22 @@
+## API
+
+### Classes
+
+| Class                  | Description
+|------------------------|-----------------
+| `NSAssertionHandler`   | Used by `NSAssert()`
+| `NSCalendarDate`       | A composition of `NSDate` and `NSTimeZone`
+| `NSCharacterSet`       | Character classification like `<ctype.h>`
+| `NSDateFormatter`      | `NSDate` to `NSString` representation
+| `NSError`              | A wrapper for `<errno.h>`
+| `NSException`          | Exceptions for @throw
+| `NSFormatter`          | Object to `NSString` representation
+| `NSLocale`             | Localization support
+| `NSNotification`       | Message encapsulation for `NSNotificationCenter`
+| `NSNotificationCenter` | Publish/subscribe message sending
+| `NSNumberFormatter`    | `NSNumber` to `NSString` representation
+| `NSScanner`            | Parse from `NSString` into `NSNumber`
+| `NSSortDescriptor`     |
+| `NSTimeZone`           |
+| `NSUndoManager`        |
+

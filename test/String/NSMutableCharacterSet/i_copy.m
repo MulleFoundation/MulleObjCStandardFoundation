@@ -18,7 +18,7 @@ static int   test_i_copy( void)
 
    @try
    {
-      obj = [[[NSMutableCharacterSet alloc] init] autorelease];
+      obj   = [NSMutableCharacterSet characterSetWithCharactersInString:@"a"];
       value = [[obj copy] autorelease];
       printf( "%s\n", [[value mulleTestDescription] UTF8String]);
    }

@@ -205,15 +205,25 @@ static id   construct( SEL _cmd)
 
 - (BOOL) hasMemberInPlane:(NSUInteger) plane
 {
+   BOOL   flag;
+
    if( plane >= 0x11)
       return( NO);
-   return( _bitmap.planes[ plane] != NULL ? ! _invert : _invert);
+
+   flag = _bitmap.planes[ plane] != NULL;
+   return( flag ^ _invert);
 }
 
 
 - (BOOL) characterIsMember:(unichar) c
 {
-   return( MulleObjCCharacterBitmapGetBit( &_bitmap, c) ? ! _invert : _invert);
+   BOOL   bit;
+
+   if( (uint32_t) c >= 0x110000)
+      return( NO);
+
+   bit = MulleObjCCharacterBitmapGetBit( &_bitmap, c);
+   return( bit ^ _invert);
 }
 
 
@@ -251,7 +261,7 @@ static int   mulle_meminvert_8( uint8_t *buf, size_t length)
          mulle_meminvert_8( bytes, 8192);
    }
    else
-      memset( bytes, _invert ? 0xFF: 0x0, 8192);
+      memset( bytes, _invert ? 0xFF : 0x0, 8192);
 }
 
 

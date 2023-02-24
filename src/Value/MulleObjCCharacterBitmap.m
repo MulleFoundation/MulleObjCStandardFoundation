@@ -148,29 +148,18 @@ int   MulleObjCCharacterBitmapGetBit( struct MulleObjCCharacterBitmap *p,
                                       unsigned int c)
 {
    uint32_t       *bitmap;
-   uint32_t       word;
-   unsigned int   bindex;
-   unsigned int   index;
    unsigned int   plane;
-   unsigned int   d;
 
    assert( p);
+   assert( c < MAX_C);
 
    plane = c >> 16;
-   if( plane >= N_PLANES)
-      return( 0);
 
    bitmap = p->planes[ plane];
    if( ! bitmap)
       return( 0);
 
-   d      = c & 0xFFFF;
-   index  = d >> 5;
-   bindex = d & 0x1F;
-   word   = bitmap[ index];
-   word   = word & (1 << bindex);
-
-   return( word ? 1 : 0);
+   return( _mulle_uint32_bitmap_get( bitmap, c & 0xFFFF));
 }
 
 
@@ -178,23 +167,17 @@ static void   MulleObjCCharacterBitmapClearBit( struct MulleObjCCharacterBitmap 
                                                 unsigned int c)
 {
    uint32_t       *bitmap;
-   unsigned int   bindex;
-   unsigned int   index;
    unsigned int   plane;
-   unsigned int   d;
 
    assert( p);
    assert( c < MAX_C);
 
    plane  = c >> 16;
+   assert( plane < N_PLANES);
+
    bitmap = p->planes[ plane];
    if( bitmap)
-   {
-      d      = c & 0xFFFF;
-      index  = d >> 5;
-      bindex = d & 0x1F;
-      bitmap[ index] &= ~(1 << bindex);
-   }
+      _mulle_uint32_bitmap_clr( bitmap, c & 0xFFFF);
 }
 
 
@@ -202,24 +185,19 @@ static int   MulleObjCCharacterBitmapSetBit( struct MulleObjCCharacterBitmap *p,
                                              unsigned int c)
 {
    uint32_t       *bitmap;
-   unsigned int   bindex;
-   unsigned int   index;
    unsigned int   plane;
-   unsigned int   d;
 
    assert( p);
    assert( c < MAX_C);
 
    plane  = c >> 16;
+   assert( plane < N_PLANES);
+
    bitmap = p->planes[ plane];
    if( ! bitmap)
       return( -1);
 
-   d      = c & 0xFFFF;
-   index  = d >> 5;
-   bindex = d & 0x1F;
-
-   bitmap[ index] |= 1 << bindex;
+   _mulle_uint32_bitmap_set( bitmap, c & 0xFFFF);
 
    return( 0);
 }
@@ -240,6 +218,9 @@ void   MulleObjCCharacterBitmapSetBitsWithString( struct MulleObjCCharacterBitma
    for( i = 0; i < n; i++)
    {
       c = [s characterAtIndex:i];
+      if( c >= MAX_C)
+         MulleObjCThrowInvalidArgumentException( @"broken NSString (how \?\?\?)");
+
       if( MulleObjCCharacterBitmapSetBit( p, c))
       {
          plane             = c >> 16;

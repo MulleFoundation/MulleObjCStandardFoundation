@@ -400,6 +400,7 @@ static id
 
    flag = [self mulleFastGetASCIIData:&data];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    return( separateASCIICharacterDataByString( data, separator, arrayClass));
 }
@@ -413,6 +414,7 @@ static id
 
    flag = [self mulleFastGetASCIIData:&data];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    return( separateASCIICharacterDataByCharacterSet( data, separators, arrayClass));
 }
@@ -433,6 +435,7 @@ static id
 
    flag = [self mulleFastGetUTF16Data:&data];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    sepLen = _mulleDataSeparateComponentsByString( mulle_data_make( data.characters,
@@ -462,6 +465,7 @@ static id
 
    flag = [self mulleFastGetUTF16Data:&data];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    _mulleDataSeparateComponentsByCharacterSet( mulle_data_make( data.characters,
@@ -496,6 +500,7 @@ static id
 
    flag = [self mulleFastGetUTF32Data:&data];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    sepLen = _mulleDataSeparateComponentsByString( mulle_data_make( data.characters,
@@ -525,6 +530,7 @@ static id
 
    flag = [self mulleFastGetUTF32Data:&data];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    _mulleDataSeparateComponentsByCharacterSet( mulle_data_make( data.characters,

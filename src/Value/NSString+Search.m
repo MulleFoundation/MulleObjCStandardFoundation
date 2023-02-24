@@ -171,9 +171,9 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 }
 
 
-- (void) mulleSetLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
-                                    options:(NSStringCompareOptions) options
-                                      range:(NSRange) range
+- (void) mulleInitalizeLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
+                                          options:(NSStringCompareOptions) options
+                                            range:(NSRange) range
 {
    NSUInteger   start;
    NSUInteger   end;
@@ -235,29 +235,29 @@ static void   get_characters( struct _ns_unichar_enumerator *rover, unichar *buf
 //
 // there is no difference in the MulleFoundation we only serve Literals
 //
-- (void) mulleSetNonLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
-                                       options:(NSStringCompareOptions) options
-                                         range:(NSRange) range
+- (void) mulleInitializeNonLiteralCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
+                                              options:(NSStringCompareOptions) options
+                                                range:(NSRange) range
 {
-   [self mulleSetLiteralCharacterEnumerator:rover
-                                    options:options|NSLiteralSearch
-                                     range:range];
+   [self mulleInitalizeLiteralCharacterEnumerator:rover
+                                          options:options|NSLiteralSearch
+                                            range:range];
 }
 
 
-- (void) mulleSetCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
-                             options:(NSStringCompareOptions) options
-                               range:(NSRange) range
+- (void) mulleInitalizeCharacterEnumerator:(struct _ns_unichar_enumerator *) rover
+                                   options:(NSStringCompareOptions) options
+                                     range:(NSRange) range
 {
    if( options & NSLiteralSearch)
    {
-      [self mulleSetLiteralCharacterEnumerator:rover
-                                       options:options
-                                        range:range];
+      [self mulleInitalizeLiteralCharacterEnumerator:rover
+                                             options:options
+                                               range:range];
       return;
    }
 
-   [self mulleSetNonLiteralCharacterEnumerator:rover
+   [self mulleInitializeNonLiteralCharacterEnumerator:rover
                                        options:options
                                          range:range];
 }
@@ -573,10 +573,10 @@ static NSComparisonResult   numeric_compare( struct mulle_unichar_enumerator *se
 
    options &= (NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
 
-   [self mulleSetCharacterEnumerator:&self_rover
+   [self mulleInitalizeCharacterEnumerator:&self_rover
                              options:options
                               range:range];
-   [other mulleSetCharacterEnumerator:&other_rover
+   [other mulleInitalizeCharacterEnumerator:&other_rover
                               options:options
                                 range:NSMakeRange( 0, len_other)];
 
@@ -794,10 +794,10 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
 
    options &= (NSAnchoredSearch|NSBackwardsSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch);
 
-   [self mulleSetCharacterEnumerator:&self_rover
+   [self mulleInitalizeCharacterEnumerator:&self_rover
                              options:options
                                range:range];
-   [other mulleSetCharacterEnumerator:&other_rover
+   [other mulleInitalizeCharacterEnumerator:&other_rover
                               options:options
                                 range:NSMakeRange( 0, len_other)];
 
@@ -918,7 +918,7 @@ static NSInteger   charset_location_search( struct _ns_unichar_enumerator *self_
 
    options &= (NSAnchoredSearch|NSCaseInsensitiveSearch|NSLiteralSearch|NSNumericSearch|NSBackwardsSearch);
 
-   [self mulleSetCharacterEnumerator:&self_rover
+   [self mulleInitalizeCharacterEnumerator:&self_rover
                              options:options
                                range:range];
 
@@ -1012,7 +1012,7 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
 
    options &= POSSIBLE_OPTIONS;
 
-   [self mulleSetCharacterEnumerator:&self_rover
+   [self mulleInitalizeCharacterEnumerator:&self_rover
                              options:options
                                range:range];
 
@@ -1024,6 +1024,58 @@ static NSInteger   charset_length_search( struct _ns_unichar_enumerator *self_ro
       return( NSMakeRange( range.location, range.location + length));
    return( NSMakeRange( range.location + range.length - length, length));
 }
+
+
+static NSInteger   charset_count_search( struct _ns_unichar_enumerator *self_rover,
+                                         NSCharacterSet *set)
+{
+   unichar      c;
+   size_t       i;
+   size_t       len;
+   SEL          selMember;
+   IMP          impMember;
+   NSUInteger   count;
+
+   if( ! set)
+      return( 0);
+
+   len       = get_length( self_rover);
+   selMember = @selector( characterIsMember:);
+   impMember = [set methodForSelector:selMember];
+
+   count = 0;
+   for( i = 0; i < len; ++i)
+   {
+      c = (*self_rover->utfrover.get_character)( &self_rover->utfrover);
+      if( (BOOL)(intptr_t) (*impMember)( set, selMember, (void *) c) == YES)
+         ++count;
+   }
+
+   return( count);
+}
+
+
+
+- (NSUInteger) mulleCountOccurrencesOfCharactersFromSet:(NSCharacterSet *) set
+                                                  range:(NSRange) range
+{
+   struct _ns_unichar_enumerator  self_rover;
+   NSUInteger                     count;
+
+   NSCParameterAssert( [set isKindOfClass:[NSCharacterSet class]]);
+
+   range = MulleObjCValidateRangeAgainstLength( range, [self length]);
+   if( ! range.length)
+      return( 0);
+
+   [self mulleInitalizeCharacterEnumerator:&self_rover
+                                   options:NSLiteralSearch
+                                     range:range];
+
+   count = charset_count_search( &self_rover, set);
+   return( count);
+}
+
 
 
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
@@ -1288,10 +1340,10 @@ static unichar   nop( unichar c)
 
 - (NSString *) stringByUTF16CharacterMogrificationWithInfo:(struct mulle_utf_mogrification_info *) info
 {
-   struct mulle_allocator    *allocator;
+   struct mulle_allocator   *allocator;
    struct mulle_utf16data   unibuf;
    struct mulle_utf16data   unidata;
-   BOOL                      flag;
+   BOOL                     flag;
    union
    {
       mulle_utf16_t          utf32[ 32];
@@ -1305,6 +1357,7 @@ static unichar   nop( unichar c)
     */
    flag = [self mulleFastGetUTF16Data:&unidata];
    assert( flag);
+   MULLE_C_UNUSED( flag);
 
    unibuf.length = unidata.length;
    if( unibuf.length <= 32)

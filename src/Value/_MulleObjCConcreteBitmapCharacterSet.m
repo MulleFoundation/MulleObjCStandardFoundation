@@ -82,11 +82,17 @@
 }
 
 
+- (id) copy
+{
+   return( [self retain]);
+}
+
+
 - (BOOL) characterIsMember:(unichar) c
 {
    int   bit;
 
-   if( c >= 0x110000)
+   if( (uint32_t) c >= 0x110000)
       return( NO);
 
    bit = MulleObjCCharacterBitmapGetBit( &self->_bitmap, c);

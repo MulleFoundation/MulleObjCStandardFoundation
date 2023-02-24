@@ -109,6 +109,10 @@ struct MulleStringCharacterFunctions
                                   options:(NSStringCompareOptions) options
                                     range:(NSRange) range;
 
+- (NSUInteger) mulleCountOccurrencesOfCharactersFromSet:(NSCharacterSet *) set
+                                                 range:(NSRange) range;
+
+
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
                                          withString:(NSString *) replacement;
 - (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
