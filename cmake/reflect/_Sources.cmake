@@ -61,6 +61,7 @@ src/Value/NSMutableCharacterSet.m
 src/Value/NSMutableString+Search.m
 src/Value/NSScanner.m
 src/Value/NSString+Components.m
+src/Value/NSString+DoubleQuotes.m
 src/Value/NSString+Escaping.m
 src/Value/NSString+NSCharacterSet.m
 src/Value/NSString+Search.m

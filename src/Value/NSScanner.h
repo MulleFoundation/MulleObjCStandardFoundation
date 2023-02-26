@@ -88,6 +88,7 @@ SOFTWARE. */
 // Conflicts by type with +[NSString string], this will be solved eventually
 // but not now
 - (NSString *) string;
+- (NSString *) mulleUnscannedString;
 
 - (BOOL) isAtEnd;
 
@@ -101,6 +102,8 @@ SOFTWARE. */
                         intoString:(NSString **)stringp;
 
 
+- (BOOL) mulleScanUpToAndIncludingString:(NSString *) string
+                              intoString:(NSString **) stringp;
 /*
  * search for a string, gobbling up all inbetween characters in stringp
  * (except leading characters in charactersToBeSkipped), intoString: maybe NULL

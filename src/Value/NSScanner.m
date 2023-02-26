@@ -66,13 +66,13 @@
    self = [self init];
    if( self)
    {
-      _string                = [string copy];
-      _impAtIndex            = [_string methodForSelector:@selector( characterAtIndex:)];
-      _length                = [_string length];
+      _string     = [string copy];
+      _impAtIndex = [_string methodForSelector:@selector( characterAtIndex:)];
+      _length     = [_string length];
 
       [self setCharactersToBeSkipped:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-      _isCaseSensitive       = YES;
+      _isCaseSensitive = YES;
    }
 
    return self;
@@ -96,6 +96,12 @@
 - (BOOL) isAtEnd
 {
    return( _location >= _length);
+}
+
+
+- (NSString *) mulleUnscannedString
+{
+   return( [_string substringWithRange:NSMakeRange( _location, _length - _location)]);
 }
 
 
@@ -234,9 +240,10 @@ static NSRange   NSScannerScanRangeOfString( NSScanner *self,
 
 
 MULLE_C_NEVER_INLINE
-static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
-                                                NSString *s,
-                                                IMP impAtIndex)
+static BOOL   NSScannerScanRangeOfNotString( NSScanner *self,
+                                             NSString *s,
+                                             IMP impAtIndex,
+                                             NSRange *rangep)
 {
    NSRange       range;
    unichar       c;
@@ -245,6 +252,7 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
    NSUInteger    j;
    NSUInteger    n;
    NSUInteger    m;
+   NSUInteger    end;
 
    range.location = self->_location;
    range.length   = self->_length - range.location;
@@ -254,26 +262,32 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
    if( ! m || m > n)
    {
       self->_location = self->_length;
-      return( range);
+      if( rangep)
+         *rangep = range;
+      return( NO);
    }
 
    if( ! impAtIndex)
       impAtIndex = [s methodForSelector:@selector( characterAtIndex:)];
 
-   for( j = 0, i = range.location; i < range.length; i++)
+   end = range.location + range.length;
+   for( j = 0, i = range.location; i < end; i++)
    {
       c = (unichar) (intptr_t) MulleObjCIMPCall( self->_impAtIndex,
                                                  self->_string,
                                                  @selector( characterAtIndex:),
                                                  (id) i);
+retry:
       d = (unichar) (intptr_t) MulleObjCIMPCall( impAtIndex,
                                                  s,
                                                  @selector( characterAtIndex:),
                                                  (id) j);
       if( c != d)
       {
+         if( ! j)
+            continue;
          j = 0;
-         continue;
+         goto retry;
       }
 
       if( ++j == m)  // matched whole string
@@ -281,12 +295,16 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
          // reset location to start of string
          self->_location = (i + 1) - m;
          range.length    = self->_location - range.location;
-         return( range);
+         if( rangep)
+            *rangep = range;
+         return( YES);
       }
    }
 
    self->_location = self->_length;
-   return( range);
+   if( rangep)
+      *rangep = range;
+   return( NO);
 }
 
 
@@ -316,7 +334,8 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
 - (BOOL) scanUpToString:(NSString *) string
              intoString:(NSString **) stringp
 {
-   NSRange   range;
+   NSRange      range;
+   NSUInteger   memo;
 
    assert( [string isKindOfClass:[NSString class]]);
 
@@ -326,12 +345,57 @@ static NSRange   NSScannerScanRangeOfNotString( NSScanner *self,
                                            self->_impIsMember,
                                            YES);
 
-   range = NSScannerScanRangeOfNotString( self, string, 0);
+   memo = self->_location;
+   if( ! NSScannerScanRangeOfNotString( self, string, 0, &range))
+   {
+      self->_location = memo;
+      if( stringp)
+         *stringp = @"";
+      return( NO);
+   }
+
    if( stringp)
       *stringp = [self->_string substringWithRange:range];
 
-   return( range.length != 0);
+   return( YES);
 }
+
+
+- (BOOL) mulleScanUpToAndIncludingString:(NSString *) string
+                              intoString:(NSString **) stringp
+{
+   NSRange      range;
+   NSUInteger   length;
+   NSUInteger   memo;
+
+   assert( [string isKindOfClass:[NSString class]]);
+
+   if( self->_charactersToBeSkipped)
+      NSScannerScanRangeOfCharactersInSet( self,
+                                           self->_charactersToBeSkipped,
+                                           self->_impIsMember,
+                                           YES);
+
+   memo = self->_location;
+   if( ! NSScannerScanRangeOfNotString( self, string, 0, &range))
+   {
+      self->_location = memo;
+      if( stringp)
+         *stringp = @"";
+      return( NO);
+   }
+
+   length           = [string length];
+   self->_location += length;
+
+   if( stringp)
+   {
+      range.length += length;
+      *stringp      = [self->_string substringWithRange:range];
+   }
+   return( YES);
+}
+
 
 /*
  * Old Cocotron code
@@ -453,17 +517,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 // "...returns HUGE_VAL or -HUGE_VAL on overflow, 0.0 on underflow." hmm...
 -(BOOL)scanDouble:(double *)valuep {
-   NSString *seperatorString;
-   unichar   decimalSeperator;
+   NSString *separatorString;
+   unichar   decimalSeparator;
 /*
    if(_locale)
-      seperatorString = [_locale objectForKey:NSLocaleDecimalSeparator];
+      separatorString = [_locale objectForKey:NSLocaleDecimalSeparator];
    else
-      seperatorString = [[NSLocale systemLocale] objectForKey:NSLocaleDecimalSeparator];
+      separatorString = [[NSLocale systemLocale] objectForKey:NSLocaleDecimalSeparator];
 */
-   seperatorString = @".";
+   separatorString = @".";
 
-   decimalSeperator = ([seperatorString length] > 0 ) ? [seperatorString characterAtIndex:0] : '.';
+   decimalSeparator = ([separatorString length] > 0 ) ? [separatorString characterAtIndex:0] : '.';
 
    NSInteger     i;
    NSInteger     len = [_string length] - _location;
@@ -473,7 +537,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    for (i = 0; i < len; i++)
    {
       c  = [_string characterAtIndex:i + _location];
-      if (c == decimalSeperator) c = '.';
+      if (c == decimalSeparator) c = '.';
       p[i] = (char)c;
    }
    p[i] = '\0';
@@ -511,7 +575,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     state=STATE_DIGITS_ONLY;
                     hasValue=YES;
                 }
-                else if(unicode==decimalSeperator) {
+                else if(unicode==decimalSeparator) {
                     double multiplier=1;
 
                     _location++;
@@ -534,7 +598,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 }
                 else if(!hasValue)
                     return NO;
-                else if(unicode==decimalSeperator) {
+                else if(unicode==decimalSeparator) {
                     double multiplier=1;
 
                     _location++;

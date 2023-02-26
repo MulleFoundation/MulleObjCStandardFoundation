@@ -17,15 +17,14 @@ static NSStringEncoding   encodings[] =
 };
 
 
-static void   _test( NSString *string, NSStringEncoding encoding, BOOL withBOM, BOOL withZero)
+static void   _test( NSString *string, NSStringEncoding encoding, MulleStringEncodingOptions options)
 {
    id   data;
 
    @try
    {
       data = [string mulleDataUsingEncoding:encoding
-                              prefixWithBOM:withBOM
-                          terminateWithZero:withZero];
+                            encodingOptions:options];
    }
    @catch( id e)
    {
@@ -34,8 +33,8 @@ static void   _test( NSString *string, NSStringEncoding encoding, BOOL withBOM, 
 
    mulle_printf( "%s%s%s \"%@\" : %@\n",
                     MulleStringEncodingUTF8String( encoding),
-                    withBOM ? " BOM" : "",
-                    withZero ? " \\0" : "",
+                    (options & MulleStringEncodingOptionBOM) ? " BOM" : "",
+                    (options & MulleStringEncodingOptionTerminateWithZero) ? " \\0" : "",
                     string,
                     data);
 }
@@ -47,10 +46,10 @@ static void   test( NSString *string)
 
    for( i = 0; i < sizeof( encodings) / sizeof( encodings[ 0]); i++)
    {
-      _test( string, encodings[ i], NO, NO);
-      _test( string, encodings[ i], NO, YES);
-      _test( string, encodings[ i], YES, NO);
-      _test( string, encodings[ i], YES, YES);
+      _test( string, encodings[ i], 0);
+      _test( string, encodings[ i], MulleStringEncodingOptionTerminateWithZero);
+      _test( string, encodings[ i], MulleStringEncodingOptionBOM);
+      _test( string, encodings[ i], MulleStringEncodingOptionBOM,| MulleStringEncodingOptionTerminateWithZero);
       printf( "\n");
    }
    printf( "\n");

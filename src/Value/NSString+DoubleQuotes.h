@@ -1,9 +1,8 @@
 //
-//  MulleObjCFoundationString.h
+//  NSString+DoubleQuotes.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2023 Nat! - Mulle kybernetiK.
 //  All rights reserved.
 //
 //
@@ -33,25 +32,15 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+// prefer a local NSString over one in import.h
 #import "import.h"
-// export everything with NS
-
-#import "NSCharacterSet.h"
-#import "NSScanner.h"
-#import "NSFormatter.h"
-
-#import "NSMutableCharacterSet.h"
-
-#import "NSData+Components.h"
-#import "NSString+Components.h"
-#import "NSString+DoubleQuotes.h"
-#import "NSString+Escaping.h"
-#import "NSString+NSCharacterSet.h"
-#import "NSString+Search.h"
-
-#import "NSMutableString+Search.h"
 
 
-#if MULLE_UTF_VERSION < ((0 << 20) | (4 << 8) | 0)
-# error "mulle_utf is too old"
-#endif
+@interface NSString( DoubleQuotes)
+
++ (NSString *) mulleStringWithUTF8Characters:(char *) bytes
+                                   cRangeSet:(struct mulle__rangeset *) ranges;
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithDoubleQuoting;
+- (NSString *) mulleDoubleQuoteEscapedString;
+
+@end
