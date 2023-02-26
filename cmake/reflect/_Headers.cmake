@@ -129,6 +129,7 @@ src/Value/NSMutableCharacterSet.h
 src/Value/NSMutableString+Search.h
 src/Value/NSScanner.h
 src/Value/NSString+Components.h
+src/Value/NSString+DoubleQuotes.h
 src/Value/NSString+Escaping.h
 src/Value/NSString+NSCharacterSet.h
 src/Value/NSString+Search.h

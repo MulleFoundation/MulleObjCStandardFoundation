@@ -44,6 +44,7 @@
 
 #import "NSData+Components.h"
 #import "NSString+Components.h"
+#import "NSString+DoubleQuotes.h"
 #import "NSString+Escaping.h"
 #import "NSString+NSCharacterSet.h"
 #import "NSString+Search.h"
