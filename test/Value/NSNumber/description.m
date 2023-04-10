@@ -3,7 +3,7 @@
 #else
 # import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 # import <MulleObjCValueFoundation/_MulleObjCTaggedPointerIntegerNumber.h>
-# import <MulleObjCValueFoundation/private/NSString+Substring-Private.h>
+# import <MulleObjCValueFoundation/NSString+Substring-Private.h>
 #endif
 
 //#define VALGRIND_COMPLAINT

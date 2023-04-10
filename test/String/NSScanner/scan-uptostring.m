@@ -17,9 +17,9 @@ void  test( BOOL flag)
 {
    NSString    *strings[] =
    {
-      @"1848",
+      @"xxx 1848",
       @" 18 48 ",
-      @"11a2bb",
+      @"x11a2bbx",
       @""
    };
    NSString    *searchStrings[] =
@@ -58,12 +58,12 @@ void  test( BOOL flag)
 
          while( ! [scanner isAtEnd])
          {
-            found = [scanner scanString:search
-                             intoString:&s1];
-            printf( "%sscanString:\"%s\" ",  sep, [s1 UTF8String]);
+            found = [scanner scanUpToString:search
+                                 intoString:&s1];
+            printf( "%s scanUptoString:\"%s\"", sep, [s1 UTF8String]);
             fflush( stdout);
             sep =", ";
-            if( ! found)
+            if( ! [s1 length])
                break;
          }
          printf( "\n");
