@@ -40,7 +40,7 @@
 
 
 // private stuff from MulleObjC
-#import <MulleObjC/private/mulle-objc-universefoundationinfo-private.h>
+#import <MulleObjC/mulle-objc-universefoundationinfo-private.h>
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCStandardValueFoundation.h"

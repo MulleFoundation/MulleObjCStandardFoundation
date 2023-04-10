@@ -33,7 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/private/mulle-objc-universeconfiguration-private.h>
+#import <MulleObjC/mulle-objc-universeconfiguration-private.h>
 
 void  mulle_foundation_universeconfiguration_set_defaults( struct _mulle_objc_universeconfiguration *setup);
 

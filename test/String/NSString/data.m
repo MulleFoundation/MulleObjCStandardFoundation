@@ -49,7 +49,7 @@ static void   test( NSString *string)
       _test( string, encodings[ i], 0);
       _test( string, encodings[ i], MulleStringEncodingOptionTerminateWithZero);
       _test( string, encodings[ i], MulleStringEncodingOptionBOM);
-      _test( string, encodings[ i], MulleStringEncodingOptionBOM,| MulleStringEncodingOptionTerminateWithZero);
+      _test( string, encodings[ i], MulleStringEncodingOptionBOM| MulleStringEncodingOptionTerminateWithZero);
       printf( "\n");
    }
    printf( "\n");

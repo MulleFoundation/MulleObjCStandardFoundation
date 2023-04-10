@@ -1,6 +1,6 @@
 // std-c and other dependencies
-#import <MulleObjC/private/mulle-objc-universeconfiguration-private.h>
-#include <MulleObjC/private/mulle-objc-startup-private.inc>
+#import <MulleObjC/mulle-objc-universeconfiguration-private.h>
+#include <MulleObjC/mulle-objc-startup-private.inc>
 #include <stdlib.h>
 
 

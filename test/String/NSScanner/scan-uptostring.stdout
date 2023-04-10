@@ -1,0 +1,50 @@
+Search for 1 (skip white: NO)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:" ",  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:"x",  scanUptoString:""
+	Scanning "" :: 
+Search for 18 (skip white: NO)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:" ",  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for 184 (skip white: NO)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for 1848 (skip white: NO)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for  (skip white: NO)
+	Scanning "xxx 1848" ::  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for 1 (skip white: YES)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:"x",  scanUptoString:""
+	Scanning "" :: 
+Search for 18 (skip white: YES)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for 184 (skip white: YES)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for 1848 (skip white: YES)
+	Scanning "xxx 1848" ::  scanUptoString:"xxx ",  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 
+Search for  (skip white: YES)
+	Scanning "xxx 1848" ::  scanUptoString:""
+	Scanning " 18 48 " ::  scanUptoString:""
+	Scanning "x11a2bbx" ::  scanUptoString:""
+	Scanning "" :: 

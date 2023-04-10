@@ -57,11 +57,14 @@
 }
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 - (void) dealloc
 {
    [_timeZone release];
    NSDeallocateObject( self);
 }
+#pragma clang diagnostic pop
 
 
 #pragma mark - accessors

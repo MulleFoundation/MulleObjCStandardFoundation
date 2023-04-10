@@ -9,66 +9,92 @@ introduces a lot of additional classes.
 But it does not I/O (not even `stdio`). I/O is provided by 
 MulleObjCOSFoundation.
 
-
-#### Classes
-
-Class                  | Description
------------------------|-----------------
-`NSAssertionHandler`   | Used by `NSAssert()`
-`NSCalendarDate`       | A composition of `NSDate` and `NSTimeZone`
-`NSCharacterSet`       | Character classification like `<ctype.h>`
-`NSDateFormatter`      | `NSDate` to `NSString` representation
-`NSError`              | A wrapper for `<errno.h>`
-`NSException`          | Exceptions for @throw
-`NSFormatter`          | Object to `NSString` representation
-`NSLocale`             | Localization support
-`NSNotification`       | Message encapsulation for `NSNotificationCenter`
-`NSNotificationCenter` | Publish/subscribe message sending
-`NSNumberFormatter`    | `NSNumber` to `NSString` representation
-`NSScanner`            | Parse from `NSString` into `NSNumber`
-`NSSortDescriptor`     |
-`NSTimeZone`           |
-`NSUndoManager`        |
+| Release Version                                       | Release Notes
+|-------------------------------------------------------|--------------
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag//MulleObjCStandardFoundation.svg?branch=release) [![Build Status](https://github.com//MulleObjCStandardFoundation/workflows/CI/badge.svg?branch=release)](//github.com//MulleObjCStandardFoundation/actions)| [RELEASENOTES](RELEASENOTES.md) |
 
 
+## API
+
+### Classes
+
+| Class                  | Description
+|------------------------|-----------------
+| `NSAssertionHandler`   | Used by `NSAssert()`
+| `NSCalendarDate`       | A composition of `NSDate` and `NSTimeZone`
+| `NSCharacterSet`       | Character classification like `<ctype.h>`
+| `NSDateFormatter`      | `NSDate` to `NSString` representation
+| `NSError`              | A wrapper for `<errno.h>`
+| `NSException`          | Exceptions for @throw
+| `NSFormatter`          | Object to `NSString` representation
+| `NSLocale`             | Localization support
+| `NSNotification`       | Message encapsulation for `NSNotificationCenter`
+| `NSNotificationCenter` | Publish/subscribe message sending
+| `NSNumberFormatter`    | `NSNumber` to `NSString` representation
+| `NSScanner`            | Parse from `NSString` into `NSNumber`
+| `NSSortDescriptor`     |
+| `NSTimeZone`           |
+| `NSUndoManager`        |
+
+
+
+
+## Requirements
+
+|   Requirement         | Release Version  | Description
+|-----------------------|------------------|---------------
+| [MulleObjCTimeFoundation](https://github.com/MulleFoundation/MulleObjCTimeFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag//.svg) [![Build Status](https://github.com///workflows/CI/badge.svg?branch=release)](https://github.com///actions/workflows/mulle-sde-ci.yml) | 💰 MulleObjCTimeFoundation provides time classes
+| [MulleObjCValueFoundation](https://github.com/MulleFoundation/MulleObjCValueFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag//.svg) [![Build Status](https://github.com///workflows/CI/badge.svg?branch=release)](https://github.com///actions/workflows/mulle-sde-ci.yml) | 💶 Value classes NSNumber, NSString, NSDate, NSData
+| [MulleObjCContainerFoundation](https://github.com/MulleFoundation/MulleObjCContainerFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag//.svg) [![Build Status](https://github.com///workflows/CI/badge.svg?branch=release)](https://github.com///actions/workflows/mulle-sde-ci.yml) | 🛍 Container classes like NSArray, NSSet, NSDictionary
+| [mulle-objc-list](https://github.com/mulle-objc/mulle-objc-list) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag//.svg) [![Build Status](https://github.com///workflows/CI/badge.svg?branch=release)](https://github.com///actions/workflows/mulle-sde-ci.yml) | 📒 Lists mulle-objc runtime information contained in executables.
 
 ### You are here
 
 ![Overview](overview.dot.svg)
 
+## Add
+
+Use [mulle-sde](//github.com/mulle-sde) to add MulleObjCStandardFoundation to your project:
+
+``` sh
+mulle-sde add github:MulleFoundation/MulleObjCStandardFoundation
+```
 
 ## Install
 
-See [foundation-developer](//github.com/MulleFoundation/foundation-developer) for
-installation instructions.
+### Install with mulle-sde
 
-## License
+Use [mulle-sde](//github.com/mulle-sde) to build and install MulleObjCStandardFoundation and all dependencies:
 
-Parts of this library:
-
+``` sh
+mulle-sde install --prefix /usr/local \
+   https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/latest.tar.gz
 ```
-Copyright (c) 2006-2007 Christopher J. W. Lloyd
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+### Manual Installation
+
+Install the requirements:
+
+| Requirements                                 | Description
+|----------------------------------------------|-----------------------
+| [MulleObjCTimeFoundation](https://github.com/MulleFoundation/MulleObjCTimeFoundation)             | 💰 MulleObjCTimeFoundation provides time classes
+| [MulleObjCValueFoundation](https://github.com/MulleFoundation/MulleObjCValueFoundation)             | 💶 Value classes NSNumber, NSString, NSDate, NSData
+| [MulleObjCContainerFoundation](https://github.com/MulleFoundation/MulleObjCContainerFoundation)             | 🛍 Container classes like NSArray, NSSet, NSDictionary
+| [mulle-objc-list](https://github.com/mulle-objc/mulle-objc-list)             | 📒 Lists mulle-objc runtime information contained in executables.
+
+Install **MulleObjCStandardFoundation** into `/usr/local` with [cmake](https://cmake.org):
+
+``` sh
+cmake -B build \
+      -DCMAKE_INSTALL_PREFIX=/usr/local \
+      -DCMAKE_PREFIX_PATH=/usr/local \
+      -DCMAKE_BUILD_TYPE=Release &&
+cmake --build build --config Release &&
+cmake --install build --config Release
 ```
 
 ## Author
 
-[Nat!](//www.mulle-kybernetik.com/weblog) for
-[Mulle kybernetiK](//www.mulle-kybernetik.com) and
-[Codeon GmbH](//www.codeon.de)
-[Christoper LLoyd](//www.objc.net/cjwl)
+[Nat!](https://mulle-kybernetik.com/weblog) for Mulle kybernetiK
+
+

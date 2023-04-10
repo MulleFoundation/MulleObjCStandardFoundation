@@ -34,11 +34,11 @@ void  test( BOOL flag)
    NSString          *search;
    NSString          *string;
    NSString          *s1;
-   NSString          *s2;
    int               i;
    int               j;
    char              *s;
    char              *sep;
+   BOOL              found;
 
    for( i = 0; i < sizeof( searchStrings) / sizeof( searchStrings[ 0]); i++)
    {
@@ -58,13 +58,13 @@ void  test( BOOL flag)
 
          while( ! [scanner isAtEnd])
          {
-            [scanner scanString:search
-                     intoString:&s1];
-            [scanner scanUpToString:search
-                        intoString:&s2];
-            printf( "%sscanString:\"%s\" scanUptoString:\"%s\"", sep, [s1 UTF8String], [s2 UTF8String]);
+            found = [scanner scanString:search
+                             intoString:&s1];
+            printf( "%sscanString:\"%s\" ",  sep, [s1 UTF8String]);
             fflush( stdout);
             sep =", ";
+            if( ! found)
+               break;
          }
          printf( "\n");
       }

@@ -10,8 +10,8 @@ UTF8 BOM \0 "VfL Bochum 1848" : <efbbbc56 664c2042 6f636875 6d203138 343800>
 
 ISOLatin1 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
 ISOLatin1 \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
-ISOLatin1 BOM "VfL Bochum 1848" : <56664c20 426f6368 756d2031 383438>
-ISOLatin1 BOM \0 "VfL Bochum 1848" : <56664c20 426f6368 756d2031 38343800>
+ISOLatin1 BOM "VfL Bochum 1848" : conversion not possible
+ISOLatin1 BOM \0 "VfL Bochum 1848" : conversion not possible
 
 UTF16BigEndian "VfL Bochum 1848" : <00560066 004c0020 0042006f 00630068 0075006d 00200031 00380034 0038>
 UTF16BigEndian \0 "VfL Bochum 1848" : <00560066 004c0020 0042006f 00630068 0075006d 00200031 00380034 00380000>
@@ -82,8 +82,8 @@ UTF8 BOM \0 "" : <efbbbc00>
 
 ISOLatin1 "" : <>
 ISOLatin1 \0 "" : <00>
-ISOLatin1 BOM "" : <>
-ISOLatin1 BOM \0 "" : <00>
+ISOLatin1 BOM "" : conversion not possible
+ISOLatin1 BOM \0 "" : conversion not possible
 
 UTF16BigEndian "" : <>
 UTF16BigEndian \0 "" : <0000>
