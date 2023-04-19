@@ -1,6 +1,6 @@
 {
    "name" : "MulleObjCStandardFoundation",
-   "version" : "0.20.2",
+   "version" : "0.20.3",
    "description" : "Objective-C classes based on the C standard library",
    "keywords" : [],
    "license" : "BSD-3-Clause",
@@ -86,7 +86,6 @@
       "src/Notification/NSNotificationCenter.m",
       "src/Notification/NSThread+NSNotification.h",
       "src/Notification/NSThread+NSNotification.m",
-      "src/reflect/objc-loader.inc",
       "src/reflect/_MulleObjCStandardFoundation-import-private.h",
       "src/reflect/_MulleObjCStandardFoundation-import.h",
       "src/reflect/_MulleObjCStandardFoundation-include-private.h",
