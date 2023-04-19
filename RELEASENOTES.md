@@ -1,3 +1,8 @@
+### 0.20.3
+
+* tentatively added doubleQuotes strings parsing and printing support
+* add mulleScanUpToAndIncludingString:intoString on NSScanner
+
 ### 0.20.2
 
 * Various small improvements
