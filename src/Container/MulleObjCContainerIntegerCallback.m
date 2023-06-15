@@ -67,7 +67,7 @@ static char *
 struct mulle_container_keycallback   NSIntMapKeyCallBacks =
 {
    mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_pointer_is_equal,
+   mulle_container_keycallback_intptr_is_equal,
    mulle_container_keycallback_self,
    mulle_container_keycallback_nop,
    (mulle_container_keycallback_describe_t *) int_describe,
@@ -78,7 +78,7 @@ struct mulle_container_keycallback   NSIntMapKeyCallBacks =
 struct mulle_container_keycallback   NSIntegerMapKeyCallBacks =
 {
    mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_pointer_is_equal,
+   mulle_container_keycallback_intptr_is_equal,
    mulle_container_keycallback_self,
    mulle_container_keycallback_nop,
    (mulle_container_keycallback_describe_t *) integer_describe,
