@@ -848,15 +848,12 @@ static void
    struct mulle__pointerqueueenumerator   rover;
    observer_sel_imp_triplet               *p;
    observer_sel_imp_triplet               *sentinel;
-   observer_sel_imp_triplet               *buf;
-   observer_sel_imp_triplet               *tofree;
    struct mulle__pointerqueue             *queue;
    NSUInteger                             i, n;
    intptr_t                               generationCount;
+   mulle_flexarray( buf, observer_sel_imp_triplet, 32);
 
-   tofree  = NULL;
-   buf     = NULL;  // just for the compiler...
-
+   buf = 0;
    mulle_thread_mutex_lock( &self->_lock);
    {
       generationCount = (intptr_t) _mulle_atomic_pointer_read( &self->_generationCount);
@@ -870,14 +867,7 @@ static void
          //
          n = _mulle__pointerqueue_get_count( queue);
          {
-            observer_sel_imp_triplet  tmp[ 32];
-
-            buf = tmp;
-            if( n > 32)
-            {
-               buf    = mulle_malloc( n * sizeof( observer_sel_imp_triplet));
-               tofree = buf;
-            }
+            mulle_flexarray_alloc( buf, n);
 
             i = 0;
             rover = mulle__pointerqueue_enumerate( queue);
@@ -908,7 +898,7 @@ static void
          (*p->imp)( p->observer, p->sel, notification);
    }
 
-   mulle_free( tofree);
+   mulle_flexarray_done( buf);
 }
 
 

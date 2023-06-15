@@ -741,26 +741,19 @@ static NSInteger   normal_search( struct _ns_unichar_enumerator *self_rover,
    NSInteger   index;
    size_t      search_len;
    size_t      size;
-   unichar     *search;
-   unichar     *tofree;
-   unichar     tmp[ 0x20];
 
    // must be > 0 and is not > self_len
 
    // grab search pattten into own unichar buffer
    search_len = get_length( other_rover);
    size       = sizeof( unichar) * search_len;
-   tofree     = NULL;
-   search     = tmp;
 
-   if( search_len > 0x20)
-      search = tofree = mulle_malloc( size);
+   mulle_flexarray_do( search, unichar, 0x100, size)
+   {
+      get_characters( other_rover, search);
 
-   get_characters( other_rover, search);
-
-   index = _kmp_search( self_rover, search, search_len);
-
-   mulle_free( tofree);
+      index = _kmp_search( self_rover, search, search_len);
+   }
 
    return( index);
 }

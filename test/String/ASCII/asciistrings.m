@@ -39,7 +39,7 @@ int main( int argc, const char * argv[])
 
    memset( buf, 0, sizeof( buf));
 /*
-   s = [NSString mulleStringWithUTF8String:buf];
+   s = [NSString stringWithUTF8String:buf];
    check( s, buf, 0);
 */
    for( i = 1; i < sizeof( buf) - 1; i++)
