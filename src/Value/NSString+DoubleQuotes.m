@@ -46,8 +46,8 @@ struct parser
    struct mulle_utf8data    cdata;
    NSUInteger               start;
    int                      quoted;
-   mulle_utf8_t             *curr;
-   mulle_utf8_t             *sentinel;
+   char                     *curr;
+   char                     *sentinel;
    struct mulle__rangeset   ranges;
    struct mulle_allocator   *allocator;
    struct mulle_range       storage[ 16];

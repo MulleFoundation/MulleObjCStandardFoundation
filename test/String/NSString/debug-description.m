@@ -13,8 +13,8 @@
 
 int main( int argc, const char * argv[])
 {
-   mulle_utf8_t   text[] = "VfL Bochum 1848";
-   NSString       *s;
+   char       text[] = "VfL Bochum 1848";
+   NSString   *s;
 
    s = [NSString mulleStringWithUTF8Characters:text
                                     length:sizeof( text)];

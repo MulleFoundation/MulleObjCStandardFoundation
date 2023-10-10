@@ -69,7 +69,7 @@ static unichar   ASCIINextCharacter( void **p)
 
 static unichar   UTF8NextCharacter( void **p)
 {
-   return( mulle_utf8_next_utf32character( (mulle_utf8_t **) p));
+   return( mulle_utf8_next_utf32character( (char **) p));
 }
 
 
@@ -566,9 +566,9 @@ static id
    NSUInteger                   sepLen;
    struct mulle__pointerqueue   pointers;
    struct mulle_utf8data        data;
-   mulle_utf8_t                 tmp[ 64];
+   char                         tmp[ 64];
 
-   data = MulleStringGetUTF8Data( self,
+   data = MulleStringUTF8Data( self,
                                   mulle_utf8data_make( tmp, sizeof( tmp)));
 
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
@@ -657,9 +657,9 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self,
    struct mulle_utf8data        data;
    NSArray                      *array;
    struct mulle__pointerqueue   pointers;
-   mulle_utf8_t                 tmp[ 64];
+   char                         tmp[ 64];
 
-   data = MulleStringGetUTF8Data( self, mulle_utf8data_make( tmp,
+   data = MulleStringUTF8Data( self, mulle_utf8data_make( tmp,
                                                               sizeof( tmp)));
    _mulle__pointerqueue_init( &pointers, 0x1000, 0x0);
    _mulleDataSeparateComponentsByCharacterSet( mulle_data_make( data.characters,

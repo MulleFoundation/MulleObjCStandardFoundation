@@ -1147,8 +1147,8 @@ struct NSStringMogrifyInfo
    struct mulle_utf32data   unidata;
    union
    {
-      unichar        utf32[ 16];
-      mulle_utf8_t   utf8[ 64];
+      unichar   utf32[ 16];
+      char      utf8[ 64];
    } tmp;
 
    allocator = MulleObjCInstanceGetAllocator( self);
