@@ -12,7 +12,7 @@
 
 
 
-static mulle_utf8_t    hoehoe[] =
+static unsigned char    hoehoe[] =
 {
    'T', 'A', 'B', ':', '\t',   '\n',
    '\\', '1',     ':', '\001', '\n',

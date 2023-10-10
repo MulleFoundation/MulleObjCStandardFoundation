@@ -37,13 +37,13 @@
 #import "NSCharacterSet.h"
 
 
-@interface _MulleObjCConcreteRangeCharacterSet : NSCharacterSet
+@interface _MulleObjCConcreteRangeCharacterSet : NSCharacterSet 
 {
    NSRange   _range;
    int       _invert;
 }
 
 + (instancetype) newWithRange:(NSRange) range
-             invert:(BOOL) invert;
+                       invert:(BOOL) invert;
 
 @end

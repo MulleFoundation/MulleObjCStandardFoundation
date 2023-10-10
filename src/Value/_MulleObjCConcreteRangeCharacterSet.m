@@ -57,6 +57,7 @@
    return( obj);
 }
 
+
 - (id) copy
 {
    return( [self retain]);

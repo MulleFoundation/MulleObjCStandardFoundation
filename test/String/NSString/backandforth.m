@@ -38,7 +38,7 @@ struct buffer
    {
       mulle_utf32_t   _32[ 8];
       mulle_utf16_t   _16[ 16];
-      mulle_utf8_t    _8[ 32];
+      char            _8[ 32];
    } text;
    size_t         n;
 };

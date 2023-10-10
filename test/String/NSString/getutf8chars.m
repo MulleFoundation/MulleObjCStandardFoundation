@@ -6,10 +6,10 @@
 
 static int   test( unsigned int size)
 {
-   NSString       *obj;
-   NSUInteger     len;
-   mulle_utf8_t   buf[ 256];
-   char           *params_1[] =
+   NSString     *obj;
+   NSUInteger   len;
+   char         buf[ 256];
+   char         *params_1[] =
    {
       "",
       "1848",
