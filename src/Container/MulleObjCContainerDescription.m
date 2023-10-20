@@ -48,7 +48,7 @@
 
 NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
                                                              SEL sel,
-                                                             struct MulleObjCObjectContainerDescriptionInfo *info)
+                struct MulleObjCObjectContainerDescriptionInfo *info)
 {
    id                value;
    NSArray           *lines;
@@ -91,7 +91,7 @@ NSString   *MulleObjCObjectContainerDescriptionWithSelector( id self,
 NSString   *
    MulleObjCKeyValueContainerDescriptionWithSelector( id self,
                                                       SEL sel,
-                                                      struct MulleObjCObjectContainerDescriptionInfo *info)
+         struct MulleObjCObjectContainerDescriptionInfo *info)
 {
    id                value;
    NSArray           *keys;

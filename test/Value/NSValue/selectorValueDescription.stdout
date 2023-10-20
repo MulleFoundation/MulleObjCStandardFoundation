@@ -1,1 +1,1 @@
-@( @selector( a:b:c:))
+@selector( a:b:c:)
