@@ -180,8 +180,7 @@ static NSUInteger
                                          NSString *separator,
                                          struct mulle__pointerqueue *pointers)
 {
-   mulle_utf32_t             space[ 32];
-   NSUInteger                rval;
+   NSUInteger               rval;
    struct mulle_utf32data   sepData;
 
    sepData.length = [separator length];
@@ -194,31 +193,26 @@ static NSUInteger
                                                nextCharacter,
                                                [separator characterAtIndex:0],
                                                pointers);
-      // hackish
-      if( nextCharacter == UTF8NextCharacter)
-         rval = [separator mulleUTF8StringLength];
-      else
-         rval = 1;
+      rval = 1;
    }
    else
    {
-      if( sepData.length <= 32)
-         sepData.characters = space;
-      else
-         sepData.characters = mulle_malloc( sizeof( unichar) * sepData.length);
-      [separator getCharacters:sepData.characters
-                         range:NSMakeRange( 0, sepData.length)];
+      mulle_flexarray_do( characters, unichar, 16, sepData.length)
+      {
+         sepData.characters = characters;
+         [separator getCharacters:sepData.characters
+                            range:NSMakeRange( 0, sepData.length)];
 
-      rval =_mulleDataSeparateComponentsByUTF32Data( data, nextCharacter, sepData, pointers);
-
-      if( sepData.characters != space)
-         mulle_free( sepData.characters);
-
-      // hackish
-      if( nextCharacter == UTF8NextCharacter)
-         rval = [separator mulleUTF8StringLength];
+         rval =_mulleDataSeparateComponentsByUTF32Data( data,
+                                                        nextCharacter,
+                                                        sepData,
+                                                        pointers);
+      }
    }
 
+   // hackish
+   if( nextCharacter == UTF8NextCharacter)
+      rval = [separator mulleUTF8StringLength];
    return( rval);
 }
 
@@ -326,7 +320,7 @@ static id
 - (id) _mulleComponentsSeparatedByString:(NSString *) separator
                               arrayClass:(Class) arrayClass
 {
-   char                      tmp[ mulle_char7_maxlength64];  // known ascii max 8
+   char                     tmp[ mulle_char7_maxlength64];  // known ascii max 8
    struct mulle_asciidata   data;
 
    data.characters = tmp;
@@ -721,153 +715,153 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *se
 }
 
 
-static NSMutableArray  *arrayWithComponents( NSArray *components, NSRange range, BOOL includeFirst)
-{
-   NSMutableArray   *array;
-
-   array = [NSMutableArray array];
-   if( includeFirst && range.location != 0)
-      [array addObject:[components objectAtIndex:0]];
-   [array addObjectsFromArray:[components subarrayWithRange:range]];
-   return( array);
-}
+//static NSMutableArray  *arrayWithComponents( NSArray *components, NSRange range, BOOL includeFirst)
+//{
+//   NSMutableArray   *array;
+//
+//   array = [NSMutableArray array];
+//   if( includeFirst && range.location != 0)
+//      [array addObject:[components objectAtIndex:0]];
+//   [array addObjectsFromArray:[components subarrayWithRange:range]];
+//   return( array);
+//}
 
 
 - (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
                                                       simplifyDots:(BOOL) simplifyDots
 {
-   enum
+   enum pathtype
    {
-      isUnknown,
-      isAbsolute,
+      isString,
+      isSeparator,
       isDot,
       isDotDot
-   } pathtype;
+   };
+   NSArray           *components;
+   NSUInteger        i, j, n;
+   NSUInteger        len;
+   SEL               selAppend;
+   IMP               impAppend;
+   NSMutableString   *buffer;
+   NSString          *s;
+   NSString          *sep;
 
-   BOOL         skipping;
-   id           result;
-   NSArray      *components;
-   NSString     *prev;
-   NSString     *s;
-   NSUInteger   i, n;
-   NSUInteger   len;
-   NSUInteger   start;
-
-   //
-   // if this is nil, path has no @"/" anywhere
-   //
    components = [self _componentsSeparatedByString:separator];
-   if( ! components)
+   n          = [components count];
+   if( n <= 1)
       return( self);
 
-   pathtype = isUnknown;
-   skipping = YES;
-   result   = nil;
-   start    = 0;
-
-   n = [components count];
-   for( i = 0; i < n; i++)
+   buffer = nil; // can't happen
+   mulle_flexarray_do( tmpComponents, id, 16, n)
    {
-      s   = [components objectAtIndex:i];
-      len = [s length];
-
-         // if path starts with '/' or '.' we can collapse '..'
-      if( ! len || (simplifyDots && [@"." isEqualToString:s]))
+      mulle_flexarray_do( tmpTypes, char, 16, n)
       {
-         if( ! i)
-            pathtype = ! len ? isAbsolute : isDot;
-
-         // skip over '//' and '/./'
-         if( skipping)
-            ++start;
-         continue;
-      }
-
-      // convert "/foo/../" to "foo"
-      // though symlinks should be resolved now
-
-      if( simplifyDots && [@".." isEqualToString:s])
-      {
-         if( ! i)
+         j = 0;
+         i = -1;
+         for( s in components)
          {
-            pathtype = isDotDot;
-            ++start;    // still update this for later output
-            skipping = NO;
-            continue;
-         }
+            ++i;
+            len = [s length];
 
-         if( skipping && isAbsolute)
-         {
-            if( skipping)
-               ++start;    // collapse /.. to /
-            continue;
-         }
-
-         if( ! result)
-            result = arrayWithComponents( components, NSMakeRange( start, i - start), YES);
-
-         prev = [result lastObject];
-         if( ! [@".." isEqualToString:prev])
-         {
-            if( ! [prev length])
-               continue;
-
-            [result removeLastObject];
-            if( ! [result count])
+            // get rid of "/" except on start and end
+            if( ! len)
             {
-               result = nil;
-               start  = i;
+               // skip unless first or last and prev not also "/"
+               if( ! j || (i == n - 1 && tmpTypes[ j - 1] != isSeparator))
+               {
+                  tmpComponents[ j] = s;
+                  tmpTypes[ j]      = isSeparator;
+                  ++j;
+               }
+               continue;
             }
-            continue;
+
+            if( simplifyDots)
+            {
+               // get rid of "." except on start
+               if( len == 1 && [@"." isEqualToString:s])
+               {
+                  if( ! j)
+                  {
+                     tmpComponents[ j] = s;
+                     tmpTypes[ j]      = isDot;
+                     ++j;
+                  }
+                  continue;
+               }
+
+               // get rid of ".." and preceeding if possible
+               if( len == 2 && [@".." isEqualToString:s])
+               {
+                  // simplify a/../b to a/b, also /../a to /a
+                  //
+                  if( j)
+                  {
+                     --j;
+                     switch( tmpTypes[ j])
+                     {
+                       case isSeparator :
+                        assert( j == 0);
+                        ++j;  // dial back
+                        continue;
+
+                     case isString:
+                        // simplify a/.. to .
+                        if( j == 0)
+                        {
+                           tmpComponents[ j] = @".";
+                           tmpTypes[ j]      = isDot;
+                           ++j;
+                           continue;
+                        }
+                        continue;
+
+                     case isDotDot:
+                        ++j;
+                        break;
+
+                     case isDot:
+                        break;
+                     }
+                  }
+
+                  tmpComponents[ j] = s;
+                  tmpTypes[ j]      = isDotDot;
+                  ++j;
+                  continue;
+               }
+            }
+
+            tmpComponents[ j] = s;
+            tmpTypes[ j]      = isString;
+            ++j;
+         }
+
+         if( j == n)
+            return( self);
+
+         assert( j);
+         if( j == 1)
+         {
+            if( tmpTypes[ 0] == isSeparator)
+               return( separator);
+            return( tmpComponents[ 0]);
          }
       }
 
-      // keep adding to nil, if there was nothing to collapse
-      if( ! result && start)
-         result = arrayWithComponents( components, NSMakeRange( start, i - start), YES);
-      [result addObject:s];
-      skipping = NO;
-   }
+      buffer    = [NSMutableString string];
+      selAppend = @selector( appendString:);
+      impAppend = [buffer methodForSelector:selAppend];
 
-   if( start == i)
-   {
-      switch( pathtype)
+      sep = nil;
+      for( i = 0; i < j; i++)
       {
-         case isAbsolute : return( separator);
-         case isDot      : return( @".");
-         case isDotDot   : return( @"..");
-         default         : break;
+         (*impAppend)( buffer, selAppend, sep);
+         (*impAppend)( buffer, selAppend, tmpComponents[ i]);
+         sep = separator;
       }
    }
-   if( ! result && ! start)
-      return( self);
-
-   if( ! result)
-      result = arrayWithComponents( components, NSMakeRange( start, i - start), YES);
-
-   // remove trailing '/' if any
-   len = [result count];
-   while( len)
-   {
-      s = [result lastObject];
-      if( [s length] && (! simplifyDots || ! [s isEqualToString:@"."]))
-         break;
-      [result removeLastObject];
-      --len;
-   }
-
-   if( ! len)
-   {
-      switch( pathtype)
-      {
-         case isAbsolute : return( separator);
-         case isDot      : return( @".");
-         case isDotDot   : return( @"..");
-         default         : break;
-      }
-   }
-
-   return( [result componentsJoinedByString:separator]);
+   return( buffer);
 }
 
 

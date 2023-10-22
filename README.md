@@ -83,6 +83,8 @@ Install the requirements:
 | [MulleObjCContainerFoundation](https://github.com/MulleFoundation/MulleObjCContainerFoundation)             | 🛍 Container classes like NSArray, NSSet, NSDictionary
 | [mulle-objc-list](https://github.com/mulle-objc/mulle-objc-list)             | 📒 Lists mulle-objc runtime information contained in executables.
 
+Download the latest [tar](https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/refs/tags/latest.zip) archive and unpack it.
+
 Install **MulleObjCStandardFoundation** into `/usr/local` with [cmake](https://cmake.org):
 
 ``` sh
