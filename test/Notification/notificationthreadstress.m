@@ -14,9 +14,15 @@ extern void  sleep( int);
 // #define N_OBSERVERS  10
 // #define N_THREADS    256
 
+#ifdef __APPLE__
+#define N_THREADS    4
+#define N_OBJECTS    100
+#define N_OBSERVERS  100
+#else
 #define N_THREADS    16
 #define N_OBJECTS    1000
 #define N_OBSERVERS  1000
+#endif
 
 
 @interface Foo : NSObject
