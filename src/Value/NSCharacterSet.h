@@ -93,9 +93,9 @@ static inline size_t   mulle_unichar_strnlen( unichar *s, size_t len)
 }
 
 
-static inline unichar   *mulle_unichar_strncpy( unichar *dst, unichar *src, size_t len)
+static inline unichar   *mulle_unichar_strncpy( unichar *dst, size_t len, unichar *src)
 {
-   return( mulle_utf32_strncpy( dst, src, len));
+   return( mulle_utf32_strncpy( dst, len, src));
 }
 
 

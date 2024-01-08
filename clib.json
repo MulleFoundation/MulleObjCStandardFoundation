@@ -1,7 +1,7 @@
 {
    "name" : "MulleObjCStandardFoundation",
-   "version" : "0.20.3",
-   "description" : "Objective-C classes based on the C standard library",
+   "version" : "0.21.0",
+   "description" : "🚤 Objective-C classes based on the C standard library",
    "keywords" : [],
    "license" : "BSD-3-Clause",
    "repo" : "MulleFoundation/MulleObjCStandardFoundation",
@@ -91,6 +91,7 @@
       "src/reflect/_MulleObjCStandardFoundation-import.h",
       "src/reflect/_MulleObjCStandardFoundation-include-private.h",
       "src/reflect/_MulleObjCStandardFoundation-include.h",
+      "src/reflect/_MulleObjCStandardFoundation-versioncheck.h",
       "src/TimeZone/NSDate+NSTimeZone.h",
       "src/TimeZone/NSTimeZone.h",
       "src/TimeZone/NSTimeZone.m",
