@@ -51,7 +51,7 @@ void   check_double( NSNumber *value, double expect)
 }
 
 
-main()
+int   main( void)
 {
    NSNumber   *value;
 

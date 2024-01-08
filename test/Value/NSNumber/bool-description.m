@@ -12,7 +12,7 @@ static void print_bool( BOOL flag)
 }
 
 
-main()
+int   main( void)
 {
    NSNumber   *value;
 

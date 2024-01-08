@@ -74,6 +74,9 @@ enum
 };
 
 
+//
+// this was written before MulleStringEnumerator existed.
+//
 struct mulle_unichar_enumerator
 {
    unichar   (*get_character)( struct mulle_unichar_enumerator *self);  // next
@@ -1339,7 +1342,7 @@ static unichar   nop( unichar c)
    BOOL                     flag;
    union
    {
-      mulle_utf16_t          utf32[ 32];
+      mulle_utf16_t         utf32[ 32];
    } tmp;
 
    allocator = MulleObjCInstanceGetAllocator( self);

@@ -133,5 +133,6 @@ src/Value/NSString+DoubleQuotes.h
 src/Value/NSString+Escaping.h
 src/Value/NSString+NSCharacterSet.h
 src/Value/NSString+Search.h
+src/reflect/_MulleObjCStandardFoundation-versioncheck.h
 )
 
