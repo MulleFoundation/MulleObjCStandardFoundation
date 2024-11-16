@@ -36,5 +36,20 @@
 #import "import.h"
 
 
-NSArray    *NSAllHashTableObjects( NSHashTable *table);
-NSString   *NSStringFromHashTable( NSHashTable *table);
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
+NSArray    *MulleObjCHashTableGetObjects( NSHashTable *table);
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
+NSString   *MulleObjCHashTableGetDescription( NSHashTable *table);
+
+
+static inline NSArray    *NSAllHashTableObjects( NSHashTable *table)
+{
+   return( MulleObjCHashTableGetObjects( table));
+}
+
+
+static inline NSString   *NSStringFromHashTable( NSHashTable *table)
+{ 
+   return( MulleObjCHashTableGetDescription( table));
+}

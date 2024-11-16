@@ -210,8 +210,14 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
 // indicates a " that is not to be understood as a quote. Furthermore
 // understands that \\ is supposed to be a \.
 // "...""..." is not separated by a space, so it will be concatenated.
+// also does '' quoting now, but does not do ''' like the shell but
+// also escapes with backslash
 //
-- (NSArray *) mulleComponentsSeparatedByWhitespaceWithDoubleQuoting
+// quoting=1 "
+// quoting=2 '
+// quoting=3 " + '
+//
+static NSArray   *mulleComponentsSeparatedByWhitespaceWithQuoting( NSString *self, NSUInteger quoting)
 {
    NSData              *data;
    NSMutableArray      *array;
@@ -219,6 +225,7 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
    struct parser       parser;
    struct mulle_data   cdata;
    int                 concat;
+   int                 quote_char;
 
    array = nil;
 
@@ -237,13 +244,21 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
       /* quoted */
       if( _parser_is_quoted( &parser))
       {
-         for( ; parser.curr < parser.sentinel; ++parser.curr)
+         quote_char = _parser_is_quoted( &parser) == 1 ? '"' : '\'';
+         while( parser.curr < parser.sentinel)
          {
             switch( *parser.curr)
             {
+            case '\'' : // closer
             case '"' : // closer
+               if( *parser.curr != quote_char)
+               {
+                  _parser_skip( &parser);
+                  continue;
+               }
+
                _parser_define_range( &parser);
-               concat = parser.curr[ 1] == '\"';
+               concat = parser.curr[ 1] == quote_char;
                _parser_skip( &parser);
                if( ! concat)
                {
@@ -262,7 +277,7 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
             // use the fact, that we know there is a terminating zero
             // that's behind sentinel
             case '\\' :
-               if( parser.curr[ 1] == '\"')
+               if( parser.curr[ 1] == quote_char)
                {
                   _parser_define_range( &parser);
                   _parser_skip( &parser);
@@ -276,22 +291,38 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
                      _parser_skip( &parser);
                      _parser_memorize( &parser);
                   }
+               // fall thru
 
-            default   :
+            default :
+               _parser_skip( &parser);
                continue;
             }
             break;
          }
-
-         continue;
       }
-
       /* unquoted */
-      for( ; parser.curr < parser.sentinel; ++parser.curr)
+      while( parser.curr < parser.sentinel)
       {
          switch( *parser.curr)
          {
+         case '\'' :
+            if( ! (quoting & 2))
+            {
+               _parser_skip( &parser);
+               continue;
+            }
+            _parser_define_range_if_not_empty( &parser);
+            _parser_set_quoted( &parser, 2);
+            _parser_skip( &parser);
+            break;
+
          case '"' :
+            if( ! (quoting & 1))
+            {
+               _parser_skip( &parser);
+               continue;
+            }
+
             _parser_define_range_if_not_empty( &parser);
             _parser_set_quoted( &parser, 1);
             _parser_skip( &parser);
@@ -312,8 +343,10 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
             }
             _parser_skip_white( &parser);
             _parser_memorize( &parser);
+            continue;
 
          default :
+            _parser_skip( &parser);
             continue;
          }
 
@@ -321,7 +354,7 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
       }
    }
 
-   // strings with opened but not closed " are lost
+   // strings with opened quotes but not closed are lost
    if( ! _parser_is_quoted( &parser))
    {
       _parser_define_range_if_not_empty( &parser);
@@ -334,6 +367,24 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
    _parser_done( &parser);
 
    return( array ? array : [NSArray arrayWithObject:@""]);
+}
+
+
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithDoubleQuoting
+{
+   return( mulleComponentsSeparatedByWhitespaceWithQuoting( self, 1));
+}
+
+
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithSingleQuoting
+{
+   return( mulleComponentsSeparatedByWhitespaceWithQuoting( self, 2));
+}
+
+
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithSingleAndDoubleQuoting
+{
+   return( mulleComponentsSeparatedByWhitespaceWithQuoting( self, 3));
 }
 
 
@@ -368,7 +419,7 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
 
    mulle_buffer_do( buffer)
    {
-      start    = mulle_buffer_guarantee( buffer, length + count);
+      start    = mulle_buffer_guarantee( buffer, length + count + 1);
       dst      = start;
       src      = &start[ count];
       sentinel = &src[ length];
@@ -380,11 +431,11 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
             *dst++ = '\\';
          *dst++ = *src++;
       }
+      *dst++ = 0;
 
-      assert( dst == src);
-
-      cdata     = mulle_buffer_extract_data( buffer);
+      mulle_buffer_advance( buffer, dst - start);
       allocator = mulle_buffer_get_allocator( buffer);
+      cdata     = mulle_buffer_extract_data( buffer);
       s         = [[[NSString alloc] mulleInitWithUTF8CharactersNoCopy:cdata.bytes
                                                                 length:cdata.length
                                                              allocator:allocator] autorelease];

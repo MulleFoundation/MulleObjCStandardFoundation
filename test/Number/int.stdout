@@ -1,59 +1,64 @@
-1: char Number FAIL -2147483648 vs. 0
-2: char Number FAIL -2147483648 vs. 0
-3: unsigned char Number FAIL -2147483648 vs. 0
-4: unsigned char Number FAIL -2147483648 vs. 0
-5: short Number FAIL -2147483648 vs. 0
-6: short Number FAIL -2147483648 vs. 0
-7: unsigned short Number FAIL -2147483648 vs. 0
-8: unsigned short Number FAIL -2147483648 vs. 0
-11: unsigned int Number FAIL -2147483648 vs. 2147483648
-12: unsigned int Number FAIL -2147483648 vs. 2147483648
-15: unsigned long Number FAIL -2147483648 vs. -2147483648
-16: unsigned long Number FAIL -2147483648 vs. -2147483648
-19: unsigned long long Number FAIL -2147483648 vs. -2147483648
-20: unsigned long long Number FAIL -2147483648 vs. -2147483648
-23: NSUInteger Number FAIL -2147483648 vs. -2147483648
-24: NSUInteger Number FAIL -2147483648 vs. -2147483648
-1: char Number FAIL -32768 vs. 0
-2: char Number FAIL -32768 vs. 0
-3: unsigned char Number FAIL -32768 vs. 0
-4: unsigned char Number FAIL -32768 vs. 0
-7: unsigned short Number FAIL -32768 vs. 32768
-8: unsigned short Number FAIL -32768 vs. 32768
-11: unsigned int Number FAIL -32768 vs. 4294934528
-12: unsigned int Number FAIL -32768 vs. 4294934528
-15: unsigned long Number FAIL -32768 vs. -32768
-16: unsigned long Number FAIL -32768 vs. -32768
-19: unsigned long long Number FAIL -32768 vs. -32768
-20: unsigned long long Number FAIL -32768 vs. -32768
-23: NSUInteger Number FAIL -32768 vs. -32768
-24: NSUInteger Number FAIL -32768 vs. -32768
-3: unsigned char Number FAIL -128 vs. 128
-4: unsigned char Number FAIL -128 vs. 128
-7: unsigned short Number FAIL -128 vs. 65408
-8: unsigned short Number FAIL -128 vs. 65408
-11: unsigned int Number FAIL -128 vs. 4294967168
-12: unsigned int Number FAIL -128 vs. 4294967168
-15: unsigned long Number FAIL -128 vs. -128
-16: unsigned long Number FAIL -128 vs. -128
-19: unsigned long long Number FAIL -128 vs. -128
-20: unsigned long long Number FAIL -128 vs. -128
-23: NSUInteger Number FAIL -128 vs. -128
-24: NSUInteger Number FAIL -128 vs. -128
+ 1 char               : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 2 char               : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 3 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 4 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 5 short              : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 6 short              : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 7 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+ 8 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-2147483648 vs. 0 / -2.14748e+09 vs. 0)
+11 unsigned int       : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 2147483648>] FAIL (-2147483648 vs. 2147483648 / -2.14748e+09 vs. 2.14748e+09)
+12 unsigned int       : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCTaggedPointerIntegerNumber 2147483648>] FAIL (-2147483648 vs. 2147483648 / -2.14748e+09 vs. 2.14748e+09)
+15 unsigned long      : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCUInt64Number 18446744071562067968>] FAIL (-2147483648 vs. -2147483648 / -2.14748e+09 vs. 1.84467e+19)
+16 unsigned long      : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCUInt64Number 18446744071562067968>] FAIL (-2147483648 vs. -2147483648 / -2.14748e+09 vs. 1.84467e+19)
+19 unsigned long long : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCUInt64Number 18446744071562067968>] FAIL (-2147483648 vs. -2147483648 / -2.14748e+09 vs. 1.84467e+19)
+20 unsigned long long : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCUInt64Number 18446744071562067968>] FAIL (-2147483648 vs. -2147483648 / -2.14748e+09 vs. 1.84467e+19)
+23 NSUInteger         : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqualToNumber: <_MulleObjCUInt64Number 18446744071562067968>] FAIL (-2147483648 vs. -2147483648 / -2.14748e+09 vs. 1.84467e+19)
+24 NSUInteger         : -[<_MulleObjCTaggedPointerIntegerNumber -2147483648> isEqual: <_MulleObjCUInt64Number 18446744071562067968>] FAIL (-2147483648 vs. -2147483648 / -2.14748e+09 vs. 1.84467e+19)
+
+ 1 char               : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-32768 vs. 0 / -32768 vs. 0)
+ 2 char               : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-32768 vs. 0 / -32768 vs. 0)
+ 3 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-32768 vs. 0 / -32768 vs. 0)
+ 4 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCTaggedPointerIntegerNumber 0>] FAIL (-32768 vs. 0 / -32768 vs. 0)
+ 7 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 32768>] FAIL (-32768 vs. 32768 / -32768 vs. 32768)
+ 8 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCTaggedPointerIntegerNumber 32768>] FAIL (-32768 vs. 32768 / -32768 vs. 32768)
+11 unsigned int       : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 4294934528>] FAIL (-32768 vs. 4294934528 / -32768 vs. 4.29493e+09)
+12 unsigned int       : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCTaggedPointerIntegerNumber 4294934528>] FAIL (-32768 vs. 4294934528 / -32768 vs. 4.29493e+09)
+15 unsigned long      : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCUInt64Number 18446744073709518848>] FAIL (-32768 vs. -32768 / -32768 vs. 1.84467e+19)
+16 unsigned long      : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCUInt64Number 18446744073709518848>] FAIL (-32768 vs. -32768 / -32768 vs. 1.84467e+19)
+19 unsigned long long : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCUInt64Number 18446744073709518848>] FAIL (-32768 vs. -32768 / -32768 vs. 1.84467e+19)
+20 unsigned long long : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCUInt64Number 18446744073709518848>] FAIL (-32768 vs. -32768 / -32768 vs. 1.84467e+19)
+23 NSUInteger         : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqualToNumber: <_MulleObjCUInt64Number 18446744073709518848>] FAIL (-32768 vs. -32768 / -32768 vs. 1.84467e+19)
+24 NSUInteger         : -[<_MulleObjCTaggedPointerIntegerNumber -32768> isEqual: <_MulleObjCUInt64Number 18446744073709518848>] FAIL (-32768 vs. -32768 / -32768 vs. 1.84467e+19)
+
+ 3 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 128>] FAIL (-128 vs. 128 / -128 vs. 128)
+ 4 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqual: <_MulleObjCTaggedPointerIntegerNumber 128>] FAIL (-128 vs. 128 / -128 vs. 128)
+ 7 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 65408>] FAIL (-128 vs. 65408 / -128 vs. 65408)
+ 8 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqual: <_MulleObjCTaggedPointerIntegerNumber 65408>] FAIL (-128 vs. 65408 / -128 vs. 65408)
+11 unsigned int       : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 4294967168>] FAIL (-128 vs. 4294967168 / -128 vs. 4.29497e+09)
+12 unsigned int       : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqual: <_MulleObjCTaggedPointerIntegerNumber 4294967168>] FAIL (-128 vs. 4294967168 / -128 vs. 4.29497e+09)
+15 unsigned long      : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqualToNumber: <_MulleObjCUInt64Number 18446744073709551488>] FAIL (-128 vs. -128 / -128 vs. 1.84467e+19)
+16 unsigned long      : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqual: <_MulleObjCUInt64Number 18446744073709551488>] FAIL (-128 vs. -128 / -128 vs. 1.84467e+19)
+19 unsigned long long : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqualToNumber: <_MulleObjCUInt64Number 18446744073709551488>] FAIL (-128 vs. -128 / -128 vs. 1.84467e+19)
+20 unsigned long long : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqual: <_MulleObjCUInt64Number 18446744073709551488>] FAIL (-128 vs. -128 / -128 vs. 1.84467e+19)
+23 NSUInteger         : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqualToNumber: <_MulleObjCUInt64Number 18446744073709551488>] FAIL (-128 vs. -128 / -128 vs. 1.84467e+19)
+24 NSUInteger         : -[<_MulleObjCTaggedPointerIntegerNumber -128> isEqual: <_MulleObjCUInt64Number 18446744073709551488>] FAIL (-128 vs. -128 / -128 vs. 1.84467e+19)
+
 0 PASSED
 1 PASSED
 127 PASSED
-1: char Number FAIL 32767 vs. -1
-2: char Number FAIL 32767 vs. -1
-3: unsigned char Number FAIL 32767 vs. 255
-4: unsigned char Number FAIL 32767 vs. 255
-1: char Number FAIL 2147483647 vs. -1
-2: char Number FAIL 2147483647 vs. -1
-3: unsigned char Number FAIL 2147483647 vs. 255
-4: unsigned char Number FAIL 2147483647 vs. 255
-5: short Number FAIL 2147483647 vs. -1
-6: short Number FAIL 2147483647 vs. -1
-7: unsigned short Number FAIL 2147483647 vs. 65535
-8: unsigned short Number FAIL 2147483647 vs. 65535
-25: float Number FAIL 2147483647 vs. 2147483648
-26: float Number FAIL 2147483647 vs. 2147483648
+ 1 char               : -[<_MulleObjCTaggedPointerIntegerNumber 32767> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber -1>] FAIL (32767 vs. -1 / 32767 vs. -1)
+ 2 char               : -[<_MulleObjCTaggedPointerIntegerNumber 32767> isEqual: <_MulleObjCTaggedPointerIntegerNumber -1>] FAIL (32767 vs. -1 / 32767 vs. -1)
+ 3 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber 32767> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 255>] FAIL (32767 vs. 255 / 32767 vs. 255)
+ 4 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber 32767> isEqual: <_MulleObjCTaggedPointerIntegerNumber 255>] FAIL (32767 vs. 255 / 32767 vs. 255)
+
+ 1 char               : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber -1>] FAIL (2147483647 vs. -1 / 2.14748e+09 vs. -1)
+ 2 char               : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqual: <_MulleObjCTaggedPointerIntegerNumber -1>] FAIL (2147483647 vs. -1 / 2.14748e+09 vs. -1)
+ 3 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 255>] FAIL (2147483647 vs. 255 / 2.14748e+09 vs. 255)
+ 4 unsigned char      : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqual: <_MulleObjCTaggedPointerIntegerNumber 255>] FAIL (2147483647 vs. 255 / 2.14748e+09 vs. 255)
+ 5 short              : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber -1>] FAIL (2147483647 vs. -1 / 2.14748e+09 vs. -1)
+ 6 short              : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqual: <_MulleObjCTaggedPointerIntegerNumber -1>] FAIL (2147483647 vs. -1 / 2.14748e+09 vs. -1)
+ 7 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqualToNumber: <_MulleObjCTaggedPointerIntegerNumber 65535>] FAIL (2147483647 vs. 65535 / 2.14748e+09 vs. 65535)
+ 8 unsigned short     : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqual: <_MulleObjCTaggedPointerIntegerNumber 65535>] FAIL (2147483647 vs. 65535 / 2.14748e+09 vs. 65535)
+25 float              : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqualToNumber: <_MulleObjCInt64Number 2147483648>] FAIL (2147483647 vs. 2147483648 / 2.14748e+09 vs. 2.14748e+09)
+26 float              : -[<_MulleObjCTaggedPointerIntegerNumber 2147483647> isEqual: <_MulleObjCInt64Number 2147483648>] FAIL (2147483647 vs. 2147483648 / 2.14748e+09 vs. 2.14748e+09)
+

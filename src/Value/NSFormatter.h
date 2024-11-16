@@ -39,7 +39,7 @@
 @class NSString;
 
 
-@interface NSFormatter : NSObject
+@interface NSFormatter : NSObject < MulleObjCThreadUnsafe>
 
 - (NSString *) editingStringForObjectValue:(id) obj;
 

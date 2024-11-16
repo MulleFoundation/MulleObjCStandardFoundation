@@ -9,6 +9,7 @@
 
 #import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 //#import "MulleStandaloneObjCFoundation.h"
+#import <MulleObjCValueFoundation/_MulleObjCValueTaggedPointer.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar5String.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar7String.h>
 #import <MulleObjCValueFoundation/_MulleObjCASCIIString.h>

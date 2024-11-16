@@ -162,7 +162,7 @@ static void  handleFailureInMethod( SEL selector,
 
 
 
-void   NSAssertionHandlerHandleMethodFailure( SEL sel,
+void   MulleObjCAssertionHandlerFailInMethod( SEL sel,
                                               id obj,
                                               char *file,
                                               int line,
@@ -189,7 +189,7 @@ void   NSAssertionHandlerHandleMethodFailure( SEL sel,
 }
 
 
-void   NSAssertionHandlerHandleFunctionFailure( char *function,
+void   MulleObjCAssertionHandlerFailInFunction( char *function,
                                                 char *file,
                                                 int line,
                                                 NSString *format, ...)

@@ -37,7 +37,7 @@
 #import "NSCharacterSet.h"
 
 
-@interface _MulleObjCConcreteCharacterSet : NSCharacterSet < MulleObjCImmutable>
+@interface _MulleObjCConcreteCharacterSet : NSCharacterSet < MulleObjCValueProtocols>
 {
    int   (*_f)( unichar c);
    int   (*_plane_f)( unsigned int c);

@@ -123,7 +123,7 @@
 - (NSCharacterSet *) invertedSet
 {
    // copy into "real" set then invert
-   return( [[_MulleObjCConcreteInvertedCharacterSet newWithCharacterSet:[[self copy] autorelease]] autorelease]);
+   return( [[_MulleObjCConcreteInvertedCharacterSet newWithCharacterSet:[self immutableInstance]] autorelease]);
 }
 
 

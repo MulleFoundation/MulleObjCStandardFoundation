@@ -2,6 +2,7 @@
 
 #import "NSArray+StringComponents.h"
 
+#import <MulleObjCValueFoundation/_MulleObjCValueTaggedPointer.h>
 #import <MulleObjCValueFoundation/NSString+Substring-Private.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar5String.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar7String.h>

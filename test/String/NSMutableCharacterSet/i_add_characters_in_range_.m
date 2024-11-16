@@ -16,12 +16,12 @@ static int   test_i_add_characters_in_range_( void)
    NSMutableCharacterSet *obj;
    NSRange params_1[] =
    {
-      NSMakeRange( 0, 0),
-      NSMakeRange( 0, 2),
-      NSMakeRange( 1, 1),
-      NSMakeRange( -1, 1),
-      NSMakeRange( 0, -1),
-      NSMakeRange( INT_MAX, INT_MAX)
+      NSRangeMake( 0, 0),
+      NSRangeMake( 0, 2),
+      NSRangeMake( 1, 1),
+      NSRangeMake( -1, 1),
+      NSRangeMake( 0, -1),
+      NSRangeMake( INT_MAX, INT_MAX)
    };
    unsigned int   i_1;
    unsigned int   n_1 = sizeof( params_1) / sizeof( NSRange);

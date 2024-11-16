@@ -42,52 +42,49 @@
 #import "import-private.h"
 
 
-NSArray   *NSAllMapTableKeys( NSMapTable *table)
+NSArray   *MulleObjCMapTableGetKeys( NSMapTable *table)
 {
    NSMutableArray    *array;
-   NSMapEnumerator    rover;
    void              *key;
-
-   array = nil;
-
-   rover = NSEnumerateMapTable( table);
-   while( NSNextMapEnumeratorPair( &rover, &key, NULL))
-   {
-      if( ! array)
-         array = [NSMutableArray array];
-      [array addObject:key];
-   }
-   NSEndMapTableEnumeration( &rover);
-
-   return( array);
-}
-
-
-NSArray   *NSAllMapTableValues( NSMapTable *table)
-{
-   NSMutableArray    *array;
-   NSMapEnumerator    rover;
    void              *value;
 
    array = nil;
 
-   rover = NSEnumerateMapTable( table);
-   while( NSNextMapEnumeratorPair( &rover, NULL, &value))
+   NSMapTableFor( table, key, value)
    {
+      MULLE_C_UNUSED( value);
       if( ! array)
          array = [NSMutableArray array];
-      [array addObject:value];
+      [array addObject:key];
    }
-   NSEndMapTableEnumeration( &rover);
 
    return( array);
 }
 
 
-NSString   *NSStringFromMapTable( NSMapTable *table)
+NSArray   *MulleObjCMapTableGetValues( NSMapTable *table)
+{
+   NSMutableArray    *array;
+   void              *key;
+   void              *value;
+
+   array = nil;
+
+   NSMapTableFor( table, key, value)
+   {
+      MULLE_C_UNUSED( key);
+      if( ! array)
+         array = [NSMutableArray array];
+      [array addObject:value];
+   }
+
+   return( array);
+}
+
+
+NSString   *MulleObjCMapTableGetDescription( NSMapTable *table)
 {
    char                     *description;
-   NSMapEnumerator          rover;
    NSMutableString          *s;
    NSString                 *separator;
    struct mulle_allocator   *allocator;
@@ -101,8 +98,7 @@ NSString   *NSStringFromMapTable( NSMapTable *table)
    separator = @"";
    allocator = NULL;
    
-   rover = NSEnumerateMapTable( table);
-   while( NSNextMapEnumeratorPair( &rover, &key, &value))
+   NSMapTableFor( table, key, value)
    {
       [s appendString:separator];
       description = (*table->_callback.keycallback.describe)( &table->_callback.keycallback,
@@ -120,7 +116,6 @@ NSString   *NSStringFromMapTable( NSMapTable *table)
 
       separator = @";\n   ";
    }
-   NSEndMapTableEnumeration( &rover);
 
    [s appendString:@"\n}"];
    return( s);

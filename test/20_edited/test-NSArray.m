@@ -295,10 +295,10 @@ static void   test_c_array_with_array_range_()
       unsigned int   n_1 = 3;
       NSRange params_2[] =
       {
-         NSMakeRange( 0, 0),
-         NSMakeRange( -1, 1),
-         NSMakeRange( 0, -1),
-         NSMakeRange( INT_MAX, INT_MAX)
+         NSRangeMake( 0, 0),
+         NSRangeMake( -1, 1),
+         NSRangeMake( 0, -1),
+         NSRangeMake( INT_MAX, INT_MAX)
       };
       unsigned int   i_2;
       unsigned int   n_2 = 4;
@@ -423,10 +423,10 @@ static void   test_i_contains_object_in_range_()
       unsigned int   n_1 = 5;
       NSRange params_2[] =
       {
-         NSMakeRange( 0, 0),
-         NSMakeRange( -1, 1),
-         NSMakeRange( 0, -1),
-         NSMakeRange( INT_MAX, INT_MAX)
+         NSRangeMake( 0, 0),
+         NSRangeMake( -1, 1),
+         NSRangeMake( 0, -1),
+         NSRangeMake( INT_MAX, INT_MAX)
       };
       unsigned int   i_2;
       unsigned int   n_2 = 4;
@@ -852,10 +852,10 @@ static void   test_i_init_with_array_range_()
       unsigned int   n_1 = 3;
       NSRange params_2[] =
       {
-         NSMakeRange( 0, 0),
-         NSMakeRange( -1, 1),
-         NSMakeRange( 0, -1),
-         NSMakeRange( INT_MAX, INT_MAX)
+         NSRangeMake( 0, 0),
+         NSRangeMake( -1, 1),
+         NSRangeMake( 0, -1),
+         NSRangeMake( INT_MAX, INT_MAX)
       };
       unsigned int   i_2;
       unsigned int   n_2 = 4;
@@ -899,10 +899,10 @@ static void   test_i_index_of_object_identical_to_in_range_()
       unsigned int   n_1 = 5;
       NSRange params_2[] =
       {
-         NSMakeRange( 0, 0),
-         NSMakeRange( -1, 1),
-         NSMakeRange( 0, -1),
-         NSMakeRange( INT_MAX, INT_MAX)
+         NSRangeMake( 0, 0),
+         NSRangeMake( -1, 1),
+         NSRangeMake( 0, -1),
+         NSRangeMake( INT_MAX, INT_MAX)
       };
       unsigned int   i_2;
       unsigned int   n_2 = 4;
@@ -1026,10 +1026,10 @@ static void   test_i_subarray_with_range_()
       NSArray *value;
       NSRange params_1[] =
       {
-         NSMakeRange( 0, 0),
-         NSMakeRange( -1, 1),
-         NSMakeRange( 0, -1),
-         NSMakeRange( INT_MAX, INT_MAX)
+         NSRangeMake( 0, 0),
+         NSRangeMake( -1, 1),
+         NSRangeMake( 0, -1),
+         NSRangeMake( INT_MAX, INT_MAX)
       };
       unsigned int   i_1;
       unsigned int   n_1 = 4;
@@ -1377,11 +1377,11 @@ static void   test_i_index_of_object_in_range_()
       unsigned int   n_1 = 5;
       NSRange params_2[] =
       {
-         NSMakeRange( 0, 0),
-         NSMakeRange( 1, 1),
-         NSMakeRange( -1, 1),
-         NSMakeRange( 0, -1),
-         NSMakeRange( INT_MAX, INT_MAX)
+         NSRangeMake( 0, 0),
+         NSRangeMake( 1, 1),
+         NSRangeMake( -1, 1),
+         NSRangeMake( 0, -1),
+         NSRangeMake( INT_MAX, INT_MAX)
       };
       unsigned int   i_2;
       unsigned int   n_2 = 4;

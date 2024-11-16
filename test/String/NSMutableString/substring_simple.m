@@ -18,10 +18,10 @@ int main(int argc, const char * argv[])
 
    s = [NSMutableString stringWithString:@"VfL Bochum 1848"];
 
-   other = [s substringWithRange:NSMakeRange( 0, 0)];
+   other = [s substringWithRange:NSRangeMake( 0, 0)];
    printf( "%s\n", [other UTF8String]);
 
-   other = [s substringWithRange:NSMakeRange( 4, 6)];
+   other = [s substringWithRange:NSRangeMake( 4, 6)];
    printf( "%s\n", [other UTF8String]);
 
    return( 0);

@@ -400,7 +400,7 @@ static NSString *
    struct mulle_data        data;
 
    allocator = MulleObjCClassGetAllocator( [NSString class]);
-   mulle_buffer_init_with_capacity( &buffer, 8192, allocator);
+   mulle_buffer_init( &buffer, 8192, allocator);
 
    bitmap = mulle_malloc( 8192);
    for( i = 0; i < 0x11; i++)

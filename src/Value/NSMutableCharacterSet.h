@@ -37,7 +37,7 @@
 #import "MulleObjCCharacterBitmap.h"
 
 
-@interface NSMutableCharacterSet : NSCharacterSet
+@interface NSMutableCharacterSet : NSCharacterSet < MulleObjCMutableValueProtocols>
 {
    struct MulleObjCCharacterBitmap   _bitmap;
    int                               _invert;
@@ -55,7 +55,7 @@
 @end
 
 
-@interface NSCharacterSet( MutableCopy)
+@interface NSCharacterSet( MutableCopy) < NSMutableCopying>
 
 - (id) mutableCopy;
 

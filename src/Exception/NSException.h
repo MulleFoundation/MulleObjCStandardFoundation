@@ -40,13 +40,11 @@
 @class NSDictionary;
 
 
-
-
-@interface NSException : NSObject < MulleObjCException, MulleObjCImmutable>
+@interface NSException : NSObject < MulleObjCException, MulleObjCImmutableProtocols>
 {
    NSString       *_name;
    NSString       *_reason;
-   NSDictionary   *_userInfo;
+   id             _userInfo;
 }
 
 + (NSException *) exceptionWithName:(NSString *) name

@@ -9,6 +9,6 @@
 // This is a private header
 // and private headers don't include or import
 
-@interface _MulleGMTTimeZone : NSTimeZone < MulleObjCSingleton>
+@interface _MulleGMTTimeZone : NSTimeZone < MulleObjCSingleton, MulleObjCValueProtocols>
 
 @end

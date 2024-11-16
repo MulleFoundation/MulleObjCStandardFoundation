@@ -98,7 +98,7 @@ static struct MulleObjCObjectContainerDescriptionInfo  info =
 }
 
 
-- (NSString *) mulleDebugContentsDescription
+- (NSString *) mulleDebugContentsDescription      MULLE_OBJC_THREADSAFE_METHOD
 {
    return( [self mulleDescriptionWithSelector:@selector( debugDescription)]);
 }

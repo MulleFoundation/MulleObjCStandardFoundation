@@ -43,7 +43,7 @@
 #import "import-private.h"
 
 
-NSArray   *NSAllHashTableObjects( NSHashTable *table)
+NSArray   *MulleObjCHashTableGetObjects( NSHashTable *table)
 {
    NSMutableArray      *array;
    NSHashEnumerator    rover;
@@ -61,7 +61,7 @@ NSArray   *NSAllHashTableObjects( NSHashTable *table)
 
 }
 
-NSString   *NSStringFromHashTable( NSHashTable *table)
+NSString   *MulleObjCHashTableGetDescription( NSHashTable *table)
 {
    char                     *description;
    NSHashEnumerator         rover;

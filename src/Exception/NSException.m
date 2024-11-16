@@ -78,7 +78,7 @@ static void   _throw_errno_exception( NSString *exceptionName,
 
 
 __attribute__ ((noreturn))
-static void   throw_errno_exception (id format,
+static void   throw_errno_exception( id format,
                                      va_list args)
 {
    _throw_errno_exception( MulleObjCErrnoException, format, args);
@@ -150,7 +150,7 @@ void  _MulleObjCExceptionInitTable( struct _mulle_objc_exceptionhandlertable *ta
 }
 
 
-// maybe too late here... the foundation intializer should do this
+// maybe too late here... the foundation initializer should do this
 + (void) initialize
 {
    struct _mulle_objc_exceptionhandlertable   *table;

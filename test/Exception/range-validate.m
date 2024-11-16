@@ -37,7 +37,7 @@ int   main( int argc, char *argv[])
    for( k = -2 ; k <= 2; k++)
       for( j = -2 ; j <= 2; j++)
          for( i = -2 ; i <= 2; i++)
-            test( NSMakeRange( i, j), k);
+            test( NSRangeMake( i, j), k);
 
    return( 0);
 }

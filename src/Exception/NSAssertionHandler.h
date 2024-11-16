@@ -43,7 +43,7 @@ MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 NSString  *NSAssertionHandlerKey;
 
 
-@interface NSAssertionHandler : NSObject
+@interface NSAssertionHandler : NSObject < MulleObjCImmutableProtocols>
 
 
 + (NSAssertionHandler *) currentHandler;
@@ -62,13 +62,13 @@ NSString  *NSAssertionHandlerKey;
 @end
 
 
-void   NSAssertionHandlerHandleMethodFailure( SEL sel,
+void   MulleObjCAssertionHandlerFailInMethod( SEL sel,
                                               id obj,
                                               char *filename,
                                               int line,
                                               NSString *format, ...);
 
-void   NSAssertionHandlerHandleFunctionFailure( char *function,
+void   MulleObjCAssertionHandlerFailInFunction( char *function,
                                                 char *file,
                                                 int line,
                                                 NSString *format, ...);
@@ -78,37 +78,41 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
 
 #ifndef NS_BLOCK_ASSERTIONS
 
-#define MulleObjCAssert( a, b, p1, p2, p3, p4, p5)    \
-   do                                           \
-   {                                            \
-      if( ! (a))                                \
-         NSAssertionHandlerHandleMethodFailure( _cmd, self, __FILE__, __LINE__,     \
-                                                (b), (p1), (p2), (p3), (p4), (p5)); \
+#define MulleObjCAssert( a, b, p1, p2, p3, p4, p5)                                    \
+   do                                                                                 \
+   {                                                                                  \
+      if( ! (a))                                                                      \
+         MulleObjCAssertionHandlerFailInMethod( _cmd, self, __FILE__, __LINE__,       \
+                                                (b), (p1), (p2), (p3), (p4), (p5));   \
+   } while( 0)
+ 
+#define MulleObjCAssertV( a, ...)                                                     \
+   do                                                                                 \
+   {                                                                                  \
+      if( ! (a))                                                                      \
+         MulleObjCAssertionHandlerFailInMethod( _cmd, self, __FILE__, __LINE__,       \
+                                                __VA_ARGS__);                         \
    } while( 0)
 
-#define MulleObjCAssertV( a, ...)              \
-   do                                           \
-   {                                            \
-      if( ! (a))                                \
-         NSAssertionHandlerHandleMethodFailure( _cmd, self, __FILE__, __LINE__,     \
-                                                __VA_ARGS__); \
+
+#define MulleObjCCAssert( a, b, p1, p2, p3, p4, p5)                                   \
+   do                                                                                 \
+   {                                                                                  \
+      if( ! (a))                                                                      \
+         MulleObjCAssertionHandlerFailInFunction( (char *) __PRETTY_FUNCTION__,       \
+                                                  __FILE__,                           \
+                                                  __LINE__,                           \
+                                                  (b), (p1), (p2), (p3), (p4), (p5)); \
    } while( 0)
 
-
-#define MulleObjCCAssert( a, b, p1, p2, p3, p4, p5)   \
-   do                                           \
-   {                                            \
-      if( ! (a))                                \
-         NSAssertionHandlerHandleFunctionFailure( (char *) __PRETTY_FUNCTION__, __FILE__, __LINE__, \
-                                                   (b), (p1), (p2), (p3), (p4), (p5));     \
-   } while( 0)
-
-#define MulleObjCCAssertV( a, ...)              \
-   do                                           \
-   {                                            \
-      if( ! (a))                                \
-         NSAssertionHandlerHandleFunctionFailure( (char *) __PRETTY_FUNCTION__, __FILE__, __LINE__, \
-                                                   __VA_ARGS__);     \
+#define MulleObjCCAssertV( a, ...)                                                    \
+   do                                                                                 \
+   {                                                                                  \
+      if( ! (a))                                                                      \
+         MulleObjCAssertionHandlerFailInFunction( (char *) __PRETTY_FUNCTION__,       \
+                                                  __FILE__,                           \
+                                                  __LINE__,                           \
+                                                  __VA_ARGS__);                       \
    } while( 0)
 
 
@@ -120,13 +124,6 @@ void   NSAssertionHandlerHandleFunctionFailure( char *function,
 #define MulleObjCCAssertV( a, ...)
 
 #endif
-
-
-#define PROTOCOLCLASS_INTERFACE( name, ...)  \
-_Pragma("clang diagnostic push")             \
-@class name;                                 \
-@protocol name < NSObject, __VA_ARGS__ >     \
-@optional
 
 
 #define NSAssert( a, ...)                       MulleObjCAssertV( a, __VA_ARGS__)

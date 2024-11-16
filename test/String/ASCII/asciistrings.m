@@ -52,7 +52,7 @@ int main( int argc, const char * argv[])
          check( s, buf, i);
          if( i >= 2)
          {
-            s = [s substringWithRange:NSMakeRange( 1, i - 2)];
+            s = [s substringWithRange:NSRangeMake( 1, i - 2)];
             check( s, &buf[ 1], i - 2);
          }
       }

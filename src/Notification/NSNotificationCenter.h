@@ -44,7 +44,7 @@
 @class NSString;
 
 
-@interface NSNotificationCenter : NSObject < MulleObjCSingleton>
+@interface NSNotificationCenter : NSObject < MulleObjCSingleton, MulleObjCThreadSafe>
 {
    mulle_thread_mutex_t     _lock;
    struct mulle_map         _pairRegistry;

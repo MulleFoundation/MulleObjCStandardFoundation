@@ -28,5 +28,6 @@ int   main( void)
       return( 1);
    if( ! [[notification userInfo] isEqual:userInfo])
       return( 1);
+
    return( 0);
 }

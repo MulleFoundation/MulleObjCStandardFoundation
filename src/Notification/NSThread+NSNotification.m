@@ -21,24 +21,43 @@ NSString  *NSThreadWillExitNotification          = @"NSThreadWillExitNotificatio
 
 @implementation NSThread( NSNotification)
 
+static struct
+{
+   BOOL  _notificationsEnabled;
+} Self;
+
+
+//
+// Enable notifications to be turned off, because I am not to keen on
+// NSNotifications anymore
+//
++ (void) load
+{
+   Self._notificationsEnabled = mulle_objc_environment_get_yes_no_default( "NSTHREAD_NOTIFICATIONS", YES);
+}
+
+
 - (void) _isGoingMultiThreaded
 {
-   [[NSNotificationCenter defaultCenter] postNotificationName:NSWillBecomeMultiThreadedNotification
-    object:nil];
+   if( Self._notificationsEnabled)
+      [[NSNotificationCenter defaultCenter] postNotificationName:NSWillBecomeMultiThreadedNotification
+       object:nil];
 }
 
 
 - (void) _isProbablyGoingSingleThreaded
 {
-   [[NSNotificationCenter defaultCenter] postNotificationName:NSDidBecomeSingleThreadedNotification
-    object:nil];
+   if( Self._notificationsEnabled)
+      [[NSNotificationCenter defaultCenter] postNotificationName:NSDidBecomeSingleThreadedNotification
+       object:nil];
 }
 
 
 - (void) _threadWillExit
 {
-   [[NSNotificationCenter defaultCenter] postNotificationName:NSThreadWillExitNotification
-                                                       object:self];
+   if( Self._notificationsEnabled)
+      [[NSNotificationCenter defaultCenter] postNotificationName:NSThreadWillExitNotification
+                                                          object:self];
 }
 
 @end

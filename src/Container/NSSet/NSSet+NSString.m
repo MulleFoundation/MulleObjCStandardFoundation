@@ -67,7 +67,7 @@ static struct MulleObjCObjectContainerDescriptionInfo  info =
 
 - (NSString *) mulleDescriptionWithSelector:(SEL) sel
 {
-   NSArray   *array;
+   id <NSArray>   array;
 
    //
    // the problem for NSSet is that the order is random, meaning that
@@ -75,7 +75,8 @@ static struct MulleObjCObjectContainerDescriptionInfo  info =
    // so we actually try to sort it
    //
    array = [self allObjects];
-   array = [array sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
+   assert( [array isKindOfClass:[NSArray class]]);
+   array = [(NSArray *) array sortedArrayUsingSelector:@selector( mulleCompareDescription:)];
    return( MulleObjCObjectContainerDescriptionWithSelector( array, sel, &info));
 }
 
@@ -86,7 +87,7 @@ static struct MulleObjCObjectContainerDescriptionInfo  info =
 }
 
 
-- (NSString *) mulleDebugContentsDescription
+- (NSString *) mulleDebugContentsDescription      MULLE_OBJC_THREADSAFE_METHOD
 {
    return( [self mulleDescriptionWithSelector:@selector( debugDescription)]);
 }

@@ -260,10 +260,10 @@ static int   test_i_init_with_array_range_( void)
    unsigned int   n_1 = 3;
    NSRange params_2[] =
    {
-      NSMakeRange( 0, 0),
-      NSMakeRange( -1, 1),
-      NSMakeRange( 0, -1),
-      NSMakeRange( INT_MAX, INT_MAX)
+      NSRangeMake( 0, 0),
+      NSRangeMake( -1, 1),
+      NSRangeMake( 0, -1),
+      NSRangeMake( INT_MAX, INT_MAX)
    };
    unsigned int   i_2;
    unsigned int   n_2 = 4;

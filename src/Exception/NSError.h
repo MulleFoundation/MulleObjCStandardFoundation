@@ -68,7 +68,7 @@ MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL NSString   *NSErrorDomainKey;
 //
 // domain is just a way to categorize error numbers
 //
-@interface NSError : NSObject < NSCopying, MulleObjCImmutable>
+@interface NSError : NSObject < MulleObjCImmutableProtocols>
 
 @property( readonly, copy)   NSString       *domain;
 @property( readonly)         NSInteger      code;
@@ -90,7 +90,7 @@ MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL NSString   *NSErrorDomainKey;
 - (NSString *) localizedFailureReason;
 - (NSString *) localizedRecoverySuggestion;
 - (NSString *) localizedRecoveryOptions;
-- (id) recoveryAttempter;
+- (id) recoveryAttempter;  // this can return something threadUnsafe, therefore NSError is not a value
 - (NSString *) helpAnchor;
 
 
