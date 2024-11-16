@@ -53,10 +53,10 @@ void  test( NSData *data, NSData *search)
 {
    printf( "\n%.*s\n", (int) [search length], (char *) [search bytes]);
 
-   test_4( data, search, NSMakeRange( 0, [data length]));
-   test_4( data, search, NSMakeRange( 1, [data length] - 1));
-   test_4( data, search, NSMakeRange( 0, [data length] - 1));
-   test_4( data, search, NSMakeRange( 1, [data length] - 2));
+   test_4( data, search, NSRangeMake( 0, [data length]));
+   test_4( data, search, NSRangeMake( 1, [data length] - 1));
+   test_4( data, search, NSRangeMake( 0, [data length] - 1));
+   test_4( data, search, NSRangeMake( 1, [data length] - 2));
 }
 
 
@@ -84,7 +84,7 @@ int main( int argc, const char * argv[])
    norbertData     = [NSData dataWithBytes:norbert
                                     length:sizeof( norbert) - 1];
 
-//   test_data( textData, beschriebenData, NSDataSearchBackwards, NSMakeRange( 0, [textData length]));
+//   test_data( textData, beschriebenData, NSDataSearchBackwards, NSRangeMake( 0, [textData length]));
 
    test( textData, kybernetikData);
    test( textData, dieData);

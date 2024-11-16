@@ -65,7 +65,7 @@
    NSRange   range;
    NSRange   originalRange;
 
-   originalRange = NSMakeRange( 0, [self length]);
+   originalRange = NSRangeMake( 0, [self length]);
 
    startRange = [self mulleRangeOfCharactersFromSet:set
                                             options:0

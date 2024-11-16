@@ -40,7 +40,10 @@
 
 + (NSString *) mulleStringWithUTF8Characters:(char *) bytes
                                    cRangeSet:(struct mulle__rangeset *) ranges;
-- (NSArray *) mulleComponentsSeparatedByWhitespaceWithDoubleQuoting;
 - (NSString *) mulleDoubleQuoteEscapedString;
+
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithDoubleQuoting;
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithSingleQuoting;
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithSingleAndDoubleQuoting;
 
 @end

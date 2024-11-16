@@ -40,17 +40,21 @@
 @class NSDictionary;
 
 
-@interface NSNotification : NSObject < MulleObjCImmutable>
+@interface NSNotification : NSObject < MulleObjCImmutableProtocols>
 
-@property( copy)   NSString      *name;
-@property( retain) id            object;
-@property( retain) id            userInfo; /* -userInfo is untyped  */
+@property( readonly, copy)   NSString        *name;
+@property( readonly, retain) id              object;
+@property( readonly, copy)   id <NSCopying, MulleObjCRuntimeObject>  userInfo;
+
+/* -userInfo is untyped  why, I think I didn't like the need for a wrapping
+ * dictionary
+ */
 
 + (instancetype) notificationWithName:(NSString *) aName
                                object:(id) anObject;
 
 + (instancetype) notificationWithName:(NSString *) aName
                                object:(id) anObject
-                             userInfo:(NSDictionary *) userInfo;
+                             userInfo:(id <NSCopying, MulleObjCRuntimeObject>) userInfo;
 
 @end

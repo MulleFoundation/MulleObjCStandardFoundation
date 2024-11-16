@@ -511,7 +511,7 @@ static struct
 
 
 #ifdef DEBUG
-// for debugging only, not locking
+// for debugging only, its not locking
 - (void) dump
 {
    struct mulle_allocator    *allocator;
@@ -803,10 +803,10 @@ static void   removePairFromQueues( NSNotificationCenter *self,
 // That way a later observer can override a previous observer and we don't
 // necessarily need to execute both code.
 //
-BOOL   NSNotificationCenterObserverStillPresentInQueue( NSNotificationCenter *self,
-                                                        struct mulle_map *map,
-                                                        void *key,
-                                                        id observer)
+BOOL   MulleObjCNotificationCenterObserverStillPresentInQueue( NSNotificationCenter *self,
+                                                               struct mulle_map *map,
+                                                               void *key,
+                                                               id observer)
 {
    struct mulle__pointerqueueenumerator   rover;
    struct mulle__pointerqueue             *queue;
@@ -845,60 +845,53 @@ static void
                                               void *key,
                                               NSNotification *notification)
 {
-   struct mulle__pointerqueueenumerator   rover;
-   observer_sel_imp_triplet               *p;
-   observer_sel_imp_triplet               *sentinel;
-   struct mulle__pointerqueue             *queue;
-   NSUInteger                             i, n;
-   intptr_t                               generationCount;
-   mulle_flexarray( buf, observer_sel_imp_triplet, 32);
+   observer_sel_imp_triplet     *p;
+   observer_sel_imp_triplet     *sentinel;
+   struct mulle__pointerqueue   *queue;
+   NSUInteger                   i, n;
+   intptr_t                     generationCount;
 
-   buf = 0;
-   mulle_thread_mutex_lock( &self->_lock);
+   mulle_alloca_do( buf, observer_sel_imp_triplet, 32)
    {
-      generationCount = (intptr_t) _mulle_atomic_pointer_read( &self->_generationCount);
-
-      n     = 0;
-      queue = mulle_map_get( map, key);
-      if( queue)
+      mulle_thread_mutex_do( self->_lock)
       {
-         //
-         // need to copy, to allow modifications
-         //
-         n = _mulle__pointerqueue_get_count( queue);
+         generationCount = (intptr_t) _mulle_atomic_pointer_read( &self->_generationCount);
+
+         n     = 0;
+         queue = mulle_map_get( map, key);
+         if( queue)
          {
-            mulle_flexarray_alloc( buf, n);
+            //
+            // need to copy, to allow modifications
+            //
+            n = _mulle__pointerqueue_get_count( queue);
+            mulle_alloca_do_realloc( buf, n);
 
             i = 0;
-            rover = mulle__pointerqueue_enumerate( queue);
-            while( _mulle__pointerqueueenumerator_next( &rover, (void **) &p))
+            mulle__pointerqueue_for( queue, p)
             {
                buf[ i] = *p;
                [[buf[ i].observer retain] autorelease];  // observer pointer remains stable
                ++i;
             }
-            mulle__pointerqueueenumerator_done( &rover);
 
             assert( i = n);
          }
       }
-   }
-   mulle_thread_mutex_unlock( &self->_lock);
 
-   //
-   // Call in reverse order for MulleEOF and other overriding benefit
-   //
-   sentinel = buf;         // if n is 0 , buf can be garbage
-   p        = &buf[ n];
-   while( p > sentinel)
-   {
-      --p;
-      if( generationCount == (intptr_t) _mulle_atomic_pointer_read( &self->_generationCount) ||
-          NSNotificationCenterObserverStillPresentInQueue( self, map, key, p->observer))
-         (*p->imp)( p->observer, p->sel, notification);
+      //
+      // Call in reverse order for MulleEOF and other overriding benefit
+      //
+      sentinel = buf;         // if n is 0 , buf can be garbage
+      p        = &buf[ n];
+      while( p > sentinel)
+      {
+         --p;
+         if( generationCount == (intptr_t) _mulle_atomic_pointer_read( &self->_generationCount) ||
+             MulleObjCNotificationCenterObserverStillPresentInQueue( self, map, key, p->observer))
+            (*p->imp)( p->observer, p->sel, notification);
+      }
    }
-
-   mulle_flexarray_done( buf);
 }
 
 

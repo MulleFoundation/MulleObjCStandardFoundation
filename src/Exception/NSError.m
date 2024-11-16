@@ -104,10 +104,13 @@ static struct
 
 + (void) deinitialize
 {
+   NSMapTable   *table;
+
    @autoreleasepool
    {
-      NSFreeMapTable( Self._domains);
+      table = Self._domains;
       Self._domains = NULL;
+      NSFreeMapTable( table);
    }
 }
 

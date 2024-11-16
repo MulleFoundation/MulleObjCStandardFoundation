@@ -36,7 +36,32 @@
 #import "import.h"
 
 
-NSArray   *NSAllMapTableKeys( NSMapTable *table);
-NSArray   *NSAllMapTableValues( NSMapTable *table);
 
-NSString   *NSStringFromMapTable( NSMapTable *table);
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
+NSArray   *MulleObjCMapTableGetKeys( NSMapTable *table);
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
+NSArray   *MulleObjCMapTableGetValues( NSMapTable *table);
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
+NSString   *MulleObjCMapTableGetDescription( NSMapTable *table);
+
+
+static inline NSArray   *NSAllMapTableKeys( NSMapTable *table)
+{
+   return( MulleObjCMapTableGetKeys( table));
+}
+
+
+static inline NSArray   *NSAllMapTableValues( NSMapTable *table)
+{
+   return( MulleObjCMapTableGetValues( table));
+}
+
+
+static inline NSString   *NSStringFromMapTable( NSMapTable *table)
+{
+   return( MulleObjCMapTableGetDescription( table));
+}
+
+

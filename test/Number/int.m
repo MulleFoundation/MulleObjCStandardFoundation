@@ -7,11 +7,22 @@
 #include <stdio.h>
 
 
-static int   fail( char *title, NSNumber *a, NSNumber *b, int index)
+static int   fail( char *title, SEL sel, NSNumber *a, NSNumber *b, int index)
 {
-   printf( "%d: %s Number FAIL %lld vs. %lld",
-         index, title,
-         [a longLongValue], [b longLongValue]);
+   mulle_printf( "%*d %- 19s: -[<%s %@> %s <%s %@>] FAIL (%lld vs. %lld / %Lg vs. %Lg)",
+         2,
+         index,
+         title,
+         MulleObjCInstanceGetClassNameUTF8String( a),
+         a,
+         MulleObjCSelectorUTF8String( sel),
+         MulleObjCInstanceGetClassNameUTF8String( b),
+         b,
+         [a longLongValue],
+         [b longLongValue],
+         [a longDoubleValue],
+         [b longDoubleValue]);
+
 #ifdef PRINT_ENCODE
    printf( " (%s vs. %s)", [a objCType], [b objCType]);
 #endif
@@ -26,11 +37,11 @@ static int   check( char *title, NSNumber *a, NSNumber *b, int *index)
 
    fails = 0;
    if( ! [a isEqualToNumber:b])
-      fails += fail( title, a, b, *index);
+      fails += fail( title, @selector( isEqualToNumber:), a, b, *index);
    ++*index;
 
    if( ! [a isEqual:b])
-      fails += fail( title, a, b, *index);
+      fails += fail( title, @selector( isEqual:), a, b, *index);
    ++*index;
 
    return( fails);
@@ -44,6 +55,7 @@ static void   test( int value)
    int       fails;
 
    nr = [NSNumber numberWithInt:value];
+
    fails  = 0;
    fails += check( "char",               nr, [NSNumber numberWithChar:value], &index);
    fails += check( "unsigned char",      nr, [NSNumber numberWithUnsignedChar:value], &index);
@@ -63,7 +75,8 @@ static void   test( int value)
    fails += check( "long double",        nr, [NSNumber numberWithLongDouble:value], &index);
 #endif
    if( fails == 0)
-      printf( "%d PASSED\n", value);
+      printf( "%d PASSED", value);
+   printf( "\n");
 }
 
 

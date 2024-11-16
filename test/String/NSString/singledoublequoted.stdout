@@ -1,0 +1,18 @@
+"mulle-sourcetree walk --in-order --dedupe-mode url-filename --eval-node --no-bequeath --marks dependency,share-shirk 'printf \"%s;%s;%s\\n\" \"${NODE_ADDRESS}\" \"${NODE_EVALED_BRANCH}\" \"${NODE_EVALED_URL}\"'":
+   #0: "mulle-sourcetree"
+   #1: "walk"
+   #2: "--in-order"
+   #3: "--dedupe-mode"
+   #4: "url-filename"
+   #5: "--eval-node"
+   #6: "--no-bequeath"
+   #7: "--marks"
+   #8: "dependency,share-shirk"
+   #9: "printf \"%s;%s;%s\\n\" \"${NODE_ADDRESS}\" \"${NODE_EVALED_BRANCH}\" \"${NODE_EVALED_URL}\""
+
+"'VfL \"Bochum\" 1848'":
+   #0: "VfL \"Bochum\" 1848"
+
+"\"VfL 'Bochum' 1848\"":
+   #0: "VfL 'Bochum' 1848"
+

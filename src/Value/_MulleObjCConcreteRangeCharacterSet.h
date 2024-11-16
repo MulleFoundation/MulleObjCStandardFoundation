@@ -37,7 +37,7 @@
 #import "NSCharacterSet.h"
 
 
-@interface _MulleObjCConcreteRangeCharacterSet : NSCharacterSet 
+@interface _MulleObjCConcreteRangeCharacterSet : NSCharacterSet < MulleObjCValueProtocols>
 {
    NSRange   _range;
    int       _invert;

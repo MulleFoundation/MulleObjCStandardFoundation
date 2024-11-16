@@ -39,7 +39,7 @@
 // #import "_MulleObjCASCIIString.h"
 
 
-@interface _MulleObjCCheatingASCIICharacterSet : NSCharacterSet
+@interface _MulleObjCCheatingASCIICharacterSet : NSCharacterSet <MulleObjCValueProtocols>
 {
 @public
    uint64_t   _bits[ 4]; // cheating actually does 256 bits (more like _MulleObjCCheatingByteCharacterSet)

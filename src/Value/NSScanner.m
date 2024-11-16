@@ -101,7 +101,7 @@
 
 - (NSString *) mulleUnscannedString
 {
-   return( [_string substringWithRange:NSMakeRange( _location, _length - _location)]);
+   return( [_string substringWithRange:NSRangeMake( _location, _length - _location)]);
 }
 
 

@@ -18,28 +18,28 @@ int   main(int argc, const char * argv[])
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
-                           range:NSMakeRange( 0, [s length])];
+                           range:NSRangeMake( 0, [s length])];
    printf( "%s\n", [s UTF8String]);
 
    s = [NSMutableString stringWithString:@"\\n"];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
-                           range:NSMakeRange( 0, [s length])];
+                           range:NSRangeMake( 0, [s length])];
    printf( "%s\n", [s UTF8String]);
 
    s = [NSMutableString stringWithString:@"\\\n"];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
-                           range:NSMakeRange( 0, [s length])];
+                           range:NSRangeMake( 0, [s length])];
    printf( "%s\n", [s UTF8String]);
 
    s = [NSMutableString string];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
-                           range:NSMakeRange( 0, [s length])];
+                           range:NSRangeMake( 0, [s length])];
    printf( "%s\n", [s UTF8String]);
 
    return( 0);

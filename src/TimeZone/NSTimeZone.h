@@ -47,11 +47,11 @@
 // all methods defined in NSTimeZone+_Abstract
 // and all methods declared in NSTimeZone+_Abstract_NSDate
 //
-@interface NSTimeZone : NSObject <NSCopying, MulleObjCImmutable>
+@interface NSTimeZone : NSObject < MulleObjCInvariant, MulleObjCImmutableProtocols>
 {
    NSString   *_name;
    NSData     *_data;
-   NSInteger   _secondsFromGMT;  // if NSIntegerMax unset
+   NSInteger  _secondsFromGMT;  // if NSIntegerMax unset
 }
 
 // Primary creation method is +timeZoneWithName:; the

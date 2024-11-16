@@ -37,7 +37,7 @@
 //
 // A NSCalendarDate in this Foundation _always_ has a timeZone.
 //
-@interface NSCalendarDate : NSDate < NSDateFactory, MulleObjCClassCluster, MulleObjCImmutable>
+@interface NSCalendarDate : NSDate < NSDateFactory, MulleObjCClassCluster, MulleObjCValueProtocols>
 
 + (instancetype) calendarDate;
 

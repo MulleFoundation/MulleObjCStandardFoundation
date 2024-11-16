@@ -2,6 +2,7 @@
 # import <Foundation/Foundation.h>
 #else
 # import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
+# import <MulleObjCValueFoundation/_MulleObjCValueTaggedPointer.h>
 # import <MulleObjCValueFoundation/_MulleObjCTaggedPointerIntegerNumber.h>
 # import <MulleObjCValueFoundation/NSString+Substring-Private.h>
 #endif

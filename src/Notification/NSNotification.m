@@ -45,15 +45,25 @@
 static void   init( NSNotification *self,
                     NSString *name,
                     id obj,
-                    NSDictionary *userInfo)
+                    id userInfo)
 {
    self->_name     = [name copy];
    self->_object   = [obj retain];
-   self->_userInfo = [userInfo retain];
+   self->_userInfo = [userInfo copy];
 }
 
+// It used to be that you don't need dealloc, because they are all properties
+// but now that read only properties aren't cleared, we have to do this.
+// NOTE: need to clarify the stance on readonly properties somewhere
 
-// don't need dealloc, because they are all properties
+- (void) dealloc
+{
+   [_name release];
+   [_object release];
+   [_userInfo release];
+
+   [super dealloc];
+}
 
 
 + (instancetype) notificationWithName:(NSString *) name
@@ -72,7 +82,7 @@ static void   init( NSNotification *self,
 
 + (instancetype) notificationWithName:(NSString *) name
                                object:(id) obj
-                             userInfo:(NSDictionary *) userInfo
+                             userInfo:(id <NSCopying, MulleObjCRuntimeObject>) userInfo
 {
    NSNotification   *notification;
 
@@ -86,9 +96,10 @@ static void   init( NSNotification *self,
 }
 
 
-- (NSString *) mulleDebugContentsDescription
+- (NSString *) mulleDebugContentsDescription      MULLE_OBJC_THREADSAFE_METHOD
 {
    return( [NSString stringWithFormat:@"name=%@ object=%@ userInfo=%@", _name, _object, _userInfo]);
 }
+
 
 @end

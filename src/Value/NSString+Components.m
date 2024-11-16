@@ -40,6 +40,7 @@
 #import "NSString+Search.h"
 #import "NSArray+StringComponents.h"
 
+#import <MulleObjCValueFoundation/_MulleObjCValueTaggedPointer.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar7String.h>
 #import <MulleObjCValueFoundation/_MulleObjCTaggedPointerChar5String.h>
 #import <MulleObjCValueFoundation/_MulleObjCASCIIString.h>
@@ -197,11 +198,11 @@ static NSUInteger
    }
    else
    {
-      mulle_flexarray_do( characters, unichar, 16, sepData.length)
+      mulle_alloca_do( characters, unichar, sepData.length)
       {
          sepData.characters = characters;
          [separator getCharacters:sepData.characters
-                            range:NSMakeRange( 0, sepData.length)];
+                            range:NSRangeMake( 0, sepData.length)];
 
          rval =_mulleDataSeparateComponentsByUTF32Data( data,
                                                         nextCharacter,
@@ -752,9 +753,9 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *se
       return( self);
 
    buffer = nil; // can't happen
-   mulle_flexarray_do( tmpComponents, id, 16, n)
+   mulle_alloca_do( tmpComponents, id, n)
    {
-      mulle_flexarray_do( tmpTypes, char, 16, n)
+      mulle_alloca_do( tmpTypes, char, n)
       {
          j = 0;
          i = -1;
@@ -884,7 +885,7 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *se
    if( otherHasSuffix)
    {
       --other_len;
-      other = [other substringWithRange:NSMakeRange( 0, other_len)];
+      other = [other substringWithRange:NSRangeMake( 0, other_len)];
    }
 
    hasSuffix = [self hasSuffix:separator];
@@ -906,7 +907,7 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *se
       if( hasSuffix) // case 1 1
       {
          if( other_len == 1)
-            return( [self substringWithRange:NSMakeRange( 0, len - 1)]);
+            return( [self substringWithRange:NSRangeMake( 0, len - 1)]);
          other = [other substringFromIndex:1];
       }
       else          // case 0 0

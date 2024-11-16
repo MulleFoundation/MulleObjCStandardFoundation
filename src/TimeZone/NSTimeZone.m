@@ -126,16 +126,19 @@ static inline void   SelfUnlock( void)
 
 + (void) deinitialize
 {
-   @autoreleasepool
+   NSMapTable   *table;
+
+   table = Self._table;
+   if( table)
    {
-      // table will release values, reap them ASAP
-      NSFreeMapTable( Self._table);
+      @autoreleasepool
+      {
+         // table will release values, reap them ASAP
+         Self._table = NULL;
+         NSFreeMapTable( table);
+      }
+      mulle_thread_mutex_done( &Self._lock);
    }
-   Self._table = NULL;
-   mulle_thread_mutex_done( &Self._lock);
-#ifdef DEBUG
-   memset( &Self, 0xEE, sizeof( Self));
-#endif
 }
 
 

@@ -17,13 +17,13 @@ int   main( void)
 {
    NSValue   *value;
 
-   value = [NSValue valueWithRange:NSMakeRange( INTPTR_MAX, INTPTR_MIN)];
-   print_bool( NSEqualRanges( [value rangeValue], NSMakeRange( INTPTR_MAX, INTPTR_MIN)));
+   value = [NSValue valueWithRange:NSRangeMake( INTPTR_MAX, INTPTR_MIN)];
+   print_bool( NSEqualRanges( [value rangeValue], NSRangeMake( INTPTR_MAX, INTPTR_MIN)));
 
-   value = [NSValue valueWithRange:NSMakeRange( 0, INTPTR_MIN)];
-   print_bool( NSEqualRanges( [value rangeValue], NSMakeRange( 0, INTPTR_MIN)));
+   value = [NSValue valueWithRange:NSRangeMake( 0, INTPTR_MIN)];
+   print_bool( NSEqualRanges( [value rangeValue], NSRangeMake( 0, INTPTR_MIN)));
 
 
-   value = [NSValue valueWithRange:NSMakeRange( 1848, -1848)];
-   print_bool( NSEqualRanges( [value rangeValue], NSMakeRange( 1848, -1848)));
+   value = [NSValue valueWithRange:NSRangeMake( 1848, -1848)];
+   print_bool( NSEqualRanges( [value rangeValue], NSRangeMake( 1848, -1848)));
 }

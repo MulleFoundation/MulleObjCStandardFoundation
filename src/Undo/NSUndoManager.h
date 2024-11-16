@@ -31,7 +31,7 @@ enum _NSUndoManagerState
 };
 
 // INCOMPLETE!!
-@interface NSUndoManager : NSObject
+@interface NSUndoManager : NSObject <MulleObjCThreadUnsafe>
 {
    NSMutableArray             *_undoStack;
    NSMutableArray             *_redoStack;

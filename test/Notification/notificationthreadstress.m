@@ -25,7 +25,7 @@ extern void  sleep( int);
 #endif
 
 
-@interface Foo : NSObject
+@interface Foo : NSObject <MulleObjCThreadSafe>
 @end
 
 
@@ -125,7 +125,7 @@ int  main( int argc, char  *argv[])
    {
       [NSThread detachNewThreadSelector:@selector( testWithObjects:)
                                toTarget:[Foo class]
-                             withObject:objects];
+                             withObject:[[objects copy] autorelease]];
    }
 
    fprintf( stderr, "WAITING\n");

@@ -42,7 +42,7 @@
 @class NSData;
 
 
-@interface _MulleObjCConcreteBitmapCharacterSet : NSCharacterSet < MulleObjCImmutable>
+@interface _MulleObjCConcreteBitmapCharacterSet : NSCharacterSet < MulleObjCValueProtocols >
 {
    struct MulleObjCCharacterBitmap   _bitmap;
 }
