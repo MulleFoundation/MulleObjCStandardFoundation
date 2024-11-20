@@ -1,3 +1,25 @@
+## 0.22.0
+
+
+feat: improve thread safety and API modernization
+
+* Enhance thread safety support
+  - Add `MULLE_OBJC_THREADSAFE_METHOD` attribute to description methods
+  - Improve mutex handling in NSDateFormatter deinitialize
+  - Use thread-safe NSMapTableFor iteration
+
+* Modernize container APIs
+  - Rename NSMapTable functions with MulleObjC prefix
+  - Add inline compatibility functions for legacy API names
+  - Update NSHashTable APIs to follow same pattern
+  - Fix array type safety in NSSet description
+
+* Improve protocol conformance
+  - Update NSSortDescriptor to use MulleObjCImmutableProtocols
+  - Change NSCalendarDate to use MulleObjCValueProtocols
+  - Add MulleObjCImmutableProtocols to NSAssertionHandler
+
+
 ## 0.21.0
 
 * transition from `mulle_utf8_t` to char
