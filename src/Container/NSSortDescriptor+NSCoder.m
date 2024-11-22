@@ -16,7 +16,7 @@
 
 
 /**/
-- (instancetype) initWithCoder:(id <NSCoding>) coder
+- (instancetype) initWithCoder:(NSCoder *) coder
 {
    NSString   *s;
 
@@ -33,7 +33,7 @@
 }
 
 
-- (void) encodeWithCoder:(id <NSCoding>) coder
+- (void) encodeWithCoder:(NSCoder *) coder
 {
    NSString   *s;
 
