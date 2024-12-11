@@ -25,11 +25,12 @@ int   main(int argc, const char * argv[])
 
    // simple basic test for classcluster +new and leakage
    key   = [NSString stringWithUTF8String:"bar is quite long"];
-   value = [NSString stringWithUTF8String:"foo is quite long"];
+   value = [NSMutableString stringWithUTF8String:"foo is quite long"];
 
    set = [NSMutableSet new];
    [set addObject:key];
    [set addObject:key];
+   [set addObject:value];
    [set release];
 
    return( 0);

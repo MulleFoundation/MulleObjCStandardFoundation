@@ -1,3 +1,7 @@
+### 0.22.1
+
+* use new MulleObjC Instance functions instead of Object functions where possible
+
 ## 0.22.0
 
 

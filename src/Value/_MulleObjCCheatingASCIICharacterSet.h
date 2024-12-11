@@ -79,8 +79,8 @@ static inline id
 
    p = _MulleObjCCheatingASCIICharacterSetStorageGetObject( storage);
 
-   MulleObjCObjectConstantify( p);
-   MulleObjCObjectSetClass( p, [_MulleObjCCheatingASCIICharacterSet class]);
+   MulleObjCInstanceSetClass( p, [_MulleObjCCheatingASCIICharacterSet class]);
+   MulleObjCInstanceConstantify( p);
 
    p->_bits[ 0] = 0;
    p->_bits[ 1] = 0;

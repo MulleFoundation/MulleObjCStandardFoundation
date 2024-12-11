@@ -12,7 +12,7 @@ MulleObjCOSFoundation.
 
 | Release Version                                       | Release Notes
 |-------------------------------------------------------|--------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release) [![Build Status](https://github.com/MulleFoundation/MulleObjCStandardFoundation/workflows/CI/badge.svg?branch=release)](//github.com/MulleFoundation/MulleObjCStandardFoundation/actions) | [RELEASENOTES](RELEASENOTES.md) |
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCStandardFoundation.svg) [![Build Status](https://github.com/MulleFoundation/MulleObjCStandardFoundation/workflows/CI/badge.svg)](//github.com/MulleFoundation/MulleObjCStandardFoundation/actions) | [RELEASENOTES](RELEASENOTES.md) |
 
 
 ## API
