@@ -15,7 +15,7 @@ int   main(int argc, const char * argv[])
    NSMutableSet   *set;
    NSString       *key2;
    NSString       *key1;
-   NSString       *prev;
+   NSString       *registered;
 
 #ifdef __MULLE_OBJC__
    // check that no classes are "stuck"
@@ -28,12 +28,10 @@ int   main(int argc, const char * argv[])
    key2 = [NSMutableString stringWithUTF8String:"bar is quite long"];
 
    set  = [NSMutableSet new];
-   prev = [set mulleRegisterObject:key2];
-   if( prev != key2)
-      return( 1);
-   prev = [set mulleRegisterObject:key1];
-   if( prev != key2)
-      return( 2);
+   registered = [set mulleRegisterObject:key2];
+   assert( registered == key2);
+   registered = [set mulleRegisterObject:key1];
+   assert( registered == key2);
 
    [set release];
 
