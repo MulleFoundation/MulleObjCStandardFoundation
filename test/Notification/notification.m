@@ -14,8 +14,8 @@ int   main( void)
    NSDictionary     *userInfo;
 
    // avoid TPS objects since they don't leak
-   name     = [[@"ThisIsMyNotification" mutableCopy] autorelease];
-   object   = [[@"ThisIsMyObject" mutableCopy] autorelease];
+   name     = [NSMutableString stringWithString:@"ThisIsMyNotification"];
+   object   = [NSMutableString stringWithString:@"ThisIsMyObject"];
    userInfo = [NSMutableDictionary dictionary];
 
    notification = [NSNotification notificationWithName:name

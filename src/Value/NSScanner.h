@@ -65,7 +65,7 @@ SOFTWARE. */
 // NSScanner is a tokenizer. Where you use strtok in C, you can use
 // NSScanners scanCharactersFromSet:intoString:
 //
-@interface NSScanner : NSObject <NSCopying>
+@interface NSScanner : NSObject <NSObject, NSCopying>
 {
    NSString     *_string;
    NSUInteger   _location;

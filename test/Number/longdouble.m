@@ -4,6 +4,9 @@
 # import <Foundation/Foundation.h>
 #endif
 
+
+// valgrind doesn't do long double so this won't pass
+
 #include <stdio.h>
 #include <limits.h>
 #include <float.h>

@@ -27,10 +27,10 @@ int main(int argc, const char * argv[])
    [s appendString:@"1848"];
    printf( "%ld\n", [s length]);
 
-   copy  = [[s copy] autorelease];
+   copy  = [NSString stringWithString:s];
    printf( "%ld\n", [copy length]);
 
-   clone = [[copy mutableCopy] autorelease];
+   clone = [NSMutableString stringWithString:copy];
    printf( "%ld\n", [clone length]);
 
    if( [s hash] == [clone hash] && [s isEqualToString:clone])

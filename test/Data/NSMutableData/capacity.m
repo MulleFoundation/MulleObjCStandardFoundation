@@ -25,7 +25,7 @@ int main(int argc, const char * argv[])
 
    printf( "%ld\n", [data length]);
 
-   copy  = [[data copy] autorelease];
+   copy  = [data immutableInstance];
    clone = [NSMutableData dataWithData:copy];
 
    p = [clone mutableBytes];

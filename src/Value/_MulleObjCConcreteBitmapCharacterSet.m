@@ -82,12 +82,6 @@
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 - (BOOL) characterIsMember:(unichar) c
 {
    int   bit;

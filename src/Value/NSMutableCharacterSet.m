@@ -46,19 +46,6 @@
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
 
-@implementation NSCharacterSet( MutableCopy)
-
-- (id) mutableCopy
-{
-   NSMutableCharacterSet   *set;
-
-   set = [NSMutableCharacterSet new];
-   [set formUnionWithCharacterSet:self];
-   return( set);
-}
-
-@end
-
 
 @implementation NSMutableCharacterSet
 
@@ -93,7 +80,7 @@
 }
 
 
-- (id) copy
+- (id) immutableCopy
 {
    NSCharacterSet   *set;
    NSData           *data;
@@ -104,13 +91,19 @@
 }
 
 
+- (id) copy
+{
+   return( [self immutableCopy]);
+}
+
+
 /* sucks so much to reimplement all this */
 
 + (instancetype) characterSetWithCharactersInString:(NSString *) s
 {
    NSMutableCharacterSet   *set;
 
-   set = [[self new] autorelease];
+   set = [self object];
    MulleObjCCharacterBitmapSetBitsWithString( &set->_bitmap,
                                               s,
                                               MulleObjCInstanceGetAllocator( set));
@@ -120,9 +113,14 @@
 
 static id   construct( SEL _cmd)
 {
-   return( [[[NSCharacterSet performSelector:_cmd] mutableCopy] autorelease]);
-}
+   NSMutableCharacterSet   *set;
+   NSCharacterSet          *other;
 
+   other = [NSCharacterSet performSelector:_cmd];
+   set   = [NSMutableCharacterSet object];
+   [set formUnionWithCharacterSet:other];
+   return( set);
+}
 
 
 + (instancetype) alphanumericCharacterSet

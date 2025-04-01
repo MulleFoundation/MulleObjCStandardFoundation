@@ -19,7 +19,7 @@ static int   test_i_copy( void)
    @try
    {
       obj   = [NSMutableCharacterSet characterSetWithCharactersInString:@"a"];
-      value = [[obj copy] autorelease];
+      value = [obj immutableInstance];
       printf( "%s\n", [[value mulleTestDescription] UTF8String]);
    }
    @catch( NSException *localException)

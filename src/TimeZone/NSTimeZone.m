@@ -197,12 +197,6 @@ static inline void   SelfUnlock( void)
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 #pragma mark - convenience constructors
 
 

@@ -125,7 +125,7 @@ int  main( int argc, char  *argv[])
    {
       [NSThread detachNewThreadSelector:@selector( testWithObjects:)
                                toTarget:[Foo class]
-                             withObject:[[objects copy] autorelease]];
+                             withObject:[NSArray arrayWithArray:objects]];
    }
 
    fprintf( stderr, "WAITING\n");

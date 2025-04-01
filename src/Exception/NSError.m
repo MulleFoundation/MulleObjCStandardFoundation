@@ -158,12 +158,6 @@ static struct
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 + (instancetype) errorWithDomain:(NSString *) domain
                             code:(NSInteger) code
                         userInfo:(NSDictionary *) userInfo;

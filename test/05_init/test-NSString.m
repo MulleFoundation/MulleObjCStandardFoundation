@@ -277,10 +277,10 @@ static int   test_i_init_with_format_vararg_list_( void)
    NSString * params_1[] =
    {
       nil,
-      [[@"" mutableCopy] autorelease],
-      [[@"VfL Bochum" mutableCopy] autorelease],
-      [[@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." mutableCopy] autorelease] /* > 256 chars */,
-      [[@"1848" mutableCopy] autorelease],
+      [NSMutableString stringWithString:@""],
+      [NSMutableString stringWithString:@"VfL Bochum"],
+      [NSMutableString stringWithString:@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."] /* > 256 chars */,
+      [NSMutableString stringWithString:@"1848"],
       [[[NSString alloc] initWithBytes:"\xe2\x98\x84\xef\xb8\x8f\xe2\x98\x83\xef\xb8\x8f\xf0\x9f\x91\x8d\xf0\x9f\x8f\xbe" /* emoji comet, snowman, thumbs-up brown */ length:20 encoding:NSUTF8StringEncoding] autorelease]
    };
    unsigned int   i_1;
@@ -312,10 +312,10 @@ static int   test_i_init_with_format_mulle_vararg_list_( void)
    NSString * params_1[] =
    {
       nil,
-      [[@"" mutableCopy] autorelease],
-      [[@"VfL Bochum" mutableCopy] autorelease],
-      [[@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." mutableCopy] autorelease] /* > 256 chars */,
-      [[@"1848" mutableCopy] autorelease],
+      [NSMutableString stringWithString:@""],
+      [NSMutableString stringWithString:@"VfL Bochum"],
+      [NSMutableString stringWithString:@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."] /* > 256 chars */,
+      [NSMutableString stringWithString:@"1848"],
       [[[NSString alloc] initWithBytes:"\xe2\x98\x84\xef\xb8\x8f\xe2\x98\x83\xef\xb8\x8f\xf0\x9f\x91\x8d\xf0\x9f\x8f\xbe" /* emoji comet, snowman, thumbs-up brown */ length:20 encoding:NSUTF8StringEncoding] autorelease]
    };
    unsigned int   i_1;
@@ -345,10 +345,10 @@ static int   test_i_init_with_string_( void)
    NSString * params_1[] =
    {
       nil,
-      [[@"" mutableCopy] autorelease],
-      [[@"VfL Bochum" mutableCopy] autorelease],
-      [[@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." mutableCopy] autorelease] /* > 256 chars */,
-      [[@"1848" mutableCopy] autorelease],
+      [NSMutableString stringWithString:@""],
+      [NSMutableString stringWithString:@"VfL Bochum"],
+      [NSMutableString stringWithString:@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."] /* > 256 chars */,
+      [NSMutableString stringWithString:@"1848"],
       [[[NSString alloc] initWithBytes:"\xe2\x98\x84\xef\xb8\x8f\xe2\x98\x83\xef\xb8\x8f\xf0\x9f\x91\x8d\xf0\x9f\x8f\xbe" /* emoji comet, snowman, thumbs-up brown */ length:20 encoding:NSUTF8StringEncoding] autorelease]
    };
    unsigned int   i_1;

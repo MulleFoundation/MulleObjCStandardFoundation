@@ -315,19 +315,16 @@ static void    free_queue_and_contents( struct mulle_container_keycallback *tabl
 static struct mulle_container_keyvaluecallback   pair_registry_callbacks =
 {
    {
-      (mulle_container_keycallback_hash_t *)      pair_hash,
-      (mulle_container_keycallback_is_equal_t *)  pair_is_equal,
-      (mulle_container_keycallback_retain_t *)    pair_copy,
-      (mulle_container_keycallback_release_t *)   pair_destroy,
-      pair_describe,
-      NULL,
-      NULL
+      .hash     = (mulle_container_keycallback_hash_t *)      pair_hash,
+      .is_equal = (mulle_container_keycallback_is_equal_t *)  pair_is_equal,
+      .retain   = (mulle_container_keycallback_retain_t *)    pair_copy,
+      .release  = (mulle_container_keycallback_release_t *)   pair_destroy,
+      .describe = pair_describe,
    },
    {
-      mulle_container_valuecallback_self,
-      (void (*)()) queue_destroy,
-      tripletqueue_describe,
-      NULL
+      .retain   = mulle_container_valuecallback_self,
+      .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
+      .describe = tripletqueue_describe
    }
 };
 
@@ -336,19 +333,16 @@ static struct mulle_container_keyvaluecallback   pair_registry_callbacks =
 static struct mulle_container_keyvaluecallback   sender_registry_callbacks =
 {
    {
-      mulle_container_keycallback_pointer_hash,
-      mulle_container_keycallback_pointer_is_equal,
-      mulle_container_keycallback_self,
-      mulle_container_keycallback_nop,
-      object_describe,
-      NULL,
-      NULL
+      .hash     = mulle_container_keycallback_pointer_hash,
+      .is_equal = mulle_container_keycallback_pointer_is_equal,
+      .retain   = mulle_container_keycallback_self,
+      .release  = mulle_container_keycallback_nop,
+      .describe = object_describe
    },
    {
-      mulle_container_valuecallback_self,
-      (void (*)()) queue_destroy,
-      tripletqueue_describe,
-      NULL
+      .retain   = mulle_container_valuecallback_self,
+      .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
+      .describe = tripletqueue_describe,
    }
 };
 
@@ -357,19 +351,16 @@ static struct mulle_container_keyvaluecallback   sender_registry_callbacks =
 static struct mulle_container_keyvaluecallback   name_registry_callbacks =
 {
    {
-      mulle_container_keycallback_object_hash,
-      mulle_container_keycallback_object_is_equal,
-      mulle_container_keycallback_self,
-      mulle_container_keycallback_nop,
-      object_describe,
-      NULL,
-      NULL
+      .hash     = mulle_container_keycallback_object_hash,
+      .is_equal = mulle_container_keycallback_object_is_equal,
+      .retain   = mulle_container_keycallback_self,
+      .release  = mulle_container_keycallback_nop,
+      .describe = object_describe
    },
    {
-      mulle_container_valuecallback_self,
-      (void (*)()) queue_destroy,
-      tripletqueue_describe,
-      NULL
+      .retain   = mulle_container_valuecallback_self,
+      .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
+      .describe = tripletqueue_describe,
    }
 };
 
@@ -378,19 +369,16 @@ static struct mulle_container_keyvaluecallback   name_registry_callbacks =
 static struct mulle_container_keyvaluecallback   observer_registry_callbacks =
 {
    {
-      mulle_container_keycallback_pointer_hash,
-      mulle_container_keycallback_pointer_is_equal,
-      mulle_container_keycallback_self,
-      mulle_container_keycallback_nop,
-      object_describe,
-      NULL,
-      NULL
+      .hash     = mulle_container_keycallback_pointer_hash,
+      .is_equal = mulle_container_keycallback_pointer_is_equal,
+      .retain   = mulle_container_keycallback_self,
+      .release  = mulle_container_keycallback_nop,
+      .describe = object_describe
    },
    {
-      mulle_container_valuecallback_self,
-      (void (*)()) queue_destroy,
-      pairqueue_describe,
-      NULL
+      .retain   = mulle_container_valuecallback_self,
+      .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
+      .describe = pairqueue_describe,
    }
 };
 
@@ -400,19 +388,16 @@ static struct mulle_container_keyvaluecallback   observer_registry_callbacks =
 static struct mulle_container_keyvaluecallback   observer_no_free_registry_callbacks =
 {
    {
-      mulle_container_keycallback_pointer_hash,
-      mulle_container_keycallback_pointer_is_equal,
-      mulle_container_keycallback_self,
-      mulle_container_keycallback_nop,
-      object_describe,
-      NULL,
-      NULL
+      .hash     = mulle_container_keycallback_pointer_hash,
+      .is_equal = mulle_container_keycallback_pointer_is_equal,
+      .retain   = mulle_container_keycallback_self,
+      .release  = mulle_container_keycallback_nop,
+      .describe = object_describe
    },
    {
-      mulle_container_valuecallback_self,
-      mulle_container_valuecallback_nop,
-      pairqueue_describe,
-      NULL
+      .retain   = mulle_container_valuecallback_self,
+      .release  = mulle_container_valuecallback_nop,
+      .describe = pairqueue_describe,
    }
 };
 

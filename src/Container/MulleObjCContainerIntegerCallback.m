@@ -66,43 +66,40 @@ static char *
 
 struct mulle_container_keycallback   NSIntMapKeyCallBacks =
 {
-   mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_intptr_is_equal,
-   mulle_container_keycallback_self,
-   mulle_container_keycallback_nop,
-   (mulle_container_keycallback_describe_t *) int_describe,
-   NSNotAnIntMapKey,
-   NULL
+   .hash     = mulle_container_keycallback_pointer_hash,
+   .is_equal = mulle_container_keycallback_intptr_is_equal,
+   .retain   = mulle_container_keycallback_self,
+   .release  = mulle_container_keycallback_nop,
+   .describe = (mulle_container_keycallback_describe_t *) int_describe,
+   .notakey  = NSNotAnIntMapKey
 };
+
 
 struct mulle_container_keycallback   NSIntegerMapKeyCallBacks =
 {
-   mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_intptr_is_equal,
-   mulle_container_keycallback_self,
-   mulle_container_keycallback_nop,
-   (mulle_container_keycallback_describe_t *) integer_describe,
-   NSNotAnIntegerMapKey,
-   NULL
+   .hash     = mulle_container_keycallback_pointer_hash,
+   .is_equal = mulle_container_keycallback_intptr_is_equal,
+   .retain   = mulle_container_keycallback_self,
+   .release  = mulle_container_keycallback_nop,
+   .describe = (mulle_container_keycallback_describe_t *) integer_describe,
+   .notakey  = NSNotAnIntegerMapKey
 };
 
 
 struct mulle_container_valuecallback    NSIntMapValueCallBacks =
 {
-   mulle_container_valuecallback_self,
-   mulle_container_valuecallback_nop,
-   int_describe,
-   NULL
+   .retain   = mulle_container_valuecallback_self,
+   .release  = mulle_container_valuecallback_nop,
+   .describe = int_describe
 };
 
 
 
 struct mulle_container_valuecallback    NSIntegerMapValueCallBacks =
 {
-   mulle_container_valuecallback_self,
-   mulle_container_valuecallback_nop,
-   integer_describe,
-   NULL
+   .retain   = mulle_container_valuecallback_self,
+   .release  = mulle_container_valuecallback_nop,
+   .describe = integer_describe
 };
 
 

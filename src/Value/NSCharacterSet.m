@@ -456,7 +456,7 @@ static NSString *
 
 
 // copy here for cheating set, subclasses just retain
-- (id) copy
+- (id) immutableCopy
 {
    NSCharacterSet   *set;
    NSData           *data;
@@ -466,5 +466,10 @@ static NSString *
    return( set);
 }
 
+
+- (id) copy
+{
+   return( [self immutableCopy]);
+}
 
 @end

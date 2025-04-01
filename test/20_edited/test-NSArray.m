@@ -1444,29 +1444,6 @@ static void   test_i_sorted_array_using_selector_()
 }
 
 
-static void   test_i_mutable_copy()
-{
-   printf( "%s\n", __PRETTY_FUNCTION__);
-
-   @autoreleasepool
-   {
-      NSArray *obj;
-      id value;
-
-      @try
-      {
-         obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
-         value = [[obj mutableCopy] autorelease];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
-      }
-      @catch( NSException *exception)
-      {
-         printf( "Threw a %s exception\n", [[exception name] UTF8String]);
-      }
-   }
-}
-
-
 static void   test_i_description_with_locale_indent_()
 {
    printf( "%s\n", __PRETTY_FUNCTION__);
@@ -1478,7 +1455,7 @@ static void   test_i_description_with_locale_indent_()
       NSLocale * params_1[] =
       {
          nil,
-         [[NSLocale init] autorelease]
+         [NSLocale object]
       };
       unsigned int   i_1;
       unsigned int   n_1 = 2;
@@ -1520,7 +1497,7 @@ static void   test_i_description_with_locale_()
       NSLocale * params_1[] =
       {
          nil,
-         [[NSLocale init] autorelease]
+         [NSLocale object]
       };
       unsigned int   i_1;
       unsigned int   n_1 = 2;
@@ -1640,7 +1617,6 @@ int   main( int argc, char *argv[])
    run_test( test_i__);
    run_test( test_i_index_of_object_in_range_);
    run_test( test_i_sorted_array_using_selector_);
-   run_test( test_i_mutable_copy);
    run_test( test_i_description_with_locale_indent_);
    run_test( test_i_description_with_locale_);
 //   run_test( test_i_property_list_utf8data_to_stream_indent_);

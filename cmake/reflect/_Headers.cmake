@@ -11,6 +11,9 @@ endif()
 # contents are derived from the file locations
 
 set( INCLUDE_DIRS
+src/reflect
+src/generic
+src/TimeZone
 src
 src/Container
 src/Container/NSArray
@@ -20,11 +23,8 @@ src/Date
 src/Exception
 src/Locale
 src/Notification
-src/TimeZone
 src/Undo
 src/Value
-src/generic
-src/reflect
 )
 
 #

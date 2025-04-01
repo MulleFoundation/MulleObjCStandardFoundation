@@ -32,10 +32,10 @@ int main( int argc, const char * argv[])
    print_length( @"VfL 1848");
    print_length( @"VfL Bochum 1848");
 
-   print_length( [[@"1848" mutableCopy] autorelease]);
-   print_length( [[@"VfL Bochum 1848" mutableCopy] autorelease]);
+   print_length( [NSMutableString stringWithString:@"1848"]);
+   print_length( [NSMutableString stringWithString:@"VfL Bochum 1848"]);
 
-   s = [[@"VfL" mutableCopy] autorelease];
+   s = [NSMutableString stringWithString:@"VfL"];
    [s appendString:@" 1848"];
 
    print_length( s);

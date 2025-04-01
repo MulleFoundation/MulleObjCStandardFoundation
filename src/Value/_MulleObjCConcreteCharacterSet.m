@@ -66,11 +66,6 @@ static int   first_plane_only( unsigned int plane)
    return( obj);
 }
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
 
 - (BOOL) characterIsMember:(unichar) c
 {
