@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.15)
 
-project( MulleObjCStandardFoundation VERSION 0.22.1 LANGUAGES C)
+project( MulleObjCStandardFoundation VERSION 0.22.2 LANGUAGES C)
 
 
 set( CMAKE_C_DEBUG_FLAGS "${CMAKE_C_DEBUG_FLAGS} -Wuninitialized")

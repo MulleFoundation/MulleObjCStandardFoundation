@@ -81,6 +81,7 @@ static inline id
 
    MulleObjCInstanceSetClass( p, [_MulleObjCCheatingASCIICharacterSet class]);
    MulleObjCInstanceConstantify( p);
+   MulleObjCInstanceSetThreadAffinity( p, mulle_thread_self());
 
    p->_bits[ 0] = 0;
    p->_bits[ 1] = 0;

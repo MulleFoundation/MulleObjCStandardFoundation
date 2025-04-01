@@ -100,14 +100,6 @@
 }
 
 
-#pragma mark - NSCopying
-
-- (id) copy
-{
-   return( [self retain]);  // we are immutable!
-}
-
-
 #pragma mark - petty accessors
 
 - (NSString *) key

@@ -84,12 +84,6 @@
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 static int   mulle_meminvert_8( uint8_t *buf, size_t length)
 {
    uint8_t   *p;

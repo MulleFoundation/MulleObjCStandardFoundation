@@ -60,21 +60,18 @@ static char *
 
 struct mulle_container_keycallback   MulleSELMapKeyCallBacks =
 {
-   sel_hash,
-   mulle_container_keycallback_pointer_is_equal,
-   mulle_container_keycallback_self,
-   mulle_container_keycallback_nop,
-   (mulle_container_keycallback_describe_t *) sel_describe,
-   0,
-   NULL
+   .hash     = sel_hash,
+   .is_equal = mulle_container_keycallback_pointer_is_equal,
+   .retain   = mulle_container_keycallback_self,
+   .release  = mulle_container_keycallback_nop,
+   .describe = (mulle_container_keycallback_describe_t *) sel_describe
 };
 
 
 struct mulle_container_valuecallback   MulleSELMapValueCallBacks =
 {
-   mulle_container_valuecallback_self,
-   mulle_container_valuecallback_nop,
-   sel_describe,
-   NULL
+   .retain   = mulle_container_valuecallback_self,
+   .release  = mulle_container_valuecallback_nop,
+   .describe = sel_describe,
 };
 

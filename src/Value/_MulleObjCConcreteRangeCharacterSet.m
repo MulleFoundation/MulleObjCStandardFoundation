@@ -58,12 +58,6 @@
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 - (BOOL) characterIsMember:(unichar) c
 {
    if( (uint32_t) c >= 0x110000)

@@ -18,7 +18,7 @@ static void   test( NSString *a, NSString *b)
    char   *state;
 
    flag1 = [a isEqual:b];
-   flag2 = [[[a mutableCopy] autorelease] isEqual:b];
+   flag2 = [[NSMutableString stringWithString:a] isEqual:b];
    if( flag1 != flag2)
       state = "failed";
    else

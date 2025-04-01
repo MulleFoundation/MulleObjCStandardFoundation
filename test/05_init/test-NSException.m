@@ -12,10 +12,10 @@ static int   test_i_init_with_name_reason_user_info_( void)
    NSException *obj;
    NSString * params_1[] =
    {
-      [[@"@1848" mutableCopy] autorelease],
-      [[@"" mutableCopy] autorelease],
-      [[@"VfL Bochum" mutableCopy] autorelease],
-      [[@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." mutableCopy] autorelease] /* > 256 chars */,
+      [NSMutableString stringWithString:@"@1848"],
+      [NSMutableString stringWithString:@""],
+      [NSMutableString stringWithString:@"VfL Bochum"],
+      [NSMutableString stringWithString:@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."] /* > 256 chars */,
       [[[NSString alloc] initWithBytes:"\xe2\x98\x84\xef\xb8\x8f\xe2\x98\x83\xef\xb8\x8f\xf0\x9f\x91\x8d\xf0\x9f\x8f\xbe" /* emoji comet, snowman, thumbs-up brown */ length:20 encoding:NSUTF8StringEncoding] autorelease],
       nil
    };
@@ -23,10 +23,10 @@ static int   test_i_init_with_name_reason_user_info_( void)
    unsigned int   n_1 = sizeof( params_1) / sizeof( NSString *);
    NSString * params_2[] =
    {
-      [[@"@1848" mutableCopy] autorelease],
-      [[@"" mutableCopy] autorelease],
-      [[@"VfL Bochum" mutableCopy] autorelease],
-      [[@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur." mutableCopy] autorelease] /* > 256 chars */,
+      [NSMutableString stringWithString:@"@1848"],
+      [NSMutableString stringWithString:@""],
+      [NSMutableString stringWithString:@"VfL Bochum"],
+      [NSMutableString stringWithString:@"Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."] /* > 256 chars */,
       [[[NSString alloc] initWithBytes:"\xe2\x98\x84\xef\xb8\x8f\xe2\x98\x83\xef\xb8\x8f\xf0\x9f\x91\x8d\xf0\x9f\x8f\xbe" /* emoji comet, snowman, thumbs-up brown */ length:20 encoding:NSUTF8StringEncoding] autorelease],
       nil
    };

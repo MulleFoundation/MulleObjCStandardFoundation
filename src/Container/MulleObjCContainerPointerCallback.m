@@ -56,56 +56,49 @@ static char *
 
 struct mulle_container_keycallback   NSNonOwnedPointerMapKeyCallBacks =
 {
-   mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_pointer_is_equal,
-   mulle_container_keycallback_self,
-   mulle_container_keycallback_nop,
-   (mulle_container_keycallback_describe_t *) pointer_describe,
-   NULL,
-   NULL
+   .hash     = mulle_container_keycallback_pointer_hash,
+   .is_equal = mulle_container_keycallback_pointer_is_equal,
+   .retain   = mulle_container_keycallback_self,
+   .release  = mulle_container_keycallback_nop,
+   .describe = (mulle_container_keycallback_describe_t *) pointer_describe
 };
 
 
 struct mulle_container_keycallback   NSNonOwnedPointerOrNullMapKeyCallBacks =
 {
-   mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_pointer_is_equal,
-   mulle_container_keycallback_self,
-   mulle_container_keycallback_nop,
-   (mulle_container_keycallback_describe_t *) pointer_describe,
-   NSNotAPointerMapKey,
-   NULL
+   .hash     = mulle_container_keycallback_pointer_hash,
+   .is_equal = mulle_container_keycallback_pointer_is_equal,
+   .retain   = mulle_container_keycallback_self,
+   .release  = mulle_container_keycallback_nop,
+   .describe = (mulle_container_keycallback_describe_t *) pointer_describe,
+   .notakey  = NSNotAPointerMapKey
 };
 
 
 struct mulle_container_keycallback   NSOwnedPointerMapKeyCallBacks =
 {
-   mulle_container_keycallback_pointer_hash,
-   mulle_container_keycallback_pointer_is_equal,
-   mulle_container_keycallback_self,
-   _mulle_container_keycallback_pointer_free,
-   (mulle_container_keycallback_describe_t *) pointer_describe,
-   NULL,
-   NULL
+   .hash     = mulle_container_keycallback_pointer_hash,
+   .is_equal = mulle_container_keycallback_pointer_is_equal,
+   .retain   = mulle_container_keycallback_self,
+   .release  = _mulle_container_keycallback_pointer_free,
+   .describe = (mulle_container_keycallback_describe_t *) pointer_describe
 };
 
 
 struct mulle_container_valuecallback   NSNonOwnedPointerMapValueCallBacks =
 {
-   mulle_container_valuecallback_self,
-   mulle_container_valuecallback_nop,
-   pointer_describe,
-   NULL
+   .retain   = mulle_container_valuecallback_self,
+   .release  = mulle_container_valuecallback_nop,
+   .describe = pointer_describe
 };
 
 
 
 struct mulle_container_valuecallback   NSOwnedPointerMapValueCallBacks =
 {
-   mulle_container_valuecallback_self,
-   mulle_container_valuecallback_pointer_free,
-   pointer_describe,
-   NULL
+   .retain   = mulle_container_valuecallback_self,
+   .release  = mulle_container_valuecallback_pointer_free,
+   .describe = pointer_describe
 };
 
 

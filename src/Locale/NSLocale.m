@@ -222,12 +222,6 @@ static struct
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 #pragma mark - hash and equality
 
 - (NSUInteger) hash

@@ -53,10 +53,3 @@
 - (void) invert;
 
 @end
-
-
-@interface NSCharacterSet( MutableCopy) < NSMutableCopying>
-
-- (id) mutableCopy;
-
-@end

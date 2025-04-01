@@ -34,7 +34,7 @@ static void  _test( char *title, NSString *s, NSString *separator)
 static void  test( NSString *s, NSString *separator)
 {
    _test( "", s, separator);
-   _test( "mutable ", [[s mutableCopy] autorelease], separator);
+   _test( "mutable ", [NSMutableString stringWithString:s], separator);
 }
 
 

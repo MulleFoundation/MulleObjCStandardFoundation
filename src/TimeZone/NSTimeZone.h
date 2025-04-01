@@ -47,7 +47,7 @@
 // all methods defined in NSTimeZone+_Abstract
 // and all methods declared in NSTimeZone+_Abstract_NSDate
 //
-@interface NSTimeZone : NSObject < MulleObjCInvariant, NSCopying, MulleObjCImmutableProtocols>
+@interface NSTimeZone : NSObject < MulleObjCInvariant, MulleObjCImmutableProtocols>
 {
    NSString   *_name;
    NSData     *_data;
