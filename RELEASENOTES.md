@@ -1,3 +1,10 @@
+### 0.22.2
+
+
+* classess gain -copy from MulleObjCImmutable
+* mutableCopy methods exiled to Foundation
+* container callbacks initialized in a more and robust way
+
 ### 0.22.1
 
 * use new MulleObjC Instance functions instead of Object functions where possible
