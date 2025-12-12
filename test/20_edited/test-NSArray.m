@@ -1455,7 +1455,7 @@ static void   test_i_description_with_locale_indent_()
       NSLocale * params_1[] =
       {
          nil,
-         [NSLocale object]
+         [NSLocale instance]
       };
       unsigned int   i_1;
       unsigned int   n_1 = 2;
@@ -1497,7 +1497,7 @@ static void   test_i_description_with_locale_()
       NSLocale * params_1[] =
       {
          nil,
-         [NSLocale object]
+         [NSLocale instance]
       };
       unsigned int   i_1;
       unsigned int   n_1 = 2;

@@ -44,8 +44,8 @@ int main( void)
 
    @autoreleasepool
    {
-      foo = [Foo object];
-      bar = [Bar object];
+      foo = [Foo instance];
+      bar = [Bar instance];
 
       @try
       {

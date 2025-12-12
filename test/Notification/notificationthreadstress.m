@@ -117,7 +117,7 @@ int  main( int argc, char  *argv[])
    objects = [NSMutableArray array];
    for( i = 0; i < N_OBJECTS; i++)
    {
-      foo = [Foo object];
+      foo = [Foo instance];
       [objects addObject:foo];
    }
 

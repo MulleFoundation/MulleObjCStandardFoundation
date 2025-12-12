@@ -121,10 +121,12 @@
       return( [[[NSString alloc] initWithFormat:@"%0.17g"
                                          locale:locale,
                                                  [self doubleValue]] autorelease]);
+#ifdef _C_LNG_DBL
    case _C_LNG_DBL :
       return( [[[NSString alloc] initWithFormat:@"%0.21Lg"
                                          locale:locale,
                                                  [self longDoubleValue]] autorelease]);
+#endif
    }
 }
 
