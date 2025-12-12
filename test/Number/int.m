@@ -6,8 +6,8 @@
 
 #include <stdio.h>
 
+#ifdef _C_LNG_DBL
 
-static int   fail( char *title, SEL sel, NSNumber *a, NSNumber *b, int index)
 {
    mulle_printf( "%*d %- 19s: -[<%s %@> %s <%s %@>] FAIL (%lld vs. %lld / %Lg vs. %Lg)",
          2,
@@ -29,6 +29,33 @@ static int   fail( char *title, SEL sel, NSNumber *a, NSNumber *b, int index)
    printf( "\n");
    return( 1);
 }
+
+#else
+
+static int   fail( char *title, SEL sel, NSNumber *a, NSNumber *b, int index)
+{
+   mulle_printf( "%*d %- 19s: -[<%s %@> %s <%s %@>] FAIL (%lld vs. %lld / %g vs. %g)",
+         2,
+         index,
+         title,
+         MulleObjCInstanceGetClassNameUTF8String( a),
+         a,
+         MulleObjCSelectorUTF8String( sel),
+         MulleObjCInstanceGetClassNameUTF8String( b),
+         b,
+         [a longLongValue],
+         [b longLongValue],
+         [a doubleValue],
+         [b doubleValue]);
+
+#ifdef PRINT_ENCODE
+   printf( " (%s vs. %s)", [a objCType], [b objCType]);
+#endif
+   printf( "\n");
+   return( 1);
+}
+#endif
+
 
 
 static int   check( char *title, NSNumber *a, NSNumber *b, int *index)
@@ -71,7 +98,7 @@ static void   test( int value)
    fails += check( "NSUInteger",         nr, [NSNumber numberWithUnsignedInteger:value], &index);
    fails += check( "float",              nr, [NSNumber numberWithFloat:value], &index);
    fails += check( "double",             nr, [NSNumber numberWithDouble:value], &index);
-#ifdef __MULLE_OBJC__
+#ifdef _C_LNG_DBL
    fails += check( "long double",        nr, [NSNumber numberWithLongDouble:value], &index);
 #endif
    if( fails == 0)

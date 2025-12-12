@@ -53,9 +53,11 @@ int  main( void)
    value = [NSNumber numberWithDouble:18.48];
    printf( "%s\n", [[value description] UTF8String]);
 
+#ifdef _C_LNG_DBL
    printf( "\nlong double\n");
    value = [NSNumber numberWithLongDouble:18.48];
    printf( "%s\n", [[value description] UTF8String]);
+#endif
 #endif
 
    return( 0);

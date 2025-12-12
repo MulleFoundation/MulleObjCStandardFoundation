@@ -103,7 +103,7 @@
 {
    NSMutableCharacterSet   *set;
 
-   set = [self object];
+   set = [self instance];
    MulleObjCCharacterBitmapSetBitsWithString( &set->_bitmap,
                                               s,
                                               MulleObjCInstanceGetAllocator( set));
@@ -117,7 +117,7 @@ static id   construct( SEL _cmd)
    NSCharacterSet          *other;
 
    other = [NSCharacterSet performSelector:_cmd];
-   set   = [NSMutableCharacterSet object];
+   set   = [NSMutableCharacterSet instance];
    [set formUnionWithCharacterSet:other];
    return( set);
 }

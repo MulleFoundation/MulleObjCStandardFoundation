@@ -59,7 +59,7 @@ static void   test( char value)
    fails += check( "NSUInteger",         nr, [NSNumber numberWithUnsignedInteger:value], &index);
    fails += check( "float",              nr, [NSNumber numberWithFloat:value], &index);
    fails += check( "double",             nr, [NSNumber numberWithDouble:value], &index);
-#ifdef __MULLE_OBJC__
+#ifdef _C_LNG_DBL
    fails += check( "long double",        nr, [NSNumber numberWithLongDouble:value], &index);
 #endif
    if( fails == 0)

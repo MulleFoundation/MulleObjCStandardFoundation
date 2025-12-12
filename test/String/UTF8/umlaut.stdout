@@ -1,10 +1,13 @@
  (0/0) ->  (0/0)
 " (1/1) -> " (1/1)
 "H (2/2) -> "H (2/2)
+length 3 is invalid
 "Hö (3/4) -> "Hö (3/4)
 "Höh (4/5) -> "Höh (4/5)
+length 6 is invalid
 "Höhö (5/7) -> "Höhö (5/7)
 "Höhöh (6/8) -> "Höhöh (6/8)
+length 9 is invalid
 "Höhöhö (7/10) -> "Höhöhö (7/10)
 "Höhöhö, (8/11) -> "Höhöhö, (8/11)
 "Höhöhö,  (9/12) -> "Höhöhö,  (9/12)
@@ -23,7 +26,9 @@
 "Höhöhö, wir sind die  (22/25) -> "Höhöhö, wir sind die  (22/25)
 "Höhöhö, wir sind die G (23/26) -> "Höhöhö, wir sind die G (23/26)
 "Höhöhö, wir sind die Gr (24/27) -> "Höhöhö, wir sind die Gr (24/27)
+length 28 is invalid
 "Höhöhö, wir sind die Grö (25/29) -> "Höhöhö, wir sind die Grö (25/29)
+length 30 is invalid
 "Höhöhö, wir sind die Größ (26/31) -> "Höhöhö, wir sind die Größ (26/31)
 "Höhöhö, wir sind die Größt (27/32) -> "Höhöhö, wir sind die Größt (27/32)
 "Höhöhö, wir sind die Größte (28/33) -> "Höhöhö, wir sind die Größte (28/33)
@@ -36,7 +41,9 @@
 "Höhöhö, wir sind die Größten." - " (35/40) -> "Höhöhö, wir sind die Größten." - " (35/40)
 "Höhöhö, wir sind die Größten." - "G (36/41) -> "Höhöhö, wir sind die Größten." - "G (36/41)
 "Höhöhö, wir sind die Größten." - "Gr (37/42) -> "Höhöhö, wir sind die Größten." - "Gr (37/42)
+length 43 is invalid
 "Höhöhö, wir sind die Größten." - "Grö (38/44) -> "Höhöhö, wir sind die Größten." - "Grö (38/44)
+length 45 is invalid
 "Höhöhö, wir sind die Größten." - "Größ (39/46) -> "Höhöhö, wir sind die Größten." - "Größ (39/46)
 "Höhöhö, wir sind die Größten." - "Größt (40/47) -> "Höhöhö, wir sind die Größten." - "Größt (40/47)
 "Höhöhö, wir sind die Größten." - "Größte (41/48) -> "Höhöhö, wir sind die Größten." - "Größte (41/48)

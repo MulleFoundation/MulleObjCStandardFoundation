@@ -4,6 +4,7 @@
 # import <Foundation/Foundation.h>
 #endif
 
+#ifdef _C_LNG_DBL
 
 // valgrind doesn't do long double so this won't pass
 
@@ -60,7 +61,7 @@ static void   test( long double value)
    fails  = 0;
    fails += check( "float",       nr, [NSNumber numberWithFloat:value], &index);
    fails += check( "double",      nr, [NSNumber numberWithDouble:value], &index);
-#ifdef __MULLE_OBJC__
+#ifdef _C_LNG_DBL
    fails += check( "long double", nr, [NSNumber numberWithLongDouble:value], &index);
 #endif
 
@@ -85,3 +86,14 @@ int  main( void)
 
    return( 0);
 }
+
+#else
+
+
+int  main( void)
+{
+   printf( "No long double test for you!\n");
+   return( 0);
+}
+
+#endif

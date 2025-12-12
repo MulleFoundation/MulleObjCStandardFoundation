@@ -25,7 +25,7 @@ else()
          ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCTimeFoundation${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
          ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCTimeFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
          MulleObjCTimeFoundation
-         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH
+         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_FIND_ROOT_PATH
       )
       if( NOT MULLE_OBJC_TIME_FOUNDATION_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
          find_library( MULLE_OBJC_TIME_FOUNDATION_LIBRARY NAMES
@@ -91,7 +91,9 @@ else()
          endif()
       else()
          # Disable with: `mulle-sourcetree mark MulleObjCTimeFoundation no-require-link`
-         message( SEND_ERROR "MULLE_OBJC_TIME_FOUNDATION_LIBRARY was not found")
+         message( SEND_ERROR "MULLE_OBJC_TIME_FOUNDATION_LIBRARY was not found in ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCTimeFoundation${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCTimeFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
+MulleObjCTimeFoundation")
       endif()
    endif()
 endif()
@@ -111,7 +113,7 @@ else()
          ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCValueFoundation${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
          ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCValueFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
          MulleObjCValueFoundation
-         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH
+         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_FIND_ROOT_PATH
       )
       if( NOT MULLE_OBJC_VALUE_FOUNDATION_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
          find_library( MULLE_OBJC_VALUE_FOUNDATION_LIBRARY NAMES
@@ -177,7 +179,9 @@ else()
          endif()
       else()
          # Disable with: `mulle-sourcetree mark MulleObjCValueFoundation no-require-link`
-         message( SEND_ERROR "MULLE_OBJC_VALUE_FOUNDATION_LIBRARY was not found")
+         message( SEND_ERROR "MULLE_OBJC_VALUE_FOUNDATION_LIBRARY was not found in ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCValueFoundation${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCValueFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
+MulleObjCValueFoundation")
       endif()
    endif()
 endif()
@@ -197,7 +201,7 @@ else()
          ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCContainerFoundation${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
          ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCContainerFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
          MulleObjCContainerFoundation
-         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH
+         NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH NO_CMAKE_FIND_ROOT_PATH
       )
       if( NOT MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
          find_library( MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY NAMES
@@ -263,7 +267,9 @@ else()
          endif()
       else()
          # Disable with: `mulle-sourcetree mark MulleObjCContainerFoundation no-require-link`
-         message( SEND_ERROR "MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY was not found")
+         message( SEND_ERROR "MULLE_OBJC_CONTAINER_FOUNDATION_LIBRARY was not found in ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCContainerFoundation${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
+${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjCContainerFoundation${CMAKE_STATIC_LIBRARY_SUFFIX}
+MulleObjCContainerFoundation")
       endif()
    endif()
 endif()
