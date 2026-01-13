@@ -1,3 +1,11 @@
+### 0.22.3
+
+
+
+
+* NSMutableCharacterSet now uses modern 'instance' method for object creation
+* updated test code to use 'instance' instead of deprecated 'object' method
+
 ### 0.22.2
 
 
