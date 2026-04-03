@@ -23,7 +23,7 @@ static void   test( NSString *a)
    d = [a capitalizedString];
    e = [a mulleDecapitalizedString];
 
-   printf( "\"%s\" -> \"%s\" -> \"%s\" -> \"%s\"-> \"%s\"\n",
+   mulle_printf( "\"%s\" -> \"%s\" -> \"%s\" -> \"%s\"-> \"%s\"\n",
          [a UTF8String], [b UTF8String], [c UTF8String], [d UTF8String], [e UTF8String]);
 }
 
@@ -59,7 +59,7 @@ int main( int argc, const char * argv[])
       s1     = [[[NSString alloc] initWithCharacters:strings[ i]
                                               length:length] autorelease];
 
-      fprintf( stderr, "* %s\n", [[s1 debugDescription] UTF8String]);
+      mulle_fprintf( stderr, "* %s\n", [[s1 debugDescription] UTF8String]);
 
       test( s1);
    }

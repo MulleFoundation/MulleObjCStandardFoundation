@@ -39,10 +39,10 @@ int   main( int argc, const char * argv[])
 
    quoted   = [s mulleQuotedString];
    unquoted = [quoted mulleUnquotedString];
-   printf( "C        : %s\n", hoehoe);
-   printf( "Original : %s\n", [s UTF8String]);
-   printf( "Quoted   : %s\n", [quoted UTF8String]);
-   printf( "Unquoted : %s\n", [unquoted UTF8String]);
+   mulle_printf( "C        : %s\n", hoehoe);
+   mulle_printf( "Original : %s\n", [s UTF8String]);
+   mulle_printf( "Quoted   : %s\n", [quoted UTF8String]);
+   mulle_printf( "Unquoted : %s\n", [unquoted UTF8String]);
 
    return( [unquoted isEqualToString:s] == YES ? 0 : -1);
 }

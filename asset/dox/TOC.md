@@ -1,4 +1,5 @@
 # MulleObjCStandardFoundation Library Documentation for AI
+<!-- Keywords: foundation, standard-library -->
 
 ## 1. Introduction & Purpose
 

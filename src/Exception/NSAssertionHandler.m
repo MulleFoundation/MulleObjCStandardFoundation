@@ -86,7 +86,7 @@ static void   failure( NSString *name,
    if( [desc length])
       s = [NSString stringWithFormat:@"%@ %@", s, desc];
 
-   fprintf( stderr, "%s\n", [s UTF8String]);
+   mulle_fprintf( stderr, "%s\n", [s UTF8String]);
    abort();
 }
 

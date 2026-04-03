@@ -35,17 +35,17 @@ int main(int argc, const char * argv[])
    [s appendString:[[[NSString alloc] initWithCharacters:_UTF32Unichar
                                                   length:7] autorelease]];
    other = [s substringWithRange:NSRangeMake( 2, 10)];
-   printf( "%s\n", [other UTF8String]);
+   mulle_printf( "%s\n", [other UTF8String]);
 
    other = [s substringWithRange:NSRangeMake( 0, 0)];
-   printf( "%s\n", [other UTF8String]);
+   mulle_printf( "%s\n", [other UTF8String]);
 
    for( i = [s length] / 2; i; i--)
    {
       if( i * 2 <= [s length])
       {
          other = [s substringWithRange:NSRangeMake( i, [s length] - i * 2)];
-         printf( "%s\n", [other UTF8String]);
+         mulle_printf( "%s\n", [other UTF8String]);
       }
    }
    return( 0);

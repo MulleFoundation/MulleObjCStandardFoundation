@@ -19,7 +19,7 @@
 //    remove #import      : `mulle-sde dependency mark MulleObjCTimeFoundation no-header`
 //    rename              : `mulle-sde dependency|library set MulleObjCTimeFoundation include whatever.h`
 //    reorder             : `mulle-sde dependency move MulleObjCTimeFoundation <up|down>`
-//    toggle #import      : `mulle-sde dependency mark MulleObjCTimeFoundation [no-]import`
+//    toggle objc         : `mulle-sde dependency mark MulleObjCTimeFoundation [no-]import`
 //    toggle public       : `mulle-sde dependency mark MulleObjCTimeFoundation [no-]public`
 //    toggle optional     : `mulle-sde dependency mark MulleObjCTimeFoundation [no-]require`
 //    remove for platform : `mulle-sde dependency mark MulleObjCTimeFoundation no-platform-<uname>`
@@ -34,7 +34,7 @@
 //    remove #import      : `mulle-sde dependency mark MulleObjCValueFoundation no-header`
 //    rename              : `mulle-sde dependency|library set MulleObjCValueFoundation include whatever.h`
 //    reorder             : `mulle-sde dependency move MulleObjCValueFoundation <up|down>`
-//    toggle #import      : `mulle-sde dependency mark MulleObjCValueFoundation [no-]import`
+//    toggle objc         : `mulle-sde dependency mark MulleObjCValueFoundation [no-]import`
 //    toggle public       : `mulle-sde dependency mark MulleObjCValueFoundation [no-]public`
 //    toggle optional     : `mulle-sde dependency mark MulleObjCValueFoundation [no-]require`
 //    remove for platform : `mulle-sde dependency mark MulleObjCValueFoundation no-platform-<uname>`
@@ -49,7 +49,7 @@
 //    remove #import      : `mulle-sde dependency mark MulleObjCContainerFoundation no-header`
 //    rename              : `mulle-sde dependency|library set MulleObjCContainerFoundation include whatever.h`
 //    reorder             : `mulle-sde dependency move MulleObjCContainerFoundation <up|down>`
-//    toggle #import      : `mulle-sde dependency mark MulleObjCContainerFoundation [no-]import`
+//    toggle objc         : `mulle-sde dependency mark MulleObjCContainerFoundation [no-]import`
 //    toggle public       : `mulle-sde dependency mark MulleObjCContainerFoundation [no-]public`
 //    toggle optional     : `mulle-sde dependency mark MulleObjCContainerFoundation [no-]require`
 //    remove for platform : `mulle-sde dependency mark MulleObjCContainerFoundation no-platform-<uname>`

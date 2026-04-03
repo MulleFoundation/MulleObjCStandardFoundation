@@ -19,10 +19,10 @@ int main( int argc, const char * argv[])
    s = [NSString mulleStringWithUTF8Characters:(void *) text
                                         length:sizeof( text)];
 
-   printf( "%s\n", [[s lowercaseString] UTF8String]);
-   printf( "%s\n", [[s capitalizedString] UTF8String]);
-   printf( "%s\n", [[s uppercaseString] UTF8String]);
-   printf( "%s\n", [[s mulleDecapitalizedString] UTF8String]);
+   mulle_printf( "%s\n", [[s lowercaseString] UTF8String]);
+   mulle_printf( "%s\n", [[s capitalizedString] UTF8String]);
+   mulle_printf( "%s\n", [[s uppercaseString] UTF8String]);
+   mulle_printf( "%s\n", [[s mulleDecapitalizedString] UTF8String]);
 
    return( 0);
 }

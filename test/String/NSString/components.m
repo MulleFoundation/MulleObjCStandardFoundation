@@ -20,13 +20,13 @@ static void  test( NSString *s, NSString *seperator)
    NSString   *component;
 
    array = [s componentsSeparatedByString:seperator];
-   printf( "\"%s\" separated by \"%s\":",
+   mulle_printf( "\"%s\" separated by \"%s\":",
             [s UTF8String],
             [seperator UTF8String]);
 
    for( component in array)
-      printf( " \"%s\"", [component UTF8String]);
-   printf( "\n");
+      mulle_printf( " \"%s\"", [component UTF8String]);
+   mulle_printf( "\n");
 }
 
 int main( int argc, const char * argv[])
@@ -36,7 +36,7 @@ int main( int argc, const char * argv[])
 NS_DURING
    test( @"0,1,2,3", nil);
 NS_HANDLER
-   printf( "%s\n", [[localException name] UTF8String]);
+   mulle_printf( "%s\n", [[localException name] UTF8String]);
 NS_ENDHANDLER
 
    test( @"0,1,2,3", @",");

@@ -4,7 +4,7 @@
 # import <Foundation/Foundation.h>
 #endif
 
-#include <stdio.h>
+#include <mulle-fprintf/mulle-fprintf.h>
 
 
 //#define PRINT_ENCODE
@@ -12,18 +12,18 @@
 
 static int   fail( char *title, NSNumber *a, NSNumber *b, int index)
 {
-   printf( "%d: %s Number FAIL %s vs. %s",
+   mulle_printf( "%d: %s Number FAIL %s vs. %s",
          index, title,
          [[a description] UTF8String],
          [[b description] UTF8String]);
 #ifdef PRINT_ENCODE
-   printf( " (%s vs. %s)", [a objCType], [b objCType]);
+   mulle_printf( " (%s vs. %s)", [a objCType], [b objCType]);
 #endif
 #ifdef PRINT_ENCODE
-   printf( " (%s vs. %s)", [NSStringFromClass( [a class]) UTF8String],
+   mulle_printf( " (%s vs. %s)", [NSStringFromClass( [a class]) UTF8String],
                            [NSStringFromClass( [b class]) UTF8String]);
 #endif
-   printf( "\n");
+   mulle_printf( "\n");
    return( 1);
 }
 
@@ -77,9 +77,9 @@ static void   test( long value)
 #endif
    }
    if( fails == 0)
-      printf( "%ld PASSED\n\n", value);
+      mulle_printf( "%ld PASSED\n\n", value);
    else
-      printf( "%ld FAILED\n\n", value);
+      mulle_printf( "%ld FAILED\n\n", value);
 }
 
 

@@ -16,7 +16,7 @@
 static void  test_count( NSArray *array, NSUInteger count)
 {
    if( ! [array isKindOfClass:[NSArray class]] || [array count] != count)
-      printf( "Failed\n");
+      mulle_printf( "Failed\n");
 }
 
 

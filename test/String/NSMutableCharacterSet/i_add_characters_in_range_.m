@@ -35,7 +35,7 @@ static int   test_i_add_characters_in_range_( void)
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

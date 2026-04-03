@@ -18,14 +18,14 @@ static void  check( NSString *s, char *buf, size_t len)
 
    if( [s length] != len)
    {
-      printf( "%d failed length\n", (int) len);
+      mulle_printf( "%d failed length\n", (int) len);
       abort();
    }
 
    utf8 = (char *) [s UTF8String];
    if( strncmp( utf8, buf, len))
    {
-      printf( "%d failed strcmp\n", (int) len);
+      mulle_printf( "%d failed strcmp\n", (int) len);
       abort();
    }
 }

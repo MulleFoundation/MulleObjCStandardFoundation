@@ -18,11 +18,11 @@ static int   test_c_symbol_character_set( void)
    @try
    {
       value = [NSMutableCharacterSet symbolCharacterSet];
-      printf( "%s\n", [[value mulleTestDescription] UTF8String]);
+      mulle_printf( "%s\n", [[value mulleTestDescription] UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+      mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }

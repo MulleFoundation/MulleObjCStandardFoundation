@@ -14,9 +14,9 @@
 static void  print_range( NSRange range)
 {
    if( range.location == NSNotFound && range.length == 0)
-      printf( "{ NSNotFound, 0 }\n");
+      mulle_printf( "{ NSNotFound, 0 }\n");
    else
-      printf( "{ %lu, %lu }\n", (long) range.location, (long) range.length);
+      mulle_printf( "{ %lu, %lu }\n", (long) range.location, (long) range.length);
 }
 
 

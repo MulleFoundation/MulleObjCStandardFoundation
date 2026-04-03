@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
    a = @[ @"a", @"b", @"c"];
    b = @[ @"a", @"b", @"c", @"d"];
    passed = ! [a isEqualToArray:b];
-   printf( "%s\n", passed ? "passed" : "failed");
+   mulle_printf( "%s\n", passed ? "passed" : "failed");
 
    return( 0);
 }

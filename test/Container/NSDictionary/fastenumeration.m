@@ -17,7 +17,7 @@ static void  enumerate( NSDictionary *dict, NSMutableArray *array)
    for( key in dict)
    {
       if( ! array)
-         printf( "%ld\n", (long) [key integerValue]);
+         mulle_printf( "%ld\n", (long) [key integerValue]);
       else
          [array addObject:key];
    }
@@ -26,7 +26,7 @@ static void  enumerate( NSDictionary *dict, NSMutableArray *array)
 
 static void   print_key( id key, void *egal)
 {
-   printf( "%ld\n", (long) [key integerValue]);
+   mulle_printf( "%ld\n", (long) [key integerValue]);
 }
 
 

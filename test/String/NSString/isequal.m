@@ -24,7 +24,7 @@ static void   test( NSString *a, NSString *b)
    else
       state = flag1 ? "==" : "!=";
 
-   printf( "\"%s\" %s \"%s\"\n", [a UTF8String], state, [b UTF8String]);
+   mulle_printf( "\"%s\" %s \"%s\"\n", [a UTF8String], state, [b UTF8String]);
 }
 
 
@@ -66,10 +66,10 @@ int main( int argc, const char * argv[])
       s1     = [[[NSString alloc] initWithCharacters:strings[ i]
                                               length:length] autorelease];
 
-      fprintf( stderr, "* %s (%ld,%ld)\n",
+      mulle_fprintf( stderr, "* %s (%td,%td)\n",
                         [[s1 debugDescription] UTF8String],
-                        [s1 length],
-                        [s1 mulleUTF8StringLength]);
+                        (ptrdiff_t) [s1 length],
+                        (ptrdiff_t) [s1 mulleUTF8StringLength]);
 
       for( j = 0; j < sizeof( strings) / sizeof( strings[ 0]); j++)
       {

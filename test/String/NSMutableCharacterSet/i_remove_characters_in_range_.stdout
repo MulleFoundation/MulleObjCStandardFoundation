@@ -1,15 +1,5 @@
-a
-b
-c
-d
-e
-f
-g
+a\nb\nc\nd\ne\nf\ng
 Threw a NSRangeException exception
 
-a
-b
-e
-f
-g
+a\nb\ne\nf\ng
 Threw a NSRangeException exception

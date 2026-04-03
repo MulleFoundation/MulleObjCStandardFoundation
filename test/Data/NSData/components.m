@@ -18,7 +18,7 @@ void   test( NSData *data, NSData *sep)
    NSArray   *array;
 
    array = [data mulleComponentsSeparatedByData:sep];
-   printf( "%s\n", [[array description] UTF8String]);
+   mulle_printf( "%s\n", [[array description] UTF8String]);
 }
 
 

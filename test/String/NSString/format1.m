@@ -23,7 +23,7 @@ int main( int argc, const char * argv[])
          (unsigned char) '{',
          (int) 7, "0123456789"];
 
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    return( 0);
 }

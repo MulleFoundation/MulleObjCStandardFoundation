@@ -29,7 +29,7 @@ static void   test( char *testname, mulle_utf32_t text[ 4], size_t expect)
    struct buffer   buffer8;
    NSString        *s;
 
-   printf( "test %s ", testname);
+   mulle_printf( "test %s ", testname);
 
    memset( &buffer8, 0, sizeof( buffer8));
    mulle_utf32_bufferconvert_to_utf8( text,
@@ -42,7 +42,7 @@ static void   test( char *testname, mulle_utf32_t text[ 4], size_t expect)
                                 encoding:NSUTF8StringEncoding] autorelease];
    if( ! s || [s length])
    {
-      printf( "zero length failed\n");
+      mulle_printf( "zero length failed\n");
       return;
    }
 
@@ -51,7 +51,7 @@ static void   test( char *testname, mulle_utf32_t text[ 4], size_t expect)
                                 encoding:NSUTF8StringEncoding] autorelease];
    if( ! s || [s length])
    {
-      printf( "NULL failed\n");
+      mulle_printf( "NULL failed\n");
       return;
    }
 
@@ -60,11 +60,11 @@ static void   test( char *testname, mulle_utf32_t text[ 4], size_t expect)
                                 encoding:NSUTF8StringEncoding] autorelease];
    if( [s length] != expect)
    {
-      printf( "string length failed (%ld<>%ld)\n", (long) [s length], (long) expect);
+      mulle_printf( "string length failed (%ld<>%ld)\n", (long) [s length], (long) expect);
       return;
    }
 
-   printf( "passed\n");
+   mulle_printf( "passed\n");
 }
 
 

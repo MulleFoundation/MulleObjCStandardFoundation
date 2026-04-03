@@ -35,8 +35,15 @@
 //
 #import <MulleObjC/mulle-objc-universeconfiguration-private.h>
 
+#import "import.h"
+
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 void  mulle_foundation_universeconfiguration_set_defaults( struct _mulle_objc_universeconfiguration *setup);
 
 
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 void   mulle_foundation_postcreate_objc( struct _mulle_objc_universe *universe);
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 void   mulle_foundation_teardown_objc( struct _mulle_objc_universe *universe);

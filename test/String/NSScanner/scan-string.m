@@ -43,13 +43,13 @@ void  test( BOOL flag)
    for( i = 0; i < sizeof( searchStrings) / sizeof( searchStrings[ 0]); i++)
    {
       search = searchStrings[ i];
-      printf( "Search for %s (skip white: %s)\n", [search UTF8String], flag ? "NO" : "YES");
+      mulle_printf( "Search for %s (skip white: %s)\n", [search UTF8String], flag ? "NO" : "YES");
 
       for( j = 0; j < sizeof( strings) / sizeof( strings[ 0]); j++)
       {
          string = strings[ j];
          sep    = "";
-         printf( "\tScanning \"%s\" :: ", [string UTF8String]);
+         mulle_printf( "\tScanning \"%s\" :: ", [string UTF8String]);
          fflush( stdout);
 
          scanner = [NSScanner scannerWithString:string];
@@ -60,13 +60,13 @@ void  test( BOOL flag)
          {
             found = [scanner scanString:search
                              intoString:&s1];
-            printf( "%sscanString:\"%s\" ",  sep, [s1 UTF8String]);
+            mulle_printf( "%sscanString:\"%s\" ",  sep, [s1 UTF8String]);
             fflush( stdout);
             sep =", ";
             if( ! found)
                break;
          }
-         printf( "\n");
+         mulle_printf( "\n");
       }
    }
 }

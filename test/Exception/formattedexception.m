@@ -21,7 +21,7 @@ int main(int argc, const char * argv[])
    }
    @catch( NSException *localException)
    {
-      printf( "%s: %s\n", [[localException name] UTF8String],
+      mulle_printf( "%s: %s\n", [[localException name] UTF8String],
                           [[localException reason] UTF8String]);
       return( 0);
    }

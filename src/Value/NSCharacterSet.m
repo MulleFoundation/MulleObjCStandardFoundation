@@ -47,6 +47,7 @@
 
 // std-c and dependencies
 #include <ctype.h>
+#include <mulle-utf/mulle-utf.h>
 
 
 @implementation NSCharacterSet
@@ -356,34 +357,35 @@ static int  ascii_iswhite( unichar c)
 }
 
 
-static inline void    _mulle__buffer_add_unichar( struct mulle__buffer *buffer,
-                                                  unichar c,
-                                                  struct mulle_allocator *allocator)
-{
-   unsigned char   *p;
-
-   if( ! _mulle__buffer_guarantee( buffer, 4, allocator))
-      return;
-
-   p = (unsigned char *) &c;
-
-   *buffer->_curr++ = *p++;
-   *buffer->_curr++ = *p++;
-   *buffer->_curr++ = *p++;
-   *buffer->_curr++ = *p++;
-}
-
-
-static inline void    mulle_buffer_add_unichar( struct mulle_buffer *buffer,
-                                                unichar c)
-{
-   if( ! buffer)
-      return;
-
-   _mulle__buffer_add_unichar( (struct mulle__buffer *) buffer,
-                               c,
-                               mulle_buffer_get_allocator( buffer));
-}
+// static inline void    _mulle__buffer_add_unichar( struct mulle__buffer *buffer,
+//                                                   unichar c,
+//                                                   struct mulle_allocator *allocator)
+// {
+//    unsigned char   *p;
+//
+//    if( ! _mulle__buffer_guarantee( buffer, 4, allocator))
+//       return;
+//
+//    p = (unsigned char *) &c;
+//
+//    *buffer->_curr++ = *p++;
+//    *buffer->_curr++ = *p++;
+//    *buffer->_curr++ = *p++;
+//    *buffer->_curr++ = *p++;
+// }
+//
+//
+//
+// static inline void    mulle_buffer_add_unichar( struct mulle_buffer *buffer,
+//                                                 unichar c)
+// {
+//    if( ! buffer)
+//       return;
+//
+//    _mulle__buffer_add_unichar( (struct mulle__buffer *) buffer,
+//                                c,
+//                                mulle_buffer_get_allocator( buffer));
+// }
 
 
 static NSString *
@@ -398,6 +400,8 @@ static NSString *
    uint8_t                  bit;
    unichar                  c;
    struct mulle_data        data;
+   char                     utf8[4];
+   char                     *end;
 
    allocator = MulleObjCClassGetAllocator( [NSString class]);
    mulle_buffer_init( &buffer, 8192, allocator);
@@ -425,20 +429,26 @@ static NSString *
             c = k + j * 8 + i * 65536;
 
             if( separator && mulle_buffer_get_length( &buffer))
-               mulle_buffer_add_unichar( &buffer, separator);
-            mulle_buffer_add_unichar( &buffer, c);
+            {
+               end = mulle_utf32_as_utf8( separator, utf8);
+               mulle_buffer_add_chars( &buffer, utf8, end - utf8); // separator unescaped
+            }
+            end = mulle_utf32_as_utf8( c, utf8);
+            mulle_buffer_add_c_chars( &buffer, utf8, end - utf8);
          }
       }
    }
    mulle_free( bitmap);
 
+   mulle_buffer_add_byte( &buffer, 0);  // null terminate
    mulle_buffer_size_to_fit( &buffer);
    data = mulle_buffer_extract_data( &buffer);
    mulle_buffer_done( &buffer);
 
-   return( [NSString mulleStringWithCharactersNoCopy:data.bytes
-                                              length:data.length / sizeof( unichar)
-                                           allocator:allocator]);
+   return( [[[NSString alloc] initWithBytesNoCopy:data.bytes
+                                           length:data.length
+                                         encoding:NSUTF8StringEncoding
+                                      freeWhenDone:YES] autorelease]);
 }
 
 

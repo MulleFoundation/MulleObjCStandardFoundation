@@ -23,12 +23,12 @@ int main(int argc, const char * argv[])
    for( i = 0; i < 0x400; i++)
       *p++ = i & 0xFF;
 
-   printf( "%ld\n", [data length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [data length]);
    [data appendData:data];
-   printf( "%ld\n", [data length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [data length]);
    [data appendBytes:[data mutableBytes]
               length:0x400];
-   printf( "%ld\n", [data length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [data length]);
 
    copy  = [data immutableInstance];
    clone = [NSMutableData dataWithData:copy];
@@ -37,11 +37,11 @@ int main(int argc, const char * argv[])
    for( i = 0; i < 0x400 * 3; i++)
       if( *p++ != (i & 0xFF))
       {
-         printf( "failed at %u with %d\n", i, p[ -1]);
+         mulle_printf( "failed at %u with %d\n", i, p[ -1]);
          return( 1);
       }
 
-   printf( "passed\n");
+   mulle_printf( "passed\n");
 
    return( 0);
 }

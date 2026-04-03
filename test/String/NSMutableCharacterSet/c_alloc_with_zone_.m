@@ -26,11 +26,11 @@ static int   test_c_alloc_with_zone_( void)
       @try
       {
          value = [[NSMutableCharacterSet allocWithZone:params_1[ i_1]] autorelease];
-         printf( "%s\n", [[value mulleTestDescription] UTF8String]);
+         mulle_printf( "%s\n", [[value mulleTestDescription] UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

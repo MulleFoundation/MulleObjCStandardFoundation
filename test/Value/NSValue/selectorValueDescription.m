@@ -13,13 +13,13 @@ int  main( void)
 
    sel   = @selector(a:b:c:);
 #if 0
-   printf( "%s\n",
+   mulle_printf( "%s\n",
       [[NSString stringWithFormat:@"@( @selector( %@))", NSStringFromSelector( sel)] UTF8String]);
    return( 0);
 #endif
    value = [NSValue valueWithBytes:&sel
                           objCType:@encode( SEL)];
 
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
    return( 0);
 }

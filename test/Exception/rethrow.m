@@ -29,7 +29,7 @@ int main(int argc, const char * argv[])
    }
    @catch( NSException *localException)
    {
-      printf( "passed\n");
+      mulle_printf( "passed\n");
    }
    return( 0);
 }

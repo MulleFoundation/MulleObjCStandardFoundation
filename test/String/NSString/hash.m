@@ -76,7 +76,7 @@ int main( int argc, const char * argv[])
 
    n = i;
    for( i = 0; i < n; i++)
-      printf( "%s len=%ld \"%s\"\n",
+      mulle_printf( "%s len=%ld \"%s\"\n",
                   [NSStringFromClass( [strings[ i] class]) UTF8String],
                   (unsigned long) [strings[ i] length],
                   [strings[ i] UTF8String]);
@@ -86,7 +86,7 @@ int main( int argc, const char * argv[])
       for( j = i + 1; j < n; j++)
          if( [strings[ i] hash] != [strings[ j] hash])
          {
-            printf( "%s and %s hash fail (%lx <> %lx)\n",
+            mulle_printf( "%s and %s hash fail (%lx <> %lx)\n",
                     [NSStringFromClass( [strings[ i] class]) UTF8String],
                     [NSStringFromClass( [strings[ j] class]) UTF8String],
                     (unsigned long) [strings[ i] hash],
@@ -98,7 +98,7 @@ int main( int argc, const char * argv[])
       for( j = i + 1; j < n; j++)
          if( ! [strings[ i] isEqual:strings[ j]])
          {
-            printf( "%s and %s isEqual: fail\n",
+            mulle_printf( "%s and %s isEqual: fail\n",
                     [NSStringFromClass( [strings[ i] class]) UTF8String],
                     [NSStringFromClass( [strings[ j] class]) UTF8String]);
          }

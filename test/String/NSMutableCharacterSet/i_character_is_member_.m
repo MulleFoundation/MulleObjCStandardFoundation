@@ -35,11 +35,11 @@ static int   test_i_character_is_member_( void)
       {
          obj   = [NSMutableCharacterSet letterCharacterSet];
          value = [obj characterIsMember:params_1[ i_1]];
-         printf( "%d\n", value);
+         mulle_printf( "%d\n", value);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

@@ -9,14 +9,14 @@
 
 #import <MulleObjCContainerFoundation/mulle-qsort-pointers.h>
 
-#include <stdio.h>
+#include <mulle-fprintf/mulle-fprintf.h>
 
 
 static int  cmp( void *a, void *b, void *userinfo)
 {
    if( userinfo != (void *) 1848)
    {
-      printf( "fail\n");
+      mulle_printf( "fail\n");
       return( 0);
    }
    if( a >= b)
@@ -30,10 +30,10 @@ static void  test( void **array, size_t n)
    unsigned int  i;
 
    mulle_qsort_pointers( array, n, cmp, (void *) 1848);
-   printf( "[");
+   mulle_printf( "[");
    for( i = 0; i < n; i++)
-      printf( " %p", array[ i]);
-   printf( "]\n");
+      mulle_printf( " %p", array[ i]);
+   mulle_printf( "]\n");
 }
 
 #pragma clang diagnostic ignored "-Wint-conversion"

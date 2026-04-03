@@ -17,10 +17,10 @@ static void   printf_comparison( NSComparisonResult result)
 {
    switch( result)
    {
-   case  NSOrderedAscending  : printf( "NSOrderedAscending\n"); break;
-   case  NSOrderedDescending : printf( "NSOrderedDescending\n"); break;
-   case  NSOrderedSame       : printf( "NSOrderedSame\n"); break;
-   default                   : printf( "???\n"); break;
+   case  NSOrderedAscending  : mulle_printf( "NSOrderedAscending\n"); break;
+   case  NSOrderedDescending : mulle_printf( "NSOrderedDescending\n"); break;
+   case  NSOrderedSame       : mulle_printf( "NSOrderedSame\n"); break;
+   default                   : mulle_printf( "???\n"); break;
    }
 }
 
@@ -39,102 +39,102 @@ int   main( void)
    NSNumber   *a;
    NSNumber   *b;
 
-   printf( "bool\n");
+   mulle_printf( "bool\n");
    a = [NSNumber numberWithBool:YES];
    b = [NSNumber numberWithBool:NO];
    compare( a, b);
 
-   printf( "\nchar\n");
+   mulle_printf( "\nchar\n");
    a = [NSNumber numberWithChar:CHAR_MAX];
    b = [NSNumber numberWithChar:CHAR_MIN];
    compare( a, b);
 
-   printf( "\nshort\n");
+   mulle_printf( "\nshort\n");
    a = [NSNumber numberWithShort:SHRT_MAX];
    b = [NSNumber numberWithShort:SHRT_MIN];
    compare( a, b);
 
-   printf( "\nint\n");
+   mulle_printf( "\nint\n");
    a = [NSNumber numberWithInt:INT_MAX];
    b = [NSNumber numberWithInt:INT_MIN];
    compare( a, b);
 
-   printf( "\nlong\n");
+   mulle_printf( "\nlong\n");
    a = [NSNumber numberWithLong:LONG_MAX];
    b = [NSNumber numberWithLong:LONG_MIN];
    compare( a, b);
 
-   printf( "\nlong long\n");
+   mulle_printf( "\nlong long\n");
    a = [NSNumber numberWithLongLong:LONG_LONG_MAX];
    b = [NSNumber numberWithLongLong:LONG_LONG_MIN];
    compare( a, b);
 
-   printf( "\nNSInteger\n");
+   mulle_printf( "\nNSInteger\n");
    a = [NSNumber numberWithInteger:NSIntegerMax];
    b = [NSNumber numberWithInteger:NSIntegerMin];
    compare( a, b);
 
 /* unsigned, sometimes UCHAR_MAX is not defined, so fuck it */
 
-   printf( "\nunsigned char\n");
+   mulle_printf( "\nunsigned char\n");
    a = [NSNumber numberWithUnsignedChar:CHAR_MAX];
    b = [NSNumber numberWithUnsignedChar:CHAR_MIN];
    compare( a, b);
 
-   printf( "\nunsigned short\n");
+   mulle_printf( "\nunsigned short\n");
    a = [NSNumber numberWithUnsignedShort:SHRT_MAX];
    b = [NSNumber numberWithUnsignedShort:SHRT_MIN];
    compare( a, b);
 
 
-   printf( "\nunsigned int\n");
+   mulle_printf( "\nunsigned int\n");
    a = [NSNumber numberWithUnsignedInt:INT_MAX];
    b = [NSNumber numberWithUnsignedInt:INT_MIN];
    compare( a, b);
 
-   printf( "\nunsigned long\n");
+   mulle_printf( "\nunsigned long\n");
    a = [NSNumber numberWithUnsignedLong:LONG_MAX];
    b = [NSNumber numberWithUnsignedLong:LONG_MIN];
    compare( a, b);
 
-   printf( "\nunsigned long long\n");
+   mulle_printf( "\nunsigned long long\n");
    a = [NSNumber numberWithUnsignedLongLong:LONG_LONG_MAX];
    b = [NSNumber numberWithUnsignedLongLong:LONG_LONG_MIN];
    compare( a, b);
 
-   printf( "\nNSUInteger\n");
+   mulle_printf( "\nNSUInteger\n");
    a = [NSNumber numberWithUnsignedInteger:NSIntegerMax];
    b = [NSNumber numberWithUnsignedInteger:NSIntegerMin];
    compare( a, b);
 
 
-   printf( "\nfloat\n");
+   mulle_printf( "\nfloat\n");
    a = [NSNumber numberWithFloat:FLT_MAX];
    b = [NSNumber numberWithFloat:FLT_MIN];
    compare( a, b);
 
-   printf( "\ndouble\n");
+   mulle_printf( "\ndouble\n");
    a = [NSNumber numberWithDouble:DBL_MAX];
    b = [NSNumber numberWithDouble:DBL_MIN];
    compare( a, b);
 
 
-   printf( "\nunsigned char, char\n");
+   mulle_printf( "\nunsigned char, char\n");
    a = [NSNumber numberWithUnsignedShort:CHAR_MIN];
    b = [NSNumber numberWithShort:CHAR_MIN];
    compare( a, b);
 
-   printf( "\nunsigned short, short\n");
+   mulle_printf( "\nunsigned short, short\n");
    a = [NSNumber numberWithUnsignedShort:SHRT_MIN];
    b = [NSNumber numberWithShort:SHRT_MIN];
    compare( a, b);
 
-   printf( "\nunsigned int, int\n");
+   mulle_printf( "\nunsigned int, int\n");
    a = [NSNumber numberWithUnsignedInt:INT_MIN];
    b = [NSNumber numberWithInt:INT_MIN];
    compare( a, b);
 
-   printf( "\ndouble, int\n");
+   mulle_printf( "\ndouble, int\n");
    a = [NSNumber numberWithDouble:INT_MIN];
    b = [NSNumber numberWithInt:INT_MIN];
    compare( a, b);

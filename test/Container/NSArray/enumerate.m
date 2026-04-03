@@ -26,7 +26,7 @@ int main(int argc, const char * argv[])
    rover = [array objectEnumerator];
    other = [rover allObjects];
 
-   printf( "%s\n", array != other && [array isEqual:other] ? "passed" : "failed");
+   mulle_printf( "%s\n", array != other && [array isEqual:other] ? "passed" : "failed");
 
    return( 0);
 }

@@ -746,13 +746,14 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *se
    NSMutableString   *buffer;
    NSString          *s;
    NSString          *sep;
+   NSString          *rval;
 
    components = [self _componentsSeparatedByString:separator];
    n          = [components count];
    if( n <= 1)
       return( self);
 
-   buffer = nil; // can't happen
+   rval = nil; // can't happen
    mulle_alloca_do( tmpComponents, id, n)
    {
       mulle_alloca_do( tmpTypes, char, n)
@@ -839,30 +840,41 @@ NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *se
          }
 
          if( j == n)
-            return( self);
+         {
+            rval = self;
+            break;
+         }
 
          assert( j);
          if( j == 1)
          {
             if( tmpTypes[ 0] == isSeparator)
-               return( separator);
-            return( tmpComponents[ 0]);
+            {
+               rval = separator;
+               break;
+            }
+            rval = tmpComponents[ 0];
+            break;
          }
       }
 
-      buffer    = [NSMutableString string];
-      selAppend = @selector( appendString:);
-      impAppend = [buffer methodForSelector:selAppend];
-
-      sep = nil;
-      for( i = 0; i < j; i++)
+      if( ! rval)
       {
-         (*impAppend)( buffer, selAppend, sep);
-         (*impAppend)( buffer, selAppend, tmpComponents[ i]);
-         sep = separator;
+         buffer    = [NSMutableString string];
+         selAppend = @selector( appendString:);
+         impAppend = [buffer methodForSelector:selAppend];
+
+         sep = nil;
+         for( i = 0; i < j; i++)
+         {
+            (*impAppend)( buffer, selAppend, sep);
+            (*impAppend)( buffer, selAppend, tmpComponents[ i]);
+            sep = separator;
+         }
+         rval = buffer;
       }
    }
-   return( buffer);
+   return( rval);
 }
 
 

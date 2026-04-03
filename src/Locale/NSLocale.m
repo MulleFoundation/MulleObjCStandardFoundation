@@ -181,16 +181,13 @@ static struct
 }
 
 
-- (id) :(id) key;
-{
-   return( [(NSDictionary *)_keyValues :key]);
-}
-
-
 - (id) objectForKey:(id) key;
 {
    return( [_keyValues objectForKey:key]);
 }
+
+@method_implementation -: = -objectForKey:;
+
 
 // https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html#//apple_ref/doc/uid/10000171i-CH15
 // some ugly hacks for Framework resource loading

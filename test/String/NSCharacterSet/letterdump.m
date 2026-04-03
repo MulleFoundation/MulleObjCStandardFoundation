@@ -18,7 +18,7 @@
 //
 int main( int argc, const char * argv[])
 {
-   printf( "%s", [[[NSCharacterSet letterCharacterSet] mulleTestDescription] UTF8String]);
+   mulle_printf( "%s", [[[NSCharacterSet letterCharacterSet] mulleTestDescription] UTF8String]);
 
    return( 0);
 }

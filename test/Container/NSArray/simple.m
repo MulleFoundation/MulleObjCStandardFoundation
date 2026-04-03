@@ -22,7 +22,7 @@ int main(int argc, const char * argv[])
    key   = [NSString stringWithUTF8String:"bar"];
    array = [NSArray arrayWithObjects:nr, key, nil];
 
-   printf( "%s\n", [array count] == 2 ? "passed" : "failed");
+   mulle_printf( "%s\n", [array count] == 2 ? "passed" : "failed");
 
    return( 0);
 }

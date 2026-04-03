@@ -22,14 +22,14 @@ static void  _test( char *title, NSString *s, NSString *separator)
 
    set = [NSCharacterSet characterSetWithCharactersInString:separator];
    array = [s componentsSeparatedByCharactersInSet:set];
-   printf( "%s \"%s\" separated by characterset \"%s\":",
+   mulle_printf( "%s \"%s\" separated by characterset \"%s\":",
             title,
             [s UTF8String],
             [separator UTF8String]);
 
    for( component in array)
-      printf( " \"%s\"", [component UTF8String]);
-   printf( "\n");
+      mulle_printf( " \"%s\"", [component UTF8String]);
+   mulle_printf( "\n");
 }
 
 

@@ -21,9 +21,9 @@ int main( int argc, const char * argv[])
    data = [NSData dataWithBytes:text
                          length:sizeof( text)];
 
-   printf( "%s\n", [[data description] UTF8String]);
-   printf( "---\n");
-   printf( "%s\n", [[data debugDescription] UTF8String]);
+   mulle_printf( "%s\n", [[data description] UTF8String]);
+   mulle_printf( "---\n");
+   mulle_printf( "%s\n", [[data debugDescription] UTF8String]);
 
    return( 0);
 }

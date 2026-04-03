@@ -18,9 +18,9 @@
 static void   print_range( NSRange range)
 {
    if( range.location == NSNotFound)
-      printf( "NSNotFound,%ld\n", (long) range.length);
+      mulle_printf( "NSNotFound,%ld\n", (long) range.length);
    else
-      printf( "%ld,%ld\n", (long) range.location, (long) range.length);
+      mulle_printf( "%ld,%ld\n", (long) range.location, (long) range.length);
 }
 
 
@@ -35,7 +35,7 @@ void  test_data( NSData *data, NSData *search, NSUInteger options, NSRange range
    }
    @catch( NSException *localException)
    {
-      printf( "exception\n");
+      mulle_printf( "exception\n");
    }
 }
 
@@ -51,7 +51,7 @@ void  test_4( NSData *data, NSData *search, NSRange range)
 
 void  test( NSData *data, NSData *search)
 {
-   printf( "\n%.*s\n", (int) [search length], (char *) [search bytes]);
+   mulle_printf( "\n%.*s\n", (int) [search length], (char *) [search bytes]);
 
    test_4( data, search, NSRangeMake( 0, [data length]));
    test_4( data, search, NSRangeMake( 1, [data length] - 1));

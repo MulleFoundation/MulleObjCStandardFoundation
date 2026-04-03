@@ -23,7 +23,7 @@ int main(int argc, const char * argv[])
    key   = [NSString stringWithUTF8String:"bar"];
    [array addObject:key];
 
-   printf( "%s\n", [array count] == 2 ? "passed" : "failed");
+   mulle_printf( "%s\n", [array count] == 2 ? "passed" : "failed");
 
    @try
    {
@@ -32,7 +32,7 @@ int main(int argc, const char * argv[])
    }
    @catch( NSException *e)
    {
-      printf( "%s\n", [[e name] UTF8String]);
+      mulle_printf( "%s\n", [[e name] UTF8String]);
    }
 
    return( 0);

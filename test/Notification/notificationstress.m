@@ -90,21 +90,21 @@ int   main( void)
       // create to 10000 entries for observation
 
 //      foo = [objects objectAtIndex:0];
-//      fprintf( stderr, "#1: %p\n", foo);
+//      mulle_fprintf( stderr, "#1: %p\n", foo);
 //      [center addObserver:foo
 //                 selector:@selector( receiveNameNotification:)
 //                     name:@"NotificationName"
 //                   object:[objects objectAtIndex:1]];
-//      fprintf( stderr, "#2\n");
+//      mulle_fprintf( stderr, "#2\n");
 //      [center dump];
 //
 //      foo = [objects objectAtIndex:1];
-//      fprintf( stderr, "#3: %p\n", foo);
+//      mulle_fprintf( stderr, "#3: %p\n", foo);
 //      [center addObserver:foo
 //                 selector:@selector( receiveNameObjectNotification:)
 //                     name:@"NotificationName"
 //                   object:[objects objectAtIndex:1]];
-//      fprintf( stderr, "#4\n");
+//      mulle_fprintf( stderr, "#4\n");
 //      [center dump];
 
 
@@ -119,9 +119,9 @@ int   main( void)
       for( i = 0; i < N_OBJECTS; i++)
       {
          foo = [objects objectAtIndex:i];
-//         fprintf( stderr, "#5.%ld: %p\n", (long) i, foo);
+//         mulle_fprintf( stderr, "#5.%ld: %p\n", (long) i, foo);
          [center removeObserver:foo];
-//         fprintf( stderr, "#6.%ld\n", (long) i);
+//         mulle_fprintf( stderr, "#6.%ld\n", (long) i);
 //         [center dump];
       }
    }

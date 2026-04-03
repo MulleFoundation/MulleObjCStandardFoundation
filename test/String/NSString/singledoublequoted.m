@@ -21,7 +21,10 @@ static void   test( NSString *cmdline)
 
 int  main( int argc, char *argv[])
 {
-   test( @"mulle-sourcetree walk --in-order --dedupe-mode url-filename --eval-node --no-bequeath --marks dependency,share-shirk 'printf \"%s;%s;%s\\n\" \"${NODE_ADDRESS}\" \"${NODE_EVALED_BRANCH}\" \"${NODE_EVALED_URL}\"'");
+   test( @"mulle-sourcetree walk --in-order --dedupe-mode url-filename "
+          "--eval-node --no-bequeath --marks dependency,share-shirk "
+          "'printf \"%s;%s;%s\\n\" "
+          "\"${NODE_ADDRESS}\" \"${NODE_EVALED_BRANCH}\" \"${NODE_EVALED_URL}\"'");
    test( @"'VfL \"Bochum\" 1848'");
    test( @"\"VfL 'Bochum' 1848\"");
 

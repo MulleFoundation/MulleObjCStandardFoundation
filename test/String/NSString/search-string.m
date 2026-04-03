@@ -22,7 +22,7 @@ static void  _test( NSString *s, NSString *other, NSUInteger options, char *name
    if( range.location != NSNotFound)
       substring = [s substringWithRange:range];
 
-   printf( "%s %s of %s = %s (%ld %ld)\n",
+   mulle_printf( "%s %s of %s = %s (%ld %ld)\n",
       [s UTF8String], name, [other UTF8String], [substring UTF8String],
       (long) ((range.location == NSNotFound) ? -1 : range.length),
       (long) range.length);

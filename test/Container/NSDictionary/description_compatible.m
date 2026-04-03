@@ -15,9 +15,9 @@
 
 int main(int argc, const char * argv[])
 {
-   printf( "%s\n", [[@{} description] UTF8String]);
-   printf( "%s\n", [[@{ @"a" : @"b" } description] UTF8String]);
-   printf( "%s\n", [[@{ @"a" : @"b", @"c" : @"d"} description] UTF8String]);
+   mulle_printf( "%s\n", [[@{} description] UTF8String]);
+   mulle_printf( "%s\n", [[@{ @"a" : @"b" } description] UTF8String]);
+   mulle_printf( "%s\n", [[@{ @"a" : @"b", @"c" : @"d"} description] UTF8String]);
 
    return( 0);
 }

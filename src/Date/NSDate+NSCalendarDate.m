@@ -25,6 +25,7 @@
 - (NSCalendarDate *) dateWithCalendarFormat:(NSString *) format
                                    timeZone:(NSTimeZone *) tz
 {
+   MULLE_C_UNUSED( format );
    return( [self calendarDateWithTimeZone:tz]);
 }
 

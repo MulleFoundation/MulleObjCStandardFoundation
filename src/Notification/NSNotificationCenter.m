@@ -441,7 +441,7 @@ static struct
 
    if( mulle_thread_mutex_init( &_lock))
    {
-      fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
+      mulle_fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
       abort();
    }
 
@@ -464,7 +464,7 @@ static struct
        mulle_map_get_count( &_pairRegistry)   ||
        mulle_map_get_count( &_observerRegistry))
    {
-      fprintf( stderr, "Some NSNotificationCenter (%p) observers haven't unregistered yet!", self);
+      mulle_fprintf( stderr, "Some NSNotificationCenter (%p) observers haven't unregistered yet!", self);
       [self dump];
    }
 #endif
@@ -506,22 +506,22 @@ static struct
 
    s = _mulle__map_describe( (struct mulle__map *) &_observerRegistry, &observer_registry_callbacks, allocator);
    if( s && *s)
-      fprintf( stderr, "Observers: %s\n", s);
+      mulle_fprintf( stderr, "Observers: %s\n", s);
    mulle_allocator_free( allocator, s);
 
    s = _mulle__map_describe( (struct mulle__map *) &_pairRegistry, &pair_registry_callbacks, allocator);
    if( s && *s)
-      fprintf( stderr, "Pairs: %s\n", s);
+      mulle_fprintf( stderr, "Pairs: %s\n", s);
    mulle_allocator_free( allocator, s);
 
    s = _mulle__map_describe( (struct mulle__map *) &_nameRegistry, &name_registry_callbacks, allocator);
    if( s && *s)
-      fprintf( stderr, "Names: %s\n", s);
+      mulle_fprintf( stderr, "Names: %s\n", s);
    mulle_allocator_free( allocator, s);
 
    s = _mulle__map_describe( (struct mulle__map *) &_senderRegistry, &sender_registry_callbacks, allocator);
    if( s && *s)
-      fprintf( stderr, "Senders: %s\n", s);
+      mulle_fprintf( stderr, "Senders: %s\n", s);
    mulle_allocator_free( allocator, s);
 }
 #endif
@@ -576,7 +576,7 @@ static void  add_triplet_to_queue_for_key( struct mulle_map *table,
 
    if( Self._isFinalizing)
    {
-      fprintf( stderr, "NSNotificationCenter ignored the add of an observer "
+      mulle_fprintf( stderr, "NSNotificationCenter ignored the add of an observer "
                        "during universe finalization\n");
       return;
    }
@@ -912,7 +912,7 @@ static void   NSNotificationCenterPostNotification( NSNotificationCenter  *self,
 
    if( Self._isFinalizing)
    {
-      fprintf( stderr, "NSNotificationCenter ignored the posting of a notification "
+      mulle_fprintf( stderr, "NSNotificationCenter ignored the posting of a notification "
                        "during universe finalization\n");
       return;
    }

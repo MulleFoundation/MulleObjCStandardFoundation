@@ -8,7 +8,7 @@
 
 static void print_bool( BOOL flag)
 {
-   printf( "%s\n", flag ? "YES" : "NO");
+   mulle_printf( "%s\n", flag ? "YES" : "NO");
 }
 
 

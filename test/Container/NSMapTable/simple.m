@@ -21,22 +21,22 @@ int main(int argc, const char * argv[])
 
    table = NSCreateMapTable( NSObjectMapKeyCallBacks, NSObjectMapValueCallBacks, 16);
 
-   printf( "%s\n", NSCountMapTable( table) == 0 ? "passed" : "failed");
-   printf( "%s\n", NSMapGet( table, key) == nil ? "passed" : "failed");
+   mulle_printf( "%s\n", NSCountMapTable( table) == 0 ? "passed" : "failed");
+   mulle_printf( "%s\n", NSMapGet( table, key) == nil ? "passed" : "failed");
 
    // simple basic test for leakage and key equality
 
    NSMapInsert( table, key, nr);
    key = [NSString stringWithUTF8String:"bar"];
 
-   printf( "%s\n", NSMapGet( table, key) == nr ? "passed" : "failed");
-   printf( "%s\n", NSCountMapTable( table) == 1 ? "passed" : "failed");
+   mulle_printf( "%s\n", NSMapGet( table, key) == nr ? "passed" : "failed");
+   mulle_printf( "%s\n", NSCountMapTable( table) == 1 ? "passed" : "failed");
 
    NSMapRemove( table, nr);
-   printf( "%s\n", NSCountMapTable( table) == 1 ? "passed" : "failed");
+   mulle_printf( "%s\n", NSCountMapTable( table) == 1 ? "passed" : "failed");
 
    NSMapRemove( table, key);
-   printf( "%s\n", NSCountMapTable( table) == 0 ? "passed" : "failed");
+   mulle_printf( "%s\n", NSCountMapTable( table) == 0 ? "passed" : "failed");
 
    // reinsert for leak detection
    NSMapInsert( table, key, nr);

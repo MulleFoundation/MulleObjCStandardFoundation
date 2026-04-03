@@ -41,11 +41,11 @@ static int   test_i_init_with_objects_count_( void)
       {
          obj = [[[NSSet alloc] initWithObjects:params_1[ i_1]
                                          count:params_2[ i_1]] autorelease];
-         printf( "%s\n", [[obj description] UTF8String]);
+         mulle_printf( "%s\n", [[obj description] UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

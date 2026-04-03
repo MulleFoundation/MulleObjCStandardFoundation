@@ -30,11 +30,11 @@ static int   test_i_form_intersection_with_character_set_( void)
       {
          obj = [NSMutableCharacterSet characterSetWithCharactersInString:@"ABC"];
          [obj formIntersectionWithCharacterSet:params_1[ i_1]];
-         printf( "---\n%s\n---\n", [[obj mulleTestDescription] UTF8String]);
+         mulle_printf( "---\n%s\n---\n", [[obj mulleTestDescription] UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

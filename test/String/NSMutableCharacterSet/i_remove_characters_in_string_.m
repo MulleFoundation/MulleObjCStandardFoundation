@@ -35,11 +35,11 @@ static int   test_i_remove_characters_in_string_( void)
          {
             obj = [NSMutableCharacterSet characterSetWithCharactersInString:params_1[ i_2]];
             [obj removeCharactersInString:params_1[ i_1]];
-            printf( "%u/%u: %s\n", i_1, i_2, [[obj mulleTestDescription] UTF8String]);
+            mulle_printf( "%u/%u: %s\n", i_1, i_2, [[obj mulleTestDescription] UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    }

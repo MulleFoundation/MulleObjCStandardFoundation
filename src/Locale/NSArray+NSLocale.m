@@ -45,6 +45,8 @@
 - (NSString *) descriptionWithLocale:(NSLocale *) locale
                               indent:(NSUInteger) level
 {
+   MULLE_C_UNUSED( locale );
+   MULLE_C_UNUSED( level );
    return( [self description]);
 }
 

@@ -28,13 +28,13 @@ int main( int argc, const char * argv[])
       {
          s  = [NSString stringWithFormat:@"%c", i];
          nr = [NSNumber numberWithDouble:(double) i / 10];
-         printf( "%s:\"%s\"\n",
+         mulle_printf( "%s:\"%s\"\n",
                    [[nr description] UTF8String],
                    [[s description] UTF8String]);
       }
       @catch( NSException *e)
       {
-         printf( "exception: %s\n", [[e reason] UTF8String]);
+         mulle_printf( "exception: %s\n", [[e reason] UTF8String]);
       }
    }
    return( 0);

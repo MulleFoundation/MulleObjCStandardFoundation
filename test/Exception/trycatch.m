@@ -25,21 +25,21 @@
 {
    NSException   *exception;
 
-   printf( "start\n");
+   mulle_printf( "start\n");
    exception = nil;
-   printf( "before exception%snil\n", exception ? "!=" : "==");
+   mulle_printf( "before exception%snil\n", exception ? "!=" : "==");
    @try
    {
-      printf( "@try\n");
+      mulle_printf( "@try\n");
    }
    @catch( NSException *localException)
    {
-      printf( "@catch\n");
+      mulle_printf( "@catch\n");
       exception = localException;
    }
-   printf( "after exception%snil\n", exception ? "!=" : "==");
+   mulle_printf( "after exception%snil\n", exception ? "!=" : "==");
    [exception raise];
-   printf( "done\n");
+   mulle_printf( "done\n");
 }
 
 @end

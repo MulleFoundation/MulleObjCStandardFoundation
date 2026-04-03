@@ -26,7 +26,7 @@ int main( int argc, const char * argv[])
    [s appendString:@"1848"];
    [s appendString:emojis];
 
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    return( 0);
 }

@@ -62,12 +62,14 @@ NSString  *NSAssertionHandlerKey;
 @end
 
 
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 void   MulleObjCAssertionHandlerFailInMethod( SEL sel,
                                               id obj,
                                               char *filename,
                                               int line,
                                               NSString *format, ...);
 
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 void   MulleObjCAssertionHandlerFailInFunction( char *function,
                                                 char *file,
                                                 int line,

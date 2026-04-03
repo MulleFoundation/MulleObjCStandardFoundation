@@ -52,7 +52,7 @@ static void  test( void)
       mulle_printf( "\nfail: \"%@\"\n", [scanner mulleUnscannedString]);
       break;
    }
-   printf( "\n");
+   mulle_printf( "\n");
 }
 
 
