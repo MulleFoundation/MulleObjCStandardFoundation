@@ -14,9 +14,9 @@
 static void   print_length( NSString *a)
 {
    if( a)
-      printf( "\"%s\": %lu\n", [a UTF8String], (unsigned long) [a length]);
+      mulle_printf( "\"%s\": %lu\n", [a UTF8String], (unsigned long) [a length]);
    else
-      printf( "*nil*: %lu\n", (unsigned long) [a length]);
+      mulle_printf( "*nil*: %lu\n", (unsigned long) [a length]);
 }
 
 

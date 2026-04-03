@@ -20,7 +20,7 @@ static void  test( NSArray *array)
 
    s   = [array description];
    c_s = [s UTF8String];
-   printf( "%s\n", c_s);
+   mulle_printf( "%s\n", c_s);
 }
 
 

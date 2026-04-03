@@ -117,7 +117,7 @@ static inline void   SelfUnlock( void)
                                       4);
       if( mulle_thread_mutex_init( &Self._lock))
       {
-         fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
+         mulle_fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
          abort();
       }
    }
@@ -247,7 +247,7 @@ static NSString   *NSTimeZoneSecondsFromGMTDescription( NSInteger seconds)
    hours       = minutes / 60;
    minutes     = minutes - hours * 60;
 
-   return( [NSString stringWithFormat:@"%c%02ld%02ld", sign, hours, minutes]);
+   return( [NSString stringWithFormat:@"%c%02tu%02tu", sign, hours, minutes]);
 }
 
 

@@ -15,10 +15,10 @@ static void  print_comparison( NSComparisonResult  result)
 {
    switch( result)
    {
-   case NSOrderedSame       : printf( "same\n"); break;
-   case NSOrderedAscending  : printf( "ascending\n"); break;
-   case NSOrderedDescending : printf( "descending\n"); break;
-   default                  : printf( "???\n"); break;
+   case NSOrderedSame       : mulle_printf( "same\n"); break;
+   case NSOrderedAscending  : mulle_printf( "ascending\n"); break;
+   case NSOrderedDescending : mulle_printf( "descending\n"); break;
+   default                  : mulle_printf( "???\n"); break;
    }
 }
 
@@ -30,7 +30,7 @@ int main( int argc, const char * argv[])
    print_comparison( [@"VfL" compare:@"vfL"]);
    print_comparison( [@"VFL" compare:@"VfL"]);
 
-   printf( "--\n");
+   mulle_printf( "--\n");
    print_comparison( [@"VfL" caseInsensitiveCompare:@"VfL"]);
    print_comparison( [@"vfL" caseInsensitiveCompare:@"VfL"]);
    print_comparison( [@"VfL" caseInsensitiveCompare:@"vfL"]);

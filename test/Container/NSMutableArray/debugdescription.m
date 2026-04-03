@@ -35,7 +35,7 @@ int main( int argc, const char * argv[])
    address = [NSString stringWithFormat:@"%p", nr];
    desc    = [desc stringByReplacingOccurrencesOfString:address
                                              withString:@"<address>"];
-   printf( "%s\n", [desc UTF8String]);
+   mulle_printf( "%s\n", [desc UTF8String]);
 
    return( 0);
 }

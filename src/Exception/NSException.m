@@ -107,7 +107,7 @@ __attribute__ ((noreturn))
 static void   throw_index_exception( NSUInteger index)
 {
    [NSException raise:NSIndexException
-               format:@"index %lu is out of range", (long) index];
+               format:@"index %tu is out of range", index];
 }
 
 
@@ -115,7 +115,7 @@ __attribute__ ((noreturn))
 static void   throw_range_exception( NSRange arg)
 {
    [NSException raise:NSRangeException
-               format:@"range %lu/%lu doesn't fit", (long) arg.location, (long) arg.length];
+               format:@"range %tu/%tu doesn't fit", arg.location, arg.length];
 }
 
 

@@ -21,6 +21,6 @@ int main(int argc, const char * argv[])
    b   = @"1";
    obj = [obj initWithObjects:a, b, nil];
    [obj autorelease];
-   printf( "%s\n", [obj UTF8String]);
+   mulle_printf( "%s\n", [obj UTF8String]);
    return( 0);
 }

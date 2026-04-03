@@ -81,7 +81,7 @@ static inline void   SelfUnlock( void)
                                       4);
       if( mulle_thread_mutex_init( &Self._lock))
       {
-         fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
+         mulle_fprintf( stderr, "%s could not get a mutex\n", __FUNCTION__);
          abort();
       }
       Self._defaultBehavior  = NSNumberFormatterBehavior10_0;

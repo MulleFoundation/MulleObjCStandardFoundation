@@ -23,19 +23,19 @@
 
    pool = [NSAutoreleasePool new];
    {
-      printf( "start\n");
+      mulle_printf( "start\n");
       exception = nil;
-      printf( "before\n");
+      mulle_printf( "before\n");
    NS_DURING
-      printf( "NS_DURING\n");
+      mulle_printf( "NS_DURING\n");
 
    NS_HANDLER
-      printf( "NS_HANDLER\n");
+      mulle_printf( "NS_HANDLER\n");
       exception = localException;
    NS_ENDHANDLER
-      printf( "after\n");
+      mulle_printf( "after\n");
       [exception raise];
-      printf( "done\n");
+      mulle_printf( "done\n");
    }
    [pool release];
 }

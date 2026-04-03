@@ -13,11 +13,11 @@
 
 static void  test( NSString *s, NSString *fix)
 {
-   printf( "\"%s\" has suffix \"%s\": %s\n", 
+   mulle_printf( "\"%s\" has suffix \"%s\": %s\n",
             [s UTF8String],
             [fix UTF8String],
             [s hasSuffix:fix] ? "YES" : "NO");
-   printf( "\"%s\" has prefix \"%s\": %s\n", 
+   mulle_printf( "\"%s\" has prefix \"%s\": %s\n",
             [s UTF8String],
             [fix UTF8String],
             [s hasPrefix:fix] ? "YES" : "NO");

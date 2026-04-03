@@ -18,23 +18,23 @@ int main(int argc, const char * argv[])
    NSMutableString     *clone;
 
    s = [NSMutableString string];
-   printf( "%ld\n", [s length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [s length]);
 
    [s appendString:@"VfL"];
    [s appendString:@" "];
    [s appendString:@"Bochum"];
    [s appendString:@" "];
    [s appendString:@"1848"];
-   printf( "%ld\n", [s length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [s length]);
 
    copy  = [NSString stringWithString:s];
-   printf( "%ld\n", [copy length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [copy length]);
 
    clone = [NSMutableString stringWithString:copy];
-   printf( "%ld\n", [clone length]);
+   mulle_printf( "%td\n", (ptrdiff_t) [clone length]);
 
    if( [s hash] == [clone hash] && [s isEqualToString:clone])
-      printf( "%s\n", [clone UTF8String]);
+      mulle_printf( "%s\n", [clone UTF8String]);
 
    return( 0);
 }

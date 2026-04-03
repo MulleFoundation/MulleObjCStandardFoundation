@@ -9,7 +9,7 @@
 
 + (void) receiveNameNotification:(NSNotification *) notification
 {
-   printf( "-[%s receiveNameNotification:] %s %s\n",
+   mulle_printf( "-[%s receiveNameNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
                   [[notification object] UTF8String]);
@@ -18,7 +18,7 @@
 
 + (void) receiveObjectNotification:(NSNotification *) notification
 {
-   printf( "-[%s receiveObjectNotification:] %s %s\n",
+   mulle_printf( "-[%s receiveObjectNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
                   [[notification object] UTF8String]);
@@ -27,7 +27,7 @@
 
 + (void) receiveNameObjectNotification:(NSNotification *) notification
 {
-   printf( "-[%s receiveNameObjectNotification:] %s %s\n",
+   mulle_printf( "-[%s receiveNameObjectNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
                   [[notification object] UTF8String]);
@@ -36,7 +36,7 @@
 
 + (void) receiveAnyNotification:(NSNotification *) notification
 {
-   printf( "-[%s receiveAnyNotification:] %s %s\n",
+   mulle_printf( "-[%s receiveAnyNotification:] %s %s\n",
                   [[[self class] description] UTF8String],
                   [[notification name] UTF8String],
                   [[notification object] UTF8String]);
@@ -61,7 +61,7 @@
 
 void   post_notifications( NSNotificationCenter *center, id object, id other)
 {
-   printf( "%s %s\n", __FUNCTION__, [other UTF8String]);
+   mulle_printf( "%s %s\n", __FUNCTION__, [other UTF8String]);
 
    [center postNotificationName:@"Blender"
                          object:other
@@ -83,7 +83,7 @@ void   test_multiple( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
    id   object;
 
    object = [Receiver class];
@@ -112,22 +112,22 @@ void   test_multiple( void)
       post_notifications( center, object, @"1");
 
       [center removeObserver:[Receiver4 class]];
-      printf( "removed Receiver4\n");
+      mulle_printf( "removed Receiver4\n");
 
       post_notifications( center, object, @"2");
 
       [center removeObserver:[Receiver2 class]];
-      printf( "removed Receiver2\n");
+      mulle_printf( "removed Receiver2\n");
 
       post_notifications( center, object, @"3");
 
       [center removeObserver:[Receiver1 class]];
-      printf( "removed Receiver1\n");
+      mulle_printf( "removed Receiver1\n");
 
       post_notifications( center, object, @"4");
 
       [center removeObserver:[Receiver3 class]];
-      printf( "removed Receiver3\n");
+      mulle_printf( "removed Receiver3\n");
 
       [center release];
    }

@@ -22,7 +22,7 @@ static void  _test( NSString *s, NSCharacterSet *set, NSUInteger options, char *
    if( range.length)
       substring = [s substringWithRange:range];
 
-   printf( "%s %s = %s\n", [s UTF8String], name, [substring UTF8String]);
+   mulle_printf( "%s %s = %s\n", [s UTF8String], name, [substring UTF8String]);
 }
 
 

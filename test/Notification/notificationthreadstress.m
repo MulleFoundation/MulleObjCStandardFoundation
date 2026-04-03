@@ -128,11 +128,11 @@ int  main( int argc, char  *argv[])
                              withObject:[NSArray arrayWithArray:objects]];
    }
 
-   fprintf( stderr, "WAITING\n");
+   mulle_fprintf( stderr, "WAITING\n");
    while( [NSThread mulleIsMultiThreaded])
       sleep( 1);
 
-   fprintf( stderr, "DONE\n");
+   mulle_fprintf( stderr, "DONE\n");
    return( 0);
 }
 

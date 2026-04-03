@@ -30,11 +30,11 @@ static int   test_i_init_with_bytes_no_copy_length_allocator_( void)
          obj = [[[NSData alloc] mulleInitWithBytesNoCopy:params_1[ i_1]
                                                   length:params_1[ i_1]  ? strlen( params_1[ i_1]) : 0
                                                allocator:&mulle_stdlib_nofree_allocator] autorelease];
-         printf( "%s\n", [obj UTF8String]);
+         mulle_printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -75,11 +75,11 @@ static int   test_i_init_with_bytes_no_copy_length_free_when_done_( void)
             obj = [[[NSData alloc] initWithBytesNoCopy:s
                                                 length:s ? strlen( s) : 0
                                           freeWhenDone:params_3[ i_3]] autorelease];
-            printf( "%s\n", [obj UTF8String]);
+            mulle_printf( "%s\n", [obj UTF8String]);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -93,11 +93,11 @@ static int   test_i_init( void)
    @try
    {
       obj = [[[NSData alloc] init] autorelease];
-      printf( "%s\n", [obj UTF8String]);
+      mulle_printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+      mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }
@@ -128,11 +128,11 @@ static int   test_i_init_with_bytes_no_copy_length_( void)
             s = mulle_allocator_strdup( &mulle_stdlib_allocator, s);
          obj = [[[NSData alloc] initWithBytesNoCopy:s
                                              length:s ? strlen( s) : 0] autorelease];
-         printf( "%s\n", [obj UTF8String]);
+         mulle_printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -156,11 +156,11 @@ static int   test_i_init_with_data_( void)
       @try
       {
          obj = [[[NSData alloc] initWithData:params_1[ i_1]] autorelease];
-         printf( "%s\n", [obj UTF8String]);
+         mulle_printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -204,13 +204,13 @@ static int   test_i_init_with_bytes_no_copy_length_owner_( void)
             obj = [[[NSData alloc] mulleInitWithBytesNoCopy:s
                                                      length:s ? strlen( s) : 0
                                               sharingObject:params_3[ i_3]] autorelease];
-            printf( "%s\n", [obj UTF8String]);
+            mulle_printf( "%s\n", [obj UTF8String]);
             if( s)
                mulle_allocator_free( &mulle_stdlib_allocator, s);
          }
          @catch( NSException *localException)
          {
-            printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
          }
       }
    return( 0);
@@ -238,11 +238,11 @@ static int   test_i_init_with_bytes_length_( void)
       {
          obj = [[[NSData alloc] initWithBytes:params_1[ i_1]
                                        length:params_1[ i_1] ? strlen( params_1[ i_1]) : 0] autorelease];
-         printf( "%s\n", [obj UTF8String]);
+         mulle_printf( "%s\n", [obj UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);
@@ -255,7 +255,7 @@ static int   run_test( int (*f)( void), char *name)
    mulle_testallocator_discard();  //  w
    @autoreleasepool                //  i
    {                               //  l  l
-      printf( "%s\n", name);       //  l  e  c
+      mulle_printf( "%s\n", name);       //  l  e  c
       if( (*f)())                  //     a  h
          return( 1);               //     k  e
    }                               //        c

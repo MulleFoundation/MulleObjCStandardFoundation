@@ -103,8 +103,8 @@ src/Locale/NSNumberFormatter.h
 src/Locale/NSNumber+NSLocale.h
 src/Locale/NSScanner+NSLocale.h
 src/Locale/NSString+NSLocale.h
+src/MulleObjCDeps+MulleObjCStandardFoundation.h
 src/MulleObjCFoundationCore.h
-src/MulleObjCLoader+MulleObjCStandardFoundation.h
 src/MulleObjCStandardFoundation.h
 src/Notification/MulleObjCStandardNotificationFoundation.h
 src/Notification/NSNotificationCenter.h

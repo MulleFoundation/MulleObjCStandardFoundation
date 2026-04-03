@@ -21,7 +21,7 @@ int main(int argc, const char * argv[])
    dict = [NSDictionary dictionaryWithObject:nr
                                       forKey:key];
 
-   printf( "%s\n", [[dict description] UTF8String]);
+   mulle_printf( "%s\n", [[dict description] UTF8String]);
 
    return( 0);
 }

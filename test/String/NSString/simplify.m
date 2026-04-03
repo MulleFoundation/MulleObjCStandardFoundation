@@ -19,7 +19,7 @@ static void  test( NSString *s)
 
    simplified = [s mulleStringBySimplifyingComponentsSeparatedByString:@"/"
                                                           simplifyDots:YES];
-   printf( "\"%s\" simplifies to \"%s\"\n",
+   mulle_printf( "\"%s\" simplifies to \"%s\"\n",
             [s UTF8String],
             [simplified UTF8String]);
 }

@@ -21,7 +21,7 @@ int main( int argc, const char * argv[])
    NSString   *s;
 
    s = _MulleObjCCheatingASCIIStringStorageInit( &storage, string, strlen( string));
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    return( 0);
 }

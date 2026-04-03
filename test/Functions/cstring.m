@@ -22,21 +22,21 @@
 
 - (void) finalize
 {
-   fprintf( stderr, "finalize\n");
+   mulle_fprintf( stderr, "finalize\n");
    [super finalize];
 }
 
 
 - (void) dealloc
 {
-   fprintf( stderr, "dealloc\n");
+   mulle_fprintf( stderr, "dealloc\n");
    [super dealloc];
 }
 
 
 - (void) setStr:(char *) s
 {
-   printf( "%s -> %s\n",
+   mulle_printf( "%s -> %s\n",
       _str ? _str : "*null*",
        s ? s : "*null*");
    MulleObjCInstanceDeallocateMemory( self, _str);

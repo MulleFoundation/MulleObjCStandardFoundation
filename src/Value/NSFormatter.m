@@ -56,6 +56,9 @@
               forString:(NSString *) s
        errorDescription:(NSString **) error
 {
+   MULLE_C_UNUSED( obj );
+   MULLE_C_UNUSED( s );
+   MULLE_C_UNUSED( error );
    return( NO);
 }
 
@@ -64,6 +67,9 @@
              newEditingString:(NSString **) newString
              errorDescription:(NSString **) error
 {
+   MULLE_C_UNUSED( s );
+   MULLE_C_UNUSED( newString );
+   MULLE_C_UNUSED( error );
    return( NO);
 }
 
@@ -74,6 +80,10 @@
         originalSelectedRange:(NSRange) origSelRange
              errorDescription:(NSString **) error
 {
+   MULLE_C_UNUSED( s_p );
+   MULLE_C_UNUSED( range_p );
+   MULLE_C_UNUSED( origString );
+   MULLE_C_UNUSED( origSelRange );
    *error = NULL;
    return( NO);
 }

@@ -19,28 +19,28 @@ int   main(int argc, const char * argv[])
                       withString:@"\\n"
                          options:NSLiteralSearch
                            range:NSRangeMake( 0, [s length])];
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    s = [NSMutableString stringWithString:@"\\n"];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
                            range:NSRangeMake( 0, [s length])];
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    s = [NSMutableString stringWithString:@"\\\n"];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
                            range:NSRangeMake( 0, [s length])];
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    s = [NSMutableString string];
    [s replaceOccurrencesOfString:@"\n"
                       withString:@"\\n"
                          options:NSLiteralSearch
                            range:NSRangeMake( 0, [s length])];
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    return( 0);
 }

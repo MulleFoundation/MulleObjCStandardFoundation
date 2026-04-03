@@ -4,18 +4,18 @@
 # import <Foundation/Foundation.h>
 #endif
 
-#include <stdio.h>
+#include <mulle-fprintf/mulle-fprintf.h>
 
 
 static int   fail( char *title, NSNumber *a, NSNumber *b, int index)
 {
-   printf( "%d: %s Number FAIL %lld vs. %lld",
+   mulle_printf( "%d: %s Number FAIL %lld vs. %lld",
          index, title,
          [a longLongValue], [b longLongValue]);
 #ifdef PRINT_ENCODE
-   printf( " (%s vs. %s)", [a objCType], [b objCType]);
+   mulle_printf( " (%s vs. %s)", [a objCType], [b objCType]);
 #endif
-   printf( "\n");
+   mulle_printf( "\n");
    return( 1);
 }
 
@@ -63,7 +63,7 @@ static void   test( short value)
    fails += check( "long double",        nr, [NSNumber numberWithLongDouble:value], &index);
 #endif
    if( fails == 0)
-      printf( "%d PASSED\n", value);
+      mulle_printf( "%d PASSED\n", value);
 }
 
 

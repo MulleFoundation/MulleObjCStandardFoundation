@@ -50,9 +50,9 @@ static void   test( NSString *string)
       _test( string, encodings[ i], MulleStringEncodingOptionTerminateWithZero);
       _test( string, encodings[ i], MulleStringEncodingOptionBOM);
       _test( string, encodings[ i], MulleStringEncodingOptionBOM| MulleStringEncodingOptionTerminateWithZero);
-      printf( "\n");
+      mulle_printf( "\n");
    }
-   printf( "\n");
+   mulle_printf( "\n");
 }
 
 

@@ -19,12 +19,12 @@ static void   test_noleak()
          obj = [[NSArray new] autorelease];
          if( ! obj)
          {
-            printf( "failed to allocate\n");
+            mulle_printf( "failed to allocate\n");
          }
       }
       @catch( NSException *exception)
       {
-         printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
       }
    }
 }
@@ -32,7 +32,7 @@ static void   test_noleak()
 
 static void   test_i_class_for_coder()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -43,12 +43,12 @@ static void   test_i_class_for_coder()
       {
          obj = [[NSArray alloc] init];
          value = [obj classForCoder];
-         printf( "%s\n", [NSStringFromClass( value) UTF8String]);
+         mulle_printf( "%s\n", [NSStringFromClass( value) UTF8String]);
          [obj release];
       }
       @catch( NSException *exception)
       {
-         printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
       }
    }
 }
@@ -56,7 +56,7 @@ static void   test_i_class_for_coder()
 
 static void   test_i_sorted_array_using_descriptors_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -76,11 +76,11 @@ static void   test_i_sorted_array_using_descriptors_()
          @try
          {
             value = [obj sortedArrayUsingDescriptors:params_1[ i_1]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
          @catch( NSException *exception)
          {
-            printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
          }
       }
       [obj release];
@@ -90,7 +90,7 @@ static void   test_i_sorted_array_using_descriptors_()
 
 static void   test_i_description()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -101,12 +101,12 @@ static void   test_i_description()
       {
          obj = [[NSArray alloc] initWithObjects:@1, @2, @3, nil];
          value = [obj description];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          [obj release];
       }
       @catch( NSException *exception)
       {
-         printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
       }
    }
 }
@@ -114,7 +114,7 @@ static void   test_i_description()
 
 static void   test_i_components_joined_by_string_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -135,11 +135,11 @@ static void   test_i_components_joined_by_string_()
          @try
          {
             value = [obj componentsJoinedByString:params_1[ i_1]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
          @catch( NSException *exception)
          {
-            printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
          }
       }
       [obj release];
@@ -149,7 +149,7 @@ static void   test_i_components_joined_by_string_()
 
 static void   test_c_array_with_retained_objects_count_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -160,11 +160,11 @@ static void   test_c_array_with_retained_objects_count_()
       {
          value = [NSArray mulleArrayWithRetainedObjects:params_1
                                                   count:3];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
       @catch( NSException *exception)
       {
-         printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
       }
    }
 }
@@ -172,21 +172,21 @@ static void   test_c_array_with_retained_objects_count_()
 
 static void   test_c_array_with_objects_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
       id value;
 
       value = [NSArray arrayWithObjects: @"whatever", @1, @{ @"a": @1 }, @[ @"a"], nil];
-      printf( "%s\n", value ? [value UTF8String] : "*nil*");
+      mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
    }
 }
 
 
 static void   test_c_array_with_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -205,7 +205,7 @@ static void   test_c_array_with_object_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [NSArray arrayWithObject:params_1[ i_1]];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
    }
 }
@@ -213,21 +213,21 @@ static void   test_c_array_with_object_()
 
 static void   test_c_array()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
       id value;
 
       value = [NSArray array];
-      printf( "%s\n", value ? [value UTF8String] : "*nil*");
+      mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
    }
 }
 
 
 static void   test_c_array_with_objects_count_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -247,7 +247,7 @@ static void   test_c_array_with_objects_count_()
       {
          value = [NSArray arrayWithObjects:params_1
                                      count:params_2[ i_2]];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
    }
 }
@@ -255,7 +255,7 @@ static void   test_c_array_with_objects_count_()
 
 static void   test_c_array_with_array_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -272,7 +272,7 @@ static void   test_c_array_with_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [NSArray arrayWithArray:params_1[ i_1]];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
    }
 }
@@ -280,7 +280,7 @@ static void   test_c_array_with_array_()
 
 static void   test_c_array_with_array_range_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -315,7 +315,7 @@ static void   test_c_array_with_array_range_()
             {
                value = localException;
             }
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
    }
 }
@@ -323,14 +323,14 @@ static void   test_c_array_with_array_range_()
 
 static void   test_i_init_with_objects_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
       NSArray   *obj;
 
       obj = [[NSArray alloc] initWithObjects:@"whatever", @1, @{ @"a": @1 }, @[ @"a"], nil];
-      printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+      mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
       [obj release];
    }
 }
@@ -338,7 +338,7 @@ static void   test_i_init_with_objects_()
 
 static void   test_i_contains_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -360,7 +360,7 @@ static void   test_i_contains_object_()
       {
          value = [obj containsObject:params_1[ i_1]];
          // no plugin printer found for BOOL
-         printf( "value is%s0\n", ! value ? " " : "not ");
+         mulle_printf( "value is%s0\n", ! value ? " " : "not ");
       }
       [obj release];
    }
@@ -369,7 +369,7 @@ static void   test_i_contains_object_()
 
 static void   test_i_init_with_array_and_array_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -396,7 +396,7 @@ static void   test_i_init_with_array_and_array_()
          {
             obj = [[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                              andArray:params_2[ i_2]];
-            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+            mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
             [obj release];
          }
    }
@@ -405,7 +405,7 @@ static void   test_i_init_with_array_and_array_()
 
 static void   test_i_contains_object_in_range_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -439,11 +439,11 @@ static void   test_i_contains_object_in_range_()
             {
                value = [obj containsObject:params_1[ i_1]
                             inRange:params_2[ i_2]];
-               printf( "value is %s\n", ! value ? "YES" : "NO");
+               mulle_printf( "value is %s\n", ! value ? "YES" : "NO");
             }
             @catch( NSException *localException)
             {
-               printf( "%s\n", [[localException name] UTF8String]);
+               mulle_printf( "%s\n", [[localException name] UTF8String]);
             }
             // no plugin printer found for BOOL
          }
@@ -454,7 +454,7 @@ static void   test_i_contains_object_in_range_()
 
 static void   test_i_get_objects_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -478,7 +478,7 @@ static void   test_i_get_objects_()
 
 static void   test_i_first_object_common_with_array_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -497,7 +497,7 @@ static void   test_i_first_object_common_with_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [obj firstObjectCommonWithArray:params_1[ i_1]];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
       [obj release];
    }
@@ -507,7 +507,7 @@ static void   test_i_first_object_common_with_array_()
 /*
 static void   test_i_init_with_object_vararg_list_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -536,7 +536,7 @@ static void   test_i_init_with_object_vararg_list_()
          {
             value = [obj initWithObject:params_1[ i_1]
                          arguments:params_2[ i_2]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
       [obj release];
    }
@@ -545,14 +545,14 @@ static void   test_i_init_with_object_vararg_list_()
 
 static void   test_i_init()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
       NSArray *obj;
 
       obj = [[NSArray alloc] init];
-      printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+      mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
       [obj release];
    }
 }
@@ -560,7 +560,7 @@ static void   test_i_init()
 
 static void   test_i_array_by_adding_objects_from_array_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -579,7 +579,7 @@ static void   test_i_array_by_adding_objects_from_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          value = [obj arrayByAddingObjectsFromArray:params_1[ i_1]];
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
       [obj release];
    }
@@ -588,7 +588,7 @@ static void   test_i_array_by_adding_objects_from_array_()
 
 static void   test_i_make_objects_perform_selector_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -613,7 +613,7 @@ static void   test_i_make_objects_perform_selector_()
 
 static void   test_i_array_by_adding_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -641,7 +641,7 @@ static void   test_i_array_by_adding_object_()
          {
             value = [localException name];
          }
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       }
       [obj release];
    }
@@ -650,7 +650,7 @@ static void   test_i_array_by_adding_object_()
 
 static void   test_i_init_with_objects_count_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -670,7 +670,7 @@ static void   test_i_init_with_objects_count_()
       {
          obj = [[NSArray alloc] initWithObjects:_params1
                                           count:params_2[ i_2]];
-         printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+         mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          [obj release];
       }
    }
@@ -679,7 +679,7 @@ static void   test_i_init_with_objects_count_()
 
 static void   test_i_init_with_array_and_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -710,12 +710,12 @@ static void   test_i_init_with_array_and_object_()
             {
                obj = [[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                                andObject:params_2[ i_2]];
-               printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+               mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
                [obj release];
             }
             @catch( NSException *localException)
             {
-               printf( "%s\n", [[localException name] UTF8String]);
+               mulle_printf( "%s\n", [[localException name] UTF8String]);
             }
          }
    }
@@ -724,7 +724,7 @@ static void   test_i_init_with_array_and_object_()
 
 static void   test_i_init_with_array_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -741,7 +741,7 @@ static void   test_i_init_with_array_()
       for( i_1 = 0; i_1 < n_1; i_1++)
       {
          obj = [[NSArray alloc] initWithArray:params_1[ i_1]];
-         printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+         mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
          [obj release];
       }
    }
@@ -750,7 +750,7 @@ static void   test_i_init_with_array_()
 
 static void   test_i_last_object()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -759,7 +759,7 @@ static void   test_i_last_object()
 
       obj = [[NSArray alloc] init];
       value = [obj lastObject];
-      printf( "%s\n", value ? [value UTF8String] : "*nil*");
+      mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       [obj release];
    }
 }
@@ -767,7 +767,7 @@ static void   test_i_last_object()
 
 static void   test_i_init_with_array_copy_items_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -794,7 +794,7 @@ static void   test_i_init_with_array_copy_items_()
          {
             obj = [[NSArray alloc] initWithArray:params_1[ i_1]
                                        copyItems:params_2[ i_2]];
-            printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+            mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
             [obj release];
          }
    }
@@ -803,7 +803,7 @@ static void   test_i_init_with_array_copy_items_()
 
 static void   test_i_index_of_object_identical_to_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -825,9 +825,9 @@ static void   test_i_index_of_object_identical_to_()
       {
          value = [obj indexOfObjectIdenticalTo:params_1[ i_1]];
          if( value == NSNotFound)
-            printf( "NSNotFound\n");
+            mulle_printf( "NSNotFound\n");
          else
-            printf( "%llu\n", value);
+            mulle_printf( "%llu\n", value);
       }
       [obj release];
    }
@@ -836,7 +836,7 @@ static void   test_i_index_of_object_identical_to_()
 
 static void   test_i_init_with_array_range_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -867,12 +867,12 @@ static void   test_i_init_with_array_range_()
             {
                obj = [[NSArray alloc] mulleInitWithArray:params_1[ i_1]
                                                    range:params_2[ i_2]];
-               printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
+               mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
                [obj release];
             }
             @catch( NSException *localException)
             {
-               printf( "%s\n", [[localException name] UTF8String]);
+               mulle_printf( "%s\n", [[localException name] UTF8String]);
             }
          }
    }
@@ -881,7 +881,7 @@ static void   test_i_init_with_array_range_()
 
 static void   test_i_index_of_object_identical_to_in_range_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -916,13 +916,13 @@ static void   test_i_index_of_object_identical_to_in_range_()
                value = [obj indexOfObjectIdenticalTo:params_1[ i_1]
                             inRange:params_2[ i_2]];
                if( value == NSNotFound)
-                  printf( "NSNotFound\n");
+                  mulle_printf( "NSNotFound\n");
                else
-                  printf( "%llu\n", value);
+                  mulle_printf( "%llu\n", value);
             }
             @catch( NSException *localException)
             {
-               printf( "%s\n", [[localException name] UTF8String]);
+               mulle_printf( "%s\n", [[localException name] UTF8String]);
             }
          }
       [obj release];
@@ -933,7 +933,7 @@ static void   test_i_index_of_object_identical_to_in_range_()
 /*
 static void   test_i_mulle_for_each_object_call_function_argument_preempt_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -972,7 +972,7 @@ static void   test_i_mulle_for_each_object_call_function_argument_preempt_()
                value = [obj mulleForEachObjectCallFunction:params_1[ i_1]
                             argument:params_2[ i_2]
                             preempt:params_3[ i_3]];
-               printf( "%s\n", value ? [value UTF8String] : "*nil*");
+               mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
             }
       [obj release];
    }
@@ -981,7 +981,7 @@ static void   test_i_mulle_for_each_object_call_function_argument_preempt_()
 
 static void   test_i_make_objects_perform_selector_with_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1018,7 +1018,7 @@ static void   test_i_make_objects_perform_selector_with_object_()
 
 static void   test_i_subarray_with_range_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1040,11 +1040,11 @@ static void   test_i_subarray_with_range_()
          @try
          {
             value = [obj subarrayWithRange:params_1[ i_1]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "%s\n", [[localException name] UTF8String]);
+            mulle_printf( "%s\n", [[localException name] UTF8String]);
          }
       }
       [obj release];
@@ -1054,7 +1054,7 @@ static void   test_i_subarray_with_range_()
 
 static void   test_i_is_equal_to_array_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1074,7 +1074,7 @@ static void   test_i_is_equal_to_array_()
       {
          value = [obj isEqualToArray:params_1[ i_1]];
          // no plugin printer found for BOOL
-         printf( "value is%s0\n", ! value ? " " : "not ");
+         mulle_printf( "value is%s0\n", ! value ? " " : "not ");
       }
       [obj release];
    }
@@ -1083,7 +1083,7 @@ static void   test_i_is_equal_to_array_()
 
 static void   test_i_index_of_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1105,9 +1105,9 @@ static void   test_i_index_of_object_()
       {
          value = [obj indexOfObject:params_1[ i_1]];
          if( value == NSNotFound)
-            printf( "NSNotFound\n");
+            mulle_printf( "NSNotFound\n");
          else
-            printf( "%llu\n", value);
+            mulle_printf( "%llu\n", value);
       }
       [obj release];
    }
@@ -1116,7 +1116,7 @@ static void   test_i_index_of_object_()
 
 static void   test_i_is_equal_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1138,7 +1138,7 @@ static void   test_i_is_equal_()
       {
          value = [obj isEqual:params_1[ i_1]];
          // no plugin printer found for BOOL
-         printf( "value is%s0\n", ! value ? " " : "not ");
+         mulle_printf( "value is%s0\n", ! value ? " " : "not ");
       }
       [obj release];
    }
@@ -1147,7 +1147,7 @@ static void   test_i_is_equal_()
 /*
 static void   test_i_init_with_object_mulle_vararg_list_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1176,7 +1176,7 @@ static void   test_i_init_with_object_mulle_vararg_list_()
          {
             value = [obj initWithObject:params_1[ i_1]
                          mulleVarargList:params_2[ i_2]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
       [obj release];
    }
@@ -1185,7 +1185,7 @@ static void   test_i_init_with_object_mulle_vararg_list_()
 
 static void   test_i_object_enumerator()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1196,14 +1196,14 @@ static void   test_i_object_enumerator()
       obj   = [[NSArray alloc] initWithArray:@[ @1, @2, @3]];
       rover = [obj objectEnumerator];
       while( value = [rover nextObject])
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       [obj release];
    }
 }
 
 static void   test_i_reverse_object_enumerator()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1214,7 +1214,7 @@ static void   test_i_reverse_object_enumerator()
       obj   = [[NSArray alloc] initWithArray:@[ @1, @2, @3]];
       rover = [obj reverseObjectEnumerator];
       while( value = [rover nextObject])
-         printf( "%s\n", value ? [value UTF8String] : "*nil*");
+         mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
       [obj release];
    }
 }
@@ -1222,7 +1222,7 @@ static void   test_i_reverse_object_enumerator()
 /*
 static void   test_i_sorted_array_using_function_context_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1247,7 +1247,7 @@ static void   test_i_sorted_array_using_function_context_()
          {
             value = [obj sortedArrayUsingFunction:params_1[ i_1]
                             context:params_2[ i_2]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
       [obj release];
    }
@@ -1256,7 +1256,7 @@ static void   test_i_sorted_array_using_function_context_()
 
 static void   test_i_mulle_make_objects_perform_selector_with_object_with_object_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1305,7 +1305,7 @@ static void   test_i_mulle_make_objects_perform_selector_with_object_with_object
 
 static void   test_i_hash()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1314,7 +1314,7 @@ static void   test_i_hash()
 
       obj   = [[NSArray alloc] initWithArray:@[ @1, @2, @3]];
       value = [obj hash];
-      // printf( "%llu\n", value); // cpu dependent!
+      // mulle_printf( "%llu\n", value); // cpu dependent!
       [obj release];
    }
 }
@@ -1322,7 +1322,7 @@ static void   test_i_hash()
 
 static void   test_i__()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1344,11 +1344,11 @@ static void   test_i__()
          @try
          {
             value = [obj :params_1[ i_1]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
          @catch( NSException *localException)
          {
-            printf( "%s\n", [[localException name] UTF8String]);
+            mulle_printf( "%s\n", [[localException name] UTF8String]);
          }
       }
       [obj release];
@@ -1358,7 +1358,7 @@ static void   test_i__()
 
 static void   test_i_index_of_object_in_range_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1393,17 +1393,17 @@ static void   test_i_index_of_object_in_range_()
             @try
             {
                other = params_1[ i_1];
-               printf( "%s\n", other ? [other UTF8String] : "*nil*");
+               mulle_printf( "%s\n", other ? [other UTF8String] : "*nil*");
                value = [obj indexOfObject:other
                                   inRange:params_2[ i_2]];
                if( value == NSNotFound)
-                  printf( "NSNotFound\n");
+                  mulle_printf( "NSNotFound\n");
                else
-                  printf( "%llu\n", value);
+                  mulle_printf( "%llu\n", value);
             }
             @catch( NSException *localException)
             {
-               printf( "%s\n", [[localException name] UTF8String]);
+               mulle_printf( "%s\n", [[localException name] UTF8String]);
             }
          }
       [obj release];
@@ -1413,7 +1413,7 @@ static void   test_i_index_of_object_in_range_()
 
 static void   test_i_sorted_array_using_selector_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1433,11 +1433,11 @@ static void   test_i_sorted_array_using_selector_()
          {
             obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
             value = [obj sortedArrayUsingSelector:params_1[ i_1]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
          @catch( NSException *exception)
          {
-            printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
          }
       }
    }
@@ -1446,7 +1446,7 @@ static void   test_i_sorted_array_using_selector_()
 
 static void   test_i_description_with_locale_indent_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1475,11 +1475,11 @@ static void   test_i_description_with_locale_indent_()
                obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
                value = [obj descriptionWithLocale:params_1[ i_1]
                                            indent:params_2[ i_2]];
-               printf( "%s\n", value ? [value UTF8String] : "*nil*");
+               mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
             }
             @catch( NSException *exception)
             {
-               printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+               mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
             }
          }
    }
@@ -1488,7 +1488,7 @@ static void   test_i_description_with_locale_indent_()
 
 static void   test_i_description_with_locale_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {
@@ -1508,11 +1508,11 @@ static void   test_i_description_with_locale_()
          {
             obj   = [[[NSArray alloc] initWithArray:@[ @2, @3, @1]] autorelease];
             value = [obj descriptionWithLocale:params_1[ i_1]];
-            printf( "%s\n", value ? [value UTF8String] : "*nil*");
+            mulle_printf( "%s\n", value ? [value UTF8String] : "*nil*");
          }
          @catch( NSException *exception)
          {
-            printf( "Threw a %s exception\n", [[exception name] UTF8String]);
+            mulle_printf( "Threw a %s exception\n", [[exception name] UTF8String]);
          }
       }
    }
@@ -1521,7 +1521,7 @@ static void   test_i_description_with_locale_()
 /*
 static void   test_i_property_list_utf8data_to_stream_indent_()
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
 
    @autoreleasepool
    {

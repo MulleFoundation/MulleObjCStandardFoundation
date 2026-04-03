@@ -47,7 +47,7 @@ static int   test( unsigned int size)
       }
       @catch( NSException *localException)
       {
-         printf( "*** Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "*** Threw a %s exception\n", [[localException name] UTF8String]);
          return( 1);
       }
    }
@@ -65,7 +65,7 @@ static int   test( unsigned int size)
       }
       @catch( NSException *localException)
       {
-         printf( "*** Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "*** Threw a %s exception\n", [[localException name] UTF8String]);
          return( 1);
       }
    }

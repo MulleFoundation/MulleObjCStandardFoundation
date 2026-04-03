@@ -79,13 +79,13 @@ static void   test( mulle_utf32_t text[ 4])
 
    if( ! [s8 isEqual:s16])
    {
-      printf( "%.4S failed\n", text);
+      mulle_printf( "%.4S failed\n", text);
       return;
    }
 
    if( ! [s32 isEqual:s16])
    {
-      printf( "%.4S failed\n", text);
+      mulle_printf( "%.4S failed\n", text);
       return;
    }
 
@@ -95,7 +95,7 @@ static void   test( mulle_utf32_t text[ 4])
 
    if( ! [s8 isEqual:s16])
    {
-      printf( "%.4S failed\n", text);
+      mulle_printf( "%.4S failed\n", text);
       return;
    }
 
@@ -105,7 +105,7 @@ static void   test( mulle_utf32_t text[ 4])
 
    if( ! [s8 isEqual:s16])
    {
-      printf( "%.4S failed\n", text);
+      mulle_printf( "%.4S failed\n", text);
       return;
    }
 
@@ -114,7 +114,7 @@ static void   test( mulle_utf32_t text[ 4])
                                  encoding:NSUTF32StringEncoding] autorelease];
    if( ! [s8 isEqual:s16])
    {
-      printf( "%.4S failed\n", text);
+      mulle_printf( "%.4S failed\n", text);
       return;
    }
 }
@@ -130,7 +130,7 @@ static void   stress_test()
    for( i = 0; i < 100000; i++)
    {
       if( i % 100 == 0)
-         fprintf( stderr, "%u\n", i);
+         mulle_fprintf( stderr, "%u\n", i);
 
       switch( rand() % 5)
       {

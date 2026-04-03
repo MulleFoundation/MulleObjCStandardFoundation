@@ -47,8 +47,7 @@
 #import "MulleObjCStandardNotificationFoundation.h"
 #import "MulleObjCStandardUndoFoundation.h"
 
-
-#import "MulleObjCLoader+MulleObjCStandardFoundation.h"
+#import "MulleObjCDeps+MulleObjCStandardFoundation.h"
 
 #ifdef __has_include
 # if __has_include( "_MulleObjCStandardFoundation-versioncheck.h")

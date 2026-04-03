@@ -16,7 +16,7 @@ int main( int argc, const char * argv[])
    NSMutableString     *s;
 
    s = [NSMutableString string];
-   printf( "%s\n", [[s uppercaseString] UTF8String]);
+   mulle_printf( "%s\n", [[s uppercaseString] UTF8String]);
 
    [s appendString:@"VfL"];
    [s appendString:@" "];
@@ -24,7 +24,7 @@ int main( int argc, const char * argv[])
    [s appendString:@" "];
    [s appendString:@"1848"];
 
-   printf( "%s\n", [[s uppercaseString] UTF8String]);
+   mulle_printf( "%s\n", [[s uppercaseString] UTF8String]);
 
    return( 0);
 }

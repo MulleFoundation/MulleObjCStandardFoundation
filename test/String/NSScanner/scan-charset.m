@@ -45,13 +45,13 @@ void  test( BOOL flag)
    for( i = 0; i < sizeof( sets) / sizeof( sets[ 0]); i++)
    {
       set = sets[ i];
-      printf( "%s (skip white: %s)\n", setNames[ i], flag ? "NO" : "YES");
+      mulle_printf( "%s (skip white: %s)\n", setNames[ i], flag ? "NO" : "YES");
 
       for( j = 0; j < sizeof( strings) / sizeof( strings[ 0]); j++)
       {
          string = strings[ j];
          sep    = "";
-         printf( "\tScanning \"%s\" :: ", [string UTF8String]);
+         mulle_printf( "\tScanning \"%s\" :: ", [string UTF8String]);
          scanner = [NSScanner scannerWithString:string];
          if( flag)
             [scanner setCharactersToBeSkipped:nil];
@@ -62,10 +62,10 @@ void  test( BOOL flag)
                                 intoString:&s1];
             [scanner scanUpToCharactersFromSet:set
                                      intoString:&s2];
-            printf( "%sscanSet:\"%s\" scanNotInSet:\"%s\"", sep, [s1 UTF8String], [s2 UTF8String]);
+            mulle_printf( "%sscanSet:\"%s\" scanNotInSet:\"%s\"", sep, [s1 UTF8String], [s2 UTF8String]);
             sep =", ";
          }
-         printf( "\n");
+         mulle_printf( "\n");
       }
    }
 }

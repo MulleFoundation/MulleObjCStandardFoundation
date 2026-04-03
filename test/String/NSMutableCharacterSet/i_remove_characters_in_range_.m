@@ -31,11 +31,11 @@ static int   test_i_remove_characters_in_range_( void)
       {
          obj = [NSMutableCharacterSet characterSetWithCharactersInString:@"abcdefg"];
          [obj removeCharactersInRange:params_1[ i_1]];
-         printf( "%s\n", [[obj mulleTestDescription] UTF8String]);
+         mulle_printf( "%s\n", [[obj mulleTestDescription] UTF8String]);
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

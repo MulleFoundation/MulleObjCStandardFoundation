@@ -40,7 +40,7 @@ static void   test( mulle_utf32_t text[ 4], size_t expect)
                                 encoding:NSUTF16StringEncoding] autorelease];
    if( ! s || [s length])
    {
-      printf( "failed\n");
+      mulle_printf( "failed\n");
       return;
    }
 
@@ -49,7 +49,7 @@ static void   test( mulle_utf32_t text[ 4], size_t expect)
                                 encoding:NSUTF16StringEncoding] autorelease];
    if( ! s || [s length])
    {
-      printf( "failed\n");
+      mulle_printf( "failed\n");
       return;
    }
    s = [[[NSString  alloc] initWithBytes:buffer16.text._16
@@ -57,11 +57,11 @@ static void   test( mulle_utf32_t text[ 4], size_t expect)
                                 encoding:NSUTF16StringEncoding] autorelease];
    if( [s length] != expect)
    {
-      printf( "failed\n");
+      mulle_printf( "failed\n");
       return;
    }
 
-   printf( "passed\n");
+   mulle_printf( "passed\n");
 }
 
 

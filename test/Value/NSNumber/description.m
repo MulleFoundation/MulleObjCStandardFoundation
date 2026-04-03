@@ -14,49 +14,49 @@ int  main( void)
    NSNumber   *value;
 
 #ifndef VALGRIND_COMPLAINT
-   printf( "bool\n");
+   mulle_printf( "bool\n");
    value = [NSNumber numberWithBool:YES];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
-   printf( "\nchar\n");
+   mulle_printf( "\nchar\n");
    value = [NSNumber numberWithChar:1];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 #endif
 
-   printf( "\nshort\n");
+   mulle_printf( "\nshort\n");
    value = [NSNumber numberWithShort:1848];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
 #ifndef VALGRIND_COMPLAINT
-   printf( "\nint\n");
+   mulle_printf( "\nint\n");
    value = [NSNumber numberWithInt:1848];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
-   printf( "\nlong\n");
+   mulle_printf( "\nlong\n");
    value = [NSNumber numberWithLong:1848];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
-   printf( "\nlong long\n");
+   mulle_printf( "\nlong long\n");
    value = [NSNumber numberWithLongLong:1848];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
-   printf( "\nNSInteger\n");
+   mulle_printf( "\nNSInteger\n");
    value = [NSNumber numberWithInteger:1848];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
 
-   printf( "\nfloat\n");
+   mulle_printf( "\nfloat\n");
    value = [NSNumber numberWithFloat:18.48];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
-   printf( "\ndouble\n");
+   mulle_printf( "\ndouble\n");
    value = [NSNumber numberWithDouble:18.48];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 
 #ifdef _C_LNG_DBL
-   printf( "\nlong double\n");
+   mulle_printf( "\nlong double\n");
    value = [NSNumber numberWithLongDouble:18.48];
-   printf( "%s\n", [[value description] UTF8String]);
+   mulle_printf( "%s\n", [[value description] UTF8String]);
 #endif
 #endif
 

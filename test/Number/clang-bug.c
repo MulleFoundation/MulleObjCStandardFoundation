@@ -13,7 +13,7 @@ int   fits_llong( double value)
     if( value <= (double) LLONG_MAX)
     {
         l_val = (long long) value;
-        fprintf( stderr, "Considering %f as %lld\n", value, l_val);
+        mulle_fprintf( stderr, "Considering %f as %lld\n", value, l_val);
         return( l_val == value);
     }
     return( 0);
@@ -33,8 +33,8 @@ int   main( int argc, char *argv[])
       value = (double) (LLONG_MAX - atoi( argv[ 1]));
 
    if( fits_llong( value))
-      printf( "FITS\n");
+      mulle_printf( "FITS\n");
    else
-      printf( "NOPE\n");
+      mulle_printf( "NOPE\n");
    return( 0);
 }

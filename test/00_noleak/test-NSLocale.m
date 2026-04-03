@@ -23,13 +23,13 @@ static void   test_noleak( void)
          obj = [[NSLocale new] autorelease];
          if( ! obj)
          {
-            fprintf( stderr, "failed to allocate\n");
+            mulle_fprintf( stderr, "failed to allocate\n");
             _exit( 1);
          }
       }
       @catch( NSException *localException)
       {
-         fprintf( stderr, "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_fprintf( stderr, "Threw a %s exception\n", [[localException name] UTF8String]);
          _exit( 1);
       }
    }

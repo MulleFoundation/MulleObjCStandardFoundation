@@ -113,6 +113,34 @@
 @end
 
 
+#ifdef _WIN32
+static inline void   *memmem( unsigned char *haystack,
+                              size_t haystack_len,
+                              unsigned char *needle,
+                              size_t needle_len)
+{
+   size_t          i;
+   unsigned char   *h;
+   unsigned char   *n;
+
+   if( ! needle_len)
+     return( (void *) haystack);
+
+   if( haystack_len < needle_len)
+      return( NULL);
+
+   h = haystack;
+   n = needle;
+
+   for( i = 0; i <= haystack_len - needle_len; i++)
+   {
+      if( h[i] == n[0] && memcmp(h + i, n, needle_len) == 0)
+         return( (void *)(h + i));
+   }
+   return( NULL);
+}
+#endif
+
 
 @implementation NSData ( Components)
 
@@ -149,7 +177,7 @@ static void
 
    for( p = data.bytes; p < sentinel;)
    {
-      found = memmem( p, sentinel - p, sepData.bytes, sepData.length);
+      found = memmem( (unsigned char *) p, sentinel - p, sepData.bytes, sepData.length);
       if( ! found)
          break;
 

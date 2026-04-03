@@ -30,11 +30,11 @@ static int   test_i_has_member_in_plane_( void)
       {
          obj   = [[[NSMutableCharacterSet alloc] init] autorelease];
          value = [obj hasMemberInPlane:params_1[ i_1]];
-         printf( "%s\n", value ? "YES" : "NO");
+         mulle_printf( "%s\n", value ? "YES" : "NO");
       }
       @catch( NSException *localException)
       {
-         printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
       }
    }
    return( 0);

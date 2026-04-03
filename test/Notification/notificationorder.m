@@ -9,7 +9,7 @@
 
 + (void) notification:(NSNotification *) notification
 {
-   printf( "A\n");
+   mulle_printf( "A\n");
 }
 
 @end
@@ -19,7 +19,7 @@
 
 + (void) notification:(NSNotification *) notification
 {
-   printf( "B\n");
+   mulle_printf( "B\n");
 }
 
 @end
@@ -29,7 +29,7 @@
 
 + (void) notification:(NSNotification *) notification
 {
-   printf( "C\n");
+   mulle_printf( "C\n");
 }
 
 @end
@@ -40,7 +40,7 @@ void   test_abc( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -69,7 +69,7 @@ void   test_cba( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {

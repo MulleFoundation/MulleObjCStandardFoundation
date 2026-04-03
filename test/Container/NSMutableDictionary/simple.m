@@ -24,7 +24,7 @@ int main(int argc, const char * argv[])
             forKey:key];
    key = [NSString stringWithUTF8String:"bar"];
 
-   printf( "%s\n", [dict objectForKey:key] == nr ? "passed" : "failed");
+   mulle_printf( "%s\n", [dict objectForKey:key] == nr ? "passed" : "failed");
 
    return( 0);
 }

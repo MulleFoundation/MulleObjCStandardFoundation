@@ -19,7 +19,7 @@
 
 - (id) function:(id) arg
 {
-   printf( "%s\n", __PRETTY_FUNCTION__);
+   mulle_printf( "%s\n", __PRETTY_FUNCTION__);
    return( nil);
 }
 

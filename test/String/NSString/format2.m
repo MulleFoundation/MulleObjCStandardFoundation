@@ -25,7 +25,7 @@ int main( int argc, const char * argv[])
 
    s = [NSString stringWithFormat:@"%@ %@ %@ %@",
       big, emoji, big, emoji];
-   printf( "%s\n", [s UTF8String]);
+   mulle_printf( "%s\n", [s UTF8String]);
 
    return( 0);
 }

@@ -99,7 +99,7 @@ void  test( NSUInteger count, NSRange range, NSUInteger index)
    }
    @catch( id e)
    {
-      printf( "*exception*\n");
+      mulle_printf( "*exception*\n");
       return;
    }
    print_array_of_foos( a);

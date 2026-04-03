@@ -19,12 +19,12 @@ int main( int argc, const char * argv[])
    s = [NSString mulleStringWithUTF8Characters:text
                                         length:sizeof( text)];
 
-   printf( "%s\n", [[s description] UTF8String]);
+   mulle_printf( "%s\n", [[s description] UTF8String]);
 
    s = [NSString mulleStringWithUTF8CharactersNoCopy:text
                                               length:sizeof( text)
                                            allocator:NULL];
-   printf( "%s\n", [[s description] UTF8String]);
+   mulle_printf( "%s\n", [[s description] UTF8String]);
 
    return( 0);
 }

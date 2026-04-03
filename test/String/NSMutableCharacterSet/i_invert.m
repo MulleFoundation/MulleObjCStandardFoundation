@@ -26,11 +26,11 @@ static int   test_i_invert( void)
 
       other     = [[NSCharacterSet characterSetWithCharactersInString:@"abcdefg"] invertedSet];
       otherData = [other bitmapRepresentation];
-      printf( "%s\n", [objData isEqualToData:otherData] ? "pass" : "fail");
+      mulle_printf( "%s\n", [objData isEqualToData:otherData] ? "pass" : "fail");
    }
    @catch( NSException *localException)
    {
-      printf( "Threw a %s exception\n", [[localException name] UTF8String]);
+      mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
    }
    return( 0);
 }

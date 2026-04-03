@@ -17,7 +17,7 @@
 
 static void print_bool( char *title, BOOL flag)
 {
-   printf( "%s: %s\n", title, flag ? "YES" : "NO");
+   mulle_printf( "%s: %s\n", title, flag ? "YES" : "NO");
 }
 
 
@@ -56,44 +56,44 @@ int   main( void)
    NSNumber   *value;
 
 #ifndef FLOAT_VALGRIND_PROBLEM
-   printf( "bool\n");
+   mulle_printf( "bool\n");
    value = [NSNumber numberWithBool:YES];
    check_long_long( value, YES);
 
    value = [NSNumber numberWithBool:NO];
    check_long_long( value, NO);
 
-   printf( "\nchar\n");
+   mulle_printf( "\nchar\n");
    value = [NSNumber numberWithChar:CHAR_MAX];
    check_long_long( value, CHAR_MAX);
    value = [NSNumber numberWithChar:CHAR_MIN];
    check_long_long( value, CHAR_MIN);
 
-   printf( "\nshort\n");
+   mulle_printf( "\nshort\n");
    value = [NSNumber numberWithShort:SHRT_MAX];
    check_long_long( value, SHRT_MAX);
    value = [NSNumber numberWithShort:SHRT_MIN];
    check_long_long( value, SHRT_MIN);
 
-   printf( "\nint\n");
+   mulle_printf( "\nint\n");
    value = [NSNumber numberWithInt:INT_MAX];
    check_long_long( value, INT_MAX);
    value = [NSNumber numberWithInt:INT_MIN];
    check_long_long( value, INT_MIN);
 
-   printf( "\nlong\n");
+   mulle_printf( "\nlong\n");
    value = [NSNumber numberWithLong:LONG_MAX];
    check_long_long( value, LONG_MAX);
    value = [NSNumber numberWithLong:LONG_MIN];
    check_long_long( value, LONG_MIN);
 
-   printf( "\nlong long\n");
+   mulle_printf( "\nlong long\n");
    value = [NSNumber numberWithLongLong:LONG_LONG_MAX];
    check_long_long( value, LONG_LONG_MAX);
    value = [NSNumber numberWithLongLong:LONG_LONG_MIN];
    check_long_long( value, LONG_LONG_MIN);
 
-   printf( "\nNSInteger\n");
+   mulle_printf( "\nNSInteger\n");
    value = [NSNumber numberWithInteger:NSIntegerMax];
    check_long_long( value, NSIntegerMax);
    value = [NSNumber numberWithInteger:NSIntegerMin];
@@ -101,44 +101,44 @@ int   main( void)
 
 /* unsigned, sometimes UCHAR_MAX is not defined, so fuck it */
 
-   printf( "\nunsigned char\n");
+   mulle_printf( "\nunsigned char\n");
    value = [NSNumber numberWithUnsignedChar:CHAR_MAX];
    check_long_long( value, (unsigned char) CHAR_MAX);
    value = [NSNumber numberWithUnsignedChar:CHAR_MIN];
    check_long_long( value, (unsigned char) CHAR_MIN);
 
-   printf( "\nunsigned short\n");
+   mulle_printf( "\nunsigned short\n");
    value = [NSNumber numberWithUnsignedShort:SHRT_MAX];
    check_long_long( value, (unsigned short) SHRT_MAX);
    value = [NSNumber numberWithUnsignedShort:SHRT_MIN];
    check_long_long( value, (unsigned short) SHRT_MIN);
 
-   printf( "\nunsigned int\n");
+   mulle_printf( "\nunsigned int\n");
    value = [NSNumber numberWithUnsignedInt:INT_MAX];
    check_long_long( value, (unsigned int) INT_MAX);
    value = [NSNumber numberWithUnsignedInt:INT_MIN];
    check_long_long( value, (unsigned int) INT_MIN);
 
-   printf( "\nunsigned long\n");
+   mulle_printf( "\nunsigned long\n");
    value = [NSNumber numberWithUnsignedLong:LONG_MAX];
    check_long_long( value, (unsigned long) LONG_MAX);
    value = [NSNumber numberWithUnsignedLong:LONG_MIN];
    check_long_long( value, (unsigned long) LONG_MIN);
 
-   printf( "\nunsigned long long\n");
+   mulle_printf( "\nunsigned long long\n");
    value = [NSNumber numberWithUnsignedLongLong:LONG_LONG_MAX];
    check_long_long( value, (unsigned long long) LONG_LONG_MAX);
    value = [NSNumber numberWithUnsignedLongLong:LONG_LONG_MIN];
    check_long_long( value, (unsigned long long) LONG_LONG_MIN);
 
-   printf( "\nNSUInteger\n");
+   mulle_printf( "\nNSUInteger\n");
    value = [NSNumber numberWithUnsignedInteger:NSIntegerMax];
    check_long_long( value, NSIntegerMax);
    value = [NSNumber numberWithUnsignedInteger:NSIntegerMin];
    check_long_long( value, NSIntegerMin);
 #endif
 
-   printf( "\nfloat\n");
+   mulle_printf( "\nfloat\n");
    value = [NSNumber numberWithFloat:FLT_MAX];
    check_double( value, FLT_MAX);
 
@@ -146,7 +146,7 @@ int   main( void)
    value = [NSNumber numberWithFloat:FLT_MIN];
    check_double( value, FLT_MIN);
 
-   printf( "\ndouble\n");
+   mulle_printf( "\ndouble\n");
    value = [NSNumber numberWithDouble:DBL_MAX];
    check_double( value, DBL_MAX);
    value = [NSNumber numberWithDouble:DBL_MIN];

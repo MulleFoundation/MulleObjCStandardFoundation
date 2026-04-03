@@ -9,7 +9,7 @@
 
 + (void) receiveNameNotification:(NSNotification *) notification
 {
-   printf( "nameNotification: %s %s\n",
+   mulle_printf( "nameNotification: %s %s\n",
                   [[notification name] UTF8String],
                   [notification object] == nil ? "nil" : "self");
 }
@@ -17,7 +17,7 @@
 
 + (void) receiveObjectNotification:(NSNotification *) notification
 {
-   printf( "objectNotification: %s %s\n",
+   mulle_printf( "objectNotification: %s %s\n",
                   [[notification name] UTF8String],
                   [notification object] == nil ? "nil" : "self");
 }
@@ -25,7 +25,7 @@
 
 + (void) receiveNameObjectNotification:(NSNotification *) notification
 {
-   printf( "nameObjectNotification: %s %s\n",
+   mulle_printf( "nameObjectNotification: %s %s\n",
                   [[notification name] UTF8String],
                   [notification object] == nil ? "nil" : "self");
 }
@@ -33,7 +33,7 @@
 
 + (void) receiveAnyNotification:(NSNotification *) notification
 {
-   printf( "anyNotification: %s %s\n",
+   mulle_printf( "anyNotification: %s %s\n",
                   [[notification name] UTF8String],
                   [notification object] == nil ? "nil" : "self");
 }
@@ -46,7 +46,7 @@ void   test_leak( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    // simple leak checker
    @autoreleasepool
@@ -61,7 +61,7 @@ void   test_leak2( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -98,7 +98,7 @@ void   test_name( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -122,7 +122,7 @@ void   test_name2( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -146,7 +146,7 @@ void   test_object( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -171,7 +171,7 @@ void   test_object_name( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -196,7 +196,7 @@ void   test_any( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {
@@ -222,7 +222,7 @@ void   test_multiple( void)
 {
    NSNotificationCenter   *center;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    @autoreleasepool
    {

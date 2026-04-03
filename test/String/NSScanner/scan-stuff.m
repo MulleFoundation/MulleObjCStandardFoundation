@@ -48,7 +48,7 @@ static void  test( void)
       }
       abort();
    }
-   printf( "\n");
+   mulle_printf( "\n");
 }
 
 

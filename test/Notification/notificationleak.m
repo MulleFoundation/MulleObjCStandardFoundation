@@ -9,7 +9,7 @@
 
 + (void) receiveNameNotification:(NSNotification *) notification
 {
-   printf( "nameNotification: %s %s\n",
+   mulle_printf( "nameNotification: %s %s\n",
                   [[notification name] UTF8String],
                   [notification object] == nil ? "nil" : "self");
 }
@@ -32,7 +32,7 @@ void   test_name( void)
    NSNotificationCenter   *center;
    Class                  receiver;
 
-   printf( "%s\n", __FUNCTION__);
+   mulle_printf( "%s\n", __FUNCTION__);
 
    receiver = [Receiver class];
    @autoreleasepool

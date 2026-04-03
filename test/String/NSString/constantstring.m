@@ -24,8 +24,8 @@ MULLE_OBJC_DEPENDS_ON_LIBRARY( MulleObjCStandardFoundation);
 + (void) passAStringVariable:(NSString *) a
                      another:(NSString *) b
 {
-   printf( "%s\n", [a UTF8String]);
-   printf( "%s\n", [b UTF8String]);
+   mulle_printf( "%s\n", [a UTF8String]);
+   mulle_printf( "%s\n", [b UTF8String]);
 }
 
 + (void) load

@@ -72,7 +72,7 @@ src/mulle-foundation-universeconfiguration.m
 # contents selected with patternfile ??-source--stage2-sources
 #
 set( STAGE2_SOURCES
-src/MulleObjCLoader+MulleObjCStandardFoundation.m
+src/MulleObjCDeps+MulleObjCStandardFoundation.m
 )
 
 #
