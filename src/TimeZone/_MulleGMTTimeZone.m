@@ -20,9 +20,9 @@
 - (BOOL) isDaylightSavingTime { return( NO); }
 
 
-- (NSInteger) secondsFromGMTForDate:(NSDate *) date   { return( 0); }
-- (NSString *) abbreviationForDate:(NSDate *) aDate   { return( @"GMT"); }
-- (BOOL) isDaylightSavingTimeForDate:(NSDate *) aDate { return( NO); }
+- (NSInteger) secondsFromGMTForDate:(NSDate *) date   { MULLE_C_UNUSED( date); return( 0); }
+- (NSString *) abbreviationForDate:(NSDate *) aDate   { MULLE_C_UNUSED( aDate); return( @"GMT"); }
+- (BOOL) isDaylightSavingTimeForDate:(NSDate *) aDate { MULLE_C_UNUSED( aDate); return( NO); }
 
 - (BOOL) isEqualToTimeZone:(NSTimeZone *) other
 {

@@ -60,6 +60,7 @@
 
 + (instancetype) allocWithZone:(NSZone *) zone
 {
+   MULLE_C_UNUSED( zone);
    return( NSAllocateObject( self, 0, NULL));
 }
 
