@@ -5,6 +5,11 @@
 #endif
 
 
+@interface NSDictionary (Forward)
+- (BOOL) isEqual:(id) other;
+@end
+
+
 // more or less just a leak check
 int   main( void)
 {

@@ -10,7 +10,9 @@
 #import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 //#import "MulleStandaloneObjCFoundation.h"
 
-
+@interface NSData (Forward)
+- (NSString *) debugDescription;
+@end
 
 
 int main( int argc, const char * argv[])

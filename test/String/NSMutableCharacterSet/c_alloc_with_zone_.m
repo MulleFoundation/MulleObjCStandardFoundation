@@ -13,25 +13,16 @@
 
 static int   test_c_alloc_with_zone_( void)
 {
-   id value;
-   struct { void * f0; } * params_1[] =
-   {
-      0
-   };
-   unsigned int   i_1;
-   unsigned int   n_1 = sizeof( params_1) / sizeof( struct { void * f0; } *);
+   id     value;
 
-   for( i_1 = 0; i_1 < n_1; i_1++)
+   @try
    {
-      @try
-      {
-         value = [[NSMutableCharacterSet allocWithZone:params_1[ i_1]] autorelease];
-         mulle_printf( "%s\n", [[value mulleTestDescription] UTF8String]);
-      }
-      @catch( NSException *localException)
-      {
-         mulle_printf( "Threw a %s exception\n", [[localException name] UTF8String]);
-      }
+      value = [[NSMutableCharacterSet allocWithZone:NULL] autorelease];
+      mulle_printf( "%@\n", [value mulleTestDescription]);
+   }
+   @catch( NSException *localException)
+   {
+      mulle_printf( "Threw a %@ exception\n", [localException name]);
    }
    return( 0);
 }

@@ -10,11 +10,11 @@
 static int   test_i_init_with_characters_length_( void)
 {
    NSString *obj;
-   static const unichar  _EmptyUnichar[] = { 0 };
-   static const unichar  _1848Unichar[]  = { '1', '8', '4', '8', 0 };
-   static const unichar  _VfLUnichar[]   = { 'V', 'f', 'L', ' ', 'B', 'o', 'c', 'h', 'u', 'm', 0 };
-   static const unichar  _UTF16Unichar[] = { 0xd83d, 0xdc63, 0x0023, 0x20ac, 0xd83c, 0xdfb2, 0 }; /* UTF16 feet, hash, euro, dice */
-   static const unichar  _UTF32Unichar[] = { 0x0001f463, 0x00000023,0x000020ac, 0x0001f3b2, 0};   /* UTF32 feet, hash, euro, dice */
+   static unichar  _EmptyUnichar[] = { 0 };
+   static unichar  _1848Unichar[]  = { '1', '8', '4', '8', 0 };
+   static unichar  _VfLUnichar[]   = { 'V', 'f', 'L', ' ', 'B', 'o', 'c', 'h', 'u', 'm', 0 };
+   static unichar  _UTF16Unichar[] = { 0xd83d, 0xdc63, 0x0023, 0x20ac, 0xd83c, 0xdfb2, 0 }; /* UTF16 feet, hash, euro, dice */
+   static unichar  _UTF32Unichar[] = { 0x0001f463, 0x00000023,0x000020ac, 0x0001f3b2, 0};   /* UTF32 feet, hash, euro, dice */
    unichar * params_1[] =
    {
       NULL,

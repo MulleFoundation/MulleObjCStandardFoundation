@@ -175,9 +175,7 @@ static NSString   *_parser_extract_string( struct parser *p, int nil_if_empty)
 }
 
 
-@implementation NSString( DoubleQuotedString)
-
-@dependency NSString(DoubleQuotes);
+@implementation NSString( DoubleQuotes)
 
 + (NSString *) mulleStringWithUTF8Characters:(char *) bytes
                                    cRangeSet:(struct mulle__rangeset *) ranges

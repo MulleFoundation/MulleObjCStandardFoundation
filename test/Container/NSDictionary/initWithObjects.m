@@ -13,7 +13,7 @@
 static void    test_dictionary( int n)
 {
    NSData         *data;
-   id             *objects[ n];
+   id             objects[ n];
    unsigned int   i;
 
    for( i = 0; i < n; ++i)
