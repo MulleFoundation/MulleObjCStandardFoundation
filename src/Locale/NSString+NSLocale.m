@@ -43,9 +43,7 @@
 // std-c and dependencies
 
 
-@implementation NSString( Locale)
-
-@dependency NSString(NSLocale);
+@implementation NSString( NSLocale)
 
 - (instancetype) initWithFormat:(NSString *) format
                          locale:(NSLocale *) locale, ...

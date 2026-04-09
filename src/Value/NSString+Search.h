@@ -128,7 +128,7 @@ struct MulleStringCharacterFunctions
 
 @interface NSObject( MulleCompareDescription)
 
-- (NSComparisonResult) mulleCompareDescription:(id) other;;
+- (NSComparisonResult) mulleCompareDescription:(id) other;
 
 @end
 

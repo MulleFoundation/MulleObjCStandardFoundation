@@ -9,6 +9,10 @@
 
 #import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 
+@interface NSMutableArray (Forward)
+- (NSString *) debugDescription;
+@end
+
 
 int main( int argc, const char * argv[])
 {

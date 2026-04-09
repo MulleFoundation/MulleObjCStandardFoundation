@@ -1323,9 +1323,7 @@ static unichar   nop( unichar c)
 
 @implementation NSObject( MulleCompareDescription)
 
-@dependency NSObject(NSString);
-
-- (NSComparisonResult) mulleCompareDescription:(id) other;
+- (NSComparisonResult) mulleCompareDescription:(id) other
 {
    return( [[self description] compare:[other description]]);
 }
