@@ -31,7 +31,7 @@ export MULLE_MATCH_TO_C_C_HEADERS_FILE="DISABLE"
 #
 #
 #
-export MULLE_CRAFT_POST_PROJECT="reamalgamate-MulleFoundationBase"
+
 
 
 #
