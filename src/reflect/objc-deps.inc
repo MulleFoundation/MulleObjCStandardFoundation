@@ -1,3 +1,6 @@
+      { @selector( MulleObjCDeps), @selector( MulleObjCContainerFoundation) },      // 3c20656f;MulleObjCDeps;2132102f;MulleObjCContainerFoundation
+      { @selector( MulleObjCDeps), @selector( MulleObjCTimeFoundation) },      // 3c20656f;MulleObjCDeps;cc20d48b;MulleObjCTimeFoundation
+      { @selector( MulleObjCDeps), @selector( MulleObjCValueFoundation) },      // 3c20656f;MulleObjCDeps;535d5103;MulleObjCValueFoundation
       { @selector( NSArray), @selector( DataComponents) },      // 233490fe;NSArray;486bf892;DataComponents
       { @selector( NSArray), @selector( NSLocale) },      // 233490fe;NSArray;22b7d78c;NSLocale
       { @selector( NSArray), @selector( NSSortDescriptor) },      // 233490fe;NSArray;38a79ab2;NSSortDescriptor
