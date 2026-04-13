@@ -36,10 +36,10 @@
       { @selector( NSSortDescriptor), @selector( NSCoder) },      // 38a79ab2;NSSortDescriptor;100c54ba;NSCoder
       { @selector( NSSortDescriptor), MULLE_OBJC_NO_CATEGORYID },      // 38a79ab2;NSSortDescriptor;;
       { @selector( NSString), @selector( Components) },      // 1994a171;NSString;c6c03895;Components
-      { @selector( NSString), @selector( DoubleQuotedString) },      // 1994a171;NSString;4cfd171d;DoubleQuotedString
+      { @selector( NSString), @selector( DoubleQuotes) },      // 1994a171;NSString;5059afd2;DoubleQuotes
       { @selector( NSString), @selector( Escaping) },      // 1994a171;NSString;742c5512;Escaping
-      { @selector( NSString), @selector( Locale) },      // 1994a171;NSString;d6e5bb7d;Locale
       { @selector( NSString), @selector( NSCharacterSet) },      // 1994a171;NSString;bb258d72;NSCharacterSet
+      { @selector( NSString), @selector( NSLocale) },      // 1994a171;NSString;22b7d78c;NSLocale
       { @selector( NSString), @selector( Search) },      // 1994a171;NSString;646a2c9c;Search
       { @selector( NSThread), @selector( NSNotification) },      // c81b9c22;NSThread;4cf6fadb;NSNotification
       { @selector( NSTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 190d1ade;NSTimeZone;;
