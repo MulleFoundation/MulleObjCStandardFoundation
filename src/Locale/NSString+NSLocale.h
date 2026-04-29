@@ -47,7 +47,7 @@
 @end
 
 
-@interface NSString( NSLocaleFuture)
+@interface NSString( NSLocaleFuture) < MulleObjCFuture>
 
 + (instancetype) stringWithFormat:(NSString *) format
                            locale:(NSLocale *) locale;
