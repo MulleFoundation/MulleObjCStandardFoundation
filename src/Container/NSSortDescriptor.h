@@ -68,7 +68,7 @@
 @end
 
 
-@interface NSSortDescriptor( Future)
+@interface NSSortDescriptor( Future) < MulleObjCFuture>
 
 - (NSComparisonResult) compareObject:(id) a
                             toObject:(id) b;

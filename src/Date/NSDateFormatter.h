@@ -107,7 +107,7 @@ NSString  *MulleDateFormatISO;                 //  = @"%Y-%m-%dT%H:%M:%S:%z";
 @end
 
 
-@interface NSDateFormatter( Future)
+@interface NSDateFormatter( Future) < MulleObjCFuture>
 
 - (instancetype) _initWithDateFormat:(NSString *) format
                 allowNaturalLanguage:(BOOL) flag;

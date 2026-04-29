@@ -79,16 +79,8 @@ static struct
 } Self;
 
 
-+ (mulle_objc_dependency_t *) dependencies
-{
-   static mulle_objc_dependency_t   dependencies[] =
-   {
-      MULLE_OBJC_LIBRARY_DEPENDENCY( MulleObjCValueFoundation),
-      MULLE_OBJC_LIBRARY_DEPENDENCY( MulleObjCContainerFoundation),
-      MULLE_OBJC_NO_DEPENDENCY
-   };
-   return( dependencies);
-}
+@dependency MulleObjCDeps( MulleObjCValueFoundation);
+@dependency MulleObjCDeps( MulleObjCContainerFoundation);
 
 
 + (void) initialize

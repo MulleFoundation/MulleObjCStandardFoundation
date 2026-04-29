@@ -71,7 +71,7 @@ typedef mulle_utf32_t  unichar;
 @end
 
 
-@interface NSCharacterSet( Subclasses)
+@interface NSCharacterSet( SubclassesFuture) < MulleObjCFuture>
 
 - (BOOL) characterIsMember:(unichar) c;
 - (BOOL) hasMemberInPlane:(NSUInteger) plane;

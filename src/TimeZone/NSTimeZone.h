@@ -94,7 +94,7 @@
 @end
 
 
-@interface NSTimeZone( Future)
+@interface NSTimeZone( Future) < MulleObjCFuture>
 
 - (instancetype) initWithName:(NSString *) name;
 - (instancetype) timeZoneForSecondsFromGMT:(NSInteger) seconds;

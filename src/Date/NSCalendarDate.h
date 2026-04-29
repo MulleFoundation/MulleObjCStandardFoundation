@@ -76,7 +76,7 @@
 @end
 
 
-@interface NSCalendarDate( Subclasses)
+@interface NSCalendarDate( Subclasses) < MulleObjCFuture>
 
 - (struct mulle_mini_tm) mulleMiniTM;
 - (NSInteger) secondOfMinute;
@@ -94,7 +94,7 @@
 
 @class NSDate;
 
-@interface NSCalendarDate( Future)
+@interface NSCalendarDate( Future) < MulleObjCFuture>
 
 // TODO: check which ones are compatible
 - (instancetype) initWithDate:(NSDate *) date;
