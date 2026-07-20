@@ -78,3 +78,5 @@ test*/**/*.test.*
 .roam
 .graveyard
 *.tmp.*
+*.test.*
+.idea
