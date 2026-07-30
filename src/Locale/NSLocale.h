@@ -81,7 +81,7 @@
 @end
 
 
-@interface NSLocale( Future)
+@interface NSLocale( Future) < MulleObjCFuture>
 
 + (instancetype) _systemLocale;
 + (instancetype) _currentLocale;
