@@ -142,7 +142,15 @@ Parses structured text from an NSString, advancing through input and extracting 
 @end
 ```
 
-Linear O(n) per operation in characters consumed. Returns BOOL; modifies `scanLocation` on success, silently fails otherwise.
+Linear O(n) per operation in characters consumed. Returns BOOL; modifies `scanLocation` on success, silently fails otherwise. `mulleScanUpToAndIncludingString:` is a mulle extension not in Apple Foundation.
+
+#### NSScanner+NSLocale (`src/Locale/NSScanner+NSLocale.h`)
+
+```objc
+@interface NSScanner( NSLocale)
++ (instancetype) localizedScannerWithString:(NSString *) string;
+@end
+```
 
 ### 3.3. NSFormatter (`src/Value/NSFormatter.h`)
 
@@ -270,6 +278,50 @@ Converts bidirectionally between NSDate and NSString. Not re-entrant.
 ```
 
 Global format strings: `MulleDateFormatISO` (`@"%Y-%m-%dT%H:%M:%S:%z"`), `MulleDateFormatISOWithMilliseconds`.
+
+#### NSDate+NSDateFormatter (`src/Date/NSDate+NSDateFormatter.h`)
+
+```objc
+@interface NSDate( NSDateFormatter)
++ (instancetype) dateWithString:(NSString *) aString;
+- (instancetype) initWithString:(NSString *) description;
+- (NSString *) descriptionWithLocale:(NSLocale *) locale;
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format
+                                    timeZone:(NSTimeZone *) aTimeZone
+                                      locale:(id) locale;
+@end
+```
+
+#### NSCalendarDate+NSDateFormatter (`src/Date/NSCalendarDate+NSDateFormatter.h`)
+
+```objc
+@interface NSCalendarDate( NSDateFormatter)
++ (instancetype) dateWithString:(NSString *) s
+                 calendarFormat:(NSString *) format
+                         locale:(NSLocale *) locale;
++ (instancetype) dateWithString:(NSString *) s
+                 calendarFormat:(NSString *) format;
+- (instancetype) initWithString:(NSString *) s
+                 calendarFormat:(NSString *) format
+                         locale:(id) locale;
+- (instancetype) initWithString:(NSString *) s
+                 calendarFormat:(NSString *) format;
+- (instancetype) initWithString:(NSString *) s;
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format;
+- (NSString *) descriptionWithCalendarFormat:(NSString *) format
+                                      locale:(id) locale;
+@end
+```
+
+#### NSDate+NSCalendarDate (`src/Date/NSDate+NSCalendarDate.h`)
+
+```objc
+@interface NSDate( NSCalendarDate)
+- (NSCalendarDate *) calendarDateWithTimeZone:(NSTimeZone *) tz;
+- (NSCalendarDate *) dateWithCalendarFormat:(NSString *) format
+                                   timeZone:(NSTimeZone *) aTimeZone;
+@end
+```
 
 ### 3.6. NSTimeZone (`src/TimeZone/NSTimeZone.h`)
 
@@ -460,7 +512,7 @@ Locale information for internationalized formatting. Backed by `_xlocale` and `_
 
 **Future API** (`<MulleObjCFuture>`):
 ```objc
-@interface NSLocale( Future)
+@interface NSLocale( Future) < MulleObjCFuture>
 + (instancetype) _systemLocale;
 + (instancetype) _currentLocale;
 + (NSArray *) availableLocaleIdentifiers;
@@ -599,7 +651,16 @@ Publish-subscribe messaging system.
 @end
 ```
 
-Thread safety: internally locked via `mulle_thread_mutex_t`. Notifications posted on the posting thread; observers called synchronously. `MulleObjCUniverseWillFinalizeNotification` global available.
+Thread safety: internally locked via `mulle_thread_mutex_t`. Notifications posted on the posting thread; observers called synchronously. The NSNotificationCenter is app-wide (not thread-local), enabling `+load` plugin setup but risking cross-thread notification delivery. `MulleObjCUniverseWillFinalizeNotification` global available. `NSNotification.userInfo` is typed as `id <NSCopying, MulleObjCRuntimeObject>` — not necessarily a dictionary (mulle extension).
+
+#### NSThread+NSNotification (`src/Notification/NSThread+NSNotification.h`)
+
+Notification name globals for threading:
+```objc
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL NSString  *NSWillBecomeMultiThreadedNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL NSString  *NSDidBecomeSingleThreadedNotification;
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL NSString  *NSThreadWillExitNotification;
+```
 
 ### 3.14. NSUndoManager (`src/Undo/NSUndoManager.h`)
 
@@ -641,6 +702,8 @@ Per-thread undo/redo stack management.
 
 Notification globals: `NSUndoManagerCheckpointNotification`, `NSUndoManagerDidOpenUndoGroupNotification`, `NSUndoManagerWillCloseUndoGroupNotification`, `NSUndoManagerDidUndoChangeNotification`, etc.
 
+`prepareWithInvocationTarget:` returns a proxy; message sends to it are recorded as undo actions. Do not register undo actions inside undo/redo handlers (recursion risk).
+
 ### 3.15. NSSortDescriptor (`src/Container/NSSortDescriptor.h`)
 
 Key-based sort ordering for arrays.
@@ -674,11 +737,160 @@ C function: `MulleObjCSortDescriptorArrayCompare(id a, id b, NSArray *descriptor
 
 ### 3.16. NSString+Search (`src/Value/NSString+Search.h`)
 
-String search operations (rangeOfString, rangeOfCharacterFromSet, etc.) and `MulleStringCharacterFunctions` struct for character-level string operations.
+String comparison and search operations. Also defines `struct MulleStringCharacterFunctions` for character-level operations.
+
+```objc
+struct MulleStringCharacterFunctions
+{
+   int       (*isdigit)( unichar);
+   int       (*iszero)( unichar);
+   int       (*isspace)( unichar);
+   unichar   (*tolower)( unichar);
+   unichar   (*toupper)( unichar);
+};
+
+@interface NSString( Search)
++ (void) setStringCharacterFunctions:(struct MulleStringCharacterFunctions *) converters;
++ (struct MulleStringCharacterFunctions *) stringCharacterFunctions;
+
+- (NSComparisonResult) compare:(id) other;
+- (NSComparisonResult) compare:(id) other
+                       options:(NSStringCompareOptions) mask;
+- (NSComparisonResult) caseInsensitiveCompare:(NSString *) other;
+- (NSComparisonResult) compare:(NSString *) other
+                       options:(NSStringCompareOptions) options
+                         range:(NSRange) range;
+
+- (NSRange) rangeOfString:(NSString *) other;
+- (NSRange) rangeOfString:(NSString *) other
+                  options:(NSStringCompareOptions) options;
+- (NSRange) rangeOfString:(NSString *) other
+                  options:(NSStringCompareOptions) options
+                    range:(NSRange) range;
+- (BOOL) containsString:(NSString *) s;
+
+- (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set;
+- (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set
+                            options:(NSStringCompareOptions) options;
+- (NSRange) rangeOfCharacterFromSet:(NSCharacterSet *) set
+                            options:(NSStringCompareOptions) options
+                              range:(NSRange) range;
+
+- (NSString *) uppercaseString;
+- (NSString *) lowercaseString;
+- (NSString *) capitalizedString;
+
+// mulle additions
+- (NSString *) mulleDecapitalizedString;
+- (NSRange) mulleRangeOfCharactersFromSet:(NSCharacterSet *) set
+                                  options:(NSStringCompareOptions) options
+                                    range:(NSRange) range;
+- (NSUInteger) mulleCountOccurrencesOfCharactersFromSet:(NSCharacterSet *) set
+                                                  range:(NSRange) range;
+
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
+                                         withString:(NSString *) replacement;
+- (NSString *) stringByReplacingOccurrencesOfString:(NSString *) s
+                                         withString:(NSString *) replacement
+                                            options:(NSUInteger) options
+                                              range:(NSRange) range;
+- (NSString *) stringByReplacingCharactersInRange:(NSRange) range
+                                       withString:(NSString *) replacement;
+@end
+
+@interface NSObject( MulleCompareDescription)
+- (NSComparisonResult) mulleCompareDescription:(id) other;
+@end
+```
 
 ### 3.17. NSString+Components, NSString+Escaping, NSString+DoubleQuotes
 
-Additional NSString categories in `src/Value/` providing component splitting (`- componentsSeparatedByString:`), escaping, and double-quoting utilities.
+#### NSString+Components (`src/Value/NSString+Components.h`)
+
+Splitting and reassembling by separator string or character set.
+
+```objc
+@interface NSString ( Components)
+- (NSArray *) componentsSeparatedByString:(NSString *) s;
+- (NSArray *) componentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
+
+// mulle additions
+- (NSMutableArray *) mulleMutableComponentsSeparatedByString:(NSString *) s;
+- (NSMutableArray *) mulleMutableComponentsSeparatedByCharactersInSet:(NSCharacterSet *) separators;
+- (NSArray *) _componentsSeparatedByString:(NSString *) separator;  // nil if no separator
+- (NSArray *) _componentsSeparatedByCharacterSet:(NSCharacterSet *) separators;
+- (NSString *) mulleStringBySimplifyingComponentsSeparatedByString:(NSString *) separator
+                                                      simplifyDots:(BOOL) simplifyDots;
+- (NSString *) mulleStringByAppendingComponent:(NSString *) other
+                              separatedByString:(NSString *) separator;
+@end
+
+// C convenience functions (return nil if no separator)
+NSArray  *MulleObjCComponentsSeparatedByString( NSString *self, NSString *separator);
+NSArray  *MulleObjCComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByString( NSString *self, NSString *separator);
+NSMutableArray  *MulleObjCMutableComponentsSeparatedByCharacterSet( NSString *self, NSCharacterSet *separators);
+```
+
+#### NSString+Escaping (`src/Value/NSString+Escaping.h`)
+
+Percent-encoding, C-string escaping, and character replacement.
+
+```objc
+@interface NSString (Escaping)
+- (NSString *) stringByAddingPercentEncodingWithAllowedCharacters:(NSCharacterSet *) allowedCharacters;
+- (NSString *) stringByRemovingPercentEncoding;
+- (NSString *) mulleQuotedString;
+- (NSString *) mulleUnquotedString;
+- (NSString *) mulleEscapedString;
+- (NSString *) mulleUnescapedString;
+- (NSString *) mulleQuotedDescriptionIfNeeded;
+- (NSString *) mulleStringByReplacingCharactersInSet:(NSCharacterSet *) s
+                                       withCharacter:(unichar) c;
+- (NSString *) mulleStringByReplacingPercentEscapesWithDisallowedCharacters:(NSCharacterSet *) disallowedCharacters;
+@end
+
+char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst);
+char   *MulleUTF8StringUnescape( char *src, NSUInteger length, char *dst);
+struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
+                                                     NSCharacterSet *disallowedCharacters);
+NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
+                                                      NSCharacterSet *disallowedCharacters);
+```
+
+#### NSString+DoubleQuotes (`src/Value/NSString+DoubleQuotes.h`)
+
+Shell-style double/single-quoted tokenization.
+
+```objc
+@interface NSString( DoubleQuotes)
++ (NSString *) mulleStringWithUTF8Characters:(char *) bytes
+                                   cRangeSet:(struct mulle__rangeset *) ranges;
+- (NSString *) mulleDoubleQuoteEscapedString;
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithDoubleQuoting;
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithSingleQuoting;
+- (NSArray *) mulleComponentsSeparatedByWhitespaceWithSingleAndDoubleQuoting;
+@end
+```
+
+#### NSString+NSCharacterSet (`src/Value/NSString+NSCharacterSet.h`)
+
+```objc
+@interface NSString( NSCharacterSet)
+- (NSString *) stringByTrimmingCharactersInSet:(NSCharacterSet *) set;
+@end
+```
+
+#### NSMutableString+Search (`src/Value/NSMutableString+Search.h`)
+
+```objc
+@interface NSMutableString( Search)
+- (void) replaceOccurrencesOfString:(NSString *) s
+                         withString:(NSString *) replacement
+                            options:(NSStringCompareOptions) options
+                              range:(NSRange) range;
+@end
+```
 
 ## 4. Performance Characteristics
 
@@ -718,13 +930,16 @@ Thread-safety: NSNotificationCenter is internally thread-safe (`MulleObjCThreadS
 
 ### Common Pitfalls
 
-- **NSNotificationCenter**: Forgetting to unregister observers (memory leak). Assuming thread-safety in observer callbacks.
-- **NSCalendarDate**: Not accounting for timezone in comparisons. Using `Future` API methods that may be incomplete.
+- **NSCharacterSet**: `unichar` is UTF-32 (`mulle_utf32_t`, 32-bit), not 16-bit. Use `longCharacterIsMember:` (stable), not `characterIsMember:` (in Future category, may be incomplete).
+- **NSCalendarDate**: `isEqual:` compares as `NSDate` (point-in-time), but `isEqualToCalendarDate:` compares calendar components including timeZone — know which you need. `isEqualToCalendarDate:` is in the Subclasses category (`<MulleObjCFuture>`).
+- **NSDateFormatter**: Formatters are not re-entrant. `setFormatterBehavior:` changes the internal class of the formatter.
+- **NSNotificationCenter**: Forgetting to unregister observers (memory leak). NotificationCenter is app-wide, not thread-local — cross-thread notification delivery is possible.
 - **NSScanner**: Not checking `isAtEnd` before scanning. Scan methods return BOOL but silently fail.
-- **NSException**: Using `@try`/`@catch` for normal control flow. Not including enough context in reason string.
+- **NSException**: Using `@try`/`@catch` for normal control flow. Not including enough context in reason string. `-raise:format:` is not `MULLE_C_NO_RETURN` — when `self` is nil, the message returns.
 - **NSError**: Not checking for nil before dereferencing error out-parameter.
-- **NSLocale**: Hard-coding locale-specific formatting characters.
-- **NSUndoManager**: Registering undo actions inside undo/redo handlers (recursion).
+- **NSLocale**: Hard-coding locale-specific formatting characters. `systemLocale`/`currentLocale` are hard-cached on `+initialize`.
+- **NSUndoManager**: Registering undo actions inside undo/redo handlers (recursion). `prepareWithInvocationTarget:` returns a proxy whose message sends are recorded as undo actions.
+- **NSNumberFormatter**: `NSNumberFormatterBehavior10_4` is defined but not implemented. Format string must match the `numberStyle`.
 
 ### Idiomatic Patterns
 
