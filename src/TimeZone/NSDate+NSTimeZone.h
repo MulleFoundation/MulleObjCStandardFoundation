@@ -1,5 +1,5 @@
 //
-//  NSDate+NSTimeZone.m
+//  NSDate+NSTimeZone.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2021 Nat! - Mulle kybernetiK.

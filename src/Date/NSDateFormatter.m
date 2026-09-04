@@ -2,7 +2,7 @@
 //  NSDateFormatter.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
@@ -209,6 +209,14 @@ static inline void   SelfUnlock( void)
    // this is incompatible, os x uses an empty date format
    return( [self initWithDateFormat:MulleDateFormatISO // changed to %Y from %y
                allowNaturalLanguage:NO]);
+}
+
+
++ (instancetype) dateFormatterWithDateFormat:(NSString *) format
+                       allowNaturalLanguage:(BOOL) flag
+{
+   return( [[[self alloc] initWithDateFormat:format
+                       allowNaturalLanguage:flag] autorelease]);
 }
 
 

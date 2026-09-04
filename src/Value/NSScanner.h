@@ -1,6 +1,6 @@
 //
-//  NSScanner.m
-//  MulleObjCValueFoundation
+//  NSScanner.h
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2020 Codeon GmbH.
@@ -33,7 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-
 /* Copyright (c) 2006-2007 Christopher J. W. Lloyd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of

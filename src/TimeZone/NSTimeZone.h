@@ -2,7 +2,7 @@
 //  NSTimeZone.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //

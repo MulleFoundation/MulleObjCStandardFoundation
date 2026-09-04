@@ -1,8 +1,8 @@
 //
-//  NSArray+NSString.m
+//  NSSet+NSString.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2019 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //

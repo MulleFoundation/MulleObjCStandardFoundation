@@ -157,9 +157,8 @@ precision per `src/Date/NSCalendarDate.h:1`).
 static NSDateFormatter  *fmt;
 if( ! fmt)
 {
-   fmt = [[NSDateFormatter alloc] initWithDateFormat:@"%Y-%m-%d"
+   fmt = [NSDateFormatter dateFormatterWithDateFormat:@"%Y-%m-%d"
                                 allowNaturalLanguage:NO];
-   [fmt autorelease];
 }
 NSString   *s = [fmt stringFromDate:cal];  // via Future category
 ```
@@ -194,7 +193,7 @@ updates when system locale changes (`src/Locale/NSLocale.h:1`).
 ### NSNumberFormatter
 
 ```objc
-NSNumberFormatter   *nf = [[NSNumberFormatter new] autorelease];
+NSNumberFormatter   *nf = [NSNumberFormatter instance];
 [nf setNumberStyle:NSNumberFormatterDecimalStyle];
 [nf setLocale:[NSLocale currentLocale]];
 NSString   *s = [nf stringFromNumber:[NSNumber numberWithDouble:1234.56]];

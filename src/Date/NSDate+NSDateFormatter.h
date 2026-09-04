@@ -2,7 +2,7 @@
 //  NSDate+NSDateFormatter.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2017 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2017 Codeon GmbH.
 //  All rights reserved.
 //

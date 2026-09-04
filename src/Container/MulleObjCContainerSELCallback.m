@@ -1,8 +1,8 @@
 //
-//  MulleObjCContainerCallback.m
+//  MulleObjCContainerSELCallback.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
@@ -41,14 +41,14 @@
 
 
 
-static uintptr_t   sel_hash( struct mulle_container_keycallback *callback, void *p)
+static uintptr_t   sel_hash( const struct mulle_container_keycallback *callback, const void *p)
 {
    return( (uintptr_t) p);
 }
 
 
 static char *
-   sel_describe( struct mulle_container_valuecallback *callback,
+   sel_describe( const struct mulle_container_valuecallback *callback,
                  void *p,
                  struct mulle_allocator **p_allocator)
 {
@@ -60,7 +60,7 @@ static char *
 
 struct mulle_container_keycallback   MulleSELMapKeyCallBacks =
 {
-   .hash     = sel_hash,
+   .hash     = (mulle_container_keycallback_hash_t *) sel_hash,
    .is_equal = mulle_container_keycallback_pointer_is_equal,
    .retain   = mulle_container_keycallback_self,
    .release  = mulle_container_keycallback_nop,
@@ -72,6 +72,6 @@ struct mulle_container_valuecallback   MulleSELMapValueCallBacks =
 {
    .retain   = mulle_container_valuecallback_self,
    .release  = mulle_container_valuecallback_nop,
-   .describe = sel_describe,
+   .describe = (mulle_container_valuecallback_describe_t *) sel_describe,
 };
 

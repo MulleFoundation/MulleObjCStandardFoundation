@@ -4,10 +4,40 @@
 # import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 #endif
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 // if we use gmalloc this can run for 30 minutes or so
 
-#define N_OBJECTS    1000
-#define N_OBSERVERS  1000
+static int   is_slow_environment( void)
+{
+   if( getenv( "MULLE_TEST_VALGRIND"))
+      return( 1);
+#ifdef __linux__
+   {
+      FILE   *f;
+      char   line[ 256];
+
+      f = fopen( "/proc/self/maps", "r");
+      if( f)
+      {
+         while( fgets( line, sizeof( line), f))
+            if( strstr( line, "vgpreload"))
+            {
+               fclose( f);
+               return( 1);
+            }
+         fclose( f);
+      }
+   }
+#endif
+   return( 0);
+}
+
+// Under valgrind we only exercise the code paths, we do not stress test.
+#define N_OBJECTS      ((NSUInteger) (is_slow_environment() ? 50 : 1000))
+#define N_OBSERVERS    ((NSUInteger) (is_slow_environment() ? 50 : 1000))
 
 @interface Foo : NSObject
 @end

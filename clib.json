@@ -6,7 +6,7 @@
    "license" : "BSD-3-Clause",
    "repo" : "MulleFoundation/MulleObjCStandardFoundation",
    "src" : [
-      "asset/dox/TOC.md",
+      "asset/dox/api/toc/index.md",
       "src/Container/MulleObjCContainerDescription.h",
       "src/Container/MulleObjCContainerDescription.m",
       "src/Container/MulleObjCContainerIntegerCallback.h",

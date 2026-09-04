@@ -189,8 +189,8 @@ static inline observer_sel_imp_triplet   *triplet_copy( observer_sel_imp_triplet
 
 */
 
-static uintptr_t   pair_hash( struct mulle_container_keycallback *table,
-                              name_sender_pair *pair)
+static uintptr_t   pair_hash( const struct mulle_container_keycallback *table,
+                              const name_sender_pair *pair)
 {
    NSUInteger  hash;
 
@@ -200,8 +200,8 @@ static uintptr_t   pair_hash( struct mulle_container_keycallback *table,
 }
 
 
-static int   pair_is_equal( struct mulle_container_keycallback *table,
-                             name_sender_pair *a, name_sender_pair *b)
+static int   pair_is_equal( const struct mulle_container_keycallback *table,
+                             const name_sender_pair *a, const name_sender_pair *b)
 {
    if( a->sender != b->sender)
       return( NO);
@@ -209,7 +209,7 @@ static int   pair_is_equal( struct mulle_container_keycallback *table,
 }
 
 
-static char   *object_describe( struct mulle_container_keycallback *table,
+static char   *object_describe( const struct mulle_container_keycallback *table,
                                 void *a,
                                 struct mulle_allocator **p_allocator)
 {
@@ -218,7 +218,7 @@ static char   *object_describe( struct mulle_container_keycallback *table,
 }
 
 
-static char   *pair_describe( struct mulle_container_keycallback *table,
+static char   *pair_describe( const struct mulle_container_keycallback *table,
                               void *_a,
                               struct mulle_allocator **p_allocator)
 {
@@ -229,7 +229,7 @@ static char   *pair_describe( struct mulle_container_keycallback *table,
 }
 
 
-static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
+static char   *pairqueue_describe( const struct mulle_container_valuecallback *table,
                                    void *_queue,
                                    struct mulle_allocator **p_allocator)
 {
@@ -256,7 +256,7 @@ static char   *pairqueue_describe( struct mulle_container_valuecallback *table,
 }
 
 
-static char   *tripletqueue_describe( struct mulle_container_valuecallback *table,
+static char   *tripletqueue_describe( const struct mulle_container_valuecallback *table,
                                       void *_queue,
                                       struct mulle_allocator **p_allocator)
 {
@@ -319,12 +319,12 @@ static struct mulle_container_keyvaluecallback   pair_registry_callbacks =
       .is_equal = (mulle_container_keycallback_is_equal_t *)  pair_is_equal,
       .retain   = (mulle_container_keycallback_retain_t *)    pair_copy,
       .release  = (mulle_container_keycallback_release_t *)   pair_destroy,
-      .describe = pair_describe,
+      .describe = (mulle_container_keycallback_describe_t *) pair_describe,
    },
    {
       .retain   = mulle_container_valuecallback_self,
       .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
-      .describe = tripletqueue_describe
+      .describe = (mulle_container_valuecallback_describe_t *) tripletqueue_describe
    }
 };
 
@@ -337,12 +337,12 @@ static struct mulle_container_keyvaluecallback   sender_registry_callbacks =
       .is_equal = mulle_container_keycallback_pointer_is_equal,
       .retain   = mulle_container_keycallback_self,
       .release  = mulle_container_keycallback_nop,
-      .describe = object_describe
+      .describe = (mulle_container_keycallback_describe_t *) object_describe
    },
    {
       .retain   = mulle_container_valuecallback_self,
       .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
-      .describe = tripletqueue_describe,
+      .describe = (mulle_container_valuecallback_describe_t *) tripletqueue_describe,
    }
 };
 
@@ -351,16 +351,16 @@ static struct mulle_container_keyvaluecallback   sender_registry_callbacks =
 static struct mulle_container_keyvaluecallback   name_registry_callbacks =
 {
    {
-      .hash     = mulle_container_keycallback_object_hash,
-      .is_equal = mulle_container_keycallback_object_is_equal,
+      .hash     = (mulle_container_keycallback_hash_t *) mulle_container_keycallback_object_hash,
+      .is_equal = (mulle_container_keycallback_is_equal_t *) mulle_container_keycallback_object_is_equal,
       .retain   = mulle_container_keycallback_self,
       .release  = mulle_container_keycallback_nop,
-      .describe = object_describe
+      .describe = (mulle_container_keycallback_describe_t *) object_describe
    },
    {
       .retain   = mulle_container_valuecallback_self,
       .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
-      .describe = tripletqueue_describe,
+      .describe = (mulle_container_valuecallback_describe_t *) tripletqueue_describe,
    }
 };
 
@@ -373,12 +373,12 @@ static struct mulle_container_keyvaluecallback   observer_registry_callbacks =
       .is_equal = mulle_container_keycallback_pointer_is_equal,
       .retain   = mulle_container_keycallback_self,
       .release  = mulle_container_keycallback_nop,
-      .describe = object_describe
+      .describe = (mulle_container_keycallback_describe_t *) object_describe
    },
    {
       .retain   = mulle_container_valuecallback_self,
       .release  = (mulle_container_valuecallback_release_t *) queue_destroy,
-      .describe = pairqueue_describe,
+      .describe = (mulle_container_valuecallback_describe_t *) pairqueue_describe,
    }
 };
 
@@ -392,12 +392,12 @@ static struct mulle_container_keyvaluecallback   observer_no_free_registry_callb
       .is_equal = mulle_container_keycallback_pointer_is_equal,
       .retain   = mulle_container_keycallback_self,
       .release  = mulle_container_keycallback_nop,
-      .describe = object_describe
+      .describe = (mulle_container_keycallback_describe_t *) object_describe
    },
    {
       .retain   = mulle_container_valuecallback_self,
       .release  = mulle_container_valuecallback_nop,
-      .describe = pairqueue_describe,
+      .describe = (mulle_container_valuecallback_describe_t *) pairqueue_describe,
    }
 };
 

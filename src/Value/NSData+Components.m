@@ -1,5 +1,5 @@
 //
-//  NSString+Components.m
+//  NSData+Components.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2020 Nat! - Mulle kybernetiK.

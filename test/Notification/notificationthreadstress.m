@@ -4,7 +4,37 @@
 # import <MulleObjCStandardFoundation/MulleObjCStandardFoundation.h>
 #endif
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 extern void  sleep( int);
+
+
+static int   is_slow_environment( void)
+{
+   if( getenv( "MULLE_TEST_VALGRIND"))
+      return( 1);
+#ifdef __linux__
+   {
+      FILE   *f;
+      char   line[ 256];
+
+      f = fopen( "/proc/self/maps", "r");
+      if( f)
+      {
+         while( fgets( line, sizeof( line), f))
+            if( strstr( line, "vgpreload"))
+            {
+               fclose( f);
+               return( 1);
+            }
+         fclose( f);
+      }
+   }
+#endif
+   return( 0);
+}
 
 //#define N_OBJECTS    1
 //#define N_OBSERVERS  1
@@ -14,14 +44,16 @@ extern void  sleep( int);
 // #define N_OBSERVERS  10
 // #define N_THREADS    256
 
+// Under valgrind we only exercise the code paths, not stress test. A
+// cooperative scheduler makes many threads + large counts brutally slow.
 #ifdef __APPLE__
-#define N_THREADS    4
-#define N_OBJECTS    100
-#define N_OBSERVERS  100
+#define N_THREADS      ((NSUInteger) (is_slow_environment() ? 2 : 4))
+#define N_OBJECTS      ((NSUInteger) (is_slow_environment() ? 50 : 100))
+#define N_OBSERVERS    ((NSUInteger) (is_slow_environment() ? 50 : 100))
 #else
-#define N_THREADS    16
-#define N_OBJECTS    1000
-#define N_OBSERVERS  1000
+#define N_THREADS      ((NSUInteger) (is_slow_environment() ? 2 : 16))
+#define N_OBJECTS      ((NSUInteger) (is_slow_environment() ? 50 : 1000))
+#define N_OBSERVERS    ((NSUInteger) (is_slow_environment() ? 50 : 1000))
 #endif
 
 
