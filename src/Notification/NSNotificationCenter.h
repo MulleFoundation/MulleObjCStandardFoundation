@@ -2,7 +2,7 @@
 //  NSNotificationCenter.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
@@ -33,7 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-
 #import "import.h"
 
 #import <mulle-container/mulle-container.h>

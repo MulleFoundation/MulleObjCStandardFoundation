@@ -2,7 +2,7 @@
 //  _MulleObjCConcreteInvertedCharacterSet.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2019 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2019 Codeon GmbH.
 //  All rights reserved.
 //
@@ -33,7 +33,6 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-
 #import "NSCharacterSet.h"
 
 

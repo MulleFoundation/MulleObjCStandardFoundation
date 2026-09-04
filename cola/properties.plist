@@ -4,7 +4,7 @@
       description="🚤 Objective-C classes based on the C standard library";
       domain="github";
       name="MulleObjCStandardFoundation";
-       version="0.23.0";
+       version="0.24.0";
       user="MulleFoundation";
       repo="MulleObjCStandardFoundation";
       homepage="https://github.com/MulleFoundation/MulleObjCStandardFoundation";

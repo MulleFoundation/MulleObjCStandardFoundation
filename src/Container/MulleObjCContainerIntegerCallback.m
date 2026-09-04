@@ -1,8 +1,8 @@
 //
-//  MulleObjCContainerCallback.m
+//  MulleObjCContainerIntegerCallback.m
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
@@ -41,7 +41,7 @@
 
 
 static char *
-   int_describe( struct mulle_container_valuecallback *callback,
+   int_describe( const struct mulle_container_valuecallback *callback,
                  void *p,
                  struct mulle_allocator **p_allocator)
 {
@@ -51,7 +51,7 @@ static char *
 
 
 static char *
-   integer_describe( struct mulle_container_valuecallback *callback,
+   integer_describe( const struct mulle_container_valuecallback *callback,
                      void *p,
                      struct mulle_allocator **p_allocator)
 {
@@ -90,7 +90,7 @@ struct mulle_container_valuecallback    NSIntMapValueCallBacks =
 {
    .retain   = mulle_container_valuecallback_self,
    .release  = mulle_container_valuecallback_nop,
-   .describe = int_describe
+   .describe = (mulle_container_valuecallback_describe_t *) int_describe
 };
 
 
@@ -99,7 +99,7 @@ struct mulle_container_valuecallback    NSIntegerMapValueCallBacks =
 {
    .retain   = mulle_container_valuecallback_self,
    .release  = mulle_container_valuecallback_nop,
-   .describe = integer_describe
+   .describe = (mulle_container_valuecallback_describe_t *) integer_describe
 };
 
 

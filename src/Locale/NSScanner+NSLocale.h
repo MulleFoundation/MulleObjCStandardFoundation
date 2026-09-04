@@ -1,5 +1,5 @@
 //
-//  NSScanner+NSLocale.m
+//  NSScanner+NSLocale.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2021 Nat! - Mulle kybernetiK.

@@ -2,6 +2,33 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+
+static int   is_slow_environment( void)
+{
+   if( getenv( "MULLE_TEST_VALGRIND"))
+      return( 1);
+#ifdef __linux__
+   {
+      FILE   *f;
+      char   line[ 256];
+
+      f = fopen( "/proc/self/maps", "r");
+      if( f)
+      {
+         while( fgets( line, sizeof( line), f))
+            if( strstr( line, "vgpreload"))
+            {
+               fclose( f);
+               return( 1);
+            }
+         fclose( f);
+      }
+   }
+#endif
+   return( 0);
+}
 
 
 static mulle_utf32_t   random_char( mulle_utf32_t mask)
@@ -15,7 +42,10 @@ static mulle_utf32_t   random_char( mulle_utf32_t mask)
       if( ! c)
          continue;
    }
-   while( mulle_utf32_is_bomcharacter( c) || mulle_utf32_is_noncharacter( c) || mulle_utf32_is_privatecharacter( c));
+   while( mulle_utf32_is_bomcharacter( c)
+          || mulle_utf32_is_noncharacter( c)
+          || mulle_utf32_is_surrogatecharacter( c)
+          || mulle_utf32_is_privatecharacter( c));
 
    return( c);
 }
@@ -124,10 +154,15 @@ static void   stress_test()
 {
    mulle_utf32_t   text[ 4];
    unsigned int    i;
+   unsigned int    n_iters;
    mulle_utf32_t   mask;
 
+   // Under valgrind the interpreted execution makes 100K iterations
+   // take far too long. 1000 iterations still exercises the code paths.
+   n_iters = is_slow_environment() ? 1000 : 100000;
+
    mask = 0;
-   for( i = 0; i < 100000; i++)
+   for( i = 0; i < n_iters; i++)
    {
       if( i % 100 == 0)
          mulle_fprintf( stderr, "%u\n", i);

@@ -1,8 +1,8 @@
 //
 //  _MulleObjCCheatingASCIICharacterSet.m
-//  MulleObjCValueFoundation
+//  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2023 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //

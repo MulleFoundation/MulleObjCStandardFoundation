@@ -2,7 +2,7 @@
 //  NSDateFormatter.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2021 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
@@ -86,6 +86,9 @@ NSString  *MulleDateFormatISO;                 //  = @"%Y-%m-%dT%H:%M:%S:%z";
 @property( copy)   NSString     *dateFormat;
 @property( readonly) BOOL       allowsNaturalLanguage;
 @property( assign, getter=isLenient) BOOL  lenient;
+
++ (instancetype) dateFormatterWithDateFormat:(NSString *) format
+                       allowNaturalLanguage:(BOOL) flag;
 
 - (instancetype) initWithDateFormat:(NSString *) format
                allowNaturalLanguage:(BOOL) flag;

@@ -1,5 +1,5 @@
 //
-//  NSString+DoubleQuotes.m
+//  NSString+DoubleQuotes.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2023 Nat! - Mulle kybernetiK.

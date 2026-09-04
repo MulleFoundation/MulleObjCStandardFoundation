@@ -1,5 +1,5 @@
 //
-//  MulleObjectContainer.m
+//  MulleObjCContainerDescription.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2019 Nat! - Mulle kybernetiK.
