@@ -1,6 +1,6 @@
 {
    "name" : "MulleObjCStandardFoundation",
-   "version" : "0.23.0",
+   "version" : "0.24.0",
    "description" : "🚤 Objective-C classes based on the C standard library",
    "keywords" : [],
    "license" : "BSD-3-Clause",
