@@ -1,3 +1,11 @@
+## 0.24.0
+
+
+feature: add dateFormatterWithDateFormat factory method
+
+* new `+dateFormatterWithDateFormat:allowNaturalLanguage:` class method on NSDateFormatter, mirroring the existing initializer
+
+
 ## 0.23.0
 
 

@@ -248,6 +248,9 @@ Converts bidirectionally between NSDate and NSString. Not re-entrant.
 @property( readonly) BOOL       allowsNaturalLanguage;
 @property( assign, getter=isLenient) BOOL  lenient;
 
++ (instancetype) dateFormatterWithDateFormat:(NSString *) format
+                       allowNaturalLanguage:(BOOL) flag;
+
 - (instancetype) initWithDateFormat:(NSString *) format
                allowNaturalLanguage:(BOOL) flag;
 
