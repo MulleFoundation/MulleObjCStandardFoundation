@@ -48,12 +48,18 @@
 @end
 
 
+/*
+** A proxy that reflects whatever the default time zone currently is, so that
+** a later +setDefaultTimeZone: is seen. NSTimeZone implements the whole API
+** itself, so -forwardInvocation: is never reached for the observable methods;
+** they are forwarded explicitly below. (A real NSProxy would be the other way
+** to do this, but NSTimeZone is not one.)
+*/
 @implementation _MulleObjCLocalTimeZone
 
 - (NSMethodSignature *) methodSignatureForSelector:(SEL) aSelector
 {
-   MULLE_C_UNUSED( aSelector);
-   return( [super methodSignatureForSelector:@selector( self)]);
+   return( [[NSTimeZone defaultTimeZone] methodSignatureForSelector:aSelector]);
 }
 
 
@@ -61,6 +67,78 @@
 {
    [anInvocation setTarget:[NSTimeZone defaultTimeZone]];
    [anInvocation invoke];
+}
+
+
+- (NSString *) name
+{
+   return( [[NSTimeZone defaultTimeZone] name]);
+}
+
+
+- (NSData *) data
+{
+   return( [[NSTimeZone defaultTimeZone] data]);
+}
+
+
+- (NSInteger) secondsFromGMT
+{
+   return( [[NSTimeZone defaultTimeZone] secondsFromGMT]);
+}
+
+
+- (NSInteger) secondsFromGMTForDate:(NSDate *) date
+{
+   return( [[NSTimeZone defaultTimeZone] secondsFromGMTForDate:date]);
+}
+
+
+- (NSString *) abbreviation
+{
+   return( [[NSTimeZone defaultTimeZone] abbreviation]);
+}
+
+
+- (NSString *) abbreviationForDate:(NSDate *) date
+{
+   return( [[NSTimeZone defaultTimeZone] abbreviationForDate:date]);
+}
+
+
+- (BOOL) isDaylightSavingTime
+{
+   return( [[NSTimeZone defaultTimeZone] isDaylightSavingTime]);
+}
+
+
+- (BOOL) isDaylightSavingTimeForDate:(NSDate *) date
+{
+   return( [[NSTimeZone defaultTimeZone] isDaylightSavingTimeForDate:date]);
+}
+
+
+- (NSString *) description
+{
+   return( [[NSTimeZone defaultTimeZone] description]);
+}
+
+
+- (NSUInteger) hash
+{
+   return( [[NSTimeZone defaultTimeZone] hash]);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   return( [[NSTimeZone defaultTimeZone] isEqual:other]);
+}
+
+
+- (BOOL) isEqualToTimeZone:(NSTimeZone *) other
+{
+   return( [[NSTimeZone defaultTimeZone] isEqualToTimeZone:other]);
 }
 
 

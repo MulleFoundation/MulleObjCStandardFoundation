@@ -89,7 +89,7 @@ static int   test_i_init( void)
 
    @try
    {
-      obj = [[[NSArray alloc] init] autorelease];
+      obj = [NSArray instance];
       mulle_printf( "%s\n", obj ? [obj UTF8String] : "*nil*");
    }
    @catch( NSException *localException)

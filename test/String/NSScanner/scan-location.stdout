@@ -1,0 +1,12 @@
+initial      loc=0 rest=[abcd] atEnd=no
+scan "ab": yes
+after ab     loc=2 rest=[cd] atEnd=no
+rewound      loc=0 rest=[abcd] atEnd=no
+scan "cd": no
+still 0      loc=0 rest=[abcd] atEnd=no
+scan "ab": yes
+after ab     loc=2 rest=[cd] atEnd=no
+copy         loc=2 rest=[cd] atEnd=no
+scan "cd": yes
+in copy      loc=4 rest=[] atEnd=yes
+at end       loc=4 rest=[] atEnd=yes

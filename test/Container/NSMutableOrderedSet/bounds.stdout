@@ -1,0 +1,6 @@
+objectAtIndex 0: NSInvalidArgumentException
+insertObject@1: NSInvalidArgumentException
+removeObjectAtIndex 0: NSInvalidArgumentException
+replaceObjectAtIndex 0: NSInvalidArgumentException
+addObject:nil: NSInvalidArgumentException
+getObjects range 0,3 of 2: NSRangeException

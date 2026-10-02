@@ -63,7 +63,12 @@
 ## NSLocale quirks
 
 - `systemLocale` and `currentLocale` are hard-cached on `+initialize` (`src/Locale/NSLocale.h:1`).
-- Backed by `_xlocale` and `_iculocale` internally.
+- The POSIX category owns a `locale_t`; there is **no ICU** dependency. The identifier-derived keys
+  (languageCode, countryCode, scriptCode, variantCode, collatorIdentifier, measurementSystem,
+  usesMetricSystem, the quotation delimiters) are answered by `NSLocale` itself.
+- `NSLocaleCalendar` and `NSLocaleExemplarCharacterSet` always answer nil: the first expects an
+  `NSCalendar`, which lives above this library, the second expects CLDR exemplar data. Use
+  `-calendarIdentifier` (a string, hand-rolled table) instead of `NSLocaleCalendar`.
 - Many locale key globals defined (e.g. `NSLocaleDecimalSeparator`, `NSLocaleCurrencyCode`, `NSLocaleLanguageCode`).
 
 ## NSNumberFormatter quirks

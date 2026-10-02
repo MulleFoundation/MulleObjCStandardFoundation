@@ -97,7 +97,7 @@ static int   test_i_init( void)
 
    @try
    {
-      obj = [[[NSDictionary alloc] init] autorelease];
+      obj = [NSDictionary instance];
       mulle_printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)

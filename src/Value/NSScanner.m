@@ -93,13 +93,13 @@
 
 - (BOOL) isAtEnd
 {
-   return( _location >= _length);
+   return( _scanLocation >= _length);
 }
 
 
 - (NSString *) mulleUnscannedString
 {
-   return( [_string substringWithRange:NSRangeMake( _location, _length - _location)]);
+   return( [_string substringWithRange:NSRangeMake( _scanLocation, _length - _scanLocation)]);
 }
 
 
@@ -108,6 +108,22 @@
    [_charactersToBeSkipped autorelease];
    _charactersToBeSkipped = [set retain];
    _impIsMember           = [set methodForSelector:@selector( characterIsMember:)];
+}
+
+
+//
+// The cursor is _scanLocation: the ivar the scanLocation property is backed by.
+// Both accessors are spelled out on purpose, the setter for its range check.
+//
+// That the ivar is named after the property is not cosmetic. While the cursor
+// was called _location, the property was backed by an ivar of its own, and then
+// reading scanLocation reported 0 however far the scanner had advanced - and
+// setting it, the documented way to backtrack, did not move the scanner. The
+// scan methods and isAtEnd were right all along, which is why nothing noticed.
+//
+- (NSUInteger) scanLocation
+{
+   return( _scanLocation);
 }
 
 
@@ -129,7 +145,7 @@ static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
    unichar      c;
    NSUInteger   i;
 
-   range.location = self->_location;
+   range.location = self->_scanLocation;
    if( ! impMember)
       impMember = [set methodForSelector:@selector( characterIsMember:)];
    assert( impMember);
@@ -146,7 +162,7 @@ static NSRange   NSScannerScanRangeOfCharactersInSet( NSScanner *self,
                                                        (id) (intptr_t) c))
          break;
    }
-   self->_location = i;
+   self->_scanLocation = i;
    range.length    = i - range.location;
 
    return( range);
@@ -205,7 +221,7 @@ static NSRange   NSScannerScanRangeOfString( NSScanner *self,
    NSUInteger   n;
    NSUInteger   m;
 
-   range.location = self->_location;
+   range.location = self->_scanLocation;
    range.length   = 0;
 
    n = self->_length - range.location;
@@ -231,7 +247,7 @@ static NSRange   NSScannerScanRangeOfString( NSScanner *self,
    }
    range.length = m;
 
-   self->_location = i;
+   self->_scanLocation = i;
 
    return( range);
 }
@@ -252,14 +268,14 @@ static BOOL   NSScannerScanRangeOfNotString( NSScanner *self,
    NSUInteger    m;
    NSUInteger    end;
 
-   range.location = self->_location;
+   range.location = self->_scanLocation;
    range.length   = self->_length - range.location;
 
    n = range.length;
    m = [s length];
    if( ! m || m > n)
    {
-      self->_location = self->_length;
+      self->_scanLocation = self->_length;
       if( rangep)
          *rangep = range;
       return( NO);
@@ -291,15 +307,15 @@ retry:
       if( ++j == m)  // matched whole string
       {
          // reset location to start of string
-         self->_location = (i + 1) - m;
-         range.length    = self->_location - range.location;
+         self->_scanLocation = (i + 1) - m;
+         range.length    = self->_scanLocation - range.location;
          if( rangep)
             *rangep = range;
          return( YES);
       }
    }
 
-   self->_location = self->_length;
+   self->_scanLocation = self->_length;
    if( rangep)
       *rangep = range;
    return( NO);
@@ -343,10 +359,10 @@ retry:
                                            self->_impIsMember,
                                            YES);
 
-   memo = self->_location;
+   memo = self->_scanLocation;
    if( ! NSScannerScanRangeOfNotString( self, string, 0, &range))
    {
-      self->_location = memo;
+      self->_scanLocation = memo;
       if( stringp)
          *stringp = @"";
       return( NO);
@@ -374,17 +390,17 @@ retry:
                                            self->_impIsMember,
                                            YES);
 
-   memo = self->_location;
+   memo = self->_scanLocation;
    if( ! NSScannerScanRangeOfNotString( self, string, 0, &range))
    {
-      self->_location = memo;
+      self->_scanLocation = memo;
       if( stringp)
          *stringp = @"";
       return( NO);
    }
 
    length           = [string length];
-   self->_location += length;
+   self->_scanLocation += length;
 
    if( stringp)
    {
@@ -465,8 +481,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    if( _charactersToBeSkipped)
       NSScannerScanRangeOfCharactersInSet( self, _charactersToBeSkipped, _impIsMember, YES);
 
-   for(length=[_string length];_location<length;_location++){
-    unichar unicode=[_string characterAtIndex:_location];
+   for(length=[_string length];_scanLocation<length;_scanLocation++){
+    unichar unicode=[_string characterAtIndex:_scanLocation];
 
     if(!hasSign && unicode=='-'){
      sign=-1;
@@ -528,20 +544,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    decimalSeparator = ([separatorString length] > 0 ) ? [separatorString characterAtIndex:0] : '.';
 
    NSInteger     i;
-   NSInteger     len = [_string length] - _location;
+   NSInteger     len = [_string length] - _scanLocation;
    char    p[len + 1], *q;
    unichar c;
 
    for (i = 0; i < len; i++)
    {
-      c  = [_string characterAtIndex:i + _location];
+      c  = [_string characterAtIndex:i + _scanLocation];
       if (c == decimalSeparator) c = '.';
       p[i] = (char)c;
    }
    p[i] = '\0';
 
    *valuep = strtod(p, &q);
-   _location += (q - p);
+   _scanLocation += (q - p);
    return (q > p);
 
 /*
@@ -553,8 +569,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     double value=1.0;
     BOOL hasValue=NO;
 
-    for(;_location<[_string length];_location++){
-        unichar unicode=[_string characterAtIndex:_location];
+    for(;_scanLocation<[_string length];_scanLocation++){
+        unichar unicode=[_string characterAtIndex:_scanLocation];
 
         switch(state){
             case STATE_SPACE:
@@ -576,8 +592,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 else if(unicode==decimalSeparator) {
                     double multiplier=1;
 
-                    _location++;
-                    for(;_location<[_string length];_location++){
+                    _scanLocation++;
+                    for(;_scanLocation<[_string length];_scanLocation++){
                         if(unicode<'0' || unicode>'9')
                             break;
 
@@ -599,8 +615,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 else if(unicode==decimalSeparator) {
                     double multiplier=1;
 
-                    _location++;
-                    for(;_location<[_string length];_location++){
+                    _scanLocation++;
+                    for(;_scanLocation<[_string length];_scanLocation++){
                         if(unicode<'0' || unicode>'9')
                             break;
 
@@ -642,8 +658,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    BOOL     hasValue=NO;
    BOOL     overflow=NO;
 
-   for(;_location<[_string length];_location++){
-    unichar unicode=[_string characterAtIndex:_location];
+   for(;_scanLocation<[_string length];_scanLocation++){
+    unichar unicode=[_string characterAtIndex:_scanLocation];
 
     switch(state){
 

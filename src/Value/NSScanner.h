@@ -67,7 +67,7 @@ SOFTWARE. */
 @interface NSScanner : NSObject <NSObject, NSCopying>
 {
    NSString     *_string;
-   NSUInteger   _location;
+   NSUInteger   _scanLocation;
    NSUInteger   _length;
 
 @private

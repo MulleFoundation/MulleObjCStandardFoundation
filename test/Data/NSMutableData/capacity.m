@@ -19,6 +19,7 @@ int main(int argc, const char * argv[])
    unsigned char       *p;
 
    data = [NSMutableData dataWithCapacity:0x100];
+   [data setLength:0x100];
    p = [data mutableBytes];
    for( i = 0; i < 0x100; i++)
       *p++ = i & 0xFF;

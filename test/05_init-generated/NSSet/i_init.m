@@ -13,7 +13,7 @@ static int   test_i_init( void)
 
    @try
    {
-      obj = [[[NSSet alloc] init] autorelease];
+      obj = [NSSet instance];
       mulle_printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)

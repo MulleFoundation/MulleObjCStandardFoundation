@@ -30,7 +30,7 @@ static int   test_i_add_characters_in_string_( void)
    {
       @try
       {
-         obj = [[[NSMutableCharacterSet alloc] init] autorelease];
+         obj = [NSMutableCharacterSet instance];
          [obj addCharactersInString:params_1[ i_1]];
       }
       @catch( NSException *localException)

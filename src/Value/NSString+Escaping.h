@@ -68,14 +68,19 @@
 //
 
 // make dst at least 4 * src.length for octal escape worst case
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 char   *MulleUTF8StringEscape( char *src, NSUInteger length, char *dst);
 
 // make dst at least src.length for no-escape worst case
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 char   *MulleUTF8StringUnescape( char *src, NSUInteger length, char *dst);
 
 
 // underscore because of struct mulle_utf8data
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 struct mulle_utf8data  *_MulleReplacePercentEscape( struct mulle_utf8data *src,
                                                     NSCharacterSet *disallowedCharacters);
+
+MULLE_OBJC_STANDARD_FOUNDATION_GLOBAL
 NSString  *MulleObjCStringByReplacingPercentEscapes( NSString *self,
                                                      NSCharacterSet *disallowedCharacters);

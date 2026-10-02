@@ -28,7 +28,7 @@ static int   test_i_has_member_in_plane_( void)
    {
       @try
       {
-         obj   = [[[NSMutableCharacterSet alloc] init] autorelease];
+         obj   = [NSMutableCharacterSet instance];
          value = [obj hasMemberInPlane:params_1[ i_1]];
          mulle_printf( "%s\n", value ? "YES" : "NO");
       }

@@ -92,7 +92,7 @@ static int   test_i_init( void)
 
    @try
    {
-      obj = [[[NSData alloc] init] autorelease];
+      obj = [NSData instance];
       mulle_printf( "%s\n", [obj UTF8String]);
    }
    @catch( NSException *localException)

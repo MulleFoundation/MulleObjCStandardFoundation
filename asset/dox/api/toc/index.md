@@ -481,7 +481,8 @@ Macros: `NSAssert(condition, format, ...)`, `NSCAssert(condition, format, ...)` 
 
 ### 3.10. NSLocale (`src/Locale/NSLocale.h`)
 
-Locale information for internationalized formatting. Backed by `_xlocale` and `_iculocale`.
+Locale information for internationalized formatting. Backed by `_xlocale` on POSIX
+(the platform category owns the `locale_t`); there is no ICU dependency.
 
 ```objc
 @interface NSLocale : NSObject < MulleObjCImmutableProtocols >

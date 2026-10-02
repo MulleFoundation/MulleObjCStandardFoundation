@@ -42,6 +42,7 @@
 - (id) __initSingleton        { return( self); }
 
 - (NSInteger) secondsFromGMT  { return( 0); }
+- (NSString *) name           { return( @"GMT"); }
 - (NSString *) abbreviation   { return( @"GMT"); }
 - (BOOL) isDaylightSavingTime { return( NO); }
 
