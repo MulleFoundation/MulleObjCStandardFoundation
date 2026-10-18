@@ -54,7 +54,7 @@ MulleObjCOSFoundation.
 | [MulleObjCTimeFoundation](https://github.com/MulleFoundation/MulleObjCTimeFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCTimeFoundation.svg) [![Build Status](https://github.com/MulleFoundation/MulleObjCTimeFoundation/workflows/CI/badge.svg?branch=release)](https://github.com/MulleFoundation/MulleObjCTimeFoundation/actions/workflows/mulle-sde-ci.yml) | 💰 MulleObjCTimeFoundation provides time classes
 | [MulleObjCValueFoundation](https://github.com/MulleFoundation/MulleObjCValueFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCValueFoundation.svg) [![Build Status](https://github.com/MulleFoundation/MulleObjCValueFoundation/workflows/CI/badge.svg?branch=release)](https://github.com/MulleFoundation/MulleObjCValueFoundation/actions/workflows/mulle-sde-ci.yml) | 💶 Value classes NSNumber, NSString, NSDate, NSData
 | [MulleObjCContainerFoundation](https://github.com/MulleFoundation/MulleObjCContainerFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCContainerFoundation.svg) [![Build Status](https://github.com/MulleFoundation/MulleObjCContainerFoundation/workflows/CI/badge.svg?branch=release)](https://github.com/MulleFoundation/MulleObjCContainerFoundation/actions/workflows/mulle-sde-ci.yml) | 🛍 Container classes like NSArray, NSSet, NSDictionary
-| [mulle-objc-list](https://github.com/mulle-objc/mulle-objc-list) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-objc/mulle-objc-list.svg) [![Build Status](https://github.com/mulle-objc/mulle-objc-list/workflows/CI/badge.svg?branch=release)](https://github.com/mulle-objc/mulle-objc-list/actions/workflows/mulle-sde-ci.yml) | 📒 Lists mulle-objc runtime information contained in executables.
+| [mulle-objc-tools](https://github.com/mulle-objc/mulle-objc-tools) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-objc/mulle-objc-tools.svg) [![Build Status](https://github.com/mulle-objc/mulle-objc-tools/workflows/CI/badge.svg?branch=release)](https://github.com/mulle-objc/mulle-objc-tools/actions/workflows/mulle-sde-ci.yml) | 📒 Lists mulle-objc runtime information contained in executables.
 
 ### You are here
 
@@ -95,7 +95,7 @@ mulle-sde install --prefix /usr/local \
    https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/latest.tar.gz
 ```
 
-### Legacy Installation
+### Manual Installation
 
 Install the requirements:
 
@@ -104,7 +104,7 @@ Install the requirements:
 | [MulleObjCTimeFoundation](https://github.com/MulleFoundation/MulleObjCTimeFoundation)             | 💰 MulleObjCTimeFoundation provides time classes
 | [MulleObjCValueFoundation](https://github.com/MulleFoundation/MulleObjCValueFoundation)             | 💶 Value classes NSNumber, NSString, NSDate, NSData
 | [MulleObjCContainerFoundation](https://github.com/MulleFoundation/MulleObjCContainerFoundation)             | 🛍 Container classes like NSArray, NSSet, NSDictionary
-| [mulle-objc-list](https://github.com/mulle-objc/mulle-objc-list)             | 📒 Lists mulle-objc runtime information contained in executables.
+| [mulle-objc-tools](https://github.com/mulle-objc/mulle-objc-tools)             | 📒 Lists mulle-objc runtime information contained in executables.
 
 Download the latest [tar](https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/MulleFoundation/MulleObjCStandardFoundation/archive/refs/tags/latest.zip) archive and unpack it.
 

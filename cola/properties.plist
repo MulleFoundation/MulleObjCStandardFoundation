@@ -3,8 +3,9 @@
    {
       description="🚤 Objective-C classes based on the C standard library";
       domain="github";
+      language="c";
+      dialect="objc";
       name="MulleObjCStandardFoundation";
-       version="0.25.0";
       user="MulleFoundation";
       repo="MulleObjCStandardFoundation";
       homepage="https://github.com/MulleFoundation/MulleObjCStandardFoundation";
@@ -39,9 +40,9 @@
       {
          description="📒 Lists mulle-objc runtime information contained in executables.";
          domain="github";
-         name="mulle-objc-list";
-         repo="mulle-objc-list";
-         url="https://github.com/mulle-objc/mulle-objc-list";
+         name="mulle-objc-tools";
+         repo="mulle-objc-tools";
+         url="https://github.com/mulle-objc/mulle-objc-tools";
          user="mulle-objc";
       }
    );
